@@ -1,7 +1,15 @@
 package com.slash.youth.engine;
 
+
+/**
+ * @author zhouyifeng
+ *
+ */
 public class LoginManager {
 
+	
+	   
+	
 	public static boolean Login(String username, String password) {
 
 		return true;
