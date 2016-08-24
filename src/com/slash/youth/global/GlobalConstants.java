@@ -10,7 +10,7 @@ public class GlobalConstants {
 	}
 
 	public static class HttpUrl {
-		// public static final String SERVER_HOST = "http://10.0.2.2:8080/zhbj";
+		 public static final String SERVER_HOST = "http://10.0.2.2:8080/";
 		// http://localhost:8080/zhbj/categories.json
 		// public static final String NEWS_CENTER_URL = SERVER_HOST
 		// + "/categories.json";
