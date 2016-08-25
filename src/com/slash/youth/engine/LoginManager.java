@@ -10,6 +10,13 @@ public class LoginManager {
 	
 	   
 	
+	/**
+	 * @author zhouyifeng
+	 *
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	public static boolean Login(String username, String password) {
 
 		return true;
