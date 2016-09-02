@@ -10,4 +10,15 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
+
+    public void testGetDataFromServer() {
+//        LogUtils.v("testGetDataFromServer");
+//        x.Ext.init(CommonUtils.getApplication());
+//        BaseProtocol bp = new BaseProtocol();
+//        bp.getDataFromServer();
+    }
+
+    //测试方法命名必须以test开始
+    public void test() {
+    }
 }

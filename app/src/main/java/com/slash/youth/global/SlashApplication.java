@@ -13,6 +13,7 @@ public class SlashApplication extends Application {
     private static Context context;
     private static int mainThreadId;
     private static Handler handler;
+    private static Application application;
 
     @Override
     public void onCreate() {
@@ -20,6 +21,7 @@ public class SlashApplication extends Application {
         context = getApplicationContext();
         mainThreadId = android.os.Process.myTid();
         handler = new Handler();
+        application = this;
         x.Ext.init(this);
     }
 
@@ -33,5 +35,9 @@ public class SlashApplication extends Application {
 
     public static Handler getHandler() {
         return handler;
+    }
+
+    public static Application getApplication() {
+        return application;
     }
 }
