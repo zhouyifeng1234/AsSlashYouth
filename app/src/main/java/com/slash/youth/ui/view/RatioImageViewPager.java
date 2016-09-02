@@ -13,7 +13,6 @@ public class RatioImageViewPager extends ViewPager {
 
 	public RatioImageViewPager(Context context) {
 		this(context, null);
-		// TODO Auto-generated constructor stub
 	}
 
 	public RatioImageViewPager(Context context, AttributeSet attrs) {
@@ -29,8 +28,7 @@ public class RatioImageViewPager extends ViewPager {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
-		
+
 		int width = MeasureSpec.getSize(widthMeasureSpec);
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		// int height = MeasureSpec.getSize(heightMeasureSpec);

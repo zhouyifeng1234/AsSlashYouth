@@ -3,9 +3,6 @@ package com.slash.youth.ui.holder;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.slash.youth.R;
-import com.slash.youth.utils.CommonUtils;
-
 public class AddMoreHolder extends BaseHolder<Integer> {
 
 	public static final int STATE_MORE_MORE = 1001;
@@ -20,7 +17,6 @@ public class AddMoreHolder extends BaseHolder<Integer> {
 
 	@Override
 	public View initView() {
-		// TODO Auto-generated method stub
 //		View view = CommonUtils
 //				.inflate(R.layout.item_listview_addmore);
 //		mLlAddMoreMore = (LinearLayout) view
@@ -35,7 +31,6 @@ public class AddMoreHolder extends BaseHolder<Integer> {
 
 	@Override
 	public void refreshView(Integer data) {
-		// TODO Auto-generated method stub
 		switch (data) {
 		case STATE_MORE_MORE:
 			mLlAddMoreMore.setVisibility(View.VISIBLE);

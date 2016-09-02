@@ -13,17 +13,14 @@ public class RatioLayout extends FrameLayout {
 
 	public RatioLayout(Context context) {
 		this(context, null);
-		// TODO Auto-generated constructor stub
 	}
 
 	public RatioLayout(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
-		// TODO Auto-generated constructor stub
 	}
 
 	public RatioLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		// TODO Auto-generated constructor stub
 		TypedArray typedArray = context.obtainStyledAttributes(attrs,
 				R.styleable.com_slash_youth_ui_view_RatioLayout);
 		mRatio = typedArray.getFloat(
@@ -35,7 +32,6 @@ public class RatioLayout extends FrameLayout {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
 
 		int width = MeasureSpec.getSize(widthMeasureSpec);
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);

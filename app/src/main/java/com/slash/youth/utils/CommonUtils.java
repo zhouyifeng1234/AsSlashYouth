@@ -77,7 +77,6 @@ public class CommonUtils {
 	}
 
 	public static ColorStateList getColorStateList(int mTabTextColorResId) {
-		// TODO Auto-generated method stub
 		return getContext().getResources()
 				.getColorStateList(mTabTextColorResId);
 	}
