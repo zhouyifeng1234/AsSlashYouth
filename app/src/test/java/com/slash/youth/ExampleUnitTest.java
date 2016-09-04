@@ -1,6 +1,5 @@
 package com.slash.youth;
 
-import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.AuthHeaderUtils;
 
 import org.junit.Test;
@@ -11,10 +10,10 @@ import org.junit.Test;
 public class ExampleUnitTest {
     @Test
     public void testGetUrlString() {
-        BaseProtocol bp = new BaseProtocol();
-        String urlString = bp.getUrlString();
-
-        System.out.println(urlString);
+//        BaseProtocol bp = new BaseProtocol();
+//        String urlString = bp.getUrlString();
+//
+//        System.out.println(urlString);
     }
 
     @Test

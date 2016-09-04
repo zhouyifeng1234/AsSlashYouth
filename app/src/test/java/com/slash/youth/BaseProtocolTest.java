@@ -1,7 +1,5 @@
 package com.slash.youth;
 
-import com.slash.youth.http.protocol.BaseProtocol;
-
 import org.junit.Test;
 
 /**
@@ -12,8 +10,8 @@ public class BaseProtocolTest {
     @Test
     public void getDataFromServerTest() {
 //        x.Ext.init(new Application());
-        BaseProtocol bp = new BaseProtocol();
-        bp.getDataFromServer();
+//        BaseProtocol bp = new BaseProtocol();
+//        bp.getDataFromServer();
     }
 
     @Test
