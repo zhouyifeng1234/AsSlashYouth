@@ -15,6 +15,7 @@ public class SlashApplication extends Application {
     private static Handler handler;
     private static Application application;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,7 +24,9 @@ public class SlashApplication extends Application {
         handler = new Handler();
         application = this;
         x.Ext.init(this);
+        //注册微信的APPID
     }
+
 
     public static Context getContext() {
         return context;

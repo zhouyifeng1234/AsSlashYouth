@@ -11,6 +11,20 @@ public class GlobalConstants {
         // public static final String READ_NEWS_ID = "readNewsId";
     }
 
+
+    /**
+     * 项目中所用到的第三方API的APPID
+     */
+    public static class ThirdAppId {
+        public static final String APPID_WECHAT = "";
+        public static final String APPID_QQ = "";
+        public static final String APPID_WEIBO = "";
+        public static final String APPID_ALIPAY = "";
+        public static final String APPID_RONG_CLOUD = "";
+
+
+    }
+
     public static class HttpUrl {
 
 //                一、测试机器地址和登陆方式
