@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.slash.youth.R;
+import com.slash.youth.domain.ResultErrorBean;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.GetUserSkillLabelProtocol;
+import com.slash.youth.utils.ToastUtils;
 
 public class MainActivity extends Activity {
 
@@ -18,7 +21,17 @@ public class MainActivity extends Activity {
 
     public void getData(View v) {
 
-        BaseProtocol bp = new BaseProtocol();
-        bp.getDataFromServer();
+        BaseProtocol bp = new GetUserSkillLabelProtocol();
+        bp.getDataFromServer(new BaseProtocol.IResultExecutor() {
+            @Override
+            public void execute(Object dataBean) {
+                ToastUtils.shortToast("Success");
+            }
+
+            @Override
+            public void executeError(ResultErrorBean resultErrorBean) {
+                ToastUtils.shortToast(resultErrorBean.code + "\n" + resultErrorBean.data.message);
+            }
+        });
     }
 }

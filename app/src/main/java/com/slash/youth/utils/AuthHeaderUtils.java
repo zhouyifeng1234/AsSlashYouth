@@ -31,6 +31,7 @@ public class AuthHeaderUtils {
         try {
             Map header = new HashMap();
             String date = getGMTDate();
+//            String date = "Wed, 20 Jul 1983 17:15:00 GMT";
             String encryptStr = String.format("%s %s\n%s", method, new URL(url).getPath(), date);
             String sign = hmacSHA1(APPSECRET, encryptStr);
             header.put("Date", date);
@@ -50,11 +51,9 @@ public class AuthHeaderUtils {
             Mac mac = Mac.getInstance("HmacSHA1");
             mac.init(signingKey);
             byte[] rawHmac = mac.doFinal(data.getBytes("utf-8"));
-            System.out.println("OK");
 //          必须使用 commons-codec 1.5及以上版本，否则base64加密后会出现换行问题
 //          String sha1Str = Base64.encodeBase64String(rawHmac);
             String sha1Str = Base64.encodeToString(rawHmac, 0);
-            System.out.println("OK2");
             return sha1Str;
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
@@ -66,9 +65,16 @@ public class AuthHeaderUtils {
      */
     public static String getGMTDate() {
         long timeMillis = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH);
         String dateStr = sdf.format(new Date(timeMillis));
-        dateStr = dateStr.replace("CST", "GMT+08:00");
+//        String[] dateArr = dateStr.split(" ");
+//        dateArr[4] = "GMT";
+//        StringBuilder sbDate = new StringBuilder();
+//        for (String str : dateArr) {
+//            sbDate.append(str + " ");
+//        }
+//        dateStr = dateStr.replace("CST", "GMT+08:00");
+//        dateStr = sbDate.toString().trim();
         return dateStr;
     }
 

@@ -12,7 +12,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testGetDataFromServer() {
-//        LogUtils.v("testGetDataFromServer");
+//        LogKit.v("testGetDataFromServer");
 //        x.Ext.init(CommonUtils.getApplication());
 //        BaseProtocol bp = new BaseProtocol();
 //        bp.getDataFromServer();
