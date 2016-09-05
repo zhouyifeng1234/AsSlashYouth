@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="com.slash.youth.ui.view.RatioLayout">
-        <attr name="ratio" format="float"/>
-    </declare-styleable>
-    <declare-styleable name="com.slash.youth.ui.view.RatioImageViewPager">
-        <attr name="imgratio" format="float"/>
-    </declare-styleable>
-</resources>
