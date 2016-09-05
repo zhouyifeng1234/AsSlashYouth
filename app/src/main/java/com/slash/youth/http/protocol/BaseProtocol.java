@@ -1,0 +1,127 @@
+package com.slash.youth.http.protocol;
+
+import com.google.gson.Gson;
+import com.slash.youth.domain.ResultErrorBean;
+import com.slash.youth.utils.AuthHeaderUtils;
+import com.slash.youth.utils.LogKit;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.util.Map;
+
+abstract public class BaseProtocol<T> {
+
+    public T dataBean;
+
+    public ResultErrorBean resultErrorBean;
+
+    public interface IResultExecutor<T> {
+        void execute(T dataBean);
+
+        void executeError(ResultErrorBean resultErrorBean);
+    }
+
+    public void getDataFromServer(final IResultExecutor resultExecutor) {
+        x.http().post(getRequestParams(), new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+
+                LogKit.v("onSuccess");
+                LogKit.v(result);
+                try {
+                    JSONObject joRoot = new JSONObject(result);
+                    int code = joRoot.getInt("code");
+                    if (code == 0) {
+                        dataBean = parseData(result);
+                        resultExecutor.execute(dataBean);
+                    } else if (code == 2) {
+                        resultErrorBean = parseErrorResultData(result);
+                        resultExecutor.executeError(resultErrorBean);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                LogKit.v("onError");
+                ex.printStackTrace();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                LogKit.v("onCancelled");
+                cex.printStackTrace();
+            }
+
+            @Override
+            public void onFinished() {
+                LogKit.v("onFinished");
+            }
+        });
+    }
+
+
+    public RequestParams getRequestParams() {
+        RequestParams params = new RequestParams(getUrlString());
+
+        addRequestHeader(params);
+
+        addRequestParams(params);
+
+        //[用户信息]-获取用户技能标签
+//        params.addBodyParameter("uid", "20");
+
+        //第三方登录
+//        params.addBodyParameter("code", "20");
+//        params.addBodyParameter("loginPlatform", "3");
+
+
+        //融云token
+//        params.addBodyParameter("uid", "20");
+//        params.addBodyParameter("phone", "13353471234");
+
+
+        params.setAsJsonContent(true);
+        return params;
+    }
+
+
+    public void addRequestHeader(RequestParams params) {
+        Map headerMap = AuthHeaderUtils.getBasicAuthHeader("POST", getUrlString());
+        String date = (String) headerMap.get("Date");
+        String authorizationStr = (String) headerMap.get("Authorization");
+        LogKit.v("date:" + date);
+        LogKit.v("authorizationStr:" + authorizationStr);
+        params.addHeader("Date", date);
+        params.addHeader("Authorization", authorizationStr);
+    }
+
+    public ResultErrorBean parseErrorResultData(String result) {
+        Gson gson = new Gson();
+        ResultErrorBean resultErrorBean = gson.fromJson(result, ResultErrorBean.class);
+        return resultErrorBean;
+    }
+
+    public abstract String getUrlString();
+
+    public abstract void addRequestParams(RequestParams params);
+
+    public abstract T parseData(String result);
+
+    //[用户信息]-获取用户技能标签
+//    return "http://121.42.145.178/uinfo/v1/api/vcard/skilllabel/get";
+
+
+    //第三方登录
+//        return "http://121.42.145.178/auth/login/thirdParty";
+
+    //获取融云token
+    // return "http://121.42.145.178/auth/rongToken";
+
+}
