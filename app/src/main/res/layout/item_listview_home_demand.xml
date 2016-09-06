@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="itemHomeDemandModel"
+                  type="com.slash.youth.ui.viewmodel.ItemHomeDemandModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="5dp"
+            android:background="@mipmap/act_bg"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

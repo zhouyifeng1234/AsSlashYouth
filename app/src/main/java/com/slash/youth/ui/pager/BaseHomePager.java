@@ -10,6 +10,9 @@ import android.widget.ImageView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
+import com.slash.youth.domain.DemandBean;
+import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
+import com.slash.youth.ui.viewmodel.PagerHomeBaseModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -27,13 +30,15 @@ abstract public class BaseHomePager {
     public BaseHomePager() {
         rootView = initView();
         initListener();
-        setViewContent();
+        setData();
     }
 
     public View initView() {
         mPagerHomeBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_base, null, false);
-        mPagerHomeBaseBinding.vpPagerHomeBaseAdvertisement.setAdapter(new HomeAdvertisementAdapter());
 
+        PagerHomeBaseModel pagerHomeBaseModel = new PagerHomeBaseModel(mPagerHomeBaseBinding);
+        pagerHomeBaseModel.browseDemandFocused();
+        mPagerHomeBaseBinding.setPagerHomeBaseModel(pagerHomeBaseModel);
         return mPagerHomeBaseBinding.getRoot();
     }
 
@@ -65,7 +70,24 @@ abstract public class BaseHomePager {
         });
     }
 
-    abstract public void setViewContent();
+    //    abstract public void setData();
+    public void setData() {
+        mPagerHomeBaseBinding.vpPagerHomeBaseAdvertisement.setAdapter(new HomeAdvertisementAdapter());
+//        getDataFromServer();//由子类实现，去服务端请求数据
+        ArrayList<DemandBean> listDemand = new ArrayList<DemandBean>();
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        mPagerHomeBaseBinding.lvPagerHomeBaseContent.setAdapter(new PagerHomeDemandtAdapter(listDemand));
+    }
+
+//    abstract public DemandBean getDataFromServer();
+
 
     public View getRootView() {
         return rootView;

@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#edf1f2"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -87,39 +88,67 @@
             android:layout_width="match_parent"
             android:layout_height="42.5dp"
             android:orientation="horizontal">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:drawableBottom="@drawable/selector_home_base_list_tab_bottom_drawable"
                 android:enabled="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:text="浏览需求"
-                android:textColor="@color/selector_home_base_list_tab_textcolor"
-                android:textSize="15sp"/>
-            <TextView
+                android:onClick="@{pagerHomeBaseModel.browseDemandClick}"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_pager_home_base_browser_demand"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="浏览需求"
+                    android:textSize="15sp"/>
+                <ImageView
+                    android:id="@+id/iv_pager_home_base_tab_demand_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_list_bg"/>
+            </LinearLayout>
 
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:drawableBottom="@drawable/selector_home_base_list_tab_bottom_drawable"
                 android:enabled="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center"
-                android:text="浏览服务"
-                android:textColor="@color/selector_home_base_list_tab_textcolor"
-                android:textSize="15sp"/>
+                android:onClick="@{pagerHomeBaseModel.browseServiceClick}"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_pager_home_base_browser_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="浏览服务"
+                    android:textSize="15sp"/>
+                <ImageView
+                    android:id="@+id/iv_pager_home_base_tab_service_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/tab_list_bg"/>
+            </LinearLayout>
+
 
         </LinearLayout>
 
         <View android:layout_width="match_parent" android:layout_height="0.2dp"
               android:background="#e5e5e5"/>
+
+        <ListView
+            android:id="@+id/lv_pager_home_base_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
 
 
     </LinearLayout>

@@ -3,6 +3,7 @@ package com.slash.youth.ui.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.BaseHolder;
@@ -20,7 +21,7 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
 
     public SlashBaseAdapter(ArrayList<T> listData) {
         this.mListData = listData;
-        loadMoreState = AddMoreHolder.STATE_MORE_MORE;
+        loadMoreState = AddMoreHolder.STATE_MORE_EMPTY;
     }
 
     @Override
@@ -82,7 +83,14 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
             }
         }
 
-        return holder.getRootView();
+        View rootView = holder.getRootView();
+        if (rootView != null) {
+            return rootView;
+        } else {
+            TextView textViewNull = new TextView(CommonUtils.getContext());
+            textViewNull.setText("Null");
+            return textViewNull;
+        }
     }
 
     boolean isLoadingMore = false;
