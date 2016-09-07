@@ -63,10 +63,10 @@
         <FrameLayout android:layout_width="match_parent"
                      android:layout_height="match_parent">
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="@{activityCityLocationModel.cityInfoListVisible}">
                 <ListView
                     android:id="@+id/lv_activity_city_location_cityinfo"
                     android:layout_width="0dp"
@@ -83,9 +83,11 @@
                 </ListView>
             </LinearLayout>
             <ListView
+                android:id="@+id/lv_activity_city_location_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible">
+                android:visibility="@{activityCityLocationModel.searchCityListVisible}"
+            >
             </ListView>
         </FrameLayout>
 

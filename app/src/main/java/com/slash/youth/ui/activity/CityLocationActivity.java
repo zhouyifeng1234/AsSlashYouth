@@ -18,10 +18,10 @@ import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
+import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;
 import com.slash.youth.ui.viewmodel.ActivityCityLocationModel;
 import com.slash.youth.ui.viewmodel.HeaderLocationCityInfoModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +33,14 @@ public class CityLocationActivity extends Activity {
 
     private ActivityCityLocationBinding mActivityCityLocationBinding;
     private HashMap<String, Integer> mHashFirstLetterIndex;
+    private ActivityCityLocationModel mActivityCityLocationModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityCityLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_city_location);
-        ActivityCityLocationModel activityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding);
-        mActivityCityLocationBinding.setActivityCityLocationModel(activityCityLocationModel);
+        mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding);
+        mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
         HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel();
@@ -103,6 +104,13 @@ public class CityLocationActivity extends Activity {
 
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setAdapter(new LocationCityInfoAdapter(listCityInfo));
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setAdapter(new LocationCityFirstLetterAdapter(listCityNameFirstLetter));
+        //搜索的自动提示数据，实际应该由服务端返回
+        //搜索自动提示测试数据
+        ArrayList<String> listSearchCity = new ArrayList<String>();
+        listSearchCity.add("苏州");
+        listSearchCity.add("上海");
+        listSearchCity.add("北京");
+        mActivityCityLocationBinding.lvActivityCityLocationSearchList.setAdapter(new LocationCitySearchListAdapter(listSearchCity));
     }
 
     private void initListener() {
@@ -130,9 +138,11 @@ public class CityLocationActivity extends Activity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtils.isEmpty(s)) {
-                    ToastUtils.shortToast("Clear");
+                    mActivityCityLocationModel.setCityInfoListVisible(View.VISIBLE);
+                    mActivityCityLocationModel.setSearchCityListVisible(View.INVISIBLE);
                 } else {
-
+                    mActivityCityLocationModel.setCityInfoListVisible(View.INVISIBLE);
+                    mActivityCityLocationModel.setSearchCityListVisible(View.VISIBLE);
                 }
             }
 
