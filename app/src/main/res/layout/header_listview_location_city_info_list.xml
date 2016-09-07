@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="headerLocationCityInfoModel"
+                  type="com.slash.youth.ui.viewmodel.HeaderLocationCityInfoModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="定位城市"
+            android:textColor="#666666"
+            android:textSize="13.5sp"/>
+
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/shape_rounded_rectangle_location"
+            android:drawableLeft="@mipmap/city_dingwei_icon"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="22dp"
+            android:text="苏州"
+            android:textColor="#333333"
+            android:textSize="13.5sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="最近访问城市"
+            android:textColor="#666666"
+            android:textSize="13.5sp"/>
+
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/shape_rounded_rectangle_location"
+            android:gravity="center"
+            android:text="齐齐哈尔"
+            android:textColor="#333333"
+            android:textSize="13.5sp"
+        />
+    </LinearLayout>
+</layout>
+
+
