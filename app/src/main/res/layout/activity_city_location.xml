@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="activityCityLocationModel"
+                  type="com.slash.youth.ui.viewmodel.ActivityCityLocationModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#edf1f2"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="11dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="11dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/city_back_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="中国"
+                android:textColor="#333333"
+                android:textSize="17sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingBottom="7dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="7dp">
+            <EditText
+                android:layout_width="338dp"
+                android:layout_height="29dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_rounded_rectangle_city_search"
+                android:drawableLeft="@mipmap/city_search_icon"
+                android:drawablePadding="9dp"
+                android:drawableRight="@mipmap/city_close_icon"
+                android:hint="输入城市名称或首字母"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:textColorHint="#999999"
+                android:textSize="14.5sp"/>
+
+        </RelativeLayout>
+
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="定位城市"
+                        android:textColor="#666666"
+                        android:textSize="13.5sp"/>
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="9dp"
+                        android:background="@drawable/shape_rounded_rectangle_location"
+                        android:drawableLeft="@mipmap/city_dingwei_icon"
+                        android:drawablePadding="4dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="22dp"
+                        android:text="苏州"
+                        android:textColor="#333333"
+                        android:textSize="13.5sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="最近访问城市"
+                        android:textColor="#666666"
+                        android:textSize="13.5sp"/>
+
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="9dp"
+                        android:background="@drawable/shape_rounded_rectangle_location"
+                        android:gravity="center"
+                        android:text="齐齐哈尔"
+                        android:textColor="#333333"
+                        android:textSize="13.5sp"
+                    />
+
+                    <!--<TextView android:layout_width="wrap_content"-->
+                              <!--android:layout_height="wrap_content"-->
+                              <!--android:layout_marginTop="20dp"-->
+                              <!--android:text="热门城市"-->
+                              <!--android:textColor="#666666"-->
+                              <!--android:textSize="13.5sp"/>-->
+
+                    
+
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

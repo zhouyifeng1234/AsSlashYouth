@@ -1,11 +1,13 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
+import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -53,6 +55,13 @@ public class PagerHomeBaseModel extends BaseObservable {
 
         mPagerHomeBaseBinding.tvPagerHomeBaseBrowserDemand.setTextColor(0xff333333);
         mPagerHomeBaseBinding.tvPagerHomeBaseBrowserService.setTextColor(0xff31c5e4);
+    }
+
+    public void openCityLocation(View v) {
+        LogKit.v("openCityLocation");
+        Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(), CityLocationActivity.class);
+        intentCityLocationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentCityLocationActivity);
     }
 
 }
