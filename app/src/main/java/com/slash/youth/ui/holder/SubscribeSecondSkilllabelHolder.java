@@ -15,7 +15,7 @@ import com.slash.youth.utils.CommonUtils;
  */
 public class SubscribeSecondSkilllabelHolder extends BaseHolder<SkillLabelBean> {
 
-    public static int clickItemPosition=0;
+    public static int clickItemPosition = 0;
     private ItemListviewSubscribeSecondSkilllabelBinding mItemListviewSubscribeSecondSkilllabelBinding;
     public ItemSubscribeSecondSkilllabelModel mItemSubscribeSecondSkilllabelModel;
 
@@ -30,11 +30,10 @@ public class SubscribeSecondSkilllabelHolder extends BaseHolder<SkillLabelBean> 
     @Override
     public void refreshView(SkillLabelBean data) {
         mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelName(data.labelName);
-        if(getCurrentPosition()==clickItemPosition){
-            mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0x31c5e4);
-        }
-        else{
-            mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0x333333);
+        if (getCurrentPosition() == clickItemPosition) {
+            mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
+        } else {
+            mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff333333);
         }
     }
 }
