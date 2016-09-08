@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
@@ -106,7 +107,10 @@ public class SubscribeActivity extends Activity {
 //        TextView tv = new TextView(CommonUtils.getContext());
 //        tv.setText("APP开发");
 //        mActivitySubscribeBinding.tsgActivitySubscribeThirdSkilllabel.addView(tv);
+        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT);
         SlashSkilllabelFlowLayout flowThirdSkilllabel = new SlashSkilllabelFlowLayout(CommonUtils.getContext());
+        flowThirdSkilllabel.setLayoutParams(params);
+        flowThirdSkilllabel.setBackgroundColor(0xffff0000);
         for (int i = 0; i <= 1; i++) {
             TextView tv = new TextView(CommonUtils.getContext());
             tv.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
