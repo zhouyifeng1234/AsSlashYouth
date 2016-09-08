@@ -23,6 +23,7 @@
                 android:layout_marginLeft="11dp"
                 android:layout_marginTop="11dp"
                 android:background="@android:color/transparent"
+                android:onClick="@{activityCityLocationModel.finishCityLocationActivity}"
                 android:src="@mipmap/city_back_icon"/>
 
             <TextView

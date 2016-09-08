@@ -8,6 +8,7 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
 import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -63,5 +64,17 @@ public class PagerHomeBaseModel extends BaseObservable {
         intentCityLocationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentCityLocationActivity);
     }
+
+    public void openSubscribe(View v) {
+        Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
+        intentSubscribeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentSubscribeActivity);
+    }
+
+
+    public void openFilter(View v) {
+
+    }
+
 
 }

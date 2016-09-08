@@ -66,7 +66,7 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
         BaseHolder holder;
         if (convertView == null) {
             if (getItemViewType(position) == HOLDER_TYPE_MORE) {
-                holder = getAddMoreHolder();
+                holder = getAddMoreHolder(position);
             } else {
                 holder = getHolder(position);
             }
@@ -74,12 +74,12 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
             holder = (BaseHolder) convertView.getTag();
         }
         if (getItemViewType(position) != HOLDER_TYPE_MORE) {
-            holder.setData(getItem(position));
+            holder.setData(getItem(position), position);
         } else {
             // holder.setData(AddMoreHolder.STATE_MORE_EMPTY);
             AddMoreHolder addMoreHolder = (AddMoreHolder) holder;
             if (addMoreHolder.getData() == AddMoreHolder.STATE_MORE_MORE) {
-                loadMore(addMoreHolder);
+                loadMore(addMoreHolder, position);
             }
         }
 
@@ -95,7 +95,7 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
 
     boolean isLoadingMore = false;
 
-    private void loadMore(final AddMoreHolder addMoreHolder) {
+    private void loadMore(final AddMoreHolder addMoreHolder, final int position) {
         if (!isLoadingMore) {
             isLoadingMore = true;
             new Thread(new Runnable() {
@@ -109,17 +109,17 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
                         public void run() {
                             if (listMoreData == null) {
                                 addMoreHolder
-                                        .setData(AddMoreHolder.STATE_MORE_ERROR);
+                                        .setData(AddMoreHolder.STATE_MORE_ERROR, position);
                                 setLoadMoreState(AddMoreHolder.STATE_MORE_ERROR);
                             } else {
                                 if (listMoreData.size() < getPageSize()) {
                                     addMoreHolder
-                                            .setData(AddMoreHolder.STATE_MORE_EMPTY);
+                                            .setData(AddMoreHolder.STATE_MORE_EMPTY, position);
                                     setLoadMoreState(AddMoreHolder.STATE_MORE_EMPTY);
                                     ToastUtils.shortToast("没有更多数据了�?��??");
                                 } else {
                                     addMoreHolder
-                                            .setData(AddMoreHolder.STATE_MORE_MORE);
+                                            .setData(AddMoreHolder.STATE_MORE_MORE, position);
                                     setLoadMoreState(AddMoreHolder.STATE_MORE_MORE);
                                 }
                                 mListData.addAll(listMoreData);
@@ -138,8 +138,8 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
 
     public abstract BaseHolder getHolder(int position);
 
-    public BaseHolder getAddMoreHolder() {
-        return new AddMoreHolder(getLoadMoreState());
+    public BaseHolder getAddMoreHolder(int position) {
+        return new AddMoreHolder(getLoadMoreState(), position);
     }
 
     // public boolean hasMore() {

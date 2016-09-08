@@ -28,8 +28,41 @@
                 android:textColorHint="#ffffff"
                 android:textSize="15sp"/>
 
+            <!--<TextView-->
+            <!--android:id="@+id/tv_pager_home_base_location"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="11dp"-->
+            <!--android:clickable="true"-->
+            <!--android:enabled="true"-->
+            <!--android:focusable="true"-->
+            <!--android:onClick="@{pagerHomeBaseModel.openCityLocation}"-->
+            <!--android:text="苏州"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="15sp"/>-->
+            <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="11dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:src="@mipmap/nav_screen_icon"/>-->
+            <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_toRightOf="@id/tv_pager_home_base_location"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:clickable="true"-->
+            <!--android:focusable="true"-->
+            <!--android:onClick="@{pagerHomeBaseModel.openCityLocation}"-->
+            <!--android:src="@mipmap/nav_pull_down_icon"/>-->
+
             <TextView
-                android:id="@+id/tv_pager_home_base_location"
+                android:id="@+id/tv_pager_home_base_subscribe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -37,29 +70,25 @@
                 android:clickable="true"
                 android:enabled="true"
                 android:focusable="true"
-                android:onClick="@{pagerHomeBaseModel.openCityLocation}"
-                android:text="苏州"
+                android:onClick="@{pagerHomeBaseModel.openSubscribe}"
+                android:text="订阅"
                 android:textColor="#ffffff"
                 android:textSize="15sp"/>
-            <ImageButton
+
+            <TextView
+                android:id="@+id/tv_pager_home_base_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="11dp"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/nav_screen_icon"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/tv_pager_home_base_location"
-                android:background="@android:color/transparent"
                 android:clickable="true"
+                android:enabled="true"
                 android:focusable="true"
-                android:onClick="@{pagerHomeBaseModel.openCityLocation}"
-                android:src="@mipmap/nav_pull_down_icon"/>
+                android:onClick="@{pagerHomeBaseModel.openFilter}"
+                android:text="筛选"
+                android:textColor="#ffffff"
+                android:textSize="15sp"/>
 
         </RelativeLayout>
 

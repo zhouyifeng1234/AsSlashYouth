@@ -6,15 +6,18 @@ import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityCityLocationBinding;
+import com.slash.youth.ui.activity.CityLocationActivity;
 
 /**
  * Created by zhouyifeng on 2016/9/7.
  */
 public class ActivityCityLocationModel extends BaseObservable {
     ActivityCityLocationBinding mActivityCityLocationBinding;
+    CityLocationActivity mCityLocationActivity;
 
-    public ActivityCityLocationModel(ActivityCityLocationBinding activityCityLocationBinding) {
+    public ActivityCityLocationModel(ActivityCityLocationBinding activityCityLocationBinding, CityLocationActivity cityLocationActivity) {
         this.mActivityCityLocationBinding = activityCityLocationBinding;
+        this.mCityLocationActivity = cityLocationActivity;
     }
 
     private int cityInfoListVisible = View.VISIBLE;
@@ -38,5 +41,9 @@ public class ActivityCityLocationModel extends BaseObservable {
     public void setSearchCityListVisible(int searchCityListVisible) {
         this.searchCityListVisible = searchCityListVisible;
         notifyPropertyChanged(BR.searchCityListVisible);
+    }
+
+    public void finishCityLocationActivity(View v){
+        mCityLocationActivity.finish();
     }
 }

@@ -14,8 +14,8 @@ public class AddMoreHolder extends BaseHolder<Integer> {
     private LinearLayout mLlAddMoreMore;
     private LinearLayout mLlAddMoreError;
 
-    public AddMoreHolder(int loadMoreState) {
-        setData(loadMoreState);
+    public AddMoreHolder(int loadMoreState, int position) {
+        setData(loadMoreState, position);
     }
 
     @Override

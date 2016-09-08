@@ -27,6 +27,9 @@
         <activity android:name="com.slash.youth.ui.activity.CityLocationActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.SubscribeActivity">
+
+        </activity>
     </application>
 
 </manifest>

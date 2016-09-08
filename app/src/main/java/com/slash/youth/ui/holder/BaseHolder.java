@@ -6,6 +6,7 @@ public abstract class BaseHolder<T> {
 
     private View mRootView;
     private T data;
+    private int currentPosition;
 
     public BaseHolder() {
 
@@ -17,8 +18,9 @@ public abstract class BaseHolder<T> {
 
     public abstract View initView();
 
-    public void setData(T data) {
+    public void setData(T data, int position) {
         this.data = data;
+        this.currentPosition = position;
         if (mRootView != null) {
             refreshView(data);
         }
@@ -32,5 +34,9 @@ public abstract class BaseHolder<T> {
 
     public T getData() {
         return data;
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 }

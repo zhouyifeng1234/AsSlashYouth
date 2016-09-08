@@ -39,8 +39,9 @@ public class CityLocationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityCityLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_city_location);
-        mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding);
+        mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding,this);
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
+
 
         HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel();
