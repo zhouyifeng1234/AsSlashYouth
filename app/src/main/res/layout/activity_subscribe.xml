@@ -4,191 +4,270 @@
         <variable name="activitySubscribeModel"
                   type="com.slash.youth.ui.viewmodel.ActivitySubscribeModel"/>
     </data>
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#31c5e4">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="订阅"
-                android:textColor="#ffffff"
-                android:textSize="17sp"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="11dp"
-                android:layout_marginLeft="11dp"
-                android:layout_marginTop="11dp"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/nav_back"
-            />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="11dp"
-                android:layout_marginRight="11dp"
-                android:layout_marginTop="11dp"
-                android:text="提交"
-                android:textColor="#ffffff"
-                android:textSize="17sp"/>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="19dp"
-            android:text="已选服务"
-            android:textColor="#333333"
-            android:textSize="16.5sp"
-        />
-
+    >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="11dp"
-            android:layout_marginTop="19dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray">
-
+                android:background="#31c5e4">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="12dp"
-                    android:text="3D设计"/>
-
+                    android:layout_centerInParent="true"
+                    android:text="订阅"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp"/>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginTop="11dp"
                     android:background="@android:color/transparent"
-                    android:src="@mipmap/delete_icon"
+                    android:src="@mipmap/nav_back"
                 />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray">
-
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="12dp"
-                    android:text="UI"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginTop="14dp" android:background="#edf1f2"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="11dp"
-                android:text="热搜技能"
-                android:textColor="#333333"
-                android:textSize="14.5sp"/>
-
-            <ImageButton
-                android:id="@+id/ivbtn_activity_subscribe_main_categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="11dp"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/xiangxia_icon"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/ivbtn_activity_subscribe_main_categories"
-                android:text="IT互联网"
-                android:textColor="#333333"
-                android:textSize="14.5sp"/>
-
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:background="#edf1f2"/>
-
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal">
-
-            <ListView
-                android:id="@+id/lv_activity_subscribe_second_skilllable_list"
-                android:layout_width="96dp"
-                android:layout_height="match_parent">
-            </ListView>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#edf1f2">
-
-                <TextView
-                    android:id="@+id/tv_activity_subscribe_choose_all_skilllabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="11dp"
                     android:layout_marginRight="11dp"
-                    android:layout_marginTop="20dp"
-                    android:drawablePadding="6dp"
-                    android:drawableRight="@mipmap/quanxuan_icon"
-                    android:text="全选"
-                    android:textColor="#999999"
-                    android:textSize="14sp"
-                />
+                    android:layout_marginTop="11dp"
+                    android:text="提交"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp"/>
+            </RelativeLayout>
 
-                <ScrollView
-                    android:id="@+id/sv_activity_subscribe_third_skilllabel"
-                    android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="19dp"
+                android:text="已选服务"
+                android:textColor="#333333"
+                android:textSize="16.5sp"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="19dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_activity_subscribe_choose_all_skilllabel"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginLeft="11dp"
+                    android:background="@drawable/shape_rounded_rectangle_skilllabel_gray">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="12dp"
+                        android:text="3D设计"/>
 
-                </ScrollView>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@mipmap/delete_icon"
+                    />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:background="@drawable/shape_rounded_rectangle_skilllabel_gray">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="12dp"
+                        android:text="UI"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginTop="14dp" android:background="#edf1f2"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="11dp"
+                    android:text="热搜技能"
+                    android:textColor="#333333"
+                    android:textSize="14.5sp"/>
+
+                <ImageButton
+                    android:id="@+id/ivbtn_activity_subscribe_main_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="11dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{activitySubscribeModel.openRlChooseMainLabel}"
+                    android:src="@mipmap/xiangxia_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/ivbtn_activity_subscribe_main_categories"
+                    android:onClick="@{activitySubscribeModel.openRlChooseMainLabel}"
+                    android:text="IT互联网"
+                    android:textColor="#333333"
+                    android:textSize="14.5sp"/>
 
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="#edf1f2"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/lv_activity_subscribe_second_skilllable_list"
+                    android:layout_width="96dp"
+                    android:layout_height="match_parent">
+                </ListView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#edf1f2">
+
+                    <TextView
+                        android:id="@+id/tv_activity_subscribe_choose_all_skilllabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="6dp"
+                        android:drawableRight="@mipmap/quanxuan_icon"
+                        android:text="全选"
+                        android:textColor="#999999"
+                        android:textSize="14sp"
+                    />
+
+                    <ScrollView
+                        android:id="@+id/sv_activity_subscribe_third_skilllabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/tv_activity_subscribe_choose_all_skilllabel"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                    >
+
+                        <LinearLayout
+                            android:id="@+id/ll_activity_subscribe_third_skilllabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        </LinearLayout>
+
+
+                    </ScrollView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#55000000"
+            android:visibility="@{activitySubscribeModel.rlChooseMainLabelVisible}"
+        >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/rl_activity_subscribe_main_ok"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:background="#fdfdfd"
+                    android:gravity="center" android:text="金融"
+                    android:textColor="#333333"
+                    android:textSize="19sp"/>
+                <View android:layout_width="match_parent" android:layout_height="0.2dp"
+                      android:background="#e5e5e5"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:background="#fdfdfd"
+                    android:gravity="center" android:text="金融"
+                    android:textColor="#333333"
+                    android:textSize="19sp"/>
+                <View android:layout_width="match_parent" android:layout_height="0.2dp"
+                      android:background="#e5e5e5"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:background="#fdfdfd"
+                    android:gravity="center" android:text="金融"
+                    android:textColor="#333333"
+                    android:textSize="19sp"/>
+                <View android:layout_width="match_parent" android:layout_height="0.2dp"
+                      android:background="#e5e5e5"/>
+
+
+            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rl_activity_subscribe_main_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff">
+                <Button
+                    android:layout_width="337dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/dalei_ok_icon"
+                    android:onClick="@{activitySubscribeModel.okChooseMainLabel}"
+                    android:text="确定"
+                    android:textColor="#ffffff"
+                    android:textSize="14.5sp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </FrameLayout>
+
 </layout>

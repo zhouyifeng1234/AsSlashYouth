@@ -3,6 +3,7 @@
     <data>
         <variable name="pagerHomeBaseModel" type="com.slash.youth.ui.viewmodel.PagerHomeBaseModel"/>
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -92,100 +93,133 @@
 
         </RelativeLayout>
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="154.5dp">
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_pager_home_base_advertisement"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        >
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical">
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="154.5dp">
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/vp_pager_home_base_advertisement"
+                        android:layout_width="match_parent"
+                        android:layout_height="154.5dp"
+                    />
+                    <LinearLayout
+                        android:id="@+id/ll_pager_home_base_advindicators"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:src="@mipmap/indicator_circle_choose"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:src="@mipmap/indicator_circle_unchoose"/>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="42.5dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:enabled="true"
+                        android:focusable="true"
+                        android:onClick="@{pagerHomeBaseModel.browseDemandClick}"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_pager_home_base_browser_demand"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="浏览需求"
+                            android:textSize="15sp"/>
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_tab_demand_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@mipmap/tab_list_bg"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:enabled="true"
+                        android:focusable="true"
+                        android:onClick="@{pagerHomeBaseModel.browseServiceClick}"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_pager_home_base_browser_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="浏览服务"
+                            android:textSize="15sp"/>
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_tab_service_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@mipmap/tab_list_bg"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="0.2dp"
+                      android:background="#e5e5e5"/>
+
+                <ListView
+                    android:id="@+id/lv_pager_home_base_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="154.5dp"
-            />
-            <LinearLayout
-                android:id="@+id/ll_pager_home_base_advindicators"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-
-                <ImageView android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:src="@mipmap/indicator_circle_choose"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/indicator_circle_unchoose"/>
-
-            </LinearLayout>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="42.5dp"
-            android:background="#ffffff"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:enabled="true"
-                android:focusable="true"
-                android:onClick="@{pagerHomeBaseModel.browseDemandClick}"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_pager_home_base_browser_demand"
+                android:background="#55000000"
+                android:orientation="vertical"
+            >
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="浏览需求"
-                    android:textSize="15sp"/>
-                <ImageView
-                    android:id="@+id/iv_pager_home_base_tab_demand_bg"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/shaixuan_bg"
+                    android:orientation="vertical">
+
+
+                </LinearLayout>
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/tab_list_bg"/>
+                    android:layout_marginTop="-40dp"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/shaixuan_ok_icon"/>
+
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:enabled="true"
-                android:focusable="true"
-                android:onClick="@{pagerHomeBaseModel.browseServiceClick}"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_pager_home_base_browser_service"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="浏览服务"
-                    android:textSize="15sp"/>
-                <ImageView
-                    android:id="@+id/iv_pager_home_base_tab_service_bg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/tab_list_bg"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <View android:layout_width="match_parent" android:layout_height="0.2dp"
-              android:background="#e5e5e5"/>
-
-        <ListView
-            android:id="@+id/lv_pager_home_base_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
+        </FrameLayout>
 
 
     </LinearLayout>

@@ -8,12 +8,14 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
+import com.slash.youth.utils.CommonUtils;
 
 public class HomeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.setCurrentActivity(this);
         ActivityHomeBinding activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding);
         activityHomeBinding.setActivityHomeBinding(activityHomeModel);
