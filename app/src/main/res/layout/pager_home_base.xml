@@ -200,15 +200,19 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_pager_home_base_filterview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#55000000"
                 android:clickable="true"
                 android:orientation="vertical"
+                android:visibility="@{pagerHomeBaseModel.filterViewVisible}"
             >
                 <LinearLayout
+                    android:id="@+id/ll_pager_home_base_filter_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:background="@mipmap/shaixuan_bg"
                     android:orientation="vertical">
                     <LinearLayout
@@ -502,6 +506,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="-40dp"
                     android:background="@android:color/transparent"
+                    android:onClick="@{pagerHomeBaseModel.okFilter}"
                     android:src="@mipmap/shaixuan_ok_icon"/>
 
             </LinearLayout>

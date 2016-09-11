@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.DialogHomeSubscribeBinding;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
@@ -30,6 +32,8 @@ public class PagerHomeBaseModel extends BaseObservable {
     private PagerHomeBaseBinding mPagerHomeBaseBinding;
     private Drawable mDrawableBottom;
     boolean[] checkFilterFeatureArray = new boolean[4];
+    private int filterViewVisible = View.INVISIBLE;
+//    private int filterContentMarginTop;
 
     public PagerHomeBaseModel(PagerHomeBaseBinding pagerHomeBaseBinding) {
         this.mPagerHomeBaseBinding = pagerHomeBaseBinding;
@@ -39,6 +43,26 @@ public class PagerHomeBaseModel extends BaseObservable {
 
     public void initView() {
         initFilterSkilllabel();
+    }
+
+//    @Bindable
+//    public int getFilterContentMarginTop() {
+//        return filterContentMarginTop;
+//    }
+
+//    public void setFilterContentMarginTop(int filterContentMarginTop) {
+//        this.filterContentMarginTop = filterContentMarginTop;
+//        notifyPropertyChanged(BR.filterContentMarginTop);
+//    }
+
+    @Bindable
+    public int getFilterViewVisible() {
+        return filterViewVisible;
+    }
+
+    public void setFilterViewVisible(int filterViewVisible) {
+        this.filterViewVisible = filterViewVisible;
+        notifyPropertyChanged(BR.filterViewVisible);
     }
 
     public void initFilterSkilllabel() {
@@ -148,7 +172,17 @@ public class PagerHomeBaseModel extends BaseObservable {
 
 
     public void openFilter(View v) {
+        setFilterViewVisible(View.VISIBLE);
+        int filterContentHeight = mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.getMeasuredHeight();
+//        setFilterContentMarginTop(-filterContentHeight);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.topMargin = -filterContentHeight;
+        mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.setLayoutParams(params);
 
+    }
+
+    public void okFilter(View v) {
+        setFilterViewVisible(View.INVISIBLE);
     }
 
     public void nextFilterSkilllabel(View v) {
