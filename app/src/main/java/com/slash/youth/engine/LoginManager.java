@@ -1,7 +1,11 @@
 package com.slash.youth.engine;
 
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
+import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ToastUtils;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -17,8 +21,40 @@ public class LoginManager {
         iwxApi.registerApp(GlobalConstants.ThirdAppId.APPID_WECHAT);
     }
 
+    //调用发送手机验证码接口，将验证码发送到手机上
+    public static void getPhoneVerificationCode(String phoneNum) {
+        GetPhoneVerificationCodeProtocol getPhoneVerificationCodeProtocol = new GetPhoneVerificationCodeProtocol(phoneNum);
+        getPhoneVerificationCodeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
 
-    public boolean Login_() {
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        });
+    }
+
+    //验证手机上收到的验证码
+    public static void checkPhoneVerificationCode(String phoneNum, String pin) {
+        CheckPhoneVerificationCodeProtocol checkPhoneVerificationCodeProtocol = new CheckPhoneVerificationCodeProtocol(phoneNum, pin);
+        checkPhoneVerificationCodeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        });
+    }
+
+
+    public boolean Login() {
         //TODO 具体的登录逻辑，判断是否登录成功
 
 

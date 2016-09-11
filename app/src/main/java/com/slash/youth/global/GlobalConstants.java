@@ -58,6 +58,17 @@ public class GlobalConstants {
          * 以下为服务端各接口的相对地址
          */
 
+
+        //手机验证码发送
+//        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/phone";
+        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/phone";
+
+        //手机验证码验证
+//        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/pin";
+        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/pin";
+
+
+
         //一、[用户认证]-真实用户认证接口
         public static final String REAL_USER_AUTH = SERVER_HOST + "uinfo/v1/api/real/auth";
 

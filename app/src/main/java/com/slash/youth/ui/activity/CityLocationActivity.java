@@ -39,7 +39,7 @@ public class CityLocationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityCityLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_city_location);
-        mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding,this);
+        mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding, this);
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
 
@@ -121,12 +121,14 @@ public class CityLocationActivity extends Activity {
 //                TextView tv= (TextView) view;
 //                ToastUtils.shortToast(position + " "+tv.getText());
 //                int clickIndex = position - mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount();
-                TextView tvFirstLetter = (TextView) view;
-                String firstLetter = tvFirstLetter.getText().toString();
-                if (mHashFirstLetterIndex.containsKey(firstLetter)) {
-                    Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
+                if (position > 0) {
+                    TextView tvFirstLetter = (TextView) view;
+                    String firstLetter = tvFirstLetter.getText().toString();
+                    if (mHashFirstLetterIndex.containsKey(firstLetter)) {
+                        Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
 //                    ToastUtils.shortToast(firstLetterIndex + "");
-                    mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                        mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                    }
                 }
             }
         });

@@ -16,7 +16,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        ActivityLoginModel activityLoginModel = new ActivityLoginModel();
+        ActivityLoginModel activityLoginModel = new ActivityLoginModel(activityLoginBinding);
         activityLoginBinding.setActivityLoginModel(activityLoginModel);
     }
 }

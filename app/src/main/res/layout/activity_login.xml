@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/et_activity_login_phonenum"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:background="@mipmap/edit_shoujihao"
@@ -32,6 +33,7 @@
                 android:layout_height="43dp"
                 android:layout_marginTop="17dp">
                 <EditText
+                    android:id="@+id/et_activity_login_verification_code"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@mipmap/login_edit_bg"
@@ -48,6 +50,7 @@
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="4dp"
                     android:background="@mipmap/default_icon_yanzheng"
+                    android:onClick="@{activityLoginModel.sendPhoneVerificationCode}"
                     android:text="验证码"
                     android:textColor="#ffffff"
                     android:textColorHint="#ffffff"

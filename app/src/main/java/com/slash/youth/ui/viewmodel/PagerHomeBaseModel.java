@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.DialogHomeSubscribeBinding;
@@ -17,6 +20,8 @@ import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
+import java.util.ArrayList;
+
 /**
  * Created by zhouyifeng on 2016/9/6.
  */
@@ -24,10 +29,56 @@ public class PagerHomeBaseModel extends BaseObservable {
 
     private PagerHomeBaseBinding mPagerHomeBaseBinding;
     private Drawable mDrawableBottom;
+    boolean[] checkFilterFeatureArray = new boolean[4];
 
     public PagerHomeBaseModel(PagerHomeBaseBinding pagerHomeBaseBinding) {
         this.mPagerHomeBaseBinding = pagerHomeBaseBinding;
         mDrawableBottom = CommonUtils.getContext().getResources().getDrawable(R.mipmap.tab_list_bg);
+        checkFilterFeatureArray[1] = true;
+    }
+
+    public void initView() {
+        initFilterSkilllabel();
+    }
+
+    public void initFilterSkilllabel() {
+        //首先需要从服务端获取过滤标签，暂时写死，以方便测试
+        ArrayList<String> listLabelNames = new ArrayList<String>();
+        listLabelNames.add("UI设计");
+        listLabelNames.add("程序开发");
+        listLabelNames.add("UI设计");
+        listLabelNames.add("前端代码");
+        listLabelNames.add("UI设计");
+        listLabelNames.add("程序开发");
+        listLabelNames.add("UI设计");
+        listLabelNames.add("前端代码");
+        listLabelNames.add("UI设计");
+        listLabelNames.add("程序开发");
+        listLabelNames.add("UI设计");
+        listLabelNames.add("前端代码");
+
+        TextView tvFilterSkilllabel = null;
+        for (int i = 0; i < listLabelNames.size(); i++) {
+            LogKit.v("filter_label " + i);
+            String labelName = listLabelNames.get(i);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
+            tvFilterSkilllabel = new TextView(CommonUtils.getContext());
+            tvFilterSkilllabel.setText(labelName);
+            tvFilterSkilllabel.setPadding(CommonUtils.dip2px(8), CommonUtils.dip2px(5), CommonUtils.dip2px(8), CommonUtils.dip2px(5));
+            tvFilterSkilllabel.setBackgroundResource(R.drawable.selector_home_filter_skilllabell_bg);
+            tvFilterSkilllabel.setTextColor(CommonUtils.getColorStateList(R.color.selector_home_filter_skilllabell_textcolor));
+            tvFilterSkilllabel.setClickable(true);
+            tvFilterSkilllabel.setEnabled(true);
+            tvFilterSkilllabel.setFocusable(true);
+            tvFilterSkilllabel.setFocusableInTouchMode(true);
+            tvFilterSkilllabel.setTextSize(11.5f);
+            if (i > 0) {
+                params.leftMargin = CommonUtils.dip2px(32);
+            }
+            tvFilterSkilllabel.setLayoutParams(params);
+            mPagerHomeBaseBinding.llPagerHomeBaseFilterSkilllabel.addView(tvFilterSkilllabel);
+        }
+
     }
 
     public void browseDemandClick(View v) {
@@ -100,5 +151,39 @@ public class PagerHomeBaseModel extends BaseObservable {
 
     }
 
+    public void nextFilterSkilllabel(View v) {
+//        mPagerHomeBaseBinding.hsvPagerHomeBaseFilterSkilllabel.smoothScrollTo(100, 0);
+        mPagerHomeBaseBinding.hsvPagerHomeBaseFilterSkilllabel.smoothScrollBy(CommonUtils.dip2px(80), 0);
+    }
+
+
+    public void checkFilterFeature(View v) {
+//        ToastUtils.shortToast("Check Filter Feature");
+        switch (v.getId()) {
+            case R.id.iv_pager_home_base_check_orderbytime_desc:
+                saveFilterFeatureState(0, (ImageView) v);
+                break;
+            case R.id.iv_pager_home_base_check_online:
+                saveFilterFeatureState(1, (ImageView) v);
+                break;
+            case R.id.iv_pager_home_base_check_offline:
+                saveFilterFeatureState(2, (ImageView) v);
+                break;
+            case R.id.iv_pager_home_base_check_only_authuser:
+                saveFilterFeatureState(3, (ImageView) v);
+                break;
+
+        }
+    }
+
+    public void saveFilterFeatureState(int index, ImageView iv) {
+        boolean state = checkFilterFeatureArray[index];
+        if (state) {
+            iv.setImageResource(R.mipmap.dianxuan_);
+        } else {
+            iv.setImageResource(R.mipmap.xuanzhong_icon);
+        }
+        checkFilterFeatureArray[index] = !state;
+    }
 
 }

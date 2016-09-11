@@ -28,4 +28,9 @@ public class GetUserSkillLabelProtocol extends BaseProtocol<UserSkillLabelBean> 
         UserSkillLabelBean userSkillLabelBean = gson.fromJson(result, UserSkillLabelBean.class);
         return userSkillLabelBean;
     }
+
+    @Override
+    public boolean checkJsonResult(String result) {
+        return false;
+    }
 }

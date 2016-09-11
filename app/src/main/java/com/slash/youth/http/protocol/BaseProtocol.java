@@ -5,8 +5,6 @@ import com.slash.youth.domain.ResultErrorBean;
 import com.slash.youth.utils.AuthHeaderUtils;
 import com.slash.youth.utils.LogKit;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -22,7 +20,8 @@ abstract public class BaseProtocol<T> {
     public interface IResultExecutor<T> {
         void execute(T dataBean);
 
-        void executeError(ResultErrorBean resultErrorBean);
+        //        void executeError(ResultErrorBean resultErrorBean);
+        void executeResultError(String result);
     }
 
     public void getDataFromServer(final IResultExecutor resultExecutor) {
@@ -32,19 +31,32 @@ abstract public class BaseProtocol<T> {
 
                 LogKit.v("onSuccess");
                 LogKit.v(result);
-                try {
-                    JSONObject joRoot = new JSONObject(result);
-                    int code = joRoot.getInt("code");
-                    if (code == 0) {
-                        dataBean = parseData(result);
-                        resultExecutor.execute(dataBean);
-                    } else if (code == 2) {
-                        resultErrorBean = parseErrorResultData(result);
-                        resultExecutor.executeError(resultErrorBean);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+//                try {
+//                    JSONObject joRoot = new JSONObject(result);
+//                    int code = joRoot.getInt("code");
+//                    if (code == 0) {
+//                        dataBean = parseData(result);
+//                        resultExecutor.execute(dataBean);
+//                    }
+////                    else if (code == 2) {
+////                        resultErrorBean = parseErrorResultData(result);
+////                        resultExecutor.executeError(resultErrorBean);
+////                    }
+//                    else {
+//                        resultErrorBean = parseErrorResultData(result);
+//                        resultExecutor.executeError(resultErrorBean);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                boolean isResultSuccess = checkJsonResult(result);
+                if (isResultSuccess) {
+                    dataBean = parseData(result);
+                    resultExecutor.execute(dataBean);
+                } else {
+                    resultExecutor.executeResultError(result);
                 }
+
             }
 
             @Override
@@ -113,6 +125,8 @@ abstract public class BaseProtocol<T> {
     public abstract void addRequestParams(RequestParams params);
 
     public abstract T parseData(String result);
+
+    public abstract boolean checkJsonResult(String result);
 
     //[用户信息]-获取用户技能标签
 //    return "http://121.42.145.178/uinfo/v1/api/vcard/skilllabel/get";

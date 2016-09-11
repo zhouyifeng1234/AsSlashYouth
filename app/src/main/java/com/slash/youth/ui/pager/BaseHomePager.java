@@ -37,8 +37,10 @@ abstract public class BaseHomePager {
         mPagerHomeBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_base, null, false);
 
         PagerHomeBaseModel pagerHomeBaseModel = new PagerHomeBaseModel(mPagerHomeBaseBinding);
-        pagerHomeBaseModel.browseDemandFocused();
         mPagerHomeBaseBinding.setPagerHomeBaseModel(pagerHomeBaseModel);
+        pagerHomeBaseModel.browseDemandFocused();
+        mPagerHomeBaseBinding.hsvPagerHomeBaseFilterSkilllabel.setHorizontalScrollBarEnabled(false);
+        pagerHomeBaseModel.initView();
         return mPagerHomeBaseBinding.getRoot();
     }
 
