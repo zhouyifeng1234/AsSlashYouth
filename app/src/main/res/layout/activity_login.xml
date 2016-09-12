@@ -3,16 +3,34 @@
     <data>
         <variable name="activityLoginModel" type="com.slash.youth.ui.viewmodel.ActivityLoginModel"/>
     </data>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/logiin_bg"
-        android:orientation="vertical">
+    >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="135dp"
+            android:text="斜杠青年"
+            android:textColor="#ffffff"
+            android:textSize="52sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:text="开启你的斜杠之旅  创造你的碎片价值"
+            android:textColor="#ffffff"
+            android:textSize="13sp"/>
 
         <LinearLayout
             android:layout_width="265dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="255dp"
             android:gravity="center"
             android:orientation="vertical">
@@ -96,5 +114,5 @@
                 />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

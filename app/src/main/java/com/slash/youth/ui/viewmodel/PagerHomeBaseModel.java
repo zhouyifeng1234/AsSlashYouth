@@ -176,7 +176,7 @@ public class PagerHomeBaseModel extends BaseObservable {
         int filterContentHeight = mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.getMeasuredHeight();
 //        setFilterContentMarginTop(-filterContentHeight);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
-        params.topMargin = -filterContentHeight;
+//        params.topMargin = -filterContentHeight;
         mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.setLayoutParams(params);
 
     }

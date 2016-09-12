@@ -30,6 +30,9 @@
         <activity android:name="com.slash.youth.ui.activity.SubscribeActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PerfectInfoActivity">
+
+        </activity>
     </application>
 
 </manifest>

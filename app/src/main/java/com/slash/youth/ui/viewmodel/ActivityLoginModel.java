@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.engine.LoginManager;
-import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -28,9 +28,13 @@ public class ActivityLoginModel extends BaseObservable {
      */
     public void login(View v) {
         //TODO 具体的登录逻辑，等服务端相关接口完成以后再实现
-        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentHomeActivity);
+        Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
+        intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
+
+//        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentHomeActivity);
 
 //        String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
 //        String pin = mActivityLoginBinding.etActivityLoginVerificationCode.getText().toString();
