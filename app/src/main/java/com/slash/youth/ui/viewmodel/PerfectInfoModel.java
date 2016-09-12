@@ -5,7 +5,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
-import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.utils.CommonUtils;
 
 /**
@@ -24,9 +24,13 @@ public class PerfectInfoModel extends BaseObservable {
 
     }
 
-    public void okPerfectInfo(View v){
-        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentHomeActivity);
+    public void okPerfectInfo(View v) {
+//        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentHomeActivity);
+
+        Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
+        intentChooseSkillActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentChooseSkillActivity);
     }
 }
