@@ -98,6 +98,8 @@
             android:layout_height="match_parent"
         >
             <LinearLayout
+
+                android:id="@+id/ll_pager_home_base_homecontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
@@ -501,6 +503,7 @@
 
                 </LinearLayout>
                 <ImageButton
+                    android:id="@+id/ivbtn_pager_home_base_ok_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

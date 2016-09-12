@@ -33,6 +33,9 @@
         <activity android:name="com.slash.youth.ui.activity.PerfectInfoActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.ChooseSkillActivity">
+
+        </activity>
     </application>
 
 </manifest>

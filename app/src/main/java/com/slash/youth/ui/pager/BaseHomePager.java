@@ -70,6 +70,15 @@ abstract public class BaseHomePager {
 
             }
         });
+
+//        mPagerHomeBaseBinding.llPagerHomeBaseHomecontent.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                LogKit.v("onTouch");
+//                return true;
+//            }
+//        });
+
     }
 
     //    abstract public void setData();

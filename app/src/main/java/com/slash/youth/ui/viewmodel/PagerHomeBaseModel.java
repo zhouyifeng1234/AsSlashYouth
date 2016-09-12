@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -172,13 +174,22 @@ public class PagerHomeBaseModel extends BaseObservable {
 
 
     public void openFilter(View v) {
+        if (getFilterViewVisible() == View.VISIBLE) {
+            return;
+        }
         setFilterViewVisible(View.VISIBLE);
         int filterContentHeight = mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.getMeasuredHeight();
 //        setFilterContentMarginTop(-filterContentHeight);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.getLayoutParams();
 //        params.topMargin = -filterContentHeight;
-        mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.setLayoutParams(params);
+//        mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.setLayoutParams(params);
 
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, -filterContentHeight, 0);
+        translateAnimation.setInterpolator(new BounceInterpolator());
+        translateAnimation.setDuration(1000);
+        mPagerHomeBaseBinding.llPagerHomeBaseFilterContent.startAnimation(translateAnimation);
+        mPagerHomeBaseBinding.ivbtnPagerHomeBaseOkFilter.startAnimation(translateAnimation);
     }
 
     public void okFilter(View v) {
