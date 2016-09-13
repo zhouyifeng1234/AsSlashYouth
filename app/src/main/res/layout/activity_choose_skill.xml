@@ -75,13 +75,76 @@
                 android:id="@+id/ll_activity_choose_skill_labels"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@mipmap/unchoose_skill_label_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="21dp"
+                    android:paddingRight="21dp"
+                    android:paddingTop="10dp"
+                    android:text="APP设计"
+                    android:textColor="#31c5e4"
+                    android:textSize="13.5sp"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@mipmap/choose_skill_label_bg"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="21dp"
+                    android:paddingRight="21dp"
+                    android:paddingTop="10dp"
+                    android:text="APP设计"
+                    android:textColor="#ffffff"
+                    android:textSize="13.5sp"
+                />
 
             </LinearLayout>
         </ScrollView>
-        
 
+        <Button
+            android:onClick="@{activityChooseSkillModel.finishChooseSkill}"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/dalei_ok_icon"
+            android:text="完成"
+            android:textColor="#ffffff"
+            android:textSize="14.5sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/xz_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+                android:text="已阅读并同意"
+                android:textColor="#999999"
+                android:textSize="13sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相关协议"
+                android:textColor="#31c5e4"
+                android:textSize="13sp"/>
+        </LinearLayout>
 
 
     </RelativeLayout>

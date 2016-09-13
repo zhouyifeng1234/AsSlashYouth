@@ -108,7 +108,7 @@
                 android:layout_marginTop="70dp"
                 android:background="@drawable/dalei_ok_icon"
                 android:onClick="@{perfectInfoModel.okPerfectInfo}"
-                android:text="完成"
+                android:text="下一步"
                 android:textColor="#ffffff"
                 android:textSize="14.5sp"/>
 
