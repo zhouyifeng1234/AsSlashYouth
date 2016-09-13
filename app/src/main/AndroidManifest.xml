@@ -8,6 +8,22 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+
+    //地图包、搜索包需要的基础权限
+
+    <!--允许程序打开网络套接字-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--允许程序获取网络状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--允许程序访问WiFi网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--允许程序读写手机状态和身份-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--用于访问GPS定位-->
@@ -25,6 +41,7 @@
     <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
+
     <application
         android:name="com.slash.youth.global.SlashApplication"
         android:allowBackup="true"
@@ -33,9 +50,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--<meta-data-->
+        <!--android:name="com.amap.api.v2.apikey"-->
+        <!--android:value="77a14ed1eb67c6b660c7cd7819d1dd1c"/>-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="77a14ed1eb67c6b660c7cd7819d1dd1c"/>
+            android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>
 
         <activity android:name=".ui.activity.HomeActivity">
 
@@ -62,10 +82,10 @@
 
         </activity>
 
-
-        <!--高德地图相关-->
+        <!--高德定位相关-->
         <service android:name="com.amap.api.location.APSService"></service>
-        <!--高德地图相关-->
+        <!--高德定位相关-->
+
 
     </application>
 

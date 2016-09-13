@@ -32,5 +32,7 @@ dependencies {
     compile 'org.xutils:xutils:3.3.36'
     compile project(':ViewPagerIndicatorLibrary')
     compile files('libs/libammsdk.jar')
+    compile files('libs/AMap_Search_V3.4.0_20160811.jar')
+    compile files('libs/Amap_2DMap_V2.9.1_20160825.jar')
     compile files('libs/AMap_Location_V2.9.0_20160906.jar')
 }
