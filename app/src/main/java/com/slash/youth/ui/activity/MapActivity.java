@@ -13,6 +13,7 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMapBinding;
 import com.slash.youth.ui.viewmodel.ActivityMapModel;
@@ -83,9 +84,15 @@ public class MapActivity extends Activity {
                         double currentLatitude = aMapLocation.getLatitude();//获取纬度
                         double currentLongitude = aMapLocation.getLongitude();//获取经度
                         LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
+                        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
                         mapZoom = mMap.getCameraPosition().zoom;
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(latLng);
+//                        markerOptions.title("苏州");
+                        mMap.addMarker(markerOptions);
 //                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), mapZoom));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
+                        LogKit.v("getAddress:" + aMapLocation.getAddress() + "  getAoiName" + aMapLocation.getAoiName());
                     } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Log.e("AmapError", "location Error, ErrCode:"
