@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:onClick="@{activityHomeBinding.publishService}"
                 android:src="@mipmap/tab_icon_add"/>
             <LinearLayout
                 android:id="@+id/ll_activity_home_contacts"

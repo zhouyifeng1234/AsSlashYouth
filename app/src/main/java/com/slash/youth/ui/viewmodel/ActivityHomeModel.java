@@ -1,14 +1,17 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
+import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.pager.HomeMyPager;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 /**
@@ -46,6 +49,12 @@ public class ActivityHomeModel extends BaseObservable {
                 LogKit.v("my");
                 break;
         }
+    }
+
+    public void publishService(View v) {
+        Intent intentMapActivity = new Intent(CommonUtils.getContext(), MapActivity.class);
+        intentMapActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentMapActivity);
     }
 
 }
