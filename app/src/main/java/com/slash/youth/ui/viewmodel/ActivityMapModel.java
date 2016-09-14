@@ -20,17 +20,17 @@ public class ActivityMapModel extends BaseObservable {
     }
 
     private void initView() {
-        initNearLocationData();
+//        initNearLocationData();
     }
 
-    private void initNearLocationData() {
+    public void initNearLocationData(ArrayList<NearLocationBean> listNearLocation) {
         //TODO 附近地点数据可由地图API获取，第一个为我的当前位置
-        ArrayList<NearLocationBean> listNearLocation = new ArrayList<NearLocationBean>();
-        listNearLocation.add(new NearLocationBean("我的位置", "苏州工业园区", "0.50KM"));//第一个为我的当前位置
-        listNearLocation.add(new NearLocationBean("银行", "苏州工业园区", "0.50KM"));
-        listNearLocation.add(new NearLocationBean("酒店", "苏州工业园区", "0.50KM"));
-        listNearLocation.add(new NearLocationBean("KTV", "苏州工业园区", "0.50KM"));
-        listNearLocation.add(new NearLocationBean("饭店", "苏州工业园区", "0.50KM"));
+//        ArrayList<NearLocationBean> listNearLocation = new ArrayList<NearLocationBean>();
+//        listNearLocation.add(new NearLocationBean("我的位置", "苏州工业园区", "0.50KM"));//第一个为我的当前位置
+//        listNearLocation.add(new NearLocationBean("银行", "苏州工业园区", "0.50KM"));
+//        listNearLocation.add(new NearLocationBean("酒店", "苏州工业园区", "0.50KM"));
+//        listNearLocation.add(new NearLocationBean("KTV", "苏州工业园区", "0.50KM"));
+//        listNearLocation.add(new NearLocationBean("饭店", "苏州工业园区", "0.50KM"));
         mActivityMapBinding.lvActivityMapNearLocation.setAdapter(new MapNearLocationAdapter(listNearLocation));
     }
 

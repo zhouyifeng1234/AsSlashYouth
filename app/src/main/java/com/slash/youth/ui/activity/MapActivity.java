@@ -14,10 +14,21 @@ import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMapBinding;
+import com.slash.youth.domain.NearLocationBean;
 import com.slash.youth.ui.viewmodel.ActivityMapModel;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/9/13.
@@ -30,15 +41,21 @@ public class MapActivity extends Activity {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-    float mapZoom;
+    float mapZoom = 14;
+    PoiSearch poiSearch;
+    PoiSearch.Query query;
+    private String mCurrentAddress;
+    private String mCurrentAoiName;
+    private ArrayList<NearLocationBean> mListNearLocation;
+    private ActivityMapModel mActivityMapModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        CommonUtils.setCurrentActivity(this);
         ActivityMapBinding activityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
-        ActivityMapModel activityMapModel = new ActivityMapModel(activityMapBinding);
-        activityMapBinding.setActivityMapModel(activityMapModel);
+        mActivityMapModel = new ActivityMapModel(activityMapBinding);
+        activityMapBinding.setActivityMapModel(mActivityMapModel);
 
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.mapview_activity_map);
@@ -69,7 +86,7 @@ public class MapActivity extends Activity {
         mLocationOption.setNeedAddress(true);
         //传入true，启动定位，AmapLocationClient会驱动设备扫描周边wifi，获取最新的wifi列表（相比设备被动刷新会多消耗一些电量）
         mLocationOption.setWifiActiveScan(true);
-        mLocationOption.setInterval(120000);
+        mLocationOption.setInterval(1000 * 60 * 10);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //设置定位回调监听
@@ -85,14 +102,28 @@ public class MapActivity extends Activity {
                         double currentLongitude = aMapLocation.getLongitude();//获取经度
                         LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
                         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-                        mapZoom = mMap.getCameraPosition().zoom;
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
 //                        markerOptions.title("苏州");
                         mMap.addMarker(markerOptions);
 //                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
-                        LogKit.v("getAddress:" + aMapLocation.getAddress() + "  getAoiName" + aMapLocation.getAoiName());
+                        mapZoom = mMap.getCameraPosition().zoom;
+                        mCurrentAddress = aMapLocation.getAddress();
+                        mCurrentAoiName = aMapLocation.getAoiName();
+                        LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
+                        mListNearLocation = new ArrayList<NearLocationBean>();
+                        //首先添加由定位或得的当前位置信息
+                        mListNearLocation.add(new NearLocationBean("我的位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+
+                        //相关周边POI搜索
+                        query = new PoiSearch.Query("", "");
+                        poiSearch = new PoiSearch(CommonUtils.getContext(), query);
+                        query.setPageSize(20);
+                        query.setPageNum(1);
+                        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(currentLatitude, currentLongitude), 1000));
+                        poiSearch.setOnPoiSearchListener(new SlashServicePOISearchListener());
+                        poiSearch.searchPOIAsyn();
                     } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Log.e("AmapError", "location Error, ErrCode:"
@@ -135,5 +166,60 @@ public class MapActivity extends Activity {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，实现地图生命周期管理
         mMapView.onSaveInstanceState(outState);
+    }
+
+
+    public class SlashServicePOISearchListener implements PoiSearch.OnPoiSearchListener {
+
+
+        @Override
+        public void onPoiSearched(PoiResult result, int rCode) {
+
+            if (rCode == 1000) {
+                if (result != null && result.getQuery() != null) {// 搜索poi的结果
+                    if (result.getQuery().equals(query)) {// 是否是同一条
+//                        poiResult = result;
+                        // 取得搜索到的poiitems有多少页
+                        List<PoiItem> poiItems = result.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+                        List<SuggestionCity> suggestionCities = result
+                                .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+
+                        if (poiItems != null && poiItems.size() > 0) {
+                            for (int i = 0; i < poiItems.size(); i++) {
+                                PoiItem poiItem = poiItems.get(i);
+                                LogKit.v("getDistance:" + poiItem.getDistance() + "    getTitle:" + poiItem.getTitle() + "    getSnippet:" + poiItem.getSnippet());
+                                mListNearLocation.add(new NearLocationBean(poiItem.getTitle(), poiItem.getSnippet(), convertMeterToKM(poiItem.getDistance())));
+                            }
+//                            aMap.clear();// 清理之前的图标
+//                            PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
+//                            poiOverlay.removeFromMap();
+//                            poiOverlay.addToMap();
+//                            poiOverlay.zoomToSpan();
+                        } else if (suggestionCities != null
+                                && suggestionCities.size() > 0) {
+//                            showSuggestCity(suggestionCities);
+                        } else {
+                            ToastUtils.shortToast("没有搜索到结果");
+                        }
+                    }
+                } else {
+                    ToastUtils.shortToast("没有搜索到结果");
+                }
+            } else {
+                ToastUtils.shortToast(rCode + "");
+            }
+            mActivityMapModel.initNearLocationData(mListNearLocation);
+        }
+
+        @Override
+        public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+        }
+    }
+
+
+    public String convertMeterToKM(int meter) {
+        float meterF = meter;
+        return meterF / 1000 + "KM";
     }
 }
