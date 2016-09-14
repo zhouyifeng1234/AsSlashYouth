@@ -3,7 +3,13 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -13,7 +19,6 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.core.SuggestionCity;
@@ -48,14 +53,16 @@ public class MapActivity extends Activity {
     private String mCurrentAoiName;
     private ArrayList<NearLocationBean> mListNearLocation;
     private ActivityMapModel mActivityMapModel;
+    private ActivityMapBinding mActivityMapBinding;
+    private String mCurrentCityCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        CommonUtils.setCurrentActivity(this);
-        ActivityMapBinding activityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
-        mActivityMapModel = new ActivityMapModel(activityMapBinding);
-        activityMapBinding.setActivityMapModel(mActivityMapModel);
+        mActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
+        mActivityMapModel = new ActivityMapModel(mActivityMapBinding);
+        mActivityMapBinding.setActivityMapModel(mActivityMapModel);
 
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.mapview_activity_map);
@@ -70,9 +77,12 @@ public class MapActivity extends Activity {
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
 //        AMapOptions aMapOptions=new AMapOptions();
 //        aMapOptions.camera(CameraPosition.fromLatLngZoom(new LatLng(100,50),10));
-        initAMapLocation();
 
+
+        initAMapLocation();
+        initListener();
     }
+
 
     private void initAMapLocation() {
 
@@ -102,28 +112,23 @@ public class MapActivity extends Activity {
                         double currentLongitude = aMapLocation.getLongitude();//获取经度
                         LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
                         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
+//                        MarkerOptions markerOptions = new MarkerOptions();
+//                        markerOptions.position(latLng);
 //                        markerOptions.title("苏州");
-                        mMap.addMarker(markerOptions);
+//                        mMap.addMarker(markerOptions);
 //                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
                         mapZoom = mMap.getCameraPosition().zoom;
                         mCurrentAddress = aMapLocation.getAddress();
                         mCurrentAoiName = aMapLocation.getAoiName();
+                        mCurrentCityCode = aMapLocation.getCityCode();
                         LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
                         mListNearLocation = new ArrayList<NearLocationBean>();
                         //首先添加由定位或得的当前位置信息
-                        mListNearLocation.add(new NearLocationBean("我的位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+                        mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
 
                         //相关周边POI搜索
-                        query = new PoiSearch.Query("", "");
-                        poiSearch = new PoiSearch(CommonUtils.getContext(), query);
-                        query.setPageSize(20);
-                        query.setPageNum(1);
-                        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(currentLatitude, currentLongitude), 1000));
-                        poiSearch.setOnPoiSearchListener(new SlashServicePOISearchListener());
-                        poiSearch.searchPOIAsyn();
+                        getNearPoi(currentLatitude, currentLongitude);
                     } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Log.e("AmapError", "location Error, ErrCode:"
@@ -135,6 +140,16 @@ public class MapActivity extends Activity {
         });
         //启动定位
         mLocationClient.startLocation();
+    }
+
+    public void getNearPoi(double currentLatitude, double currentLongitude) {
+        query = new PoiSearch.Query("", "");
+        poiSearch = new PoiSearch(CommonUtils.getContext(), query);
+        query.setPageSize(20);
+        query.setPageNum(1);
+        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(currentLatitude, currentLongitude), 1000));
+        poiSearch.setOnPoiSearchListener(new SlashServicePOISearchListener());
+        poiSearch.searchPOIAsyn();
     }
 
 
@@ -222,4 +237,115 @@ public class MapActivity extends Activity {
         float meterF = meter;
         return meterF / 1000 + "KM";
     }
+
+    private void initListener() {
+        mActivityMapBinding.etActivityMapSearchKeyword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (TextUtils.isEmpty(s)) {
+                    mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
+                    mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
+                } else {
+                    mActivityMapModel.setLlMapInfoVisible(View.INVISIBLE);
+                    mActivityMapModel.setSvSearchListVisible(View.VISIBLE);
+                    addToSearchList(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void addToSearchList(String keyword) {
+        mActivityMapBinding.llActivityMapSearchlist.removeAllViews();
+        query = new PoiSearch.Query(keyword, "", mCurrentCityCode);
+        poiSearch = new PoiSearch(CommonUtils.getContext(), query);
+        query.setPageSize(20);
+        query.setPageNum(1);
+        poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+            @Override
+            public void onPoiSearched(PoiResult result, int rCode) {
+                if (rCode == 1000) {
+                    if (result != null && result.getQuery() != null) {// 搜索poi的结果
+                        if (result.getQuery().equals(query)) {// 是否是同一条
+                            List<PoiItem> poiItems = result.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+                            List<SuggestionCity> suggestionCities = result
+                                    .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+
+                            if (poiItems != null && poiItems.size() > 0) {
+                                for (int i = 0; i < poiItems.size(); i++) {
+                                    PoiItem poiItem = poiItems.get(i);
+                                    LogKit.v("getDistance:" + poiItem.getDistance() + "    getTitle:" + poiItem.getTitle() + "    getSnippet:" + poiItem.getSnippet());
+
+                                    TextView tvKeywordPoi = createKeyWordPoiTextView(poiItem.getTitle(), poiItem);
+                                    View vDividerKeywordPoi = createDividerKeywordPoi();
+                                    mActivityMapBinding.llActivityMapSearchlist.addView(tvKeywordPoi);
+                                    mActivityMapBinding.llActivityMapSearchlist.addView(vDividerKeywordPoi);
+                                }
+                            } else if (suggestionCities != null
+                                    && suggestionCities.size() > 0) {
+//                            showSuggestCity(suggestionCities);
+                            } else {
+                                ToastUtils.shortToast("没有搜索到结果");
+                            }
+                        }
+                    } else {
+                        ToastUtils.shortToast("没有搜索到结果");
+                    }
+                } else {
+                    ToastUtils.shortToast(rCode + "");
+                }
+            }
+
+            @Override
+            public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+            }
+        });
+        poiSearch.searchPOIAsyn();
+    }
+
+    private TextView createKeyWordPoiTextView(String title, final PoiItem poiItem) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
+        params.setMargins(CommonUtils.dip2px(11), CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
+        TextView tvKeywordPoi = new TextView(CommonUtils.getContext());
+        tvKeywordPoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLonPoint poiLatLonPoint = poiItem.getLatLonPoint();
+                LatLng latlng = new LatLng(poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, mapZoom));
+                mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
+                mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
+                mActivityMapBinding.etActivityMapSearchKeyword.setText("");
+
+                mListNearLocation = new ArrayList<NearLocationBean>();
+                //首先添加由定位或得的当前位置信息
+                mListNearLocation.add(new NearLocationBean("当前位置(" + poiItem.getTitle() + ")", poiItem.getSnippet(), "0.00KM"));
+                getNearPoi(poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude());
+            }
+        });
+        tvKeywordPoi.setLayoutParams(params);
+        tvKeywordPoi.setText(title);
+        tvKeywordPoi.setTextColor(0xff333333);
+        tvKeywordPoi.setTextSize(16.5f);
+        return tvKeywordPoi;
+    }
+
+    private View createDividerKeywordPoi() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, CommonUtils.dip2px(0.5f));
+        View vDividerKeywordPoi = new View(CommonUtils.getContext());
+        vDividerKeywordPoi.setLayoutParams(params);
+        vDividerKeywordPoi.setBackgroundColor(0xffe5e5e5);
+        return vDividerKeywordPoi;
+    }
+
 }
