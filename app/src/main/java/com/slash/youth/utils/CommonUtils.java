@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.slash.youth.global.SlashApplication;
@@ -95,5 +96,9 @@ public class CommonUtils {
 
     public static Activity getCurrentActivity() {
         return currentActivity;
+    }
+
+    public static DisplayMetrics getDisplayInfo() {
+        return getContext().getResources().getDisplayMetrics();
     }
 }

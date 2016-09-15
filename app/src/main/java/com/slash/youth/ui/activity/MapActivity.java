@@ -18,10 +18,20 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptor;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.geocoder.AoiItem;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.slash.youth.R;
@@ -55,6 +65,11 @@ public class MapActivity extends Activity {
     private ActivityMapModel mActivityMapModel;
     private ActivityMapBinding mActivityMapBinding;
     private String mCurrentCityCode;
+    private LatLng mCurrentLatlng;
+    private MarkerOptions mMapCenterMarkerOptions;
+    private Marker mMarker;
+    private boolean isMoveByGestures = false;
+    GeocodeSearch geocoderSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +87,33 @@ public class MapActivity extends Activity {
         if (mMap == null) {
             mMap = mMapView.getMap();
         }
+//        UiSettings uiSettings = mMap.getUiSettings();
+//        uiSettings.setMyLocationButtonEnabled(true);
+
 //        float zoom = mMap.getCameraPosition().zoom;
 //        ToastUtils.shortToast(zoom+"");
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
 //        AMapOptions aMapOptions=new AMapOptions();
 //        aMapOptions.camera(CameraPosition.fromLatLngZoom(new LatLng(100,50),10));
 
+        mMapCenterMarkerOptions = new MarkerOptions();
+        BitmapDescriptor centerBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.dingwei_icon);
+        mMapCenterMarkerOptions.icon(centerBitmapDescriptor);
+//      mMapCenterMarkerOptions.position(mMap.getCameraPosition().target);
+        mMarker = mMap.addMarker(mMapCenterMarkerOptions);
+        mMapView.post(new Runnable() {
+            @Override
+            public void run() {
+                int mapviewMeasuredWidth = mMapView.getMeasuredWidth();
+                int mapviewMeasuredHeight = mMapView.getMeasuredHeight();
+//                LogKit.v("mapviewMeasuredWidth:" + mapviewMeasuredWidth);
+//                LogKit.v("mapviewMeasuredHeight:" + mapviewMeasuredHeight);
+                mMarker.setPositionByPixels(mapviewMeasuredWidth / 2, mapviewMeasuredHeight / 2);
+            }
+        });
 
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(new SlashOnGeocodeSearchListener());
         initAMapLocation();
         initListener();
     }
@@ -112,11 +147,9 @@ public class MapActivity extends Activity {
                         double currentLongitude = aMapLocation.getLongitude();//获取经度
                         LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
                         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-//                        MarkerOptions markerOptions = new MarkerOptions();
-//                        markerOptions.position(latLng);
-//                        markerOptions.title("苏州");
-//                        mMap.addMarker(markerOptions);
-//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
+                        mCurrentLatlng = latLng;
+//                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
+                        isMoveByGestures = false;
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
                         mapZoom = mMap.getCameraPosition().zoom;
                         mCurrentAddress = aMapLocation.getAddress();
@@ -129,9 +162,14 @@ public class MapActivity extends Activity {
 
                         //相关周边POI搜索
                         getNearPoi(currentLatitude, currentLongitude);
+
+                        mMap.setOnCameraChangeListener(new SlashOnCameraChangeListener());
                     } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Log.e("AmapError", "location Error, ErrCode:"
+                                + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+                        ToastUtils.shortToast("location Error, ErrCode:"
                                 + aMapLocation.getErrorCode() + ", errInfo:"
                                 + aMapLocation.getErrorInfo());
                     }
@@ -145,7 +183,7 @@ public class MapActivity extends Activity {
     public void getNearPoi(double currentLatitude, double currentLongitude) {
         query = new PoiSearch.Query("", "");
         poiSearch = new PoiSearch(CommonUtils.getContext(), query);
-        query.setPageSize(20);
+        query.setPageSize(50);
         query.setPageNum(1);
         poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(currentLatitude, currentLongitude), 1000));
         poiSearch.setOnPoiSearchListener(new SlashServicePOISearchListener());
@@ -262,13 +300,14 @@ public class MapActivity extends Activity {
 
             }
         });
+        mActivityMapBinding.ivbtnActivityMapCurrentLocation.setOnClickListener(new CurrentLocationClickListener());
     }
 
     private void addToSearchList(String keyword) {
         mActivityMapBinding.llActivityMapSearchlist.removeAllViews();
         query = new PoiSearch.Query(keyword, "", mCurrentCityCode);
         poiSearch = new PoiSearch(CommonUtils.getContext(), query);
-        query.setPageSize(20);
+        query.setPageSize(50);
         query.setPageNum(1);
         poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
             @Override
@@ -322,6 +361,7 @@ public class MapActivity extends Activity {
             public void onClick(View v) {
                 LatLonPoint poiLatLonPoint = poiItem.getLatLonPoint();
                 LatLng latlng = new LatLng(poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude());
+                isMoveByGestures = false;
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, mapZoom));
                 mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
                 mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
@@ -329,7 +369,7 @@ public class MapActivity extends Activity {
 
                 mListNearLocation = new ArrayList<NearLocationBean>();
                 //首先添加由定位或得的当前位置信息
-                mListNearLocation.add(new NearLocationBean("当前位置(" + poiItem.getTitle() + ")", poiItem.getSnippet(), "0.00KM"));
+                mListNearLocation.add(new NearLocationBean(poiItem.getTitle(), poiItem.getSnippet(), "0.00KM"));
                 getNearPoi(poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude());
             }
         });
@@ -346,6 +386,94 @@ public class MapActivity extends Activity {
         vDividerKeywordPoi.setLayoutParams(params);
         vDividerKeywordPoi.setBackgroundColor(0xffe5e5e5);
         return vDividerKeywordPoi;
+    }
+
+    public class SlashOnCameraChangeListener implements AMap.OnCameraChangeListener {
+
+        @Override
+        public void onCameraChange(CameraPosition cameraPosition) {
+//            LatLng target = cameraPosition.target;
+//            LogKit.v("cameraPosition latitude" + target.latitude);
+//            LogKit.v("cameraPosition longitude" + target.longitude);
+        }
+
+        @Override
+        public void onCameraChangeFinish(CameraPosition cameraPosition) {
+            LatLng target = cameraPosition.target;
+            // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+            LatLonPoint latLonPoint = new LatLonPoint(target.latitude, target.longitude);
+            RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 100, GeocodeSearch.AMAP);
+            geocoderSearch.getFromLocationAsyn(query);
+
+            if (isMoveByGestures) {
+//                LogKit.v("cameraPosition latitude" + target.latitude);
+//                LogKit.v("cameraPosition longitude" + target.longitude);
+                mListNearLocation = new ArrayList<NearLocationBean>();
+                getNearPoi(target.latitude, target.longitude);
+            } else {
+                isMoveByGestures = true;
+            }
+        }
+    }
+
+    public class SlashMapInfoWindowAdapter implements AMap.InfoWindowAdapter {
+        private String mInfo;
+
+        public SlashMapInfoWindowAdapter(String info) {
+            this.mInfo = info;
+        }
+
+        //这两个回调方法，首先检测getInfoWindow是否返回null，如果非null，则不检测getInfoContents，否则检测getInfoContents的返回值
+        @Override
+        public View getInfoWindow(Marker marker) {
+            View vInfoWindow = View.inflate(CommonUtils.getContext(), R.layout.infowindow_map_marker, null);
+            TextView mTvMarkerTitle = (TextView) vInfoWindow.findViewById(R.id.tv_infowindow_map_marker_title);
+            mTvMarkerTitle.setText(mInfo);
+            return vInfoWindow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+    }
+
+    public class CurrentLocationClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            isMoveByGestures = false;
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLatlng, mapZoom));
+            mListNearLocation = new ArrayList<NearLocationBean>();
+            mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+            getNearPoi(mCurrentLatlng.latitude, mCurrentLatlng.longitude);
+        }
+    }
+
+    public class SlashOnGeocodeSearchListener implements GeocodeSearch.OnGeocodeSearchListener {
+        @Override
+        public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
+            if (rCode == 1000) {
+                String aoiName = "没有地点信息";
+                if (result != null && result.getRegeocodeAddress() != null
+                        && result.getRegeocodeAddress().getFormatAddress() != null) {
+                    List<AoiItem> aois = result.getRegeocodeAddress().getAois();
+                    if (aois != null && aois.size() > 0) {
+                        aoiName = aois.get(0).getAoiName();
+                    }
+                }
+                mMarker.setTitle("");
+                mMap.setInfoWindowAdapter(new SlashMapInfoWindowAdapter(aoiName));
+                mMarker.showInfoWindow();
+            } else {
+                ToastUtils.shortToast("" + rCode);
+            }
+        }
+
+        @Override
+        public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
+        }
     }
 
 }

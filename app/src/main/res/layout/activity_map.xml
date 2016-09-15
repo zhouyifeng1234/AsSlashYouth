@@ -80,7 +80,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="@{activityMapModel.llMapInfoVisible}">
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="308dp"
                     android:background="#999999">
@@ -91,7 +91,17 @@
 
                     </com.amap.api.maps2d.MapView>
 
-                </FrameLayout>
+                    <ImageButton
+                        android:id="@+id/ivbtn_activity_map_current_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="27dp"
+                        android:background="@android:color/transparent"
+                        android:src="@mipmap/weizhi_icon"/>
+
+                </RelativeLayout>
 
                 <ListView
                     android:id="@+id/lv_activity_map_near_location"
