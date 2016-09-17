@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.slash.youth">
 
+    <!--微信相关-->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -9,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
-    //地图包、搜索包需要的基础权限
+    <!--地图包、搜索包需要的基础权限-->
 
     <!--允许程序打开网络套接字-->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -40,6 +41,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
     <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+
+    <!--新浪微博相关-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
     <application
@@ -82,9 +89,49 @@
 
         </activity>
 
+
+        <!--微信相关-->
+        <activity
+            android:name="com.slash.youth.wxapi.WXEntryActivity"
+            android:exported="true">
+
+        </activity>
+        <!--微信相关-->
+
         <!--高德定位相关-->
         <service android:name="com.amap.api.location.APSService"></service>
         <!--高德定位相关-->
+
+        <!--QQ相关-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="1105561277"/>
+            </intent-filter>
+        </activity>
+        <!--SDK_V2.0引入了AssistActivity，开发者需在androidManifest.xml中注册。代码如下：-->
+        <activity android:name="com.tencent.connect.common.AssistActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        />
+
+        <!--QQ相关-->
+
+        <!--新浪微博相关-->
+        <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+                  android:configChanges="keyboardHidden|orientation"
+                  android:exported="false"
+                  android:windowSoftInputMode="adjustResize">
+        </activity>
+        <service android:name="com.sina.weibo.sdk.net.DownloadService"
+                 android:exported="false">
+        </service>
+        <!--新浪微博相关-->
 
 
     </application>

@@ -93,6 +93,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <ImageButton
+                    android:onClick="@{activityLoginModel.qqLogin}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="60dp"
@@ -103,9 +104,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:onClick="@{activityLoginModel.wechatLogin}"
                     android:src="@mipmap/login_weixin"
                 />
                 <ImageButton
+                    android:onClick="@{activityLoginModel.weiboLogin}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"

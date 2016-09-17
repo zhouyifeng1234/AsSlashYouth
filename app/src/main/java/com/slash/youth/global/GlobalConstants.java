@@ -12,17 +12,25 @@ public class GlobalConstants {
     }
 
 
+//    各平台的appkey和secret
+//    Wechat.appid=wx34aecd5b12c34dcb
+//    Wechat.secret=5c309ec7287c5d23ead0a275fa91ee03
+//
+//    QQ.appid=1105561277
+//    QQ.secret=dTjSTFTETKfrFEtl
+//
+//    Weibo.appid=2605297956
+//    Weibo.secret=368e66f115dd4e8912ea647b701aee4b
+
     /**
      * 项目中所用到的第三方API的APPID
      */
     public static class ThirdAppId {
-        public static final String APPID_WECHAT = "";
-        public static final String APPID_QQ = "";
-        public static final String APPID_WEIBO = "";
+        public static final String APPID_WECHAT = "wx34aecd5b12c34dcb";
+        public static final String APPID_QQ = "1105561277";
+        public static final String APPID_WEIBO = "2605297956";
         public static final String APPID_ALIPAY = "";
         public static final String APPID_RONG_CLOUD = "";
-
-
     }
 
     public static class HttpUrl {
@@ -60,13 +68,15 @@ public class GlobalConstants {
 
 
         //手机验证码发送
-//        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/phone";
-        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/phone";
+        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/phone";
+//        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/phone";
 
         //手机验证码验证
-//        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/pin";
-        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/pin";
+        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/pin";
+//        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/pin";
 
+        //手机号登录
+        public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
 
 
         //一、[用户认证]-真实用户认证接口
