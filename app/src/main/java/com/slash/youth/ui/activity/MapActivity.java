@@ -135,47 +135,7 @@ public class MapActivity extends Activity {
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //设置定位回调监听
-        mLocationClient.setLocationListener(new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation != null) {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        //可在其中解析amapLocation获取相应内容。
-//                        mLocationOption.setInterval(60000);
-//                        mLocationClient.setLocationOption(mLocationOption);
-                        double currentLatitude = aMapLocation.getLatitude();//获取纬度
-                        double currentLongitude = aMapLocation.getLongitude();//获取经度
-                        LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
-                        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-                        mCurrentLatlng = latLng;
-//                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
-                        isMoveByGestures = false;
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
-                        mapZoom = mMap.getCameraPosition().zoom;
-                        mCurrentAddress = aMapLocation.getAddress();
-                        mCurrentAoiName = aMapLocation.getAoiName();
-                        mCurrentCityCode = aMapLocation.getCityCode();
-                        LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
-                        mListNearLocation = new ArrayList<NearLocationBean>();
-                        //首先添加由定位或得的当前位置信息
-                        mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
-
-                        //相关周边POI搜索
-                        getNearPoi(currentLatitude, currentLongitude);
-
-                        mMap.setOnCameraChangeListener(new SlashOnCameraChangeListener());
-                    } else {
-                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                        Log.e("AmapError", "location Error, ErrCode:"
-                                + aMapLocation.getErrorCode() + ", errInfo:"
-                                + aMapLocation.getErrorInfo());
-                        ToastUtils.shortToast("location Error, ErrCode:"
-                                + aMapLocation.getErrorCode() + ", errInfo:"
-                                + aMapLocation.getErrorInfo());
-                    }
-                }
-            }
-        });
+        mLocationClient.setLocationListener(new SlashLocationListener());
         //启动定位
         mLocationClient.startLocation();
     }
@@ -300,6 +260,7 @@ public class MapActivity extends Activity {
 
             }
         });
+        mMap.setOnCameraChangeListener(new SlashOnCameraChangeListener());
         mActivityMapBinding.ivbtnActivityMapCurrentLocation.setOnClickListener(new CurrentLocationClickListener());
     }
 
@@ -442,11 +403,13 @@ public class MapActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            isMoveByGestures = false;
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLatlng, mapZoom));
-            mListNearLocation = new ArrayList<NearLocationBean>();
-            mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
-            getNearPoi(mCurrentLatlng.latitude, mCurrentLatlng.longitude);
+//            isMoveByGestures = false;
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLatlng, mapZoom));
+//            mListNearLocation = new ArrayList<NearLocationBean>();
+//            mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+//            getNearPoi(mCurrentLatlng.latitude, mCurrentLatlng.longitude);
+            mLocationClient.setLocationListener(new SlashLocationListener());
+            mLocationClient.startLocation();
         }
     }
 
@@ -473,6 +436,51 @@ public class MapActivity extends Activity {
         @Override
         public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
 
+        }
+    }
+
+
+    public class SlashLocationListener implements AMapLocationListener {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (aMapLocation != null) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    //可在其中解析amapLocation获取相应内容。
+//                        mLocationOption.setInterval(60000);
+//                        mLocationClient.setLocationOption(mLocationOption);
+                    double currentLatitude = aMapLocation.getLatitude();//获取纬度
+                    double currentLongitude = aMapLocation.getLongitude();//获取经度
+                    LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
+                    LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+                    mCurrentLatlng = latLng;
+//                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
+                    isMoveByGestures = false;
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
+                    mapZoom = mMap.getCameraPosition().zoom;
+                    mCurrentAddress = aMapLocation.getAddress();
+                    mCurrentAoiName = aMapLocation.getAoiName();
+                    mCurrentCityCode = aMapLocation.getCityCode();
+                    LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
+                    mListNearLocation = new ArrayList<NearLocationBean>();
+                    //首先添加由定位或得的当前位置信息
+                    mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+
+                    //相关周边POI搜索
+                    getNearPoi(currentLatitude, currentLongitude);
+
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                    ToastUtils.shortToast("location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                }
+            }
+
+            mLocationClient.unRegisterLocationListener(this);
+            mLocationClient.stopLocation();
         }
     }
 

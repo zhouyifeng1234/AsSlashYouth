@@ -88,6 +88,9 @@
         <activity android:name="com.slash.youth.ui.activity.MapActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishDemandActivity">
+
+        </activity>
 
 
         <!--微信相关-->

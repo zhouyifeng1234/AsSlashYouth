@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
-import com.slash.youth.ui.activity.MapActivity;
+import com.slash.youth.ui.activity.PublishDemandActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
@@ -52,9 +52,13 @@ public class ActivityHomeModel extends BaseObservable {
     }
 
     public void publishService(View v) {
-        Intent intentMapActivity = new Intent(CommonUtils.getContext(), MapActivity.class);
-        intentMapActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentMapActivity);
+//        Intent intentMapActivity = new Intent(CommonUtils.getContext(), MapActivity.class);
+//        intentMapActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentMapActivity);
+
+        Intent intentPublishDemandActivity = new Intent(CommonUtils.getContext(), PublishDemandActivity.class);
+        intentPublishDemandActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentPublishDemandActivity);
     }
 
 }
