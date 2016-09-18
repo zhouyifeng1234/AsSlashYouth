@@ -57,12 +57,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--<meta-data-->
-        <!--android:name="com.amap.api.v2.apikey"-->
-        <!--android:value="77a14ed1eb67c6b660c7cd7819d1dd1c"/>-->
+        <!--高德地图 APPID-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>
+            android:value="77a14ed1eb67c6b660c7cd7819d1dd1c"/>
+        <!--<meta-data-->
+        <!--android:name="com.amap.api.v2.apikey"-->
+        <!--android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>-->
+        <!--高德地图 APPID-->
 
         <activity android:name=".ui.activity.HomeActivity">
 
