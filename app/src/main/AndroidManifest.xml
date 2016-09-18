@@ -93,6 +93,9 @@
         <activity android:name="com.slash.youth.ui.activity.PublishDemandActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.SearchActivity">
+
+        </activity>
 
 
         <!--微信相关-->

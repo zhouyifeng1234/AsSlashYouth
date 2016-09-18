@@ -21,6 +21,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.DialogHomeSubscribeBinding;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
 import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -229,6 +230,12 @@ public class PagerHomeBaseModel extends BaseObservable {
             iv.setImageResource(R.mipmap.xuanzhong_icon);
         }
         checkFilterFeatureArray[index] = !state;
+    }
+
+    public void gotoSearchActivity(View v) {
+        Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
+        intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentSearchActivity);
     }
 
 }

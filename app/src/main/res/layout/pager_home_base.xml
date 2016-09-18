@@ -25,6 +25,7 @@
                 android:drawableLeft="@mipmap/nav_icon_search"
                 android:drawablePadding="10dp"
                 android:hint="找需求、找服务、找人"
+                android:onClick="@{pagerHomeBaseModel.gotoSearchActivity}"
                 android:paddingLeft="10dp"
                 android:textColorHint="#ffffff"
                 android:textSize="15sp"/>
