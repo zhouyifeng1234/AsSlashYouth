@@ -1,5 +1,9 @@
 [
     {
+        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\debug\\color\\vpi__light_theme.xml",
+        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__light_theme.xml"
+    },
+    {
         "merged": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\debug\\color\\vpi__dark_theme.xml",
         "source": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__dark_theme.xml"
     },
@@ -10,6 +14,10 @@
     {
         "merged": "D:\\AndroidStudioProjects\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\debug\\color\\vpi__light_theme.xml",
         "source": "D:\\AndroidStudioProjects\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__light_theme.xml"
+    },
+    {
+        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\debug\\color\\vpi__dark_theme.xml",
+        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__dark_theme.xml"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\debug\\color\\vpi__dark_theme.xml",

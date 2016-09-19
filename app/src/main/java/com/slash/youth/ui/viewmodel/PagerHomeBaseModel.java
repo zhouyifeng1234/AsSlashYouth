@@ -104,7 +104,6 @@ public class PagerHomeBaseModel extends BaseObservable {
             tvFilterSkilllabel.setLayoutParams(params);
             mPagerHomeBaseBinding.llPagerHomeBaseFilterSkilllabel.addView(tvFilterSkilllabel);
         }
-
     }
 
     public void browseDemandClick(View v) {
