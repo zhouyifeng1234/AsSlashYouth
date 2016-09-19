@@ -81,10 +81,14 @@
         <activity android:name="com.slash.youth.ui.activity.SubscribeActivity">
 
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.PerfectInfoActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.PerfectInfoActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.ChooseSkillActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.ChooseSkillActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.MapActivity">
@@ -96,6 +100,7 @@
         <activity android:name="com.slash.youth.ui.activity.SearchActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceActivity"/>
 
 
         <!--微信相关-->

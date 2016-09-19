@@ -2,11 +2,14 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.ui.activity.PublishDemandActivity;
+import com.slash.youth.ui.activity.PublishServiceActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
@@ -19,9 +22,20 @@ import com.slash.youth.utils.LogKit;
  */
 public class ActivityHomeModel extends BaseObservable {
     ActivityHomeBinding activityHomeBinding;
+    private int chooseServiceAndDemandLayerVisibility = View.INVISIBLE;
 
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding) {
         this.activityHomeBinding = activityHomeBinding;
+    }
+
+    @Bindable
+    public int getChooseServiceAndDemandLayerVisibility() {
+        return chooseServiceAndDemandLayerVisibility;
+    }
+
+    public void setChooseServiceAndDemandLayerVisibility(int chooseServiceAndDemandLayerVisibility) {
+        this.chooseServiceAndDemandLayerVisibility = chooseServiceAndDemandLayerVisibility;
+        notifyPropertyChanged(BR.chooseServiceAndDemandLayerVisibility);
     }
 
     /**
@@ -51,14 +65,25 @@ public class ActivityHomeModel extends BaseObservable {
         }
     }
 
-    public void publishService(View v) {
-//        Intent intentMapActivity = new Intent(CommonUtils.getContext(), MapActivity.class);
-//        intentMapActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        CommonUtils.getContext().startActivity(intentMapActivity);
+    public void chooseServiceAndDemandLayerDisplay(View v) {
+        setChooseServiceAndDemandLayerVisibility(View.VISIBLE);
+    }
 
+    public void chooseServiceAndDemandLayerHide(View v) {
+        setChooseServiceAndDemandLayerVisibility(View.INVISIBLE);
+    }
+
+
+    public void publishDemand(View v) {
         Intent intentPublishDemandActivity = new Intent(CommonUtils.getContext(), PublishDemandActivity.class);
         intentPublishDemandActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentPublishDemandActivity);
     }
 
+    public void publishService(View v) {
+//        ToastUtils.shortToast("发布服务");
+        Intent intentPublishServiceActivity = new Intent(CommonUtils.getContext(), PublishServiceActivity.class);
+        intentPublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentPublishServiceActivity);
+    }
 }
