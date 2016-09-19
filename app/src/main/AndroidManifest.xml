@@ -66,7 +66,9 @@
         <!--android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>-->
         <!--高德地图 APPID-->
 
-        <activity android:name=".ui.activity.HomeActivity">
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.LoginActivity">
@@ -101,6 +103,9 @@
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.PublishServiceActivity"/>
+        <activity android:name="com.slash.youth.ui.activity.SecondTimePublishServiceActivity">
+
+        </activity>
 
 
         <!--微信相关-->

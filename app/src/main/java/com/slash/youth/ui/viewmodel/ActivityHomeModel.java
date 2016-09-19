@@ -9,7 +9,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.ui.activity.PublishDemandActivity;
-import com.slash.youth.ui.activity.PublishServiceActivity;
+import com.slash.youth.ui.activity.SecondTimePublishServiceActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
@@ -82,8 +82,12 @@ public class ActivityHomeModel extends BaseObservable {
 
     public void publishService(View v) {
 //        ToastUtils.shortToast("发布服务");
-        Intent intentPublishServiceActivity = new Intent(CommonUtils.getContext(), PublishServiceActivity.class);
-        intentPublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentPublishServiceActivity);
+//        Intent intentPublishServiceActivity = new Intent(CommonUtils.getContext(), PublishServiceActivity.class);
+//        intentPublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentPublishServiceActivity);
+
+        Intent intentSecondTimePublishServiceActivity = new Intent(CommonUtils.getContext(), SecondTimePublishServiceActivity.class);
+        intentSecondTimePublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentSecondTimePublishServiceActivity);
     }
 }
