@@ -16,6 +16,7 @@
             android:layout_height="43dp"
             android:background="#31C5E4">
             <ImageButton
+                android:onClick="@{publishServiceModel.goBack}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -33,6 +34,7 @@
                 android:textSize="17sp"/>
 
             <TextView
+                android:onClick="@{publishServiceModel.nextStep}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

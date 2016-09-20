@@ -106,6 +106,12 @@
         <activity android:name="com.slash.youth.ui.activity.SecondTimePublishServiceActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceInfoActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceModeActivity">
+
+        </activity>
 
 
         <!--微信相关-->

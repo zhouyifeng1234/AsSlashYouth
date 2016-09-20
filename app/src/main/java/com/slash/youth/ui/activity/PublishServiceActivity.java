@@ -17,7 +17,7 @@ public class PublishServiceActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         ActivityPublishServiceBinding activityPublishServiceBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_service);
-        PublishServiceModel publishServiceModel = new PublishServiceModel(activityPublishServiceBinding);
+        PublishServiceModel publishServiceModel = new PublishServiceModel(activityPublishServiceBinding, this);
         activityPublishServiceBinding.setPublishServiceModel(publishServiceModel);
     }
 }
