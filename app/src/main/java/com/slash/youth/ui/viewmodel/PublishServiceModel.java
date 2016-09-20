@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.view.View;
 
 import com.slash.youth.databinding.ActivityPublishServiceBinding;
 
@@ -19,6 +20,11 @@ public class PublishServiceModel extends BaseObservable {
     private void initView() {
 
 
+    }
+
+
+    public void checkAllDay(View v) {
+        mActivityPublishServiceBinding.ivPublishServiceCheckAllday.setImageA
     }
 
 
