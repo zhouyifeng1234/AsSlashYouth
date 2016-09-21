@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.View;
 
 import com.slash.youth.R;
@@ -46,9 +47,11 @@ public class PublishDemandModel extends BaseObservable {
     public void nextStep(View v) {
         Intent intentPublishDemandDescActivity = new Intent(CommonUtils.getContext(), PublishDemandDescribeActivity.class);
 
-//        Bundle bundle=new Bundle();
-//        bundle.putString
+        Bundle publishDemandDataBundle = new Bundle();
+        publishDemandDataBundle.putBoolean("isRealNamePublish", isRealNamePublish);
+        publishDemandDataBundle.putInt("choosePublishType", choosePublishType);
 
+        intentPublishDemandDescActivity.putExtra("publishDemandDataBundle", publishDemandDataBundle);
         intentPublishDemandDescActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentPublishDemandDescActivity);
     }

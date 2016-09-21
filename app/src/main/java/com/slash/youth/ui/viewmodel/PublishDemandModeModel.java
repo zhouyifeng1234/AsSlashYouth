@@ -3,9 +3,12 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandModeBinding;
 import com.slash.youth.ui.activity.MapActivity;
@@ -22,18 +25,44 @@ public class PublishDemandModeModel extends BaseObservable {
 
     ActivityPublishDemandModeBinding mActivityPublishDemandModeBinding;
     Activity mActivity;
+    Bundle publishDemandDataBundle;
     int chooseOfflineCostType = OFFLINE_COST_TYPE_EMPLOYER;///线下消费方式,默认雇主请客
     boolean isOpenSafeBox = true;//默认开启保险箱
     boolean isOnlineDemand = true;//发布线上需求还是线下需求，默认为true,线上需求
 
+    int demandOfflineItemVisibility;
+    int demandPayItemVisibility;
 
-    public PublishDemandModeModel(ActivityPublishDemandModeBinding activityPublishDemandModeBinding, Activity activity) {
+
+    public PublishDemandModeModel(ActivityPublishDemandModeBinding activityPublishDemandModeBinding, Activity activity, Bundle publishDemandDataBundle) {
         this.mActivityPublishDemandModeBinding = activityPublishDemandModeBinding;
         this.mActivity = activity;
+        this.publishDemandDataBundle = publishDemandDataBundle;
         initView();
     }
 
     private void initView() {
+        displayDemandModeItem();
+    }
+
+    @Bindable
+    public int getDemandPayItemVisibility() {
+        return demandPayItemVisibility;
+    }
+
+    public void setDemandPayItemVisibility(int demandPayItemVisibility) {
+        this.demandPayItemVisibility = demandPayItemVisibility;
+        notifyPropertyChanged(BR.demandPayItemVisibility);
+    }
+
+    @Bindable
+    public int getDemandOfflineItemVisibility() {
+        return demandOfflineItemVisibility;
+    }
+
+    public void setDemandOfflineItemVisibility(int demandOfflineItemVisibility) {
+        this.demandOfflineItemVisibility = demandOfflineItemVisibility;
+        notifyPropertyChanged(BR.demandOfflineItemVisibility);
     }
 
     public void goBack(View v) {
@@ -110,6 +139,7 @@ public class PublishDemandModeModel extends BaseObservable {
         mActivityPublishDemandModeBinding.vDemandOfflineUnderline.setLayoutParams(paramsOffline);
 
         isOnlineDemand = true;
+        displayDemandModeItem();
     }
 
     public void tabOfflineDemand(View v) {
@@ -123,14 +153,18 @@ public class PublishDemandModeModel extends BaseObservable {
         RelativeLayout.LayoutParams paramsOffline = (RelativeLayout.LayoutParams) mActivityPublishDemandModeBinding.vDemandOfflineUnderline.getLayoutParams();
         paramsOffline.height = CommonUtils.dip2px(2);
         mActivityPublishDemandModeBinding.vDemandOfflineUnderline.setLayoutParams(paramsOffline);
+
         isOnlineDemand = false;
+        displayDemandModeItem();
     }
 
     /**
      * 根据 用户所选择的 “咨询”还是“交付”类的需求，以及“线上”还是“线下”，进行相应需求条目的展示和隐藏
      */
     public void displayDemandModeItem() {
-
+        setDemandOfflineItemVisibility(isOnlineDemand ? View.GONE : View.VISIBLE);
+        int choosePublishType = publishDemandDataBundle.getInt("choosePublishType");
+        setDemandPayItemVisibility(choosePublishType == PublishDemandModel.PUBLISH_DEMAND_PAY ? View.VISIBLE : View.GONE);
     }
 
 }

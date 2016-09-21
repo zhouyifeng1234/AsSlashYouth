@@ -15,8 +15,10 @@ public class PublishDemandDescribeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle publishDemandDataBundle = getIntent().getBundleExtra("publishDemandDataBundle");
+
         ActivityPublishDemandDescribeBinding activityPublishDemandDescribeBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand_describe);
-        PublishDemandDescModel publishDemandDescModel = new PublishDemandDescModel(activityPublishDemandDescribeBinding, this);
+        PublishDemandDescModel publishDemandDescModel = new PublishDemandDescModel(activityPublishDemandDescribeBinding, this,publishDemandDataBundle);
         activityPublishDemandDescribeBinding.setPublishDemandDescModel(publishDemandDescModel);
     }
 }

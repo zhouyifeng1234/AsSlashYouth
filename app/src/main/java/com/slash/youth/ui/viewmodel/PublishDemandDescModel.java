@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.os.Bundle;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityPublishDemandDescribeBinding;
@@ -15,10 +16,12 @@ import com.slash.youth.utils.CommonUtils;
 public class PublishDemandDescModel extends BaseObservable {
     ActivityPublishDemandDescribeBinding mActivityPublishDemandDescribeBinding;
     Activity mActivity;
+    Bundle publishDemandDataBundle;
 
-    public PublishDemandDescModel(ActivityPublishDemandDescribeBinding activityPublishDemandDescribeBinding, Activity activity) {
+    public PublishDemandDescModel(ActivityPublishDemandDescribeBinding activityPublishDemandDescribeBinding, Activity activity, Bundle publishDemandDataBundle) {
         this.mActivityPublishDemandDescribeBinding = activityPublishDemandDescribeBinding;
         this.mActivity = activity;
+        this.publishDemandDataBundle = publishDemandDataBundle;
         initView();
     }
 
@@ -33,6 +36,7 @@ public class PublishDemandDescModel extends BaseObservable {
 
     public void nextStep(View v) {
         Intent intentPublishDemandModeActivity = new Intent(CommonUtils.getContext(), PublishDemandModeActivity.class);
+        intentPublishDemandModeActivity.putExtra("publishDemandDataBundle", publishDemandDataBundle);
         intentPublishDemandModeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentPublishDemandModeActivity);
     }

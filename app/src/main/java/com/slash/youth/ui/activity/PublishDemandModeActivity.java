@@ -42,8 +42,10 @@ public class PublishDemandModeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle publishDemandDataBundle = getIntent().getBundleExtra("publishDemandDataBundle");
+
         ActivityPublishDemandModeBinding activityPublishDemandModeBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand_mode);
-        PublishDemandModeModel publishDemandModeModel = new PublishDemandModeModel(activityPublishDemandModeBinding, this);
+        PublishDemandModeModel publishDemandModeModel = new PublishDemandModeModel(activityPublishDemandModeBinding, this,publishDemandDataBundle);
         activityPublishDemandModeBinding.setPublishDemandModeModel(publishDemandModeModel);
 
 

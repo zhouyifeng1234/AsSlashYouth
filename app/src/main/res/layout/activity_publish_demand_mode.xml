@@ -139,10 +139,10 @@
                         android:orientation="horizontal">
 
                         <RelativeLayout
-                            android:onClick="@{publishDemandModeModel.tabOnlineDemand}"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:onClick="@{publishDemandModeModel.tabOnlineDemand}">
                             <TextView
                                 android:id="@+id/tv_demand_online_text"
                                 android:layout_width="wrap_content"
@@ -161,10 +161,10 @@
 
                         </RelativeLayout>
                         <RelativeLayout
-                            android:onClick="@{publishDemandModeModel.tabOfflineDemand}"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:onClick="@{publishDemandModeModel.tabOfflineDemand}">
                             <TextView
                                 android:id="@+id/tv_demand_offline_text"
                                 android:layout_width="wrap_content"
@@ -185,117 +185,125 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="192dp"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="10dp"
-                        android:visibility="visible"
-                    >
-                        <com.amap.api.maps2d.MapView
-                            android:id="@+id/mapview_activity_publish_demand_mode"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-                        </com.amap.api.maps2d.MapView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{publishDemandModeModel.demandOfflineItemVisibility}">
+
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="43dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="#881FB9D9"
-                            android:onClick="@{publishDemandModeModel.getDetailLocation}"
+                            android:layout_height="192dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"
                         >
+                            <com.amap.api.maps2d.MapView
+                                android:id="@+id/mapview_activity_publish_demand_mode"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                            </com.amap.api.maps2d.MapView>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="43dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="#881FB9D9"
+                                android:onClick="@{publishDemandModeModel.getDetailLocation}"
+                            >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:text="定位你的详细地址"
+                                    android:textColor="#F2F2F2"
+                                    android:textSize="14dp"/>
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="7dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="38dp"
+                                    android:src="@mipmap/vector_smart_object"
+                                />
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="34dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="13dp"
+                            android:background="@drawable/shape_publish_damand_rounded_rectangle">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:text="定位你的详细地址"
-                                android:textColor="#F2F2F2"
-                                android:textSize="14dp"/>
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="7dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="38dp"
-                                android:src="@mipmap/vector_smart_object"
-                            />
-
+                                android:text="地点补充描述"
+                                android:textColor="#999999"
+                                android:textSize="15sp"/>
                         </RelativeLayout>
 
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="34dp"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="13dp"
-                        android:background="@drawable/shape_publish_damand_rounded_rectangle">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="地点补充描述"
-                            android:textColor="#999999"
-                            android:textSize="15sp"/>
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="11dp"
-                        android:background="#E5E5E5"
-                    />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="21dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="周边几公里"
-                            android:textColor="#000000"
-                            android:textSize="15sp"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="11dp"
+                            android:background="#E5E5E5"
                         />
-                        <View android:layout_width="0dp" android:layout_height="0dp"
-                              android:layout_weight="1"/>
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="3公里"
-                            android:textColor="#999999"
-                            android:textSize="15sp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="21dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="周边几公里"
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                            />
+                            <View android:layout_width="0dp" android:layout_height="0dp"
+                                  android:layout_weight="1"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="3公里"
+                                android:textColor="#999999"
+                                android:textSize="15sp"
+                            />
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/caidan_icon"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="21dp"
+                            android:background="#E5E5E5"
                         />
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:background="@android:color/transparent"
-                            android:src="@mipmap/caidan_icon"/>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="21dp"
-                        android:background="#E5E5E5"
-                    />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -351,85 +359,94 @@
                     />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        android:visibility="@{publishDemandModeModel.demandOfflineItemVisibility}"
+                        android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="线下消费:"
-                            android:textColor="#333333"
-                            android:textSize="15sp"/>
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="线下消费:"
+                                android:textColor="#333333"
+                                android:textSize="15sp"/>
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:onClick="@{publishDemandModeModel.checkOfflineCostTypeEmployer}"
+                                android:orientation="horizontal">
+                                <ImageButton
+                                    android:id="@+id/ivbtn_offline_costtype_employer"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@android:color/transparent"
+                                    android:src="@mipmap/btn_employer_treat"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="7dp"
+                                    android:text="雇主请客"
+                                    android:textColor="#999999"
+                                    android:textSize="13sp"
+                                />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="19dp"
+                                android:onClick="@{publishDemandModeModel.checkOfflineCostTypeAA}"
+                                android:orientation="horizontal">
+                                <ImageButton
+                                    android:id="@+id/ivbtn_offline_costtype_aa"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@android:color/transparent"
+                                    android:src="@mipmap/ellipse_4"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="6dp"
+                                    android:text="AA制"
+                                    android:textColor="#999999"
+                                    android:textSize="13sp"
+                                />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:onClick="@{publishDemandModeModel.checkOfflineCostTypeEmployer}"
-                            android:orientation="horizontal">
-                            <ImageButton
-                                android:id="@+id/ivbtn_offline_costtype_employer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/btn_employer_treat"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="7dp"
-                                android:text="雇主请客"
-                                android:textColor="#999999"
-                                android:textSize="13sp"
-                            />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="19dp"
-                            android:onClick="@{publishDemandModeModel.checkOfflineCostTypeAA}"
-                            android:orientation="horizontal">
-                            <ImageButton
-                                android:id="@+id/ivbtn_offline_costtype_aa"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/ellipse_4"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="6dp"
-                                android:text="AA制"
-                                android:textColor="#999999"
-                                android:textSize="13sp"
-                            />
-                        </LinearLayout>
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="20dp"
+                            android:background="#E5E5E5"
+                        />
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginTop="20dp"
-                        android:background="#E5E5E5"
-                    />
 
                     <RelativeLayout
+                        android:visibility="@{publishDemandModeModel.demandPayItemVisibility}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
