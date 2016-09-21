@@ -21,15 +21,15 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.slash.youth.R;
-import com.slash.youth.databinding.ActivityPublishServiceModeBinding;
-import com.slash.youth.ui.viewmodel.PublishServiceModeModel;
+import com.slash.youth.databinding.ActivityPublishDemandModeBinding;
+import com.slash.youth.ui.viewmodel.PublishDemandModeModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
 
 /**
- * Created by zhouyifeng on 2016/9/20.
+ * Created by zhouyifeng on 2016/9/21.
  */
-public class PublishServiceModeActivity extends Activity {
+public class PublishDemandModeActivity extends Activity {
 
     MapView mMapView;
     public AMap aMap;
@@ -38,14 +38,16 @@ public class PublishServiceModeActivity extends Activity {
     public AMapLocationClient mLocationClient;
     public AMapLocationClientOption mLocationOption;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityPublishServiceModeBinding activityPublishServiceModeBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_service_mode);
-        PublishServiceModeModel publishServiceModeModel = new PublishServiceModeModel(activityPublishServiceModeBinding, this);
-        activityPublishServiceModeBinding.setPublishServiceModeModel(publishServiceModeModel);
+        ActivityPublishDemandModeBinding activityPublishDemandModeBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand_mode);
+        PublishDemandModeModel publishDemandModeModel = new PublishDemandModeModel(activityPublishDemandModeBinding, this);
+        activityPublishDemandModeBinding.setPublishDemandModeModel(publishDemandModeModel);
 
-        mMapView = activityPublishServiceModeBinding.mapviewActivityPublishServiceMode;
+
+        mMapView = activityPublishDemandModeBinding.mapviewActivityPublishDemandMode;
         mMapView.onCreate(savedInstanceState);
         if (aMap == null) {
             aMap = mMapView.getMap();
