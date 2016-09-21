@@ -38,6 +38,7 @@ public class ActivitySearchModel extends BaseObservable  {
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
+
         initView();
     }
 
