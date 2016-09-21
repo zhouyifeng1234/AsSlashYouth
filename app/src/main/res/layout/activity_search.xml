@@ -15,6 +15,7 @@
             android:background="#31c5e4">
 
             <EditText
+                android:id="@+id/et_activity_search_association"
                 android:layout_width="259dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
@@ -130,7 +131,9 @@
 
             </RelativeLayout>
 
+
             <LinearLayout
+                android:id="@+id/ll_activity_hotService"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ffffff"
@@ -205,7 +208,6 @@
 
                             </LinearLayout>
 
-
                         </ScrollView>
 
                     </RelativeLayout>
@@ -213,6 +215,34 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_Searchclean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <ListView
+                    android:id="@+id/lv_lvSearchcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    >
+                </ListView>
+                <TextView
+                    android:id="@+id/tv_cleanAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#ffffff"
+                    android:gravity="center"
+                    android:textSize="15dp"
+                    android:textColor="#999999"
+                    android:text="清除搜索历史记录"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+
+
 
         </FrameLayout>
 

@@ -158,4 +158,14 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
         this.loadMoreState = loadMoreState;
     }
 
+    //TODO ZSS
+    public void setData( ArrayList<T> ListData ) {
+        this.mListData = ListData;
+        notifyDataSetChanged();
+    }
+
+    public  ArrayList<T>  getData(){//
+        return this.mListData;
+    }
+
 }

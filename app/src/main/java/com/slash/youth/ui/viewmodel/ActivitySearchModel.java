@@ -1,15 +1,25 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.app.AlertDialog;
 import android.databinding.BaseObservable;
+import android.databinding.DataBindingUtil;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
+import com.slash.youth.databinding.DialogHomeSubscribeBinding;
+import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.ui.adapter.SearchContentListAdapter;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
@@ -20,8 +30,11 @@ import java.util.ArrayList;
 /**
  * Created by zhouyifeng on 2016/9/18.
  */
-public class ActivitySearchModel extends BaseObservable {
+public class ActivitySearchModel extends BaseObservable  {
     ActivitySearchBinding mActivitySearchBinding;
+    private boolean isShow;
+    private  SearchContentListAdapter adapter;
+
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
@@ -33,8 +46,90 @@ public class ActivitySearchModel extends BaseObservable {
     private void initView() {
         mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
         mActivitySearchBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
+
         initData();
         initListener();
+        //TODO 监听搜索框的搜索,zss
+        searchListener();
+
+    }
+
+    private void searchListener() {
+        //TODO 添加联想搜索,zss
+        mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mActivitySearchBinding.llActivityHotService.setVisibility(View.GONE);
+                mActivitySearchBinding.lvLvSearchcontent.setVisibility(View.VISIBLE);
+                //文字监听不为0，就显示搜索内容
+                if (s.length()!=0) {
+                   isShow = false;
+
+                }else if(s.length() == 0){
+                    isShow =true;
+
+                }
+                adapter.showRemoveBtn(isShow);
+                //显示cleanAll
+                cleanAll(isShow);
+
+
+            }
+
+            //文本改变之后
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        //设置搜索的数据，zss
+        setSearchContentData(isShow);
+    }
+    //zss 显示清除所有历史
+    private void cleanAll(boolean isShow) {
+        mActivitySearchBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
+        mActivitySearchBinding.tvCleanAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击出现对话框
+                 LogKit.d("显示对话框");
+                showCleanAllDialog();
+            }
+        });
+    }
+
+    //TODO zss 显示对话框
+    private void showCleanAllDialog() {
+        //创建AlertDialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CommonUtils.getCurrentActivity());
+        //数据绑定填充视图
+        DialogSearchCleanBinding dialogSearchCleanBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_search_clean, null, false);
+        //创建数据模型
+        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding);
+        //绑定数据模型
+        dialogSearchCleanBinding.setDialogSearchCleanModel(dialogSearchCleanModel);
+        //设置布局
+        dialogBuilder.setView(dialogSearchCleanBinding.getRoot());//getRoot返回根布局
+        //创建dialogSearch
+        AlertDialog dialogSearch = dialogBuilder.create();
+        dialogSearch.show();
+        dialogSearchCleanModel.currentDialog = dialogSearch;
+        dialogSearch.setCanceledOnTouchOutside(false);//设置点击Dialog外部任意区域关闭Dialog
+        Window dialogSubscribeWindow = dialogSearch.getWindow();
+        WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
+        //TODO 高度和宽度要重新设定
+        dialogParams.width = CommonUtils.dip2px(350);//宽度
+        dialogParams.height = CommonUtils.dip2px(280);//高度
+        dialogSubscribeWindow.setAttributes(dialogParams);
+//        dialogSubscribeWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
+//        dialogBuilder.show();
+
     }
 
     private void initData() {
@@ -71,6 +166,16 @@ public class ActivitySearchModel extends BaseObservable {
             }
         });
         setThirdSkilllabelData();
+    }
+
+    private void setSearchContentData(boolean isShow) {
+        //TODO 联想搜索的内容，假的数据从服务端获取，zss
+        ArrayList<String> search_contentlist = new ArrayList<>();
+        search_contentlist.add("ui设计师");
+        search_contentlist.add("uiux设计师");
+        search_contentlist.add("uii设计师");
+        adapter= new SearchContentListAdapter(search_contentlist,isShow);
+        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 
     /**
@@ -198,4 +303,5 @@ public class ActivitySearchModel extends BaseObservable {
             }
         });
     }
+
 }

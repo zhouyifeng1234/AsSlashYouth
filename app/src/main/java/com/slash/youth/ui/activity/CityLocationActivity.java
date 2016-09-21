@@ -29,7 +29,7 @@ import java.util.HashMap;
 /**
  * Created by zhouyifeng on 2016/9/7.
  */
-public class CityLocationActivity extends Activity {
+public class  CityLocationActivity extends Activity {
 
     private ActivityCityLocationBinding mActivityCityLocationBinding;
     private HashMap<String, Integer> mHashFirstLetterIndex;
