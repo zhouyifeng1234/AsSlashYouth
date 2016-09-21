@@ -541,7 +541,8 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="15dp"
-                android:background="@mipmap/bgbg">
+                android:background="@drawable/publish_demand_mode_bg"
+                android:visibility="visible">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -568,6 +569,7 @@
                                 android:textColor="#666666"
                                 android:textSize="15sp"/>
                             <View
+                                android:layout_alignParentBottom="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="17dp" android:background="#E5E5E5"/>

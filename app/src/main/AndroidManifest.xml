@@ -66,7 +66,9 @@
         <!--android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>-->
         <!--高德地图 APPID-->
 
-        <activity android:name=".ui.activity.HomeActivity">
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.LoginActivity">
@@ -81,10 +83,14 @@
         <activity android:name="com.slash.youth.ui.activity.SubscribeActivity">
 
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.PerfectInfoActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.PerfectInfoActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.ChooseSkillActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.ChooseSkillActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.MapActivity">
@@ -94,6 +100,16 @@
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.SearchActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceActivity"/>
+        <activity android:name="com.slash.youth.ui.activity.SecondTimePublishServiceActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceInfoActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceModeActivity">
 
         </activity>
 

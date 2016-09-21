@@ -3,118 +3,185 @@
     <data>
         <variable name="activityHomeBinding" type="com.slash.youth.ui.viewmodel.ActivityHomeModel"/>
     </data>
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/fl_activity_home_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:background="#e5e5e5"/>
-
+    >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="6dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_activity_home_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="#e5e5e5"/>
 
             <LinearLayout
-                android:id="@+id/ll_activity_home_freetime"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="@{activityHomeBinding.changePager}"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/home_xianshi_btn"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="闲时"
-                    android:textSize="10sp"/>
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="6dp">
 
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_activity_home_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="@{activityHomeBinding.changePager}"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_freetime"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/home_message_btn"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="信息"
-                    android:textSize="10sp"/>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/home_xianshi_btn"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="闲时"
+                        android:textSize="10sp"/>
 
-            </LinearLayout>
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:onClick="@{activityHomeBinding.publishService}"
-                android:src="@mipmap/tab_icon_add"/>
-            <LinearLayout
-                android:id="@+id/ll_activity_home_contacts"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="@{activityHomeBinding.changePager}"
-                android:orientation="vertical">
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/home_message_btn"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="信息"
+                        android:textSize="10sp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                </LinearLayout>
+                <ImageButton
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/home_renmai_btn"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{activityHomeBinding.chooseServiceAndDemandLayerDisplay}"
+                    android:src="@mipmap/tab_icon_add"/>
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_contacts"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="人脉"
-                    android:textSize="10sp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_activity_home_my"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:onClick="@{activityHomeBinding.changePager}"
-                android:orientation="vertical">
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/home_renmai_btn"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人脉"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_my"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/home_wode_btn"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="我的"
-                    android:textSize="10sp"/>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/home_wode_btn"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#88000000"
+            android:clickable="true"
+            android:visibility="@{activityHomeBinding.chooseServiceAndDemandLayerVisibility}">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="75dp"
+                android:layout_marginLeft="67dp"
+                android:onClick="@{activityHomeBinding.publishDemand}"
+                android:orientation="vertical">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@mipmap/xuqiu_publish_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="9dp"
+                    android:text="发需求"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="75dp"
+                android:layout_marginRight="68dp"
+                android:onClick="@{activityHomeBinding.publishService}"
+                android:orientation="vertical">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@mipmap/fuwu_publish_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="9dp"
+                    android:text="发服务"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{activityHomeBinding.chooseServiceAndDemandLayerHide}"
+                android:src="@mipmap/tab_icon_add"/>
+        </RelativeLayout>
+    </FrameLayout>
+
 </layout>
 
