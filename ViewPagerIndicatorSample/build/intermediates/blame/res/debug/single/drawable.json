@@ -8,12 +8,12 @@
         "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\exploded-aar\\SlashYouth\\ViewPagerIndicatorLibrary\\unspecified\\res\\drawable\\vpi__tab_indicator.xml"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable\\perm_group_calendar.xml",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\drawable\\perm_group_calendar.xml"
-    },
-    {
         "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable\\perm_group_camera.xml",
         "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\drawable\\perm_group_camera.xml"
+    },
+    {
+        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable\\perm_group_calendar.xml",
+        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\drawable\\perm_group_calendar.xml"
     },
     {
         "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable\\perm_group_location.xml",

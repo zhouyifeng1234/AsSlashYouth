@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
+import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.viewmodel.ActivitySearchModel;
 import com.slash.youth.utils.CommonUtils;
 
@@ -21,5 +22,9 @@ public class SearchActivity extends Activity {
         ActivitySearchBinding activitySearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding);
         activitySearchBinding.setActivitySearchModel(activitySearchModel);
+
+
+
+
     }
 }

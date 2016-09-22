@@ -35,7 +35,6 @@ abstract public class BaseHomePager {
 
     public View initView() {
         mPagerHomeBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_base, null, false);
-
         PagerHomeBaseModel pagerHomeBaseModel = new PagerHomeBaseModel(mPagerHomeBaseBinding);
         mPagerHomeBaseBinding.setPagerHomeBaseModel(pagerHomeBaseModel);
         pagerHomeBaseModel.browseDemandFocused();
@@ -125,7 +124,6 @@ abstract public class BaseHomePager {
             container.addView(ivHomeAdvertisementTest);
             return ivHomeAdvertisementTest;
         }
-
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
