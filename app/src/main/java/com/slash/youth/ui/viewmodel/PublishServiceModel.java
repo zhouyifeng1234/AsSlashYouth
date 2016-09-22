@@ -157,16 +157,39 @@ public class PublishServiceModel extends BaseObservable {
 
             switch (picker.getId()) {
                 case R.id.np_publish_service_month_day:
-
                     boolean isUp;
+                    if (oldVal == 4 && newVal == 0) {
+                        isUp = true;
+                    } else if (oldVal == 0 && newVal == 4) {
+                        isUp = false;
+                    } else if (newVal > oldVal) {
+                        isUp = true;
+                    } else {
+                        isUp = false;
+                    }
+                    if (isUp) {
+                        //向上滚，日期增加
+                        mCalendar.add(Calendar.DAY_OF_MONTH, 1);
+                    } else {
+                        //向下滚，日期减少
+                        mCalendar.add(Calendar.DAY_OF_MONTH, -1);
+                    }
+                    mCalendar.add(Calendar.DAY_OF_MONTH, -2);
+                    int upMonth = mCalendar.get(Calendar.MONTH);
+                    int upDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    monthIntArr[upVal] = upMonth;
+                    dayIntArr[upVal] = upDay;
+                    monthAndDay[upVal] = upMonth + "月" + upDay + "日";
 
-//                    if (isUp) {
-//                        //向上滚
-//                    } else {
-//                        //向下滚
-//                    }
+                    mCalendar.add(Calendar.DAY_OF_MONTH, 4);
+                    int downMonth = mCalendar.get(Calendar.MONTH);
+                    int downDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    monthIntArr[downVal] = downMonth;
+                    dayIntArr[downVal] = downDay;
+                    monthAndDay[downVal] = downMonth + "月" + downDay + "日";
 
-
+                    //回到当前时间
+                    mCalendar.add(Calendar.DAY_OF_MONTH, -2);
                     break;
                 case R.id.np_publish_service_hour:
                     int chooseHour = hourIntArr[newVal];
