@@ -1,4 +1,4 @@
-package com.slash.youth.ui.view.fly;
+package com.slash.youth.ui.view;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;

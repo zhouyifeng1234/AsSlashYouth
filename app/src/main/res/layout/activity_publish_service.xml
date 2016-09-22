@@ -553,7 +553,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5"/>
-                <com.slash.youth.ui.view.fly.SlashDateTimePicker
+                <com.slash.youth.ui.view.SlashDateTimePicker
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="36dp"
@@ -562,7 +562,7 @@
                     android:paddingTop="37dp"
                 >
 
-                </com.slash.youth.ui.view.fly.SlashDateTimePicker>
+                </com.slash.youth.ui.view.SlashDateTimePicker>
 
             </LinearLayout>
 
