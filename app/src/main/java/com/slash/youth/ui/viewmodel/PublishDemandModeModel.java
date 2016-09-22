@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.amap.api.maps2d.model.Marker;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandModeBinding;
@@ -33,11 +34,14 @@ public class PublishDemandModeModel extends BaseObservable {
     int demandOfflineItemVisibility;
     int demandPayItemVisibility;
 
+    Marker mMarker;//尝试解决地图中间定位大头针在页面切换时消失的问题
 
-    public PublishDemandModeModel(ActivityPublishDemandModeBinding activityPublishDemandModeBinding, Activity activity, Bundle publishDemandDataBundle) {
+
+    public PublishDemandModeModel(ActivityPublishDemandModeBinding activityPublishDemandModeBinding, Activity activity, Bundle publishDemandDataBundle, Marker marker) {
         this.mActivityPublishDemandModeBinding = activityPublishDemandModeBinding;
         this.mActivity = activity;
         this.publishDemandDataBundle = publishDemandDataBundle;
+        this.mMarker = marker;
         initView();
     }
 

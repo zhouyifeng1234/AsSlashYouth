@@ -2,11 +2,15 @@ package com.slash.youth.ui.activity;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 public class SubscribeActivity extends Activity {
 
     private ActivitySubscribeBinding mActivitySubscribeBinding;
+    private LinearLayout mLlCheckedLabels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,8 @@ public class SubscribeActivity extends Activity {
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
 //        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setDivider(new ColorDrawable(0xedf1f2));
         mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.setVerticalScrollBarEnabled(false);
+        mLlCheckedLabels = mActivitySubscribeBinding.llActivitySubscribeCheckedLabels;
+        mLlCheckedLabels.removeAllViews();
         initData();
         initListener();
     }
@@ -175,6 +182,8 @@ public class SubscribeActivity extends Activity {
                     LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2);
                     llParamsForSkillLabel.rightMargin = CommonUtils.dip2px(labelRightMargin);
                     TextView tvThirdSkilllabelName = new TextView(CommonUtils.getContext());
+                    tvThirdSkilllabelName.setTag("label_" + i);
+                    tvThirdSkilllabelName.setOnClickListener(new CheckThirdLabelListener());
                     tvThirdSkilllabelName.setLayoutParams(llParamsForSkillLabel);
                     tvThirdSkilllabelName.setMaxLines(1);
                     tvThirdSkilllabelName.setGravity(Gravity.CENTER);
@@ -235,5 +244,129 @@ public class SubscribeActivity extends Activity {
 //                lineLabelCount = 0;
             }
         });
+    }
+
+    public class CheckThirdLabelListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            String labelTag = (String) v.getTag();
+//            ToastUtils.shortToast(tvLabel);
+            String labelName = ((TextView) v).getText().toString();
+            addCheckedLabels(labelTag, labelName);
+        }
+    }
+
+
+    LinearLayout llCheckedLabelsLine = null;
+    int checkedLabelLeftMargin = CommonUtils.dip2px(11);
+    int totalCheckedLabelsWidth = 0;
+    int currentLabelsLineWidth = 0;
+    ArrayList<String> listCheckedLabelTag = new ArrayList<String>();
+    ArrayList<String> listCheckedLabelName = new ArrayList<String>();
+
+
+    private void addCheckedLabels(String labelTag, String labelName) {
+        if (listCheckedLabelTag.contains(labelTag)) {
+            return;
+        }
+        listCheckedLabelTag.add(labelTag);
+        listCheckedLabelName.add(labelName);
+        totalCheckedLabelsWidth = mLlCheckedLabels.getMeasuredWidth() - 2 * checkedLabelLeftMargin;
+        if (llCheckedLabelsLine == null) {
+            createCheckedLabelsLine();
+            mLlCheckedLabels.addView(llCheckedLabelsLine);
+        }
+        LinearLayout checkedLabel = createCheckedLabel(labelTag, labelName);
+        checkedLabel.measure(0, 0);
+        int checkedLabelWidth = checkedLabel.getMeasuredWidth() + checkedLabelLeftMargin;
+        int newLabelsLineWidth = currentLabelsLineWidth + checkedLabelWidth;
+        if (newLabelsLineWidth > totalCheckedLabelsWidth) {
+            if (currentLabelsLineWidth > 0) {
+                createCheckedLabelsLine();
+                llCheckedLabelsLine.addView(checkedLabel);
+                currentLabelsLineWidth = checkedLabelWidth;
+                mLlCheckedLabels.addView(llCheckedLabelsLine);
+            } else {
+                llCheckedLabelsLine.addView(checkedLabel);
+                createCheckedLabelsLine();
+                currentLabelsLineWidth = 0;
+                mLlCheckedLabels.addView(llCheckedLabelsLine);
+            }
+        } else {
+            llCheckedLabelsLine.addView(checkedLabel);
+            currentLabelsLineWidth = newLabelsLineWidth;
+        }
+        mActivitySubscribeBinding.svActivitySubscribeCheckedLabels.post(new Runnable() {
+            @Override
+            public void run() {
+                mActivitySubscribeBinding.svActivitySubscribeCheckedLabels.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
+    public void createCheckedLabelsLine() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
+        llCheckedLabelsLine = new LinearLayout(CommonUtils.getContext());
+        llCheckedLabelsLine.setOrientation(LinearLayout.HORIZONTAL);
+        params.topMargin = CommonUtils.dip2px(10);
+        llCheckedLabelsLine.setLayoutParams(params);
+    }
+
+    public LinearLayout createCheckedLabel(String labelTag, String labelName) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
+        LinearLayout llCheckedLabel = new LinearLayout(CommonUtils.getContext());
+        llCheckedLabel.setOrientation(LinearLayout.HORIZONTAL);
+        params.leftMargin = CommonUtils.dip2px(11);
+        llCheckedLabel.setLayoutParams(params);
+        llCheckedLabel.setTag(labelTag);
+
+        LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(-2, -2);
+        TextView tvLabelName = new TextView(CommonUtils.getContext());
+        tvParams.topMargin = CommonUtils.dip2px(5);
+        tvLabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_skilllabel_gray);
+        tvLabelName.setText(labelName);
+        tvLabelName.setPadding(CommonUtils.dip2px(15), CommonUtils.dip2px(12), CommonUtils.dip2px(15), CommonUtils.dip2px(12));
+        tvLabelName.setLayoutParams(tvParams);
+
+        LinearLayout.LayoutParams ivbtnParams = new LinearLayout.LayoutParams(-2, -2);
+        ImageButton ivbtnUnCheckedLabel = new ImageButton(CommonUtils.getContext());
+        ivbtnUnCheckedLabel.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        ivbtnUnCheckedLabel.setImageResource(R.mipmap.delete_icon);
+        ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
+        ivbtnUnCheckedLabel.setLayoutParams(ivbtnParams);
+
+        llCheckedLabel.addView(tvLabelName);
+        llCheckedLabel.addView(ivbtnUnCheckedLabel);
+//        llCheckedLabel.setOnClickListener(new deleteCheckedLabelListener());
+        ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
+
+        return llCheckedLabel;
+    }
+
+    public class deleteCheckedLabelListener implements View.OnClickListener {
+        LinearLayout mLlCheckedLabel;
+
+        public deleteCheckedLabelListener(LinearLayout llCheckedLabel) {
+            this.mLlCheckedLabel = llCheckedLabel;
+        }
+
+        @Override
+        public void onClick(View v) {
+            String labelTag = (String) mLlCheckedLabel.getTag();
+            int deleteIndex = listCheckedLabelTag.indexOf(labelTag);
+            listCheckedLabelTag.remove(deleteIndex);
+            listCheckedLabelName.remove(deleteIndex);
+            LinearLayout parentLabelsLine = (LinearLayout) mLlCheckedLabel.getParent();
+            parentLabelsLine.removeView(mLlCheckedLabel);
+            if (parentLabelsLine.getChildCount() <= 0) {
+                LinearLayout parentCheckedLabels = (LinearLayout) parentLabelsLine.getParent();
+                int parentLabelsLineIndex = parentCheckedLabels.indexOfChild(parentLabelsLine);
+                if (parentLabelsLineIndex < parentCheckedLabels.getChildCount() - 1) {
+                    parentCheckedLabels.removeView(parentLabelsLine);
+                }
+            }
+//            ToastUtils.shortToast(listCheckedLabelName.get(deleteIndex));
+        }
     }
 }

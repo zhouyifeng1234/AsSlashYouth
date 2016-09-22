@@ -45,8 +45,6 @@ public class PublishDemandModeActivity extends Activity {
         Bundle publishDemandDataBundle = getIntent().getBundleExtra("publishDemandDataBundle");
 
         ActivityPublishDemandModeBinding activityPublishDemandModeBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand_mode);
-        PublishDemandModeModel publishDemandModeModel = new PublishDemandModeModel(activityPublishDemandModeBinding, this,publishDemandDataBundle);
-        activityPublishDemandModeBinding.setPublishDemandModeModel(publishDemandModeModel);
 
 
         mMapView = activityPublishDemandModeBinding.mapviewActivityPublishDemandMode;
@@ -69,6 +67,10 @@ public class PublishDemandModeActivity extends Activity {
                 mMarker.setPositionByPixels(mapviewMeasuredWidth / 2, mapviewMeasuredHeight / 2);
             }
         });
+
+        PublishDemandModeModel publishDemandModeModel = new PublishDemandModeModel(activityPublishDemandModeBinding, this, publishDemandDataBundle, mMarker);
+        activityPublishDemandModeBinding.setPublishDemandModeModel(publishDemandModeModel);
+
         initAMapLocation();
     }
 

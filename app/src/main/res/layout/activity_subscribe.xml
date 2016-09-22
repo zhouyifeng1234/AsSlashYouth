@@ -58,55 +58,146 @@
                 android:textSize="16.5sp"
             />
 
-            <LinearLayout
+            <ScrollView
+                android:id="@+id/sv_activity_subscribe_checked_labels"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="11dp"
-                android:layout_marginTop="19dp"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                android:layout_height="140dp">
+                <LinearLayout
+                    android:id="@+id/ll_activity_subscribe_checked_labels"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
-                    android:background="@drawable/shape_rounded_rectangle_skilllabel_gray">
-
-                    <TextView
+                    android:layout_marginRight="11dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                >
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="12dp"
-                        android:text="3D设计"/>
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
-                    <ImageButton
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal"
+                        >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="3D设计"/>
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon"
+                            />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal"
+                        >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="UI"/>
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon"
+                            />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/delete_icon"
-                    />
+                        android:layout_marginTop="10dp"
 
-                </RelativeLayout>
+                        android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
-                    android:background="@drawable/shape_rounded_rectangle_skilllabel_gray">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal"
+                        >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="12dp"
-                        android:text="UI"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="3D设计"/>
 
-                </RelativeLayout>
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon"
+                            />
 
-            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal"
+                        >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="UI"/>
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon"
+                            />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
 
             <View
                 android:layout_width="match_parent"
