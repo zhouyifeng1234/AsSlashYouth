@@ -45,6 +45,11 @@ public class SlashDateTimePicker extends RelativeLayout {
     NumberPicker npMinute;
     private Calendar mCalendar;
 
+    int currentChooseMonth;
+    int currentChooseDay;
+    int currentChooseHour;
+    int currentChooseMinute;
+
     private void initView() {
         npMonthDay = new SlashNumberPicker(CommonUtils.getContext());
         npHour = new SlashNumberPicker(CommonUtils.getContext());
@@ -73,6 +78,10 @@ public class SlashDateTimePicker extends RelativeLayout {
         mCalendar = Calendar.getInstance();
         Date date = new Date();
         mCalendar.setTime(date);
+        currentChooseMonth = mCalendar.get(Calendar.MONTH);
+        currentChooseDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+        currentChooseHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+        currentChooseMinute = mCalendar.get(Calendar.MINUTE);
         initTime();
 
         npMonthDay.setDisplayedValues(monthAndDay);
@@ -197,6 +206,8 @@ public class SlashDateTimePicker extends RelativeLayout {
 
                     //回到当前时间
                     mCalendar.add(Calendar.DAY_OF_MONTH, -2);
+                    currentChooseMonth = mCalendar.get(Calendar.MONTH);
+                    currentChooseDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                     break;
                 case "NpHour":
                     int chooseHour = hourIntArr[newVal];
@@ -218,6 +229,7 @@ public class SlashDateTimePicker extends RelativeLayout {
                     } else {
                         hours[downVal] = hourIntArr[downVal] + "时";
                     }
+                    currentChooseHour = chooseHour;
                     break;
                 case "NpMinute":
                     int chooseMinute = minuteIntArr[newVal];
@@ -239,6 +251,7 @@ public class SlashDateTimePicker extends RelativeLayout {
                     } else {
                         minutes[downVal] = minuteIntArr[downVal] + "分";
                     }
+                    currentChooseMinute = chooseMinute;
                     break;
             }
         }
@@ -306,5 +319,21 @@ public class SlashDateTimePicker extends RelativeLayout {
                 }
             }
         }
+    }
+
+    public int getCurrentChooseMonth() {
+        return currentChooseMonth;
+    }
+
+    public int getCurrentChooseDay() {
+        return currentChooseDay;
+    }
+
+    public int getCurrentChooseHour() {
+        return currentChooseHour;
+    }
+
+    public int getCurrentChooseMinute() {
+        return currentChooseMinute;
     }
 }
