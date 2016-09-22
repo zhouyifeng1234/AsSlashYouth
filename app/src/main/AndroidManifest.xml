@@ -112,6 +112,12 @@
         <activity android:name="com.slash.youth.ui.activity.PublishServiceModeActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishDemandDescribeActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishDemandModeActivity">
+
+        </activity>
 
 
         <!--微信相关-->
