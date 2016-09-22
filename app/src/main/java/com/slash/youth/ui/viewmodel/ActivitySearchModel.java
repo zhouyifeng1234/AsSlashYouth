@@ -11,14 +11,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.DialogHomeSubscribeBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
+import com.slash.youth.domain.DemandBean;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
 import com.slash.youth.ui.adapter.SearchContentListAdapter;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
@@ -30,10 +34,11 @@ import java.util.ArrayList;
 /**
  * Created by zhouyifeng on 2016/9/18.
  */
-public class ActivitySearchModel extends BaseObservable  {
+public class ActivitySearchModel extends BaseObservable implements View.OnClickListener {
     ActivitySearchBinding mActivitySearchBinding;
     private boolean isShow;
     private  SearchContentListAdapter adapter;
+    private ListView lv_showSearchResult;
 
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
@@ -59,7 +64,6 @@ public class ActivitySearchModel extends BaseObservable  {
         mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -77,8 +81,6 @@ public class ActivitySearchModel extends BaseObservable  {
                 adapter.showRemoveBtn(isShow);
                 //显示cleanAll
                 cleanAll(isShow);
-
-
             }
 
             //文本改变之后
@@ -89,7 +91,65 @@ public class ActivitySearchModel extends BaseObservable  {
         });
         //设置搜索的数据，zss
         setSearchContentData(isShow);
+        //点击搜索，显示搜索的结果 zss
+        mActivitySearchBinding.tvSearchResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            //显示结果页面
+          //  LogKit.d("显示搜索结果页面");
+          showSearchReasult();
+            }
+        });
     }
+    //zss 显示搜索页面
+    private void showSearchReasult() {
+        //先把当前的页面隐藏
+        mActivitySearchBinding.llActivityHotService.setVisibility(View.GONE);
+        //添加一个布局，获取布局的view
+        View view = getView(R.layout.include_search_result);
+        lv_showSearchResult = (ListView) view.findViewById(R.id.lv_showSearchResult);
+        //获取listview要展示的数据
+        setSearchResultData();
+        mActivitySearchBinding.flSearchResult.addView(view);
+        mActivitySearchBinding.flSearchResult.setVisibility(View.VISIBLE);
+        //设置指示器的点击事件,三个不同的指示器的监听事件
+        view.findViewById(R.id.rl_tab_line).setOnClickListener(this);
+        view.findViewById(R.id.rl_tab_user).setOnClickListener(this);
+        view.findViewById(R.id.rl_tab_time).setOnClickListener(this);
+
+    }
+    //获取view
+    private View getView(int layout) {
+        mActivitySearchBinding.flSearchResult.removeAllViews();
+        return View.inflate(CommonUtils.getContext(),layout,null);
+    }
+
+    private View getView(boolean isremove,int layout) {
+        if (isremove) {
+            mActivitySearchBinding.flSearchResult.removeAllViews();
+        }
+        return View.inflate(CommonUtils.getContext(),layout,null);
+    }
+
+
+
+    //zss 设置搜索结果数据
+    private void setSearchResultData() {
+
+        //假数据，真实数据从服务端接口获取
+        ArrayList<DemandBean> listDemand = new ArrayList<DemandBean>();
+        //集合里对象信息也要重新设置
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        lv_showSearchResult.setAdapter(new PagerHomeDemandtAdapter(listDemand));
+    }
+
     //zss 显示清除所有历史
     private void cleanAll(boolean isShow) {
         mActivitySearchBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
@@ -97,7 +157,7 @@ public class ActivitySearchModel extends BaseObservable  {
             @Override
             public void onClick(View v) {
                 //点击出现对话框
-                 LogKit.d("显示对话框");
+            //     LogKit.d("显示对话框");
                 showCleanAllDialog();
             }
         });
@@ -122,9 +182,9 @@ public class ActivitySearchModel extends BaseObservable  {
         dialogSearch.setCanceledOnTouchOutside(false);//设置点击Dialog外部任意区域关闭Dialog
         Window dialogSubscribeWindow = dialogSearch.getWindow();
         WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
-        //TODO 高度和宽度要重新设定
-        dialogParams.width = CommonUtils.dip2px(350);//宽度
-        dialogParams.height = CommonUtils.dip2px(280);//高度
+        //定义显示的dialog的宽和高
+        dialogParams.width = CommonUtils.dip2px(280);//宽度
+        dialogParams.height = CommonUtils.dip2px(174);//高度
         dialogSubscribeWindow.setAttributes(dialogParams);
 //        dialogSubscribeWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
@@ -302,6 +362,42 @@ public class ActivitySearchModel extends BaseObservable  {
                 setThirdSkilllabelData();
             }
         });
+
     }
+    //zss 指示器的点击事件
+    private  boolean isClick ;
+    @Override
+    public void onClick(View v) {
+    switch (v.getId()){
+        //线上用户
+        case R.id.rl_tab_line:
+            setImageView(v,R.id.iv_line_icon,R.mipmap.free_play,R.mipmap.free_pay_jihuo);
+            //展示线上的选择页面
+           // getView(false,);
+
+
+            break;
+        //认证用户
+        case R.id.rl_tab_user:
+            setImageView(v,R.id.iv_user_icon,R.mipmap.free_play,R.mipmap.free_pay_jihuo);
+            break;
+        //时间
+        case R.id.rl_tab_time:
+            setImageView(v,R.id.iv_time_icon,R.mipmap.xia,R.mipmap.shang_icon);
+            break;
+
+        }
+    }
+    //指示器设置图片,zss
+    private void setImageView(View v,int iv1,int iv2,int iv3) {
+        if (isClick){
+            ((ImageView)v.findViewById(iv1)).setImageResource(iv2);
+        }else {
+            ((ImageView)v.findViewById(iv1)).setImageResource(iv3);
+        }
+        isClick = !isClick;
+    }
+
+
 
 }
