@@ -553,38 +553,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5"/>
-                <RelativeLayout
+                <com.slash.youth.ui.view.fly.SlashDateTimePicker
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="36dp"
                     android:paddingLeft="27dp"
                     android:paddingRight="37dp"
-                    android:paddingTop="37dp">
+                    android:paddingTop="37dp"
+                >
 
-                    <NumberPicker
-                        android:id="@+id/np_publish_service_month_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                    </NumberPicker>
-                    <NumberPicker
-                        android:id="@+id/np_publish_service_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true">
-
-                    </NumberPicker>
-                    <NumberPicker
-                        android:id="@+id/np_publish_service_minute"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true">
-
-                    </NumberPicker>
-
-                </RelativeLayout>
-                <DatePicker android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"></DatePicker>
+                </com.slash.youth.ui.view.fly.SlashDateTimePicker>
 
             </LinearLayout>
 
