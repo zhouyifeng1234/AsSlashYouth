@@ -49,6 +49,8 @@ public class PublishDemandModel extends BaseObservable {
     private boolean isSetStartDateTime;//true为设置开始时间 ，false为设置结束时间
 
     private int chooseDateTimeLayerVisibility = View.INVISIBLE;//选择时间浮层时候显示，默认为不显示
+//    private LinearLayout mLlSkillLabels;
+//    private LinearLayout llSkillLabels;
 
 
     public PublishDemandModel(ActivityPublishDemandBinding activityPublishDemandBinding, Activity activity) {
@@ -59,6 +61,7 @@ public class PublishDemandModel extends BaseObservable {
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishDemandBinding.sdtpPublishDemandChooseDatetime;
+//        llSkillLabels = mActivityPublishDemandBinding.llPublishDemandAddedSkilllabels;
         initData();
     }
 
@@ -76,6 +79,8 @@ public class PublishDemandModel extends BaseObservable {
 
         setChooseStartDateTimeText(mStartDisplayMonth + "月" + mStartDisplayDay + "日" + "-" + mStartDisplayHour + ":" + (mStartDisplayMinute < 10 ? "0" + mStartDisplayMinute : mStartDisplayMinute));
         setChooseEndDateTimeText(mEndDisplayMonth + "月" + mEndDisplayDay + "日" + "-" + mEndDisplayHour + ":" + (mEndDisplayMinute < 10 ? "0" + mEndDisplayMinute : mEndDisplayMinute));
+
+//        initAddedSkillLabels();
     }
 
     public void getDetailLocation(View v) {
@@ -206,5 +211,13 @@ public class PublishDemandModel extends BaseObservable {
         isSetStartDateTime = false;
         setChooseDateTimeLayerVisibility(View.VISIBLE);
     }
+
+//    private void initAddedSkillLabels() {
+//        llSkillLabels.removeAllViews();
+//        llSkillLabels
+//    }
+//
+//    public void createSkillLabel
+
 
 }
