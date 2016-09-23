@@ -180,12 +180,15 @@
                         android:orientation="horizontal"
                     >
                         <RelativeLayout
+                            android:id="@+id/rl_service_tab_cycle_idle_time"
                             android:layout_width="0dp"
                             android:layout_height="41dp"
                             android:layout_weight="1"
+                            android:onClick="@{publishServiceModel.tabCycleIdleTime}"
                         >
 
                             <TextView
+                                android:id="@+id/tv_service_cycle_idletime_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
@@ -194,6 +197,7 @@
                                 android:textSize="15sp"/>
 
                             <View
+                                android:id="@+id/view_service_cycle_idletime_bg"
                                 android:layout_width="match_parent"
                                 android:layout_height="2dp"
                                 android:layout_alignParentBottom="true"
@@ -201,12 +205,15 @@
 
                         </RelativeLayout>
                         <RelativeLayout
+                            android:id="@+id/rl_service_tab_fragment_idle_time"
                             android:layout_width="0dp"
                             android:layout_height="41dp"
                             android:layout_weight="1"
+                            android:onClick="@{publishServiceModel.tabFragmentIdleTime}"
                         >
 
                             <TextView
+                                android:id="@+id/tv_service_fragment_idletime_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
@@ -215,6 +222,7 @@
                                 android:textSize="15sp"/>
 
                             <View
+                                android:id="@+id/view_service_fragment_idletime_bg"
                                 android:layout_width="match_parent"
                                 android:layout_height="2dp"
                                 android:layout_alignParentBottom="true"
@@ -230,7 +238,7 @@
                         android:layout_marginLeft="24dp"
                         android:layout_marginRight="23dp"
                         android:layout_marginTop="14dp"
-                        android:onClick="@{publishServiceModel.chooseIdleTime}"
+                        android:onClick="@{publishServiceModel.chooseIdleStartTime}"
                         android:orientation="horizontal">
 
                         <TextView
@@ -253,7 +261,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="25dp"
-                            android:text="6时10分"
+                            android:text="@{publishServiceModel.startIdleTimeText}"
                             android:textColor="#666666"
                             android:textSize="14sp"
                         />
@@ -283,6 +291,7 @@
                         android:layout_marginLeft="24dp"
                         android:layout_marginRight="23dp"
                         android:layout_marginTop="15dp"
+                        android:onClick="@{publishServiceModel.chooseIdleEndTime}"
                         android:orientation="horizontal">
 
                         <TextView
@@ -305,7 +314,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="25dp"
-                            android:text="16时20分"
+                            android:text="@{publishServiceModel.endIdleTimeText}"
                             android:textColor="#666666"
                             android:textSize="14sp"
                         />
@@ -519,7 +528,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#66000000"
-            android:clickable="true">
+            android:clickable="true"
+            android:visibility="@{publishServiceModel.chooseDateTimeLayerVisibility}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -532,6 +542,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:onClick="@{publishServiceModel.cancelChooseTime}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
@@ -543,6 +554,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:onClick="@{publishServiceModel.okChooseTime}"
                         android:padding="12dp"
                         android:text="确定"
                         android:textColor="#999999"
@@ -553,17 +565,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5"/>
-                <com.slash.youth.ui.view.SlashDateTimePicker
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="36dp"
-                    android:paddingLeft="27dp"
-                    android:paddingRight="37dp"
-                    android:paddingTop="37dp"
-                >
+                    android:layout_height="wrap_content">
+                    <com.slash.youth.ui.view.SlashDateTimePicker
+                        android:id="@+id/sdtp_publish_service_choose_datetime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="36dp"
+                        android:paddingLeft="27dp"
+                        android:paddingRight="37dp"
+                        android:paddingTop="37dp"
+                        android:visibility="@{publishServiceModel.dateTimePickerVisibility}"
+                    >
 
-                </com.slash.youth.ui.view.SlashDateTimePicker>
+                    </com.slash.youth.ui.view.SlashDateTimePicker>
 
+                    <com.slash.youth.ui.view.fly.SlashTimePicker
+                        android:id="@+id/stp_publish_service_choose_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="36dp"
+                        android:paddingLeft="80dp"
+                        android:paddingRight="80dp"
+                        android:paddingTop="37dp"
+                        android:visibility="@{publishServiceModel.timePickerVisibility}"
+                    >
+
+                    </com.slash.youth.ui.view.fly.SlashTimePicker>
+                </FrameLayout>
             </LinearLayout>
 
         </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.slash.youth.ui.view;
+package com.slash.youth.ui.view.fly;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -17,56 +17,45 @@ import java.util.Date;
 /**
  * Created by zhouyifeng on 2016/9/22.
  */
-public class SlashDateTimePicker extends RelativeLayout {
-    public SlashDateTimePicker(Context context) {
+public class SlashTimePicker extends RelativeLayout {
+    public SlashTimePicker(Context context) {
         super(context);
         initView();
     }
 
-    public SlashDateTimePicker(Context context, AttributeSet attrs) {
+    public SlashTimePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public SlashDateTimePicker(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SlashTimePicker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
-    String[] monthAndDay = {"", "", "", "", ""};
-    int[] monthIntArr = new int[5];
-    int[] dayIntArr = new int[5];
     String[] hours = {"", "", "", "", ""};
     int[] hourIntArr = new int[5];
     String[] minutes = {"", "", "", "", ""};
     int[] minuteIntArr = new int[5];
-    NumberPicker npMonthDay;
     NumberPicker npHour;
     NumberPicker npMinute;
     private Calendar mCalendar;
 
-    int currentChooseMonth;
-    int currentChooseDay;
     int currentChooseHour;
     int currentChooseMinute;
 
     private void initView() {
-        npMonthDay = new SlashNumberPicker(CommonUtils.getContext());
         npHour = new SlashNumberPicker(CommonUtils.getContext());
         npMinute = new SlashNumberPicker(CommonUtils.getContext());
 
-        RelativeLayout.LayoutParams paramsNpMonthDay = new RelativeLayout.LayoutParams(CommonUtils.dip2px(80), -2);
-        npMonthDay.setLayoutParams(paramsNpMonthDay);
-
-        RelativeLayout.LayoutParams paramsNpHour = new RelativeLayout.LayoutParams(-2, -2);
-        paramsNpHour.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        LayoutParams paramsNpHour = new LayoutParams(-2, -2);
+        paramsNpHour.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         npHour.setLayoutParams(paramsNpHour);
 
-        RelativeLayout.LayoutParams paramsNpMinute = new RelativeLayout.LayoutParams(-2, -2);
+        LayoutParams paramsNpMinute = new LayoutParams(-2, -2);
         paramsNpMinute.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         npMinute.setLayoutParams(paramsNpMinute);
 
-        addView(npMonthDay);
         addView(npHour);
         addView(npMinute);
 
@@ -78,19 +67,12 @@ public class SlashDateTimePicker extends RelativeLayout {
         mCalendar = Calendar.getInstance();
         Date date = new Date();
         mCalendar.setTime(date);
-        currentChooseMonth = mCalendar.get(Calendar.MONTH);
-        currentChooseDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         currentChooseHour = mCalendar.get(Calendar.HOUR_OF_DAY);
         currentChooseMinute = mCalendar.get(Calendar.MINUTE);
         initTime();
 
-        npMonthDay.setDisplayedValues(monthAndDay);
         npHour.setDisplayedValues(hours);
         npMinute.setDisplayedValues(minutes);
-
-        npMonthDay.setMinValue(0);
-        npMonthDay.setMaxValue(4);
-        npMonthDay.setValue(2);
 
         npHour.setMinValue(0);
         npHour.setMaxValue(4);
@@ -102,7 +84,6 @@ public class SlashDateTimePicker extends RelativeLayout {
     }
 
     private void initTime() {
-        mCalendar.add(Calendar.DAY_OF_MONTH, -3);
         int hour = mCalendar.get(Calendar.HOUR_OF_DAY) - 3;
         if (hour < 0) {
             hour = hour + 24;
@@ -112,12 +93,6 @@ public class SlashDateTimePicker extends RelativeLayout {
             minute = minute + 60;
         }
         for (int i = 0; i < 5; i++) {
-            mCalendar.add(Calendar.DAY_OF_MONTH, 1);
-            int month = mCalendar.get(Calendar.MONTH) + 1;
-            monthIntArr[i] = month;
-            int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-            dayIntArr[i] = day;
-            monthAndDay[i] = month + "月" + day + "日";
             hour++;
             if (hour > 23) {
                 hour = 0;
@@ -139,14 +114,9 @@ public class SlashDateTimePicker extends RelativeLayout {
                 minutes[i] = minute + "分";
             }
         }
-
-
-        //恢复到当前的时间
-        mCalendar.setTime(new Date());
     }
 
     private void initListener() {
-        npMonthDay.setOnValueChangedListener(new ChooseTimeListener("NpMonthDay"));
         npHour.setOnValueChangedListener(new ChooseTimeListener("NpHour"));
         npMinute.setOnValueChangedListener(new ChooseTimeListener("NpMinute"));
     }
@@ -161,7 +131,7 @@ public class SlashDateTimePicker extends RelativeLayout {
 
         @Override
         public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-            int length = monthAndDay.length;
+            int length = hours.length;
             int upVal = newVal - 2;
             int downVal = newVal + 2;
             if (upVal < 0) {
@@ -172,43 +142,6 @@ public class SlashDateTimePicker extends RelativeLayout {
             }
 
             switch (mCurrentId) {
-                case "NpMonthDay":
-                    boolean isUp;
-                    if (oldVal == 4 && newVal == 0) {
-                        isUp = true;
-                    } else if (oldVal == 0 && newVal == 4) {
-                        isUp = false;
-                    } else if (newVal > oldVal) {
-                        isUp = true;
-                    } else {
-                        isUp = false;
-                    }
-                    if (isUp) {
-                        //向上滚，日期增加
-                        mCalendar.add(Calendar.DAY_OF_MONTH, 1);
-                    } else {
-                        //向下滚，日期减少
-                        mCalendar.add(Calendar.DAY_OF_MONTH, -1);
-                    }
-                    mCalendar.add(Calendar.DAY_OF_MONTH, -2);
-                    int upMonth = mCalendar.get(Calendar.MONTH) + 1;
-                    int upDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    monthIntArr[upVal] = upMonth;
-                    dayIntArr[upVal] = upDay;
-                    monthAndDay[upVal] = upMonth + "月" + upDay + "日";
-
-                    mCalendar.add(Calendar.DAY_OF_MONTH, 4);
-                    int downMonth = mCalendar.get(Calendar.MONTH) + 1;
-                    int downDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    monthIntArr[downVal] = downMonth;
-                    dayIntArr[downVal] = downDay;
-                    monthAndDay[downVal] = downMonth + "月" + downDay + "日";
-
-                    //回到当前时间
-                    mCalendar.add(Calendar.DAY_OF_MONTH, -2);
-                    currentChooseMonth = mCalendar.get(Calendar.MONTH);
-                    currentChooseDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    break;
                 case "NpHour":
                     int chooseHour = hourIntArr[newVal];
                     hourIntArr[upVal] = chooseHour - 2;
@@ -319,14 +252,6 @@ public class SlashDateTimePicker extends RelativeLayout {
                 }
             }
         }
-    }
-
-    public int getCurrentChooseMonth() {
-        return currentChooseMonth + 1;
-    }
-
-    public int getCurrentChooseDay() {
-        return currentChooseDay;
     }
 
     public int getCurrentChooseHour() {

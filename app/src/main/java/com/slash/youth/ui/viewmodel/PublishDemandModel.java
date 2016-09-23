@@ -3,16 +3,22 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandBinding;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.activity.PublishDemandDescribeActivity;
+import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by zhouyifeng on 2016/9/17.
@@ -28,10 +34,48 @@ public class PublishDemandModel extends BaseObservable {
     int choosePublishType = PUBLISH_DEMAND_CONSULTATION;//默认选择咨询类
     boolean isCheckAllDay = true;
 
+    private String chooseStartDateTimeText;
+    private String chooseEndDateTimeText;
+
+    private int mStartDisplayMonth;
+    private int mStartDisplayDay;
+    private int mStartDisplayHour;
+    private int mStartDisplayMinute;
+    private int mEndDisplayMonth;
+    private int mEndDisplayDay;
+    private int mEndDisplayHour;
+    private int mEndDisplayMinute;
+    private SlashDateTimePicker mChooseDateTimePicker;
+    private boolean isSetStartDateTime;//true为设置开始时间 ，false为设置结束时间
+
+    private int chooseDateTimeLayerVisibility = View.INVISIBLE;//选择时间浮层时候显示，默认为不显示
+
 
     public PublishDemandModel(ActivityPublishDemandBinding activityPublishDemandBinding, Activity activity) {
         this.mActivityPublishDemandBinding = activityPublishDemandBinding;
         this.mActivity = activity;
+        initView();
+    }
+
+    private void initView() {
+        mChooseDateTimePicker = mActivityPublishDemandBinding.sdtpPublishDemandChooseDatetime;
+        initData();
+    }
+
+    private void initData() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        mStartDisplayMonth = calendar.get(Calendar.MONTH) + 1;
+        mStartDisplayDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mStartDisplayHour = calendar.get(Calendar.HOUR_OF_DAY);
+        mStartDisplayMinute = calendar.get(Calendar.MINUTE);
+        mEndDisplayMonth = mStartDisplayMonth;
+        mEndDisplayDay = mStartDisplayDay;
+        mEndDisplayHour = mStartDisplayHour;
+        mEndDisplayMinute = mStartDisplayMinute;
+
+        setChooseStartDateTimeText(mStartDisplayMonth + "月" + mStartDisplayDay + "日" + "-" + mStartDisplayHour + ":" + (mStartDisplayMinute < 10 ? "0" + mStartDisplayMinute : mStartDisplayMinute));
+        setChooseEndDateTimeText(mEndDisplayMonth + "月" + mEndDisplayDay + "日" + "-" + mEndDisplayHour + ":" + (mEndDisplayMinute < 10 ? "0" + mEndDisplayMinute : mEndDisplayMinute));
     }
 
     public void getDetailLocation(View v) {
@@ -95,6 +139,72 @@ public class PublishDemandModel extends BaseObservable {
             mActivityPublishDemandBinding.ivActivityPublishDemandCheckallday.setImageResource(R.mipmap.dui_icon);
         }
         isCheckAllDay = !isCheckAllDay;
+    }
+
+    @Bindable
+    public String getChooseEndDateTimeText() {
+        return chooseEndDateTimeText;
+    }
+
+    public void setChooseEndDateTimeText(String chooseEndDateTimeText) {
+        this.chooseEndDateTimeText = chooseEndDateTimeText;
+        notifyPropertyChanged(BR.chooseEndDateTimeText);
+    }
+
+    @Bindable
+    public String getChooseStartDateTimeText() {
+        return chooseStartDateTimeText;
+    }
+
+    public void setChooseStartDateTimeText(String chooseStartDateTimeText) {
+        this.chooseStartDateTimeText = chooseStartDateTimeText;
+        notifyPropertyChanged(BR.chooseStartDateTimeText);
+    }
+
+    @Bindable
+    public int getChooseDateTimeLayerVisibility() {
+        return chooseDateTimeLayerVisibility;
+    }
+
+    public void setChooseDateTimeLayerVisibility(int chooseDateTimeLayerVisibility) {
+        this.chooseDateTimeLayerVisibility = chooseDateTimeLayerVisibility;
+        notifyPropertyChanged(BR.chooseDateTimeLayerVisibility);
+    }
+
+    public void cancelChooseTime(View v) {
+        setChooseDateTimeLayerVisibility(View.INVISIBLE);
+    }
+
+    public void okChooseTime(View v) {
+        setChooseDateTimeLayerVisibility(View.INVISIBLE);
+        int currentChooseMonth = mChooseDateTimePicker.getCurrentChooseMonth();
+        int currentChooseDay = mChooseDateTimePicker.getCurrentChooseDay();
+        int currentChooseHour = mChooseDateTimePicker.getCurrentChooseHour();
+        int currentChooseMinute = mChooseDateTimePicker.getCurrentChooseMinute();
+        if (isSetStartDateTime) {
+            setChooseStartDateTimeText(currentChooseMonth + "月" + currentChooseDay + "日" + "-" + currentChooseHour + ":" + (currentChooseMinute < 10 ? "0" + currentChooseMinute : currentChooseMinute));
+            mStartDisplayMonth = currentChooseMonth;
+            mStartDisplayDay = currentChooseDay;
+            mStartDisplayHour = currentChooseHour;
+            mStartDisplayMinute = currentChooseMinute;
+        } else {
+            setChooseEndDateTimeText(currentChooseMonth + "月" + currentChooseDay + "日" + "-" + currentChooseHour + ":" + (currentChooseMinute < 10 ? "0" + currentChooseMinute : currentChooseMinute));
+            mEndDisplayMonth = currentChooseMonth;
+            mEndDisplayDay = currentChooseDay;
+            mEndDisplayHour = currentChooseHour;
+            mEndDisplayMinute = currentChooseMinute;
+        }
+
+    }
+
+    public void chooseStartDateTime(View v) {
+        isSetStartDateTime = true;
+        setChooseDateTimeLayerVisibility(View.VISIBLE);
+    }
+
+    public void chooseEndDateTime(View v) {
+        isSetStartDateTime = false;
+        setChooseDateTimeLayerVisibility(View.VISIBLE);
     }
 
 }
