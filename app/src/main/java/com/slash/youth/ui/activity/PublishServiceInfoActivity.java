@@ -29,5 +29,6 @@ public class PublishServiceInfoActivity extends Activity {
         if (requestCode == 10 && resultCode == 10) {
             mPublishServiceInfoModel.mSallSkillLabels.getAddLabelsResult(data);
         }
+        mPublishServiceInfoModel.mSaplAddPic.addPicResult(requestCode, resultCode, data);
     }
 }

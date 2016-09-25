@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.slash.youth.databinding.ActivityPublishDemandDescribeBinding;
 import com.slash.youth.ui.activity.PublishDemandModeActivity;
+import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.utils.CommonUtils;
 
 /**
@@ -17,6 +18,7 @@ public class PublishDemandDescModel extends BaseObservable {
     ActivityPublishDemandDescribeBinding mActivityPublishDemandDescribeBinding;
     Activity mActivity;
     Bundle publishDemandDataBundle;
+    public SlashAddPicLayout mSaplAddPic;
 
     public PublishDemandDescModel(ActivityPublishDemandDescribeBinding activityPublishDemandDescribeBinding, Activity activity, Bundle publishDemandDataBundle) {
         this.mActivityPublishDemandDescribeBinding = activityPublishDemandDescribeBinding;
@@ -26,8 +28,9 @@ public class PublishDemandDescModel extends BaseObservable {
     }
 
     private void initView() {
-
-
+        mSaplAddPic = mActivityPublishDemandDescribeBinding.saplPublishDemandAddpic;
+        mSaplAddPic.setActivity(mActivity);
+        mSaplAddPic.initPic();
     }
 
     public void goBack(View v) {
