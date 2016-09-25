@@ -32,12 +32,14 @@ public class SubscribeActivity extends Activity {
 
     private ActivitySubscribeBinding mActivitySubscribeBinding;
     private LinearLayout mLlCheckedLabels;
+    public String checkedFirstLabel = "未选择";
+    public String checkedSecondLabel = "未选择";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivitySubscribeBinding = DataBindingUtil.setContentView(this, R.layout.activity_subscribe);
-        ActivitySubscribeModel activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding);
+        ActivitySubscribeModel activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this);
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
 
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
@@ -100,6 +102,7 @@ public class SubscribeActivity extends Activity {
                 itemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
                 subscribeSecondSkilllabelHolder.clickItemPosition = position;
                 lastClickItemModel = itemSubscribeSecondSkilllabelModel;
+                checkedSecondLabel = itemSubscribeSecondSkilllabelModel.getSecondSkilllabelName();
                 setThirdSkilllabelData();
             }
         });
@@ -262,8 +265,8 @@ public class SubscribeActivity extends Activity {
     int checkedLabelLeftMargin = CommonUtils.dip2px(11);
     int totalCheckedLabelsWidth = 0;
     int currentLabelsLineWidth = 0;
-    ArrayList<String> listCheckedLabelTag = new ArrayList<String>();
-    ArrayList<String> listCheckedLabelName = new ArrayList<String>();
+    public ArrayList<String> listCheckedLabelTag = new ArrayList<String>();
+    public ArrayList<String> listCheckedLabelName = new ArrayList<String>();
 
 
     private void addCheckedLabels(String labelTag, String labelName) {

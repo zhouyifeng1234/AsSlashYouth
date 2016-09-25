@@ -43,6 +43,7 @@
                     android:layout_marginBottom="11dp"
                     android:layout_marginRight="11dp"
                     android:layout_marginTop="11dp"
+                    android:onClick="@{activitySubscribeModel.submitChooseSkillLabel}"
                     android:text="提交"
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>

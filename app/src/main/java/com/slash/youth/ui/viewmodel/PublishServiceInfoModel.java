@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.slash.youth.databinding.ActivityPublishServiceInfoBinding;
 import com.slash.youth.ui.activity.PublishServiceModeActivity;
+import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
 
 /**
@@ -15,10 +16,14 @@ import com.slash.youth.utils.CommonUtils;
 public class PublishServiceInfoModel extends BaseObservable {
     ActivityPublishServiceInfoBinding mActivityPublishServiceInfoBinding;
     Activity mActivity;
+    public SlashAddLabelsLayout mSallSkillLabels;
 
     public PublishServiceInfoModel(ActivityPublishServiceInfoBinding activityPublishServiceInfoBinding, Activity activity) {
         this.mActivityPublishServiceInfoBinding = activityPublishServiceInfoBinding;
         this.mActivity = activity;
+        mSallSkillLabels = mActivityPublishServiceInfoBinding.sallPublishServiceAddedSkilllabels;
+        mSallSkillLabels.setActivity(activity);
+        mSallSkillLabels.initSkillLabels();
         initView();
     }
 
