@@ -213,7 +213,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="17dp"
+                        android:layout_gravity="center_horizontal"
                         android:orientation="horizontal"
                     >
                         <RelativeLayout
@@ -223,15 +223,16 @@
                         >
                             <ImageView
                                 android:id="@+id/iv_addpic"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="91dp"
+                                android:layout_height="91dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="10dp"
                                 android:src="@mipmap/jiatu_icon"/>
-                            <ImageButton android:layout_width="wrap_content"
-                                         android:layout_height="wrap_content"
-                                         android:background="@android:color/transparent"
-                                         android:src="@mipmap/guanbi_icon"/>
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/guanbi_icon"/>
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -240,21 +241,22 @@
                             android:layout_marginLeft="7dp"
                         >
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="91dp"
+                                android:layout_height="91dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="10dp"
                                 android:src="@mipmap/jiatu_icon"/>
-                            <ImageButton android:layout_width="wrap_content"
-                                         android:layout_height="wrap_content"
-                                         android:background="@android:color/transparent"
-                                         android:src="@mipmap/guanbi_icon"/>
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/guanbi_icon"/>
                         </RelativeLayout>
 
                         <ImageView
                             android:id="@+id/iv_publish_service_describe_addpic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="91dp"
+                            android:layout_height="91dp"
                             android:layout_marginLeft="17dp"
                             android:layout_marginTop="10dp"
                             android:src="@mipmap/jiatu_icon"/>

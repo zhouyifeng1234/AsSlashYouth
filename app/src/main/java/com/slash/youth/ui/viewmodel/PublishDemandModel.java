@@ -55,14 +55,14 @@ public class PublishDemandModel extends BaseObservable {
     public PublishDemandModel(ActivityPublishDemandBinding activityPublishDemandBinding, Activity activity) {
         this.mActivityPublishDemandBinding = activityPublishDemandBinding;
         this.mActivity = activity;
-        mSallSkillLabels.setActivity(mActivity);
-        mSallSkillLabels.initSkillLabels();
         initView();
     }
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishDemandBinding.sdtpPublishDemandChooseDatetime;
         mSallSkillLabels = mActivityPublishDemandBinding.sallPublishDemandAddedSkilllabels;
+        mSallSkillLabels.setActivity(mActivity);
+        mSallSkillLabels.initSkillLabels();
         initData();
     }
 
