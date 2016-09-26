@@ -3,10 +3,12 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceModeBinding;
 import com.slash.youth.ui.activity.MapActivity;
@@ -30,6 +32,9 @@ public class PublishServiceModeModel extends BaseObservable {
     int offlineCostType = OFFLINE_COST_TYPE_EMPLOYER;//线下消费方式，默认为“雇主请客”
     boolean isTurnOnSafeBox = true;//是否开启保险箱，默认为开启
     boolean isTurnOn2YuanRewardPlan = true;//是否开启两元奖励计划，默认为true
+    private int mPublishServiceType;
+    private int offlineServiceItemVisibility;
+    private int payServiceItemVisibility;
 
     public PublishServiceModeModel(ActivityPublishServiceModeBinding activityPublishServiceModeBinding, Activity activity) {
         this.mActivity = activity;
@@ -39,8 +44,12 @@ public class PublishServiceModeModel extends BaseObservable {
     }
 
     private void initView() {
+        initData();
+        displayServiceModeItem();
+    }
 
-
+    private void initData() {
+        mPublishServiceType = mPublishServiceDataBundle.getInt("publishServiceType");
     }
 
     public void goBack(View v) {
@@ -76,6 +85,7 @@ public class PublishServiceModeModel extends BaseObservable {
         mActivityPublishServiceModeBinding.viewPublishOfflineServiceUnderline.setLayoutParams(paramsOffline);
 
         isOnlineService = true;
+        displayServiceModeItem();
     }
 
     /**
@@ -96,6 +106,7 @@ public class PublishServiceModeModel extends BaseObservable {
         mActivityPublishServiceModeBinding.viewPublishOfflineServiceUnderline.setLayoutParams(paramsOffline);
 
         isOnlineService = false;
+        displayServiceModeItem();
     }
 
 
@@ -192,5 +203,30 @@ public class PublishServiceModeModel extends BaseObservable {
             mActivityPublishServiceModeBinding.iv2yuanRewardplanToggleHandle.setLayoutParams(params);
         }
         isTurnOn2YuanRewardPlan = !isTurnOn2YuanRewardPlan;
+    }
+
+    @Bindable
+    public int getOfflineServiceItemVisibility() {
+        return offlineServiceItemVisibility;
+    }
+
+    public void setOfflineServiceItemVisibility(int offlineServiceItemVisibility) {
+        this.offlineServiceItemVisibility = offlineServiceItemVisibility;
+        notifyPropertyChanged(BR.offlineServiceItemVisibility);
+    }
+
+    @Bindable
+    public int getPayServiceItemVisibility() {
+        return payServiceItemVisibility;
+    }
+
+    public void setPayServiceItemVisibility(int payServiceItemVisibility) {
+        this.payServiceItemVisibility = payServiceItemVisibility;
+        notifyPropertyChanged(BR.payServiceItemVisibility);
+    }
+
+    public void displayServiceModeItem() {
+        setOfflineServiceItemVisibility(isOnlineService ? View.GONE : View.VISIBLE);
+        setPayServiceItemVisibility(mPublishServiceType == PublishServiceInfoModel.PUBLISH_SERVICE_TYPE_PAY ? View.VISIBLE : View.GONE);
     }
 }
