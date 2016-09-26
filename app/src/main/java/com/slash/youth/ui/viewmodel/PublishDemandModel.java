@@ -99,6 +99,17 @@ public class PublishDemandModel extends BaseObservable {
         Bundle publishDemandDataBundle = new Bundle();
         publishDemandDataBundle.putBoolean("isRealNamePublish", isRealNamePublish);
         publishDemandDataBundle.putInt("choosePublishType", choosePublishType);
+        publishDemandDataBundle.putStringArrayList("listTotalAddedLabels", mSallSkillLabels.getAddedSkillLabels());
+        publishDemandDataBundle.putInt("mStartDisplayMonth", mStartDisplayMonth);
+        publishDemandDataBundle.putInt("mStartDisplayDay", mStartDisplayDay);
+        publishDemandDataBundle.putInt("mStartDisplayHour", mStartDisplayHour);
+        publishDemandDataBundle.putInt("mStartDisplayMinute", mStartDisplayMinute);
+        publishDemandDataBundle.putInt("mEndDisplayMonth", mEndDisplayMonth);
+        publishDemandDataBundle.putInt("mEndDisplayDay", mEndDisplayDay);
+        publishDemandDataBundle.putInt("mEndDisplayHour", mEndDisplayHour);
+        publishDemandDataBundle.putInt("mEndDisplayMinute", mEndDisplayMinute);
+        publishDemandDataBundle.putBoolean("isCheckAllDay", isCheckAllDay);
+
 
         intentPublishDemandDescActivity.putExtra("publishDemandDataBundle", publishDemandDataBundle);
         intentPublishDemandDescActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -122,8 +122,10 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:onClick="@{publishServiceModeModel.choosePublishOnlineService}">
                         <TextView
+                            android:id="@+id/tv_publish_online_service_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
@@ -132,6 +134,7 @@
                             android:textSize="15sp"/>
 
                         <View
+                            android:id="@+id/view_publish_online_service_underline"
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
                             android:layout_alignParentBottom="true"
@@ -141,8 +144,10 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:onClick="@{publishServiceModeModel.choosePublishOfflineService}">
                         <TextView
+                            android:id="@+id/tv_publish_offline_service_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
@@ -151,6 +156,7 @@
                             android:textSize="15sp"/>
 
                         <View
+                            android:id="@+id/view_publish_offline_service_underline"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_alignParentBottom="true"
@@ -168,34 +174,52 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/btn_employer_treat"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:text="地图定位"
-                        android:textColor="#777777" android:textSize="13sp"/>
+                        android:onClick="@{publishServiceModeModel.checkMapLocation}"
+                        android:orientation="horizontal"
+                    >
+                        <ImageView
+                            android:id="@+id/iv_service_maplocation_checked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/btn_employer_treat"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="6dp"
+                            android:text="地图定位"
+                            android:textColor="#777777" android:textSize="13sp"/>
+                    </LinearLayout>
                     <View android:layout_width="0dp" android:layout_height="0dp"
                           android:layout_weight="1"/>
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/ellipse_4"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:text="区域范围"
-                        android:textColor="#777777"
-                        android:textSize="13sp"/>
+                        android:onClick="@{publishServiceModeModel.checkAreaRange}"
+                        android:orientation="horizontal"
+                    >
+                        <ImageView
+                            android:id="@+id/iv_service_arearange_checked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/ellipse_4"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="6dp"
+                            android:text="区域范围"
+                            android:textColor="#777777"
+                            android:textSize="13sp"/>
 
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -205,7 +229,7 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginRight="17dp"
                     android:layout_marginTop="10dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                 >
                     <com.amap.api.maps2d.MapView
                         android:id="@+id/mapview_activity_publish_service_mode"
@@ -249,12 +273,14 @@
                     android:layout_marginTop="13dp"
                     android:background="@drawable/shape_publish_damand_rounded_rectangle">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_centerInParent="true"
-                        android:text="地点补充描述"
-                        android:textColor="#999999"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:hint="地点补充描述"
+                        android:textColorHint="#999999"
                         android:textSize="15sp"/>
                 </RelativeLayout>
 
@@ -312,7 +338,6 @@
                     android:background="#E5E5E5"
                 />
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -338,8 +363,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="￥0.00"
+                        android:text="￥"
                         android:textColor="#999999"
+                        android:textSize="15sp"
+                    />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:hint="0.00"
+                        android:textColor="#999999"
+                        android:textColorHint="#999999"
                         android:textSize="15sp"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -347,7 +382,6 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="11dp"
                         android:src="@mipmap/qian_icon"/>
-
 
                 </LinearLayout>
 
@@ -380,36 +414,53 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <ImageButton
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/btn_employer_treat"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" android:layout_marginLeft="7dp"
-                        android:text="雇主请客"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                    />
-                    <ImageButton
+                        android:onClick="@{publishServiceModeModel.checkedOfflineCostTypeEmployer}"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/iv_offlinecost_employer_checked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/btn_employer_treat"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="7dp"
+                            android:text="雇主请客"
+                            android:textColor="#999999"
+                            android:textSize="13sp"
+                        />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="19dp"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/ellipse_4"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" android:layout_marginLeft="6dp"
-                        android:text="AA制"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                    />
+                        android:onClick="@{publishServiceModeModel.checkedOfflineCostTypeAA}"
+                        android:orientation="horizontal"
+                    >
+                        <ImageView
+                            android:id="@+id/iv_offlinecost_aa_checked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/ellipse_4"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" android:layout_marginLeft="6dp"
+                            android:text="AA制"
+                            android:textColor="#999999"
+                            android:textSize="13sp"
+                        />
 
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -438,20 +489,29 @@
                         android:textColor="#333333"
                         android:textSize="15sp"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="32dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/background_safebox_toggle"/>
+                        android:onClick="@{publishServiceModeModel.toggleSafeBox}"
+                    >
+                        <ImageView
+                            android:id="@+id/iv_service_safebox_toggle_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/background_safebox_toggle"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/handle"/>
-
+                        <ImageView
+                            android:id="@+id/iv_service_safebox_toggle_handle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/handle"/>
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -480,19 +540,30 @@
                         android:textColor="#333333"
                         android:textSize="15sp"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="32dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/safebox_toggle_off"/>
+                        android:onClick="@{publishServiceModeModel.toggle2yuanRewardPlan}"
+                    >
+                        <ImageView
+                            android:id="@+id/iv_2yuan_rewardplan_toggle_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/background_safebox_toggle"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/handle"/>
+                        <ImageView
+                            android:id="@+id/iv_2yuan_rewardplan_toggle_handle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/handle"/>
+
+                    </RelativeLayout>
 
 
                 </RelativeLayout>

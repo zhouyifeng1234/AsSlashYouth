@@ -163,6 +163,7 @@
                             android:textSize="12sp"/>
                     </LinearLayout>
                     <EditText
+                        android:id="@+id/et_publish_demand_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="17dp"
@@ -203,6 +204,7 @@
                             android:textSize="12sp"/>
                     </LinearLayout>
                     <EditText
+                        android:id="@+id/et_publish_demand_desc"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginLeft="17dp"

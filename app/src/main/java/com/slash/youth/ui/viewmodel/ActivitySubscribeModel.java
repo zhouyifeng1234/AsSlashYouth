@@ -55,4 +55,8 @@ public class ActivitySubscribeModel extends BaseObservable {
         mActivity.setResult(10, intentResult);
         mActivity.finish();
     }
+
+    public void goBack(View v) {
+        mActivity.finish();
+    }
 }

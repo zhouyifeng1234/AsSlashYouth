@@ -33,6 +33,7 @@
                     android:layout_marginLeft="11dp"
                     android:layout_marginTop="11dp"
                     android:background="@android:color/transparent"
+                    android:onClick="@{activitySubscribeModel.goBack}"
                     android:src="@mipmap/nav_back"
                 />
                 <TextView

@@ -114,10 +114,12 @@
                                 android:textColor="#666666"
                                 android:textSize="14dp"/>
                             <ImageButton
+                                android:id="@+id/ivbtn_publish_demand_realname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:background="@android:color/transparent"
+                                android:onClick="@{publishServiceModel.setRealName}"
                                 android:src="@mipmap/selected_icon"/>
                         </RelativeLayout>
 
@@ -140,10 +142,12 @@
                                 android:textColor="#666666"
                                 android:textSize="14dp"/>
                             <ImageButton
+                                android:id="@+id/ivbtn_publish_demand_anonymous"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:background="@android:color/transparent"
+                                android:onClick="@{publishServiceModel.setAnonymous}"
                                 android:src="@mipmap/service_ptype_moren_icon"/>
                         </RelativeLayout>
 
@@ -371,105 +375,141 @@
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="一"
-                                    android:textColor="#ffffff"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
+
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="二"
-                                    android:textColor="#ffffff"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg_selected"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="三"
-                                    android:textColor="#CCCCCC"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="四"
-                                    android:textColor="#ffffff"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="五"
-                                    android:textColor="#ffffff"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="六"
-                                    android:textColor="#ffffff"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
+                                android:layout_weight="1"
+                                android:onClick="@{publishServiceModel.chooseServiceCycle}">
                                 <TextView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/shape_round_choosecycle_bg"
+                                    android:background="@drawable/selector_service_cycle_choose"
+                                    android:clickable="true"
+                                    android:enabled="true"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
                                     android:gravity="center"
                                     android:text="日"
-                                    android:textColor="#ffffff"
+                                    android:textColor="@color/selector_service_cycle_choose_textcolor"
                                     android:textSize="12sp"
                                 />
                             </FrameLayout>
@@ -542,9 +582,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:onClick="@{publishServiceModel.cancelChooseTime}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{publishServiceModel.cancelChooseTime}"
                         android:padding="12dp"
                         android:text="取消"
                         android:textColor="#999999"

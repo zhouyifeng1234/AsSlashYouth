@@ -179,4 +179,8 @@ public class SlashAddPicLayout extends LinearLayout {
         this.mActivity = activity;
     }
 
+    public ArrayList<String> getAddedPicTempPath() {
+        return listFilePath;
+    }
+
 }

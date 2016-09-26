@@ -6,7 +6,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
@@ -49,6 +52,9 @@ public class PublishServiceModel extends BaseObservable {
     private int mEndDisplayHour;
     private int mEndDisplayMinute;
 
+    boolean isRealName = true;//是否为实名发布服务，默认为true
+    String chooseServiceCycle = "一";//选择的服务周期，默认为“一”
+
     public PublishServiceModel(ActivityPublishServiceBinding activityPublishServiceBinding, Activity activity) {
         this.mActivityPublishServiceBinding = activityPublishServiceBinding;
         initView();
@@ -82,6 +88,22 @@ public class PublishServiceModel extends BaseObservable {
 
     public void nextStep(View v) {
         Intent intentPublishServiceInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceInfoActivity.class);
+
+        Bundle publishServiceDataBundle = new Bundle();
+        publishServiceDataBundle.putBoolean("isRealName", isRealName);
+        publishServiceDataBundle.putInt("chooseIdleTimeType", chooseIdleTimeType);
+        publishServiceDataBundle.putString("chooseServiceCycle", chooseServiceCycle);
+        publishServiceDataBundle.putBoolean("isAllDayChecked",isAllDayChecked);
+        publishServiceDataBundle.putInt("mStartDisplayMonth", mStartDisplayMonth);
+        publishServiceDataBundle.putInt("mStartDisplayDay", mStartDisplayDay);
+        publishServiceDataBundle.putInt("mStartDisplayHour", mStartDisplayHour);
+        publishServiceDataBundle.putInt("mStartDisplayMinute", mStartDisplayMinute);
+        publishServiceDataBundle.putInt("mEndDisplayMonth", mEndDisplayMonth);
+        publishServiceDataBundle.putInt("mEndDisplayDay", mEndDisplayDay);
+        publishServiceDataBundle.putInt("mEndDisplayHour", mEndDisplayHour);
+        publishServiceDataBundle.putInt("mEndDisplayMinute", mEndDisplayMinute);
+
+        intentPublishServiceInfoActivity.putExtra("publishServiceDataBundle", publishServiceDataBundle);
         intentPublishServiceInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentPublishServiceInfoActivity);
     }
@@ -245,5 +267,23 @@ public class PublishServiceModel extends BaseObservable {
     public void setEndIdleTimeText(String endIdleTimeText) {
         this.endIdleTimeText = endIdleTimeText;
         notifyPropertyChanged(BR.endIdleTimeText);
+    }
+
+
+    public void setRealName(View v) {
+        mActivityPublishServiceBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.selected_icon);
+        mActivityPublishServiceBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.service_ptype_moren_icon);
+        isRealName = true;
+    }
+
+    public void setAnonymous(View v) {
+        mActivityPublishServiceBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.service_ptype_moren_icon);
+        mActivityPublishServiceBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.selected_icon);
+        isRealName = false;
+    }
+
+    public void chooseServiceCycle(View v) {
+        TextView tvCycleText = (TextView) ((FrameLayout) v).getChildAt(0);
+        chooseServiceCycle = tvCycleText.getText().toString();
     }
 }

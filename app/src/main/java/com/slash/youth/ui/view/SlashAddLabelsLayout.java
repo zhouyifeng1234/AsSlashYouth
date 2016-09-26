@@ -191,4 +191,8 @@ public class SlashAddLabelsLayout extends LinearLayout {
         this.mActivity = activity;
     }
 
+    public ArrayList<String> getAddedSkillLabels() {
+        return listTotalAddedLabels;
+    }
+
 }
