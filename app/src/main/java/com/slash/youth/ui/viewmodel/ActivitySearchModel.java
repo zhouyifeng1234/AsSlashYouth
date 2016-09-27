@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.AlertDialog;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -11,56 +12,81 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
-import com.slash.youth.databinding.DialogHomeSubscribeBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
-import com.slash.youth.domain.DemandBean;
+import com.slash.youth.databinding.SearchActivityHotServiceBinding;
+import com.slash.youth.databinding.SearchNeedResultTabBinding;
+import com.slash.youth.domain.SearchAllItem;
 import com.slash.youth.domain.SkillLabelBean;
-import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
+import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchContentListAdapter;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
-
 import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/9/18.
  */
-public class ActivitySearchModel extends BaseObservable implements View.OnClickListener {
+public class ActivitySearchModel extends BaseObservable {
     ActivitySearchBinding mActivitySearchBinding;
     private boolean isShow;
     private  SearchContentListAdapter adapter;
-    private ListView lv_showSearchResult;
+    private SearchNeedResultTabBinding searchNeedResultTabBinding;
+    private View searchView;
+    private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
+    private int  SearchType;
+    private int  SearchNeed = 1;
+    private int  SearchService = 2;
+    private int  SearchPerson = 3;
 
+
+    public void setSearchNeedResultTabBinding(SearchNeedResultTabBinding searchNeedResultTabBinding) {
+        this.searchNeedResultTabBinding = searchNeedResultTabBinding;
+    }
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
-        initView();
+        //搜索框的监听
+        searchListener();
+
     }
 
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
 
     private void initView() {
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
-        mActivitySearchBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
-
+        //zss  先展示首页
+       searchView.findViewById(R.id.lv_activity_search_second_skilllable_list).setVerticalScrollBarEnabled(false);
+        searchView.findViewById(R.id.sv_activity_search_third_skilllabel).setVerticalScrollBarEnabled(false);
         initData();
         initListener();
         //TODO 监听搜索框的搜索,zss
-        searchListener();
+      //  searchListener();
 
     }
 
     private void searchListener() {
-        //TODO 添加联想搜索,zss
+        //点击一下搜索框出现,zss
+        mActivitySearchBinding.etActivitySearchAssociation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogKit.d("首页隐藏，搜索历史出现");
+                mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
+                mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
+                //加载搜索框历史的数据
+                initSearchHistoryData();
+                //删除单条和清除所有
+                cleanAll(true);
+            }
+        });
+
+        // 搜索框里面文字变化，出现联想搜索
         mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -68,8 +94,11 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mActivitySearchBinding.llActivityHotService.setVisibility(View.GONE);
-                mActivitySearchBinding.lvLvSearchcontent.setVisibility(View.VISIBLE);
+                //下面的首页隐藏
+                mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
+                //显示搜索
+                mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
+
                 //文字监听不为0，就显示搜索内容
                 if (s.length()!=0) {
                    isShow = false;
@@ -96,58 +125,66 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
             @Override
             public void onClick(View v) {
             //显示结果页面
-          //  LogKit.d("显示搜索结果页面");
-          showSearchReasult();
+            LogKit.d("显示直接搜索结果页面");
+
+          //直接搜索结果
+           showSearchAllReasultView();
+
             }
         });
     }
+    //zss 直接搜索结果
+    private void showSearchAllReasultView() {
+     mActivitySearchBinding.flSearchFirst.removeAllViews();
+    ListView listView = new ListView(CommonUtils.getContext());
+     //接口传入数据
+        ArrayList<SearchAllItem> arrayList = new ArrayList<>();
+        arrayList.add(new SearchAllItem());
+        arrayList.add(new SearchAllItem());
+        arrayList.add(new SearchAllItem());
+        arrayList.add(new SearchAllItem());
+        arrayList.add(new SearchAllItem());
+        arrayList.add(new SearchAllItem());
+        PagerSearchItemAdapter pagerSearchItemAdapter = new PagerSearchItemAdapter(arrayList);
+        listView.setAdapter(pagerSearchItemAdapter);
+     mActivitySearchBinding.flSearchFirst.addView(listView);
+
+    }
+
+    private void initSearchHistoryData() {
+        //TODO 联想搜索的内容，假的数据从服务端获取，zss
+        ArrayList<String> search_contentlist = new ArrayList<>();
+        search_contentlist.add("独墅湖高教区");
+        search_contentlist.add("翰邻里中心");
+        search_contentlist.add("克苏勒苏");
+        adapter= new SearchContentListAdapter(search_contentlist,true);
+        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
+
+    }
+
     //zss 显示搜索页面
-    private void showSearchReasult() {
-        //先把当前的页面隐藏
-        mActivitySearchBinding.llActivityHotService.setVisibility(View.GONE);
-        //添加一个布局，获取布局的view
-        View view = getView(R.layout.include_search_result);
-        lv_showSearchResult = (ListView) view.findViewById(R.id.lv_showSearchResult);
-        //获取listview要展示的数据
-        setSearchResultData();
-        mActivitySearchBinding.flSearchResult.addView(view);
-        mActivitySearchBinding.flSearchResult.setVisibility(View.VISIBLE);
-        //设置指示器的点击事件,三个不同的指示器的监听事件
-        view.findViewById(R.id.rl_tab_line).setOnClickListener(this);
-        view.findViewById(R.id.rl_tab_user).setOnClickListener(this);
-        view.findViewById(R.id.rl_tab_time).setOnClickListener(this);
+    private void showSearchReasult()  {
+        //先把当前的页面隐藏,展示需要的布局
+        mActivitySearchBinding.flSearch.removeAllViews();
+        switch (SearchType){
+            case 1:
+               // SearchNeedResultTabModel.SearchType =1;
+                mActivitySearchBinding.flSearch.addView(searchNeedResultTabBinding.getRoot());
+                break;
+            case 2:
+               // SearchNeedResultTabModel.SearchType = 2;
+                mActivitySearchBinding.flSearch.addView(searchNeedResultTabBinding.getRoot());
+                break;
+            case 3:
+               // SearchNeedResultTabModel.SearchType = 3;
+                searchNeedResultTabBinding.llSearchTabHead.setVisibility(View.GONE);
+                searchNeedResultTabBinding.lvShowSearchResult.setVisibility(View.GONE);
+                searchNeedResultTabBinding.llSearchTab2.setVisibility(View.VISIBLE);
+                searchNeedResultTabBinding.lvShowSearchPerson.setVisibility(View.VISIBLE);
+                mActivitySearchBinding.flSearch.addView(searchNeedResultTabBinding.getRoot());
 
-    }
-    //获取view
-    private View getView(int layout) {
-        mActivitySearchBinding.flSearchResult.removeAllViews();
-        return View.inflate(CommonUtils.getContext(),layout,null);
-    }
-
-    private View getView(boolean isremove,int layout) {
-        if (isremove) {
-            mActivitySearchBinding.flSearchResult.removeAllViews();
+                break;
         }
-        return View.inflate(CommonUtils.getContext(),layout,null);
-    }
-
-
-
-    //zss 设置搜索结果数据
-    private void setSearchResultData() {
-
-        //假数据，真实数据从服务端接口获取
-        ArrayList<DemandBean> listDemand = new ArrayList<DemandBean>();
-        //集合里对象信息也要重新设置
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        lv_showSearchResult.setAdapter(new PagerHomeDemandtAdapter(listDemand));
     }
 
     //zss 显示清除所有历史
@@ -214,15 +251,15 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
         listSkilllabel.add(new SkillLabelBean("高管"));
         listSkilllabel.add(new SkillLabelBean("运营"));
         listSkilllabel.add(new SkillLabelBean("销售"));
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
+        ((ListView)searchView.findViewById(R.id.lv_activity_search_second_skilllable_list)).setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
         SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {
+        searchView.findViewById(R.id.lv_activity_search_second_skilllable_list).post(new Runnable() {
             @Override
             public void run() {
-                View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySearchBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
+                View lvActivitySubscribeSecondSkilllableListFirstChild = ((ListView) searchView.findViewById(R.id.lv_activity_search_second_skilllable_list)).getChildAt(0);
                 LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
-                SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
-                lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
+                SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();//获取他的tag
+                lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;//tag建立数据模型
             }
         });
         setThirdSkilllabelData();
@@ -269,15 +306,15 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
         listThirdSkilllabelName.add("APP设计");
         listThirdSkilllabelName.add("APP开发设计");
         listThirdSkilllabelName.add("APP开发");
-        mActivitySearchBinding.llActivitySearchThirdSkilllabel.removeAllViews();
-        mActivitySearchBinding.llActivitySearchThirdSkilllabel.post(new Runnable() {
+        ((LinearLayout)searchView.findViewById(R.id.ll_activity_search_third_skilllabel)).removeAllViews();
+        searchView.findViewById(R.id.ll_activity_search_third_skilllabel).post(new Runnable() {
             LinearLayout llSkilllabelLine;
             int lineCount = 0;
 //            int lineLabelCount = 0;
 
             @Override
             public void run() {
-                int scrollViewWidth = mActivitySearchBinding.llActivitySearchThirdSkilllabel.getMeasuredWidth();
+                int scrollViewWidth = searchView.findViewById(R.id.ll_activity_search_third_skilllabel).getMeasuredWidth();
                 scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
 
                 int labelRightMargin = CommonUtils.dip2px(10);
@@ -285,7 +322,7 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
 
 
                 for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
-                    String thirdSkilllabelName = listThirdSkilllabelName.get(i);
+                    String thirdSkilllabelName = listThirdSkilllabelName.get(i);//这是第几个技能名字
 
                     //创建标签TextView
                     LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2);
@@ -307,7 +344,7 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
 //                    lineLabelCount++;
                     if (skillLabelLineWidth != 0) {
                         if (newSkillLabelLineWidth >= scrollViewWidth) {
-                            mActivitySearchBinding.llActivitySearchThirdSkilllabel.addView(llSkilllabelLine);
+                            ((LinearLayout)searchView.findViewById(R.id.ll_activity_search_third_skilllabel)).addView(llSkilllabelLine);
                             createLabelLine();
                             llSkilllabelLine.addView(tvThirdSkilllabelName);
                             skillLabelLineWidth = tvThirdSkilllabelWidth;
@@ -321,12 +358,27 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
                         llSkilllabelLine.addView(tvThirdSkilllabelName);
 
                         if (newSkillLabelLineWidth >= scrollViewWidth) {
-                            mActivitySearchBinding.llActivitySearchThirdSkilllabel.addView(llSkilllabelLine);
+                           ((LinearLayout)searchView.findViewById(R.id.ll_activity_search_third_skilllabel)).addView(llSkilllabelLine);
                             skillLabelLineWidth = 0;
                         } else {
                             skillLabelLineWidth = newSkillLabelLineWidth;
                         }
                     }
+
+                    //不同的textview的点击事件
+                    tvThirdSkilllabelName.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            LogKit.d("点击的textview"+((TextView)v).getText());
+                            String skillName = (String) ((TextView) v).getText();
+                            EditText et = (EditText) searchView.findViewById(R.id.et_activity_search_association);
+                            et.setText(skillName);
+                            et.setTextColor(Color.BLACK);
+                        //展示搜索结果的页面
+                            LogKit.d("展示搜索结果的页面");
+                            showSearchReasult();
+                        }
+                    });
                 }
             }
 
@@ -348,9 +400,11 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
     }
 
     private void initListener() {
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //监听搜索首页
+        ((ListView)searchView.findViewById(R.id.lv_activity_search_second_skilllable_list)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LogKit.d("首页监听");
                 if (lastClickItemModel != null) {
                     lastClickItemModel.setSecondSkilllabelColor(0xff333333);
                 }
@@ -363,41 +417,55 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
             }
         });
 
+        //三个对应搜索的推出按钮监听
+        searchView.findViewById(R.id.ib_subSearch_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            //清除当前布局，返回前一页的布局
+                LogKit.d("search_back");
+            mActivitySearchBinding.flSearch.removeView(searchView);
+            }
+        });
+
+        //三个对应搜索的取消按钮
+        //TODO /////////////////////////////////////////
+
+
     }
-    //zss 指示器的点击事件
-    private  boolean isClick ;
-    @Override
-    public void onClick(View v) {
-    switch (v.getId()){
-        //线上用户
-        case R.id.rl_tab_line:
-            setImageView(v,R.id.iv_line_icon,R.mipmap.free_play,R.mipmap.free_pay_jihuo);
-            //展示线上的选择页面
-           // getView(false,);
-
-
-            break;
-        //认证用户
-        case R.id.rl_tab_user:
-            setImageView(v,R.id.iv_user_icon,R.mipmap.free_play,R.mipmap.free_pay_jihuo);
-            break;
-        //时间
-        case R.id.rl_tab_time:
-            setImageView(v,R.id.iv_time_icon,R.mipmap.xia,R.mipmap.shang_icon);
-            break;
-
-        }
-    }
-    //指示器设置图片,zss
-    private void setImageView(View v,int iv1,int iv2,int iv3) {
-        if (isClick){
-            ((ImageView)v.findViewById(iv1)).setImageResource(iv2);
-        }else {
-            ((ImageView)v.findViewById(iv1)).setImageResource(iv3);
-        }
-        isClick = !isClick;
+    //搜索需求
+    public void searchNeed(View v) {
+   // LogKit.d("SearchNeed");
+        showView("热搜需求");
+        initView();
+        SearchType = SearchNeed;
     }
 
+    //搜索服务
+    public void searchService(View v) {
+       // LogKit.d("SearchService");
+        showView("热搜服务");
+        initView();
+        SearchType = SearchService;
+    }
 
+    //搜索人
+    public void searchPerson(View v){
+      //  LogKit.d("SearchPerson");
+        showView("搜人");
+        initView();
+        SearchType = SearchPerson;
+    }
+
+    private void showView(String title) {
+        searchView = View.inflate(CommonUtils.getContext(), R.layout.search_activity_hot_service, null);
+        ((TextView) searchView.findViewById(R.id.tv_search_title)).setText(title);
+        mActivitySearchBinding.flSearch.addView(searchView);
+    }
+
+    //退出当前的页面
+    public void back(View v){
+      //  LogKit.d("back");
+        CommonUtils.getCurrentActivity().finish();
+    }
 
 }
