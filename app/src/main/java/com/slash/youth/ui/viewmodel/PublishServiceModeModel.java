@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
@@ -35,6 +36,10 @@ public class PublishServiceModeModel extends BaseObservable {
     private int mPublishServiceType;
     private int offlineServiceItemVisibility;
     private int payServiceItemVisibility;
+    private int aroundKilometersLayerVisibility = View.INVISIBLE;//选择周边几公里的浮层是否显示，默认为不显示
+    private String chooseAroundKilometersValue;
+    private NumberPicker mNpAroundKilometers;
+    String[] aroundKilometersArr = new String[]{"1公里", "2公里", "3公里", "5公里", "10公里", "20公里", "50公里"};
 
     public PublishServiceModeModel(ActivityPublishServiceModeBinding activityPublishServiceModeBinding, Activity activity) {
         this.mActivity = activity;
@@ -44,12 +49,17 @@ public class PublishServiceModeModel extends BaseObservable {
     }
 
     private void initView() {
+        mNpAroundKilometers = mActivityPublishServiceModeBinding.npPublishServiceAroundKilometers;
         initData();
         displayServiceModeItem();
     }
 
     private void initData() {
         mPublishServiceType = mPublishServiceDataBundle.getInt("publishServiceType");
+        mNpAroundKilometers.setDisplayedValues(aroundKilometersArr);
+        mNpAroundKilometers.setMinValue(0);
+        mNpAroundKilometers.setMaxValue(aroundKilometersArr.length - 1);
+        mNpAroundKilometers.setValue(2);
     }
 
     public void goBack(View v) {
@@ -229,4 +239,35 @@ public class PublishServiceModeModel extends BaseObservable {
         setOfflineServiceItemVisibility(isOnlineService ? View.GONE : View.VISIBLE);
         setPayServiceItemVisibility(mPublishServiceType == PublishServiceInfoModel.PUBLISH_SERVICE_TYPE_PAY ? View.VISIBLE : View.GONE);
     }
+
+    @Bindable
+    public int getAroundKilometersLayerVisibility() {
+        return aroundKilometersLayerVisibility;
+    }
+
+    public void setAroundKilometersLayerVisibility(int aroundKilometersLayerVisibility) {
+        this.aroundKilometersLayerVisibility = aroundKilometersLayerVisibility;
+        notifyPropertyChanged(BR.aroundKilometersLayerVisibility);
+    }
+
+    @Bindable
+    public String getChooseAroundKilometersValue() {
+        return chooseAroundKilometersValue;
+    }
+
+    public void setChooseAroundKilometersValue(String chooseAroundKilometersValue) {
+        this.chooseAroundKilometersValue = chooseAroundKilometersValue;
+        notifyPropertyChanged(BR.chooseAroundKilometersValue);
+    }
+
+    public void openAroundKilometersLayer(View v) {
+        setAroundKilometersLayerVisibility(View.VISIBLE);
+    }
+
+    public void okChooseAroundKilometers(View v) {
+        setAroundKilometersLayerVisibility(View.INVISIBLE);
+        int value = mNpAroundKilometers.getValue();
+        setChooseAroundKilometersValue(aroundKilometersArr[value]);
+    }
+
 }

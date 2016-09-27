@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 
 import com.amap.api.maps2d.model.Marker;
@@ -35,6 +36,11 @@ public class PublishDemandModeModel extends BaseObservable {
     int demandPayItemVisibility;
 
     Marker mMarker;//尝试解决地图中间定位大头针在页面切换时消失的问题
+    int aroundKilometersLayerVisibility = View.INVISIBLE;//选择周边几公里的浮层是否显示，默认为不显示
+    private NumberPicker mNpAroundKilometers;
+    String[] aroundKilometersArr = new String[]{"1公里", "2公里", "3公里", "5公里", "10公里", "20公里", "50公里"};
+    private String chooseAroundKilometersValue;
+    private int mChoosePublishType;
 
 
     public PublishDemandModeModel(ActivityPublishDemandModeBinding activityPublishDemandModeBinding, Activity activity, Bundle publishDemandDataBundle, Marker marker) {
@@ -46,7 +52,16 @@ public class PublishDemandModeModel extends BaseObservable {
     }
 
     private void initView() {
+        mNpAroundKilometers = mActivityPublishDemandModeBinding.npPublishDemandAroundKilometers;
         displayDemandModeItem();
+        initData();
+    }
+
+    private void initData() {
+        mNpAroundKilometers.setDisplayedValues(aroundKilometersArr);
+        mNpAroundKilometers.setMinValue(0);
+        mNpAroundKilometers.setMaxValue(aroundKilometersArr.length - 1);
+        mNpAroundKilometers.setValue(2);
     }
 
     @Bindable
@@ -167,8 +182,37 @@ public class PublishDemandModeModel extends BaseObservable {
      */
     public void displayDemandModeItem() {
         setDemandOfflineItemVisibility(isOnlineDemand ? View.GONE : View.VISIBLE);
-        int choosePublishType = publishDemandDataBundle.getInt("choosePublishType");
-        setDemandPayItemVisibility(choosePublishType == PublishDemandModel.PUBLISH_DEMAND_PAY ? View.VISIBLE : View.GONE);
+        mChoosePublishType = publishDemandDataBundle.getInt("choosePublishType");
+        setDemandPayItemVisibility(mChoosePublishType == PublishDemandModel.PUBLISH_DEMAND_PAY ? View.VISIBLE : View.GONE);
     }
 
+    @Bindable
+    public int getAroundKilometersLayerVisibility() {
+        return aroundKilometersLayerVisibility;
+    }
+
+    public void setAroundKilometersLayerVisibility(int aroundKilometersLayerVisibility) {
+        this.aroundKilometersLayerVisibility = aroundKilometersLayerVisibility;
+        notifyPropertyChanged(BR.aroundKilometersLayerVisibility);
+    }
+
+    @Bindable
+    public String getChooseAroundKilometersValue() {
+        return chooseAroundKilometersValue;
+    }
+
+    public void setChooseAroundKilometersValue(String chooseAroundKilometersValue) {
+        this.chooseAroundKilometersValue = chooseAroundKilometersValue;
+        notifyPropertyChanged(BR.chooseAroundKilometersValue);
+    }
+
+    public void openAroundKilometersLayer(View v) {
+        setAroundKilometersLayerVisibility(View.VISIBLE);
+    }
+
+    public void okChooseAroundKilometers(View v) {
+        setAroundKilometersLayerVisibility(View.INVISIBLE);
+        int value = mNpAroundKilometers.getValue();
+        setChooseAroundKilometersValue(aroundKilometersArr[value]);
+    }
 }
