@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.Activity2ndPublishServiceBinding;
 import com.slash.youth.domain.PublishedServiceBean;
 import com.slash.youth.ui.activity.PublishServiceActivity;
@@ -64,25 +65,21 @@ public class PublishService2ndModel extends BaseObservable {
         lvPublishedService.setAdapter(new PublishedServiceAdapter(listPublishedService));
     }
 
-    ItemPublishedServiceModel lastItemModel = null;
-
     private void initListener() {
         lvPublishedService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PublishedServiceHolder.currentChooseItemIndex = position;
-                //上次点击的条目变化
-                if (lastItemModel != null) {
-                    lastItemModel.setChooseBgColor(0xffF8F8F9);
-                    lastItemModel.setChooseIconVisibility(View.INVISIBLE);
-                }
-                //当前点击的条目变化
                 PublishedServiceHolder currentTag = (PublishedServiceHolder) view.getTag();
                 ItemPublishedServiceModel currentItemModel = currentTag.mItemPublishedServiceModel;
-                currentItemModel.setChooseBgColor(0xff31C5E4);
-                currentItemModel.setChooseIconVisibility(View.VISIBLE);
-
-                lastItemModel = currentItemModel;
+                if (PublishedServiceHolder.listChoosedItemIndex.contains(position)) {
+                    PublishedServiceHolder.listChoosedItemIndex.remove(new Integer(position));
+                    currentItemModel.setChooseBgColor(0xffF8F8F9);
+                    currentTag.mItemListviewPublishedServiceBinding.ivPublishedServiceChecked.setImageResource(R.mipmap.icon_moren);
+                } else {
+                    PublishedServiceHolder.listChoosedItemIndex.add(position);
+                    currentItemModel.setChooseBgColor(0xff31C5E4);
+                    currentTag.mItemListviewPublishedServiceBinding.ivPublishedServiceChecked.setImageResource(R.mipmap.icon_check);
+                }
             }
         });
     }

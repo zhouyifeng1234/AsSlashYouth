@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class PublishedServiceAdapter extends SlashBaseAdapter<PublishedServiceBean> {
     public PublishedServiceAdapter(ArrayList<PublishedServiceBean> listData) {
         super(listData);
-        PublishedServiceHolder.currentChooseItemIndex = -1;
     }
 
     @Override

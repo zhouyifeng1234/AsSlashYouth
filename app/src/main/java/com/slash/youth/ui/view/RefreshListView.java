@@ -68,8 +68,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
                 .findViewById(R.id.tv_header_listview_refresh_last_refreshtime);
         pbRefreshProgress = (ProgressBar) refreshHeader
                 .findViewById(R.id.pb_header_listview_refresh_progress);
-        refreshHeader.measure(LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT);
+        refreshHeader.measure(0, 0);
         headerHeight = refreshHeader.getMeasuredHeight();
         // System.out.println(measuredHeight);
         // int measuredWidth = refreshHeader.getMeasuredWidth();
@@ -77,7 +76,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
         refreshHeader.setPadding(0, -headerHeight, 0, 0);
         addMoreFooter.measure(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
-        footerHeight = refreshHeader.getMeasuredHeight();
+        footerHeight = addMoreFooter.getMeasuredHeight();
         addMoreFooter.setPadding(0, -footerHeight, 0, 0);
         initData();
         initAnimation();

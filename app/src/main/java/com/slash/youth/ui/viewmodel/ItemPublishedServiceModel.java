@@ -15,7 +15,6 @@ public class ItemPublishedServiceModel extends BaseObservable {
     private String type;
     private String buyinfo;
     private int chooseBgColor;
-    private int chooseIconVisibility;
 
     @Bindable
     public String getTitle() {
@@ -65,15 +64,5 @@ public class ItemPublishedServiceModel extends BaseObservable {
     public void setChooseBgColor(int chooseBgColor) {
         this.chooseBgColor = chooseBgColor;
         notifyPropertyChanged(BR.chooseBgColor);
-    }
-
-    @Bindable
-    public int getChooseIconVisibility() {
-        return chooseIconVisibility;
-    }
-
-    public void setChooseIconVisibility(int chooseIconVisibility) {
-        this.chooseIconVisibility = chooseIconVisibility;
-        notifyPropertyChanged(BR.chooseIconVisibility);
     }
 }
