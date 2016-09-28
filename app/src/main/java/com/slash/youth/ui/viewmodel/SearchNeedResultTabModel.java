@@ -133,12 +133,12 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                     isClickTime = false;
 
                 //添加展示线上的选择页面
-                if(lineView!=null||userView!=null){
+                if(isClickLine){
+                    lineView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_line, null);
+                    showAddView(lineView);
+                }else {
                     mSearchNeedResultTabBinding.flShowSearchResult.removeView(lineView);
-                    mSearchNeedResultTabBinding.flShowSearchResult.removeView(userView);
                 }
-                lineView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_line, null);
-                showAddView(lineView);
                 break;
            //星级
             case R.id.rl_tab_xingji:
@@ -174,14 +174,13 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                     mSearchNeedResultTabBinding.ivLineIcon.setImageResource(R.mipmap.free_play);
                     isClickLine = false;
                 }
-
                 //添加用户选择页面
-                if(lineView!=null||userView!=null){
-                    mSearchNeedResultTabBinding.flShowSearchResult.removeView(lineView);
+                if(isClickUser){
+                    userView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_user, null);
+                    showAddView(userView);
+                }else {
                     mSearchNeedResultTabBinding.flShowSearchResult.removeView(userView);
                 }
-                userView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_user, null);
-                showAddView(userView);
                 break;
             //活跃度
             case R.id.rl_tab_huoyuedu:

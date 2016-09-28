@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -13,12 +14,21 @@ import com.slash.youth.ui.viewmodel.PublishDemandModel;
  */
 public class PublishDemandActivity extends Activity {
 
+    private PublishDemandModel mPublishDemandModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityPublishDemandBinding activityPublishDemandBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand);
-        PublishDemandModel publishDemandModel = new PublishDemandModel(activityPublishDemandBinding,this);
-        activityPublishDemandBinding.setPublishDemandModel(publishDemandModel);
+        mPublishDemandModel = new PublishDemandModel(activityPublishDemandBinding, this);
+        activityPublishDemandBinding.setPublishDemandModel(mPublishDemandModel);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        ToastUtils.shortToast("onActivityResult " + requestCode + " " + resultCode);
+        if (requestCode == 10 && resultCode == 10) {
+            mPublishDemandModel.mSallSkillLabels.getAddLabelsResult(data);
+        }
+    }
 }

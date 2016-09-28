@@ -46,7 +46,9 @@
 
         </RelativeLayout>
 
-        <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:paddingBottom="15dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -123,15 +125,18 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="29dp"
                         android:layout_marginTop="10dp"
+                        android:onClick="@{publishServiceInfoModel.setPublishConsultationService}"
                         android:orientation="horizontal"
                     >
                         <ImageButton
+                            android:id="@+id/ivbtn_consultation_service_checked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:background="@android:color/transparent"
                             android:src="@mipmap/seclted"/>
                         <TextView
+                            android:id="@+id/tv_consultation_service_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -141,6 +146,7 @@
                             android:textSize="13sp"/>
 
                         <ImageButton
+                            android:id="@+id/ivbtn_consultation_service_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -158,15 +164,18 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginRight="29dp"
                         android:layout_marginTop="10dp"
+                        android:onClick="@{publishServiceInfoModel.setPublishPayService}"
                         android:orientation="horizontal"
                     >
                         <ImageButton
+                            android:id="@+id/ivbtn_pay_service_checked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:background="@android:color/transparent"
                             android:src="@mipmap/default_icon"/>
                         <TextView
+                            android:id="@+id/tv_pay_service_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -176,6 +185,7 @@
                             android:textSize="13sp"/>
 
                         <ImageButton
+                            android:id="@+id/ivbtn_pay_service_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -228,6 +238,7 @@
                             android:textSize="12sp"/>
                     </LinearLayout>
                     <EditText
+                        android:id="@+id/et_publish_service_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="17dp"
@@ -268,60 +279,21 @@
                             android:textSize="12sp"/>
                     </LinearLayout>
                     <EditText
+                        android:id="@+id/et_publish_service_desc"
                         android:layout_width="match_parent"
                         android:layout_height="136dp"
                         android:layout_marginLeft="17dp"
                         android:layout_marginRight="17dp"
                         android:background="@android:color/transparent"/>
 
-                    <LinearLayout
+                    <com.slash.youth.ui.view.SlashAddPicLayout
+                        android:id="@+id/sapl_publish_service_addpic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="17dp"
-                        android:orientation="horizontal"
-                    >
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="7dp"
-                        >
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:src="@mipmap/jiatu_icon"/>
-                            <ImageButton android:layout_width="wrap_content"
-                                         android:layout_height="wrap_content"
-                                         android:background="@android:color/transparent"
-                                         android:src="@mipmap/guanbi_icon"/>
-                        </RelativeLayout>
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical">
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="7dp"
-                        >
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:src="@mipmap/jiatu_icon"/>
-                            <ImageButton android:layout_width="wrap_content"
-                                         android:layout_height="wrap_content"
-                                         android:background="@android:color/transparent"
-                                         android:src="@mipmap/guanbi_icon"/>
-                        </RelativeLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="17dp"
-                            android:layout_marginTop="10dp"
-                            android:src="@mipmap/jiatu_icon"/>
-
-                    </LinearLayout>
+                    </com.slash.youth.ui.view.SlashAddPicLayout>
 
                 </LinearLayout>
 
@@ -350,7 +322,8 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <com.slash.youth.ui.view.SlashAddLabelsLayout
+                    android:id="@+id/sall_publish_service_added_skilllabels"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -358,192 +331,9 @@
                     android:layout_marginTop="28dp"
                     android:orientation="vertical"
                 >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="66dp"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/shape_publish_demand_label_bg_"
-                                android:gravity="center"
-                                android:text="网页设计"
-                                android:textColor="#999999"
-                                android:textSize="14sp"/>
-                            <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/pluse"/>
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_centerInParent="true"
-                                android:src="@mipmap/jiajineng"
-                                android:visibility="invisible"/>
-                        </RelativeLayout>
-                        <View android:layout_width="5dp" android:layout_height="0dp"/>
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="66dp"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/shape_publish_demand_label_bg_"
-                                android:gravity="center"
-                                android:text="网页设计"
-                                android:textColor="#999999"
-                                android:textSize="14sp"/>
-                            <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/pluse"/>
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_centerInParent="true"
-                                android:src="@mipmap/jiajineng"
-                                android:visibility="invisible"/>
-                        </RelativeLayout>
-                        <View android:layout_width="5dp" android:layout_height="0dp"/>
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="66dp"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/shape_publish_demand_label_bg_"
-                                android:gravity="center"
-                                android:text="网页设计"
-                                android:textColor="#999999"
-                                android:textSize="14sp"/>
-                            <ImageButton
 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/pluse"/>
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_centerInParent="true"
-                                android:src="@mipmap/jiajineng"
-                                android:visibility="invisible"/>
-                        </RelativeLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:orientation="horizontal">
+                </com.slash.youth.ui.view.SlashAddLabelsLayout>
 
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="66dp"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/shape_publish_demand_label_bg_"
-                                android:gravity="center"
-                                android:text="网页设计"
-                                android:textColor="#999999"
-                                android:textSize="14sp"/>
-                            <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/pluse"/>
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_centerInParent="true"
-                                android:src="@mipmap/jiajineng"
-                                android:visibility="invisible"/>
-                        </RelativeLayout>
-                        <View android:layout_width="5dp" android:layout_height="0dp"/>
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="66dp"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/shape_publish_demand_label_bg_"
-                                android:gravity="center"
-                                android:text="网页设计"
-                                android:textColor="#999999"
-                                android:textSize="14sp"
-                                android:visibility="invisible"/>
-                            <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/pluse"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_centerInParent="true"
-                                android:src="@mipmap/jiajineng"
-                                android:visibility="visible"/>
-                        </RelativeLayout>
-                        <View android:layout_width="5dp" android:layout_height="0dp"/>
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="66dp"
-                            android:layout_weight="1"
-                            android:visibility="invisible">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/shape_publish_demand_label_bg_"
-                                android:gravity="center"
-                                android:text="网页设计"
-                                android:textColor="#999999"
-                                android:textSize="14sp"/>
-                            <ImageButton
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:background="@android:color/transparent"
-                                android:src="@mipmap/pluse"/>
-                            <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
-                                android:layout_centerInParent="true"
-                                android:src="@mipmap/jiajineng"
-                                android:visibility="invisible"/>
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 

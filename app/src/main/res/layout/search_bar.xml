@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_seach_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#31c5e4"
+    tools:showIn="@layout/search_need_result_tab">
+
+    <EditText
+        android:id="@+id/et_activity_search_association"
+        android:layout_width="259dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_search_activity_box_bg"
+        android:drawableLeft="@mipmap/zoom_search_activity"
+        android:drawablePadding="10dp"
+        android:hint="找需求、找服务、找人"
+        android:paddingLeft="10dp"
+        android:textColorHint="#666666"
+        android:textSize="15sp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:background="@android:color/transparent"
+        android:src="@mipmap/nav_back" />
+
+    <TextView
+        android:id="@+id/tv_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="11dp"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:text="搜索"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+</RelativeLayout>

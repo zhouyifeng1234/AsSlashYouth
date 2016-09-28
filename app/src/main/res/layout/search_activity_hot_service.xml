@@ -11,11 +11,13 @@
         android:layout_height="match_parent"
         android:background="#edf1f2"
         android:orientation="vertical">
+
+       <!-- <include layout="@layout/search_bar" />-->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#31c5e4">
-
             <EditText
                 android:id="@+id/et_activity_search_association"
                 android:layout_width="259dp"
@@ -30,7 +32,6 @@
                 android:paddingLeft="10dp"
                 android:textColorHint="#666666"
                 android:textSize="15sp"/>
-
             <ImageButton
                 android:id="@+id/ib_subSearch_back"
                 android:layout_width="wrap_content"
@@ -39,9 +40,7 @@
                 android:layout_marginLeft="12dp"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/nav_back"
-
                 />
-
             <TextView
                 android:id="@+id/tv_search_result"
                 android:layout_width="wrap_content"
@@ -55,7 +54,6 @@
                 android:text="取消"
                 android:textColor="#ffffff"
                 android:textSize="15sp"/>
-
         </RelativeLayout>
 
     <!--展示不同的热搜页面-->

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.slash.youth.databinding.ActivityPublishDemandDescribeBinding;
 import com.slash.youth.ui.activity.PublishDemandModeActivity;
+import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.utils.CommonUtils;
 
 /**
@@ -17,6 +19,11 @@ public class PublishDemandDescModel extends BaseObservable {
     ActivityPublishDemandDescribeBinding mActivityPublishDemandDescribeBinding;
     Activity mActivity;
     Bundle publishDemandDataBundle;
+    public SlashAddPicLayout mSaplAddPic;
+    public String demandTitle;
+    public String demandDesc;
+    private EditText mEtDemandTitle;
+    private EditText mEtDemandDesc;
 
     public PublishDemandDescModel(ActivityPublishDemandDescribeBinding activityPublishDemandDescribeBinding, Activity activity, Bundle publishDemandDataBundle) {
         this.mActivityPublishDemandDescribeBinding = activityPublishDemandDescribeBinding;
@@ -26,8 +33,12 @@ public class PublishDemandDescModel extends BaseObservable {
     }
 
     private void initView() {
+        mSaplAddPic = mActivityPublishDemandDescribeBinding.saplPublishDemandAddpic;
+        mSaplAddPic.setActivity(mActivity);
+        mSaplAddPic.initPic();
 
-
+        mEtDemandTitle = mActivityPublishDemandDescribeBinding.etPublishDemandTitle;
+        mEtDemandDesc = mActivityPublishDemandDescribeBinding.etPublishDemandDesc;
     }
 
     public void goBack(View v) {
@@ -36,41 +47,15 @@ public class PublishDemandDescModel extends BaseObservable {
 
     public void nextStep(View v) {
         Intent intentPublishDemandModeActivity = new Intent(CommonUtils.getContext(), PublishDemandModeActivity.class);
+        demandTitle = mEtDemandTitle.getText().toString();
+        demandDesc = mEtDemandDesc.getText().toString();
+        publishDemandDataBundle.putString("demandTitle", demandTitle);
+        publishDemandDataBundle.putString("demandDesc", demandDesc);
+        publishDemandDataBundle.putStringArrayList("listAddedPicTempPath", mSaplAddPic.getAddedPicTempPath());
         intentPublishDemandModeActivity.putExtra("publishDemandDataBundle", publishDemandDataBundle);
         intentPublishDemandModeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentPublishDemandModeActivity);
     }
 
-    public void addPicture(View v) {
-//        Intent intentAddPicture = new Intent();
-//        intentAddPicture.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intentAddPicture.setType("image/*");
-//        intentAddPicture.setAction(Intent.ACTION_GET_CONTENT);
-//        CommonUtils.getContext().startActivity(intentAddPicture);
-
-//        private File tempFile;
-//        this.tempFile = new File(FilePathUtility.GetReAudioFilePath(
-//                PersonalEditActivity.this, "head.jpg", true));
-        Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-/* 开启Pictures画面Type设定为image */
-        intent.setType("image/*");
-/* 使用Intent.ACTION_GET_CONTENT这个Action */
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-/* 出现截取界面 */
-        intent.putExtra("crop", "true");
-/*保存到SD*/
-//        intent.putExtra("output", Uri.fromFile(tempFile));
-/*设置图片像素*/
-        intent.putExtra("outputX", 200);
-        intent.putExtra("outputY", 200);
-/*设置图片格式*/
-        intent.putExtra("outputFormat", "JPEG");
-/* 设置比例 1:1 */
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-/* 取得相片后返回本画面 */
-        CommonUtils.getContext().startActivity(intent);
-    }
 
 }
