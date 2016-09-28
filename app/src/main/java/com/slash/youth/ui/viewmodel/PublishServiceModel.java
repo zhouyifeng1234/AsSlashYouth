@@ -18,7 +18,9 @@ import com.slash.youth.ui.activity.PublishServiceInfoActivity;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.ui.view.fly.SlashTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -53,16 +55,25 @@ public class PublishServiceModel extends BaseObservable {
     private int mEndDisplayMinute;
 
     boolean isRealName = true;//是否为实名发布服务，默认为true
-    String chooseServiceCycle = "一";//选择的服务周期，默认为“一”
+    ArrayList<String> listChooseServiceCycle = new ArrayList<String>();//选择的服务周期，默认为都不选
+    private boolean mIsPublishSecondService;
+    private String nextOrPublishText;
 
     public PublishServiceModel(ActivityPublishServiceBinding activityPublishServiceBinding, Activity activity) {
         this.mActivityPublishServiceBinding = activityPublishServiceBinding;
+        this.mActivity = activity;
         initView();
     }
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishServiceBinding.sdtpPublishServiceChooseDatetime;
         mChooseTimePicker = mActivityPublishServiceBinding.stpPublishServiceChooseTime;
+        mIsPublishSecondService = mActivity.getIntent().getBooleanExtra("isPublishSecondService", false);
+        if (mIsPublishSecondService) {
+            setNextOrPublishText("发布");
+        } else {
+            setNextOrPublishText("下一步");
+        }
         initData();
     }
 
@@ -87,25 +98,29 @@ public class PublishServiceModel extends BaseObservable {
     }
 
     public void nextStep(View v) {
-        Intent intentPublishServiceInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceInfoActivity.class);
+        if (mIsPublishSecondService) {
+            ToastUtils.shortToast("重新发布成功");
+        } else {
+            Intent intentPublishServiceInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceInfoActivity.class);
 
-        Bundle publishServiceDataBundle = new Bundle();
-        publishServiceDataBundle.putBoolean("isRealName", isRealName);
-        publishServiceDataBundle.putInt("chooseIdleTimeType", chooseIdleTimeType);
-        publishServiceDataBundle.putString("chooseServiceCycle", chooseServiceCycle);
-        publishServiceDataBundle.putBoolean("isAllDayChecked",isAllDayChecked);
-        publishServiceDataBundle.putInt("mStartDisplayMonth", mStartDisplayMonth);
-        publishServiceDataBundle.putInt("mStartDisplayDay", mStartDisplayDay);
-        publishServiceDataBundle.putInt("mStartDisplayHour", mStartDisplayHour);
-        publishServiceDataBundle.putInt("mStartDisplayMinute", mStartDisplayMinute);
-        publishServiceDataBundle.putInt("mEndDisplayMonth", mEndDisplayMonth);
-        publishServiceDataBundle.putInt("mEndDisplayDay", mEndDisplayDay);
-        publishServiceDataBundle.putInt("mEndDisplayHour", mEndDisplayHour);
-        publishServiceDataBundle.putInt("mEndDisplayMinute", mEndDisplayMinute);
+            Bundle publishServiceDataBundle = new Bundle();
+            publishServiceDataBundle.putBoolean("isRealName", isRealName);
+            publishServiceDataBundle.putInt("chooseIdleTimeType", chooseIdleTimeType);
+            publishServiceDataBundle.putStringArrayList("listChooseServiceCycle", listChooseServiceCycle);
+            publishServiceDataBundle.putBoolean("isAllDayChecked", isAllDayChecked);
+            publishServiceDataBundle.putInt("mStartDisplayMonth", mStartDisplayMonth);
+            publishServiceDataBundle.putInt("mStartDisplayDay", mStartDisplayDay);
+            publishServiceDataBundle.putInt("mStartDisplayHour", mStartDisplayHour);
+            publishServiceDataBundle.putInt("mStartDisplayMinute", mStartDisplayMinute);
+            publishServiceDataBundle.putInt("mEndDisplayMonth", mEndDisplayMonth);
+            publishServiceDataBundle.putInt("mEndDisplayDay", mEndDisplayDay);
+            publishServiceDataBundle.putInt("mEndDisplayHour", mEndDisplayHour);
+            publishServiceDataBundle.putInt("mEndDisplayMinute", mEndDisplayMinute);
 
-        intentPublishServiceInfoActivity.putExtra("publishServiceDataBundle", publishServiceDataBundle);
-        intentPublishServiceInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentPublishServiceInfoActivity);
+            intentPublishServiceInfoActivity.putExtra("publishServiceDataBundle", publishServiceDataBundle);
+            intentPublishServiceInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            CommonUtils.getContext().startActivity(intentPublishServiceInfoActivity);
+        }
     }
 
 
@@ -282,8 +297,27 @@ public class PublishServiceModel extends BaseObservable {
         isRealName = false;
     }
 
-    public void chooseServiceCycle(View v) {
+    public void checkedServiceCycle(View v) {
         TextView tvCycleText = (TextView) ((FrameLayout) v).getChildAt(0);
-        chooseServiceCycle = tvCycleText.getText().toString();
+        String chooseServiceCycle = tvCycleText.getText().toString();
+        if (listChooseServiceCycle.contains(chooseServiceCycle)) {
+            listChooseServiceCycle.remove(chooseServiceCycle);
+            tvCycleText.setBackgroundResource(R.drawable.shape_round_choosecycle_bg);
+            tvCycleText.setTextColor(0xffffffff);
+        } else {
+            listChooseServiceCycle.add(chooseServiceCycle);
+            tvCycleText.setBackgroundResource(R.drawable.shape_round_choosecycle_bg_selected);
+            tvCycleText.setTextColor(0xffCCCCCC);
+        }
+    }
+
+    @Bindable
+    public String getNextOrPublishText() {
+        return nextOrPublishText;
+    }
+
+    public void setNextOrPublishText(String nextOrPublishText) {
+        this.nextOrPublishText = nextOrPublishText;
+        notifyPropertyChanged(BR.nextOrPublishText);
     }
 }

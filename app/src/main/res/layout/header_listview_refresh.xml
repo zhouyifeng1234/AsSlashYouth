@@ -67,11 +67,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/jiazai_icon"/>
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

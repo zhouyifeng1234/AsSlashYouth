@@ -91,8 +91,15 @@ public class PublishService2ndModel extends BaseObservable {
     public void publishService(View v) {
         Intent intentPublishServiceActivity = new Intent(CommonUtils.getContext(), PublishServiceActivity.class);
         intentPublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        switch (v.getId()) {
+            case R.id.tv_publish_second_service:
+                intentPublishServiceActivity.putExtra("isPublishSecondService", true);//设置重新发布已发布过的服务
+                break;
+            case R.id.btn_publish_new_service:
+                intentPublishServiceActivity.putExtra("isPublishSecondService", false);
+                break;
+        }
         CommonUtils.getContext().startActivity(intentPublishServiceActivity);
         mActivity.finish();
     }
-
 }

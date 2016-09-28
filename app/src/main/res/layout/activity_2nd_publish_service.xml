@@ -32,10 +32,13 @@
                 android:textSize="17sp"/>
 
             <TextView
+                android:id="@+id/tv_publish_second_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" android:layout_marginRight="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:onClick="@{publishService2ndModel.publishService}"
                 android:text="下一步"
                 android:textColor="#FFFFFF"
                 android:textSize="15dp"/>
@@ -60,6 +63,7 @@
             android:background="#FFFFFF"
         >
             <Button
+                android:id="@+id/btn_publish_new_service"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
