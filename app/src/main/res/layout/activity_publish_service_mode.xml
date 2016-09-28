@@ -643,7 +643,8 @@
                         <View android:layout_width="match_parent" android:layout_height="110dp"/>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="61dp" android:background="#D2D2D2"/>
+                            android:layout_height="61dp"
+                            android:background="@drawable/shape_rectangle_gradient"/>
                         <View android:layout_width="match_parent" android:layout_height="110dp"/>
                         <View android:layout_width="match_parent" android:layout_height="2dp"
                               android:background="#E5E5E5"/>
