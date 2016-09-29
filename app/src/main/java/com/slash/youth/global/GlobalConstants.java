@@ -61,7 +61,8 @@ public class GlobalConstants {
 
 
         //服务器主机地址
-        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
+//        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
+        public static final String SERVER_HOST = "http://121.42.145.178/feed/v1/api/demand/";
 
 
         /**

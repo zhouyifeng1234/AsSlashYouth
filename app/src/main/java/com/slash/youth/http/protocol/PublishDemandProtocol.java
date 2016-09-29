@@ -57,25 +57,46 @@ public class PublishDemandProtocol extends BaseProtocol<String> {
     public void addRequestParams(RequestParams params) {
 
 
+//        params.addBodyParameter("title", title);
+//        params.addBodyParameter("label", label);
+//        params.addBodyParameter("tasktime", tasktime);
+//        params.addBodyParameter("fighttime", fighttime);
+//        params.addBodyParameter("anonymity", anonymity);
+//        params.addBodyParameter("desc", desc);
+//        params.addBodyParameter("pic", pic);
+//        params.addBodyParameter("type", type);
+//        params.addBodyParameter("proofbox", proofbox);
+//
+//        params.addBodyParameter("invoice", invoice);
+//        params.addBodyParameter("pattern", pattern);
+//        params.addBodyParameter("place", place);
+//        params.addBodyParameter("placedetail", placedetail);
+//        params.addBodyParameter("consume", consume);
+//        params.addBodyParameter("lng", lng);
+//        params.addBodyParameter("lat", lat);
+//        params.addBodyParameter("offer", offer);
+//
+//        params.addBodyParameter("quote", quote);
 
-        params.addBodyParameter("title", title);
-        params.addBodyParameter("label", label);
-        params.addBodyParameter("tasktime", tasktime);
-        params.addBodyParameter("fighttime", fighttime);
-        params.addBodyParameter("anonymity", anonymity);
-        params.addBodyParameter("desc", desc);
-        params.addBodyParameter("pic", pic);
-        params.addBodyParameter("type", type);
-        params.addBodyParameter("proofbox", proofbox);
 
-        params.addBodyParameter("invoice", invoice);
-        params.addBodyParameter("pattern", pattern);
-        params.addBodyParameter("place", place);
-        params.addBodyParameter("placedetail", placedetail);
-        params.addBodyParameter("consume", consume);
-        params.addBodyParameter("lng", lng);
-        params.addBodyParameter("lat", lat);
-        params.addBodyParameter("offer", offer);
+        params.addBodyParameter("title", "算法提取");
+        params.addBodyParameter("label", "研发");
+        params.addBodyParameter("tasktime", System.currentTimeMillis() + 48 * 60 * 60 * 1000 + "");
+        params.addBodyParameter("fighttime", 10 + "");
+        params.addBodyParameter("anonymity", 1 + "");
+        params.addBodyParameter("desc", "研发");
+        params.addBodyParameter("pic", "url1");
+        params.addBodyParameter("type", 1 + "");
+        params.addBodyParameter("proofbox", 1 + "");
+
+        params.addBodyParameter("invoice", 1 + "");
+        params.addBodyParameter("pattern", 0 + "");
+        params.addBodyParameter("place", "苏州");
+        params.addBodyParameter("placedetail", "苏州工业园区");
+        params.addBodyParameter("consume", 1 + "");
+        params.addBodyParameter("lng", 30.000001D + "");
+        params.addBodyParameter("lat", 30.000001D + "");
+        params.addBodyParameter("offer", 1.01D + "");
 
         params.addBodyParameter("quote", quote);
     }

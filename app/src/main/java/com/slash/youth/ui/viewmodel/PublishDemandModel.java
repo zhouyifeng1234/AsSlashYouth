@@ -155,6 +155,12 @@ public class PublishDemandModel extends BaseObservable {
             mActivityPublishDemandBinding.ivActivityPublishDemandCheckallday.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
         } else {
             mActivityPublishDemandBinding.ivActivityPublishDemandCheckallday.setImageResource(R.mipmap.dui_icon);
+            mStartDisplayHour = 0;
+            mStartDisplayMinute = 0;
+            setChooseStartDateTimeText(mStartDisplayMonth + "月" + mStartDisplayDay + "日" + "-" + mStartDisplayHour + ":" + (mStartDisplayMinute < 10 ? "0" + mStartDisplayMinute : mStartDisplayMinute));
+            mEndDisplayHour = 23;
+            mEndDisplayMinute = 59;
+            setChooseEndDateTimeText(mEndDisplayMonth + "月" + mEndDisplayDay + "日" + "-" + mEndDisplayHour + ":" + (mEndDisplayMinute < 10 ? "0" + mEndDisplayMinute : mEndDisplayMinute));
         }
         isCheckAllDay = !isCheckAllDay;
     }

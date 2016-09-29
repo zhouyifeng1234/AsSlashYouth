@@ -112,7 +112,7 @@ abstract public class BaseProtocol<T> {
         LogKit.v("authorizationStr:" + authorizationStr);
         params.addHeader("Date", date);
         params.addHeader("Authorization", authorizationStr);
-//        params.addHeader("uid", "10000");
+        params.addHeader("uid", "10000");
         params.addHeader("pass", "1");
     }
 
