@@ -32,7 +32,6 @@ public class SearchActivity extends Activity {
         searchNeedResultTabBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_need_result_tab, null, false);
         SearchNeedResultTabModel searchResultTabModel = new SearchNeedResultTabModel(searchNeedResultTabBinding);
         searchNeedResultTabBinding.setSearchNeedResultTabModel(searchResultTabModel);
-        activitySearchModel.setSearchNeedResultTabBinding(searchNeedResultTabBinding);
 
     }
 }

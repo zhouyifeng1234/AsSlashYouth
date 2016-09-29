@@ -5,11 +5,11 @@
             type="com.slash.youth.ui.viewmodel.SearchActivityHotServiceModel"/>
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#edf1f2"
-        android:orientation="vertical">
+        >
 
     <!--展示不同的热搜页面-->
     <LinearLayout
@@ -42,9 +42,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="11dp"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/xiangxia_icon"/>
+                android:src="@mipmap/xiangxia_icon"
+                />
 
             <TextView
+                android:id="@+id/tv_openChoose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -87,15 +89,66 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+                    </LinearLayout>
+                </ScrollView>
+            </RelativeLayout>
+        </LinearLayout>
+         </LinearLayout>
+        <!--选择行业-->
+       <!-- <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#55000000"
+            android:clickable="true"
+            android:visibility="@{searchActivityHotServiceModel.rlChooseMainLabelVisible}"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="61dp" android:background="@drawable/shape_rectangle_gradient"/>
+                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
+                        <View android:layout_width="match_parent" android:layout_height="2dp"
+                            android:background="#E5E5E5"/>
 
                     </LinearLayout>
+                    <com.slash.youth.ui.view.SlashNumberPicker
+                        android:id="@+id/np_publish_service_main_labels"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true">
 
-                </ScrollView>
+                    </com.slash.youth.ui.view.SlashNumberPicker>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-        </LinearLayout>
-
-         </LinearLayout>
-      </LinearLayout>
+                <Button
+                    android:layout_width="333dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dalei_ok_icon"
+                    android:onClick="@{searchActivityHotServiceModel.okChooseMainLabel}"
+                    android:text="确定"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    />
+            </LinearLayout>
+        </RelativeLayout>-->
+    </FrameLayout>
 </layout>

@@ -36,12 +36,12 @@
         "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\layout\\themed_lines.xml"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\layout\\simple_circles_vertical.xml",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\layout\\simple_circles_vertical.xml"
-    },
-    {
         "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\layout\\simple_titles.xml",
         "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\layout\\simple_titles.xml"
+    },
+    {
+        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\layout\\simple_circles_vertical.xml",
+        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\layout\\simple_circles_vertical.xml"
     },
     {
         "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\layout\\simple_circles.xml",

@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class SearchNeedResultTabModel extends BaseObservable implements View.OnClickListener {
 
-    public SearchNeedResultTabBinding mSearchNeedResultTabBinding;
+    public  SearchNeedResultTabBinding mSearchNeedResultTabBinding;
     //zss 指示器的点击事件
     private  boolean isClickLine  = false;
     private  boolean isClickUser = false;
@@ -39,9 +39,21 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
+        initView();
         initListener();
         initData();
     }
+
+    private void initView() {
+        String searchType = SpUtils.getString("searchType", "");
+        if(searchType.equals("searchPerson")){
+          mSearchNeedResultTabBinding.llSearchTab2.setVisibility(View.VISIBLE);
+          mSearchNeedResultTabBinding.llSearchTabHead.setVisibility(View.GONE);
+          mSearchNeedResultTabBinding.lvShowSearchResult.setVisibility(View.GONE);
+          mSearchNeedResultTabBinding.lvShowSearchPerson.setVisibility(View.VISIBLE);
+        }
+    }
+
     //加载数据
     private void initData() {
             //设置搜索人的数据

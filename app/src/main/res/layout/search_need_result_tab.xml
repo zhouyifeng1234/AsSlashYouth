@@ -129,8 +129,8 @@
                          android:layout_height="match_parent" />
                  </LinearLayout>
              </RelativeLayout>
-
          </LinearLayout>
+         <!--标签头2-->
          <LinearLayout
              android:id="@+id/ll_search_tab_head"
              android:layout_width="match_parent"
@@ -259,17 +259,18 @@
             android:id="@+id/fl_showSearchResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
             <ListView
                 android:id="@+id/lv_showSearchResult"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#f1f1f1"
+                >
             </ListView>
            <ListView
                android:id="@+id/lv_showSearchPerson"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
+               android:background="#f1f1f1"
                android:visibility="gone">
            </ListView>
 

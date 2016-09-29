@@ -1,37 +1,57 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.graphics.Color;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
+import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
+import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 
 import java.util.ArrayList;
 
 /**
- * Created by admin on 2016/9/28.
+ * Created by zss on 2016/9/28.
  */
 public class SearchActivityHotServiceModel extends BaseObservable {
     private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
+    private  ActivitySearchBinding mActivitySearchBinding;
+    private SearchNeedResultTabBinding searchNeedResultTabBinding;
+   // private int rlChooseMainLabelVisible = View.INVISIBLE;
+    private NumberPicker mNpChooseMainLabels;
+    String[] mainLabelsArr;
 
-    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding) {
+    public SearchNeedResultTabBinding getSearchNeedResultTabBinding() {
+        return searchNeedResultTabBinding;
+    }
+
+    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding, ActivitySearchBinding mActivitySearchBinding) {
         this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
+        this.mActivitySearchBinding = mActivitySearchBinding;
         initView();
     }
 
     //加载布局
     private void initView() {
+       // mNpChooseMainLabels = searchActivityHotServiceBinding.npPublishServiceMainLabels;
         //zss  先展示首页
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
         searchActivityHotServiceBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
@@ -74,6 +94,12 @@ public class SearchActivityHotServiceModel extends BaseObservable {
             }
         });
         setThirdSkilllabelData();
+        //openChoose的数据
+        /*mainLabelsArr = new String[]{"金融", "IT", "农业", "水产", "文学"};//大类标签内容实际应该由服务端接口返回
+        mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
+        mNpChooseMainLabels.setMinValue(0);
+        mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
+        mNpChooseMainLabels.setValue(1);*/
     }
 
     /**
@@ -164,14 +190,13 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                     tvThirdSkilllabelName.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //  LogKit.d("点击的textview"+((TextView)v).getText());
-                            String skillName = (String) ((TextView) v).getText();
-                            // EditText et = (EditText) searchView.findViewById(R.id.et_activity_search_association);
-                            //  et.setText(skillName);
-                            // et.setTextColor(Color.BLACK);
+                             //LogKit.d("点击的textview"+((TextView)v).getText());
+                           // String skillName = (String) ((TextView) v).getText();
+                           // mActivitySearchBinding.etActivitySearchAssociation.setText(skillName);
+                           // mActivitySearchBinding.etActivitySearchAssociation.setTextColor(Color.BLACK);
                             //展示搜索结果的页面
-                            //  LogKit.d("展示搜索结果的页面");
-                            //showSearchReasult();
+                             // LogKit.d("展示搜索结果的页面");
+                            showSearchResult();
                         }
                     });
                 }
@@ -211,6 +236,43 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                 setThirdSkilllabelData();
             }
         });
+        //点击事件
+        searchActivityHotServiceBinding.tvOpenChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChoose();
+            }
+        });
     }
+
+    //zss 显示搜索页面
+    private void showSearchResult()  {
+        searchNeedResultTabBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_need_result_tab, null, false);
+        SearchNeedResultTabModel searchNeedResultTabModel = new SearchNeedResultTabModel(searchNeedResultTabBinding);
+        searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
+        mActivitySearchBinding.flSearchFirst.addView(searchNeedResultTabBinding.getRoot());
+        mActivitySearchBinding.tvSearchResult.setText("搜索");
+        ActivitySearchModel.searchType = 4;
+    }
+
+
+    //选择行业
+    public void openChoose() {
+        LogKit.d("点击啦");
+        setRlChooseMainLabelVisible(View.VISIBLE);
+    }
+
+    public void setRlChooseMainLabelVisible(int rlChooseMainLabelVisible) {
+     //  this.rlChooseMainLabelVisible = rlChooseMainLabelVisible;
+        notifyPropertyChanged(BR.rlChooseMainLabelVisible);
+    }
+
+    public void okChooseMainLabel(View v) {
+        setRlChooseMainLabelVisible(View.INVISIBLE);
+        int value = mNpChooseMainLabels.getValue();
+        //mActivity.checkedFirstLabel = mainLabelsArr[value];
+    }
+
+
 
 }
