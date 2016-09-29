@@ -307,59 +307,54 @@
             android:clickable="true"
             android:visibility="@{activitySubscribeModel.rlChooseMainLabelVisible}"
         >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/rl_activity_subscribe_main_ok"
+                android:layout_alignParentBottom="true"
                 android:background="#ffffff"
                 android:orientation="vertical">
-
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
-                    android:background="#fdfdfd"
-                    android:gravity="center" android:text="金融"
-                    android:textColor="#333333"
-                    android:textSize="19sp"/>
-                <View android:layout_width="match_parent" android:layout_height="0.2dp"
-                      android:background="#e5e5e5"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="58dp"
-                    android:background="#fdfdfd"
-                    android:gravity="center" android:text="金融"
-                    android:textColor="#333333"
-                    android:textSize="19sp"/>
-                <View android:layout_width="match_parent" android:layout_height="0.2dp"
-                      android:background="#e5e5e5"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="58dp"
-                    android:background="#fdfdfd"
-                    android:gravity="center" android:text="金融"
-                    android:textColor="#333333"
-                    android:textSize="19sp"/>
-                <View android:layout_width="match_parent" android:layout_height="0.2dp"
-                      android:background="#e5e5e5"/>
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
+                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="61dp" android:background="#D2D2D2"/>
+                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
+                        <View android:layout_width="match_parent" android:layout_height="2dp"
+                              android:background="#E5E5E5"/>
 
-            </LinearLayout>
-            <RelativeLayout
-                android:id="@+id/rl_activity_subscribe_main_ok"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="#ffffff">
+                    </LinearLayout>
+                    <com.slash.youth.ui.view.SlashNumberPicker
+                        android:id="@+id/np_publish_service_main_labels"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true">
+
+                    </com.slash.youth.ui.view.SlashNumberPicker>
+
+                </RelativeLayout>
+
                 <Button
-                    android:layout_width="337dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
+                    android:layout_width="333dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
                     android:background="@drawable/dalei_ok_icon"
                     android:onClick="@{activitySubscribeModel.okChooseMainLabel}"
                     android:text="确定"
-                    android:textColor="#ffffff"
-                    android:textSize="14.5sp"/>
-            </RelativeLayout>
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                />
+            </LinearLayout>
+
         </RelativeLayout>
 
     </FrameLayout>

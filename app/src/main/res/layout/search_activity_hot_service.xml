@@ -5,56 +5,11 @@
             type="com.slash.youth.ui.viewmodel.SearchActivityHotServiceModel"/>
     </data>
 
-    <!--搜索框-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#edf1f2"
         android:orientation="vertical">
-
-       <!-- <include layout="@layout/search_bar" />-->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#31c5e4">
-            <EditText
-                android:id="@+id/et_activity_search_association"
-                android:layout_width="259dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/shape_search_activity_box_bg"
-                android:drawableLeft="@mipmap/zoom_search_activity"
-                android:drawablePadding="10dp"
-                android:hint="找需求、找服务、找人"
-                android:paddingLeft="10dp"
-                android:textColorHint="#666666"
-                android:textSize="15sp"/>
-            <ImageButton
-                android:id="@+id/ib_subSearch_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/nav_back"
-                />
-            <TextView
-                android:id="@+id/tv_search_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="11dp"
-                android:clickable="true"
-                android:enabled="true"
-                android:focusable="true"
-                android:text="取消"
-                android:textColor="#ffffff"
-                android:textSize="15sp"/>
-        </RelativeLayout>
 
     <!--展示不同的热搜页面-->
     <LinearLayout

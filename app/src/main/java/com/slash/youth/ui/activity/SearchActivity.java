@@ -27,6 +27,7 @@ public class SearchActivity extends Activity {
         ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding);
         activitySearchBinding.setActivitySearchModel(activitySearchModel);
 
+
         //创建数据绑定model
         searchNeedResultTabBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_need_result_tab, null, false);
         SearchNeedResultTabModel searchResultTabModel = new SearchNeedResultTabModel(searchNeedResultTabBinding);

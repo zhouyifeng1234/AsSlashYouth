@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
+import com.slash.youth.domain.SearchNeedItem;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.utils.CommonUtils;
 
@@ -22,6 +23,7 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
     private static final int searchResult = 1;
     private static final int searchMore = 2;
     private int loadMoreState;
+    private int searchType;
 
     public PagerSearchItemAdapter(ArrayList<T> listData) {
         this.mListData = listData;
@@ -57,21 +59,35 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
             switch (type) {
                 case searchTitle://搜索标题
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.search_result_title, null);
-                   holder.textView = (TextView) convertView.findViewById(R.id.tv_title);
+                   holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
                     break;
                 case searchResult://搜索结果
-                    convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_needandservice, null);
-                    holder.imageView = (ImageView) convertView.findViewById(R.id.iv_item_listview_home_demand_avatar);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_username);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_title);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_date);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_search_value);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_search_line);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_search_consult);
+                    if(searchType == 3){
+                        convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
+                        holder.tv_search_person_name = (TextView) convertView.findViewById(R.id.tv_search_person_name);
+                        holder.iv_search_person = (ImageView) convertView.findViewById(R.id.iv_search_person);
+                        holder.tv_search_person_zhiye = (TextView) convertView.findViewById(R.id.tv_search_person_zhiye);
+                        holder.iv_search_v = (ImageView) convertView.findViewById(R.id.iv_search_v);
+                        holder.iv_jiahao = (ImageView) convertView.findViewById(R.id.iv_jiahao);
+                        holder.iv_star = (ImageView) convertView.findViewById(R.id.iv_star);
+                        holder.tv_zhiye1 = (TextView) convertView.findViewById(R.id.tv_zhiye1);
+                        holder.tv_zhiye2 = (TextView) convertView.findViewById(R.id.tv_zhiye2);
+                        holder.tv_zhiye3 = (TextView) convertView.findViewById(R.id.tv_zhiye3);
+                        holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+                    }else {
+                        convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_needandservice, null);
+                        holder.iv_item_listview_home_demand_avatar = (ImageView) convertView.findViewById(R.id.iv_item_listview_home_demand_avatar);
+                        holder.tv_item_listview_home_demand_username = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_username);
+                        holder.tv_item_listview_home_demand_title = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_title);
+                        holder.tv_item_listview_home_demand_date = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_date);
+                        holder.tv_search_value = (TextView) convertView.findViewById(R.id.tv_search_value);
+                        holder.tv_search_line = (TextView) convertView.findViewById(R.id.tv_search_line);
+                        holder.tv_search_consult = (TextView) convertView.findViewById(R.id.tv_search_consult);
+                    }
                     break;
                 case searchMore://搜索更多
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.search_result_more, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.tv_search_more);
+                    holder.tv_search_more = (TextView) convertView.findViewById(R.id.tv_search_more);
                     break;
                 default:
                     break;
@@ -80,6 +96,18 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
         }else {
             holder = (viewHolder) convertView.getTag();
         }
+        //判断，不同的数据就有不同的展示
+      /*  switch (searchType){
+            case 1:
+                holder.tv_title.setText("需求");
+            break;
+            case 2:
+                holder.tv_title.setText("服务");
+                break;
+            case 3:
+                holder.tv_title.setText("找人");
+                break;
+        }*/
 
       return convertView;
     }
@@ -116,9 +144,25 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
     }
 */
     static class viewHolder{
-        TextView textView;
-        ImageView imageView;
-
+        TextView tv_search_person_name;
+        TextView tv_search_more;
+        TextView tv_title;
+        TextView tv_zhiye1;
+        TextView tv_zhiye2;
+        TextView tv_zhiye3;
+        TextView tv_item_listview_home_demand_username;
+        TextView tv_item_listview_home_demand_title;
+        TextView tv_item_listview_home_demand_date;
+        TextView tv_search_value;
+        TextView tv_search_line;
+        TextView tv_search_consult;
+        TextView tv_time;
+        TextView tv_search_person_zhiye;
+        ImageView iv_search_v;
+        ImageView iv_jiahao;
+        ImageView iv_item_listview_home_demand_avatar;
+        ImageView iv_star;
+        ImageView iv_search_person;
     }
 
 }

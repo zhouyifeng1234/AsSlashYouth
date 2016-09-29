@@ -8,9 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <include layout="@layout/search_bar" />
-
         <!--页签标题-->
      <FrameLayout
          android:id="@+id/ll_tab"
@@ -140,8 +137,8 @@
              android:layout_height="43dp"
              android:orientation="horizontal"
              android:background="#ffffff"
-
              >
+
              <RelativeLayout
                  android:id="@+id/rl_tab_line"
                  android:layout_width="0dp"
@@ -252,12 +249,18 @@
              </RelativeLayout>
          </LinearLayout>
      </FrameLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d1cece"
+            />
     <!--页签的展示内容-->
        <FrameLayout
             android:id="@+id/fl_showSearchResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
             <ListView
                 android:id="@+id/lv_showSearchResult"
                 android:layout_width="match_parent"

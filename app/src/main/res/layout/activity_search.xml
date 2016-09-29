@@ -31,7 +31,8 @@
                 android:hint="找需求、找服务、找人"
                 android:paddingLeft="10dp"
                 android:textColorHint="#666666"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:onClick="@{activitySearchModel.etSearch}"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -55,7 +56,8 @@
                 android:focusable="true"
                 android:text="搜索"
                 android:textColor="#ffffff"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                />
 
         </RelativeLayout>
 
@@ -145,99 +147,11 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <!--搜索服务-->
-          <!--  <LinearLayout
-                android:id="@+id/ll_activity_hotService"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
-                android:orientation="vertical"
-                android:visibility="invisible"
-               >
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                    <TextView
-                        android:id="@+id/tv_search_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="11dp"
-                        android:text="热搜服务"
-                        android:textColor="#333333"
-                        android:textSize="14.5sp"/>
-
-                    <ImageButton
-                        android:id="@+id/ivbtn_activity_search_main_categories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="11dp"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/xiangxia_icon"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@id/ivbtn_activity_search_main_categories"
-                        android:text="IT互联网"
-                        android:textColor="#333333"
-                        android:textSize="14.5sp"/>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.2dp"
-                    android:background="#edf1f2"/>
-
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:orientation="horizontal">
-
-                    <ListView
-                        android:id="@+id/lv_activity_search_second_skilllable_list"
-                        android:layout_width="96dp"
-                        android:layout_height="match_parent">
-                    </ListView>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#edf1f2">
-                        <ScrollView
-                            android:id="@+id/sv_activity_search_third_skilllabel"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
-                        >
-
-                            <LinearLayout
-                                android:id="@+id/ll_activity_search_third_skilllabel"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                            </LinearLayout>
-
-                        </ScrollView>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>-->
-
             <!--搜索联想-->
            <LinearLayout
                 android:id="@+id/ll_SearchHistory"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                android:visibility="gone"
                 >
@@ -257,6 +171,7 @@
                     android:textColor="#999999"
                     android:text="清除搜索历史记录"
                     android:visibility="gone"
+                    android:onClick="@{activitySearchModel.showDialog}"
                     />
             </LinearLayout>
 
