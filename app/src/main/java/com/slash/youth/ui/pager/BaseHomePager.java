@@ -12,6 +12,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
 import com.slash.youth.domain.DemandBean;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
+import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.ui.viewmodel.PagerHomeBaseModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -80,20 +81,18 @@ abstract public class BaseHomePager {
 
     }
 
+    ArrayList<DemandBean> listDemand = new ArrayList<DemandBean>();
+    PagerHomeDemandtAdapter pagerHomeDemandtAdapter;
+
     //    abstract public void setData();
     public void setData() {
         mPagerHomeBaseBinding.vpPagerHomeBaseAdvertisement.setAdapter(new HomeAdvertisementAdapter());
 //        getDataFromServer();//由子类实现，去服务端请求数据
-        ArrayList<DemandBean> listDemand = new ArrayList<DemandBean>();
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        mPagerHomeBaseBinding.lvPagerHomeBaseContent.setAdapter(new PagerHomeDemandtAdapter(listDemand));
+        getDataFromServer(true);
+        pagerHomeDemandtAdapter = new PagerHomeDemandtAdapter(listDemand);
+        mPagerHomeBaseBinding.lvPagerHomeBaseContent.setAdapter(pagerHomeDemandtAdapter);
+        mPagerHomeBaseBinding.lvPagerHomeBaseContent.setRefreshDataTask(new RefreshDataTask());
+        mPagerHomeBaseBinding.lvPagerHomeBaseContent.setLoadMoreNewsTast(new LoadMoreNewsTask());
     }
 
 //    abstract public DemandBean getDataFromServer();
@@ -130,6 +129,61 @@ abstract public class BaseHomePager {
             container.removeView((View) object);
         }
 
+    }
+
+
+    /**
+     * 下拉刷新执行的回调，执行结束后需要调用refreshDataFinish()方法，用来更新状态
+     */
+    public class RefreshDataTask implements RefreshListView.IRefreshDataTask {
+
+        @Override
+        public void refresh() {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataFromServer(true);
+                    pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    mPagerHomeBaseBinding.lvPagerHomeBaseContent.refreshDataFinish();
+                }
+            }, 2000);
+        }
+    }
+
+    /**
+     * 上拉加载更多执行的回调，执行完毕后需要调用loadMoreNewsFinished()方法，用来更新状态,如果加载到最后一页，则需要调用setLoadToLast()方法
+     */
+    public class LoadMoreNewsTask implements RefreshListView.ILoadMoreNewsTask {
+
+        @Override
+        public void loadMore() {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataFromServer(false);
+                    pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    mPagerHomeBaseBinding.lvPagerHomeBaseContent.loadMoreNewsFinished();
+                    //如果加载到最后一页，需要调用setLoadToLast()方法
+                }
+            }, 2000);
+        }
+    }
+
+    /**
+     * @param isRefresh true表示为下拉刷新或者第一次初始化加载数据操作，false表示加载更多数据
+     */
+    public void getDataFromServer(boolean isRefresh) {
+        if (isRefresh) {
+            listDemand.clear();
+        }
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
     }
 
 }

@@ -10,20 +10,23 @@ import com.slash.youth.domain.PublishedServiceBean;
 import com.slash.youth.ui.viewmodel.ItemPublishedServiceModel;
 import com.slash.youth.utils.CommonUtils;
 
+import java.util.ArrayList;
+
 /**
  * Created by zhouyifeng on 2016/9/19.
  */
 public class PublishedServiceHolder extends BaseHolder<PublishedServiceBean> {
 
     public ItemPublishedServiceModel mItemPublishedServiceModel;
-    public static int currentChooseItemIndex = -1;
+    public static ArrayList<Integer> listChoosedItemIndex = new ArrayList<Integer>();
+    public ItemListviewPublishedServiceBinding mItemListviewPublishedServiceBinding;
 
     @Override
     public View initView() {
-        ItemListviewPublishedServiceBinding itemListviewPublishedServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_listview_published_service, null, false);
+        mItemListviewPublishedServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_listview_published_service, null, false);
         mItemPublishedServiceModel = new ItemPublishedServiceModel();
-        itemListviewPublishedServiceBinding.setItemPublishedServiceModel(mItemPublishedServiceModel);
-        return itemListviewPublishedServiceBinding.getRoot();
+        mItemListviewPublishedServiceBinding.setItemPublishedServiceModel(mItemPublishedServiceModel);
+        return mItemListviewPublishedServiceBinding.getRoot();
     }
 
     @Override
@@ -33,12 +36,12 @@ public class PublishedServiceHolder extends BaseHolder<PublishedServiceBean> {
         mItemPublishedServiceModel.setType(data.type);
         mItemPublishedServiceModel.setBuyinfo(data.buyCount + "人购买过");
 
-        if (getCurrentPosition() == currentChooseItemIndex) {
-            mItemPublishedServiceModel.setChooseBgColor(0xff31C5E4);
-            mItemPublishedServiceModel.setChooseIconVisibility(View.VISIBLE);
+        if (listChoosedItemIndex.contains(getCurrentPosition())) {
+            mItemPublishedServiceModel.setChooseBgColor(0xff31C5E4);//选中状态的背景色
+            mItemListviewPublishedServiceBinding.ivPublishedServiceChecked.setImageResource(R.mipmap.icon_check);
         } else {
-            mItemPublishedServiceModel.setChooseBgColor(0xffF8F8F9);
-            mItemPublishedServiceModel.setChooseIconVisibility(View.INVISIBLE);
+            mItemPublishedServiceModel.setChooseBgColor(0xffF8F8F9);//未选中状态的背景色
+            mItemListviewPublishedServiceBinding.ivPublishedServiceChecked.setImageResource(R.mipmap.icon_moren);
         }
     }
 }
