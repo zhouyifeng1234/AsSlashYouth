@@ -104,10 +104,12 @@ public class PublishDemandModel extends BaseObservable {
         publishDemandDataBundle.putInt("mStartDisplayDay", mStartDisplayDay);
         publishDemandDataBundle.putInt("mStartDisplayHour", mStartDisplayHour);
         publishDemandDataBundle.putInt("mStartDisplayMinute", mStartDisplayMinute);
+
         publishDemandDataBundle.putInt("mEndDisplayMonth", mEndDisplayMonth);
         publishDemandDataBundle.putInt("mEndDisplayDay", mEndDisplayDay);
         publishDemandDataBundle.putInt("mEndDisplayHour", mEndDisplayHour);
         publishDemandDataBundle.putInt("mEndDisplayMinute", mEndDisplayMinute);
+
         publishDemandDataBundle.putBoolean("isCheckAllDay", isCheckAllDay);
 
 

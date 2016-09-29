@@ -13,16 +13,20 @@ import com.amap.api.maps2d.model.Marker;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandModeBinding;
+import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/9/21.
  */
 public class PublishDemandModeModel extends BaseObservable {
 
-    public static final int OFFLINE_COST_TYPE_EMPLOYER = 0;//线下消费方式：雇主请客
+    public static final int OFFLINE_COST_TYPE_EMPLOYER = 2;//线下消费方式：雇主请客
     public static final int OFFLINE_COST_TYPE_AA = 1;//线下消费方式：AA制
 
     ActivityPublishDemandModeBinding mActivityPublishDemandModeBinding;
@@ -89,7 +93,27 @@ public class PublishDemandModeModel extends BaseObservable {
     }
 
     public void publishDemand(View v) {
-        ToastUtils.shortToast("发布需求成功");
+        boolean isRealNamePublish = publishDemandDataBundle.getBoolean("isRealNamePublish");
+        int choosePublishType = publishDemandDataBundle.getInt("choosePublishType");
+        ArrayList<String> listTotalAddedLabels = publishDemandDataBundle.getStringArrayList("listTotalAddedLabels");
+        int mStartDisplayMonth = publishDemandDataBundle.getInt("mStartDisplayMonth");
+        int mStartDisplayDay = publishDemandDataBundle.getInt("mStartDisplayDay");
+        int mStartDisplayHour = publishDemandDataBundle.getInt("mStartDisplayHour");
+        int mStartDisplayMinute = publishDemandDataBundle.getInt("mStartDisplayMinute");
+        int mEndDisplayMonth = publishDemandDataBundle.getInt("mEndDisplayMonth");
+        int mEndDisplayDay = publishDemandDataBundle.getInt("mEndDisplayDay");
+        int mEndDisplayHour = publishDemandDataBundle.getInt("mEndDisplayHour");
+        int mEndDisplayMinute = publishDemandDataBundle.getInt("mEndDisplayMinute");
+        boolean isCheckAllDay = publishDemandDataBundle.getBoolean("isCheckAllDay");
+
+        String demandTitle = publishDemandDataBundle.getString("demandTitle");
+        String demandDesc = publishDemandDataBundle.getString("demandDesc");
+        ArrayList<String> listAddedPicTempPath = publishDemandDataBundle.getStringArrayList("listAddedPicTempPath");
+
+
+        DemandEngine.publishDemand(new OnPublishDemandFinished(), demandTitle, "开发", System.currentTimeMillis() + 86400000 + "", 2 + "", (isRealNamePublish ? 1 : 0) + "", demandDesc, "", 1 + "", (isOpenSafeBox ? 1 : 0) + "", 1 + "", (isOnlineDemand ? 0 : 1) + "", "苏州", "苏州工业园区", chooseOfflineCostType + "", 0.000000D + "", 0.000000D + "", 0 + "", 20 + "");
+
+//        ToastUtils.shortToast("发布需求成功");
     }
 
     public void getDetailLocation(View v) {
@@ -214,5 +238,18 @@ public class PublishDemandModeModel extends BaseObservable {
         setAroundKilometersLayerVisibility(View.INVISIBLE);
         int value = mNpAroundKilometers.getValue();
         setChooseAroundKilometersValue(aroundKilometersArr[value]);
+    }
+
+    public class OnPublishDemandFinished implements BaseProtocol.IResultExecutor<String> {
+
+        @Override
+        public void execute(String dataBean) {
+            ToastUtils.shortToast(dataBean);
+        }
+
+        @Override
+        public void executeResultError(String result) {
+
+        }
     }
 }

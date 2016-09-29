@@ -47,7 +47,9 @@ public class GlobalConstants {
 //                服务HTTP端口和RPC端口汇总
 //
 //                服务名称              HTTP        RPC        备注
-//                slash.youth.auth	    8300
+//                slash.youth.customer	8500	    6500
+//                slash.youth.feed	    8400        6400
+//                slash.youth.auth	    8300        6300
 //                slash.youth.pay	    8200	    6200
 //                slash.youth.ucenter	8100	    6100
 
@@ -59,7 +61,7 @@ public class GlobalConstants {
 
 
         //服务器主机地址
-        public static final String SERVER_HOST = "http://121.42.145.178/";
+        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
 
 
         /**
@@ -77,6 +79,10 @@ public class GlobalConstants {
 
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
+
+
+        //一、[需求]-发布需求
+        public static final String PUBLISH_DEMAND = SERVER_HOST + "publish";
 
 
         //一、[用户认证]-真实用户认证接口
