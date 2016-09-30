@@ -95,7 +95,7 @@
         </LinearLayout>
          </LinearLayout>
         <!--选择行业-->
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#55000000"
@@ -149,6 +149,6 @@
                     android:textSize="15sp"
                     />
             </LinearLayout>
-        </RelativeLayout>
+        </RelativeLayout>-->
     </FrameLayout>
 </layout>

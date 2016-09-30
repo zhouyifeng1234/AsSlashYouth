@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
+
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.ui.activity.SubscribeActivity;

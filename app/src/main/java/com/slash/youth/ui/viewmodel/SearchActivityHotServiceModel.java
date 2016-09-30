@@ -1,8 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.app.Activity;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -14,13 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.SkillLabelBean;
-import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
@@ -37,7 +35,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
     private  ActivitySearchBinding mActivitySearchBinding;
     private SearchNeedResultTabBinding searchNeedResultTabBinding;
-    private int rlChooseMainLabelVisible = View.INVISIBLE;
+   // private int rlChooseMainLabelVisible = View.INVISIBLE;
     private NumberPicker mNpChooseMainLabels;
     String[] mainLabelsArr;
 
@@ -53,7 +51,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
 
     //加载布局
     private void initView() {
-        mNpChooseMainLabels = searchActivityHotServiceBinding.npPublishServiceMainLabels;
+       // mNpChooseMainLabels = searchActivityHotServiceBinding.npPublishServiceMainLabels;
         //zss  先展示首页
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
         searchActivityHotServiceBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
@@ -96,17 +94,12 @@ public class SearchActivityHotServiceModel extends BaseObservable {
             }
         });
         setThirdSkilllabelData();
-
         //openChoose的数据
-        setOpenChoose();
-    }
-
-    private void setOpenChoose() {
-        mainLabelsArr = new String[]{"金融", "IT", "农业", "水产", "文学"};//大类标签内容实际应该由服务端接口返回
+        /*mainLabelsArr = new String[]{"金融", "IT", "农业", "水产", "文学"};//大类标签内容实际应该由服务端接口返回
         mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
         mNpChooseMainLabels.setMinValue(0);
         mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
-        mNpChooseMainLabels.setValue(1);
+        mNpChooseMainLabels.setValue(1);*/
     }
 
     /**
@@ -269,21 +262,15 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         setRlChooseMainLabelVisible(View.VISIBLE);
     }
 
-    @Bindable
-    public int getRlChooseMainLabelVisible() {
-        return rlChooseMainLabelVisible;
-    }
-
     public void setRlChooseMainLabelVisible(int rlChooseMainLabelVisible) {
-       this.rlChooseMainLabelVisible = rlChooseMainLabelVisible;
+     //  this.rlChooseMainLabelVisible = rlChooseMainLabelVisible;
         notifyPropertyChanged(BR.rlChooseMainLabelVisible);
     }
 
     public void okChooseMainLabel(View v) {
         setRlChooseMainLabelVisible(View.INVISIBLE);
         int value = mNpChooseMainLabels.getValue();
-        SearchActivity searchActivity = (SearchActivity) CommonUtils.getCurrentActivity();
-        searchActivity.checkedFirstLabel = mainLabelsArr[value];
+        //mActivity.checkedFirstLabel = mainLabelsArr[value];
     }
 
 

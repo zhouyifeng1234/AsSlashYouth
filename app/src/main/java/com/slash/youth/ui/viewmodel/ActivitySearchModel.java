@@ -17,8 +17,6 @@ import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.SearchNeedItem;
-import com.slash.youth.domain.SearchPersonItem;
-import com.slash.youth.domain.SearchServiceItem;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
@@ -44,8 +42,6 @@ public class ActivitySearchModel extends BaseObservable {
     private ArrayList<SearchNeedItem> needArrayList;
     private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     private SearchActivityHotServiceModel searchActivityHotServiceModel;
-    private ArrayList<SearchServiceItem> serviceArrayList;
-    private ArrayList<SearchPersonItem> personArrayList;
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
@@ -187,6 +183,7 @@ public class ActivitySearchModel extends BaseObservable {
     ListView listView = new ListView(CommonUtils.getContext());
      //TODO 假数据 接口传入数据，zss
         needArrayList = new ArrayList<>();
+
         //1
         needArrayList.add(new SearchNeedItem());
         needArrayList.add(new SearchNeedItem());
@@ -194,20 +191,17 @@ public class ActivitySearchModel extends BaseObservable {
         needArrayList.add(new SearchNeedItem());
         needArrayList.add(new SearchNeedItem());
         //2
-        serviceArrayList = new ArrayList<>();
-        serviceArrayList.add(new SearchServiceItem());
-        serviceArrayList.add(new SearchServiceItem());
-        serviceArrayList.add(new SearchServiceItem());
-        serviceArrayList.add(new SearchServiceItem());
-        serviceArrayList.add(new SearchServiceItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
         //3
-        personArrayList = new ArrayList<>();
-        personArrayList.add(new SearchPersonItem());
-        personArrayList.add(new SearchPersonItem());
-        personArrayList.add(new SearchPersonItem());
-        personArrayList.add(new SearchPersonItem());
-        personArrayList.add(new SearchPersonItem());
-        PagerSearchItemAdapter pagerSearchItemAdapter = new PagerSearchItemAdapter(needArrayList,serviceArrayList,personArrayList);
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        PagerSearchItemAdapter pagerSearchItemAdapter = new PagerSearchItemAdapter(needArrayList);
         listView.setAdapter(pagerSearchItemAdapter);
          mActivitySearchBinding.flSearchFirst.addView(listView);
     }

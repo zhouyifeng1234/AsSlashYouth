@@ -1,7 +1,6 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import com.slash.youth.utils.CommonUtils;
 public class SearchActivity extends Activity {
 
     private SearchNeedResultTabBinding searchNeedResultTabBinding;
-    public String checkedFirstLabel = "未选择";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
