@@ -336,4 +336,8 @@ public class SlashDateTimePicker extends RelativeLayout {
     public int getCurrentChooseMinute() {
         return currentChooseMinute;
     }
+
+    public int getCurrentChooseYear() {
+        return mCalendar.get(Calendar.YEAR);
+    }
 }

@@ -131,6 +131,18 @@ public class PublishServiceModel extends BaseObservable {
             mActivityPublishServiceBinding.ivPublishServiceCheckAllday.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
         } else {
             mActivityPublishServiceBinding.ivPublishServiceCheckAllday.setImageResource(R.mipmap.dui_icon);
+
+            mStartDisplayHour = 0;
+            mStartDisplayMinute = 0;
+            mEndDisplayHour = 23;
+            mEndDisplayMinute = 59;
+            if (chooseIdleTimeType == IDLETIME_TYPE_CYCLE) {
+                setStartIdleTimeText(mStartDisplayHour + "时" + (mStartDisplayMinute < 10 ? "0" + mStartDisplayMinute : mStartDisplayMinute) + "分");
+                setEndIdleTimeText(mEndDisplayHour + "时" + (mEndDisplayMinute < 10 ? "0" + mEndDisplayMinute : mEndDisplayMinute) + "分");
+            } else {
+                setStartIdleTimeText(mStartDisplayMonth + "月" + mStartDisplayDay + "日" + "-" + mStartDisplayHour + ":" + (mStartDisplayMinute < 10 ? "0" + mStartDisplayMinute : mStartDisplayMinute));
+                setEndIdleTimeText(mEndDisplayMonth + "月" + mEndDisplayDay + "日" + "-" + mEndDisplayHour + ":" + (mEndDisplayMinute < 10 ? "0" + mEndDisplayMinute : mEndDisplayMinute));
+            }
         }
         isAllDayChecked = !isAllDayChecked;
     }

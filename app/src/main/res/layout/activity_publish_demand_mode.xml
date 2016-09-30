@@ -245,12 +245,14 @@
                                 android:layout_marginTop="13dp"
                                 android:background="@drawable/shape_publish_damand_rounded_rectangle">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:layout_centerInParent="true"
-                                    android:text="地点补充描述"
-                                    android:textColor="#999999"
+                                    android:background="@android:color/transparent"
+                                    android:gravity="center"
+                                    android:hint="地点补充描述"
+                                    android:textColorHint="#999999"
                                     android:textSize="15sp"/>
                             </RelativeLayout>
 
