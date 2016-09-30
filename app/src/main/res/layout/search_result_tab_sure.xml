@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"
             android:layout_gravity="center_vertical"
-            android:text="只看认证用户"
+            android:text="认证用户"
             android:textColor="#333333"
             android:textSize="15dp"/>
     </LinearLayout>
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"
             android:layout_gravity="center_vertical"
-            android:text="只看非认证用户"
+            android:text="非认证用户"
             android:textColor="#333333"
             android:textSize="15dp"/>
     </LinearLayout>

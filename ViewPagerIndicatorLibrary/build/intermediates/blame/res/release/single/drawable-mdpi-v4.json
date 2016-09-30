@@ -1,26 +1,50 @@
 [
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_pressed_holo.9.png"
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_pressed_holo.9.png"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_pressed_holo.9.png"
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/vpi__tab_selected_pressed_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/drawable-mdpi/vpi__tab_selected_pressed_holo.9.png"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_focused_holo.9.png",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_focused_holo.9.png"
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/vpi__tab_unselected_focused_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/drawable-mdpi/vpi__tab_unselected_focused_holo.9.png"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_holo.9.png",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_holo.9.png"
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_pressed_holo.9.png"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_holo.9.png",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_holo.9.png"
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_focused_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_focused_holo.9.png"
     },
     {
-        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
-        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_focused_holo.9.png"
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/vpi__tab_unselected_pressed_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/drawable-mdpi/vpi__tab_unselected_pressed_holo.9.png"
+    },
+    {
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/vpi__tab_selected_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/drawable-mdpi/vpi__tab_selected_holo.9.png"
+    },
+    {
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_holo.9.png"
+    },
+    {
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_holo.9.png"
+    },
+    {
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/vpi__tab_unselected_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/drawable-mdpi/vpi__tab_unselected_holo.9.png"
+    },
+    {
+        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/drawable-mdpi-v4/vpi__tab_selected_focused_holo.9.png",
+        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/drawable-mdpi/vpi__tab_selected_focused_holo.9.png"
     }
 ]
