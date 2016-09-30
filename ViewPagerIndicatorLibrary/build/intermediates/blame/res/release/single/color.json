@@ -1,10 +1,10 @@
 [
     {
-        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/color/vpi__light_theme.xml",
-        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/color/vpi__light_theme.xml"
+        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\color\\vpi__dark_theme.xml",
+        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__dark_theme.xml"
     },
     {
-        "merged": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/intermediates/res/merged/release/color/vpi__dark_theme.xml",
-        "source": "/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/res/color/vpi__dark_theme.xml"
+        "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\color\\vpi__light_theme.xml",
+        "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__light_theme.xml"
     }
 ]

@@ -4,9 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.slash.youth.R;
 import com.slash.youth.domain.ItemSearchBean;
-import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.SearchContentHolder;
 import com.slash.youth.utils.CommonUtils;
@@ -16,9 +14,9 @@ import java.util.ArrayList;
 /**
  * Created by zss on 2016/9/19.搜索listview的适配器
  */
-public class SearchContentListAdapter extends SlashBaseAdapter<ItemSearchBean> {
+public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
     private boolean isShow;
-    public SearchContentListAdapter(ArrayList listData,boolean isShow) {
+    public SearchHistoryListAdapter(ArrayList listData, boolean isShow) {
 
         super(buildData(listData,isShow));
         this.isShow = isShow;
@@ -55,7 +53,7 @@ public class SearchContentListAdapter extends SlashBaseAdapter<ItemSearchBean> {
                 @Override
                 public void onItemRemove(ItemSearchBean data, int index) {
                     getData().remove(index);
-                    SearchContentListAdapter.this.notifyDataSetChanged();
+                    SearchHistoryListAdapter.this.notifyDataSetChanged();
                 }
             },position);
         } else {
@@ -74,7 +72,7 @@ public class SearchContentListAdapter extends SlashBaseAdapter<ItemSearchBean> {
             return textViewNull;
         }
     }
-    public SearchContentListAdapter(ArrayList listData) {
+    public SearchHistoryListAdapter(ArrayList listData) {
         super(listData);
     }
 

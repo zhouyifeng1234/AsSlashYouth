@@ -235,6 +235,7 @@ public class PagerHomeBaseModel extends BaseObservable {
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentSearchActivity);
+
     }
 
 }
