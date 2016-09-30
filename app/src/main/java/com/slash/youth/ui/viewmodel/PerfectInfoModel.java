@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
 import com.slash.youth.ui.activity.ChooseSkillActivity;
+import com.slash.youth.ui.activity.test.TestActivity;
 import com.slash.youth.utils.CommonUtils;
 
 /**
@@ -30,5 +31,11 @@ public class PerfectInfoModel extends BaseObservable {
         Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
         intentChooseSkillActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentChooseSkillActivity);
+    }
+
+    public void openTestActivity(View v) {
+        Intent intentTestActivity = new Intent(CommonUtils.getContext(), TestActivity.class);
+        intentTestActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentTestActivity);
     }
 }

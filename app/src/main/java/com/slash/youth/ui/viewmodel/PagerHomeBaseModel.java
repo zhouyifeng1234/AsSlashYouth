@@ -148,6 +148,9 @@ public class PagerHomeBaseModel extends BaseObservable {
     }
 
     public void openSubscribe(View v) {
+
+        setFilterViewVisible(View.INVISIBLE);
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CommonUtils.getCurrentActivity());
         DialogHomeSubscribeBinding dialogHomeSubscribeBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_home_subscribe, null, false);
         DialogHomeSubscribeModel dialogHomeSubscribeModel = new DialogHomeSubscribeModel(dialogHomeSubscribeBinding);
