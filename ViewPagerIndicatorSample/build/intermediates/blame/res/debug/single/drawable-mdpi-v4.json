@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\custom_tab_indicator_unselected_pressed.9.png",
-        "source": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\drawable-mdpi\\custom_tab_indicator_unselected_pressed.9.png"
-    },
-    {
         "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
         "source": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\exploded-aar\\SlashYouth\\ViewPagerIndicatorLibrary\\unspecified\\res\\drawable-mdpi-v4\\vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\custom_tab_indicator_unselected_pressed.9.png",
+        "source": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorSample\\src\\main\\res\\drawable-mdpi\\custom_tab_indicator_unselected_pressed.9.png"
     },
     {
         "merged": "E:\\MyWork\\SlashYouth\\ViewPagerIndicatorSample\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\custom_tab_indicator_unselected_focused.9.png",

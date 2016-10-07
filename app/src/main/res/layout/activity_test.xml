@@ -20,9 +20,9 @@
             android:onClick="cancelDemand"
             android:text="需求方取消需求"/>
         <EditText
-            android:text=""
             android:id="@+id/tv_cancel_demand_id"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text=""/>
     </LinearLayout>
 
 
@@ -31,5 +31,17 @@
         android:layout_height="wrap_content"
         android:onClick="getMyPublishDemandList"
         android:text="我发布的需求列表"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="servicePartyBidDemand"
+        android:text="服务方竞标需求"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="demandPartySelectServiceParty"
+        android:text="需求方选择服务方"/>
 
 </LinearLayout>

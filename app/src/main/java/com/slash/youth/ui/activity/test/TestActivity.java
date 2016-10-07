@@ -74,4 +74,37 @@ public class TestActivity extends Activity {
 
         }
     }
+
+    //似乎返回结果status都是为0？？
+    public void servicePartyBidDemand(View v) {
+        DemandEngine.servicePartyBidDemand(new BaseProtocol.IResultExecutor<String>() {
+
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "21", "10");
+
+    }
+
+    public void demandPartySelectServiceParty(View v) {
+        DemandEngine.demandPartySelectServiceParty(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "21", "10001");
+    }
+
+
 }
