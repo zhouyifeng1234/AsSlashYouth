@@ -55,14 +55,14 @@ public class SlashDateTimePicker extends RelativeLayout {
         npHour = new SlashNumberPicker(CommonUtils.getContext());
         npMinute = new SlashNumberPicker(CommonUtils.getContext());
 
-        RelativeLayout.LayoutParams paramsNpMonthDay = new RelativeLayout.LayoutParams(CommonUtils.dip2px(80), -2);
+        LayoutParams paramsNpMonthDay = new LayoutParams(CommonUtils.dip2px(80), -2);
         npMonthDay.setLayoutParams(paramsNpMonthDay);
 
-        RelativeLayout.LayoutParams paramsNpHour = new RelativeLayout.LayoutParams(-2, -2);
+        LayoutParams paramsNpHour = new LayoutParams(-2, -2);
         paramsNpHour.addRule(RelativeLayout.CENTER_HORIZONTAL);
         npHour.setLayoutParams(paramsNpHour);
 
-        RelativeLayout.LayoutParams paramsNpMinute = new RelativeLayout.LayoutParams(-2, -2);
+        LayoutParams paramsNpMinute = new LayoutParams(-2, -2);
         paramsNpMinute.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         npMinute.setLayoutParams(paramsNpMinute);
 

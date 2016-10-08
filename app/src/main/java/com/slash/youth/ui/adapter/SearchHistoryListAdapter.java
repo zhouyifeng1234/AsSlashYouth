@@ -9,6 +9,9 @@ import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.SearchContentHolder;
 import com.slash.youth.utils.CommonUtils;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 /**
@@ -53,6 +56,21 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
                 @Override
                 public void onItemRemove(ItemSearchBean data, int index) {
                     getData().remove(index);
+                    try{
+                        File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
+                        File file = new File(externalCacheDir,"history.text");
+                        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+                        for (int i=0;i<getData().size();i++ ) {
+                            bw.write(getData().get(i).item);
+                            if (i==getData().size()-1){
+                                break;
+                            }
+                            bw.newLine();
+                        }
+                        bw.close();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     SearchHistoryListAdapter.this.notifyDataSetChanged();
                 }
             },position);
@@ -61,6 +79,7 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
           /*  ClearHolder addMoreHolder = (ClearHolder) holder;
             addMoreHolder.show(isShow);*/
         //TODO
+
         }
 
         View rootView = holder.getRootView();

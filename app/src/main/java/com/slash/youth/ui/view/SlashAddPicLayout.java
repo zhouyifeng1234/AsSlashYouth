@@ -57,7 +57,7 @@ public class SlashAddPicLayout extends LinearLayout {
     }
 
     public LinearLayout createPicLine(boolean isLastLine, int lineIndex) {
-        LinearLayout.LayoutParams paramsPicLine = new LinearLayout.LayoutParams(-1, -2);
+        LayoutParams paramsPicLine = new LayoutParams(-1, -2);
         LinearLayout llPicLine = new LinearLayout(CommonUtils.getContext());
         llPicLine.setOrientation(LinearLayout.HORIZONTAL);
         if (isLastLine) {
@@ -88,7 +88,7 @@ public class SlashAddPicLayout extends LinearLayout {
     }
 
     public RelativeLayout createPicView(Bitmap bitmap, int fileIndex) {
-        LinearLayout.LayoutParams paramsPicView = new LinearLayout.LayoutParams(-2, -2);
+        LayoutParams paramsPicView = new LayoutParams(-2, -2);
         RelativeLayout rlPicView = new RelativeLayout(CommonUtils.getContext());
         paramsPicView.leftMargin = CommonUtils.dip2px(7);
 
@@ -120,7 +120,7 @@ public class SlashAddPicLayout extends LinearLayout {
         return rlPicView;
     }
 
-    public class DelPicClickListener implements View.OnClickListener {
+    public class DelPicClickListener implements OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -133,7 +133,7 @@ public class SlashAddPicLayout extends LinearLayout {
         }
     }
 
-    public class AddPicClickListener implements View.OnClickListener {
+    public class AddPicClickListener implements OnClickListener {
 
         @Override
         public void onClick(View v) {

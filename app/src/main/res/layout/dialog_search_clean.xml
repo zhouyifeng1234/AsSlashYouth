@@ -56,6 +56,7 @@
                 android:src="@mipmap/no_btn"
             />
             <ImageButton
+                android:id="@+id/ib_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"

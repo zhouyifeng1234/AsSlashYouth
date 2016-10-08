@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/jniLibs"/></dataSet><dataSet config="release"><source path="/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/release/jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="E:\mywork\SlashYouth\ViewPagerIndicatorLibrary\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="E:\mywork\SlashYouth\ViewPagerIndicatorLibrary\src\release\jniLibs"/></dataSet></merger>
