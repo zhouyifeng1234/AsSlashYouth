@@ -56,7 +56,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
     }
 
     public LinearLayout createSkillLabelsLine(boolean isLastLine, int lineIndex) {
-        LinearLayout.LayoutParams paramsLine = new LinearLayout.LayoutParams(-1, -2);
+        LayoutParams paramsLine = new LayoutParams(-1, -2);
         LinearLayout llSkillLabelsLine = new LinearLayout(CommonUtils.getContext());
         llSkillLabelsLine.setOrientation(LinearLayout.HORIZONTAL);
         if (isLastLine) {
@@ -104,7 +104,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
     }
 
     public RelativeLayout createSkillLabel(String labelText, int tvLabelTextVisibility, int ivbtnDelLabelVisibility, int ivAddLabelVisibility, int labelIndex) {
-        LinearLayout.LayoutParams paramsSkillLabel = new LinearLayout.LayoutParams(0, CommonUtils.dip2px(66));
+        LayoutParams paramsSkillLabel = new LayoutParams(0, CommonUtils.dip2px(66));
         RelativeLayout rlSkillLabel = new RelativeLayout(CommonUtils.getContext());
 
         RelativeLayout.LayoutParams paramsTvLabelText = new RelativeLayout.LayoutParams(-1, -1);
@@ -151,13 +151,13 @@ public class SlashAddLabelsLayout extends LinearLayout {
     }
 
     public View createLabelSpaceView() {
-        LinearLayout.LayoutParams paramsSpaceView = new LinearLayout.LayoutParams(CommonUtils.dip2px(5), 0);
+        LayoutParams paramsSpaceView = new LayoutParams(CommonUtils.dip2px(5), 0);
         View labelSpaceView = new View(CommonUtils.getContext());
         labelSpaceView.setLayoutParams(paramsSpaceView);
         return labelSpaceView;
     }
 
-    public class AddLabelsClickListener implements View.OnClickListener {
+    public class AddLabelsClickListener implements OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -166,7 +166,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
         }
     }
 
-    public class DelLabelClickListener implements View.OnClickListener {
+    public class DelLabelClickListener implements OnClickListener {
 
         @Override
         public void onClick(View v) {

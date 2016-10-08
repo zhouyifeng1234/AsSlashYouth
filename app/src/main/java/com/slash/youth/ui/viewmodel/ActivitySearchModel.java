@@ -1,9 +1,13 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.AlertDialog;
+import android.app.Application;
+import android.content.DialogInterface;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +15,22 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.blankj.utilcode.utils.RegexUtils;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
+import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.SearchNeedItem;
+import com.slash.youth.domain.SearchPersonItem;
+import com.slash.youth.domain.SearchServiceBean;
+import com.slash.youth.domain.SearchServiceItem;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.http.protocol.PhoneLogin;
+import com.slash.youth.http.protocol.PublishDemandProtocol;
+import com.slash.youth.http.protocol.SearchAssociativeProtocol;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
@@ -25,7 +38,14 @@ import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.ToastUtils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -42,12 +62,22 @@ public class ActivitySearchModel extends BaseObservable {
     private ArrayList<SearchNeedItem> needArrayList;
     private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     private SearchActivityHotServiceModel searchActivityHotServiceModel;
+    private ArrayList<SearchServiceItem> serviceArrayList;
+    private ArrayList<SearchPersonItem> personArrayList;
+    private PagerSearchItemAdapter pagerSearchItemAdapter;
+    private String searchContent1;
+    private ArrayList<SearchAssociativeBean.DataBean> search_contentlist;
+    private ArrayList<String> search_contentlist1;
+    private ArrayList<String> searchHistoryList;
+    private File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
+    private File file = new File(externalCacheDir,"history.text");
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
         //搜索框的监听，zss
         searchListener();
     }
+
 
     //zss,点击直接搜索
     public void etSearch(View v){
@@ -73,7 +103,7 @@ public class ActivitySearchModel extends BaseObservable {
         //数据绑定填充视图
         DialogSearchCleanBinding dialogSearchCleanBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_search_clean, null, false);
         //创建数据模型
-        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding);
+        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding,mActivitySearchBinding);
         //绑定数据模型
         dialogSearchCleanBinding.setDialogSearchCleanModel(dialogSearchCleanModel);
         //设置布局
@@ -121,6 +151,7 @@ public class ActivitySearchModel extends BaseObservable {
     private void searchListener() {
         // 搜索框里面文字变化，出现联想搜索
         mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -147,19 +178,20 @@ public class ActivitySearchModel extends BaseObservable {
             @Override
             public void afterTextChanged(Editable s) {
                 //获取搜索内容
-                if (s.length() != 0) {
-                    String searchHistory = s.toString();
-                    //searchHistoryList.add(searchHistory);
-                   /*  try {
-                        bw = new BufferedWriter(new FileWriter(file));
-                        for(int i=0;i<searchHistoryList.size();i++){
-                            bw.write(searchHistoryList.get(i));
-                            bw.newLine();
-                        }
-                        bw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
+                //分三部分
+                //长度为0：打开历史
+                //长度为1并且非汉字；不动
+                //长度大于2：搜索
+                searchContent1 = s.toString();
+               // char[] chars = searchContent1.toCharArray();
+                //char c =  chars[0];
+                if(searchContent1.length()==0){
+                    showHistory();
+                }else if (searchContent1.length()==1&& !RegexUtils.isChz(searchContent1)/*(c<=0x4e00)&&(c>=0x9fbb)*/){
+                    //输入了一个非汉字的字符
+                    ToastUtils.shortToast("输入信息太少，请重新输入");
+                }else {
+                    showAssociation();
                 }
             }
         });
@@ -171,70 +203,130 @@ public class ActivitySearchModel extends BaseObservable {
             @Override
             public void onClick(View v) {
                 //显示结果页面
-               // LogKit.d("显示直接搜索结果页面");
+                // LogKit.d("显示直接搜索结果页面");
                 //直接搜索结果
-                 showSearchAllReasultView();
+                String text=mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
+                if(text.length()==0){
+                    showSearchAllReasultView();
+                } else if (text.length()==1){
+                    // TODO: 2016/10/3
+                    // 提示输入词汇太少
+                } else if (text.length()>=2){
+                    //联网搜索
+                    saveHistory(text);
+                }
             }
         });
     }
+
+    private void saveHistory(String text) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
+            bw.write(text);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showHistory() {
+        initSearchHistoryData();
+
+    }
+    private void showAssociation() {
+        setSearchContentData(isShow);
+    }
+
     //zss 直接搜索结果
     private void showSearchAllReasultView() {
      mActivitySearchBinding.flSearchFirst.removeAllViews();
     ListView listView = new ListView(CommonUtils.getContext());
      //TODO 假数据 接口传入数据，zss
         needArrayList = new ArrayList<>();
-
         //1
         needArrayList.add(new SearchNeedItem());
         needArrayList.add(new SearchNeedItem());
         needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
         //2
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
+        serviceArrayList = new ArrayList<>();
+        serviceArrayList.add(new SearchServiceItem());
+        serviceArrayList.add(new SearchServiceItem());
+        serviceArrayList.add(new SearchServiceItem());
         //3
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        PagerSearchItemAdapter pagerSearchItemAdapter = new PagerSearchItemAdapter(needArrayList);
+        personArrayList = new ArrayList<>();
+        personArrayList.add(new SearchPersonItem());
+        personArrayList.add(new SearchPersonItem());
+        personArrayList.add(new SearchPersonItem());
+        pagerSearchItemAdapter = new PagerSearchItemAdapter(needArrayList, serviceArrayList, personArrayList, new PagerSearchItemAdapter.OnClickMoreListener() {
+            @Override
+            public void onClickMore( int btn) {
+                switch (btn){
+                    case needMoreBtn://点击更多按钮
+                        needArrayList.add(new SearchNeedItem());
+                        needArrayList.add(new SearchNeedItem());
+                        needArrayList.add(new SearchNeedItem());
+                        pagerSearchItemAdapter.notifyDataSetChanged();
+                        break;
+                    case serviceMoreBtn:
+                        serviceArrayList.add(new SearchServiceItem());
+                        serviceArrayList.add(new SearchServiceItem());
+                        serviceArrayList.add(new SearchServiceItem());
+                        pagerSearchItemAdapter.notifyDataSetChanged();
+                        break;
+                    case persionMoreBtn:
+                        personArrayList.add(new SearchPersonItem());
+                        personArrayList.add(new SearchPersonItem());
+                        personArrayList.add(new SearchPersonItem());
+                        pagerSearchItemAdapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+        });
         listView.setAdapter(pagerSearchItemAdapter);
          mActivitySearchBinding.flSearchFirst.addView(listView);
     }
 
-    private void initSearchHistoryData() {
-         ArrayList<String> searchHistoryList = new ArrayList<String>();//存储集合
-            searchHistoryList.add("独墅湖高教区");
-            searchHistoryList.add("翰邻里中心2");
-            searchHistoryList.add("克苏勒苏3");
-            searchHistoryList.add("克苏勒苏4");
-            searchHistoryList.add("克苏勒苏5");
+    private   void initSearchHistoryData() {
+        //存储集合
+        searchHistoryList = new ArrayList<String>();
 
-      /*  try {
-            br = new BufferedReader(new FileReader(file));
-            String text = br.readLine();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line= br.readLine())!=null){
+                if(TextUtils.isEmpty(line)){
+                    continue;
+                }
+                searchHistoryList .add(line);
+            }
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         adapter= new SearchHistoryListAdapter(searchHistoryList,true);
         mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 
-
-
     private void setSearchContentData(boolean isShow) {
+         ToastUtils.shortToast("点了="+searchContent1);
         //TODO 联想搜索的内容，假的数据从服务端获取，zss
-        ArrayList<String> search_contentlist = new ArrayList<>();
-        search_contentlist.add("ui设计师");
-        search_contentlist.add("uiux设计师");
-        search_contentlist.add("uii设计师");
-        search_contentlist.add("uii设计师");
-        search_contentlist.add("uii设计师");
-        adapter= new SearchHistoryListAdapter(search_contentlist,isShow);
+      /*  search_contentlist = new ArrayList<>();
+        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
+        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
+        SearchAssociativeBean searchAssociativeBean = searchAssociativeProtocol.searchAssociativeBean;
+        SearchAssociativeBean searchAssociativeBean = new SearchAssociativeBean();
+        SearchAssociativeBean.DataBean data = searchAssociativeBean.data;
+        search_contentlist.add(data);*/
+        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol("张");
+        PhoneLogin phoneLogin = new PhoneLogin("111", "dfds", "dsada", "dsfs");
+        search_contentlist1 = new ArrayList<>();
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        adapter= new SearchHistoryListAdapter(search_contentlist1,isShow);
         mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 

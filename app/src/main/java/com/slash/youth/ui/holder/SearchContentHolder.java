@@ -62,7 +62,7 @@ public class SearchContentHolder extends BaseHolder<ItemSearchBean> {
 
     //接口回掉
     public interface onItemRemoveListener{
-        void onItemRemove(ItemSearchBean data ,int index);
+        void onItemRemove(ItemSearchBean data, int index);
     }
 
     public void setItemRemoveListener (final onItemRemoveListener listener ,final int index) {
