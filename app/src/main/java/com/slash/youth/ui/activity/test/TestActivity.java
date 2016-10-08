@@ -244,7 +244,7 @@ public class TestActivity extends Activity {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
-
+   
             @Override
             public void executeResultError(String result) {
 
