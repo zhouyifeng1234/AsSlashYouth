@@ -46,6 +46,17 @@ public class PagerHomeBaseModel extends BaseObservable {
 
     public void initView() {
         initFilterSkilllabel();
+        mPagerHomeBaseBinding.rlPagerHomeBaseAdheader.post(new Runnable() {
+            @Override
+            public void run() {
+                int adHeaderHeight = mPagerHomeBaseBinding.rlPagerHomeBaseAdheader.getMeasuredHeight();
+//                ToastUtils.shortToast(adHeaderHeight + "");
+                mPagerHomeBaseBinding.llPagerHomeBaseHomecontent.setMoveUpDistance(adHeaderHeight);
+//                int firstVisiblePosition = mPagerHomeBaseBinding.lvPagerHomeBaseContent.getFirstVisiblePosition();
+//                ToastUtils.shortToast(firstVisiblePosition + "");
+//                mPagerHomeBaseBinding.llPagerHomeBaseHomecontent.setInnerListView(mPagerHomeBaseBinding.lvPagerHomeBaseContent);
+            }
+        });
     }
 
 //    @Bindable

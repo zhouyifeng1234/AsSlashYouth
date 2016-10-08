@@ -99,15 +99,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
         >
-            <LinearLayout
-
+            <com.slash.youth.ui.view.ScrollLinearLayout
                 android:id="@+id/ll_pager_home_base_homecontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:orientation="vertical">
-                <RelativeLayout android:layout_width="match_parent"
-                                android:layout_height="154.5dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_pager_home_base_adheader"
+                    android:layout_width="match_parent"
+                    android:layout_height="154.5dp">
                     <android.support.v4.view.ViewPager
                         android:id="@+id/vp_pager_home_base_advertisement"
                         android:layout_width="match_parent"
@@ -201,7 +202,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </com.slash.youth.ui.view.RefreshListView>
-            </LinearLayout>
+
+            </com.slash.youth.ui.view.ScrollLinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_pager_home_base_filterview"

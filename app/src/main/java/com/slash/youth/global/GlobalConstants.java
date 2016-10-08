@@ -88,6 +88,10 @@ public class GlobalConstants {
         public static final String CANCEL_DEMAND = SERVER_HOST + "cancel";
         //三、[需求]-我发布的需求列表
         public static final String MY_PUBLISH_DEMAND_LIST = SERVER_HOST + "mylist";
+        //四、[需求]-服务方竞标需求
+        public static final String SERVICE_PARTY_BID_DEMAND = SERVER_HOST + "bid";
+        //五、[需求]-需求方选择服务方
+        public static final String DEMAND_PARTY_SELECT_SERVICE_PARTY = SERVER_HOST + "select";
 
 
         //一、[用户认证]-真实用户认证接口
