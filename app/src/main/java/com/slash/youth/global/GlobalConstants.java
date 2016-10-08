@@ -102,7 +102,18 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_REJECT = SERVER_HOST + "reject";
         //九、[需求]-需求方预支付
         public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST + "payment";
-        //
+        //十、[需求]-我发布的历史需求列表
+        public static final String MY_PUBLISH_HOSTORY_DEMAND_LIST = SERVER_HOST + "myhislist";
+        //十一、[需求]-服务方完成任务
+        public static final String SERVICE_PARTY_COMPLETE = SERVER_HOST + "complete";
+        //十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)
+        public static final String DEMAND_PARTY_CONFIRM_COMPLETE = SERVER_HOST + "confirmComplete";
+        //十三、[需求]-需求方查看竞标（抢需求服务者）列表
+        public static final String DEMAND_PARTY_GET_BIDLIST = SERVER_HOST + "bidlist";
+        //十四、[需求]-加载需求描述信息
+        public static final String GET_DEMAND_DESC = SERVER_HOST + "descget";
+        //十五、[需求]-设置需求描述信息
+        public static final String SET_DEMAND_DESC = SERVER_HOST + "descset";
 
 
         //一、[用户认证]-真实用户认证接口
