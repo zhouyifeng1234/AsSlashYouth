@@ -4,173 +4,96 @@ import android.app.AlertDialog;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
-import com.slash.youth.databinding.DialogHomeSubscribeBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
-import com.slash.youth.domain.DemandBean;
-import com.slash.youth.domain.SkillLabelBean;
-import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
-import com.slash.youth.ui.adapter.SearchContentListAdapter;
-import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
-import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
+import com.slash.youth.databinding.SearchActivityHotServiceBinding;
+import com.slash.youth.databinding.SearchNeedResultTabBinding;
+import com.slash.youth.domain.SearchAssociativeBean;
+import com.slash.youth.domain.SearchNeedItem;
+import com.slash.youth.domain.SearchPersonItem;
+import com.slash.youth.domain.SearchServiceItem;
+import com.slash.youth.http.protocol.PhoneLogin;
+import com.slash.youth.http.protocol.SearchAssociativeProtocol;
+import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
+import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.ToastUtils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/9/18.
  */
-public class ActivitySearchModel extends BaseObservable implements View.OnClickListener {
-    ActivitySearchBinding mActivitySearchBinding;
+public class ActivitySearchModel extends BaseObservable {
+    private  ActivitySearchBinding mActivitySearchBinding;
     private boolean isShow;
-    private  SearchContentListAdapter adapter;
-    private ListView lv_showSearchResult;
-
+    private SearchHistoryListAdapter adapter;
+    public static int  searchType =0;
+    private int  searchNeed = 1;
+    private int  searchService = 2;
+    private int  searchPerson = 3;
+    private ArrayList<SearchNeedItem> needArrayList;
+    private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
+    private SearchActivityHotServiceModel searchActivityHotServiceModel;
+    private ArrayList<SearchServiceItem> serviceArrayList;
+    private ArrayList<SearchPersonItem> personArrayList;
+    private PagerSearchItemAdapter pagerSearchItemAdapter;
+    private String searchContent1;
+    private ArrayList<SearchAssociativeBean.DataBean> search_contentlist;
+    private ArrayList<String> search_contentlist1;
+    private ArrayList<String> searchHistoryList;
+    private File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
+    private File file = new File(externalCacheDir,"history.text");
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
-        initView();
-    }
-
-    private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
-
-    private void initView() {
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
-        mActivitySearchBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
-
-        initData();
-        initListener();
-        //TODO 监听搜索框的搜索,zss
+        //搜索框的监听，zss
         searchListener();
-
-    }
-
-    private void searchListener() {
-        //TODO 添加联想搜索,zss
-        mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mActivitySearchBinding.llActivityHotService.setVisibility(View.GONE);
-                mActivitySearchBinding.lvLvSearchcontent.setVisibility(View.VISIBLE);
-                //文字监听不为0，就显示搜索内容
-                if (s.length()!=0) {
-                   isShow = false;
-
-                }else if(s.length() == 0){
-                    isShow =true;
-
-                }
-                adapter.showRemoveBtn(isShow);
-                //显示cleanAll
-                cleanAll(isShow);
-            }
-
-            //文本改变之后
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        //设置搜索的数据，zss
-        setSearchContentData(isShow);
-        //点击搜索，显示搜索的结果 zss
-        mActivitySearchBinding.tvSearchResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            //显示结果页面
-          //  LogKit.d("显示搜索结果页面");
-          showSearchReasult();
-            }
-        });
-    }
-    //zss 显示搜索页面
-    private void showSearchReasult() {
-        //先把当前的页面隐藏
-        mActivitySearchBinding.llActivityHotService.setVisibility(View.GONE);
-        //添加一个布局，获取布局的view
-        View view = getView(R.layout.include_search_result);
-        lv_showSearchResult = (ListView) view.findViewById(R.id.lv_showSearchResult);
-        //获取listview要展示的数据
-        setSearchResultData();
-        mActivitySearchBinding.flSearchResult.addView(view);
-        mActivitySearchBinding.flSearchResult.setVisibility(View.VISIBLE);
-        //设置指示器的点击事件,三个不同的指示器的监听事件
-        view.findViewById(R.id.rl_tab_line).setOnClickListener(this);
-        view.findViewById(R.id.rl_tab_user).setOnClickListener(this);
-        view.findViewById(R.id.rl_tab_time).setOnClickListener(this);
-
-    }
-    //获取view
-    private View getView(int layout) {
-        mActivitySearchBinding.flSearchResult.removeAllViews();
-        return View.inflate(CommonUtils.getContext(),layout,null);
-    }
-
-    private View getView(boolean isremove,int layout) {
-        if (isremove) {
-            mActivitySearchBinding.flSearchResult.removeAllViews();
-        }
-        return View.inflate(CommonUtils.getContext(),layout,null);
     }
 
 
-
-    //zss 设置搜索结果数据
-    private void setSearchResultData() {
-
-        //假数据，真实数据从服务端接口获取
-        ArrayList<DemandBean> listDemand = new ArrayList<DemandBean>();
-        //集合里对象信息也要重新设置
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        lv_showSearchResult.setAdapter(new PagerHomeDemandtAdapter(listDemand));
+    //zss,点击直接搜索
+    public void etSearch(View v){
+       // LogKit.d("点击搜索框，出现历史纪录");
+        mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
+        mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
+        //加载搜索框历史的数据
+        initSearchHistoryData();
+        //删除单条和清除所有
+        cleanAll(true);
     }
 
-    //zss 显示清除所有历史
+    //zss 判断显示清除所有历史
     private void cleanAll(boolean isShow) {
         mActivitySearchBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
-        mActivitySearchBinding.tvCleanAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击出现对话框
-            //     LogKit.d("显示对话框");
-                showCleanAllDialog();
-            }
-        });
     }
 
-    //TODO zss 显示对话框
-    private void showCleanAllDialog() {
+    //点击显示对话框
+    public void showDialog(View v){
+        LogKit.d("显示对话框");
         //创建AlertDialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CommonUtils.getCurrentActivity());
         //数据绑定填充视图
         DialogSearchCleanBinding dialogSearchCleanBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_search_clean, null, false);
         //创建数据模型
-        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding);
+        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding,mActivitySearchBinding);
         //绑定数据模型
         dialogSearchCleanBinding.setDialogSearchCleanModel(dialogSearchCleanModel);
         //设置布局
@@ -184,220 +107,249 @@ public class ActivitySearchModel extends BaseObservable implements View.OnClickL
         WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
         //定义显示的dialog的宽和高
         dialogParams.width = CommonUtils.dip2px(280);//宽度
-        dialogParams.height = CommonUtils.dip2px(174);//高度
+        dialogParams.height = CommonUtils.dip2px(200);//高度
         dialogSubscribeWindow.setAttributes(dialogParams);
 //        dialogSubscribeWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
 //        dialogBuilder.show();
-
     }
 
-    private void initData() {
-        //假数据，实际应该从服务端借口获取
-        ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
-        SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {
+    //zss,退出当前的页面
+    public void back(View v){
+        switch (searchType){
+            case 0:
+                CommonUtils.getCurrentActivity().finish();
+                break;
+            case 1:
+            case 2:
+            case 3:
+                mActivitySearchBinding.flSearchFirst.removeView(searchActivityHotServiceBinding.getRoot());
+                mActivitySearchBinding.rlSearchMain.setVisibility(View.VISIBLE);
+                mActivitySearchBinding.tvSearchResult.setText("搜索");
+                searchType = 0;
+                break;
+            case 4:
+                SearchNeedResultTabBinding searchNeedResultTabBinding = searchActivityHotServiceModel.getSearchNeedResultTabBinding();
+                mActivitySearchBinding.flSearchFirst.removeView(searchNeedResultTabBinding.getRoot());
+                mActivitySearchBinding.tvSearchResult.setText("取消");
+                searchType =1;
+                break;
+        }
+    }
+
+      //zss.监听框的搜索
+    private void searchListener() {
+        // 搜索框里面文字变化，出现联想搜索
+        mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
+
             @Override
-            public void run() {
-                View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySearchBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
-                LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
-                SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
-                lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //下面的首页隐藏
+                mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
+                //显示搜索
+                mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
+
+                //文字监听不为0，就显示搜索内容
+                if (s.length()!=0) {
+                   isShow = false;
+                }else if(s.length() == 0){
+                    isShow =true;
+                }
+                adapter.showRemoveBtn(isShow);
+                //显示cleanAll
+                cleanAll(isShow);
+            }
+
+            //文本改变之后,输入的内容要保存到本地
+            @Override
+            public void afterTextChanged(Editable s) {
+                //获取搜索内容
+                //分三部分
+                //长度为0：打开历史
+                //长度为1并且非汉字；不动
+                //长度大于2：搜索
+                searchContent1 = s.toString();
+               // char[] chars = searchContent1.toCharArray();
+                //char c =  chars[0];
+                if(searchContent1.length()==0){
+                    showHistory();
+                }else if (searchContent1.length()==1){
+                    //输入了一个非汉字的字符
+                    ToastUtils.shortToast("输入信息太少，请重新输入");
+                }else {
+                    showAssociation();
+                }
             }
         });
-        setThirdSkilllabelData();
+
+        //设置搜索的数据，zss
+        setSearchContentData(isShow);
+        //点击搜索，显示搜索的结果 zss
+        mActivitySearchBinding.tvSearchResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //显示结果页面
+                // LogKit.d("显示直接搜索结果页面");
+                //直接搜索结果
+                String text=mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
+                if(text.length()==0){
+                    showSearchAllReasultView();
+                } else if (text.length()==1){
+                    // TODO: 2016/10/3
+                    // 提示输入词汇太少
+                } else if (text.length()>=2){
+                    //联网搜索
+                    saveHistory(text);
+                }
+            }
+        });
     }
 
-    private void setSearchContentData(boolean isShow) {
-        //TODO 联想搜索的内容，假的数据从服务端获取，zss
-        ArrayList<String> search_contentlist = new ArrayList<>();
-        search_contentlist.add("ui设计师");
-        search_contentlist.add("uiux设计师");
-        search_contentlist.add("uii设计师");
-        adapter= new SearchContentListAdapter(search_contentlist,isShow);
+    private void saveHistory(String text) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
+            bw.write(text);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showHistory() {
+        initSearchHistoryData();
+
+    }
+    private void showAssociation() {
+        setSearchContentData(isShow);
+    }
+
+    //zss 直接搜索结果
+    private void showSearchAllReasultView() {
+     mActivitySearchBinding.flSearchFirst.removeAllViews();
+    ListView listView = new ListView(CommonUtils.getContext());
+     //TODO 假数据 接口传入数据，zss
+        needArrayList = new ArrayList<>();
+        //1
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        needArrayList.add(new SearchNeedItem());
+        //2
+        serviceArrayList = new ArrayList<>();
+        serviceArrayList.add(new SearchServiceItem());
+        serviceArrayList.add(new SearchServiceItem());
+        serviceArrayList.add(new SearchServiceItem());
+        //3
+        personArrayList = new ArrayList<>();
+        personArrayList.add(new SearchPersonItem());
+        personArrayList.add(new SearchPersonItem());
+        personArrayList.add(new SearchPersonItem());
+        pagerSearchItemAdapter = new PagerSearchItemAdapter(needArrayList, serviceArrayList, personArrayList, new PagerSearchItemAdapter.OnClickMoreListener() {
+            @Override
+            public void onClickMore( int btn) {
+                switch (btn){
+                    case needMoreBtn://点击更多按钮
+                        needArrayList.add(new SearchNeedItem());
+                        needArrayList.add(new SearchNeedItem());
+                        needArrayList.add(new SearchNeedItem());
+                        pagerSearchItemAdapter.notifyDataSetChanged();
+                        break;
+                    case serviceMoreBtn:
+                        serviceArrayList.add(new SearchServiceItem());
+                        serviceArrayList.add(new SearchServiceItem());
+                        serviceArrayList.add(new SearchServiceItem());
+                        pagerSearchItemAdapter.notifyDataSetChanged();
+                        break;
+                    case persionMoreBtn:
+                        personArrayList.add(new SearchPersonItem());
+                        personArrayList.add(new SearchPersonItem());
+                        personArrayList.add(new SearchPersonItem());
+                        pagerSearchItemAdapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+        });
+        listView.setAdapter(pagerSearchItemAdapter);
+         mActivitySearchBinding.flSearchFirst.addView(listView);
+    }
+
+    private   void initSearchHistoryData() {
+        //存储集合
+        searchHistoryList = new ArrayList<String>();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line= br.readLine())!=null){
+                if(TextUtils.isEmpty(line)){
+                    continue;
+                }
+                searchHistoryList .add(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        adapter= new SearchHistoryListAdapter(searchHistoryList,true);
         mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 
-    /**
-     * 根据选择的二级标签，显示对应的三级标签
-     */
-    public void setThirdSkilllabelData() {
-        //TODO 目前只是测试数据，到时候该方法可能需要传入二级标签的ID等信息，以方便查询对应的三级标签
-        final ArrayList<String> listThirdSkilllabelName = new ArrayList<String>();
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("A设计");
-        listThirdSkilllabelName.add("A");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add(".NET");
-        listThirdSkilllabelName.add("java");
-        listThirdSkilllabelName.add("android");
-        listThirdSkilllabelName.add("hadoop");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add(".NET");
-        listThirdSkilllabelName.add("java");
-        listThirdSkilllabelName.add("android");
-        listThirdSkilllabelName.add("hadoop");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        mActivitySearchBinding.llActivitySearchThirdSkilllabel.removeAllViews();
-        mActivitySearchBinding.llActivitySearchThirdSkilllabel.post(new Runnable() {
-            LinearLayout llSkilllabelLine;
-            int lineCount = 0;
-//            int lineLabelCount = 0;
-
-            @Override
-            public void run() {
-                int scrollViewWidth = mActivitySearchBinding.llActivitySearchThirdSkilllabel.getMeasuredWidth();
-                scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
-
-                int labelRightMargin = CommonUtils.dip2px(10);
-                int skillLabelLineWidth = 0;
-
-
-                for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
-                    String thirdSkilllabelName = listThirdSkilllabelName.get(i);
-
-                    //创建标签TextView
-                    LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2);
-                    llParamsForSkillLabel.rightMargin = CommonUtils.dip2px(labelRightMargin);
-                    TextView tvThirdSkilllabelName = new TextView(CommonUtils.getContext());
-                    tvThirdSkilllabelName.setLayoutParams(llParamsForSkillLabel);
-                    tvThirdSkilllabelName.setMaxLines(1);
-                    tvThirdSkilllabelName.setGravity(Gravity.CENTER);
-                    tvThirdSkilllabelName.setTextColor(0xff333333);
-                    tvThirdSkilllabelName.setTextSize(14);
-                    tvThirdSkilllabelName.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
-//                    tvThirdSkilllabelName.setBackgroundColor(0xffffffff);
-                    tvThirdSkilllabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
-                    tvThirdSkilllabelName.setText(thirdSkilllabelName);
-                    //测量标签TextView的宽度并判断是否换行
-                    tvThirdSkilllabelName.measure(0, 0);
-                    int tvThirdSkilllabelWidth = tvThirdSkilllabelName.getMeasuredWidth() + labelRightMargin;
-                    int newSkillLabelLineWidth = skillLabelLineWidth + tvThirdSkilllabelWidth;
-//                    lineLabelCount++;
-                    if (skillLabelLineWidth != 0) {
-                        if (newSkillLabelLineWidth >= scrollViewWidth) {
-                            mActivitySearchBinding.llActivitySearchThirdSkilllabel.addView(llSkilllabelLine);
-                            createLabelLine();
-                            llSkilllabelLine.addView(tvThirdSkilllabelName);
-                            skillLabelLineWidth = tvThirdSkilllabelWidth;
-                        } else {
-                            llSkilllabelLine.addView(tvThirdSkilllabelName);
-                            skillLabelLineWidth = newSkillLabelLineWidth;
-                        }
-                    } else {
-                        //防范一个标签就超过总宽度的情况
-                        createLabelLine();
-                        llSkilllabelLine.addView(tvThirdSkilllabelName);
-
-                        if (newSkillLabelLineWidth >= scrollViewWidth) {
-                            mActivitySearchBinding.llActivitySearchThirdSkilllabel.addView(llSkilllabelLine);
-                            skillLabelLineWidth = 0;
-                        } else {
-                            skillLabelLineWidth = newSkillLabelLineWidth;
-                        }
-                    }
-                }
-            }
-
-            public void createLabelLine() {
-                //创建Line
-                LinearLayout.LayoutParams llParamsForLine = new LinearLayout.LayoutParams(-1, -2);
-                if (lineCount % 2 == 0) {
-                    llParamsForLine.topMargin = CommonUtils.dip2px(20);
-                } else {
-                    llParamsForLine.topMargin = CommonUtils.dip2px(10);
-                }
-                llSkilllabelLine = new LinearLayout(CommonUtils.getContext());
-                llSkilllabelLine.setLayoutParams(llParamsForLine);
-                llSkilllabelLine.setOrientation(LinearLayout.HORIZONTAL);
-                lineCount++;
-//                lineLabelCount = 0;
-            }
-        });
+    private void setSearchContentData(boolean isShow) {
+         ToastUtils.shortToast("点了="+searchContent1);
+        //TODO 联想搜索的内容，假的数据从服务端获取，zss
+      /*  search_contentlist = new ArrayList<>();
+        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
+        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
+        SearchAssociativeBean searchAssociativeBean = searchAssociativeProtocol.searchAssociativeBean;
+        SearchAssociativeBean searchAssociativeBean = new SearchAssociativeBean();
+        SearchAssociativeBean.DataBean data = searchAssociativeBean.data;
+        search_contentlist.add(data);*/
+        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol("张");
+        PhoneLogin phoneLogin = new PhoneLogin("111", "dfds", "dsada", "dsfs");
+        search_contentlist1 = new ArrayList<>();
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        search_contentlist1.add("dsfsd");
+        adapter= new SearchHistoryListAdapter(search_contentlist1,isShow);
+        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 
-    private void initListener() {
-        mActivitySearchBinding.lvActivitySearchSecondSkilllableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (lastClickItemModel != null) {
-                    lastClickItemModel.setSecondSkilllabelColor(0xff333333);
-                }
-                SubscribeSecondSkilllabelHolder subscribeSecondSkilllabelHolder = (SubscribeSecondSkilllabelHolder) view.getTag();
-                ItemSubscribeSecondSkilllabelModel itemSubscribeSecondSkilllabelModel = subscribeSecondSkilllabelHolder.mItemSubscribeSecondSkilllabelModel;
-                itemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
-                subscribeSecondSkilllabelHolder.clickItemPosition = position;
-                lastClickItemModel = itemSubscribeSecondSkilllabelModel;
-                setThirdSkilllabelData();
-            }
-        });
-
-    }
-    //zss 指示器的点击事件
-    private  boolean isClick ;
-    @Override
-    public void onClick(View v) {
-    switch (v.getId()){
-        //线上用户
-        case R.id.rl_tab_line:
-            setImageView(v,R.id.iv_line_icon,R.mipmap.free_play,R.mipmap.free_pay_jihuo);
-            //展示线上的选择页面
-           // getView(false,);
-
-
-            break;
-        //认证用户
-        case R.id.rl_tab_user:
-            setImageView(v,R.id.iv_user_icon,R.mipmap.free_play,R.mipmap.free_pay_jihuo);
-            break;
-        //时间
-        case R.id.rl_tab_time:
-            setImageView(v,R.id.iv_time_icon,R.mipmap.xia,R.mipmap.shang_icon);
-            break;
-
-        }
-    }
-    //指示器设置图片,zss
-    private void setImageView(View v,int iv1,int iv2,int iv3) {
-        if (isClick){
-            ((ImageView)v.findViewById(iv1)).setImageResource(iv2);
-        }else {
-            ((ImageView)v.findViewById(iv1)).setImageResource(iv3);
-        }
-        isClick = !isClick;
+    //搜索需求
+    public void searchNeed(View v) {
+    //LogKit.d("SearchNeed");
+        showView("热搜需求");
+        SpUtils.setString("searchType","searchNeed");
+        searchType = searchNeed;
     }
 
+    //搜索服务
+    public void searchService(View v) {
+       // LogKit.d("SearchService");
+        showView("热搜服务");
+        SpUtils.setString("searchType","searchService");
+        searchType = searchService;
+    }
 
+    //搜索人
+    public void searchPerson(View v){
+      //  LogKit.d("SearchPerson");
+        showView("搜人");
+        SpUtils.setString("searchType","searchPerson");
+        searchType = searchPerson;
+    }
 
+    private void showView(String title) {
+        searchActivityHotServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_activity_hot_service, null, false);
+        searchActivityHotServiceModel = new SearchActivityHotServiceModel(searchActivityHotServiceBinding,mActivitySearchBinding);
+        searchActivityHotServiceBinding.setSearchActivityHotServiceModel(searchActivityHotServiceModel);
+        mActivitySearchBinding.flSearchFirst.addView(searchActivityHotServiceBinding.getRoot());
+        searchActivityHotServiceBinding.tvSearchTitle.setText(title);
+        mActivitySearchBinding.tvSearchResult.setText("取消");
+    }
 }

@@ -6,8 +6,12 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="255dp"
+        android:layout_height="174dp"
         android:background="@mipmap/dialog_search_clean_bg"
         android:orientation="vertical">
 
@@ -43,6 +47,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="32dp"
             android:orientation="horizontal">
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,6 +56,7 @@
                 android:src="@mipmap/no_btn"
             />
             <ImageButton
+                android:id="@+id/ib_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -58,7 +64,6 @@
                 android:src="@mipmap/ok_btn"
             />
         </LinearLayout>
-
-
+    </LinearLayout>
     </LinearLayout>
 </layout>

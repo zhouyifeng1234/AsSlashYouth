@@ -16,7 +16,7 @@ public abstract class BaseHolder<T> {
         }
     }
 
-    public abstract View initView();
+    public abstract View initView();//加载view
 
     public void setData(T data, int position) {
         this.data = data;

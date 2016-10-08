@@ -1,6 +1,7 @@
 package com.slash.youth.http.protocol;
 
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 
@@ -103,6 +104,7 @@ public class PublishDemandProtocol extends BaseProtocol<String> {
 
     @Override
     public String parseData(String result) {
+
         return result;
     }
 

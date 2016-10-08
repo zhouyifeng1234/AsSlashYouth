@@ -63,6 +63,8 @@ public class GlobalConstants {
         //服务器主机地址
 //        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
         public static final String SERVER_HOST = "http://121.42.145.178/feed/v1/api/demand/";
+        //ZSS
+        public static final String SERVER_HOST_DAR = "http://121.42.145.178/search/v1/api";
 
 
         /**
@@ -92,6 +94,26 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_BID_DEMAND = SERVER_HOST + "bid";
         //五、[需求]-需求方选择服务方
         public static final String DEMAND_PARTY_SELECT_SERVICE_PARTY = SERVER_HOST + "select";
+        //六、[需求]-服务方确认一个服务者
+        public static final String SERVICE_PARTY_CONFIRM_SERVANT = SERVER_HOST + "confirm";
+        //七、[需求]-查看需求流程日志
+        public static final String GET_DEMAND_FLOW_LOG = SERVER_HOST + "log";
+        //八、[需求]-服务方拒绝
+        public static final String SERVICE_PARTY_REJECT = SERVER_HOST + "reject";
+        //九、[需求]-需求方预支付
+        public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST + "payment";
+        //十、[需求]-我发布的历史需求列表
+        public static final String MY_PUBLISH_HOSTORY_DEMAND_LIST = SERVER_HOST + "myhislist";
+        //十一、[需求]-服务方完成任务
+        public static final String SERVICE_PARTY_COMPLETE = SERVER_HOST + "complete";
+        //十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)
+        public static final String DEMAND_PARTY_CONFIRM_COMPLETE = SERVER_HOST + "confirmComplete";
+        //十三、[需求]-需求方查看竞标（抢需求服务者）列表
+        public static final String DEMAND_PARTY_GET_BIDLIST = SERVER_HOST + "bidlist";
+        //十四、[需求]-加载需求描述信息
+        public static final String GET_DEMAND_DESC = SERVER_HOST + "descget";
+        //十五、[需求]-设置需求描述信息
+        public static final String SET_DEMAND_DESC = SERVER_HOST + "descset";
 
 
         //一、[用户认证]-真实用户认证接口
@@ -162,6 +184,22 @@ public class GlobalConstants {
 
         //二十三、[用户信息]-下载用户头像
         public static final String DOWNLOAD_USER_AVATAR = SERVER_HOST + "uinfo/v1/api/vcard/avatar/upload";
+
+        //二十四、[搜索]-联想词搜索
+        // public static final String SEARCH_ASSOCIATIVE = SERVER_HOST + "search/v1/api/common/tag";
+        public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_DAR + "/common/tag";
+
+        //二十五、[搜索]-[用户&需求&服务]搜索
+        public static final String SEARCH_ALL = SERVER_HOST + "search/v1/api/common/all";
+
+        //二十六、[搜索]-用户搜索
+        public static final String SEARCH_USER = SERVER_HOST + "search/v1/api/user";
+
+        //二十七、[搜索]-需求搜索
+        public static final String SEARCH_DEMAND = SERVER_HOST + "search/v1/api/demand";
+
+        //二十八、[搜索]-服务搜索
+        public static final String SEARCH_SERVICE = SERVER_HOST + "search/v1/api/service";
 
     }
 

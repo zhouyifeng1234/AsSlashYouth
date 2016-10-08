@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
@@ -25,6 +26,13 @@ public class TestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        final ScrollView svTestButton = (ScrollView) findViewById(R.id.sv_activity_test);
+        svTestButton.post(new Runnable() {
+            @Override
+            public void run() {
+                svTestButton.fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
 
     public void publishDemand(View v) {
@@ -106,5 +114,157 @@ public class TestActivity extends Activity {
         }, "21", "10001");
     }
 
+    //六、[需求]-服务方确认一个服务者
+    public void servicePartyConfirmServant(View v) {
+        DemandEngine.servicePartyConfirmServant(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
 
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22", "10001");
+    }
+
+    //七、[需求]-查看需求流程日志
+    public void getDemandFlowLog(View v) {
+        DemandEngine.getDemandFlowLog(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //八、[需求]-服务方拒绝
+    public void servicePartyReject(View v) {
+        DemandEngine.servicePartyReject(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //九、[需求]-需求方预支付
+    // 似乎无法使用跳过验证的方法，{"code":1,"data":{"message":"auth invalid."}}
+    public void demandPartyPrePayment(View v) {
+        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //十、[需求]-我发布的历史需求列表
+    public void getMyPublishHistoryDemandList(View v) {
+        DemandEngine.getMyPublishHistoryDemandList(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "0", "20");
+    }
+
+    //十一、[需求]-服务方完成任务
+    public void servicePartyComplete(View v) {
+        DemandEngine.servicePartyComplete(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)
+    public void demandPartyConfirmComplete(View v) {
+        DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //十三、[需求]-需求方查看竞标（抢需求服务者）列表
+    //Error 404 Not Found  （似乎还没有提供，是加入了跳过验证的参数后就404）
+    public void demandPartyGetBidList(View v) {
+        DemandEngine.demandPartyGetBidList(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //十四、[需求]-加载需求描述信息
+    //Error 404 Not Found 和上面一样的情况
+    public void getDemandDesc(View v) {
+        DemandEngine.getDemandDesc(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+   
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //十五、[需求]-设置需求描述信息
+    //Error 404 Not Found 和上面一样的情况
+    public void setDemandDesc(View v) {
+        DemandEngine.setDemandDesc(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22", "前端页面开发");
+    }
 }
