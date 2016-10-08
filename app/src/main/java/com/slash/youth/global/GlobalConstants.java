@@ -86,6 +86,10 @@ public class GlobalConstants {
 
         //一、[需求]-发布需求
         public static final String PUBLISH_DEMAND = SERVER_HOST + "publish";
+        //二、[需求]-需求方取消需求
+        public static final String CANCEL_DEMAND = SERVER_HOST + "cancel";
+        //三、[需求]-我发布的需求列表
+        public static final String MY_PUBLISH_DEMAND_LIST = SERVER_HOST + "mylist";
 
 
         //一、[用户认证]-真实用户认证接口

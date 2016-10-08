@@ -76,7 +76,7 @@ public class PublishServiceInfoModel extends BaseObservable {
      * @param v
      */
     public void setPublishConsultationService(View v) {
-        mActivityPublishServiceInfoBinding.ivbtnConsultationServiceChecked.setImageResource(R.mipmap.seclted);
+        mActivityPublishServiceInfoBinding.ivbtnConsultationServiceChecked.setImageResource(R.mipmap.btn_employer_treat);
         mActivityPublishServiceInfoBinding.ivbtnPayServiceChecked.setImageResource(R.mipmap.default_icon);
         mActivityPublishServiceInfoBinding.tvConsultationServiceText.setTextColor(0xff31C5E4);
         mActivityPublishServiceInfoBinding.tvPayServiceText.setTextColor(0xff999999);
@@ -93,7 +93,7 @@ public class PublishServiceInfoModel extends BaseObservable {
      */
     public void setPublishPayService(View v) {
         mActivityPublishServiceInfoBinding.ivbtnConsultationServiceChecked.setImageResource(R.mipmap.default_icon);
-        mActivityPublishServiceInfoBinding.ivbtnPayServiceChecked.setImageResource(R.mipmap.seclted);
+        mActivityPublishServiceInfoBinding.ivbtnPayServiceChecked.setImageResource(R.mipmap.btn_employer_treat);
         mActivityPublishServiceInfoBinding.tvConsultationServiceText.setTextColor(0xff999999);
         mActivityPublishServiceInfoBinding.tvPayServiceText.setTextColor(0xff31C5E4);
         mActivityPublishServiceInfoBinding.ivbtnConsultationServiceIcon.setImageResource(R.mipmap.zixun_default_icon);

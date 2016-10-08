@@ -134,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/seclted"/>
+                            android:src="@mipmap/btn_employer_treat"/>
                         <TextView
                             android:id="@+id/tv_consultation_service_text"
                             android:layout_width="wrap_content"

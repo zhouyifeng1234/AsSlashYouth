@@ -298,14 +298,14 @@ public class PublishServiceModel extends BaseObservable {
 
 
     public void setRealName(View v) {
-        mActivityPublishServiceBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.selected_icon);
+        mActivityPublishServiceBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.btn_employer_treat);
         mActivityPublishServiceBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.service_ptype_moren_icon);
         isRealName = true;
     }
 
     public void setAnonymous(View v) {
         mActivityPublishServiceBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.service_ptype_moren_icon);
-        mActivityPublishServiceBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.selected_icon);
+        mActivityPublishServiceBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.btn_employer_treat);
         isRealName = false;
     }
 

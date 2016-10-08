@@ -119,19 +119,19 @@ public class PublishDemandModel extends BaseObservable {
     }
 
     public void choosePublishRealnameDemand(View v) {
-        mActivityPublishDemandBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.selected_icon);
+        mActivityPublishDemandBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.btn_employer_treat);
         mActivityPublishDemandBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.service_ptype_moren_icon);
         isRealNamePublish = true;
     }
 
     public void choosePublishAnonymousDemand(View v) {
         mActivityPublishDemandBinding.ivbtnPublishDemandRealname.setImageResource(R.mipmap.service_ptype_moren_icon);
-        mActivityPublishDemandBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.selected_icon);
+        mActivityPublishDemandBinding.ivbtnPublishDemandAnonymous.setImageResource(R.mipmap.btn_employer_treat);
         isRealNamePublish = false;
     }
 
     public void chooseConsultationDemand(View v) {
-        mActivityPublishDemandBinding.ivbtnDemandTypeConsultation.setImageResource(R.mipmap.seclted);
+        mActivityPublishDemandBinding.ivbtnDemandTypeConsultation.setImageResource(R.mipmap.btn_employer_treat);
         mActivityPublishDemandBinding.ivbtnDemandTypePay.setImageResource(R.mipmap.default_icon);
         mActivityPublishDemandBinding.tvDemandTypeConsultationDesc.setTextColor(0xff31C5E4);
         mActivityPublishDemandBinding.tvDemandTypePayDesc.setTextColor(0xff999999);
@@ -142,7 +142,7 @@ public class PublishDemandModel extends BaseObservable {
 
     public void choosePayDemand(View v) {
         mActivityPublishDemandBinding.ivbtnDemandTypeConsultation.setImageResource(R.mipmap.default_icon);
-        mActivityPublishDemandBinding.ivbtnDemandTypePay.setImageResource(R.mipmap.seclted);
+        mActivityPublishDemandBinding.ivbtnDemandTypePay.setImageResource(R.mipmap.btn_employer_treat);
         mActivityPublishDemandBinding.tvDemandTypeConsultationDesc.setTextColor(0xff999999);
         mActivityPublishDemandBinding.tvDemandTypePayDesc.setTextColor(0xff31C5E4);
         mActivityPublishDemandBinding.ivbtnDemandTypeConsultationIcon.setImageResource(R.mipmap.zixun_default_icon);
