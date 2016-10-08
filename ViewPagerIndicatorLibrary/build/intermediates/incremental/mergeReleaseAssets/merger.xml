@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="D:\AndroidStudioProject\SlashYouth\ViewPagerIndicatorLibrary\src\main\assets"/></dataSet><dataSet config="release"><source path="D:\AndroidStudioProject\SlashYouth\ViewPagerIndicatorLibrary\src\release\assets"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/main/assets"/><source path="/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/leslie/Documents/SlashWorkSpace/SlashAndroid/ViewPagerIndicatorLibrary/src/release/assets"/></dataSet></merger>
->>>>>>> 7d63822cdbcf615c0f0ed8d9e8dcac13829271d0
