@@ -94,6 +94,15 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_BID_DEMAND = SERVER_HOST + "bid";
         //五、[需求]-需求方选择服务方
         public static final String DEMAND_PARTY_SELECT_SERVICE_PARTY = SERVER_HOST + "select";
+        //六、[需求]-服务方确认一个服务者
+        public static final String SERVICE_PARTY_CONFIRM_SERVANT = SERVER_HOST + "confirm";
+        //七、[需求]-查看需求流程日志
+        public static final String GET_DEMAND_FLOW_LOG = SERVER_HOST + "log";
+        //八、[需求]-服务方拒绝
+        public static final String SERVICE_PARTY_REJECT = SERVER_HOST + "reject";
+        //九、[需求]-需求方预支付
+        public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST + "payment";
+        //
 
 
         //一、[用户认证]-真实用户认证接口
@@ -166,7 +175,7 @@ public class GlobalConstants {
         public static final String DOWNLOAD_USER_AVATAR = SERVER_HOST + "uinfo/v1/api/vcard/avatar/upload";
 
         //二十四、[搜索]-联想词搜索
-       // public static final String SEARCH_ASSOCIATIVE = SERVER_HOST + "search/v1/api/common/tag";
+        // public static final String SEARCH_ASSOCIATIVE = SERVER_HOST + "search/v1/api/common/tag";
         public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_DAR + "/common/tag";
 
         //二十五、[搜索]-[用户&需求&服务]搜索

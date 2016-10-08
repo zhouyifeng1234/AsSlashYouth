@@ -106,5 +106,64 @@ public class TestActivity extends Activity {
         }, "21", "10001");
     }
 
+    //六、[需求]-服务方确认一个服务者
+    public void servicePartyConfirmServant(View v) {
+        DemandEngine.servicePartyConfirmServant(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
 
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22", "10001");
+    }
+
+    //七、[需求]-查看需求流程日志
+    public void getDemandFlowLog(View v) {
+        DemandEngine.getDemandFlowLog(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //八、[需求]-服务方拒绝
+    public void servicePartyReject(View v) {
+        DemandEngine.servicePartyReject(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
+
+    //九、[需求]-需求方预支付
+    // 似乎无法使用跳过验证的方法，{"code":1,"data":{"message":"auth invalid."}}
+    public void demandPartyPrePayment(View v) {
+        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "22");
+    }
 }

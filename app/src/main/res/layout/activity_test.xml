@@ -44,4 +44,28 @@
         android:onClick="demandPartySelectServiceParty"
         android:text="需求方选择服务方"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="servicePartyConfirmServant"
+        android:text="六、[需求]-服务方确认一个服务者"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getDemandFlowLog"
+        android:text="七、[需求]-查看需求流程日志"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="servicePartyReject"
+        android:text="八、[需求]-服务方拒绝"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="demandPartyPrePayment"
+        android:text="九、[需求]-需求方预支付"/>
+
 </LinearLayout>

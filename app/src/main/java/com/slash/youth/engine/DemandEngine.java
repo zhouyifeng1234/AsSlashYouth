@@ -2,10 +2,14 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
+import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
 import com.slash.youth.http.protocol.ServicePartyBidDemandProtocol;
+import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
+import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 
 /**
  * Created by zhouyifeng on 2016/9/1.
@@ -67,5 +71,54 @@ public class DemandEngine {
         DemandPartySelectServicePartyProtocol demandPartySelectServicePartyProtocol = new DemandPartySelectServicePartyProtocol(id, uid);
         demandPartySelectServicePartyProtocol.getDataFromServer(onSelectServicePartyFinished);
     }
+
+
+    /**
+     * 六、[需求]-服务方确认一个服务者
+     *
+     * @param onConfirmServantFinished
+     * @param id                       需求ID
+     * @param uid                      服务方UID
+     */
+    public static void servicePartyConfirmServant(BaseProtocol.IResultExecutor onConfirmServantFinished, String id, String uid) {
+        ServicePartyConfirmServantProtocol servicePartyConfirmServantProtocol = new ServicePartyConfirmServantProtocol(id, uid);
+        servicePartyConfirmServantProtocol.getDataFromServer(onConfirmServantFinished);
+    }
+
+
+    /**
+     * 七、[需求]-查看需求流程日志
+     *
+     * @param onGetDemnadFlowLogFinished
+     * @param id                         需求ID
+     */
+    public static void getDemandFlowLog(BaseProtocol.IResultExecutor onGetDemnadFlowLogFinished, String id) {
+        GetDemandFlowLogProtocol getDemandFlowLogProtocol = new GetDemandFlowLogProtocol(id);
+        getDemandFlowLogProtocol.getDataFromServer(onGetDemnadFlowLogFinished);
+    }
+
+    /**
+     * 八、[需求]-服务方拒绝
+     *
+     * @param onServicePartyRejectFinished
+     * @param id                           需求ID
+     */
+    public static void servicePartyReject(BaseProtocol.IResultExecutor onServicePartyRejectFinished, String id) {
+        ServicePartyRejectProtocol servicePartyRejectProtocol = new ServicePartyRejectProtocol(id);
+        servicePartyRejectProtocol.getDataFromServer(onServicePartyRejectFinished);
+    }
+
+
+    /**
+     * 九、[需求]-需求方预支付
+     *
+     * @param onDemandPartyPrePaymentFinished
+     * @param id                              需求ID
+     */
+    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id) {
+        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id);
+        demandPartyPrePaymentProtocol.getDataFromServer(onDemandPartyPrePaymentFinished);
+    }
+
 
 }
