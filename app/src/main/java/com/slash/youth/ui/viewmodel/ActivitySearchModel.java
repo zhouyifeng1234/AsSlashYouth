@@ -1,11 +1,8 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.AlertDialog;
-import android.app.Application;
-import android.content.DialogInterface;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,9 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.blankj.utilcode.utils.RegexUtils;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
@@ -25,16 +20,11 @@ import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.SearchNeedItem;
 import com.slash.youth.domain.SearchPersonItem;
-import com.slash.youth.domain.SearchServiceBean;
 import com.slash.youth.domain.SearchServiceItem;
-import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.http.protocol.PhoneLogin;
-import com.slash.youth.http.protocol.PublishDemandProtocol;
 import com.slash.youth.http.protocol.SearchAssociativeProtocol;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
-import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
-import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
@@ -187,7 +177,7 @@ public class ActivitySearchModel extends BaseObservable {
                 //char c =  chars[0];
                 if(searchContent1.length()==0){
                     showHistory();
-                }else if (searchContent1.length()==1&& !RegexUtils.isChz(searchContent1)/*(c<=0x4e00)&&(c>=0x9fbb)*/){
+                }else if (searchContent1.length()==1){
                     //输入了一个非汉字的字符
                     ToastUtils.shortToast("输入信息太少，请重新输入");
                 }else {
