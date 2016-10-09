@@ -2,14 +2,20 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
+import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
+import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
+import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
 import com.slash.youth.http.protocol.ServicePartyBidDemandProtocol;
+import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
+import com.slash.youth.http.protocol.SetDemandDescProtocol;
 
 /**
  * Created by zhouyifeng on 2016/9/1.
@@ -120,5 +126,72 @@ public class DemandEngine {
         demandPartyPrePaymentProtocol.getDataFromServer(onDemandPartyPrePaymentFinished);
     }
 
+    /**
+     * 十、[需求]-我发布的历史需求列表
+     *
+     * @param onGetHistoryDemandListFinished
+     * @param offset                         分页 >=0
+     * @param limit                          分页 >=0 最大20 如果设置=0 则系统默认10
+     */
+    public static void getMyPublishHistoryDemandList(BaseProtocol.IResultExecutor onGetHistoryDemandListFinished, String offset, String limit) {
+        MyPublishHistoryDemandListProtocol myPublishHistoryDemandListProtocol = new MyPublishHistoryDemandListProtocol(offset, limit);
+        myPublishHistoryDemandListProtocol.getDataFromServer(onGetHistoryDemandListFinished);
+    }
+
+    /**
+     * 十一、[需求]-服务方完成任务
+     *
+     * @param onServicePartyCompleteFinished
+     * @param id                             需求ID
+     */
+    public static void servicePartyComplete(BaseProtocol.IResultExecutor onServicePartyCompleteFinished, String id) {
+        ServicePartyCompleteProtocol servicePartyCompleteProtocol = new ServicePartyCompleteProtocol(id);
+        servicePartyCompleteProtocol.getDataFromServer(onServicePartyCompleteFinished);
+    }
+
+    /**
+     * 十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)
+     *
+     * @param onConfirmCompleteFinished
+     * @param id                        需求ID
+     */
+    public static void demandPartyConfirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String id) {
+        DemandPartyConfirmCompleteProtocol demandPartyConfirmCompleteProtocol = new DemandPartyConfirmCompleteProtocol(id);
+        demandPartyConfirmCompleteProtocol.getDataFromServer(onConfirmCompleteFinished);
+    }
+
+    /**
+     * 十三、[需求]-需求方查看竞标（抢需求服务者）列表
+     *
+     * @param onGetBidListFinished
+     * @param id                   需求ID
+     */
+    public static void demandPartyGetBidList(BaseProtocol.IResultExecutor onGetBidListFinished, String id) {
+        DemandPartyGetBidListProtocol demandPartyGetBidListProtocol = new DemandPartyGetBidListProtocol(id);
+        demandPartyGetBidListProtocol.getDataFromServer(onGetBidListFinished);
+    }
+
+    /**
+     * 十四、[需求]-加载需求描述信息
+     *
+     * @param onGetDemandDescFinished
+     * @param id                      需求ID
+     */
+    public static void getDemandDesc(BaseProtocol.IResultExecutor onGetDemandDescFinished, String id) {
+        GetDemandDescProtocol getDemandDescProtocol = new GetDemandDescProtocol(id);
+        getDemandDescProtocol.getDataFromServer(onGetDemandDescFinished);
+    }
+
+    /**
+     * 十五、[需求]-设置需求描述信息
+     *
+     * @param onSetDemandDescFinished
+     * @param id                      需求ID	>=0
+     * @param desc                    需求描述信息	长度小于4096，该接口只能在服务方未确认前修改，服务方一旦确认该接口设置失效
+     */
+    public static void setDemandDesc(BaseProtocol.IResultExecutor onSetDemandDescFinished, String id, String desc) {
+        SetDemandDescProtocol setDemandDescProtocol = new SetDemandDescProtocol(id, desc);
+        setDemandDescProtocol.getDataFromServer(onSetDemandDescFinished);
+    }
 
 }
