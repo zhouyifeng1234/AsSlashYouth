@@ -27,16 +27,13 @@ public class SearchAssociativeProtocol extends BaseProtocol<SearchAssociativeBea
     @Override
     public void addRequestParams(RequestParams params) {
         LogKit.v(tag);
-      //params.addBodyParameter("tag",tag );
-        params.addBodyParameter("tag","张" );
+      params.addBodyParameter("tag",tag );
     }
 
     @Override
     public SearchAssociativeBean parseData(String result) {
         Gson gson = new Gson();
         searchAssociativeBean = gson.fromJson(result, SearchAssociativeBean.class);
-        LogKit.d("sssssssssssssssssssssssssssss"+searchAssociativeBean);
-
         return searchAssociativeBean;
     }
 

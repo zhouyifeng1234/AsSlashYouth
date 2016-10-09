@@ -8,11 +8,13 @@ import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.SearchContentHolder;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 /**
  * Created by zss on 2016/9/19.搜索listview的适配器
@@ -30,6 +32,7 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
         for(String str :listData ){
             ItemSearchBean bean =new ItemSearchBean();
             bean.item=str;
+            LogKit.d("wwwwwwwwwwwwwwwwwww"+str);
             bean.isShowRemoveBtn=isShow;
             data.add( bean);
         }
@@ -119,10 +122,5 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
         ArrayList<ItemSearchBean> data = getData();
         data.clear();
     }
-
-  /*  private void getMoreHolder(){
-         NewHolder newHolder = new NewHolder();
-    }*/
-
 
 }
