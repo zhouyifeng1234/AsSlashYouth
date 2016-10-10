@@ -16,6 +16,12 @@ import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.util.Map;
 
 /**
  * Created by zhouyifeng on 2016/9/5.
@@ -65,15 +71,27 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     public void wechatLogin(View v) {
-        LoginManager.loginWeChat();
+//        LoginManager.loginWeChat();
+
+
+        UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
+        mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
     }
 
     public void qqLogin(View v) {
-        LoginManager.loginQQ(qqLoginUiListener, loginActivity);
+//        LoginManager.loginQQ(qqLoginUiListener, loginActivity);
+
+
+        UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
+        mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.QQ, umAuthListener);
     }
 
     public void weiboLogin(View v) {
-        mSsoHandler.authorize(new SlashWeiboAuthListener());
+//        mSsoHandler.authorize(new SlashWeiboAuthListener());
+
+        UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
+        mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.SINA, umAuthListener);
+
     }
 
     public class SlashWeiboAuthListener implements WeiboAuthListener {
@@ -103,5 +121,22 @@ public class ActivityLoginModel extends BaseObservable {
         }
     }
 
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            ToastUtils.shortToast("Authorize succeed");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            ToastUtils.shortToast("Authorize fail");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            ToastUtils.shortToast("Authorize cancel");
+        }
+    };
 
 }

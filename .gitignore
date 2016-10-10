@@ -640,5 +640,10 @@ themed_underlines.xml
 menu.xml
 resources-debug.ap_
 /ViewPagerIndicatorSample/build
+<<<<<<< HEAD
+/gradle/wrapper/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.properties
+=======
 /gradle/wrapper/gradle-wrapper.properties
 /gradle/wrapper/gradle-wrapper.jar
+>>>>>>> 14d0b207a1caa86375d04113e2268c598529138f

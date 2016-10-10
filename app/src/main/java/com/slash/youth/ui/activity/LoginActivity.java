@@ -9,19 +9,12 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityLoginBinding;
-import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ActivityLoginModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
-import com.tencent.connect.UserInfo;
-import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by zhouyifeng on 2016/9/5.
@@ -62,57 +55,58 @@ public class LoginActivity extends Activity {
 
         @Override
         public void onComplete(Object o) {
-            final JSONObject joResultData = (JSONObject) o;
-            LogKit.v(joResultData.toString());
-            try {
-                final String openid = joResultData.getString("openid");
-                final String access_token = joResultData.getString("access_token");
-
-                String phone = "18915521461";
-                String pin = "123456";
-                String _3pToken = access_token + "&" + openid + "&" + GlobalConstants.LoginPlatformType.QQ;
-                String userInfo = " & & & & ";
-                LoginManager.loginPhoneNum(phone, pin, _3pToken, userInfo);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject joUserInfo = null;
-                        try {
-                            joUserInfo = LoginManager.mTencent.request("get_user_info", null, Constants.HTTP_GET);
-                            LogKit.v(joUserInfo.toString());
-
-//                            QQToken qqToken = new QQToken(access_token);
-//                            qqToken.setOpenId(openid);
-                            UserInfo userinfo = new UserInfo(LoginActivity.this, LoginManager.mTencent.getQQToken());
-                            userinfo.getUserInfo(new IUiListener() {
-                                @Override
-                                public void onComplete(Object o) {
-                                    JSONObject jj = (JSONObject) o;
-                                    LogKit.v(jj.toString());
-                                }
-
-                                @Override
-                                public void onError(UiError uiError) {
-
-                                }
-
-                                @Override
-                                public void onCancel() {
-
-                                }
-                            });
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-
-
-            } catch (JSONException ex) {
-
-            }
+//            final JSONObject joResultData = (JSONObject) o;
+//            LogKit.v(joResultData.toString());
+//            try {
+//                final String openid = joResultData.getString("openid");
+//                final String access_token = joResultData.getString("access_token");
+//
+//                String phone = "18915521461";
+//                String pin = "123456";
+//                String _3pToken = access_token + "&" + openid + "&" + GlobalConstants.LoginPlatformType.QQ;
+//                String userInfo = " & & & & ";
+//                LoginManager.loginPhoneNum(phone, pin, _3pToken, userInfo);
+//
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        JSONObject joUserInfo = null;
+//                        try {
+////                            joUserInfo = LoginManager.mTencent.request("get_user_info", null, Constants.HTTP_GET);
+//                            joUserInfo = LoginManager.mTencent.request("get_user_info", null, "GET");
+//                            LogKit.v(joUserInfo.toString());
+//
+////                            QQToken qqToken = new QQToken(access_token);
+////                            qqToken.setOpenId(openid);
+//                            UserInfo userinfo = new UserInfo(LoginActivity.this, LoginManager.mTencent.getQQToken());
+//                            userinfo.getUserInfo(new IUiListener() {
+//                                @Override
+//                                public void onComplete(Object o) {
+//                                    JSONObject jj = (JSONObject) o;
+//                                    LogKit.v(jj.toString());
+//                                }
+//
+//                                @Override
+//                                public void onError(UiError uiError) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onCancel() {
+//
+//                                }
+//                            });
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
+//
+//
+//            } catch (JSONException ex) {
+//
+//            }
 
         }
 
