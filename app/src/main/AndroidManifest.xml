@@ -240,6 +240,12 @@
                    android:value="@integer/google_play_services_version"/>
         <!--服务端接口测试页面-->
 
+        <!--ScaleViewPager测试页面-->
+        <activity android:name="com.slash.youth.ui.activity.test.ScaleViewPagerTestActivity">
+
+        </activity>
+        <!--ScaleViewPager测试页面-->
+
     </application>
 
 </manifest>

@@ -96,7 +96,7 @@
                     android:text="斜杠是实名用户APP," android:textColor="#999999"
                     android:textSize="12dp"/>
                 <TextView
-                    android:onClick="@{perfectInfoModel.openTestActivity}"
+                    android:onClick="@{perfectInfoModel.openScaleViewPagerTestActivity}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="建议填写真实姓名" android:textColor="#31c5e4"
