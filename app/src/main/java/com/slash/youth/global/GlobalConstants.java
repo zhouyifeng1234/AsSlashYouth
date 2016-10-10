@@ -64,7 +64,7 @@ public class GlobalConstants {
 //        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
         public static final String SERVER_HOST = "http://121.42.145.178/feed/v1/api/demand/";
         //ZSS
-        public static final String SERVER_HOST_DAR = "http://121.42.145.178/search/v1/api";
+        public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
 
 
         /**
@@ -187,19 +187,23 @@ public class GlobalConstants {
 
         //二十四、[搜索]-联想词搜索
         // public static final String SEARCH_ASSOCIATIVE = SERVER_HOST + "search/v1/api/common/tag";
-        public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_DAR + "/common/tag";
+        public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_BAR + "/common/tag";
 
         //二十五、[搜索]-[用户&需求&服务]搜索
-        public static final String SEARCH_ALL = SERVER_HOST + "search/v1/api/common/all";
+        //public static final String SEARCH_ALL = SERVER_HOST + "search/v1/api/common/all";
+        public static final String SEARCH_ALL = SERVER_HOST_BAR + "/common/all";
 
         //二十六、[搜索]-用户搜索
-        public static final String SEARCH_USER = SERVER_HOST + "search/v1/api/user";
+        //public static final String SEARCH_USER = SERVER_HOST + "search/v1/api/user";
+        public static final String SEARCH_USER = SERVER_HOST_BAR + "/user";
 
         //二十七、[搜索]-需求搜索
-        public static final String SEARCH_DEMAND = SERVER_HOST + "search/v1/api/demand";
+        //public static final String SEARCH_DEMAND = SERVER_HOST + "search/v1/api/demand";
+        public static final String SEARCH_DEMAND = SERVER_HOST_BAR + "/demand";
 
         //二十八、[搜索]-服务搜索
-        public static final String SEARCH_SERVICE = SERVER_HOST + "search/v1/api/service";
+        //public static final String SEARCH_SERVICE = SERVER_HOST + "search/v1/api/service";
+        public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
 
     }
 

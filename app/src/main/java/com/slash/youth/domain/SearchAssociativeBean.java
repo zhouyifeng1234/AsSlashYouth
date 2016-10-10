@@ -13,11 +13,11 @@ public class SearchAssociativeBean {
     public int rescode;
 
     public class DataBean{
-        ArrayList<TagBean> list;
+        public ArrayList<TagBean> list;
     }
 
-    class TagBean{
-        String tag;
+    public class TagBean{
+       public String tag;
     }
 
 }

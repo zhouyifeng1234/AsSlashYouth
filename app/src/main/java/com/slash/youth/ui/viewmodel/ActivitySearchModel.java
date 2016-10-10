@@ -12,22 +12,27 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
 
+import com.blankj.utilcode.utils.RegexUtils;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
+import com.slash.youth.domain.SearchAllBean;
 import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.SearchNeedItem;
 import com.slash.youth.domain.SearchPersonItem;
 import com.slash.youth.domain.SearchServiceItem;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.PhoneLogin;
+import com.slash.youth.http.protocol.SearchAllProtocol;
 import com.slash.youth.http.protocol.SearchAssociativeProtocol;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.StringUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.io.BufferedReader;
@@ -37,6 +42,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/9/18.
@@ -55,9 +61,8 @@ public class ActivitySearchModel extends BaseObservable {
     private ArrayList<SearchServiceItem> serviceArrayList;
     private ArrayList<SearchPersonItem> personArrayList;
     private PagerSearchItemAdapter pagerSearchItemAdapter;
-    private String searchContent1;
-    private ArrayList<SearchAssociativeBean.DataBean> search_contentlist;
-    private ArrayList<String> search_contentlist1;
+    private String searchContent1="";
+    private ArrayList<String> search_contentlist = new ArrayList<>();
     private ArrayList<String> searchHistoryList;
     private File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
     private File file = new File(externalCacheDir,"history.text");
@@ -173,21 +178,23 @@ public class ActivitySearchModel extends BaseObservable {
                 //长度为1并且非汉字；不动
                 //长度大于2：搜索
                 searchContent1 = s.toString();
-               // char[] chars = searchContent1.toCharArray();
-                //char c =  chars[0];
                 if(searchContent1.length()==0){
                     showHistory();
                 }else if (searchContent1.length()==1){
-                    //输入了一个非汉字的字符
-                    ToastUtils.shortToast("输入信息太少，请重新输入");
-                }else {
-                    showAssociation();
+                    if(RegexUtils.isChz(searchContent1)){
+                        //输入了一个非汉字的字符
+                        setSearchContentData();
+                    }else {
+                        ToastUtils.shortToast("输入信息太少，请重新输入");
+                    }
+                }else if(searchContent1.length()>=2){
+                    setSearchContentData();
                 }
             }
         });
 
         //设置搜索的数据，zss
-        setSearchContentData(isShow);
+        setSearchContentData();
         //点击搜索，显示搜索的结果 zss
         mActivitySearchBinding.tvSearchResult.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,14 +203,23 @@ public class ActivitySearchModel extends BaseObservable {
                 // LogKit.d("显示直接搜索结果页面");
                 //直接搜索结果
                 String text=mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
-                if(text.length()==0){
-                    showSearchAllReasultView();
-                } else if (text.length()==1){
-                    // TODO: 2016/10/3
-                    // 提示输入词汇太少
-                } else if (text.length()>=2){
-                    //联网搜索
-                    saveHistory(text);
+                if(StringUtils.isSearchContent(text)){
+                    if(text.length()==0){
+                        //TODO
+                       // showSearchAllReasultView(text);
+                    } else if (text.length()==1){
+                        if(RegexUtils.isChz(searchContent1)){
+                            showSearchAllReasultView(text);
+                        }else {
+                            //输入了一个非汉字的字符
+                            ToastUtils.shortToast("输入信息太少，请重新输入");
+                        }
+                    } else if (text.length()>=2){
+                        //联网搜索,并且根据字符搜索
+                        saveHistory(text);
+                        //TODO
+                       // showSearchAllReasultView(text);
+                    }
                 }
             }
         });
@@ -222,17 +238,29 @@ public class ActivitySearchModel extends BaseObservable {
 
     private void showHistory() {
         initSearchHistoryData();
-
-    }
-    private void showAssociation() {
-        setSearchContentData(isShow);
     }
 
     //zss 直接搜索结果
-    private void showSearchAllReasultView() {
+    private void showSearchAllReasultView(String text) {
      mActivitySearchBinding.flSearchFirst.removeAllViews();
     ListView listView = new ListView(CommonUtils.getContext());
-     //TODO 假数据 接口传入数据，zss
+    SearchAllProtocol searchAllProtocol = new SearchAllProtocol(text);
+    searchAllProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SearchAllBean>() {
+        @Override
+        public void execute(SearchAllBean dataBean) {
+            SearchAllBean.DataBean data = dataBean.getData();
+            List<SearchAllBean.DataBean.DemandListBean> demandList = data.getDemandList();
+            List<?> serviceList = data.getServiceList();
+            List<SearchAllBean.DataBean.UserListBean> userList = data.getUserList();
+            LogKit.d(demandList.toString()+"======="+serviceList+"========"+userList);
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("executeResultError"+result);
+        }
+    });
+
         needArrayList = new ArrayList<>();
         //1
         needArrayList.add(new SearchNeedItem());
@@ -280,7 +308,6 @@ public class ActivitySearchModel extends BaseObservable {
     private   void initSearchHistoryData() {
         //存储集合
         searchHistoryList = new ArrayList<String>();
-
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -298,31 +325,33 @@ public class ActivitySearchModel extends BaseObservable {
         mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 
-    private void setSearchContentData(boolean isShow) {
-         ToastUtils.shortToast("点了="+searchContent1);
-        //TODO 联想搜索的内容，假的数据从服务端获取，zss
-      /*  search_contentlist = new ArrayList<>();
-        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
-        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
-        SearchAssociativeBean searchAssociativeBean = searchAssociativeProtocol.searchAssociativeBean;
-        SearchAssociativeBean searchAssociativeBean = new SearchAssociativeBean();
-        SearchAssociativeBean.DataBean data = searchAssociativeBean.data;
-        search_contentlist.add(data);*/
-        SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol("张");
-        PhoneLogin phoneLogin = new PhoneLogin("111", "dfds", "dsada", "dsfs");
-        search_contentlist1 = new ArrayList<>();
-        search_contentlist1.add("dsfsd");
-        search_contentlist1.add("dsfsd");
-        search_contentlist1.add("dsfsd");
-        search_contentlist1.add("dsfsd");
-        search_contentlist1.add("dsfsd");
-        adapter= new SearchHistoryListAdapter(search_contentlist1,isShow);
-        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
+    private void setSearchContentData() {
+        final SearchAssociativeProtocol searchAssociativeProtocol = new SearchAssociativeProtocol(searchContent1);
+        search_contentlist.clear();
+        searchAssociativeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SearchAssociativeBean>() {
+            @Override
+            public void execute(SearchAssociativeBean dataBean) {
+
+                ArrayList<SearchAssociativeBean.TagBean> list = dataBean.data.list;
+                for (SearchAssociativeBean.TagBean tagBean : list) {
+                    //遍历去重复
+                    if(!search_contentlist.contains(tagBean.tag)){
+                        search_contentlist.add(tagBean.tag);
+                        adapter= new SearchHistoryListAdapter(search_contentlist,isShow);
+                        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
+                    }
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("executeResultError:"+result);
+            }
+        });
     }
 
     //搜索需求
     public void searchNeed(View v) {
-    //LogKit.d("SearchNeed");
         showView("热搜需求");
         SpUtils.setString("searchType","searchNeed");
         searchType = searchNeed;
@@ -330,7 +359,6 @@ public class ActivitySearchModel extends BaseObservable {
 
     //搜索服务
     public void searchService(View v) {
-       // LogKit.d("SearchService");
         showView("热搜服务");
         SpUtils.setString("searchType","searchService");
         searchType = searchService;
@@ -338,7 +366,6 @@ public class ActivitySearchModel extends BaseObservable {
 
     //搜索人
     public void searchPerson(View v){
-      //  LogKit.d("SearchPerson");
         showView("搜人");
         SpUtils.setString("searchType","searchPerson");
         searchType = searchPerson;
