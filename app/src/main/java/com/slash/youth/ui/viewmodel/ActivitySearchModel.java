@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.text.Editable;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.blankj.utilcode.utils.RegexUtils;
@@ -55,17 +58,15 @@ public class ActivitySearchModel extends BaseObservable {
     private int  searchNeed = 1;
     private int  searchService = 2;
     private int  searchPerson = 3;
-    private ArrayList<SearchNeedItem> needArrayList;
     private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     private SearchActivityHotServiceModel searchActivityHotServiceModel;
-    private ArrayList<SearchServiceItem> serviceArrayList;
-    private ArrayList<SearchPersonItem> personArrayList;
     private PagerSearchItemAdapter pagerSearchItemAdapter;
     private String searchContent1="";
     private ArrayList<String> search_contentlist = new ArrayList<>();
     private ArrayList<String> searchHistoryList;
     private File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
     private File file = new File(externalCacheDir,"history.text");
+    private ListView listView;
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
@@ -76,23 +77,16 @@ public class ActivitySearchModel extends BaseObservable {
 
     //zss,点击直接搜索
     public void etSearch(View v){
-       // LogKit.d("点击搜索框，出现历史纪录");
+      //  LogKit.d("点击搜索框，出现历史纪录");
         mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
         mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
         //加载搜索框历史的数据
         initSearchHistoryData();
-        //删除单条和清除所有
-        cleanAll(true);
-    }
-
-    //zss 判断显示清除所有历史
-    private void cleanAll(boolean isShow) {
-        mActivitySearchBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
     }
 
     //点击显示对话框
     public void showDialog(View v){
-        LogKit.d("显示对话框");
+       // LogKit.d("显示对话框");
         //创建AlertDialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CommonUtils.getCurrentActivity());
         //数据绑定填充视图
@@ -146,27 +140,14 @@ public class ActivitySearchModel extends BaseObservable {
     private void searchListener() {
         // 搜索框里面文字变化，出现联想搜索
         mActivitySearchBinding.etActivitySearchAssociation.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //下面的首页隐藏
+                //下面的首页隐藏,显示搜索
                 mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
-                //显示搜索
                 mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
-
-                //文字监听不为0，就显示搜索内容
-                if (s.length()!=0) {
-                   isShow = false;
-                }else if(s.length() == 0){
-                    isShow =true;
-                }
-                adapter.showRemoveBtn(isShow);
-                //显示cleanAll
-                cleanAll(isShow);
             }
 
             //文本改变之后,输入的内容要保存到本地
@@ -203,10 +184,39 @@ public class ActivitySearchModel extends BaseObservable {
                 // LogKit.d("显示直接搜索结果页面");
                 //直接搜索结果
                 String text=mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
-                if(StringUtils.isSearchContent(text)){
+                if(text.length()==0){
+                    ToastUtils.shortToast("请您输入搜索内容");
+                mActivitySearchBinding.etActivitySearchAssociation.setFocusable(true);
+                mActivitySearchBinding.etActivitySearchAssociation.setFocusableInTouchMode(true);
+                mActivitySearchBinding.etActivitySearchAssociation.requestFocus();
+                InputMethodManager inputManager = (InputMethodManager) CommonUtils.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(mActivitySearchBinding.etActivitySearchAssociation, 0);
+
+                } else if (text.length()==1){
+                    if(StringUtils.isSearchContent(text)) {
+                        if (RegexUtils.isChz(searchContent1)) {
+                            showSearchAllReasultView(text);
+                        } else {
+                            //输入了一个非汉字的字符
+                            ToastUtils.shortToast("输入信息太少，请重新输入");
+                        }
+                    }
+                } else if (text.length()>=2){
+                    if(StringUtils.isSearchContent(text)) {
+                        //联网搜索,并且根据字符搜索
+                        saveHistory(text);
+                        //TODO
+                        // showSearchAllReasultView(text);
+                    }else{
+                        ToastUtils.shortToast("输入有效字符");
+                    }
+                }
+
+             /*   if(StringUtils.isSearchContent(text)){
                     if(text.length()==0){
                         //TODO
                        // showSearchAllReasultView(text);
+                        ToastUtils.shortToast("请您输入搜索内容");
                     } else if (text.length()==1){
                         if(RegexUtils.isChz(searchContent1)){
                             showSearchAllReasultView(text);
@@ -220,7 +230,7 @@ public class ActivitySearchModel extends BaseObservable {
                         //TODO
                        // showSearchAllReasultView(text);
                     }
-                }
+                }*/
             }
         });
     }
@@ -239,70 +249,50 @@ public class ActivitySearchModel extends BaseObservable {
     private void showHistory() {
         initSearchHistoryData();
     }
-
     //zss 直接搜索结果
     private void showSearchAllReasultView(String text) {
      mActivitySearchBinding.flSearchFirst.removeAllViews();
-    ListView listView = new ListView(CommonUtils.getContext());
+        listView = new ListView(CommonUtils.getContext());
     SearchAllProtocol searchAllProtocol = new SearchAllProtocol(text);
     searchAllProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SearchAllBean>() {
         @Override
         public void execute(SearchAllBean dataBean) {
             SearchAllBean.DataBean data = dataBean.getData();
-            List<SearchAllBean.DataBean.DemandListBean> demandList = data.getDemandList();
-            List<?> serviceList = data.getServiceList();
-            List<SearchAllBean.DataBean.UserListBean> userList = data.getUserList();
-            LogKit.d(demandList.toString()+"======="+serviceList+"========"+userList);
-        }
+            ArrayList<SearchAllBean.DataBean.DemandListBean> demandList = data.getDemandList();
+            ArrayList<?> serviceList = data.getServiceList();
+            ArrayList<SearchAllBean.DataBean.UserListBean> userList = data.getUserList();
+            pagerSearchItemAdapter = new PagerSearchItemAdapter(demandList, serviceList, userList, new PagerSearchItemAdapter.OnClickMoreListener() {
+                @Override
+                public void onClickMore(int btn) {
+                    switch (btn){
+                        case needMoreBtn://点击更多按钮
+                          /*pagerSearchItemAdapter.notifyDataSetChanged();*/
 
+
+                            break;
+                        case serviceMoreBtn:
+                            /*pagerSearchItemAdapter.notifyDataSetChanged();*/
+
+
+
+                            break;
+                        case persionMoreBtn:
+                            /*pagerSearchItemAdapter.notifyDataSetChanged();*/
+
+
+
+                            break;
+                    }
+                }
+            });
+            listView.setAdapter(pagerSearchItemAdapter);
+            mActivitySearchBinding.flSearchFirst.addView(listView);
+        }
         @Override
         public void executeResultError(String result) {
             LogKit.d("executeResultError"+result);
         }
     });
-
-        needArrayList = new ArrayList<>();
-        //1
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        needArrayList.add(new SearchNeedItem());
-        //2
-        serviceArrayList = new ArrayList<>();
-        serviceArrayList.add(new SearchServiceItem());
-        serviceArrayList.add(new SearchServiceItem());
-        serviceArrayList.add(new SearchServiceItem());
-        //3
-        personArrayList = new ArrayList<>();
-        personArrayList.add(new SearchPersonItem());
-        personArrayList.add(new SearchPersonItem());
-        personArrayList.add(new SearchPersonItem());
-        pagerSearchItemAdapter = new PagerSearchItemAdapter(needArrayList, serviceArrayList, personArrayList, new PagerSearchItemAdapter.OnClickMoreListener() {
-            @Override
-            public void onClickMore( int btn) {
-                switch (btn){
-                    case needMoreBtn://点击更多按钮
-                        needArrayList.add(new SearchNeedItem());
-                        needArrayList.add(new SearchNeedItem());
-                        needArrayList.add(new SearchNeedItem());
-                        pagerSearchItemAdapter.notifyDataSetChanged();
-                        break;
-                    case serviceMoreBtn:
-                        serviceArrayList.add(new SearchServiceItem());
-                        serviceArrayList.add(new SearchServiceItem());
-                        serviceArrayList.add(new SearchServiceItem());
-                        pagerSearchItemAdapter.notifyDataSetChanged();
-                        break;
-                    case persionMoreBtn:
-                        personArrayList.add(new SearchPersonItem());
-                        personArrayList.add(new SearchPersonItem());
-                        personArrayList.add(new SearchPersonItem());
-                        pagerSearchItemAdapter.notifyDataSetChanged();
-                        break;
-                }
-            }
-        });
-        listView.setAdapter(pagerSearchItemAdapter);
-         mActivitySearchBinding.flSearchFirst.addView(listView);
     }
 
     private   void initSearchHistoryData() {
@@ -321,7 +311,7 @@ public class ActivitySearchModel extends BaseObservable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        adapter= new SearchHistoryListAdapter(searchHistoryList,true);
+        adapter= new SearchHistoryListAdapter(searchHistoryList,true,mActivitySearchBinding);
         mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 
@@ -337,10 +327,10 @@ public class ActivitySearchModel extends BaseObservable {
                     //遍历去重复
                     if(!search_contentlist.contains(tagBean.tag)){
                         search_contentlist.add(tagBean.tag);
-                        adapter= new SearchHistoryListAdapter(search_contentlist,isShow);
-                        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
                     }
                 }
+                adapter= new SearchHistoryListAdapter(search_contentlist,false,mActivitySearchBinding);
+                mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
             }
 
             @Override

@@ -36,19 +36,6 @@ public class SearchContentHolder extends BaseHolder<ItemSearchBean> {
         if(isShowRemove){
             iv_remove.setVisibility(View.VISIBLE);
         }
-        iv_remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogKit.d("删除一个条目");
-             /*   new onItemRemoveListener() {
-                    @Override
-                    public void onItemRemove(ItemSearchBean data, int index) {
-
-                    }
-                };   */
-            }
-        });
-
         return mSearchContent;
     }
 

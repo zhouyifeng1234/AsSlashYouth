@@ -142,10 +142,6 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
         return new AddMoreHolder(getLoadMoreState(), position);
     }
 
-    // public boolean hasMore() {
-    // return true;
-    // }
-
     public int getLoadMoreState() {
         return loadMoreState;
     }
@@ -164,7 +160,7 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public  ArrayList<T>  getData(){//
+    public  ArrayList<T>  getData(){
         return this.mListData;
     }
 

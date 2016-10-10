@@ -49,8 +49,8 @@ public class SearchAllBean {
          * uid : 10003
          */
 
-        private List<DemandListBean> demandList;
-        private List<?> serviceList;
+        private ArrayList<DemandListBean> demandList;
+        private ArrayList<?> serviceList;
         /**
          * avatar : http://p5.gexing.com/GSF/touxiang/20161004/1620/57f3665bd094a.jpg@!200x200_3?recache=20131108
          * company : 北京网易科技
@@ -64,29 +64,29 @@ public class SearchAllBean {
          * star : 5
          */
 
-        private List<UserListBean> userList;
+        private ArrayList<UserListBean> userList;
 
-        public List<DemandListBean> getDemandList() {
+        public ArrayList<DemandListBean> getDemandList() {
             return demandList;
         }
 
-        public void setDemandList(List<DemandListBean> demandList) {
+        public void setDemandList(ArrayList<DemandListBean> demandList) {
             this.demandList = demandList;
         }
 
-        public List<?> getServiceList() {
+        public ArrayList<?> getServiceList() {
             return serviceList;
         }
 
-        public void setServiceList(List<?> serviceList) {
+        public void setServiceList(ArrayList<?> serviceList) {
             this.serviceList = serviceList;
         }
 
-        public List<UserListBean> getUserList() {
+        public ArrayList<UserListBean> getUserList() {
             return userList;
         }
 
-        public void setUserList(List<UserListBean> userList) {
+        public void setUserList(ArrayList<UserListBean> userList) {
             this.userList = userList;
         }
 
