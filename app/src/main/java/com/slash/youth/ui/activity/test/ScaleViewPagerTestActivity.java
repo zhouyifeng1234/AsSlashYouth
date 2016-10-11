@@ -38,7 +38,7 @@ public class ScaleViewPagerTestActivity extends Activity {
         vpTest.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return 5;
+                return 100;
             }
 
             @Override
@@ -68,11 +68,11 @@ public class ScaleViewPagerTestActivity extends Activity {
             }
         });
 
-        vpTest.setCurrentItem(3);
+        vpTest.setCurrentItem(50);
 
         vpTest.setPageTransformer(false, new ViewPager.PageTransformer() {
+            private float defaultScale = (float) 4 / (float) 5;
 
-            private float defaultScale = (float) 14 / (float) 15;
 
             @Override
             public void transformPage(View page, float position) {
@@ -80,27 +80,27 @@ public class ScaleViewPagerTestActivity extends Activity {
                 FrameLayout imgBox = (FrameLayout) page;
                 ImageView img = (ImageView) imgBox.getChildAt(0);
 
-                int diffWidth = (imgBox.getWidth() - img.getWidth()) / 2;
+//                int diffWidth = (imgBox.getWidth() - img.getWidth()) / 2;
 
                 if (position < -1) { // [-Infinity,-1)
                     imgBox.setScaleX(defaultScale);
                     imgBox.setScaleY(defaultScale);
-                    img.setTranslationX(diffWidth);
+//                    img.setTranslationX(diffWidth);
 
                 } else if (position <= 0) { // [-1,0]
-                    imgBox.setScaleX((float) 1 + position / (float) 15);
-                    imgBox.setScaleY((float) 1 + position / (float) 15);
-                    img.setTranslationX((0 - position) * diffWidth);
+                    imgBox.setScaleX((float) 1 + position / (float) 5);
+                    imgBox.setScaleY((float) 1 + position / (float) 5);
+//                    img.setTranslationX((0 - position) * diffWidth);
 
                 } else if (position <= 1) { // (0,1]
-                    imgBox.setScaleX((float) 1 - position / (float) 15);
-                    imgBox.setScaleY((float) 1 - position / (float) 15);
-                    img.setTranslationX((0 - position) * diffWidth);
+                    imgBox.setScaleX((float) 1 - position / (float) 5);
+                    imgBox.setScaleY((float) 1 - position / (float) 5);
+//                    img.setTranslationX((0 - position) * diffWidth);
 
                 } else { // (1,+Infinity]
                     imgBox.setScaleX(defaultScale);
                     imgBox.setScaleY(defaultScale);
-                    img.setTranslationX(-diffWidth);
+//                    img.setTranslationX(-diffWidth);
                 }
             }
         });
