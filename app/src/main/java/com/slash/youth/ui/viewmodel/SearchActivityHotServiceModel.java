@@ -265,7 +265,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
 
     //选择行业
     public void openChoose() {
-        LogKit.d("点击啦");
+       // LogKit.d("点击啦");
         setRlChooseMainLabelVisible(View.VISIBLE);
     }
 

@@ -1,5 +1,6 @@
 package com.slash.youth.ui.adapter;
 
+import android.icu.util.TimeZone;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,22 +9,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
+import com.slash.youth.domain.SearchAllBean;
 import com.slash.youth.domain.SearchNeedItem;
 import com.slash.youth.domain.SearchPersonItem;
 import com.slash.youth.domain.SearchServiceItem;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
+
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.Objects;
 
 /**
  * Created by zss on 2016/9/6.
  */
 public  class PagerSearchItemAdapter<T> extends BaseAdapter {
-    private ArrayList<SearchNeedItem> mNeedData;
-    private ArrayList<SearchServiceItem> mServiceData;
-    private ArrayList<SearchPersonItem> mPersonData;
+    private ArrayList<SearchAllBean.DataBean.DemandListBean> mNeedData;
+    private ArrayList<Objects> mServiceData;
+    private ArrayList<SearchAllBean.DataBean.UserListBean> mPersonData;
     private static final int searchTitle = 0;
     private static final int serviceTitle = 1;
     private static final int personTitle = 2;
@@ -34,13 +40,13 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
     private static final int personMore = 7;
     private static final int serviceMore = 8;
 
-    public PagerSearchItemAdapter(ArrayList<SearchNeedItem> needData,
-                                  ArrayList<SearchServiceItem> serviceData,
-                                  ArrayList<SearchPersonItem> personData ,
+    public PagerSearchItemAdapter(ArrayList<SearchAllBean.DataBean.DemandListBean> demandList,
+                                  ArrayList<Objects> serviceList,
+                                  ArrayList<SearchAllBean.DataBean.UserListBean> userList ,
                                   OnClickMoreListener listener) {
-        this.mNeedData = needData;
-        this.mServiceData = serviceData;
-        this.mPersonData = personData;
+        this.mNeedData = demandList;
+        this.mServiceData = serviceList;
+        this.mPersonData = userList;
        this. listener = listener;
     }
 
@@ -163,12 +169,45 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
             case personTitle:
                 holder.tv_title.setText("找人");
                 break;
-        }
+            case searchMore:
+                holder.tv_search_more.setText("查看更多需求");
+                break;
+            case serviceMore:
+                holder.tv_search_more.setText("查看更多服务");
+                break;
+            case personMore:
+                holder.tv_search_more.setText("查看更多人脉");
+                break;
+            case searchResult:
+                for (SearchAllBean.DataBean.DemandListBean demandListBean : mNeedData) {
+                    x.image().bind(holder.iv_item_listview_home_demand_avatar,demandListBean.getAvatar());
+                    holder.tv_item_listview_home_demand_username.setText(demandListBean.getName());
+                    holder.tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
+                    setTime(holder.tv_item_listview_home_demand_date,demandListBean.getStarttime(),demandListBean.getEndtime());
+                    holder.tv_search_value.setText("报价：￥");
+                   // holder.tv_search_line.setText("");
 
+                }
+                break;
+            case serviceResult:
+                LogKit.d("暂时没有数据");
+                break;
+            case personResult:
+
+                break;
+
+        }
 
 
       return convertView;
     }
+    //设置时间
+    private void setTime(TextView tv_item_listview_home_demand_date, long starttime, long endtime) {
+        tv_item_listview_home_demand_date.setText("任务时间：");
+        //TODO
+    }
+
+
     //获取种类的数量
     @Override
     public int getViewTypeCount() {

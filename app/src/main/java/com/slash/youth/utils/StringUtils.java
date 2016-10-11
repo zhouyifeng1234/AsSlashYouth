@@ -1,6 +1,8 @@
 package com.slash.youth.utils;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +23,12 @@ public class StringUtils {
 		Matcher matcher = regex.matcher(text);
 
 		return matcher.matches();
+	}
+
+	public static String getLongToDate(long lo){
+		Date date = new Date(lo);
+		SimpleDateFormat sd = new SimpleDateFormat("yyyyMMddHHmmss");
+		return sd.format(date);
 	}
 
 

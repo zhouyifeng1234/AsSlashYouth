@@ -1,7 +1,6 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;

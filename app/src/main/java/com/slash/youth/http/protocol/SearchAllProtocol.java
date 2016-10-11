@@ -13,6 +13,7 @@ import org.xutils.http.RequestParams;
  */
 public class SearchAllProtocol extends BaseProtocol<SearchAllBean> {
     String tag;
+    private SearchAllBean searchAllBean;
 
     public SearchAllProtocol(String tag) {
         this.tag= tag;
@@ -32,7 +33,7 @@ public class SearchAllProtocol extends BaseProtocol<SearchAllBean> {
     @Override
     public SearchAllBean parseData(String result) {
         Gson gson = new Gson();
-        SearchAllBean searchAllBean = gson.fromJson(result, SearchAllBean.class);
+        searchAllBean = gson.fromJson(result, SearchAllBean.class);
         return searchAllBean;
     }
 

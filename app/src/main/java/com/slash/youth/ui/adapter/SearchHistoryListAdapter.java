@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.SearchContentHolder;
@@ -21,10 +22,17 @@ import java.util.LinkedHashSet;
  */
 public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
     private boolean isShow;
+    private ActivitySearchBinding mActivitySearchBinding;
     public SearchHistoryListAdapter(ArrayList listData, boolean isShow) {
 
         super(buildData(listData,isShow));
         this.isShow = isShow;
+    }
+
+    public SearchHistoryListAdapter(ArrayList listData, boolean isShow,ActivitySearchBinding activitySearchBinding) {
+        super(buildData(listData,isShow));
+        this.isShow = isShow;
+        this.mActivitySearchBinding = activitySearchBinding;
     }
 
     private static ArrayList<ItemSearchBean> buildData(ArrayList<String> listData, boolean isShow ){
@@ -32,13 +40,23 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
         for(String str :listData ){
             ItemSearchBean bean =new ItemSearchBean();
             bean.item=str;
-            LogKit.d("wwwwwwwwwwwwwwwwwww"+str);
             bean.isShowRemoveBtn=isShow;
             data.add( bean);
         }
         return data;
     }
     // zss,重写getview()方法
+
+    @Override
+    public int getCount() {
+        if (getData() ==null||getData().size()==0) {
+            showCleanAll(false);
+            return 0;
+        }
+        showCleanAll(isShow);
+        return super.getCount();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         BaseHolder holder;
@@ -59,6 +77,9 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
                 @Override
                 public void onItemRemove(ItemSearchBean data, int index) {
                     getData().remove(index);
+                   /* if(getData()==null){
+                        showCleanAll(false);
+                    }*/
                     try{
                         File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
                         File file = new File(externalCacheDir,"history.text");
@@ -77,12 +98,10 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
                     SearchHistoryListAdapter.this.notifyDataSetChanged();
                 }
             },position);
-        } else {
-            //最后一条数据
-          /*  ClearHolder addMoreHolder = (ClearHolder) holder;
-            addMoreHolder.show(isShow);*/
-        //TODO
 
+        } else if(getItemViewType(position) == HOLDER_TYPE_MORE){
+            //这是最后一条数据
+            LogKit.d("这是最后一条数据 ");
         }
 
         View rootView = holder.getRootView();
@@ -94,6 +113,7 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
             return textViewNull;
         }
     }
+
     public SearchHistoryListAdapter(ArrayList listData) {
         super(listData);
     }
@@ -105,6 +125,7 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
 
     //TODO ZSS 显示每一个item删除
     public  void showRemoveBtn(boolean isShowRemoveBtn){
+        isShow=isShowRemoveBtn;
         ArrayList<ItemSearchBean> listData=getData();
         for(ItemSearchBean bean:listData){
             bean.isShowRemoveBtn=isShowRemoveBtn;
@@ -117,10 +138,9 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
         return new SearchContentHolder(isShow);
     }
 
-    //TODO zss 显示删除所有的item
-    public void cleanData(){
-        ArrayList<ItemSearchBean> data = getData();
-        data.clear();
+    private void showCleanAll(boolean isShow) {
+        if(mActivitySearchBinding==null||mActivitySearchBinding.tvCleanAll==null){return;}
+        mActivitySearchBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
     }
 
 }
