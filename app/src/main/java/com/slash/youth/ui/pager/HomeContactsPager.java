@@ -20,10 +20,6 @@ public class HomeContactsPager extends BaseHomePager {
 
     @Override
     public View initView() {
-//        TextView tv = new TextView(CommonUtils.getContext());
-//        tv.setText("HomeContactsPager");
-//        return tv;
-
         PagerHomeContactsBinding pagerHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_contacts, null, false);
         PagerHomeContactsModel pagerHomeContactsModel = new PagerHomeContactsModel(pagerHomeContactsBinding, mActivity);
         pagerHomeContactsBinding.setPagerHomeContactsModel(pagerHomeContactsModel);
