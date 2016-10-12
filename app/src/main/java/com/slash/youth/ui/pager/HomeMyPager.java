@@ -21,9 +21,6 @@ public class HomeMyPager extends BaseHomePager {
 
     @Override
     public View initView() {
-//        TextView tv = new TextView(CommonUtils.getContext());
-//        tv.setText("HomeMyPager");
-//        return tv;
         PagerHomeMyBinding pagerHomeMyBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_my, null, false);
         PagerHomeMyModel pagerHomeMyModel = new PagerHomeMyModel(pagerHomeMyBinding, mActivity);
         pagerHomeMyBinding.setPagerHomeMyModel(pagerHomeMyModel);

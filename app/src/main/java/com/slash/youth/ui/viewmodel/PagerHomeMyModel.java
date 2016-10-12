@@ -16,9 +16,15 @@ public class PagerHomeMyModel extends BaseObservable {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
         this.mActivity = activity;
         initView();
+        initData();
     }
 
     private void initView() {
 
     }
+
+    private void initData() {
+
+    }
+
 }

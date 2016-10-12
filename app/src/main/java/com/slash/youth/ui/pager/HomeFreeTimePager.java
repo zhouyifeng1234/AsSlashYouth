@@ -21,10 +21,6 @@ public class HomeFreeTimePager extends BaseHomePager {
 
     @Override
     public View initView() {
-//        TextView tv = new TextView(CommonUtils.getContext());
-//        tv.setText("HomeFreeTimePager");
-//        return tv;
-
         PagerHomeFreetimeBinding pagerHomeFreetimeBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_freetime, null, false);
         PagerHomeFreeTimeModel pagerHomeFreeTimeModel = new PagerHomeFreeTimeModel(pagerHomeFreetimeBinding, mActivity);
         pagerHomeFreetimeBinding.setPagerHomeFreeTimeModel(pagerHomeFreeTimeModel);
