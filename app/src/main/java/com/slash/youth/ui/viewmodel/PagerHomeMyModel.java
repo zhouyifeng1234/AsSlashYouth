@@ -20,7 +20,7 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     private void initView() {
-
+        mPagerHomeMyBinding.svPagerHomeMy.setVerticalScrollBarEnabled(false);
     }
 
     private void initData() {
