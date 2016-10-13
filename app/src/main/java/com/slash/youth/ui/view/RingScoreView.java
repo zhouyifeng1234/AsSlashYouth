@@ -2,10 +2,12 @@ package com.slash.youth.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/13.
@@ -14,6 +16,16 @@ public class RingScoreView extends View {
 
     private String mRingScoreViewWidth = "";
     private String mRingScoreViewHeight = "";
+    private float mWidthPx;
+    private float mHeightPx;
+    private float mRadius;
+    private float x;
+    private float y;
+    private Paint mOutterCirclePaint;
+    private float ringWidth;
+    private Paint mInnerCirclePaint;
+    private Paint mProgressOutterCirclePaint;
+    private Paint mProgressInnerCirclePaint;
 
     public RingScoreView(Context context) {
         super(context);
@@ -32,34 +44,68 @@ public class RingScoreView extends View {
 
     private void initView(AttributeSet attrs) {
         if (attrs != null) {
-//            ToastUtils.shortToast("attr");
+            //获取布局文件中设置的layout_width和layout_height的数据，结果是字符串类型
             mRingScoreViewWidth = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_width");
             mRingScoreViewHeight = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
-            LogKit.v("mRingScoreViewWidth:" + mRingScoreViewWidth);
-            LogKit.v("mRingScoreViewHeight:" + mRingScoreViewHeight);
-//            int intWidth =  mRingScoreViewWidth.substring(0, mRingScoreViewWidth.length() - 4);
 
-//
-//            LogKit.v("mRingScoreViewWidth:" + attrs.getAttributeValue(0));
-//            LogKit.v("mRingScoreViewWidth:" + attrs.getAttributeValue(1));
-//            LogKit.v("mRingScoreViewHeight:" + mRingScoreViewHeight);
+            float widthDip = Float.parseFloat(mRingScoreViewWidth.substring(0, mRingScoreViewWidth.length() - 3));
+            float heightDip = Float.parseFloat(mRingScoreViewHeight.substring(0, mRingScoreViewHeight.length() - 3));
+            mWidthPx = widthDip * CommonUtils.getDensity();
+            mHeightPx = heightDip * CommonUtils.getDensity();
+            mRadius = mWidthPx / 2;
+            x = mWidthPx / 2;
+            y = mHeightPx / 2;
+            mOutterCirclePaint = new Paint();
+            mOutterCirclePaint.setColor(0xffafdaf0);
+            mInnerCirclePaint = new Paint();
+            mInnerCirclePaint.setColor(0xffffffff);
+            mProgressOutterCirclePaint = new Paint();
+            mProgressOutterCirclePaint.setColor(0xff3cc7e3);
+            mProgressInnerCirclePaint = new Paint();
+            mProgressInnerCirclePaint.setColor(0xffffffff);
+            ringWidth = CommonUtils.dip2px(11);
+
+//            post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    initRingProgressDraw();
+//                }
+//            });
+
         }
-
-
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        int mRingScoreViewWidth = MeasureSpec.getSize(widthMeasureSpec);
-//        int mRingScoreViewHeight = MeasureSpec.getSize(heightMeasureSpec);
-//        LogKit.v("mRingScoreViewWidth:" + mRingScoreViewWidth);
-//        LogKit.v("mRingScoreViewHeight:" + mRingScoreViewHeight);
+    public void initRingProgressDraw() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 120; i++) {
+                    try {
+                        progressSweepAngle += (totalProgressAngle / 120);
+                        long startMill = System.currentTimeMillis();
+                        postInvalidate();
+                        long endMill = System.currentTimeMillis();
+                        Thread.sleep(16 - (endMill - startMill));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
+
+    float totalProgressAngle = 360;
+    float progressSweepAngle = 0;
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.drawCircle(x, y, mRadius, mOutterCirclePaint);
+        canvas.drawCircle(x, y, mRadius - ringWidth, mInnerCirclePaint);
+        canvas.drawArc(new RectF(0, 0, mWidthPx, mHeightPx), -90, progressSweepAngle, true, mProgressOutterCirclePaint);
+        canvas.drawArc(new RectF(0 + ringWidth, 0 + ringWidth, mWidthPx - ringWidth, mHeightPx - ringWidth), -90, progressSweepAngle, true, mProgressInnerCirclePaint);
+    }
 
-
+    public void setTotalProgressAngle(float totalProgressAngle) {
+        this.totalProgressAngle = totalProgressAngle;
     }
 }

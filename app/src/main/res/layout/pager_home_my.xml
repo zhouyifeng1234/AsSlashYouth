@@ -399,13 +399,32 @@
 
                 </LinearLayout>
 
-                <com.slash.youth.ui.view.RingScoreView
-                    android:layout_width="135dp"
-                    android:layout_height="135dp"
-                    android:layout_centerInParent="true"
-                >
+                <FrameLayout
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_centerInParent="true">
 
-                </com.slash.youth.ui.view.RingScoreView>
+                    <com.slash.youth.ui.view.RingScoreView
+                        android:id="@+id/rsv_home_my_expert_marks_progress"
+                        android:layout_width="135dp"
+                        android:layout_height="135dp"
+                        android:layout_gravity="center"
+                    >
+
+                    </com.slash.youth.ui.view.RingScoreView>
+                    <FrameLayout
+                        android:id="@+id/fl_home_my_expert_marks_maker"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@mipmap/rhythmic_head"/>
+                    </FrameLayout>
+
+                </FrameLayout>
+
 
             </RelativeLayout>
 
