@@ -21,7 +21,6 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.DialogHomeSubscribeBinding;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
 import com.slash.youth.ui.activity.CityLocationActivity;
-import com.slash.youth.ui.activity.NewActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -250,11 +249,6 @@ public class PagerHomeBaseModel extends BaseObservable {
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentSearchActivity);
-
-       /* Intent intentSearchActivity = new Intent(CommonUtils.getContext(),NewActivity.class);
-        intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentSearchActivity);*/
-
     }
 
 }

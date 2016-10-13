@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -23,8 +24,10 @@ import com.slash.youth.utils.LogKit;
 public class ActivityHomeModel extends BaseObservable {
     ActivityHomeBinding activityHomeBinding;
     private int chooseServiceAndDemandLayerVisibility = View.INVISIBLE;
+    public Activity mActivity;
 
-    public ActivityHomeModel(ActivityHomeBinding activityHomeBinding) {
+    public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
+        this.mActivity = activity;
         this.activityHomeBinding = activityHomeBinding;
     }
 
@@ -47,19 +50,19 @@ public class ActivityHomeModel extends BaseObservable {
         activityHomeBinding.flActivityHomePager.removeAllViews();
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
-                activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager().getRootView());
+                activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(mActivity).getRootView());
                 LogKit.v("freetime");
                 break;
             case R.id.ll_activity_home_info:
-                activityHomeBinding.flActivityHomePager.addView(new HomeInfoPager().getRootView());
+                activityHomeBinding.flActivityHomePager.addView(new HomeInfoPager(mActivity).getRootView());
                 LogKit.v("info");
                 break;
             case R.id.ll_activity_home_contacts:
-                activityHomeBinding.flActivityHomePager.addView(new HomeContactsPager().getRootView());
+                activityHomeBinding.flActivityHomePager.addView(new HomeContactsPager(mActivity).getRootView());
                 LogKit.v("contacts");
                 break;
             case R.id.ll_activity_home_my:
-                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager().getRootView());
+                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(mActivity).getRootView());
                 LogKit.v("my");
                 break;
         }

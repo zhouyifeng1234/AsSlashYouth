@@ -1,5 +1,6 @@
 package com.slash.youth.ui.pager;
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,8 +28,10 @@ abstract public class BaseHomePager {
     private View rootView;
     private PagerHomeBaseBinding mPagerHomeBaseBinding;
     public ArrayList<String> homeAdvertisementUrlList;
+    public Activity mActivity;
 
-    public BaseHomePager() {
+    public BaseHomePager(Activity activity) {
+        this.mActivity = activity;
         rootView = initView();
         initListener();
         setData();

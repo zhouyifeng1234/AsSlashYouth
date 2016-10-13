@@ -3,6 +3,7 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
@@ -16,14 +17,14 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         CommonUtils.setCurrentActivity(this);
         ActivityHomeBinding activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding);
+        ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
         activityHomeBinding.setActivityHomeBinding(activityHomeModel);
 
         //初始化默认页面
         activityHomeBinding.flActivityHomePager.removeAllViews();
 //        TextView tv = new TextView(this);
 //        tv.setText("Text");
-        activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager().getRootView());
+        activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(this).getRootView());
     }
 
 //    public void getData(View v) {
