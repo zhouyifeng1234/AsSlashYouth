@@ -1,15 +1,27 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.DemandBean;
 import com.slash.youth.domain.SearchPersonBean;
+import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.activity.SearchActivity;
+import com.slash.youth.ui.adapter.ListViewAdapter;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
 import com.slash.youth.ui.adapter.PagerSearchPersonAdapter;
+import com.slash.youth.ui.adapter.SearchCityAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
@@ -21,21 +33,38 @@ import java.util.Comparator;
 /**
  * Created by zss on 2016/9/23.
  */
-public class SearchNeedResultTabModel extends BaseObservable implements View.OnClickListener {
+public class SearchNeedResultTabModel extends BaseObservable implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     public SearchNeedResultTabBinding mSearchNeedResultTabBinding;
     //zss 指示器的点击事件
-    private boolean isClickTime = false;
-    private boolean isClickStar = false;
-    private boolean isClickHot = false;
     private View lineView;
     private View userView;
-    private View sureView;
-
+    private View sortView;
+    private View areaView;
     private PagerHomeDemandtAdapter pagerHomeDemandtAdapter;
     private ArrayList<DemandBean> listDemand;
     private ArrayList<SearchPersonBean> listPerson;
     private PagerSearchPersonAdapter pagerSearchPersonAdapter;
+    private ListView lv;
+    private String cityName = "苏州";
+    private ArrayList<String> arrayList = new ArrayList<String>();
+    private ArrayList<String> items = new ArrayList<>();
+    private String[] lineText = {"不限","线上","线下"};
+    private String[] userText = {"全部用户","认证用户"};
+    private String[] sortText = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+    private String[] searchSortText = {"综合性评价最高（默认）","发布时间最近","距离最近"};
+    private String[] areaText = { "全苏州", "工业园区", "吴中区","姑苏区","相城区","高新区",
+            "姑苏区", "工业园区", "张家港市", "昆山市" };
+    public static  int TYPE;
+    private ListViewAdapter listViewAdapter;
+    private String title;
+    private TextView currentCity;
+    private TextView switchCity;
+    private GridView gridViewv;
+    private SearchCityAdapter searchCityAdapter;
+    private String locale;
+    private String searchType;
+    private TextView local;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
@@ -45,13 +74,19 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     }
 
     private void initView() {
-        String searchType = SpUtils.getString("searchType", "");
+        searchType = SpUtils.getString("searchType", "");
         if (searchType.equals("searchPerson")) {
-            mSearchNeedResultTabBinding.llSearchTab2.setVisibility(View.VISIBLE);
             mSearchNeedResultTabBinding.llSearchTabHead.setVisibility(View.GONE);
             mSearchNeedResultTabBinding.lvShowSearchResult.setVisibility(View.GONE);
             mSearchNeedResultTabBinding.lvShowSearchPerson.setVisibility(View.VISIBLE);
         }
+
+        if(searchType.equals("searchService")){
+            mSearchNeedResultTabBinding.rlTabUser.setVisibility(View.GONE);
+            mSearchNeedResultTabBinding.view.setVisibility(View.GONE);
+        }
+
+
     }
 
     //加载数据
@@ -109,74 +144,22 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         //设置指示器的点击事件,三个不同的指示器的监听事件
         mSearchNeedResultTabBinding.rlTabLine.setOnClickListener(this);
         mSearchNeedResultTabBinding.rlTabUser.setOnClickListener(this);
-        mSearchNeedResultTabBinding.rlTabTime.setOnClickListener(this);
-        mSearchNeedResultTabBinding.rlTabHuoyuedu.setOnClickListener(this);
-        mSearchNeedResultTabBinding.rlTabRenzheng.setOnClickListener(this);
-        mSearchNeedResultTabBinding.rlTabXingji.setOnClickListener(this);
+        mSearchNeedResultTabBinding.rlTabSort.setOnClickListener(this);
+        mSearchNeedResultTabBinding.rlTabArea.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             //认证
-            case R.id.rl_tab_renzheng:
             //线上用户
             case R.id.rl_tab_line:
             //认证用户
             case R.id.rl_tab_user:
-                clickSearchTab(v.getId());
-                break;
-            //星级
-            case R.id.rl_tab_xingji:
-                isClickStar = !isClickStar;
-                setImageView(isClickStar, v, R.id.iv_star, R.mipmap.shang_icon, R.mipmap.xia);
-
-                mSearchNeedResultTabBinding.ivHot.setImageResource(R.mipmap.xia);
-                isClickHot = false;
-                //判断上下箭头
-                if (isClickStar) {//
-                   // LogKit.d("向上排序");//上
-                    updateUpData();
-                } else {
-                   // LogKit.d("向下排序");//下
-                    updateDownData();
-                }
-                pagerHomeDemandtAdapter.notifyDataSetChanged();//更新数据
-                clickSearchTab(v.getId());
-                break;
-
-            //活跃度
-            case R.id.rl_tab_huoyuedu:
-                isClickHot = !isClickHot;
-                setImageView(isClickHot, v, R.id.iv_hot, R.mipmap.shang_icon, R.mipmap.xia);
-                mSearchNeedResultTabBinding.ivStar.setImageResource(R.mipmap.xia);
-                isClickStar = false;
-                if (isClickHot) {//
-                  //  LogKit.d("向上排序");//上
-                    updateUpData();
-                } else {
-                  //  LogKit.d("向下排序");//下
-                    updateDownData();
-                }
-                pagerHomeDemandtAdapter.notifyDataSetChanged();//更新数据
-                clickSearchTab(v.getId());
-                break;
-            //时间
-            case R.id.rl_tab_time:
-                isClickTime = !isClickTime;
-                setImageView(isClickTime, v, R.id.iv_time_icon, R.mipmap.shang_icon, R.mipmap.xia);
-                //判断箭头向上和向下，数据不同,布局一样的，根据接口文档不同的排序方式，更新数据
-
-                if (isClickTime) {//
-                   // LogKit.d("向上排序");//上
-//                    updateUpData();
-                    sortByTime(true);
-                } else {
-                  //  LogKit.d("向下排序");//下
-                    sortByTime(false);
-//                    updateDownData();
-                }
-                pagerHomeDemandtAdapter.notifyDataSetChanged();//更新数据
+            //排序
+            case R.id.rl_tab_sort:
+            //地区
+            case R.id.rl_tab_area:
                 clickSearchTab(v.getId());
                 break;
         }
@@ -185,7 +168,9 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     private int searchTabId =-1;//当前id
     private boolean isSearchTabOn = false;//当前searchTab 打开
 
-    private void clickSearchTab(int id ) {
+    private void
+    clickSearchTab(int id ) {
+        LogKit.d("    点击啦    "+"     id==="+id);
         //关闭旧的
         if (isSearchTabOn) {
             mSearchNeedResultTabBinding.flShowSearchResult.removeView(getShowView(searchTabId));
@@ -197,8 +182,10 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         }
         switch (id){
             case R.id.rl_tab_line:
+                LogKit.d("到这一步啦");
             case R.id.rl_tab_user:
-            case R.id.rl_tab_renzheng:
+            case R.id.rl_tab_area:
+            case R.id.rl_tab_sort:
                 break;
             default:
                 return;//点击了其他按钮,直接结束，不打开新的
@@ -209,7 +196,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         searchTabId=id;
         isSearchTabOn=true;
         return;
-
     }
 
         //指示器
@@ -217,12 +203,19 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         switch (id) {
             case R.id.rl_tab_line:
                 mSearchNeedResultTabBinding.ivLineIcon.setImageResource(isOn?R.mipmap.free_pay_jihuo: R.mipmap.free_play);
+                mSearchNeedResultTabBinding.tvLine.setTextColor(isOn? Color.parseColor("#31c5e4"):Color.parseColor("#333333"));
                 break;
             case R.id.rl_tab_user:
                 mSearchNeedResultTabBinding.ivUserIcon.setImageResource(isOn?R.mipmap.free_pay_jihuo: R.mipmap.free_play);
+                mSearchNeedResultTabBinding.tvUser.setTextColor(isOn? Color.parseColor("#31c5e4"):Color.parseColor("#333333"));
                 break;
-            case R.id.rl_tab_renzheng:
-                mSearchNeedResultTabBinding.ivSure.setImageResource(isOn?R.mipmap.free_pay_jihuo: R.mipmap.free_play);
+            case R.id.rl_tab_area:
+                mSearchNeedResultTabBinding.ivAreaIcon.setImageResource(isOn?R.mipmap.free_pay_jihuo: R.mipmap.free_play);
+                mSearchNeedResultTabBinding.tvArea.setTextColor(isOn? Color.parseColor("#31c5e4"):Color.parseColor("#333333"));
+                break;
+            case R.id.rl_tab_sort:
+                mSearchNeedResultTabBinding.ivTimeIcon.setImageResource(isOn?R.mipmap.free_pay_jihuo: R.mipmap.free_play);
+                mSearchNeedResultTabBinding.tvSort.setTextColor(isOn? Color.parseColor("#31c5e4"):Color.parseColor("#333333"));
                 break;
             default:
         }
@@ -234,20 +227,49 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                 if (lineView == null) {
                     lineView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_line, null);
                 }
+                setSearchSelector(lineView ,lineText,linePostion);
+                TYPE = 1;
                 return lineView;
             case R.id.rl_tab_user:
                 if (userView == null) {
-                    userView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_user, null);
+                    userView = View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_line, null);
                 }
+                setSearchSelector(userView ,userText,userPostion);
+                TYPE = 2;
                 return userView;
-            case R.id.rl_tab_renzheng:
-                if(sureView==null){
-                    sureView=View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_sure, null);
+            //排序
+            case R.id.rl_tab_sort:
+                if(sortView==null){
+                    sortView=View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_line, null);
                 }
-                return sureView;
+                if(searchType.equals("searchService")){
+                    setSearchSelector(sortView ,searchSortText,sortPostion);
+                }else {
+                    setSearchSelector(sortView ,sortText,sortPostion);
+                }
+                TYPE = 3;
+                return sortView;
+            //地区
+            case R.id.rl_tab_area:
+                if(areaView==null){
+                    areaView=View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_area, null);
+                }
+                setSearchArea(areaView);
+                return areaView;
             default:
                 return null;
         }
+    }
+
+    //填充布局
+    private void setSearchSelector(View lineView ,String[] str,int position) {
+        lv = (ListView) lineView.findViewById(R.id.lv_search_selector);
+        arrayList.clear();
+        Collections.addAll(arrayList,str);
+        listViewAdapter = new ListViewAdapter(arrayList,position);
+       lv.setAdapter(listViewAdapter);
+        listViewAdapter.notifyDataSetChanged();
+       lv.setOnItemClickListener(this);
     }
 
     private void setImageView(boolean isclick, View v, int v1, int v2, int v3) {
@@ -258,7 +280,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         }
     }
 
-
     private void sortByStar(boolean isUp){
 
     }
@@ -267,39 +288,84 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     }
     private void sortByTime(final  boolean isUp){
         Collections.sort(listDemand,new Comparator<DemandBean>(){
-
             @Override
             public int compare(DemandBean o1, DemandBean o2) {
                 return (int)(o1.lasttime-o2.lasttime)*(isUp?1:-1);
             }
         });
-
     }
 
-    //箭头向下排序
-    private void updateDownData() {
-        listDemand.clear();//添加向下的排列的数据
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
+    private int clickPostion = 0;//初始化
+    private int linePostion = 0;//初始化
+    private int userPostion = 0;//初始化
+    private int sortPostion = 0;//初始化
+
+    //设置地区
+    private void setSearchArea( View view) {
+        currentCity = (TextView) view.findViewById(R.id.tv_currentCity);
+        currentCity.setText("当前城市:" + cityName);//TODO具体的数据看返回值
+
+        switchCity = (TextView) view.findViewById(R.id.tv_switchCity);
+        switchCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            //跳转搜索城市地址的页面
+            Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(),  CityLocationActivity.class);
+            intentCityLocationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            CommonUtils.getContext().startActivity(intentCityLocationActivity);
+
+            }
+        });
+
+        gridViewv = (GridView) view.findViewById(R.id.gv_city);
+        getData();
+        searchCityAdapter = new SearchCityAdapter(items,clickPostion);
+        //配置适配器
+         gridViewv.setAdapter(searchCityAdapter);
+        gridViewv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            locale = items.get(position);
+            mSearchNeedResultTabBinding.tvArea.setText(locale);
+            switchSearchTab(R.id.rl_tab_area,false);
+            local = (TextView) view.findViewById(R.id.tv_city);
+            clickPostion = position;
+            mSearchNeedResultTabBinding.flShowSearchResult.removeView(areaView);
+
+            }
+        });
     }
 
-    //箭头向上排序
-    private void updateUpData() {
-        listDemand.clear();//添加向上的排列数据
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
-        listDemand.add(new DemandBean());
+    //获取数据
+    private void getData() {
+    items.clear();
+    Collections.addAll(items,areaText);
     }
 
+    //每个条目的点击事件
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        title = arrayList.get(position);
+
+        switch(TYPE){
+            case 1:
+                mSearchNeedResultTabBinding.tvLine.setText(title);
+                linePostion = position;
+                mSearchNeedResultTabBinding.flShowSearchResult.removeView(lineView);
+                switchSearchTab(R.id.rl_tab_line,false);
+                break;
+            case 2:
+                mSearchNeedResultTabBinding.tvUser.setText(title);
+                userPostion = position;
+                mSearchNeedResultTabBinding.flShowSearchResult.removeView(userView);
+                switchSearchTab(R.id.rl_tab_user,false);
+                break;
+            case 3:
+                mSearchNeedResultTabBinding.tvSort.setText(title);
+                sortPostion = position;
+                mSearchNeedResultTabBinding.flShowSearchResult.removeView(sortView);
+                switchSearchTab(R.id.rl_tab_sort,false);
+                break;
+        }
+    }
 }

@@ -13,7 +13,7 @@
          android:id="@+id/ll_tab"
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
-         <LinearLayout
+       <!--  <LinearLayout
              android:id="@+id/ll_search_tab2"
              android:layout_width="match_parent"
              android:layout_height="43dp"
@@ -129,7 +129,7 @@
                          android:layout_height="match_parent" />
                  </LinearLayout>
              </RelativeLayout>
-         </LinearLayout>
+         </LinearLayout>-->
          <!--标签头2-->
          <LinearLayout
              android:id="@+id/ll_search_tab_head"
@@ -157,7 +157,7 @@
                          android:gravity="center"
                          android:layout_width="wrap_content"
                          android:layout_height="match_parent"
-                         android:text="线上用户"
+                         android:text="需求类型"
                          android:textSize="15dp"
                          android:textColor="#333333" />
 
@@ -172,6 +172,7 @@
              </RelativeLayout>
 
              <View
+                 android:id="@+id/view"
                  android:layout_marginLeft="2dp"
                  android:layout_width="0.5dp"
                  android:layout_height="20dp"
@@ -196,7 +197,7 @@
                          android:gravity="center"
                          android:layout_width="wrap_content"
                          android:layout_height="match_parent"
-                         android:text="认证用户"
+                         android:text="用户类型"
                          android:textSize="15dp"
                          android:textColor="#333333" />
 
@@ -218,7 +219,7 @@
                  android:layout_gravity="center"/>
 
              <RelativeLayout
-                 android:id="@+id/rl_tab_time"
+                 android:id="@+id/rl_tab_area"
                  android:layout_width="0dp"
                  android:layout_weight="1"
                  android:clickable="true"
@@ -231,11 +232,50 @@
                      >
 
                      <TextView
-                         android:id="@+id/tv_time"
+                         android:id="@+id/tv_area"
                          android:gravity="center"
                          android:layout_width="wrap_content"
                          android:layout_height="match_parent"
-                         android:text="时间"
+                         android:text="苏州"
+                         android:textSize="15dp"
+                         android:textColor="#333333" />
+
+                     <ImageView
+                         android:id="@+id/iv_area_icon"
+                         android:layout_marginLeft="6dp"
+                         android:layout_width="10dp"
+                         android:src="@mipmap/free_play"
+                         android:layout_height="match_parent" />
+                 </LinearLayout>
+
+             </RelativeLayout>
+
+             <View
+                 android:layout_marginLeft="2dp"
+                 android:layout_width="0.5dp"
+                 android:layout_height="20dp"
+                 android:background="#e5e5e5"
+                 android:layout_gravity="center"/>
+
+             <RelativeLayout
+                 android:id="@+id/rl_tab_sort"
+                 android:layout_width="0dp"
+                 android:layout_weight="1"
+                 android:clickable="true"
+                 android:layout_height="match_parent">
+
+                 <LinearLayout
+                     android:layout_centerInParent="true"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     >
+
+                     <TextView
+                         android:id="@+id/tv_sort"
+                         android:gravity="center"
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:text="排序"
                          android:textSize="15dp"
                          android:textColor="#333333" />
 
@@ -243,7 +283,7 @@
                          android:id="@+id/iv_time_icon"
                          android:layout_marginLeft="6dp"
                          android:layout_width="10dp"
-                         android:src="@mipmap/xia"
+                         android:src="@mipmap/free_play"
                          android:layout_height="match_parent" />
                  </LinearLayout>
              </RelativeLayout>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="itemHomeDemandModel"
+                  type="com.slash.youth.ui.viewmodel.ItemHomeDemandModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="5dp"
+            android:background="@mipmap/act_bg"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_item_listview_home_demand_avatar"
+                    android:layout_width="58dp"
+                    android:layout_height="59dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="14dp"
+                    android:src="@mipmap/home_head_sculpture"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="60dp"
+                    android:background="@drawable/shape_item_v_bg"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_authentication"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/tab_authentication"/>
+
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_item_listview_home_demand_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_toRightOf="@id/iv_item_listview_home_demand_avatar"
+                    android:text="做一个互联网公司企业宣传策划案"
+                    android:textColor="#333333"
+                    android:textSize="14.5sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_item_listview_home_demand_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_item_listview_home_demand_title"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@id/iv_item_listview_home_demand_avatar"
+                    android:text="任务时间：9月18日上午8点"
+                    android:textColor="#333333"
+                    android:textSize="13.5sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_item_listview_home_demand_date"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@id/iv_item_listview_home_demand_avatar"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="报价:￥300"
+                        android:textColor="#ff7333"
+                        android:textColorHighlight="#ffffff"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="80dp"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:background="@drawable/shape_search_item_bg"
+                        android:text="线上"
+                        android:textColor="#31c5e4"/>
+                    <TextView
+                        android:id="@+id/tv_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:text="一次性支付"
+                        android:background="@drawable/shape_search_item_bg"
+                        android:textColor="#31c5e4"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_item_listview_home_demand_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_item_listview_home_demand_avatar"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="9dp"
+                    android:text="曹文成"
+                    android:textColor="#999999"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="13dp"
+                android:background="#e5e5e5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="11dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/mark_icon"/>
+                <TextView
+                    android:id="@+id/tv_cityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:text="苏州市"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                />
+
+                <ImageView
+                    android:id="@+id/iv_sandglass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="6dp"
+                    android:src="@mipmap/icon_sandglass"/>
+
+                <TextView
+                    android:id="@+id/tv_item_listview_home_demand_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="2天8小时内回复"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

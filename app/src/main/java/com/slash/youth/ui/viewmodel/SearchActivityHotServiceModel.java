@@ -90,7 +90,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
             @Override
             public void run() {
                 View lvActivitySubscribeSecondSkilllableListFirstChild = searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
-                LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
+              //  LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
                 SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();//获取他的tag
                 lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;//tag建立数据模型
             }
@@ -198,9 +198,9 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                         @Override
                         public void onClick(View v) {
                              //LogKit.d("点击的textview"+((TextView)v).getText());
-                           //String skillName = (String) ((TextView) v).getText();
-                           // mActivitySearchBinding.etActivitySearchAssociation.setText(skillName);
-                           // mActivitySearchBinding.etActivitySearchAssociation.setTextColor(Color.BLACK);
+                           String skillName = (String) ((TextView) v).getText();
+                            mActivitySearchBinding.etActivitySearchAssociation.setText(skillName);
+                            mActivitySearchBinding.etActivitySearchAssociation.setTextColor(Color.BLACK);
                             //展示搜索结果的页面
                              // LogKit.d("展示搜索结果的页面");
                             showSearchResult();
@@ -259,13 +259,13 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
         mActivitySearchBinding.flSearchFirst.addView(searchNeedResultTabBinding.getRoot());
         mActivitySearchBinding.tvSearchResult.setText("搜索");
+        mActivitySearchBinding.ibBack.setVisibility(View.VISIBLE);
         ActivitySearchModel.searchType = 4;
     }
 
 
     //选择行业
     public void openChoose() {
-       // LogKit.d("点击啦");
         setRlChooseMainLabelVisible(View.VISIBLE);
     }
 

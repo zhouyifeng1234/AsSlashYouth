@@ -53,16 +53,9 @@ public class DialogSearchCleanModel extends BaseObservable {
         }
         initSearchHistoryData();
 
+        mActivitySearchBinding.tvCleanAll.setVisibility(View.INVISIBLE);
         currentDialog.dismiss();
     }
-
-   /* //打开搜索
-    public void openSearchActivity(View v) {
-        Intent intentSubSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
-        intentSubSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentSubSearchActivity);
-        currentDialog.dismiss();
-    }*/
 
     public  void initSearchHistoryData() {
         //存储集合

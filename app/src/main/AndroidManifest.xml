@@ -148,6 +148,8 @@
 
         </activity>
 
+        <activity android:name="com.slash.youth.ui.activity.NewActivity"/>
+
 
         <!--微信相关-->
         <!--<activity-->

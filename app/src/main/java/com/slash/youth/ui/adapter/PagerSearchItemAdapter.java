@@ -109,14 +109,18 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                     break;
                 case searchResult://搜索结果
                 case serviceResult:
-                    convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_needandservice, null);
+                    convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search, null);
                     holder.iv_item_listview_home_demand_avatar = (ImageView) convertView.findViewById(R.id.iv_item_listview_home_demand_avatar);
+                    holder.iv_authentication = (ImageView)convertView.findViewById(R.id.iv_authentication);
                     holder.tv_item_listview_home_demand_username = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_username);
                     holder.tv_item_listview_home_demand_title = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_title);
                     holder.tv_item_listview_home_demand_date = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_date);
-                    holder.tv_search_value = (TextView) convertView.findViewById(R.id.tv_search_value);
-                    holder.tv_search_line = (TextView) convertView.findViewById(R.id.tv_search_line);
-                    holder.tv_search_consult = (TextView) convertView.findViewById(R.id.tv_search_consult);
+                    holder.tv_money= (TextView) convertView.findViewById(R.id.tv_money);
+                    holder.tv_line= (TextView) convertView.findViewById(R.id.tv_line);
+                    holder.tv_pay= (TextView) convertView.findViewById(R.id.tv_pay);
+                    holder.tv_cityName= (TextView) convertView.findViewById(R.id.tv_cityName);
+                    holder.iv_sandglass = (ImageView)convertView.findViewById(R.id.iv_sandglass);
+                    holder.tv_item_listview_home_demand_time= (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_time);
                     break;
                 case personResult:
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
@@ -184,7 +188,7 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                     holder.tv_item_listview_home_demand_username.setText(demandListBean.getName());
                     holder.tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
                     setTime(holder.tv_item_listview_home_demand_date,demandListBean.getStarttime(),demandListBean.getEndtime());
-                    holder.tv_search_value.setText("报价：￥");
+                   // holder.tv_search_value.setText("报价：￥");
                    // holder.tv_search_line.setText("");
 
                 }
@@ -261,8 +265,8 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
         TextView tv_item_listview_home_demand_title;
         TextView tv_item_listview_home_demand_date;
         TextView tv_search_value;
-        TextView tv_search_line;
-        TextView tv_search_consult;
+        TextView tv_money;
+        TextView tv_pay;
         TextView tv_time;
         TextView tv_search_person_zhiye;
         ImageView iv_search_v;
@@ -270,6 +274,12 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
         ImageView iv_item_listview_home_demand_avatar;
         ImageView iv_star;
         ImageView iv_search_person;
+        ImageView iv_authentication;
+        TextView tv_line;
+        TextView tv_cityName;
+        ImageView iv_sandglass;
+        TextView tv_item_listview_home_demand_time;
+
     }
 
 }

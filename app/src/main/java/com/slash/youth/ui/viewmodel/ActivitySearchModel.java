@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.RegexUtils;
 import com.slash.youth.R;
@@ -67,13 +69,14 @@ public class ActivitySearchModel extends BaseObservable {
     private File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
     private File file = new File(externalCacheDir,"history.text");
     private ListView listView;
+    private String tvSearchright;
 
     public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
         this.mActivitySearchBinding = activitySearchBinding;
         //搜索框的监听，zss
         searchListener();
-    }
 
+    }
 
     //zss,点击直接搜索
     public void etSearch(View v){
@@ -82,6 +85,7 @@ public class ActivitySearchModel extends BaseObservable {
         mActivitySearchBinding.llSearchHistory.setVisibility(View.VISIBLE);
         //加载搜索框历史的数据
         initSearchHistoryData();
+        searchType = 5;
     }
 
     //点击显示对话框
@@ -133,6 +137,11 @@ public class ActivitySearchModel extends BaseObservable {
                 mActivitySearchBinding.tvSearchResult.setText("取消");
                 searchType =1;
                 break;
+            case 5:
+                mActivitySearchBinding.rlSearchMain.setVisibility(View.VISIBLE);
+                mActivitySearchBinding.llSearchHistory.setVisibility(View.GONE);
+                searchType=0;
+                break;
         }
     }
 
@@ -171,26 +180,50 @@ public class ActivitySearchModel extends BaseObservable {
                 }else if(searchContent1.length()>=2){
                     setSearchContentData();
                 }
+                //当输入框里面不等于0就是有字，出现图片
+                setDrawable(searchContent1);
             }
         });
 
         //设置搜索的数据，zss
         setSearchContentData();
-        //点击搜索，显示搜索的结果 zss
+        //点击搜索，显示搜索的结果 zss,二级页面是取消按钮
+        setClickSearch();
+        //叉叉图片点击事件
+        mActivitySearchBinding.searchIvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            mActivitySearchBinding.etActivitySearchAssociation.setText("");
+            mActivitySearchBinding.searchIvDelete.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
+    //设置搜索框的叉叉的图片
+    private void setDrawable(String text) {
+        if (text.length() < 1) {
+            mActivitySearchBinding.searchIvDelete.setVisibility(View.INVISIBLE);
+        }else {
+            mActivitySearchBinding.searchIvDelete.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setClickSearch() {
         mActivitySearchBinding.tvSearchResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //显示结果页面
-                // LogKit.d("显示直接搜索结果页面");
-                //直接搜索结果
+            tvSearchright = mActivitySearchBinding.tvSearchResult.getText().toString();
+
+                if(tvSearchright.equals("搜索")){
+                    //显示结果页面
                 String text=mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
                 if(text.length()==0){
                     ToastUtils.shortToast("请您输入搜索内容");
-                mActivitySearchBinding.etActivitySearchAssociation.setFocusable(true);
-                mActivitySearchBinding.etActivitySearchAssociation.setFocusableInTouchMode(true);
-                mActivitySearchBinding.etActivitySearchAssociation.requestFocus();
-                InputMethodManager inputManager = (InputMethodManager) CommonUtils.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.showSoftInput(mActivitySearchBinding.etActivitySearchAssociation, 0);
+                    mActivitySearchBinding.etActivitySearchAssociation.setFocusable(true);
+                    mActivitySearchBinding.etActivitySearchAssociation.setFocusableInTouchMode(true);
+                    mActivitySearchBinding.etActivitySearchAssociation.requestFocus();
+                    InputMethodManager inputManager = (InputMethodManager) CommonUtils.getCurrentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.showSoftInput(mActivitySearchBinding.etActivitySearchAssociation, 0);
 
                 } else if (text.length()==1){
                     if(StringUtils.isSearchContent(text)) {
@@ -211,26 +244,12 @@ public class ActivitySearchModel extends BaseObservable {
                         ToastUtils.shortToast("输入有效字符");
                     }
                 }
-
-             /*   if(StringUtils.isSearchContent(text)){
-                    if(text.length()==0){
-                        //TODO
-                       // showSearchAllReasultView(text);
-                        ToastUtils.shortToast("请您输入搜索内容");
-                    } else if (text.length()==1){
-                        if(RegexUtils.isChz(searchContent1)){
-                            showSearchAllReasultView(text);
-                        }else {
-                            //输入了一个非汉字的字符
-                            ToastUtils.shortToast("输入信息太少，请重新输入");
-                        }
-                    } else if (text.length()>=2){
-                        //联网搜索,并且根据字符搜索
-                        saveHistory(text);
-                        //TODO
-                       // showSearchAllReasultView(text);
-                    }
-                }*/
+                }else if(tvSearchright.equals("取消")){
+                    mActivitySearchBinding.flSearchFirst.removeView(searchActivityHotServiceBinding.getRoot());
+                    mActivitySearchBinding.rlSearchMain.setVisibility(View.INVISIBLE);
+                    mActivitySearchBinding.tvSearchResult.setText("搜索");
+                    mActivitySearchBinding.ibBack.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -252,7 +271,7 @@ public class ActivitySearchModel extends BaseObservable {
     //zss 直接搜索结果
     private void showSearchAllReasultView(String text) {
      mActivitySearchBinding.flSearchFirst.removeAllViews();
-        listView = new ListView(CommonUtils.getContext());
+    listView = new ListView(CommonUtils.getContext());
     SearchAllProtocol searchAllProtocol = new SearchAllProtocol(text);
     searchAllProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SearchAllBean>() {
         @Override
@@ -265,21 +284,18 @@ public class ActivitySearchModel extends BaseObservable {
                 @Override
                 public void onClickMore(int btn) {
                     switch (btn){
-                        case needMoreBtn://点击更多按钮
-                          /*pagerSearchItemAdapter.notifyDataSetChanged();*/
+                        case needMoreBtn://点击更多按钮，跳转到需求页面
+                        mActivitySearchBinding.flSearchFirst.removeView(listView);
 
 
                             break;
                         case serviceMoreBtn:
-                            /*pagerSearchItemAdapter.notifyDataSetChanged();*/
-
+                        mActivitySearchBinding.flSearchFirst.removeView(listView);
 
 
                             break;
                         case persionMoreBtn:
-                            /*pagerSearchItemAdapter.notifyDataSetChanged();*/
-
-
+                        mActivitySearchBinding.flSearchFirst.removeView(listView);
 
                             break;
                     }
@@ -365,8 +381,11 @@ public class ActivitySearchModel extends BaseObservable {
         searchActivityHotServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_activity_hot_service, null, false);
         searchActivityHotServiceModel = new SearchActivityHotServiceModel(searchActivityHotServiceBinding,mActivitySearchBinding);
         searchActivityHotServiceBinding.setSearchActivityHotServiceModel(searchActivityHotServiceModel);
+        mActivitySearchBinding.tvSearchResult.setText("取消");
+        mActivitySearchBinding.ibBack.setVisibility(View.INVISIBLE);
         mActivitySearchBinding.flSearchFirst.addView(searchActivityHotServiceBinding.getRoot());
         searchActivityHotServiceBinding.tvSearchTitle.setText(title);
-        mActivitySearchBinding.tvSearchResult.setText("取消");
+
+
     }
 }
