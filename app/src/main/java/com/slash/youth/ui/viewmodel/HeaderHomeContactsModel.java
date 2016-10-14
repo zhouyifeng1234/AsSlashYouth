@@ -4,7 +4,6 @@ import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
@@ -39,12 +38,12 @@ public class HeaderHomeContactsModel extends BaseObservable {
         displayFriendRecommend();
     }
 
-    private View createRecommendHorizontalSpace() {
-        HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(CommonUtils.dip2px(9), 0);
-        View space = new View(CommonUtils.getContext());
-        space.setLayoutParams(params);
-        return space;
-    }
+//    private View createRecommendHorizontalSpace() {
+//        HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(CommonUtils.dip2px(9), 0);
+//        View space = new View(CommonUtils.getContext());
+//        space.setLayoutParams(params);
+//        return space;
+//    }
 
     public void getDataFromServer() {
         //模拟数据 推荐数据
@@ -70,11 +69,11 @@ public class HeaderHomeContactsModel extends BaseObservable {
         for (int i = 0; i < listFriendRecommendBean.size(); i++) {
             ItemHscFriendRecommendBinding itemHscFriendRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_hsc_friend_recommend, null, false);
             View itemFriendRecommend = itemHscFriendRecommendBinding.getRoot();
-            View recommendSpace = createRecommendHorizontalSpace();
-            ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, recommendSpace, listFriendRecommendBean, i);
+//            View recommendSpace = createRecommendHorizontalSpace();
+            ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, listFriendRecommendBean, i);
             itemHscFriendRecommendBinding.setItemFriendRecommendModel(itemFriendRecommendModel);
             mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(itemFriendRecommend);
-            mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(recommendSpace);
+//            mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(recommendSpace);
         }
         //设置好友推荐换一批按钮
         setChangeALotFriendRecommendButton();

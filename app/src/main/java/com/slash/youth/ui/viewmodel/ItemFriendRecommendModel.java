@@ -18,15 +18,15 @@ public class ItemFriendRecommendModel extends BaseObservable {
     ItemHscFriendRecommendBinding mItemHscFriendRecommendBinding;
     FriendRecommendBean mFriendRecommendBean;
     View mItemFriendRecommend;
-    View mRecommendSpace;
+//    View mRecommendSpace;
     ArrayList<FriendRecommendBean> mListFriendRecommendBean;
     int index;
 
-    public ItemFriendRecommendModel(ItemHscFriendRecommendBinding itemHscFriendRecommendBinding, View itemFriendRecommend, View recommendSpace, ArrayList<FriendRecommendBean> listFriendRecommendBean, int index) {
+    public ItemFriendRecommendModel(ItemHscFriendRecommendBinding itemHscFriendRecommendBinding, View itemFriendRecommend, ArrayList<FriendRecommendBean> listFriendRecommendBean, int index) {
         this.mItemHscFriendRecommendBinding = itemHscFriendRecommendBinding;
         this.mFriendRecommendBean = listFriendRecommendBean.get(index);
         this.mItemFriendRecommend = itemFriendRecommend;
-        this.mRecommendSpace = recommendSpace;
+//        this.mRecommendSpace = recommendSpace;
         this.mListFriendRecommendBean = listFriendRecommendBean;
         this.index = index;
         initView();
@@ -53,7 +53,7 @@ public class ItemFriendRecommendModel extends BaseObservable {
         mListFriendRecommendBean.remove(mFriendRecommendBean);
         ViewGroup itemParent = (ViewGroup) mItemFriendRecommend.getParent();
         itemParent.removeView(mItemFriendRecommend);
-        itemParent.removeView(mRecommendSpace);
+//        itemParent.removeView(mRecommendSpace);
         //调用服务端相关接口，实现删除一个推荐条目的功能
     }
 
@@ -62,7 +62,7 @@ public class ItemFriendRecommendModel extends BaseObservable {
         mListFriendRecommendBean.remove(mFriendRecommendBean);
         ViewGroup itemParent = (ViewGroup) mItemFriendRecommend.getParent();
         itemParent.removeView(mItemFriendRecommend);
-        itemParent.removeView(mRecommendSpace);
+//        itemParent.removeView(mRecommendSpace);
         //调用服务端相关接口，实现添加一个推荐好友的操作
     }
 
