@@ -7,6 +7,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.slash.youth.databinding.PagerHomeMyBinding;
+import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/11.
@@ -14,7 +15,11 @@ import com.slash.youth.databinding.PagerHomeMyBinding;
 public class PagerHomeMyModel extends BaseObservable {
     PagerHomeMyBinding mPagerHomeMyBinding;
     Activity mActivity;
-    float totalExpertMarks = 2000;
+    //    float totalExpertMarks = 2000;
+    float expertⅠMaxMarks = 1000;
+    float expertⅡMaxMarks = 4000;
+    float expertⅢMaxMarks = 10000;
+    float expertⅣMaxMarks = 99999;
     float expertMarks;
     float expertMarksProgress;//0到360
 
@@ -45,11 +50,47 @@ public class PagerHomeMyModel extends BaseObservable {
                 mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.initRingProgressDraw();
             }
         });
+        initExpertMarksProgress();
+
+    }
+
+    private void initExpertMarksProgress() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 120; i++) {
+                    try {
+                        long startMill = System.currentTimeMillis();
+                        final float displayMarks = expertMarks / 120 * (i + 1);
+                        CommonUtils.getHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPagerHomeMyBinding.tvHomeMyExpertMarks.setText((int) displayMarks + "");
+                            }
+                        });
+                        long endMill = System.currentTimeMillis();
+                        Thread.sleep(16 - (endMill - startMill));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }).start();
     }
 
     private void initData() {
-        expertMarks = 1800;//这个数据实际应该从服务端获取
-        expertMarksProgress = expertMarks / totalExpertMarks * 360;
+        expertMarks = 9999;//这个数据实际应该从服务端获取
+//        expertMarksProgress = expertMarks / totalExpertMarks * 360;
+        if (expertMarks >= 0 && expertMarks <= expertⅠMaxMarks) {
+            expertMarksProgress = expertMarks / expertⅠMaxMarks * 90;
+        } else if (expertMarks <= expertⅡMaxMarks) {
+            expertMarksProgress = 90 + (expertMarks - expertⅠMaxMarks) / (expertⅡMaxMarks - expertⅠMaxMarks) * 90;
+        } else if (expertMarks <= expertⅢMaxMarks) {
+            expertMarksProgress = 180 + (expertMarks - expertⅡMaxMarks) / (expertⅢMaxMarks - expertⅡMaxMarks) * 90;
+        } else if (expertMarks <= expertⅣMaxMarks) {
+            expertMarksProgress = 270 + (expertMarks - expertⅢMaxMarks) / (expertⅣMaxMarks - expertⅢMaxMarks) * 90;
+        }
     }
 
 }
