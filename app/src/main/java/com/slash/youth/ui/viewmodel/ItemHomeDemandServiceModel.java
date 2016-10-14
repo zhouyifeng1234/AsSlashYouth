@@ -1,7 +1,9 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
 
 /**
@@ -23,5 +25,28 @@ public class ItemHomeDemandServiceModel extends BaseObservable {
 
     private void initData() {
 
+    }
+
+    private String demandOrServiceTime;
+    private int demandReplyTimeVisibility;
+
+    @Bindable
+    public String getDemandOrServiceTime() {
+        return demandOrServiceTime;
+    }
+
+    public void setDemandOrServiceTime(String demandOrServiceTime) {
+        this.demandOrServiceTime = demandOrServiceTime;
+        notifyPropertyChanged(BR.demandOrServiceTime);
+    }
+
+    @Bindable
+    public int getDemandReplyTimeVisibility() {
+        return demandReplyTimeVisibility;
+    }
+
+    public void setDemandReplyTimeVisibility(int demandReplyTimeVisibility) {
+        this.demandReplyTimeVisibility = demandReplyTimeVisibility;
+        notifyPropertyChanged(BR.demandReplyTimeVisibility);
     }
 }
