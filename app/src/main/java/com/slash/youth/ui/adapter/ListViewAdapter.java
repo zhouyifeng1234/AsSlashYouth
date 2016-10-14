@@ -19,10 +19,10 @@ import java.util.ArrayList;
  */
 public class ListViewAdapter extends BaseAdapter {
     private ArrayList<String> mData;
-    private int linePotion;
-    public ListViewAdapter(ArrayList mData,int linePotion) {
+    private int mPotion;
+    public ListViewAdapter(ArrayList mData,int mPotion) {
         this.mData = mData;
-        this.linePotion = linePotion;
+        this.mPotion = mPotion;
 
     }
 
@@ -50,9 +50,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        holder.setData(getItem(position),linePotion==position);
-       // holder.setData(getItem(position),userPotion==position);
-       // holder.setData(getItem(position),sortPotion==position);
+        holder.setData(getItem(position),mPotion==position);
 
         return holder.rootView;
     }
@@ -78,35 +76,4 @@ public class ListViewAdapter extends BaseAdapter {
             }
         };
     }
-
-
-
-   /*@Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            holder = new ViewHolder();
-            if(position == 0){
-                convertView = View.inflate(CommonUtils.getContext(),R.layout.item_search_listview_first,null);
-                holder.itemfirst = (TextView) convertView.findViewById(R.id.tv_first_item);
-                holder.itemfirst.setText(mData.get(position));
-            }else{
-                convertView = View.inflate(CommonUtils.getContext(),R.layout.item_search_listview,null);
-                holder.item = (TextView) convertView.findViewById(R.id.tv_item);
-                holder.item.setText(mData.get(position));
-            }
-
-
-            convertView.setTag(holder);
-        }else{
-            holder = (ViewHolder)convertView.getTag();
-        }
-        return convertView;
-    }
-
-    static class ViewHolder{
-        TextView item;
-        TextView itemfirst;
-    }*/
-
 }

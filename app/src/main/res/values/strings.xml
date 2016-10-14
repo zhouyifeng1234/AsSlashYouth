@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SlashYouth</string>
+    <string name="searchNeed">热搜需求</string>
+    <string name="searchService">热搜服务</string>
+    <string name="searchPerson">搜人</string>
+    <string name="search">搜索</string>
 </resources>

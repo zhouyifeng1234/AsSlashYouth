@@ -73,20 +73,23 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         initData();
     }
 
+    public SearchNeedResultTabBinding getmSearchNeedResultTabBinding() {
+        return mSearchNeedResultTabBinding;
+    }
+
     private void initView() {
-        searchType = SpUtils.getString("searchType", "");
-        if (searchType.equals("searchPerson")) {
+       searchType = SpUtils.getString("searchType", "");
+
+        if (searchType.equals("搜人")) {
             mSearchNeedResultTabBinding.llSearchTabHead.setVisibility(View.GONE);
             mSearchNeedResultTabBinding.lvShowSearchResult.setVisibility(View.GONE);
             mSearchNeedResultTabBinding.lvShowSearchPerson.setVisibility(View.VISIBLE);
         }
 
-        if(searchType.equals("searchService")){
+        if(searchType.equals("热搜服务")){
             mSearchNeedResultTabBinding.rlTabUser.setVisibility(View.GONE);
             mSearchNeedResultTabBinding.view.setVisibility(View.GONE);
         }
-
-
     }
 
     //加载数据
@@ -100,13 +103,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     //展示搜索人的数据
     private void setSearchPersonData() {
         listPerson = new ArrayList<>();
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
         listPerson.add(new SearchPersonBean());
         listPerson.add(new SearchPersonBean());
         listPerson.add(new SearchPersonBean());
@@ -169,8 +165,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     private boolean isSearchTabOn = false;//当前searchTab 打开
 
     private void
-    clickSearchTab(int id ) {
-        LogKit.d("    点击啦    "+"     id==="+id);
+    clickSearchTab(int id) {
         //关闭旧的
         if (isSearchTabOn) {
             mSearchNeedResultTabBinding.flShowSearchResult.removeView(getShowView(searchTabId));
@@ -182,7 +177,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         }
         switch (id){
             case R.id.rl_tab_line:
-                LogKit.d("到这一步啦");
             case R.id.rl_tab_user:
             case R.id.rl_tab_area:
             case R.id.rl_tab_sort:
@@ -191,6 +185,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                 return;//点击了其他按钮,直接结束，不打开新的
         }
         //打开新的
+
         mSearchNeedResultTabBinding.flShowSearchResult.addView(getShowView(id));
         switchSearchTab(id,true);
         searchTabId=id;
@@ -242,7 +237,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                 if(sortView==null){
                     sortView=View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_line, null);
                 }
-                if(searchType.equals("searchService")){
+                if(searchType.equals("热搜服务")){
                     setSearchSelector(sortView ,searchSortText,sortPostion);
                 }else {
                     setSearchSelector(sortView ,sortText,sortPostion);
@@ -330,7 +325,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
             switchSearchTab(R.id.rl_tab_area,false);
             local = (TextView) view.findViewById(R.id.tv_city);
             clickPostion = position;
-            mSearchNeedResultTabBinding.flShowSearchResult.removeView(areaView);
+            clickSearchTab(R.id.fl_showSearchResult);
 
             }
         });
@@ -351,21 +346,19 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
             case 1:
                 mSearchNeedResultTabBinding.tvLine.setText(title);
                 linePostion = position;
-                mSearchNeedResultTabBinding.flShowSearchResult.removeView(lineView);
                 switchSearchTab(R.id.rl_tab_line,false);
                 break;
             case 2:
                 mSearchNeedResultTabBinding.tvUser.setText(title);
                 userPostion = position;
-                mSearchNeedResultTabBinding.flShowSearchResult.removeView(userView);
                 switchSearchTab(R.id.rl_tab_user,false);
                 break;
             case 3:
                 mSearchNeedResultTabBinding.tvSort.setText(title);
                 sortPostion = position;
-                mSearchNeedResultTabBinding.flShowSearchResult.removeView(sortView);
                 switchSearchTab(R.id.rl_tab_sort,false);
                 break;
         }
+        clickSearchTab(R.id.fl_showSearchResult);
     }
 }

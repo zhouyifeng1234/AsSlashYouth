@@ -33,6 +33,8 @@
                 android:paddingLeft="10dp"
                 android:textColorHint="#666666"
                 android:textSize="15sp"
+                android:imeOptions="actionSearch"
+                android:imeActionLabel="搜索"
                 android:onClick="@{activitySearchModel.etSearch}"/>
 
             <ImageButton

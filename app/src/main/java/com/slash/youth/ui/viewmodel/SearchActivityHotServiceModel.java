@@ -40,9 +40,18 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private int rlChooseMainLabelVisible = View.INVISIBLE;
     private NumberPicker mNpChooseMainLabels;
     String[] mainLabelsArr;
+    private SearchNeedResultTabModel searchNeedResultTabModel;
 
     public SearchNeedResultTabBinding getSearchNeedResultTabBinding() {
         return searchNeedResultTabBinding;
+    }
+
+    public SearchActivityHotServiceBinding getSearchActivityHotServiceBinding() {
+        return searchActivityHotServiceBinding;
+    }
+
+    public SearchNeedResultTabModel getSearchNeedResultTabModel() {
+        return searchNeedResultTabModel;
     }
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding, ActivitySearchBinding mActivitySearchBinding) {
@@ -198,9 +207,9 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                         @Override
                         public void onClick(View v) {
                              //LogKit.d("点击的textview"+((TextView)v).getText());
-                           String skillName = (String) ((TextView) v).getText();
+                          /* String skillName = (String) ((TextView) v).getText();
                             mActivitySearchBinding.etActivitySearchAssociation.setText(skillName);
-                            mActivitySearchBinding.etActivitySearchAssociation.setTextColor(Color.BLACK);
+                            mActivitySearchBinding.etActivitySearchAssociation.setTextColor(Color.BLACK);*/
                             //展示搜索结果的页面
                              // LogKit.d("展示搜索结果的页面");
                             showSearchResult();
@@ -253,14 +262,13 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     }
 
     //zss 显示搜索页面
-    private void showSearchResult()  {
+    public void showSearchResult()  {
         searchNeedResultTabBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_need_result_tab, null, false);
-        SearchNeedResultTabModel searchNeedResultTabModel = new SearchNeedResultTabModel(searchNeedResultTabBinding);
+        searchNeedResultTabModel = new SearchNeedResultTabModel(searchNeedResultTabBinding);
         searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
         mActivitySearchBinding.flSearchFirst.addView(searchNeedResultTabBinding.getRoot());
-        mActivitySearchBinding.tvSearchResult.setText("搜索");
-        mActivitySearchBinding.ibBack.setVisibility(View.VISIBLE);
         ActivitySearchModel.searchType = 4;
+        ActivitySearchModel.isShowThreePage = true;
     }
 
 
