@@ -14,16 +14,25 @@ import com.slash.youth.utils.CommonUtils;
  * Created by zhouyifeng on 2016/10/12.
  */
 public class HomeDemandAndServiceHolder extends BaseHolder<HomeDemandAndServiceBean> {
+
+    private ItemHomeDemandServiceModel mItemHomeDemandServiceModel;
+
     @Override
     public View initView() {
         ItemHomeDemandServiceBinding itemHomeDemandServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_home_demand_service, null, false);
-        ItemHomeDemandServiceModel itemHomeDemandServiceModel = new ItemHomeDemandServiceModel(itemHomeDemandServiceBinding);
-        itemHomeDemandServiceBinding.setItemHomeDemandServiceModel(itemHomeDemandServiceModel);
+        mItemHomeDemandServiceModel = new ItemHomeDemandServiceModel(itemHomeDemandServiceBinding);
+        itemHomeDemandServiceBinding.setItemHomeDemandServiceModel(mItemHomeDemandServiceModel);
         return itemHomeDemandServiceBinding.getRoot();
     }
 
     @Override
     public void refreshView(HomeDemandAndServiceBean data) {
-
+        if (data.isDemand) {
+            mItemHomeDemandServiceModel.setDemandOrServiceTime("任务时间:9月18日 8:30");
+            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        } else {
+            mItemHomeDemandServiceModel.setDemandOrServiceTime("任务时间:每周(一 二 三 四 五 六 日) 8:30");
+            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.INVISIBLE);
+        }
     }
 }

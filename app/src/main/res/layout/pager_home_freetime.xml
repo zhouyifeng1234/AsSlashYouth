@@ -27,14 +27,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/switch_button"/>
+                    android:onClick="@{pagerHomeFreeTimeModel.displayServiceList}"
+                    android:src="@mipmap/switch_button"
+                    android:visibility="@{pagerHomeFreeTimeModel.demandButtonVisibility}"/>
                 <ImageView
                     android:id="@+id/iv_home_freetime_service"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:onClick="@{pagerHomeFreeTimeModel.displayDemanList}"
                     android:src="@mipmap/switch_service_button"
-                    android:visibility="invisible"/>
+                    android:visibility="@{pagerHomeFreeTimeModel.serviceButtonVisibility}"/>
             </FrameLayout>
 
             <EditText
