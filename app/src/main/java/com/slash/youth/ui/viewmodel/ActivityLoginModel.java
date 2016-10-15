@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,6 +11,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.ui.activity.LoginActivity;
@@ -27,10 +29,14 @@ import java.util.Map;
  * Created by zhouyifeng on 2016/9/5.
  */
 public class ActivityLoginModel extends BaseObservable {
+    public static final int PAGE_STATE_REGISTER = 1000;//"新手注册"状态
+    public static final int PAGE_STATE_GOTOLOGIN = 1001;//"我有账号,去登录"状态
+
     ActivityLoginBinding mActivityLoginBinding;
     LoginActivity.QQLoginUiListener qqLoginUiListener;
     LoginActivity loginActivity;
     SsoHandler mSsoHandler;
+    int currentPageState = PAGE_STATE_GOTOLOGIN;//当前的页面状态，默认为"我有账号,去登录"状态
 
 
     public ActivityLoginModel(ActivityLoginBinding activityLoginBinding, LoginActivity.QQLoginUiListener qqLoginUiListener, LoginActivity loginActivity, SsoHandler ssoHandler) {
@@ -38,7 +44,13 @@ public class ActivityLoginModel extends BaseObservable {
         this.qqLoginUiListener = qqLoginUiListener;
         this.loginActivity = loginActivity;
         this.mSsoHandler = ssoHandler;
+        initView();
     }
+
+    private void initView() {
+        setRegisterAndLoginTextVisibility();
+    }
+
 
     /**
      * 登录按钮点击事件
@@ -139,4 +151,48 @@ public class ActivityLoginModel extends BaseObservable {
         }
     };
 
+    private int registerVisibility;
+    private int gotoLoginVisibility;
+
+    @Bindable
+    public int getGotoLoginVisibility() {
+        return gotoLoginVisibility;
+    }
+
+    public void setGotoLoginVisibility(int gotoLoginVisibility) {
+        this.gotoLoginVisibility = gotoLoginVisibility;
+        notifyPropertyChanged(BR.gotoLoginVisibility);
+    }
+
+    @Bindable
+    public int getRegisterVisibility() {
+        return registerVisibility;
+    }
+
+    public void setRegisterVisibility(int registerVisibility) {
+        this.registerVisibility = registerVisibility;
+        notifyPropertyChanged(BR.registerVisibility);
+    }
+
+    //跳转到“新手注册”状态
+    public void register(View v) {
+        currentPageState = PAGE_STATE_REGISTER;
+        setRegisterAndLoginTextVisibility();
+    }
+
+    //跳转到“我有账号,去登录”状态
+    public void gotoLogin(View v) {
+        currentPageState = PAGE_STATE_GOTOLOGIN;
+        setRegisterAndLoginTextVisibility();
+    }
+
+    public void setRegisterAndLoginTextVisibility() {
+        if (currentPageState == PAGE_STATE_GOTOLOGIN) {
+            setRegisterVisibility(View.VISIBLE);
+            setGotoLoginVisibility(View.INVISIBLE);
+        } else if (currentPageState == PAGE_STATE_REGISTER) {
+            setRegisterVisibility(View.INVISIBLE);
+            setGotoLoginVisibility(View.VISIBLE);
+        }
+    }
 }
