@@ -246,6 +246,12 @@
         </activity>
         <!--ScaleViewPager测试页面-->
 
+        <!--RoundedImage 设置圆角图片 测试页面-->
+        <activity android:name="com.slash.youth.ui.activity.test.RoundedImageTestActivity">
+
+        </activity>
+        <!--RoundedImage 设置圆角图片 测试页面-->
+
     </application>
 
 </manifest>

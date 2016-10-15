@@ -55,13 +55,13 @@ public class RingScoreView extends View {
             mRadius = mWidthPx / 2;
             x = mWidthPx / 2;
             y = mHeightPx / 2;
-            mOutterCirclePaint = new Paint();
+            mOutterCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mOutterCirclePaint.setColor(0xffafdaf0);
-            mInnerCirclePaint = new Paint();
+            mInnerCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mInnerCirclePaint.setColor(0xffffffff);
-            mProgressOutterCirclePaint = new Paint();
+            mProgressOutterCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mProgressOutterCirclePaint.setColor(0xff3cc7e3);
-            mProgressInnerCirclePaint = new Paint();
+            mProgressInnerCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mProgressInnerCirclePaint.setColor(0xffffffff);
             ringWidth = CommonUtils.dip2px(11);
 
@@ -100,9 +100,9 @@ public class RingScoreView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawCircle(x, y, mRadius, mOutterCirclePaint);
-        canvas.drawCircle(x, y, mRadius - ringWidth, mInnerCirclePaint);
         canvas.drawArc(new RectF(0, 0, mWidthPx, mHeightPx), -90, progressSweepAngle, true, mProgressOutterCirclePaint);
-        canvas.drawArc(new RectF(0 + ringWidth, 0 + ringWidth, mWidthPx - ringWidth, mHeightPx - ringWidth), -90, progressSweepAngle, true, mProgressInnerCirclePaint);
+//        canvas.drawArc(new RectF(0 + ringWidth, 0 + ringWidth, mWidthPx - ringWidth, mHeightPx - ringWidth), -90, (progressSweepAngle + 2) <= 360 ? progressSweepAngle + 2 : 360, true, mProgressInnerCirclePaint);
+        canvas.drawCircle(x, y, mRadius - ringWidth, mInnerCirclePaint);
     }
 
     public void setTotalProgressAngle(float totalProgressAngle) {
