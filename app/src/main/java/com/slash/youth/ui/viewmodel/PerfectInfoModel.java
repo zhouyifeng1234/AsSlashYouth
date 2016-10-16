@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
 import com.slash.youth.ui.activity.ChooseSkillActivity;
+import com.slash.youth.ui.activity.test.RichTextTestActivity;
 import com.slash.youth.ui.activity.test.RoundedImageTestActivity;
 import com.slash.youth.ui.activity.test.ScaleViewPagerTestActivity;
 import com.slash.youth.ui.activity.test.TestActivity;
@@ -51,5 +52,11 @@ public class PerfectInfoModel extends BaseObservable {
         Intent intentRoundedImageTestActivity = new Intent(CommonUtils.getContext(), RoundedImageTestActivity.class);
         intentRoundedImageTestActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentRoundedImageTestActivity);
+    }
+
+    public void openRichTextTestActivity(View v) {
+        Intent intentRichTextTestActivity = new Intent(CommonUtils.getContext(), RichTextTestActivity.class);
+        intentRichTextTestActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentRichTextTestActivity);
     }
 }
