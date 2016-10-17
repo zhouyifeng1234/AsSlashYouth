@@ -42,7 +42,6 @@ public class  CityLocationActivity extends Activity {
         mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding, this);
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
-
         HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel();
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
@@ -56,7 +55,6 @@ public class  CityLocationActivity extends Activity {
         initData();
         initListener();
     }
-
 
     private void initData() {
         //城市名称模拟数据

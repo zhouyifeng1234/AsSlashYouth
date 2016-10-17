@@ -1,5 +1,6 @@
 package com.slash.youth.ui.holder;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +16,8 @@ public class LocationCityFirstLetterHolder extends BaseHolder<Character> {
     @Override
     public View initView() {
         mTvLocationCityFirstLetter = new TextView(CommonUtils.getContext());
-        mTvLocationCityFirstLetter.setTextSize(12);
+        mTvLocationCityFirstLetter.setTextSize((float) 10.5);
+        mTvLocationCityFirstLetter.setTextColor(Color.parseColor("#999999"));
         return mTvLocationCityFirstLetter;
     }
 

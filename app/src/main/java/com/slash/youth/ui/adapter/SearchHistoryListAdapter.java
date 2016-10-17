@@ -2,10 +2,13 @@ package com.slash.youth.ui.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.domain.ItemSearchBean;
+import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.SearchContentHolder;
 import com.slash.youth.utils.CommonUtils;
@@ -23,8 +26,8 @@ import java.util.LinkedHashSet;
 public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
     private boolean isShow;
     private ActivitySearchBinding mActivitySearchBinding;
+    private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     public SearchHistoryListAdapter(ArrayList listData, boolean isShow) {
-
         super(buildData(listData,isShow));
         this.isShow = isShow;
     }
@@ -139,8 +142,8 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
     }
 
     private void showCleanAll(boolean isShow) {
-        if(mActivitySearchBinding==null||mActivitySearchBinding.tvCleanAll==null){return;}
-        mActivitySearchBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
+        if(mActivitySearchBinding==null||currentActivity.searchListviewAssociationBinding.tvCleanAll==null){return;}
+        currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(isShow?View.VISIBLE:View.GONE);
     }
 
 }

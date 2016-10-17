@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.ui.activity.SearchActivity;
@@ -29,10 +32,11 @@ public class DialogSearchCleanModel extends BaseObservable {
     private ArrayList<String> searchHistoryList;
     private File file;
     private SearchHistoryListAdapter adapter;
+    private  SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
+
     //构造函数
-    public DialogSearchCleanModel(DialogSearchCleanBinding dialogSearchCleanBing,ActivitySearchBinding mActivitySearchBinding) {
+    public DialogSearchCleanModel(DialogSearchCleanBinding dialogSearchCleanBing) {
         this.mDialogSearchCleanBinding = dialogSearchCleanBing;
-        this.mActivitySearchBinding = mActivitySearchBinding;
     }
 
     //取消搜索对话框(xml中取消按钮绑定方法)
@@ -51,9 +55,9 @@ public class DialogSearchCleanModel extends BaseObservable {
         }catch (Exception e){
             e.printStackTrace();
         }
-        initSearchHistoryData();
 
-        mActivitySearchBinding.tvCleanAll.setVisibility(View.INVISIBLE);
+        initSearchHistoryData();
+        currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.INVISIBLE);
         currentDialog.dismiss();
     }
 
@@ -74,11 +78,7 @@ public class DialogSearchCleanModel extends BaseObservable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         adapter= new SearchHistoryListAdapter(searchHistoryList,true);
-        mActivitySearchBinding.lvLvSearchcontent.setAdapter(adapter);
-
-
+        currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
     }
-
 }

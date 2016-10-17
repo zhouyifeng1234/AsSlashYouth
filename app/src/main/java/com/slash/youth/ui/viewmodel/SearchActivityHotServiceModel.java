@@ -36,22 +36,27 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
     private  ActivitySearchBinding mActivitySearchBinding;
-    private SearchNeedResultTabBinding searchNeedResultTabBinding;
+    //private SearchNeedResultTabBinding searchNeedResultTabBinding;
     private int rlChooseMainLabelVisible = View.INVISIBLE;
     private NumberPicker mNpChooseMainLabels;
     String[] mainLabelsArr;
     private SearchNeedResultTabModel searchNeedResultTabModel;
 
-    public SearchNeedResultTabBinding getSearchNeedResultTabBinding() {
+  /*  public SearchNeedResultTabBinding getSearchNeedResultTabBinding() {
         return searchNeedResultTabBinding;
-    }
-
+    }*/
+/*
     public SearchActivityHotServiceBinding getSearchActivityHotServiceBinding() {
         return searchActivityHotServiceBinding;
     }
-
+*/
+/*
     public SearchNeedResultTabModel getSearchNeedResultTabModel() {
         return searchNeedResultTabModel;
+    }
+*/
+    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding) {
+        this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
     }
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding, ActivitySearchBinding mActivitySearchBinding) {
@@ -240,7 +245,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // LogKit.d("首页监听");
                 if (lastClickItemModel != null) {
                     lastClickItemModel.setSecondSkilllabelColor(0xff333333);
                 }
@@ -263,14 +267,11 @@ public class SearchActivityHotServiceModel extends BaseObservable {
 
     //zss 显示搜索页面
     public void showSearchResult()  {
-        searchNeedResultTabBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getCurrentActivity()), R.layout.search_need_result_tab, null, false);
-        searchNeedResultTabModel = new SearchNeedResultTabModel(searchNeedResultTabBinding);
-        searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
-        mActivitySearchBinding.flSearchFirst.addView(searchNeedResultTabBinding.getRoot());
-        ActivitySearchModel.searchType = 4;
-        ActivitySearchModel.isShowThreePage = true;
+        SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
+        currentActivity.changeView(2);
+        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding);
+        currentActivity.searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
     }
-
 
     //选择行业
     public void openChoose() {
