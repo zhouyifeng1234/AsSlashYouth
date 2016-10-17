@@ -20,6 +20,7 @@ public class BitmapKit {
      * @return
      */
     public static Bitmap createRoundedBitmap(Bitmap srcBitmap, int radius) {
+//        LogKit.v("createRoundedBitmap");
         Bitmap roundedBitmap = Bitmap.createBitmap(srcBitmap.getWidth(), srcBitmap.getHeight(), srcBitmap.getConfig());
         Canvas canvas = new Canvas(roundedBitmap);
         RectF rectF = new RectF(0, 0, srcBitmap.getWidth(), srcBitmap.getHeight());

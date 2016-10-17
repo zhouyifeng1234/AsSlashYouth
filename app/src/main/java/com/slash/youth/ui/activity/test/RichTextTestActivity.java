@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.slash.youth.R;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -35,7 +36,7 @@ public class RichTextTestActivity extends Activity {
 
     //文本和图片一起显示
     public void disTextAndImg(View v) {
-        SpannableString ss = new SpannableString("Hello,Good morning,Good Afternoon");
+        SpannableString ss = new SpannableString("今天我们一起出去玩吧！！！");
         Drawable drawable = getResources().getDrawable(R.mipmap.task_icon);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         ImageSpan imgSpan = new ImageSpan(drawable);
@@ -107,5 +108,23 @@ public class RichTextTestActivity extends Activity {
 
     public void disText(View v) {
         ToastUtils.shortToast(mEtRichText.getText().toString());
+    }
+
+    public void insertContentInCursor(View v) {
+
+
+        int selectionStart = mEtRichText.getSelectionStart();
+        int selectionEnd = mEtRichText.getSelectionEnd();
+        LogKit.v("selectionStart:" + selectionStart);
+        LogKit.v("selectionEnd:" + selectionEnd);
+
+        String text = mEtRichText.getText().toString();
+        LogKit.v(text);
+
+
+        Object[] spans = mEtRichText.getText().getSpans(0, text.length(), Object.class);
+        LogKit.v("spans:" + spans.length);
+        int spanStart = mEtRichText.getText().getSpanStart(spans[4]);
+        LogKit.v("spanStart:" + spanStart);
     }
 }

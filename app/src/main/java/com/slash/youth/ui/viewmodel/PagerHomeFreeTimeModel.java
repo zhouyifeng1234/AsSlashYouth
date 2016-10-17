@@ -64,6 +64,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
 
     private void initData() {
+//        x.image().clearCacheFiles();
         getDataFromServer();
 //        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
         vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
@@ -86,15 +87,16 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
                 CardView cardView = new CardView(CommonUtils.getContext());
                 cardView.setCardBackgroundColor(Color.TRANSPARENT);
+//                cardView.setCardBackgroundColor(0xffff0000);
                 cardView.setRadius(CommonUtils.dip2px(5));
                 cardView.setCardElevation(CommonUtils.dip2px(3));
                 cardView.setMaxCardElevation(CommonUtils.dip2px(3));
                 cardView.setUseCompatPadding(true);
 
-                CardView.LayoutParams imPparams = new CardView.LayoutParams(-1, -1);
+                CardView.LayoutParams imgPparams = new CardView.LayoutParams(-1, -1);
                 final ImageView ivHomeFreetimeAdv = new ImageView(CommonUtils.getContext());
 //                ivHomeFreetimeAdv.setPadding(CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2));
-                ivHomeFreetimeAdv.setLayoutParams(imPparams);
+                ivHomeFreetimeAdv.setLayoutParams(imgPparams);
 //                ivHomeFreetimeAdv.setBackgroundResource(R.drawable.shape_rounded_my_news_center);//经测试，ImageView通过背景设置圆角矩形边框无效
 //                ivHomeFreetimeAdv.setImageResource(R.mipmap.banner);//模拟数据，实际广告图片应该从服务端返回的URL获取
 //                Bitmap srcBitmap = BitmapFactory.decodeResource(CommonUtils.getContext().getResources(), R.mipmap.banner);

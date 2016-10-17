@@ -259,7 +259,9 @@
         <!--矢量图测试页面-->
 
         <!--富文本测试 Activity-->
-        <activity android:name="com.slash.youth.ui.activity.test.RichTextTestActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.test.RichTextTestActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <!--富文本测试 Activity-->
