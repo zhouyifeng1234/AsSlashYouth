@@ -86,9 +86,9 @@ public class ActivitySearchModel extends BaseObservable {
     //zss,点击直接搜索
     public void etSearch(View v) {
 
-        if (mActivitySearchBinding.rlSearchMain != null) {
+     /*   if (mActivitySearchBinding.rlSearchMain != null) {
             mActivitySearchBinding.rlSearchMain.setVisibility(View.GONE);
-        }
+        }*/
         if (searchActivityHotServiceBinding != null) {
             mActivitySearchBinding.flSearchFirst.removeView(searchActivityHotServiceBinding.getRoot());
         }
@@ -135,7 +135,6 @@ public class ActivitySearchModel extends BaseObservable {
 
     //zss,退出当前的页面
     public void back(View v){
-        LogKit.d("快发来的撒发生大 "+searchType);
         switch (searchType){
             case 0:
                 CommonUtils.getCurrentActivity().finish();

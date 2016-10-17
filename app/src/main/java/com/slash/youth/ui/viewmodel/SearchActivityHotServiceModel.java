@@ -54,6 +54,10 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         return searchNeedResultTabModel;
     }
 
+    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding) {
+        this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
+    }
+
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding, ActivitySearchBinding mActivitySearchBinding) {
         this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
         this.mActivitySearchBinding = mActivitySearchBinding;
