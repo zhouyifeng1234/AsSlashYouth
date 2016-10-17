@@ -9,7 +9,7 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
-import com.slash.youth.ui.activity.PublishDemandActivity;
+import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.SecondTimePublishServiceActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
@@ -78,9 +78,14 @@ public class ActivityHomeModel extends BaseObservable {
 
 
     public void publishDemand(View v) {
-        Intent intentPublishDemandActivity = new Intent(CommonUtils.getContext(), PublishDemandActivity.class);
-        intentPublishDemandActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentPublishDemandActivity);
+//        Intent intentPublishDemandActivity = new Intent(CommonUtils.getContext(), PublishDemandActivity.class);
+//        intentPublishDemandActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentPublishDemandActivity);
+
+        //修改为第二版发布需求页面
+        Intent intentPublishDemandBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
+        intentPublishDemandBaseInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentPublishDemandBaseInfoActivity);
     }
 
     public void publishService(View v) {
