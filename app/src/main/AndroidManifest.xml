@@ -248,6 +248,26 @@
         </activity>
         <!--ScaleViewPager测试页面-->
 
+        <!--RoundedImage 设置圆角图片 测试页面-->
+        <activity android:name="com.slash.youth.ui.activity.test.RoundedImageTestActivity">
+
+        </activity>
+        <!--RoundedImage 设置圆角图片 测试页面-->
+
+        <!--矢量图测试页面-->
+        <activity android:name="com.slash.youth.ui.activity.test.VectorTestActivity">
+
+        </activity>
+        <!--矢量图测试页面-->
+
+        <!--富文本测试 Activity-->
+        <activity
+            android:name="com.slash.youth.ui.activity.test.RichTextTestActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+        <!--富文本测试 Activity-->
+
     </application>
 
 </manifest>

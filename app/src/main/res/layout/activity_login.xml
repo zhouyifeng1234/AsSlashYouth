@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="135dp"
+            android:layout_marginTop="130dp"
             android:text="斜杠青年"
             android:textColor="#ffffff"
             android:textSize="52sp"/>
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="192dp"
             android:text="开启你的斜杠之旅  创造你的碎片价值"
             android:textColor="#ffffff"
             android:textSize="13sp"/>
@@ -31,7 +31,7 @@
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="255dp"
+            android:layout_marginTop="253dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -90,14 +90,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="19dp"
                 android:orientation="horizontal">
                 <ImageButton
-                    android:onClick="@{activityLoginModel.qqLogin}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="60dp"
                     android:background="@android:color/transparent"
+                    android:onClick="@{activityLoginModel.qqLogin}"
                     android:src="@mipmap/login_qq"
                 />
                 <ImageButton
@@ -108,14 +108,51 @@
                     android:src="@mipmap/login_weixin"
                 />
                 <ImageButton
-                    android:onClick="@{activityLoginModel.weiboLogin}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:background="@android:color/transparent"
+                    android:onClick="@{activityLoginModel.weiboLogin}"
                     android:src="@mipmap/login_weibo"
                 />
             </LinearLayout>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="遇到问题?"
+                      android:textColor="#ffffff"
+                      android:textSize="15sp"/>
+
+            <TextView
+                android:visibility="@{activityLoginModel.registerVisibility}"
+                android:onClick="@{activityLoginModel.register}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="新手注册"
+                android:textColor="#ffffff"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:visibility="@{activityLoginModel.gotoLoginVisibility}"
+                android:onClick="@{activityLoginModel.gotoLogin}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="我有账号,去登录"
+                android:textColor="#ffffff"
+                android:textSize="15sp"/>
+
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

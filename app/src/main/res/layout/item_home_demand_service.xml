@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="3dp"
             android:background="@mipmap/home_demand_service_list_bg"
             android:orientation="vertical">
 
