@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:onClick="disTextAndImg"
+            android:text="文本和图片一起显示"/>
+
+    <!--<Button android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:onClick="changePartTextColor"-->
+    <!--android:text="文本中某段文字变色"/>-->
+
+    <!--<Button android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:onClick="setHyperlinkOnPartText"-->
+    <!--android:text="给某段文字添加超链接"/>-->
+
+    <!--<Button android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:onClick="setOnClickOnPartText"-->
+    <!--android:text="让某段文字可以被点击并自定义点击的逻辑操作"/>-->
+
+    <!--<Button android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:onClick="disText"-->
+    <!--android:text="显示文本"/>-->
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:onClick="insertContentInCursor"
+            android:text="在光标处插入文本"/>
+
+    <EditText
+        android:id="@+id/et_richtext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top|left"
+        android:text="您好，Good morning ,下午好，Good afternoon"
+    />
+
+</LinearLayout>

@@ -4,22 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.slash.youth.BR;
-import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeFreetimeBinding;
 import com.slash.youth.domain.HomeDemandAndServiceBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.HomeDemandAndServiceAdapter;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.SpUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.ArrayList;
 
@@ -55,10 +64,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
 
     private void initData() {
+//        x.image().clearCacheFiles();
         getDataFromServer();
 //        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
         vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(5);
+        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
         mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
@@ -75,13 +85,53 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 int advImageUrlIndex = position % listAdvImageUrl.size();
                 String advImageUrl = listAdvImageUrl.get(advImageUrlIndex);//实际广告图片应该根据该URL来加载
 
-                ImageView ivHomeFreetimeAdv = new ImageView(CommonUtils.getContext());
+                CardView cardView = new CardView(CommonUtils.getContext());
+                cardView.setCardBackgroundColor(Color.TRANSPARENT);
+//                cardView.setCardBackgroundColor(0xffff0000);
+                cardView.setRadius(CommonUtils.dip2px(5));
+                cardView.setCardElevation(CommonUtils.dip2px(3));
+                cardView.setMaxCardElevation(CommonUtils.dip2px(3));
+                cardView.setUseCompatPadding(true);
+
+                CardView.LayoutParams imgPparams = new CardView.LayoutParams(-1, -1);
+                final ImageView ivHomeFreetimeAdv = new ImageView(CommonUtils.getContext());
+//                ivHomeFreetimeAdv.setPadding(CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2));
+                ivHomeFreetimeAdv.setLayoutParams(imgPparams);
 //                ivHomeFreetimeAdv.setBackgroundResource(R.drawable.shape_rounded_my_news_center);//经测试，ImageView通过背景设置圆角矩形边框无效
-                ivHomeFreetimeAdv.setImageResource(R.mipmap.banner);//模拟数据，实际广告图片应该从服务端返回的URL获取
-//                x.image().bind(ivHomeFreetimeAdv, advImageUrl);
+//                ivHomeFreetimeAdv.setImageResource(R.mipmap.banner);//模拟数据，实际广告图片应该从服务端返回的URL获取
+//                Bitmap srcBitmap = BitmapFactory.decodeResource(CommonUtils.getContext().getResources(), R.mipmap.banner);
+//                Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
+//                ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
+
+                x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
+                    @Override
+                    public void onSuccess(Drawable result) {
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) result;
+                        Bitmap srcBitmap = bitmapDrawable.getBitmap();
+                        Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
+                        ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
                 ivHomeFreetimeAdv.setScaleType(ImageView.ScaleType.FIT_XY);
-                container.addView(ivHomeFreetimeAdv);
-                return ivHomeFreetimeAdv;
+                cardView.addView(ivHomeFreetimeAdv);
+
+                container.addView(cardView);
+                return cardView;
             }
 
             @Override
@@ -92,22 +142,27 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
         mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
 
-            private float defaultScale = (float) 14 / (float) 15;
+            private float defaultScale = (float) 8 / (float) 9;
+            int translationX = CommonUtils.dip2px(13);
 
             @Override
             public void transformPage(View page, float position) {
                 if (position < -1) { // [-Infinity,-1)
                     page.setScaleX(defaultScale);
                     page.setScaleY(defaultScale);
+                    page.setTranslationX(translationX);
                 } else if (position <= 0) { // [-1,0]
-                    page.setScaleX((float) 1 + position / (float) 15);
-                    page.setScaleY((float) 1 + position / (float) 15);
+                    page.setScaleX((float) 1 + position / (float) 9);
+                    page.setScaleY((float) 1 + position / (float) 9);
+                    page.setTranslationX((0 - position) * translationX);
                 } else if (position <= 1) { // (0,1]
-                    page.setScaleX((float) 1 - position / (float) 15);
-                    page.setScaleY((float) 1 - position / (float) 15);
+                    page.setScaleX((float) 1 - position / (float) 9);
+                    page.setScaleY((float) 1 - position / (float) 9);
+                    page.setTranslationX((0 - position) * translationX);
                 } else { // (1,+Infinity]
                     page.setScaleX(defaultScale);
                     page.setScaleY(defaultScale);
+                    page.setTranslationX(-translationX);
                 }
             }
         });
@@ -139,8 +194,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
         @Override
         public void run() {
-            vpAdvStartIndex++;
-            mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
+            mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
             CommonUtils.getHandler().postDelayed(this, 2000);
         }
     }
