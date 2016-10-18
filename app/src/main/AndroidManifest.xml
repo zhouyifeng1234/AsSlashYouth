@@ -150,6 +150,12 @@
         <activity android:name="com.slash.youth.ui.activity.PublishDemandBaseInfoActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishDemandAddInfoActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishDemandSuccessActivity">
+
+        </activity>
 
 
         <!--微信相关-->
