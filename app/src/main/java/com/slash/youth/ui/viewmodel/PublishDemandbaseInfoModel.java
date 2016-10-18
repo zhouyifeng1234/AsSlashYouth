@@ -14,6 +14,10 @@ import com.slash.youth.ui.activity.PublishDemandAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 发布需求页面 第二版
@@ -86,6 +90,20 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         mCurrentChooseMinute = mChooseDateTimePicker.getCurrentChooseMinute();
         String dateTimeStr = mCurrentChooseMonth + "月" + mCurrentChooseDay + "日" + "-" + mCurrentChooseHour + ":" + (mCurrentChooseMinute < 10 ? "0" + mCurrentChooseMinute : mCurrentChooseMinute);
         setStartTimeStr(dateTimeStr);
+        convertTimeToMillis();
+//        LogKit.v(startTime + "");
+//        LogKit.v(System.currentTimeMillis() + "");
+    }
+
+    public void convertTimeToMillis() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.MONTH, mCurrentChooseMonth - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, mCurrentChooseDay);
+        calendar.set(Calendar.HOUR_OF_DAY, mCurrentChooseHour);
+        calendar.set(Calendar.MINUTE, mCurrentChooseMinute);
+        startTime = calendar.getTimeInMillis();
     }
 
 

@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.utils.CommonUtils;
@@ -66,20 +68,20 @@ public class SlashAddPicLayout extends LinearLayout {
                 int fileIndex = lineIndex * 3 + i;
                 String filePath = listFilePath.get(fileIndex);
                 Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                RelativeLayout llPicView = createPicView(bitmap, fileIndex);
-                llPicLine.addView(llPicView);
+                FrameLayout flPicView = createPicView(bitmap, fileIndex);
+                llPicLine.addView(flPicView);
             }
             if (listFilePath.size() < maxPicCount) {
-                RelativeLayout llAddPicView = createPicView(null, -1);
-                llPicLine.addView(llAddPicView);
+                FrameLayout flAddPicView = createPicView(null, -1);
+                llPicLine.addView(flAddPicView);
             }
         } else {
             for (int i = 0; i < 3; i++) {
                 int fileIndex = lineIndex * 3 + i;
                 String filePath = listFilePath.get(fileIndex);
                 Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                RelativeLayout llPicView = createPicView(bitmap, fileIndex);
-                llPicLine.addView(llPicView);
+                FrameLayout flPicView = createPicView(bitmap, fileIndex);
+                llPicLine.addView(flPicView);
             }
         }
 
@@ -87,37 +89,52 @@ public class SlashAddPicLayout extends LinearLayout {
         return llPicLine;
     }
 
-    public RelativeLayout createPicView(Bitmap bitmap, int fileIndex) {
-        LayoutParams paramsPicView = new LayoutParams(-2, -2);
-        RelativeLayout rlPicView = new RelativeLayout(CommonUtils.getContext());
+
+    public FrameLayout createPicView(Bitmap bitmap, int fileIndex) {
+        LinearLayout.LayoutParams paramsPicView = new LinearLayout.LayoutParams(-2, -2);
+        FrameLayout flPicView = new FrameLayout(CommonUtils.getContext());
         paramsPicView.leftMargin = CommonUtils.dip2px(7);
 
-        RelativeLayout.LayoutParams paramsImageView = new RelativeLayout.LayoutParams(CommonUtils.dip2px(91), CommonUtils.dip2px(91));
+        FrameLayout.LayoutParams paramsImageView = new FrameLayout.LayoutParams(CommonUtils.dip2px(91), CommonUtils.dip2px(91));
         ImageView imageView = new ImageView(CommonUtils.getContext());
         imageView.setLayoutParams(paramsImageView);
         paramsImageView.leftMargin = CommonUtils.dip2px(10);
-        paramsImageView.topMargin = CommonUtils.dip2px(10);
+        paramsImageView.topMargin = CommonUtils.dip2px(16);
 
-        RelativeLayout.LayoutParams paramsIvBtnDelPic = new RelativeLayout.LayoutParams(-2, -2);
+        FrameLayout.LayoutParams paramsIvBtnDelPic = new FrameLayout.LayoutParams(-2, -2);
         ImageButton ivbtnDelPic = new ImageButton(CommonUtils.getContext());
         ivbtnDelPic.setBackgroundColor(Color.TRANSPARENT);
         ivbtnDelPic.setImageResource(R.mipmap.guanbi_icon);
         ivbtnDelPic.setLayoutParams(paramsIvBtnDelPic);
 
+        FrameLayout.LayoutParams paramsTvPicOrder = new FrameLayout.LayoutParams(CommonUtils.dip2px(30), CommonUtils.dip2px(13));
+        TextView tvPicOrder = new TextView(CommonUtils.getContext());
+        tvPicOrder.setBackgroundColor(0xff31C5E4);
+        tvPicOrder.setTextColor(0xffFFFFFF);
+        tvPicOrder.setTextSize(9);
+        tvPicOrder.setGravity(Gravity.CENTER);
+        paramsTvPicOrder.topMargin = CommonUtils.dip2px(16);
+//        paramsTvPicOrder.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        paramsTvPicOrder.gravity = Gravity.RIGHT;
+        tvPicOrder.setLayoutParams(paramsTvPicOrder);
+
         if (bitmap == null) {
             ivbtnDelPic.setVisibility(View.INVISIBLE);
-            imageView.setImageResource(R.mipmap.jiatu_icon);
+            tvPicOrder.setVisibility(View.INVISIBLE);
+            imageView.setImageResource(R.mipmap.upload_pictures_icon);
             imageView.setOnClickListener(new AddPicClickListener());
         } else {
             imageView.setImageBitmap(bitmap);
             ivbtnDelPic.setOnClickListener(new DelPicClickListener());
             ivbtnDelPic.setTag(fileIndex);
+            tvPicOrder.setText("图片" + (fileIndex + 1));
         }
 
-        rlPicView.setLayoutParams(paramsPicView);
-        rlPicView.addView(imageView);
-        rlPicView.addView(ivbtnDelPic);
-        return rlPicView;
+        flPicView.setLayoutParams(paramsPicView);
+        flPicView.addView(imageView);
+        flPicView.addView(ivbtnDelPic);
+        flPicView.addView(tvPicOrder);
+        return flPicView;
     }
 
     public class DelPicClickListener implements OnClickListener {

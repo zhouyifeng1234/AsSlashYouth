@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.view.View;
 
 import com.slash.youth.databinding.ActivityPublishDemandSuccessBinding;
 import com.slash.youth.domain.AutoRecommendServicePartBean;
@@ -47,5 +48,9 @@ public class PublishDemandSuccessModel extends BaseObservable {
         listRecommendServicePart.add(new AutoRecommendServicePartBean());
         listRecommendServicePart.add(new AutoRecommendServicePartBean());
         listRecommendServicePart.add(new AutoRecommendServicePartBean());
+    }
+
+    public void closeSuccessActivity(View v) {
+        mActivity.finish();
     }
 }

@@ -40,5 +40,6 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
         intentPublishDemandSuccessActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentPublishDemandSuccessActivity);
+        mActivity.finish();
     }
 }
