@@ -116,6 +116,7 @@ public class SearchActivity extends Activity {
                     case 2:
                         changeView(1);
                         mPage = 1;
+                       listener.OnBackClick();
                         break;
                     case 3:
                         changeView(0);
@@ -132,5 +133,14 @@ public class SearchActivity extends Activity {
 
             }
         });
+    }
+    //监听回调返回键
+    public interface OnCBacklickListener{
+        void OnBackClick();
+    }
+
+    private OnCBacklickListener listener;
+    public void setOnCBacklickListener(final OnCBacklickListener listener) {
+        this.listener = listener;
     }
 }

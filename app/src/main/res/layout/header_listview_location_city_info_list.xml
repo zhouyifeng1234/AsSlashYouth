@@ -28,7 +28,7 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:paddingLeft="22dp"
-            android:text="苏州"
+            android:text="苏州1"
             android:textColor="#333333"
             android:textSize="13.5sp"/>
 
@@ -41,6 +41,7 @@
             android:textSize="13.5sp"/>
 
         <LinearLayout
+            android:id="@+id/ll_recentlyCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -52,7 +53,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/shape_search_city"
                 android:gravity="center"
-                android:text="苏州"
+                android:text="苏州2"
                 android:textColor="#333333"
                 android:textSize="13.5sp"
                 />
@@ -60,15 +61,14 @@
                 android:id="@+id/tv_city_second"
                 android:layout_width="85dp"
                 android:layout_height="35dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="9dp"
                 android:layout_marginLeft="14dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/shape_search_city"
                 android:gravity="center"
-                android:text="齐齐哈尔"
+                android:text="苏州3"
                 android:textColor="#333333"
                 android:textSize="13.5sp"
-                android:visibility="gone"
                 />
             <TextView
                 android:id="@+id/tv_city_thrid"
@@ -76,15 +76,13 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/shape_search_city"
                 android:gravity="center"
-                android:text="加格达奇"
+                android:text="苏州4"
                 android:textColor="#333333"
                 android:textSize="13.5sp"
-                android:visibility="gone"
                 />
-
         </LinearLayout>
     </LinearLayout>
 </layout>

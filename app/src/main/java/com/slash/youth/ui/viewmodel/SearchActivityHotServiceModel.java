@@ -42,22 +42,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     String[] mainLabelsArr;
     private SearchNeedResultTabModel searchNeedResultTabModel;
 
-  /*  public SearchNeedResultTabBinding getSearchNeedResultTabBinding() {
-        return searchNeedResultTabBinding;
-    }*/
-/*
-    public SearchActivityHotServiceBinding getSearchActivityHotServiceBinding() {
-        return searchActivityHotServiceBinding;
-    }
-*/
-/*
-    public SearchNeedResultTabModel getSearchNeedResultTabModel() {
-        return searchNeedResultTabModel;
-    }
-*/
-    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding) {
-        this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
-    }
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding) {
         this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
@@ -215,12 +199,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                     tvThirdSkilllabelName.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                             //LogKit.d("点击的textview"+((TextView)v).getText());
-                          /* String skillName = (String) ((TextView) v).getText();
-                            mActivitySearchBinding.etActivitySearchAssociation.setText(skillName);
-                            mActivitySearchBinding.etActivitySearchAssociation.setTextColor(Color.BLACK);*/
-                            //展示搜索结果的页面
-                             // LogKit.d("展示搜索结果的页面");
                             showSearchResult();
                         }
                     });

@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
@@ -86,16 +87,14 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     private View searchTabView;
     private SearchActivityCityLocationBinding searchCityLocationBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.search_activity_city_location, null, false);
     private HashMap<String, Integer> mHashFirstLetterIndex;
-
+    private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
+    private Activity currentActivity = CommonUtils.getCurrentActivity();
+    private View publicView;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
         initData();
         initView();
-    }
-
-    public SearchNeedResultTabBinding getmSearchNeedResultTabBinding() {
-        return mSearchNeedResultTabBinding;
     }
 
     private void initView() {
@@ -319,10 +318,9 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
             case R.id.rl_tab_area:
                 if(areaView==null){
                    // areaView=View.inflate(CommonUtils.getContext(), R.layout.search_result_tab_area, null);
-
                     areaView = searchCityLocationBinding.getRoot();
+                    setSearchArea(areaView);
                 }
-                setSearchArea(areaView);
                 return areaView;
             case R.id.rl_tab_sure:
                 if(sureView==null){
@@ -337,7 +335,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     }
 
     //填充布局
-    private void setSearchSelector(View lineView ,String[] str,int position) {
+    private void setSearchSelector( View lineView , String[] str, int position) {
         lv = (ListView) lineView.findViewById(R.id.lv_search_selector);
         arrayList.clear();
         Collections.addAll(arrayList,str);
@@ -345,6 +343,19 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
        lv.setAdapter(listViewAdapter);
         listViewAdapter.notifyDataSetChanged();
        lv.setOnItemClickListener(this);
+        publicView = lineView;
+        setRemoveView();
+
+    }
+
+    //返回按钮监听，去除Tab的下来选项
+    private void setRemoveView() {
+        ((SearchActivity)currentActivity).setOnCBacklickListener(new SearchActivity.OnCBacklickListener() {
+            @Override
+            public void OnBackClick() {
+                mSearchNeedResultTabBinding.flShowSearchResult.removeView(publicView);
+            }
+        });
     }
 
     private void setImageView(boolean isclick, View v, int v1, int v2, int v3) {
@@ -381,7 +392,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         SearchActivityCityLocationModel searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
-        HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
+        headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel();
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
@@ -393,6 +404,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         searchCityLocationBinding.lvActivityCityLocationCityinfo.setVerticalScrollBarEnabled(false);
         setCityData();
         setCityLinitListener();
+        setRemoveView();
     }
 
     //设置城市监听事件
@@ -405,6 +417,8 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 //                int clickIndex = position - mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount();
                 if (position > 0) {
                     TextView tvFirstLetter = (TextView) view;
+                    //TODO 一点击字就会变成一种颜色，滑动触摸也会变化
+
                     String firstLetter = tvFirstLetter.getText().toString();
                     if (mHashFirstLetterIndex.containsKey(firstLetter)) {
                         Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
@@ -414,6 +428,22 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                 }
             }
         });
+
+        //实现点击当前城市事件
+        headerListviewLocationCityInfoListBinding.tvCurrentCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = (String) headerListviewLocationCityInfoListBinding.tvCurrentCity.getText();
+                ((TextView)searchTabView.findViewById(R.id.tv_area)).setText(text);
+                switchSearchTab(R.id.rl_tab_area,false);
+                clickSearchTab(R.id.fl_showSearchResult);
+            }
+        });
+
+        //显示最近访问过的城市，并实现点击事件
+        ////////////////////////////////////
+
+
     }
 
     //设置城市数据
@@ -503,7 +533,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
                 TextView local = (TextView) view.findViewById(R.id.tv_city);
                 clickPostion = position;
                 clickSearchTab(R.id.fl_showSearchResult);
-
             }
         });
     }*/
@@ -577,5 +606,9 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         listDemand.add(new DemandBean());
         listDemand.add(new DemandBean());
     }
-
 }
+
+
+//TODO 回来要做1.实现点击事件 2，显示3个最近访问过的城市   3.解决下来刷新   4.快熟首页调的问题
+
+

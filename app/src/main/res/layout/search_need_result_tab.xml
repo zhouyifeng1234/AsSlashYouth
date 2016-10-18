@@ -19,13 +19,22 @@
             android:id="@+id/fl_showSearchResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.slash.youth.ui.view.RefreshListView
+            <!--<com.slash.youth.ui.view.RefreshListView
                 android:id="@+id/lv_searchTab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#f1f1f1"
                >
-            </com.slash.youth.ui.view.RefreshListView>
+            </com.slash.youth.ui.view.RefreshListView>-->
+            <ListView
+               android:id="@+id/lv_searchTab"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="#f1f1f1"
+              >
+           </ListView>
+
+
         </FrameLayout>
 
     </LinearLayout>
