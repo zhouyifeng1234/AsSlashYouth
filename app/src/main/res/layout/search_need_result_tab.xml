@@ -10,269 +10,30 @@
         android:orientation="vertical">
         <!--页签标题-->
      <FrameLayout
-         android:id="@+id/ll_tab"
+         android:id="@+id/Fl_tab"
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
-         <LinearLayout
-             android:id="@+id/ll_search_tab2"
-             android:layout_width="match_parent"
-             android:layout_height="43dp"
-             android:orientation="horizontal"
-             android:background="#ffffff"
-             android:visibility="gone"
-             >
-             <RelativeLayout
-                 android:id="@+id/rl_tab_renzheng"
-                 android:layout_width="0dp"
-                 android:layout_weight="1"
-                 android:clickable="true"
-                 android:layout_height="match_parent">
 
-                 <LinearLayout
-                     android:layout_centerInParent="true"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     >
-
-                     <TextView
-                         android:id="@+id/tv_sure"
-                         android:gravity="center"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="认证"
-                         android:textSize="15dp"
-                         android:textColor="#333333" />
-
-                     <ImageView
-                         android:id="@+id/iv_sure"
-                         android:layout_marginLeft="6dp"
-                         android:layout_width="10dp"
-                         android:src="@mipmap/free_play"
-                         android:layout_height="match_parent" />
-                 </LinearLayout>
-
-             </RelativeLayout>
-
-             <View
-                 android:layout_marginLeft="2dp"
-                 android:layout_width="0.5dp"
-                 android:layout_height="20dp"
-                 android:background="#e5e5e5"
-                 android:layout_gravity="center"/>
-
-             <RelativeLayout
-                 android:id="@+id/rl_tab_xingji"
-                 android:layout_width="0dp"
-                 android:layout_weight="1"
-                 android:clickable="true"
-                 android:layout_height="match_parent">
-
-                 <LinearLayout
-                     android:layout_centerInParent="true"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     >
-
-                     <TextView
-                         android:id="@+id/tv_star"
-                         android:gravity="center"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="星级"
-                         android:textSize="15dp"
-                         android:textColor="#333333" />
-
-                     <ImageView
-                         android:id="@+id/iv_star"
-                         android:layout_marginLeft="6dp"
-                         android:layout_width="10dp"
-                         android:src="@mipmap/xia"
-                         android:layout_height="match_parent" />
-                 </LinearLayout>
-
-             </RelativeLayout>
-
-             <View
-                 android:layout_marginLeft="2dp"
-                 android:layout_width="0.5dp"
-                 android:layout_height="20dp"
-                 android:background="#e5e5e5"
-                 android:layout_gravity="center"/>
-
-             <RelativeLayout
-                 android:id="@+id/rl_tab_huoyuedu"
-                 android:layout_width="0dp"
-                 android:layout_weight="1"
-                 android:clickable="true"
-                 android:layout_height="match_parent">
-
-                 <LinearLayout
-                     android:layout_centerInParent="true"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     >
-
-                     <TextView
-                         android:id="@+id/tv_hot"
-                         android:gravity="center"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="活跃度"
-                         android:textSize="15dp"
-                         android:textColor="#333333" />
-
-                     <ImageView
-                         android:id="@+id/iv_hot"
-                         android:layout_marginLeft="6dp"
-                         android:layout_width="10dp"
-                         android:src="@mipmap/xia"
-                         android:layout_height="match_parent" />
-                 </LinearLayout>
-             </RelativeLayout>
-         </LinearLayout>
-         <!--标签头2-->
-         <LinearLayout
-             android:id="@+id/ll_search_tab_head"
-             android:layout_width="match_parent"
-             android:layout_height="43dp"
-             android:orientation="horizontal"
-             android:background="#ffffff"
-             >
-
-             <RelativeLayout
-                 android:id="@+id/rl_tab_line"
-                 android:layout_width="0dp"
-                 android:layout_weight="1"
-                 android:clickable="true"
-                 android:layout_height="match_parent">
-
-                 <LinearLayout
-                     android:layout_centerInParent="true"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     >
-
-                     <TextView
-                         android:id="@+id/tv_line"
-                         android:gravity="center"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="线上用户"
-                         android:textSize="15dp"
-                         android:textColor="#333333" />
-
-                     <ImageView
-                         android:id="@+id/iv_line_icon"
-                         android:layout_marginLeft="6dp"
-                         android:layout_width="10dp"
-                         android:src="@mipmap/free_play"
-                         android:layout_height="match_parent" />
-                 </LinearLayout>
-
-             </RelativeLayout>
-
-             <View
-                 android:layout_marginLeft="2dp"
-                 android:layout_width="0.5dp"
-                 android:layout_height="20dp"
-                 android:background="#e5e5e5"
-                 android:layout_gravity="center"/>
-
-             <RelativeLayout
-                 android:id="@+id/rl_tab_user"
-                 android:layout_width="0dp"
-                 android:layout_weight="1"
-                 android:clickable="true"
-                 android:layout_height="match_parent">
-
-                 <LinearLayout
-                     android:layout_centerInParent="true"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     >
-
-                     <TextView
-                         android:id="@+id/tv_user"
-                         android:gravity="center"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="认证用户"
-                         android:textSize="15dp"
-                         android:textColor="#333333" />
-
-                     <ImageView
-                         android:id="@+id/iv_user_icon"
-                         android:layout_marginLeft="6dp"
-                         android:layout_width="10dp"
-                         android:src="@mipmap/free_play"
-                         android:layout_height="match_parent" />
-                 </LinearLayout>
-
-             </RelativeLayout>
-
-             <View
-                 android:layout_marginLeft="2dp"
-                 android:layout_width="0.5dp"
-                 android:layout_height="20dp"
-                 android:background="#e5e5e5"
-                 android:layout_gravity="center"/>
-
-             <RelativeLayout
-                 android:id="@+id/rl_tab_time"
-                 android:layout_width="0dp"
-                 android:layout_weight="1"
-                 android:clickable="true"
-                 android:layout_height="match_parent">
-
-                 <LinearLayout
-                     android:layout_centerInParent="true"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     >
-
-                     <TextView
-                         android:id="@+id/tv_time"
-                         android:gravity="center"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="时间"
-                         android:textSize="15dp"
-                         android:textColor="#333333" />
-
-                     <ImageView
-                         android:id="@+id/iv_time_icon"
-                         android:layout_marginLeft="6dp"
-                         android:layout_width="10dp"
-                         android:src="@mipmap/xia"
-                         android:layout_height="match_parent" />
-                 </LinearLayout>
-             </RelativeLayout>
-         </LinearLayout>
      </FrameLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#d1cece"
-            />
-    <!--页签的展示内容-->
-       <FrameLayout
+        <FrameLayout
             android:id="@+id/fl_showSearchResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ListView
-                android:id="@+id/lv_showSearchResult"
+            <!--<com.slash.youth.ui.view.RefreshListView
+                android:id="@+id/lv_searchTab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#f1f1f1"
-                >
-            </ListView>
-           <ListView
-               android:id="@+id/lv_showSearchPerson"
+               >
+            </com.slash.youth.ui.view.RefreshListView>-->
+            <ListView
+               android:id="@+id/lv_searchTab"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:background="#f1f1f1"
-               android:visibility="gone">
+              >
            </ListView>
+
 
         </FrameLayout>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <data>
         <variable name="activitySearchModel"
                   type="com.slash.youth.ui.viewmodel.ActivitySearchModel"/>
@@ -13,7 +14,7 @@
         android:layout_height="match_parent"
         android:background="#edf1f2"
         android:orientation="vertical">
-        <RelativeLayout
+       <RelativeLayout
             android:id="@+id/rl_seach_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,25 +33,41 @@
                 android:paddingLeft="10dp"
                 android:textColorHint="#666666"
                 android:textSize="15sp"
+                android:imeOptions="actionSearch"
+                android:imeActionLabel="搜索"
                 android:onClick="@{activitySearchModel.etSearch}"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ib_back"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="0dp"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/nav_back"
-                android:onClick="@{activitySearchModel.back}"
+
             />
+
+           <ImageView
+               android:visibility="gone"
+               android:layout_marginRight="70dp"
+               android:layout_alignParentRight="true"
+               android:src="@drawable/iv_delete_bg"
+               android:id="@+id/search_iv_delete"
+               android:layout_centerVertical="true"
+               android:layout_width="23dp"
+               android:layout_height="23dp"
+               android:clickable="true"
+               />
 
             <TextView
                 android:id="@+id/tv_search_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="11dp"
+                android:gravity="center"
                 android:clickable="true"
                 android:enabled="true"
                 android:focusable="true"
@@ -61,99 +78,27 @@
 
         </RelativeLayout>
 
+        <!--搜索联想-->
+        <!--自定义控件-->
+       <!-- <com.slash.youth.ui.view.widge.SearchView
+            android:id="@+id/main_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           >
+        </com.slash.youth.ui.view.widge.SearchView>-->
+
         <FrameLayout
             android:id="@+id/fl_search_first"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
 
-            <!--搜索首页-->
-            <RelativeLayout
-                android:id="@+id/rl_search_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="49dp"
-                android:layout_marginRight="49dp"
-                android:layout_marginTop="29dp"
-            >
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                >
-                    <ImageButton
-                        android:id="@+id/ib_need"
-                      android:onClick="@{activitySearchModel.searchNeed}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/xuqiu_icon"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="23dp"
-                        android:text="需求"
-                        android:textColor="#333333"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:orientation="vertical"
-                >
-                    <ImageButton
-                        android:id="@+id/ib_service"
-                        android:onClick="@{activitySearchModel.searchService}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/fuwu_icon"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="23dp"
-                        android:text="服务"
-                        android:textColor="#333333"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:orientation="vertical"
-                >
-                   <ImageButton
-                        android:id="@+id/ib_person"
-                       android:onClick="@{activitySearchModel.searchPerson}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:src="@mipmap/ren_icon"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="23dp"
-                        android:text="找人"
-                        android:textColor="#333333"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <!--搜索联想-->
-           <LinearLayout
+           <!-- <LinearLayout
                 android:id="@+id/ll_SearchHistory"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 android:orientation="vertical"
-               android:visibility="gone"
+
                 >
                 <ListView
                     android:id="@+id/lv_lvSearchcontent"
@@ -173,8 +118,7 @@
                     android:visibility="gone"
                     android:onClick="@{activitySearchModel.showDialog}"
                     />
-            </LinearLayout>
-
+            </LinearLayout>-->
         </FrameLayout>
     </LinearLayout>
     </FrameLayout>

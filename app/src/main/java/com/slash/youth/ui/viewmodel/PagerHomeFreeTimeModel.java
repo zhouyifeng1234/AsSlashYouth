@@ -24,6 +24,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.HomeDemandAndServiceAdapter;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
 import org.xutils.common.Callback;
@@ -235,6 +236,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         SpUtils.setBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, mIsDisplayDemandList);
         displayDemanList();
     }
+
+
+
 
     //切换为展示服务列条
     public void displayServiceList(View v) {

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="searchActivityCityLocationModel"
+                  type="com.slash.youth.ui.viewmodel.SearchActivityCityLocationModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55000000"
+        android:clickable="true"
+       >
+
+      <!--  <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        >
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="11dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="11dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{activityCityLocationModel.finishCityLocationActivity}"
+                android:src="@mipmap/city_back_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="中国"
+                android:textColor="#333333"
+                android:textSize="17sp"/>
+        </RelativeLayout>-->
+       <!-- <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingBottom="7dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="7dp">
+            <EditText
+                android:id="@+id/et_activity_city_location_searchbox"
+                android:layout_width="338dp"
+                android:layout_height="29dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_rounded_rectangle_city_search"
+                android:drawableLeft="@mipmap/city_search_icon"
+                android:drawablePadding="9dp"
+                android:drawableRight="@mipmap/city_close_icon"
+                android:hint="输入城市名称或首字母"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:textColorHint="#999999"
+                android:textSize="14.5sp"/>
+        </RelativeLayout>
+-->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="430dp"
+            android:background="#ffffff">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="80dp"
+                android:layout_centerInParent="true"
+                android:text="A"
+                android:gravity="center"
+                android:background="@drawable/shape_toast_bg"
+                android:textSize="60sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_height="80dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="@{searchActivityCityLocationModel.cityInfoListVisible}">
+                <ListView
+                    android:id="@+id/lv_activity_city_location_cityinfo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="11dp" android:layout_weight="1"
+                    android:divider="@android:color/transparent">
+                </ListView>
+
+                <ListView
+                    android:id="@+id/lv_activity_city_location_city_firstletter"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="48dp"
+                    android:divider="@android:color/transparent">
+                </ListView>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lv_activity_city_location_search_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{searchActivityCityLocationModel.searchCityListVisible}"
+                >
+            </ListView>
+        </FrameLayout>
+    </LinearLayout>
+</layout>

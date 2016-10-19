@@ -16,4 +16,16 @@ public class LocationCityInfo {
         this.firstLetter = firstLetter;
         CityName = cityName;
     }
+
+    public String getCityName() {
+        return CityName;
+    }
+
+    public String getFirstLetter() {
+        return firstLetter;
+    }
+
+    public boolean isFirstLetter() {
+        return isFirstLetter;
+    }
 }

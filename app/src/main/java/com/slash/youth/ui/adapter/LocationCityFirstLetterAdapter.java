@@ -1,5 +1,8 @@
 package com.slash.youth.ui.adapter;
 
+import android.view.View;
+import android.widget.TextView;
+
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.LocationCityFirstLetterHolder;
 

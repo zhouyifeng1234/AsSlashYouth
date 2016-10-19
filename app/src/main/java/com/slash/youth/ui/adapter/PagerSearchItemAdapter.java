@@ -1,6 +1,9 @@
 package com.slash.youth.ui.adapter;
 
+import android.annotation.TargetApi;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.TimeZone;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +22,9 @@ import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.IdentityHashMap;
 import java.util.Objects;
 
@@ -111,12 +116,13 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                 case serviceResult:
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_needandservice, null);
                     holder.iv_item_listview_home_demand_avatar = (ImageView) convertView.findViewById(R.id.iv_item_listview_home_demand_avatar);
+                    holder.iv_authentication = (ImageView)convertView.findViewById(R.id.iv_authentication);
                     holder.tv_item_listview_home_demand_username = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_username);
                     holder.tv_item_listview_home_demand_title = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_title);
                     holder.tv_item_listview_home_demand_date = (TextView) convertView.findViewById(R.id.tv_item_listview_home_demand_date);
-                    holder.tv_search_value = (TextView) convertView.findViewById(R.id.tv_search_value);
-                    holder.tv_search_line = (TextView) convertView.findViewById(R.id.tv_search_line);
-                    holder.tv_search_consult = (TextView) convertView.findViewById(R.id.tv_search_consult);
+                    holder.tv_quote= (TextView) convertView.findViewById(R.id.tv_quote);
+                    holder.tv_line= (TextView) convertView.findViewById(R.id.tv_line);
+                    holder.tv_pay= (TextView) convertView.findViewById(R.id.tv_pay);
                     break;
                 case personResult:
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
@@ -124,7 +130,7 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                     holder.iv_search_person = (ImageView) convertView.findViewById(R.id.iv_search_person);
                     holder.tv_search_person_zhiye = (TextView) convertView.findViewById(R.id.tv_search_person_zhiye);
                     holder.iv_search_v = (ImageView) convertView.findViewById(R.id.iv_search_v);
-                    holder.iv_jiahao = (ImageView) convertView.findViewById(R.id.iv_jiahao);
+                    holder.iv_jiahao = (TextView) convertView.findViewById(R.id.tv_contacts_visitor_addfriend);
                     holder.iv_star = (ImageView) convertView.findViewById(R.id.iv_star);
                     holder.tv_zhiye1 = (TextView) convertView.findViewById(R.id.tv_zhiye1);
                     holder.tv_zhiye2 = (TextView) convertView.findViewById(R.id.tv_zhiye2);
@@ -180,13 +186,35 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                 break;
             case searchResult:
                 for (SearchAllBean.DataBean.DemandListBean demandListBean : mNeedData) {
+
+                    //TODO 传入的图片和姓名 ，有待确认
                     x.image().bind(holder.iv_item_listview_home_demand_avatar,demandListBean.getAvatar());
                     holder.tv_item_listview_home_demand_username.setText(demandListBean.getName());
+
+                    //TODO 这里要明确状态码的含义，是否认证
+                    if(demandListBean.getIsauth() == 0){
+                    holder.iv_authentication.setVisibility(View.VISIBLE);
+                    }else {
+                    holder.iv_authentication.setVisibility(View.INVISIBLE);
+                    }
+
                     holder.tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
                     setTime(holder.tv_item_listview_home_demand_date,demandListBean.getStarttime(),demandListBean.getEndtime());
-                    holder.tv_search_value.setText("报价：￥");
-                   // holder.tv_search_line.setText("");
+                    holder.tv_quote.setText("报价：￥"+demandListBean.getQuote());
 
+                    //TODO 这里要明确状态码的含义
+                    if(demandListBean.getPattern() == 0){
+                        holder.tv_line.setText("线上");//线上
+                    }else if(demandListBean.getPattern() == 1){
+                        holder.tv_line.setText("线下");//线下
+                    }
+
+                    //TODO 目前后端数据是1  ，有待解决清除
+                    if(demandListBean.getIsinstallment() == 1){
+                        holder.tv_pay.setVisibility(View.VISIBLE);
+                    }else{
+                        holder.tv_pay.setVisibility(View.GONE);
+                    }
                 }
                 break;
             case serviceResult:
@@ -195,16 +223,18 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
             case personResult:
 
                 break;
-
         }
-
-
       return convertView;
     }
     //设置时间
+    @TargetApi(24)
     private void setTime(TextView tv_item_listview_home_demand_date, long starttime, long endtime) {
-        tv_item_listview_home_demand_date.setText("任务时间：");
-        //TODO
+        Date startDate = new Date(starttime);
+        Date endDate = new Date(endtime);
+        SimpleDateFormat sd = new SimpleDateFormat("MM月dd日 HH:mm");
+        String start = sd.format(startDate);
+        String end = sd.format(endDate);
+        tv_item_listview_home_demand_date.setText("任务时间："+start+"—"+end);
     }
 
 
@@ -260,16 +290,17 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
         TextView tv_item_listview_home_demand_username;
         TextView tv_item_listview_home_demand_title;
         TextView tv_item_listview_home_demand_date;
-        TextView tv_search_value;
-        TextView tv_search_line;
-        TextView tv_search_consult;
+        TextView tv_quote;
+        TextView tv_pay;
         TextView tv_time;
         TextView tv_search_person_zhiye;
         ImageView iv_search_v;
-        ImageView iv_jiahao;
+        TextView iv_jiahao;
         ImageView iv_item_listview_home_demand_avatar;
         ImageView iv_star;
         ImageView iv_search_person;
+        ImageView iv_authentication;
+        TextView tv_line;
     }
 
 }
