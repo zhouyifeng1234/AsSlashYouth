@@ -17,6 +17,7 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
     ActivityPublishDemandSuccessBinding mActivityPublishDemandSuccessBinding;
     Activity mActivity;
+    private RecommendServicePartAdapter mRecommendServicePartAdapter;
 
     public PublishDemandSuccessModel(ActivityPublishDemandSuccessBinding activityPublishDemandSuccessBinding, Activity activity) {
         this.mActivityPublishDemandSuccessBinding = activityPublishDemandSuccessBinding;
@@ -33,7 +34,8 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
     private void initView() {
         mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVerticalScrollBarEnabled(false);
-        mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setAdapter(new RecommendServicePartAdapter(listRecommendServicePart));
+        mRecommendServicePartAdapter = new RecommendServicePartAdapter(listRecommendServicePart);
+        mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setAdapter(mRecommendServicePartAdapter);
     }
 
     public void getRecommendServicePartData() {

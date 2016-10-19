@@ -178,6 +178,7 @@
                     android:layout_height="18dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="6dp"
+                    android:onClick="@{publishDemandAddInfoModel.openLabelsActivity}"
                     android:src="@mipmap/towards_right_icon"
                 />
 
@@ -190,6 +191,24 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/shape_rounded_demand2_desc_bg">
+
+                <ScrollView
+                    android:id="@+id/sv_publish_demand_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp">
+                    <com.slash.youth.ui.view.SlashAddLabelsLayout
+                        android:id="@+id/sall_publish_demand_added_skilllabels"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical"
+                    >
+
+                    </com.slash.youth.ui.view.SlashAddLabelsLayout>
+                </ScrollView>
+
 
             </FrameLayout>
 
@@ -272,8 +291,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
+                    android:onClick="@{publishDemandAddInfoModel.toggleInstalment}"
                 >
                     <ImageView
+                        android:id="@+id/iv_publish_demand_instalment_bg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -281,6 +302,7 @@
                         android:src="@mipmap/background_safebox_toggle"/>
 
                     <ImageView
+                        android:id="@+id/iv_publish_demand_instalment_handle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -325,9 +347,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:onClick="@{publishDemandAddInfoModel.checkOnline}"
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/iv_publish_demand_online_icon"
                         android:layout_width="17dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center_vertical"
@@ -349,9 +373,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="12dp"
+                    android:onClick="@{publishDemandAddInfoModel.checkOffline}"
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/iv_publish_demand_offline_icon"
                         android:layout_width="17dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center_vertical"
@@ -385,7 +411,8 @@
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="@{publishDemandAddInfoModel.offlineItemVisibility}">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -409,7 +436,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/mark_icon"/>
+                    android:src="@mipmap/location_icon"/>
 
             </LinearLayout>
 
@@ -420,6 +447,7 @@
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="18dp"
                 android:background="#E5E5E5"
+                android:visibility="@{publishDemandAddInfoModel.offlineItemVisibility}"
             />
 
             <LinearLayout
@@ -480,7 +508,7 @@
                         android:layout_width="252dp"
                         android:layout_height="50dp"
                         android:background="@drawable/btn_next_step"
-                        android:onClick="@{publishDemandAddInfoModel.nextStep}"
+                        android:onClick="@{publishDemandAddInfoModel.publish}"
                         android:text="发布"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"/>

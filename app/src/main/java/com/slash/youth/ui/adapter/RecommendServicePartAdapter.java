@@ -10,6 +10,9 @@ import java.util.ArrayList;
  * Created by zhouyifeng on 2016/10/18.
  */
 public class RecommendServicePartAdapter extends SlashBaseAdapter<AutoRecommendServicePartBean> {
+
+    public static ArrayList<Integer> listCheckedItemId = new ArrayList<Integer>();
+
     public RecommendServicePartAdapter(ArrayList<AutoRecommendServicePartBean> listData) {
         super(listData);
     }

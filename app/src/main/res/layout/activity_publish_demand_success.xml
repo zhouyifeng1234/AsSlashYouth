@@ -25,12 +25,12 @@
                 android:textSize="16sp"/>
 
             <TextView
-                android:onClick="@{publishDemandSuccessModel.closeSuccessActivity}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
+                android:onClick="@{publishDemandSuccessModel.closeSuccessActivity}"
                 android:text="关闭"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"/>
@@ -144,11 +144,21 @@
             android:orientation="vertical"
         >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:text="查看详情"
+                android:textColor="#CCCCCC"
+                android:textSize="12sp"/>
+
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="-6dp"
                 android:src="@mipmap/success_icon"/>
 
             <LinearLayout
@@ -229,7 +239,7 @@
                         android:layout_width="252dp"
                         android:layout_height="50dp"
                         android:background="@drawable/btn_next_step"
-                        android:text="查看需求详情"
+                        android:text="马上邀请他们"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"/>
 

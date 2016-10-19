@@ -14,7 +14,6 @@ import com.slash.youth.ui.activity.PublishDemandAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 
 import java.util.Calendar;
 import java.util.Date;

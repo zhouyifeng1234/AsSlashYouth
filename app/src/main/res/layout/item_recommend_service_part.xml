@@ -92,6 +92,15 @@
                         android:textSize="12sp"
                     />
 
+                    <ImageView
+                        android:id="@+id/iv_recommend_service_part_checked"
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="13dp"
+                        android:onClick="@{itemRecommendServicePartModel.checkRecommendServicePart}"
+                        android:src="@mipmap/default_btn"/>
+
                 </LinearLayout>
 
             </LinearLayout>

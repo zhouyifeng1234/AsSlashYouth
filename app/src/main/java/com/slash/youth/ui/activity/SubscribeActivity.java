@@ -53,6 +53,18 @@ public class SubscribeActivity extends Activity {
 
 
     private void initData() {
+        final ArrayList<String> addedSkillLabels = getIntent().getStringArrayListExtra("addedSkillLabels");
+        mLlCheckedLabels.post(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < addedSkillLabels.size(); i++) {
+                    String labelTag = "label_" + (-i);
+                    String labelName = addedSkillLabels.get(i);
+                    addCheckedLabels(labelTag, labelName);
+                }
+            }
+        });
+
         //假数据，实际应该从服务端借口获取
         ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
         listSkilllabel.add(new SkillLabelBean("设计"));
@@ -162,6 +174,7 @@ public class SubscribeActivity extends Activity {
         listThirdSkilllabelName.add("APP设计");
         listThirdSkilllabelName.add("APP开发设计");
         listThirdSkilllabelName.add("APP开发");
+
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.post(new Runnable() {
             LinearLayout llSkilllabelLine;
@@ -228,8 +241,9 @@ public class SubscribeActivity extends Activity {
                     //将标签TextView添加到Line里面
 //                    llSkilllabelLine.addView(tvThirdSkilllabelName);
 
-//                    mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
+
                 }
+                mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
             }
 
             public void createLabelLine() {
