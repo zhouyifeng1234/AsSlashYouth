@@ -6,5 +6,13 @@
     {
         "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\color\\vpi__light_theme.xml",
         "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__light_theme.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\color\\vpi__dark_theme.xml",
+        "source": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__dark_theme.xml"
+    },
+    {
+        "merged": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\color\\vpi__light_theme.xml",
+        "source": "D:\\AndroidStudioProject\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\color\\vpi__light_theme.xml"
     }
 ]
