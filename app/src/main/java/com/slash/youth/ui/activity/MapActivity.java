@@ -59,7 +59,7 @@ public class MapActivity extends Activity {
     float mapZoom = 14;
     PoiSearch poiSearch;
     PoiSearch.Query query;
-    private String mCurrentAddress;
+    public String mCurrentAddress;
     private String mCurrentAoiName;
     private ArrayList<NearLocationBean> mListNearLocation;
     private ActivityMapModel mActivityMapModel;
@@ -76,7 +76,7 @@ public class MapActivity extends Activity {
         super.onCreate(savedInstanceState);
 //        CommonUtils.setCurrentActivity(this);
         mActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
-        mActivityMapModel = new ActivityMapModel(mActivityMapBinding);
+        mActivityMapModel = new ActivityMapModel(mActivityMapBinding, this);
         mActivityMapBinding.setActivityMapModel(mActivityMapModel);
 
         //获取地图控件引用
@@ -420,6 +420,10 @@ public class MapActivity extends Activity {
                 String aoiName = "没有地点信息";
                 if (result != null && result.getRegeocodeAddress() != null
                         && result.getRegeocodeAddress().getFormatAddress() != null) {
+                    String formatAddress = result.getRegeocodeAddress().getFormatAddress();
+//                    ToastUtils.shortToast(formatAddress);
+                    mCurrentAddress = formatAddress;
+
                     List<AoiItem> aois = result.getRegeocodeAddress().getAois();
                     if (aois != null && aois.size() > 0) {
                         aoiName = aois.get(0).getAoiName();
@@ -483,5 +487,6 @@ public class MapActivity extends Activity {
             mLocationClient.stopLocation();
         }
     }
+
 
 }

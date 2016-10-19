@@ -23,6 +23,7 @@ import java.util.Date;
  * Created by zhouyifeng on 2016/10/17.
  */
 public class PublishDemandBaseInfoModel extends BaseObservable {
+
     public static final int PUBLISH_ANONYMITY_ANONYMOUS = 0;//匿名发布
     public static final int PUBLISH_ANONYMITY_REALNAME = 1;//实名发布
 

@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMapBinding;
 import com.slash.youth.domain.NearLocationBean;
+import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.adapter.MapNearLocationAdapter;
 
 import java.util.ArrayList;
@@ -16,11 +18,13 @@ import java.util.ArrayList;
  */
 public class ActivityMapModel extends BaseObservable {
     ActivityMapBinding mActivityMapBinding;
+    MapActivity mActivity;
     private int llMapInfoVisible = View.VISIBLE;
     private int svSearchListVisible = View.INVISIBLE;
 
-    public ActivityMapModel(ActivityMapBinding activityMapBinding) {
+    public ActivityMapModel(ActivityMapBinding activityMapBinding, MapActivity activity) {
         this.mActivityMapBinding = activityMapBinding;
+        this.mActivity = activity;
         initView();
     }
 
@@ -57,5 +61,12 @@ public class ActivityMapModel extends BaseObservable {
     public void setLlMapInfoVisible(int llMapInfoVisible) {
         this.llMapInfoVisible = llMapInfoVisible;
         notifyPropertyChanged(BR.llMapInfoVisible);
+    }
+
+    public void okChooseLocation(View v) {
+        Intent intentResult = new Intent();
+        intentResult.putExtra("mCurrentAddress", mActivity.mCurrentAddress);
+        mActivity.setResult(20, intentResult);
+        mActivity.finish();
     }
 }

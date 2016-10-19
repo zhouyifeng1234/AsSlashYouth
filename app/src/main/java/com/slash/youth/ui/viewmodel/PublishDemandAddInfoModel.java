@@ -11,10 +11,12 @@ import android.widget.RelativeLayout;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandAddinfoBinding;
+import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -94,6 +96,12 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mActivity.startActivityForResult(intentSubscribeActivity, 10);
     }
 
+    public void openMapActivity(View v) {
+        Intent intentMapActivity = new Intent(CommonUtils.getContext(), MapActivity.class);
+//        intentMapActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mActivity.startActivityForResult(intentMapActivity, 20);
+    }
+
     private int offlineItemVisibility = View.GONE;
 
     @Bindable
@@ -106,4 +114,12 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         notifyPropertyChanged(BR.offlineItemVisibility);
     }
 
+    public void setLocationAddress(String address) {
+//        ToastUtils.shortToast(address);
+        mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.setText(address);
+    }
+
+    public String getLocationAddress() {
+        return mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.getText().toString();
+    }
 }
