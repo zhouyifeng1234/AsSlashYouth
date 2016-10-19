@@ -37,7 +37,7 @@ public class SearchActivityCityLocationModel extends BaseObservable {
         return searchCityListVisible;
     }
 
-    public void setSearchCityListVisible(int searchCityListVisible) {
+   public void setSearchCityListVisible(int searchCityListVisible) {
         this.searchCityListVisible = searchCityListVisible;
         notifyPropertyChanged(BR.searchCityListVisible);
     }

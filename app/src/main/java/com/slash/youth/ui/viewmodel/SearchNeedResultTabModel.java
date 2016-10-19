@@ -1,16 +1,21 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -36,6 +41,8 @@ import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
 import com.slash.youth.ui.adapter.PagerSearchPersonAdapter;
 import com.slash.youth.ui.adapter.SearchCityAdapter;
+import com.slash.youth.ui.holder.BaseHolder;
+import com.slash.youth.ui.holder.LocationCityFirstLetterHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
@@ -43,6 +50,7 @@ import com.slash.youth.utils.SpUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EventListener;
 import java.util.HashMap;
 
 /**
@@ -90,6 +98,11 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private Activity currentActivity = CommonUtils.getCurrentActivity();
     private View publicView;
+    private ArrayList<Character> listCityNameFirstLetter;
+    private TextView tvFirstLetter;
+    private LocationCityFirstLetterAdapter locationCityFirstLetterAdapter;
+    private TextView textView;
+    private ArrayList<LocationCityInfo> listCityInfo;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
@@ -345,7 +358,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
        lv.setOnItemClickListener(this);
         publicView = lineView;
         setRemoveView();
-
     }
 
     //返回按钮监听，去除Tab的下来选项
@@ -396,6 +408,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel();
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
+
         ImageView ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
         ivLocationCityFirstLetterListHeader.setImageResource(R.mipmap.search_letter_search_icon);
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.addHeaderView(ivLocationCityFirstLetterListHeader);
@@ -407,7 +420,10 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         setRemoveView();
     }
 
+    private int cityPosition = 0;
+    private Handler mHanler = new Handler();
     //设置城市监听事件
+    @TargetApi(Build.VERSION_CODES.M)
     private void setCityLinitListener() {
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -416,9 +432,11 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 //                ToastUtils.shortToast(position + " "+tv.getText());
 //                int clickIndex = position - mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount();
                 if (position > 0) {
-                    TextView tvFirstLetter = (TextView) view;
+                    tvFirstLetter = (TextView) view;
                     //TODO 一点击字就会变成一种颜色，滑动触摸也会变化
-
+                    // cityPosition = position;
+                   // tvFirstLetter.setTextColor(Color.BLUE);
+                   // tvFirstLetter.setBackgroundResource(R.drawable.shape_home_freetime_searchbox_bg);
                     String firstLetter = tvFirstLetter.getText().toString();
                     if (mHashFirstLetterIndex.containsKey(firstLetter)) {
                         Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
@@ -429,27 +447,114 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
             }
         });
 
+        //触摸事件监听
+        searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
+            private String key;
+            private float y = 0;
+            private int index = -1;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                TextView childAt = (TextView) ((ListView) v).getChildAt(2);
+                int height = childAt.getMeasuredHeight();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        y = event.getY();
+                       index = (int) (y /height);
+                    if (index >= 0 && index < listCityNameFirstLetter.size()) {
+                        String firstDownLetter = listCityNameFirstLetter.get(index).toString();
+                        LogKit.d("firstDownLetter = " + firstDownLetter);
+                        if (mHashFirstLetterIndex.containsKey(firstDownLetter)) {
+                            showTextView(firstDownLetter);
+                            Integer firstLetterIndex = mHashFirstLetterIndex.get(firstDownLetter);
+                            searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                        }
+                    }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        y = event.getY();
+                        index = (int) (y / height);
+                        if (index >= 0 && index < listCityNameFirstLetter.size()) {
+                            String firstMoveLetter = listCityNameFirstLetter.get(index).toString();
+                            LogKit.d("firstMoveLetter = "+firstMoveLetter);
+                            if (mHashFirstLetterIndex.containsKey(firstMoveLetter)) {
+                                showTextView(firstMoveLetter);
+                                Integer firstLetterIndex = mHashFirstLetterIndex.get(firstMoveLetter);
+                                searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                            }
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        y = event.getY();
+                        index = (int) (y / height);
+                    if (index >= 0 && index < listCityNameFirstLetter.size()) {
+                        String firstUpLetter = listCityNameFirstLetter.get(index).toString();
+                        LogKit.d("firstUpLetter = " + firstUpLetter);
+                        if (mHashFirstLetterIndex.containsKey(firstUpLetter)) {
+                            showTextView(firstUpLetter);
+                            Integer firstLetterIndex = mHashFirstLetterIndex.get(firstUpLetter);
+                            searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                        }
+                    }
+                        break;
+                }
+                return true;
+            }
+        });
+
         //实现点击当前城市事件
         headerListviewLocationCityInfoListBinding.tvCurrentCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = (String) headerListviewLocationCityInfoListBinding.tvCurrentCity.getText();
-                ((TextView)searchTabView.findViewById(R.id.tv_area)).setText(text);
+                String curentyCityText = (String) headerListviewLocationCityInfoListBinding.tvCurrentCity.getText();
+                ((TextView)searchTabView.findViewById(R.id.tv_area)).setText(curentyCityText);
                 switchSearchTab(R.id.rl_tab_area,false);
                 clickSearchTab(R.id.fl_showSearchResult);
             }
         });
+        //点击下面的地址，赋值给当前定位，并且保存在最近访问，最多3个
+        searchCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position!=0){
+                    LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
+                    String cityName = locationCityInfo.getCityName();
+                    if(!cityName.isEmpty()){
+                        headerListviewLocationCityInfoListBinding.tvCurrentCity.setText(cityName);
+                        //保存到最近访问
+                        //TODO 可以做，但是没有好的思路，先做技能标签，在峰哥的代码中找更好的思路
 
-        //显示最近访问过的城市，并实现点击事件
-        ////////////////////////////////////
 
+
+                    }
+                }
+            }
+        });
+    }
+    //显示中间的字
+    private void showTextView(String text ) {
+        searchCityLocationBinding.tv.setVisibility(View.VISIBLE);
+        searchCityLocationBinding.tv.setText(text);
+        mHanler.removeCallbacksAndMessages(null);
+        mHanler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchCityLocationBinding.tv.setVisibility(View.GONE);
+            }
+        },1000);
 
     }
 
     //设置城市数据
     private void setCityData() {
         //城市名称模拟数据
-        ArrayList<LocationCityInfo> listCityInfo = new ArrayList<LocationCityInfo>();
+        listCityInfo = new ArrayList<LocationCityInfo>();
+        /*for (char cha = 'A'; cha <= 'Z'; cha++) {
+            listCityInfo.add(new LocationCityInfo(true, cha+"", ""));
+            for (int i = 0; i <5 ; i++) {
+                listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"+cha+"==="+i));
+            }
+        }*/
+
         listCityInfo.add(new LocationCityInfo(true, "A", ""));
         listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
         listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
@@ -482,19 +587,23 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         listCityInfo.add(new LocationCityInfo(false, "", "徐州"));
         listCityInfo.add(new LocationCityInfo(false, "", "徐州"));
         //城市名称首字母模拟数据
-        ArrayList<Character> listCityNameFirstLetter = new ArrayList<Character>();
+        listCityNameFirstLetter = new ArrayList<Character>();
         for (char cha = 'A'; cha <= 'Z'; cha++) {
             listCityNameFirstLetter.add(cha);
         }
 
-        mHashFirstLetterIndex = new HashMap<String, Integer>();
+       mHashFirstLetterIndex = new HashMap<String, Integer>();
+       /* for (char cha = 'A' ; cha <= 'Z'; cha++) {
+            for (int i = 0; i <26 ; i++) {
+                mHashFirstLetterIndex.put(cha+"", i*6);
+            }
+        }*/
         mHashFirstLetterIndex.put("A", 0);
         mHashFirstLetterIndex.put("S", 13);
         mHashFirstLetterIndex.put("X", 26);
-
         searchCityLocationBinding.lvActivityCityLocationCityinfo.setAdapter(new LocationCityInfoAdapter(listCityInfo));
-        searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setAdapter(new LocationCityFirstLetterAdapter(listCityNameFirstLetter));
-
+        locationCityFirstLetterAdapter = new LocationCityFirstLetterAdapter(listCityNameFirstLetter);
+        searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setAdapter(locationCityFirstLetterAdapter);
         //搜索的自动提示数据，实际应该由服务端返回
         //搜索自动提示测试数据
         ArrayList<String> listSearchCity = new ArrayList<String>();
@@ -609,6 +718,6 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 }
 
 
-//TODO 回来要做1.实现点击事件 2，显示3个最近访问过的城市   3.解决下来刷新   4.快熟首页调的问题
+
 
 
