@@ -1,27 +1,46 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
+import com.slash.youth.databinding.DialogCustomSkilllabelBinding;
+import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
+import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivitySubscribeModel;
+import com.slash.youth.ui.viewmodel.DialogCustomSkillLabelModel;
+import com.slash.youth.ui.viewmodel.DialogSearchCleanModel;
 import com.slash.youth.ui.viewmodel.ItemSubscribeSecondSkilllabelModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+
+import org.antlr.v4.tool.ast.RuleElementAST;
 
 import java.util.ArrayList;
 
@@ -30,10 +49,13 @@ import java.util.ArrayList;
  */
 public class SubscribeActivity extends Activity {
 
-    private ActivitySubscribeBinding mActivitySubscribeBinding;
+    public ActivitySubscribeBinding mActivitySubscribeBinding;
     private LinearLayout mLlCheckedLabels;
     public String checkedFirstLabel = "未选择";
     public String checkedSecondLabel = "未选择";
+    private ArrayList<String> listThirdSkilllabelName;
+    private DialogCustomSkillLabelModel dialogCustomSkillLabelModel;
+    public LinearLayout customSkillLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +72,6 @@ public class SubscribeActivity extends Activity {
         initData();
         initListener();
     }
-
 
     private void initData() {
         //假数据，实际应该从服务端借口获取
@@ -108,7 +129,6 @@ public class SubscribeActivity extends Activity {
         });
     }
 
-
     /**
      * 根据选择的二级标签，显示对应的三级标签
      */
@@ -118,7 +138,6 @@ public class SubscribeActivity extends Activity {
 //        TextView tv = new TextView(CommonUtils.getContext());
 //        tv.setText("APP开发");
 //        mActivitySubscribeBinding.tsgActivitySubscribeThirdSkilllabel.addView(tv);
-
 
 //        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT);
 //        SlashSkilllabelFlowLayout flowThirdSkilllabel = new SlashSkilllabelFlowLayout(CommonUtils.getContext());
@@ -136,8 +155,8 @@ public class SubscribeActivity extends Activity {
 //        mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.setVerticalScrollBarEnabled(false);
 //        mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.addView(flowThirdSkilllabel);
 
-        final ArrayList<String> listThirdSkilllabelName = new ArrayList<String>();
-        listThirdSkilllabelName.add("设计");
+        listThirdSkilllabelName = new ArrayList<String>();
+        listThirdSkilllabelName.add("设计1");
         listThirdSkilllabelName.add("A设计");
         listThirdSkilllabelName.add("A");
         listThirdSkilllabelName.add("APP开发设计");
@@ -162,6 +181,10 @@ public class SubscribeActivity extends Activity {
         listThirdSkilllabelName.add("APP设计");
         listThirdSkilllabelName.add("APP开发设计");
         listThirdSkilllabelName.add("APP开发");
+        listThirdSkilllabelName.add("APP开发" + 1);
+       /* for (int i = 0; i <20 ; i++) {
+            listThirdSkilllabelName.add("自定义"+i);
+        }*/
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.post(new Runnable() {
             LinearLayout llSkilllabelLine;
@@ -176,7 +199,6 @@ public class SubscribeActivity extends Activity {
 
                 int labelRightMargin = CommonUtils.dip2px(10);
                 int skillLabelLineWidth = 0;
-
 
                 for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
                     String thirdSkilllabelName = listThirdSkilllabelName.get(i);
@@ -215,7 +237,6 @@ public class SubscribeActivity extends Activity {
                         //防范一个标签就超过总宽度的情况
                         createLabelLine();
                         llSkilllabelLine.addView(tvThirdSkilllabelName);
-
                         if (newSkillLabelLineWidth >= scrollViewWidth) {
                             mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
                             skillLabelLineWidth = 0;
@@ -223,13 +244,63 @@ public class SubscribeActivity extends Activity {
                             skillLabelLineWidth = newSkillLabelLineWidth;
                         }
                     }
-
-
                     //将标签TextView添加到Line里面
 //                    llSkilllabelLine.addView(tvThirdSkilllabelName);
-
 //                    mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
+
+                    //zss,如果是集合的最后一项,添加一个自定义的技能框，点击会弹出对话框
+                    if ((listThirdSkilllabelName.size()) != 0) {
+                        if (i == listThirdSkilllabelName.size() - 1) {
+
+                            LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
+                            // LinearLayout.LayoutParams lllayout = new LinearLayout.LayoutParams(-2, -2);
+
+                            // ll.rightMargin = CommonUtils.dip2px(labelRightMargin);//两个键的空隙
+                            TextView textview = new TextView(CommonUtils.getContext());
+                            textview.setLayoutParams(ll);
+                            textview.setMaxLines(1);
+                            textview.setGravity(Gravity.CENTER);
+                            textview.setTextColor(0xff333333);
+                            textview.setTextSize(14);
+                            textview.setText("自定义");
+                            textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(3), CommonUtils.dip2px(11));
+
+                            ImageView imageView = new ImageView(CommonUtils.getContext());
+                            imageView.setImageResource(R.mipmap.add_icon);
+                            imageView.setPadding(CommonUtils.dip2px(3), CommonUtils.dip2px(13), CommonUtils.dip2px(13), CommonUtils.dip2px(13));
+                            imageView.setLayoutParams(ll);
+
+                            LinearLayout linearLayout =  new LinearLayout(CommonUtils.getContext());
+                            linearLayout.addView(textview);
+                            linearLayout.addView(imageView);
+                            linearLayout.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
+                            linearLayout.setGravity(Gravity.CENTER);
+
+                            //点击事件，弹出自定义标签的对话框
+                            linearLayout.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showCustomDialog();
+                                }
+                            });
+
+                            createLabelLine();
+                            llSkilllabelLine.setOrientation(LinearLayout.HORIZONTAL);
+                            llSkilllabelLine.addView(linearLayout);
+                            mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
+
+                            //再加一行空的，出现空白区域
+                            LinearLayout layout = new LinearLayout(CommonUtils.getContext());
+                            LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(-1, -2);
+                            llParams.height = CommonUtils.dip2px(30);
+                            llParams.width = CommonUtils.dip2px(30);
+                            layout.setLayoutParams(llParams);
+                            createLabelLine();
+                            llSkilllabelLine.addView(layout);
+                        }
+                    }
                 }
+                mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
             }
 
             public void createLabelLine() {
@@ -249,8 +320,30 @@ public class SubscribeActivity extends Activity {
         });
     }
 
-    public class CheckThirdLabelListener implements View.OnClickListener {
+    private void showCustomDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SubscribeActivity.this);
+        DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_custom_skilllabel, null, false);
+        dialogCustomSkillLabelModel = new DialogCustomSkillLabelModel(dialogCustomSkilllabelBinding,SubscribeActivity.this);
+        dialogCustomSkilllabelBinding.setDialogCustomSkillLabelModel(dialogCustomSkillLabelModel);
+        dialogBuilder.setView(dialogCustomSkilllabelBinding.getRoot());
 
+        AlertDialog dialogCustomSkillLabel = dialogBuilder.create();
+        dialogCustomSkillLabel.show();
+        dialogCustomSkillLabelModel.currentDialog = dialogCustomSkillLabel;
+        dialogCustomSkillLabel.setCanceledOnTouchOutside(false);
+
+        Window dialogSubscribeWindow = dialogCustomSkillLabel.getWindow();
+        WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
+        dialogParams.width = CommonUtils.dip2px(300);//宽度
+        dialogParams.height = CommonUtils.dip2px(190);//高度
+        dialogSubscribeWindow.setAttributes(dialogParams);
+//        dialogSubscribeWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
+//        dialogBuilder.show();
+    }
+
+
+    public class CheckThirdLabelListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             String labelTag = (String) v.getTag();
@@ -259,7 +352,6 @@ public class SubscribeActivity extends Activity {
             addCheckedLabels(labelTag, labelName);
         }
     }
-
 
     LinearLayout llCheckedLabelsLine = null;
     int checkedLabelLeftMargin = CommonUtils.dip2px(11);
