@@ -1,6 +1,8 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -16,7 +18,6 @@ import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,10 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     boolean isInstalment = true;//是否开启分期付，默认为true,开启
     private Bundle mPublishDemandData;
     public SlashAddLabelsLayout mSallSkillLabels;
+    String[] disputeHandingTypes = new String[]{
+            "平台方式", "协商处理"
+    };//纠纷处理方式
+    public int checkedDisputeHandingTypeIndex = 0;//选择的纠纷处理方式
 
     public PublishDemandAddInfoModel(ActivityPublishDemandAddinfoBinding activityPublishDemandAddinfoBinding, Activity activity) {
         this.mActivityPublishDemandAddinfoBinding = activityPublishDemandAddinfoBinding;
@@ -100,6 +105,20 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         Intent intentMapActivity = new Intent(CommonUtils.getContext(), MapActivity.class);
 //        intentMapActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mActivity.startActivityForResult(intentMapActivity, 20);
+    }
+
+    public void chooseDisputeHandingType(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setSingleChoiceItems(disputeHandingTypes, checkedDisputeHandingTypeIndex, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                checkedDisputeHandingTypeIndex = which;
+                mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[which]);
+                mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private int offlineItemVisibility = View.GONE;

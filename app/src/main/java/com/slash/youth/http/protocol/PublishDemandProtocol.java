@@ -1,7 +1,6 @@
 package com.slash.youth.http.protocol;
 
 import com.slash.youth.global.GlobalConstants;
-import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 
@@ -80,26 +79,43 @@ public class PublishDemandProtocol extends BaseProtocol<String> {
 //        params.addBodyParameter("quote", quote);
 
 
-        params.addBodyParameter("title", "算法提取");
-        params.addBodyParameter("label", "研发");
-        params.addBodyParameter("tasktime", System.currentTimeMillis() + 48 * 60 * 60 * 1000 + "");
-        params.addBodyParameter("fighttime", 10 + "");
+//        params.addBodyParameter("title", "算法提取");
+//        params.addBodyParameter("tag", "['1-4-APP']");
+//        params.addBodyParameter("starttime", System.currentTimeMillis() + 48 * 60 * 60 * 1000 + "");
+//        params.addBodyParameter("anonymity", 1 + "");
+//        params.addBodyParameter("desc", "研发");
+//        params.addBodyParameter("pic", "['http://img05.tooopen.com/images/20140919/sy_71272488121.jpg']");
+//        params.addBodyParameter("instalment", 1 + "");
+//
+////        params.addBodyParameter("invoice", 1 + "");
+//        params.addBodyParameter("pattern", 1 + "");
+//        params.addBodyParameter("place", "苏州");
+//        params.addBodyParameter("placedetail", "苏州工业园区");
+////        params.addBodyParameter("consume", 1 + "");
+//        params.addBodyParameter("lng", 30.000001D + "");
+//        params.addBodyParameter("lat", 30.000001D + "");
+//        params.addBodyParameter("offer", 0 + "");
+//
+//        params.addBodyParameter("quote", 100.00D + "");
+
+
+        params.addBodyParameter("title", "微信扫一扫评论简单易赚在线审核100");
+        params.addBodyParameter("tag", "[\"1-5-画册设计\",\"1-4-宣传品设计\",\"1-3-重复标签\",\"1-3-重复标签\"]");
+        params.addBodyParameter("starttime", System.currentTimeMillis() + 10000000 + "");
         params.addBodyParameter("anonymity", 1 + "");
-        params.addBodyParameter("desc", "研发");
-        params.addBodyParameter("pic", "url1");
-        params.addBodyParameter("type", 1 + "");
-        params.addBodyParameter("proofbox", 1 + "");
+        params.addBodyParameter("desc", "共需要 200个稿件");
 
-        params.addBodyParameter("invoice", 1 + "");
-        params.addBodyParameter("pattern", 0 + "");
-        params.addBodyParameter("place", "苏州");
-        params.addBodyParameter("placedetail", "苏州工业园区");
-        params.addBodyParameter("consume", 1 + "");
-        params.addBodyParameter("lng", 30.000001D + "");
-        params.addBodyParameter("lat", 30.000001D + "");
-        params.addBodyParameter("offer", 1.01D + "");
+        params.addBodyParameter("instalment", "1");
+        params.addBodyParameter("pattern", "1");
+        params.addBodyParameter("offer", "0");
+        params.addBodyParameter("quote", "100.00");
+        params.addBodyParameter("pic", "[\"http://img05.tooopen.com/images/20140919/sy_71272488121.jpg\", \"http://img06.tooopen.com/images/20161012/tooopen_sy_181713275376.jpg\"]");
 
-        params.addBodyParameter("quote", quote);
+
+        params.addBodyParameter("place", "北京朝阳区望京soho");
+        params.addBodyParameter("placedetail", "soho塔3-34楼");
+        params.addBodyParameter("lng", "39.9936252828");
+        params.addBodyParameter("lat", "116.4736562349");
     }
 
     @Override
