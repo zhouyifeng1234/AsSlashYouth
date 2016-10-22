@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.databinding.BaseObservable;
+import android.databinding.DataBindingUtil;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,17 +17,21 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
 /**
  * Created by zss on 2016/10/20.
  */
 public class DialogCustomSkillLabelModel extends BaseObservable {
   private DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding;
   public AlertDialog currentDialog;//当前对话框
- private SubscribeActivity subscribeActivity;
+    private LinearLayout linearLayout;
+    private String name;
 
-    public DialogCustomSkillLabelModel(DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding, SubscribeActivity activity) {
+
+    public DialogCustomSkillLabelModel(DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding) {
         this.dialogCustomSkilllabelBinding = dialogCustomSkilllabelBinding;
-        this.subscribeActivity = activity;
     }
 
     //取消搜索对话框(xml中取消按钮绑定方法)
@@ -38,44 +43,32 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
     //ok搜索对话框
     public void okDialog(View v) {
         String text = dialogCustomSkilllabelBinding.etSkillLabelName.getText().toString();
+        boolean contains = text.contains("-");
         char[] chars = text.toCharArray();
-        for (char ch : chars) {
-            if(ch == '-'){
+        if(!text.isEmpty()){
+            if(contains){
                 ToastUtils.shortToast("自定义技能名不能有"+"-"+"字符");
             }else {
                 int length = chars.length;
                 if(length!=10){
-                    LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
-                    TextView textview = new TextView(CommonUtils.getContext());
-                    textview.setLayoutParams(ll);
-                    textview.setMaxLines(1);
-                    textview.setGravity(Gravity.CENTER);
-                    textview.setTextColor(0xff333333);
-                    textview.setTextSize(14);
-                    textview.setText(text);
-                    textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(3), CommonUtils.dip2px(11));
-
-                    ImageView imageView = new ImageView(CommonUtils.getContext());
-                    imageView.setImageResource(R.mipmap.delete_icon);
-                    imageView.setPadding(CommonUtils.dip2px(3), CommonUtils.dip2px(13), CommonUtils.dip2px(13), CommonUtils.dip2px(13));
-                    imageView.setLayoutParams(ll);
-
-                    LinearLayout linearLayout = new LinearLayout(CommonUtils.getContext());
-                    linearLayout.addView(textview);
-                    linearLayout.addView(imageView);
-                    linearLayout.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
-                    linearLayout.setGravity(Gravity.CENTER);
-                    subscribeActivity.customSkillLabel = linearLayout;
-
-                    //在里面加上去
-                  // subscribeActivity.mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.
-
+                    listener.OnOkDialogClick(text);
 
                 }else {
                     ToastUtils.shortToast("输入的字数不能超过5个");
                 }
             }
+        }else {
+            ToastUtils.shortToast("不能输入空标签");
         }
         currentDialog.dismiss();
+    }
+    //接口回调传递数据
+    public interface OnOkDialogListener{
+        void OnOkDialogClick(String text);
+    }
+
+    private OnOkDialogListener listener;
+    public void setOnOkDialogListener( OnOkDialogListener listener) {
+        this.listener = listener;
     }
 }
