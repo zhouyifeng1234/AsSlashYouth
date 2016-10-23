@@ -6,6 +6,7 @@ import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
+import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
@@ -16,6 +17,7 @@ import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
+import com.slash.youth.ui.activity.test.FileUploadProtocol;
 
 /**
  * Created by zhouyifeng on 2016/9/1.
@@ -192,6 +194,18 @@ public class DemandEngine {
     public static void setDemandDesc(BaseProtocol.IResultExecutor onSetDemandDescFinished, String id, String desc) {
         SetDemandDescProtocol setDemandDescProtocol = new SetDemandDescProtocol(id, desc);
         setDemandDescProtocol.getDataFromServer(onSetDemandDescFinished);
+    }
+
+    //一、[文件]-图片上传
+    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished) {
+        FileUploadProtocol fileUploadProtocol = new FileUploadProtocol();
+        fileUploadProtocol.getDataFromServer(onUploadFileFinished);
+    }
+
+    //二、[文件]-图片下载
+    public static void downloadFile(BaseProtocol.IResultExecutor onDownloadFileFinished) {
+        DownloadFileProtocol downloadFileProtocol = new DownloadFileProtocol();
+        downloadFileProtocol.getDataFromServer(onDownloadFileFinished);
     }
 
 }

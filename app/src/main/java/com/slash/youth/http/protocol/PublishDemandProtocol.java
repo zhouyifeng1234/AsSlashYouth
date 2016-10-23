@@ -2,7 +2,10 @@ package com.slash.youth.http.protocol;
 
 import com.slash.youth.global.GlobalConstants;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.xutils.http.RequestParams;
+import org.xutils.http.body.StringBody;
 
 /**
  * Created by zhouyifeng on 2016/9/29.
@@ -99,23 +102,44 @@ public class PublishDemandProtocol extends BaseProtocol<String> {
 //        params.addBodyParameter("quote", 100.00D + "");
 
 
+//        params.addBodyParameter("title", "微信扫一扫评论简单易赚在线审核100");
+//        params.addBodyParameter("tag", "[\"1-5-画册设计\",\"1-4-宣传品设计\",\"1-3-重复标签\",\"1-3-重复标签\"]");
+//        params.addBodyParameter("starttime", System.currentTimeMillis() + 10000000 + "");
+//        params.addBodyParameter("anonymity", 1 + "");
+//        params.addBodyParameter("desc", "共需要 200个稿件");
+//
+//        params.addBodyParameter("instalment", "1");
+//        params.addBodyParameter("pattern", "1");
+//        params.addBodyParameter("offer", "0");
+//        params.addBodyParameter("quote", "100.00");
+//        params.addBodyParameter("pic", "[\"http://img05.tooopen.com/images/20140919/sy_71272488121.jpg\", \"http://img06.tooopen.com/images/20161012/tooopen_sy_181713275376.jpg\"]");
+//
+//
+//        params.addBodyParameter("place", "北京朝阳区望京soho");
+//        params.addBodyParameter("placedetail", "soho塔3-34楼");
+//        params.addBodyParameter("lng", "39.9936252828");
+//        params.addBodyParameter("lat", "116.4736562349");
+
         params.addBodyParameter("title", "微信扫一扫评论简单易赚在线审核100");
-        params.addBodyParameter("tag", "[\"1-5-画册设计\",\"1-4-宣传品设计\",\"1-3-重复标签\",\"1-3-重复标签\"]");
-        params.addBodyParameter("starttime", System.currentTimeMillis() + 10000000 + "");
-        params.addBodyParameter("anonymity", 1 + "");
-        params.addBodyParameter("desc", "共需要 200个稿件");
-
-        params.addBodyParameter("instalment", "1");
+        params.addBodyParameter("tag", "['1-5-画册设计']");
+        params.addBodyParameter("anonymity", "1");
         params.addBodyParameter("pattern", "1");
-        params.addBodyParameter("offer", "0");
-        params.addBodyParameter("quote", "100.00");
-        params.addBodyParameter("pic", "[\"http://img05.tooopen.com/images/20140919/sy_71272488121.jpg\", \"http://img06.tooopen.com/images/20161012/tooopen_sy_181713275376.jpg\"]");
 
+        try {
+            JSONObject jo = new JSONObject();
+            jo.put("title", "微信扫一扫评论简单易赚在线审核100");
+            JSONArray ja = new JSONArray();
+            ja.put("1-5-画册设计");
+            ja.put("1-2-APP");
+            jo.put("tag", ja);
+            jo.put("anonymity", 1);
+            jo.put("pattern", 1);
 
-        params.addBodyParameter("place", "北京朝阳区望京soho");
-        params.addBodyParameter("placedetail", "soho塔3-34楼");
-        params.addBodyParameter("lng", "39.9936252828");
-        params.addBodyParameter("lat", "116.4736562349");
+            StringBody stringBody = new StringBody(jo.toString(), null);
+            params.setRequestBody(stringBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

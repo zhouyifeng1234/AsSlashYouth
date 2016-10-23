@@ -31,24 +31,6 @@ abstract public class BaseProtocol<T> {
 
                 LogKit.v("onSuccess");
                 LogKit.v(result);
-//                try {
-//                    JSONObject joRoot = new JSONObject(result);
-//                    int code = joRoot.getInt("code");
-//                    if (code == 0) {
-//                        dataBean = parseData(result);
-//                        resultExecutor.execute(dataBean);
-//                    }
-////                    else if (code == 2) {
-////                        resultErrorBean = parseErrorResultData(result);
-////                        resultExecutor.executeError(resultErrorBean);
-////                    }
-//                    else {
-//                        resultErrorBean = parseErrorResultData(result);
-//                        resultExecutor.executeError(resultErrorBean);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
                 boolean isResultSuccess = checkJsonResult(result);
                 if (isResultSuccess) {
                     dataBean = parseData(result);
@@ -81,7 +63,7 @@ abstract public class BaseProtocol<T> {
 
     public RequestParams getRequestParams() {
         RequestParams params = new RequestParams(getUrlString());
-
+        params.setAsJsonContent(true);
         addRequestHeader(params);
 
         addRequestParams(params);
@@ -98,8 +80,6 @@ abstract public class BaseProtocol<T> {
 //        params.addBodyParameter("uid", "20");
 //        params.addBodyParameter("phone", "13353471234");
 
-
-        params.setAsJsonContent(true);
         return params;
     }
 
