@@ -25,7 +25,6 @@ public class SearchAssociationModel extends BaseObservable {
 
     //显示对话框
     public void showDialog(View v) {
-        // LogKit.d("显示对话框");
         //创建AlertDialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CommonUtils.getCurrentActivity());
         //数据绑定填充视图
@@ -51,5 +50,4 @@ public class SearchAssociationModel extends BaseObservable {
 //        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
 //        dialogBuilder.show();
     }
-
 }
