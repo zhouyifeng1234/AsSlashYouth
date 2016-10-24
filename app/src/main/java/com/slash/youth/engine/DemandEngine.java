@@ -8,6 +8,7 @@ import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
+import com.slash.youth.http.protocol.ImgUploadProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
@@ -192,6 +193,11 @@ public class DemandEngine {
     public static void setDemandDesc(BaseProtocol.IResultExecutor onSetDemandDescFinished, String id, String desc) {
         SetDemandDescProtocol setDemandDescProtocol = new SetDemandDescProtocol(id, desc);
         setDemandDescProtocol.getDataFromServer(onSetDemandDescFinished);
+    }
+
+    public static void imgUpload(BaseProtocol.IResultExecutor onImgUploadFinished) {
+        ImgUploadProtocol imgUploadProtocol = new ImgUploadProtocol();
+        imgUploadProtocol.getDataFromServer(onImgUploadFinished);
     }
 
 }

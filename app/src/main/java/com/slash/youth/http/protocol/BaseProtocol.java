@@ -115,6 +115,7 @@ abstract public class BaseProtocol<T> {
         //跳过验证
         params.addHeader("uid", "10000");
         params.addHeader("pass", "1");
+        params.addHeader("Content-Type","application/json");
     }
 
     public ResultErrorBean parseErrorResultData(String result) {

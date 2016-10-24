@@ -62,8 +62,13 @@ public class GlobalConstants {
 
 
         //服务器主机地址
-//        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
-        public static final String SERVER_HOST = "http://121.42.145.178/feed/v1/api/demand/";
+        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
+
+        //需求流程相关接口地址前缀
+        public static final String SERVER_HOST_DEMAND = "http://121.42.145.178/feed/v1/api/demand/";
+        //图片上传下载接口地址前缀
+        public static final String SERVER_HOST_IMG_UPLOAD_DOWNLOAD = "http://121.42.145.178/file/v1/api/";
+
         //ZSS
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
 
@@ -84,37 +89,43 @@ public class GlobalConstants {
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
 
+        //一、[文件]-图片上传
+        public static final String IMG_UPLOAD = SERVER_HOST_IMG_UPLOAD_DOWNLOAD + "upload";
+
+        //二、[文件]-图片下载
+        public static final String IMG_DOWNLOAD = SERVER_HOST_IMG_UPLOAD_DOWNLOAD + "download";
+
 
         //一、[需求]-发布需求
-        public static final String PUBLISH_DEMAND = SERVER_HOST + "publish";
+        public static final String PUBLISH_DEMAND = SERVER_HOST_DEMAND + "publish";
         //二、[需求]-需求方取消需求
-        public static final String CANCEL_DEMAND = SERVER_HOST + "cancel";
+        public static final String CANCEL_DEMAND = SERVER_HOST_DEMAND + "cancel";
         //三、[需求]-我发布的需求列表
-        public static final String MY_PUBLISH_DEMAND_LIST = SERVER_HOST + "mylist";
+        public static final String MY_PUBLISH_DEMAND_LIST = SERVER_HOST_DEMAND + "mylist";
         //四、[需求]-服务方竞标需求
-        public static final String SERVICE_PARTY_BID_DEMAND = SERVER_HOST + "bid";
+        public static final String SERVICE_PARTY_BID_DEMAND = SERVER_HOST_DEMAND + "bid";
         //五、[需求]-需求方选择服务方
-        public static final String DEMAND_PARTY_SELECT_SERVICE_PARTY = SERVER_HOST + "select";
+        public static final String DEMAND_PARTY_SELECT_SERVICE_PARTY = SERVER_HOST_DEMAND + "select";
         //六、[需求]-服务方确认一个服务者
-        public static final String SERVICE_PARTY_CONFIRM_SERVANT = SERVER_HOST + "confirm";
+        public static final String SERVICE_PARTY_CONFIRM_SERVANT = SERVER_HOST_DEMAND + "confirm";
         //七、[需求]-查看需求流程日志
-        public static final String GET_DEMAND_FLOW_LOG = SERVER_HOST + "log";
+        public static final String GET_DEMAND_FLOW_LOG = SERVER_HOST_DEMAND + "log";
         //八、[需求]-服务方拒绝
-        public static final String SERVICE_PARTY_REJECT = SERVER_HOST + "reject";
+        public static final String SERVICE_PARTY_REJECT = SERVER_HOST_DEMAND + "reject";
         //九、[需求]-需求方预支付
-        public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST + "payment";
+        public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST_DEMAND + "payment";
         //十、[需求]-我发布的历史需求列表
-        public static final String MY_PUBLISH_HOSTORY_DEMAND_LIST = SERVER_HOST + "myhislist";
+        public static final String MY_PUBLISH_HOSTORY_DEMAND_LIST = SERVER_HOST_DEMAND + "myhislist";
         //十一、[需求]-服务方完成任务
-        public static final String SERVICE_PARTY_COMPLETE = SERVER_HOST + "complete";
+        public static final String SERVICE_PARTY_COMPLETE = SERVER_HOST_DEMAND + "complete";
         //十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)
-        public static final String DEMAND_PARTY_CONFIRM_COMPLETE = SERVER_HOST + "confirmComplete";
+        public static final String DEMAND_PARTY_CONFIRM_COMPLETE = SERVER_HOST_DEMAND + "confirmComplete";
         //十三、[需求]-需求方查看竞标（抢需求服务者）列表
-        public static final String DEMAND_PARTY_GET_BIDLIST = SERVER_HOST + "bidlist";
+        public static final String DEMAND_PARTY_GET_BIDLIST = SERVER_HOST_DEMAND + "bidlist";
         //十四、[需求]-加载需求描述信息
-        public static final String GET_DEMAND_DESC = SERVER_HOST + "descget";
+        public static final String GET_DEMAND_DESC = SERVER_HOST_DEMAND + "descget";
         //十五、[需求]-设置需求描述信息
-        public static final String SET_DEMAND_DESC = SERVER_HOST + "descset";
+        public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
 
 
         //一、[用户认证]-真实用户认证接口

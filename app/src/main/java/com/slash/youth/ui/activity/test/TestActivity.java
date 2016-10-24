@@ -244,7 +244,7 @@ public class TestActivity extends Activity {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
-   
+
             @Override
             public void executeResultError(String result) {
 
@@ -266,5 +266,20 @@ public class TestActivity extends Activity {
 
             }
         }, "22", "前端页面开发");
+    }
+
+    //一、[文件]-图片上传
+    public void imgUpload(View v) {
+        DemandEngine.imgUpload(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        });
     }
 }

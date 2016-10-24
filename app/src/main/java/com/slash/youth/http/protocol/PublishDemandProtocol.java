@@ -1,5 +1,7 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -100,22 +102,25 @@ public class PublishDemandProtocol extends BaseProtocol<String> {
 
 
         params.addBodyParameter("title", "微信扫一扫评论简单易赚在线审核100");
-        params.addBodyParameter("tag", "[\"1-5-画册设计\",\"1-4-宣传品设计\",\"1-3-重复标签\",\"1-3-重复标签\"]");
-        params.addBodyParameter("starttime", System.currentTimeMillis() + 10000000 + "");
-        params.addBodyParameter("anonymity", 1 + "");
-        params.addBodyParameter("desc", "共需要 200个稿件");
+        JsonArray jaTag = new JsonArray();
+        JsonObject jo = new JsonObject();
 
-        params.addBodyParameter("instalment", "1");
+        params.addBodyParameter("tag", "['']");
+//        params.addBodyParameter("starttime", 2476534600000l + "");
+        params.addBodyParameter("anonymity", "1");
+//        params.addBodyParameter("desc", "共需要 200个稿件");
+
+//        params.addBodyParameter("instalment", "1");
         params.addBodyParameter("pattern", "1");
-        params.addBodyParameter("offer", "0");
-        params.addBodyParameter("quote", "100.00");
-        params.addBodyParameter("pic", "[\"http://img05.tooopen.com/images/20140919/sy_71272488121.jpg\", \"http://img06.tooopen.com/images/20161012/tooopen_sy_181713275376.jpg\"]");
+//        params.addBodyParameter("offer", "0");
+//        params.addBodyParameter("quote", "100.00");
+//        params.addBodyParameter("pic", "[\"url1\"]");
 
 
-        params.addBodyParameter("place", "北京朝阳区望京soho");
-        params.addBodyParameter("placedetail", "soho塔3-34楼");
-        params.addBodyParameter("lng", "39.9936252828");
-        params.addBodyParameter("lat", "116.4736562349");
+//        params.addBodyParameter("place", "北京朝阳区望京soho");
+//        params.addBodyParameter("placedetail", "soho塔3-34楼");
+//        params.addBodyParameter("lng", 39.9936252828D,null);
+//        params.addBodyParameter("lat", 116.4736562349D,null);
     }
 
     @Override
