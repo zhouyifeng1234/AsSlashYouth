@@ -45,6 +45,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -102,8 +103,8 @@ public class SubscribeActivity extends Activity {
                   int id = skillLabelAllBean.getId();
                   String tag = skillLabelAllBean.getTag();
                   //一级标签集合
-                  ArrayList<Integer> arrayList1 = new ArrayList<>();
-                    arrayList1.add(f1);
+                  LinkedHashMap<Integer, Integer> firstArrayList = new LinkedHashMap<>();
+                  firstArrayList.put(f1,id);
                   //二级标签集合
                   ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
 
