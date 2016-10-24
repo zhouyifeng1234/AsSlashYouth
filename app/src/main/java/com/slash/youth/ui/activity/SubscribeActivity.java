@@ -451,13 +451,13 @@ public class SubscribeActivity extends Activity {
         linearLayout.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
         linearLayout.setGravity(Gravity.CENTER);
 
-      /*  imageView.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listThirdUserCustomSkilllabelName.remove(text);
                 updateLableView();
             }
-        });*/
+        });
         return linearLayout;
     }
 
@@ -646,10 +646,7 @@ public class SubscribeActivity extends Activity {
             }
 //            ToastUtils.shortToast(listCheckedLabelName.get(deleteIndex));
 
-            if(listThirdUserCustomSkilllabelName.contains(labelName)){
-                listThirdUserCustomSkilllabelName.remove(labelName);
-                updateLableView();
-            }
+
         }
     }
 }
