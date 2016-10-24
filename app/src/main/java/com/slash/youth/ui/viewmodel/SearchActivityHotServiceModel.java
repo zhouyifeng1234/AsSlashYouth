@@ -67,7 +67,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private void initData() {
         //假数据，实际应该从服务端借口获取
         ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-        listSkilllabel.add(new SkillLabelBean("设计"));
+       /* listSkilllabel.add(new SkillLabelBean("设计"));
         listSkilllabel.add(new SkillLabelBean("研发"));
         listSkilllabel.add(new SkillLabelBean("销售"));
         listSkilllabel.add(new SkillLabelBean("运营"));
@@ -85,7 +85,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         listSkilllabel.add(new SkillLabelBean("市场上午"));
         listSkilllabel.add(new SkillLabelBean("高管"));
         listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
+        listSkilllabel.add(new SkillLabelBean("销售"));*/
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
         SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {

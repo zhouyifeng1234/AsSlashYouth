@@ -1,28 +1,34 @@
 package com.slash.youth.domain;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by zhouyifeng on 2016/9/8.
+ * Created by zss on 2016/10/24.
  */
-public class SkillLabelBean {
-
-    public String labelName;
-
-    public SkillLabelBean(String labelName) {
-        this.labelName = labelName;
-    }
+public class SkillLabelAllBean {
 
 
-    /**  zss
+    /**
      * f1 : 0
      * f2 : 0
      * id : 1
      * tag : 设计
      */
 
-  /*  private int f1;
+    private int f1;
     private int f2;
     private int id;
     private String tag;
+
+
 
     public int getF1() {
         return f1;
@@ -54,6 +60,5 @@ public class SkillLabelBean {
 
     public void setTag(String tag) {
         this.tag = tag;
-    }*/
-
+    }
 }

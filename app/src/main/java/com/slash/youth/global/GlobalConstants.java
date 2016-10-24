@@ -66,7 +66,8 @@ public class GlobalConstants {
         public static final String SERVER_HOST = "http://121.42.145.178/feed/v1/api/demand/";
         //ZSS
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
-
+        //zss
+        public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
 
         /**
          * 以下为服务端各接口的相对地址
@@ -115,6 +116,10 @@ public class GlobalConstants {
         public static final String GET_DEMAND_DESC = SERVER_HOST + "descget";
         //十五、[需求]-设置需求描述信息
         public static final String SET_DEMAND_DESC = SERVER_HOST + "descset";
+        //十六、[需求]-技能标签(一 二 三 级的技能标签)
+        public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
+
+
 
 
         //一、[用户认证]-真实用户认证接口
@@ -200,11 +205,6 @@ public class GlobalConstants {
 
         //二十八、[搜索]-服务搜索
         public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
-
-
-
-
-
     }
 
 

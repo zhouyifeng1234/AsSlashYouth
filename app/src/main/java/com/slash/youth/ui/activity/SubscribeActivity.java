@@ -24,7 +24,10 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.databinding.DialogCustomSkilllabelBinding;
+import com.slash.youth.domain.SkillLabelAllBean;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.SkillLabelAllProtocol;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.ui.viewmodel.ActivitySubscribeModel;
@@ -88,6 +91,36 @@ public class SubscribeActivity extends Activity {
 
     private void initData() {
         //假数据，实际应该从服务端借口获取
+
+       SkillLabelAllProtocol skillLabelAllProtocol = new SkillLabelAllProtocol();
+      skillLabelAllProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<ArrayList<SkillLabelAllBean>>() {
+          @Override
+          public void execute(ArrayList<SkillLabelAllBean> arrayList) {
+              for (SkillLabelAllBean skillLabelAllBean : arrayList) {
+                  int f1 = skillLabelAllBean.getF1();
+                  int f2 = skillLabelAllBean.getF2();
+                  int id = skillLabelAllBean.getId();
+                  String tag = skillLabelAllBean.getTag();
+                  //一级标签集合
+                  ArrayList<Integer> arrayList1 = new ArrayList<>();
+                    arrayList1.add(f1);
+                  //二级标签集合
+                  ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
+
+                  //三级标签集合
+
+
+              }
+
+          }
+
+          @Override
+          public void executeResultError(String result) {
+            LogKit.d("result = "+result);
+          }
+      });
+
+
         ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
         listSkilllabel.add(new SkillLabelBean("设计"));
         listSkilllabel.add(new SkillLabelBean("研发"));
@@ -194,7 +227,6 @@ public class SubscribeActivity extends Activity {
     //ToastUtils.shortToast("getMeasuredWidth:" + scrollViewWidth + "   getMeasuredHeight:" + mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredHeight());
             scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
             labelRightMargin = CommonUtils.dip2px(10);
-
             updateLableView();
             }
         });
@@ -377,52 +409,6 @@ public class SubscribeActivity extends Activity {
         lineCount++;
 //                lineLabelCount = 0;
     }
-
-   /* private void createCustomSkillLabel() {
-        customLabel();
-
-        if (skillLabelLineWidth != 0) {
-            if (newSkillLabelLineWidth >= scrollViewWidth) {
-                createLabelLine();
-                llSkilllabelLine.addView(linearLayout);
-                skillLabelLineWidth = tvThirdSkilllabelWidth;
-                type = 1;
-                mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-            } else {
-                llSkilllabelLine.addView(linearLayout);
-                skillLabelLineWidth = newSkillLabelLineWidth;
-                type = 2;
-            }
-        } else {
-            //防范一个标签就超过总宽度的情况
-            createLabelLine();
-            llSkilllabelLine.addView(linearLayout);
-            if (newSkillLabelLineWidth >= scrollViewWidth) {
-                mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-                skillLabelLineWidth = 0;
-            } else {
-                skillLabelLineWidth = newSkillLabelLineWidth;
-            }
-        }
-
-        //再加一行空的，出现空白区域
-        layout = new LinearLayout(CommonUtils.getContext());
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(-1, -2);
-        llParams.height = CommonUtils.dip2px(30);
-        llParams.width = CommonUtils.dip2px(30);
-        layout.setLayoutParams(llParams);
-        createLabelLine();
-        llSkilllabelLine.addView(layout);
-        mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-    }*/
-
-  /*  private void customLabel() {
-        getAddLableView();
-        //测量标签的宽度并判断是否换行
-        linearLayout.measure(0,0);
-        tvThirdSkilllabelWidth= linearLayout.getMeasuredWidth() + labelRightMargin;
-        newSkillLabelLineWidth =  skillLabelLineWidth+tvThirdSkilllabelWidth;
-    }*/
 
     private View getUseCostomLableView(final String text){
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
