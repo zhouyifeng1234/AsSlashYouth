@@ -91,6 +91,18 @@ public class SubscribeActivity extends Activity {
     }
 
     private void initData() {
+        final ArrayList<String> addedSkillLabels = getIntent().getStringArrayListExtra("addedSkillLabels");
+        mLlCheckedLabels.post(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < addedSkillLabels.size(); i++) {
+                    String labelTag = "label_" + (-i);
+                    String labelName = addedSkillLabels.get(i);
+                    addCheckedLabels(labelTag, labelName);
+                }
+            }
+        });
+
         //假数据，实际应该从服务端借口获取
 
        SkillLabelAllProtocol skillLabelAllProtocol = new SkillLabelAllProtocol();

@@ -30,5 +30,9 @@ public class PublishDemandAddInfoActivity extends Activity {
         if (requestCode == 10 && resultCode == 10) {
             mPublishDemandAddInfoModel.mSallSkillLabels.getAddLabelsResult(data);
         }
+        if (requestCode == 20 && resultCode == 20) {
+            String mCurrentAddress = data.getStringExtra("mCurrentAddress");
+            mPublishDemandAddInfoModel.setLocationAddress(mCurrentAddress);
+        }
     }
 }

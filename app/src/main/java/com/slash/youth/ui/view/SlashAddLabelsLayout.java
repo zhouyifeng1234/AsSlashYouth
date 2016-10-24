@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -104,7 +105,10 @@ public class SlashAddLabelsLayout extends LinearLayout {
     }
 
     public RelativeLayout createSkillLabel(String labelText, int tvLabelTextVisibility, int ivbtnDelLabelVisibility, int ivAddLabelVisibility, int labelIndex) {
-        LayoutParams paramsSkillLabel = new LayoutParams(0, CommonUtils.dip2px(66));
+        LayoutParams paramsSkillLabel = new LayoutParams(0, CommonUtils.dip2px(55));
+        if (TextUtils.isEmpty(labelText) || ivAddLabelVisibility == View.VISIBLE) {
+            paramsSkillLabel.height = 0;
+        }
         RelativeLayout rlSkillLabel = new RelativeLayout(CommonUtils.getContext());
 
         RelativeLayout.LayoutParams paramsTvLabelText = new RelativeLayout.LayoutParams(-1, -1);
@@ -116,7 +120,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
         tvLabelText.setTextSize(14);
         tvLabelText.setVisibility(tvLabelTextVisibility);
         paramsTvLabelText.rightMargin = CommonUtils.dip2px(8);
-        paramsTvLabelText.topMargin = CommonUtils.dip2px(8);
+        paramsTvLabelText.topMargin = CommonUtils.dip2px(16);
         tvLabelText.setLayoutParams(paramsTvLabelText);
         if (ivAddLabelVisibility == View.VISIBLE) {
             tvLabelText.setOnClickListener(new AddLabelsClickListener());
@@ -182,10 +186,17 @@ public class SlashAddLabelsLayout extends LinearLayout {
         Bundle bundleCheckedLabelsData = intentAddLabelsData.getBundleExtra("bundleCheckedLabelsData");
         if (bundleCheckedLabelsData != null) {
             ArrayList<String> listCheckedLabelName = bundleCheckedLabelsData.getStringArrayList("listCheckedLabelName");
+//            listTotalAddedLabels.clear();//添加清空操作
+            //限制一共就3个的操作
+//            limitTotalLabelsCount(3);
             listTotalAddedLabels.addAll(listCheckedLabelName);
             addSkillLabels();
         }
     }
+
+//    private void limitTotalLabelsCount(int count) {
+//        listTotalAddedLabels.addAll(listTotalAddedLabels.subList(0, 3));
+//    }
 
     public void setActivity(Activity activity) {
         this.mActivity = activity;

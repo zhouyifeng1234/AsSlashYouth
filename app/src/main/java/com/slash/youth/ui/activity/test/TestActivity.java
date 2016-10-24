@@ -1,9 +1,11 @@
 package com.slash.youth.ui.activity.test;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -244,7 +246,7 @@ public class TestActivity extends Activity {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
-   
+
             @Override
             public void executeResultError(String result) {
 
@@ -266,5 +268,36 @@ public class TestActivity extends Activity {
 
             }
         }, "22", "前端页面开发");
+    }
+
+    //一、[文件]-图片上传
+    public void uploadFile(View v) {
+        DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+                ToastUtils.shortToast(dataBean);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        });
+    }
+
+    //二、[文件]-图片下载
+    public void downloadFile(View v) {
+        DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
+            @Override
+            public void execute(byte[] dataBean) {
+                ImageView iv = (ImageView) findViewById(R.id.iv_download_img);
+                iv.setImageBitmap(BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length));
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        });
     }
 }
