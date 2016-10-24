@@ -147,19 +147,6 @@
         <activity android:name="com.slash.youth.ui.activity.PublishDemandModeActivity">
 
         </activity>
-        <activity
-            android:name="com.slash.youth.ui.activity.PublishDemandBaseInfoActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity
-            android:name="com.slash.youth.ui.activity.PublishDemandAddInfoActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name="com.slash.youth.ui.activity.PublishDemandSuccessActivity">
-
-        </activity>
 
         <activity android:name="com.slash.youth.ui.activity.NewActivity"/>
 
