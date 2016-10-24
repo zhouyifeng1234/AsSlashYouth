@@ -79,7 +79,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     private String[] userText = {"全部用户","认证用户"};
     private String[] sureText = {"所有用户","认证用户","非认证用户"};
     private String[] sortText = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
-    private String[] searchSortText = {"综合性评价最高（默认）","发布时间最近","距离最近"};
+    private String[] searchSortText = {"综合评价最高（默认）","发布时间最近","距离最近"};
     private String[] areaText = { "全苏州", "工业园区", "吴中区","姑苏区","相城区","高新区",
             "姑苏区", "工业园区", "张家港市", "昆山市" };
     public static  int TYPE;
