@@ -9,7 +9,6 @@ import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
-import com.slash.youth.http.protocol.ImgUploadProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
