@@ -5,24 +5,18 @@ package com.slash.youth.domain;
  */
 public class SkillLabelBean {
 
-    public String labelName;
-
-    public SkillLabelBean(String labelName) {
-        this.labelName = labelName;
-    }
-
-
-    /**  zss
-     * f1 : 0
-     * f2 : 0
-     * id : 1
-     * tag : 设计
-     */
-
-  /*  private int f1;
+    //public String labelName;
+    private int f1;
     private int f2;
     private int id;
-    private String tag;
+    public String tag;
+
+    public SkillLabelBean(String labelName,int f1,int f2,int id) {
+        this.tag = labelName;
+        this.f1 = f1;
+        this.f2 = f2;
+        this.id =id;
+    }
 
     public int getF1() {
         return f1;
@@ -54,6 +48,8 @@ public class SkillLabelBean {
 
     public void setTag(String tag) {
         this.tag = tag;
-    }*/
+    }
+
+
 
 }

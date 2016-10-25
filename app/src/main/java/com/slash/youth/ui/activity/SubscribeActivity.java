@@ -45,6 +45,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -73,12 +74,17 @@ public class SubscribeActivity extends Activity {
     private int type;
     private LinearLayout  llskillLabel;
     private String labelName;
+    private LinkedHashMap<Integer, String> firstSkillLabel = new LinkedHashMap<>();
+    private ActivitySubscribeModel activitySubscribeModel;
+    private   ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
+    private   ArrayList<SkillLabelBean> commnSkilllabel = new ArrayList<SkillLabelBean>();
+    private SubscribeSecondSkilllabelAdapter subscribeSecondSkilllabelAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivitySubscribeBinding = DataBindingUtil.setContentView(this, R.layout.activity_subscribe);
-        ActivitySubscribeModel activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this);
+        activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this);
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
 
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
@@ -90,7 +96,9 @@ public class SubscribeActivity extends Activity {
         initListener();
     }
 
+
     private void initData() {
+
         final ArrayList<String> addedSkillLabels = getIntent().getStringArrayListExtra("addedSkillLabels");
         mLlCheckedLabels.post(new Runnable() {
             @Override
@@ -103,28 +111,74 @@ public class SubscribeActivity extends Activity {
             }
         });
 
-        //假数据，实际应该从服务端借口获取
-
+        //从服务端借口获取
        SkillLabelAllProtocol skillLabelAllProtocol = new SkillLabelAllProtocol();
       skillLabelAllProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<ArrayList<SkillLabelAllBean>>() {
           @Override
           public void execute(ArrayList<SkillLabelAllBean> arrayList) {
-              for (SkillLabelAllBean skillLabelAllBean : arrayList) {
-                  int f1 = skillLabelAllBean.getF1();
+              for (  SkillLabelAllBean skillLabelAllBean : arrayList) {
+                  final int f1 = skillLabelAllBean.getF1();
                   int f2 = skillLabelAllBean.getF2();
                   int id = skillLabelAllBean.getId();
                   String tag = skillLabelAllBean.getTag();
                   //一级标签集合
-                  LinkedHashMap<Integer, Integer> firstArrayList = new LinkedHashMap<>();
-                  firstArrayList.put(f1,id);
+                  if(f1 ==0 && f2==0){
+                      firstSkillLabel.put(id,tag);
+                      listener.OnListener(firstSkillLabel);
+                      //TODO 有空换
+                  }
+
                   //二级标签集合
-                  ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
+                  if(f1 !=0 && f2==0){
+
+                      listSkilllabel.add(new SkillLabelBean(tag,f1,f2,id));
+                      subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(listSkilllabel);
+                      mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
+                      SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
+                      mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.post(new Runnable() {
+                          @Override
+                          public void run() {
+                              View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.getChildAt(0);
+                              LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
+                              SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
+                              lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
+                          }
+                      });
+                      setThirdSkilllabelData();
+
+
+                  }
+
+                  //根据新的ID跳转
+                  activitySubscribeModel.setOnOkChooseMainLabelListener(new ActivitySubscribeModel.OnOkChooseMainLabelListener() {
+                      @Override
+                      public void OnOkChooseMainLabelListener(int tagId) {
+                          commnSkilllabel.clear();
+                          int firstId = tagId + 1;
+                          for (SkillLabelBean skillLabelBean : listSkilllabel) {
+                              int f11 = skillLabelBean.getF1();
+                              int f21 = skillLabelBean.getF2();
+                              int id1 = skillLabelBean.getId();
+                              String tag1 = skillLabelBean.getTag();
+                              if(firstId == f11){
+                               commnSkilllabel.add(new SkillLabelBean(tag1,f11,f21,id1));
+                              subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
+                              mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
+                              }
+                          }
+                      }
+                  });
+
+
 
                   //三级标签集合
+                   if(f1!=0&&f2!=0){
+                      // thridSkillLabel.put(f2,tag);
+                    //   LogKit.d("快点结束了dsgfdfg地方大概  = "+thridSkillLabel.toString());
+                    //   getDataFromNet(tag);
 
-
+                   }
               }
-
           }
 
           @Override
@@ -132,40 +186,6 @@ public class SubscribeActivity extends Activity {
             LogKit.d("result = "+result);
           }
       });
-
-
-        ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
-        SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
-        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.post(new Runnable() {
-            @Override
-            public void run() {
-                View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.getChildAt(0);
-                LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
-                SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
-                lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
-            }
-        });
-        setThirdSkilllabelData();
     }
 
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
@@ -301,6 +321,7 @@ public class SubscribeActivity extends Activity {
     }
 
     private void getDataFromNet() {
+      //  listThirdSkilllabelName.add(tag);
         listThirdSkilllabelName.add("设计1");
         listThirdSkilllabelName.add("A设计");
         listThirdSkilllabelName.add("A");
@@ -644,8 +665,15 @@ public class SubscribeActivity extends Activity {
                 }
             }
 //            ToastUtils.shortToast(listCheckedLabelName.get(deleteIndex));
-
-
         }
+    }
+    //接口回调传递数据
+    public interface OnListener{
+        void OnListener(LinkedHashMap map);
+    }
+
+    private OnListener listener;
+    public void setOnListener( OnListener listener) {
+        this.listener = listener;
     }
 }

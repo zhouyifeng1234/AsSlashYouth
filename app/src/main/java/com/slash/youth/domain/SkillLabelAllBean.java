@@ -14,8 +14,6 @@ import java.util.List;
  * Created by zss on 2016/10/24.
  */
 public class SkillLabelAllBean {
-
-
     /**
      * f1 : 0
      * f2 : 0

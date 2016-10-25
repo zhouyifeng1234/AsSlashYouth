@@ -9,6 +9,11 @@ import android.widget.NumberPicker;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.ui.activity.SubscribeActivity;
+import com.slash.youth.utils.LogKit;
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by zhouyifeng on 2016/9/8.
@@ -18,6 +23,9 @@ public class ActivitySubscribeModel extends BaseObservable {
     SubscribeActivity mActivity;
     private NumberPicker mNpChooseMainLabels;
     String[] mainLabelsArr;
+    private Iterator iter;
+    private Map.Entry entry;
+    private int value;
 
     public ActivitySubscribeModel(ActivitySubscribeBinding activitySubscribeBinding, SubscribeActivity activity) {
         this.mActivitySubscribeBinding = activitySubscribeBinding;
@@ -31,13 +39,25 @@ public class ActivitySubscribeModel extends BaseObservable {
     }
 
     private void initData() {
-        mainLabelsArr = new String[]{"金融", "IT", "农业", "水产", "文学"};//大类标签内容实际应该由服务端接口返回
-        mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
-        mNpChooseMainLabels.setMinValue(0);
-        mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
-        mNpChooseMainLabels.setValue(1);
+        mActivity.setOnListener(new SubscribeActivity.OnListener() {
+            @Override
+            public void OnListener(LinkedHashMap map) {
+                iter = map.entrySet().iterator();
+                mainLabelsArr = new String[map.size()];
+                int i=0;
+                while (iter.hasNext()) {
+                    entry = (LinkedHashMap.Entry) iter.next();
+                    String skillLabelValue = (String) entry.getValue();
+                    mainLabelsArr[i] = skillLabelValue;
+                    i+=1;
+                }
+                mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
+                mNpChooseMainLabels.setMinValue(0);
+                mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
+                mNpChooseMainLabels.setValue(1);
+            }
+        });
     }
-
 
     private int rlChooseMainLabelVisible = View.INVISIBLE;
 
@@ -55,10 +75,12 @@ public class ActivitySubscribeModel extends BaseObservable {
         setRlChooseMainLabelVisible(View.VISIBLE);
     }
 
+    //点击按钮
     public void okChooseMainLabel(View v) {
         setRlChooseMainLabelVisible(View.INVISIBLE);
-        int value = mNpChooseMainLabels.getValue();
+        value = mNpChooseMainLabels.getValue();
         mActivity.checkedFirstLabel = mainLabelsArr[value];
+        listener.OnOkChooseMainLabelListener(value);
     }
 
     public void submitChooseSkillLabel(View v) {
@@ -75,4 +97,16 @@ public class ActivitySubscribeModel extends BaseObservable {
     public void goBack(View v) {
         mActivity.finish();
     }
+
+
+    //接口回调传递数据
+    public interface OnOkChooseMainLabelListener{
+        void OnOkChooseMainLabelListener(int tagId);
+    }
+
+    private OnOkChooseMainLabelListener listener;
+    public void setOnOkChooseMainLabelListener( OnOkChooseMainLabelListener listener) {
+        this.listener = listener;
+    }
+
 }
