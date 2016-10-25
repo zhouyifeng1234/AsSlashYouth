@@ -163,6 +163,9 @@
         <activity android:name="com.slash.youth.ui.activity.DemandDetailActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.DemandDetailLocationActivity">
+
+        </activity>
 
         <activity android:name="com.slash.youth.ui.activity.NewActivity"/>
 

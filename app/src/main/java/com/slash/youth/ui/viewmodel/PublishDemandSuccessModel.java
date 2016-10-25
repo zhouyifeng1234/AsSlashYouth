@@ -61,7 +61,6 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
     public void gotoDemandDetail(View v) {
         Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-//        CommonUtils.getContext().startActivity(intentDemandDetailActivity);
         mActivity.startActivity(intentDemandDetailActivity);
     }
 }

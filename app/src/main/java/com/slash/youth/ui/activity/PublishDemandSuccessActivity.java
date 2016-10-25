@@ -12,10 +12,12 @@ import com.slash.youth.ui.viewmodel.PublishDemandSuccessModel;
  * Created by zhouyifeng on 2016/10/18.
  */
 public class PublishDemandSuccessActivity extends Activity {
+    public static Activity mActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mActivity = this;
         ActivityPublishDemandSuccessBinding activityPublishDemandSuccessBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand_success);
         PublishDemandSuccessModel publishDemandSuccessModel = new PublishDemandSuccessModel(activityPublishDemandSuccessBinding, this);
         activityPublishDemandSuccessBinding.setPublishDemandSuccessModel(publishDemandSuccessModel);

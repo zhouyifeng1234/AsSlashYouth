@@ -16,11 +16,14 @@ import com.slash.youth.ui.viewmodel.PublishDemandBaseInfoModel;
  */
 public class PublishDemandBaseInfoActivity extends Activity {
 
+    public static Activity mActivity;
+
     private PublishDemandBaseInfoModel mPublishDemandBaseInfoModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivity = this;
         ActivityPublishDemandBaseinfoBinding activityPublishDemandBaseinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_demand_baseinfo);
         mPublishDemandBaseInfoModel = new PublishDemandBaseInfoModel(activityPublishDemandBaseinfoBinding, this);
         activityPublishDemandBaseinfoBinding.setPublishDemandbaseInfoModel(mPublishDemandBaseInfoModel);
