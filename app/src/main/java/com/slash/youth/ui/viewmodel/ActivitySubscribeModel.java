@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.NumberPicker;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
+import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.utils.LogKit;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,14 +43,12 @@ public class ActivitySubscribeModel extends BaseObservable {
     private void initData() {
         mActivity.setOnListener(new SubscribeActivity.OnListener() {
             @Override
-            public void OnListener(LinkedHashMap map) {
-                iter = map.entrySet().iterator();
-                mainLabelsArr = new String[map.size()];
+            public void OnListener(ArrayList<SkillLabelBean> firstList) {
                 int i=0;
-                while (iter.hasNext()) {
-                    entry = (LinkedHashMap.Entry) iter.next();
-                    String skillLabelValue = (String) entry.getValue();
-                    mainLabelsArr[i] = skillLabelValue;
+                mainLabelsArr = new String[firstList.size()];
+                for (SkillLabelBean skillLabelBean : firstList) {
+                    String tag = skillLabelBean.getTag();
+                    mainLabelsArr[i] = tag;
                     i+=1;
                 }
                 mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);

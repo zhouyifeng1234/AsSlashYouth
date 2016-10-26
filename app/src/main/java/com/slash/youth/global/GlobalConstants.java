@@ -129,6 +129,13 @@ public class GlobalConstants {
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
+        //十七、[需求]-技能标签(所有自定义技能标签)
+        public static final String SKILLLABEL_GET = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/get";
+        //十八、[需求]-技能标签(增加自定义技能标签)
+        public static final String SKILLLABEL_CREATE = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/create";
+        //十九、[需求]-技能标签(删除自定义技能标签)
+        public static final String SKILLLABEL_DELETE = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/delete";
+
 
         //一、[用户认证]-真实用户认证接口
         public static final String REAL_USER_AUTH = SERVER_HOST + "uinfo/v1/api/real/auth";
@@ -214,10 +221,6 @@ public class GlobalConstants {
         //二十八、[搜索]-服务搜索
         public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
 
-
-
-
-
     }
 
 
@@ -233,6 +236,8 @@ public class GlobalConstants {
         public static final int RES_TOKEN_TIMEOUT = 4;
         public static final int RES_INVALID_USERNAME_PASSWORD = 5;
         public static final int RES_USER_EXISTS = 6;
+        //zss 新加的，根据后端返回的值
+        public static final int RES_TAG_EXIST = 50;
 
         public static final int RES_INVALID_PIN = 7;
 

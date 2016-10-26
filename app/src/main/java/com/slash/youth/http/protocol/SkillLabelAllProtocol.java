@@ -31,7 +31,6 @@ public class SkillLabelAllProtocol extends BaseProtocol< ArrayList<SkillLabelAll
     public  ArrayList<SkillLabelAllBean> parseData(String result) {
         Gson gson = new Gson();
        // ArrayList<SkillLabelAllBean> skillLabelAllBean = gson.fromJson(result, ArrayList.class);
-
         Type listType = new TypeToken<ArrayList<SkillLabelAllBean>>(){}.getType();
         ArrayList<SkillLabelAllBean> skillLabelAllBeans = gson.fromJson(result, listType);
 

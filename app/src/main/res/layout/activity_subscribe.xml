@@ -261,6 +261,7 @@
                     android:background="#edf1f2">
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_activity_subscribe_choose_all_skilllabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
