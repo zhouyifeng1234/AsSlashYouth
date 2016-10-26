@@ -113,8 +113,6 @@ public class DemandDetailLocationActivity extends Activity {
                 mMap.setInfoWindowAdapter(new SlashMapInfoWindowAdapter(aoiName));
                 mMarker.showInfoWindow();
 
-                mDemandDetailLocationModel.setNearName(aoiName);
-                mDemandDetailLocationModel.setNearAddress(formatAddress);
             } else {
                 ToastUtils.shortToast("" + rCode);
             }

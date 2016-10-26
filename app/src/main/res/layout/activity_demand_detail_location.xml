@@ -36,63 +36,9 @@
 
             android:id="@+id/mapview_demand_detail"
             android:layout_width="match_parent"
-            android:layout_height="308dp">
+            android:layout_height="match_parent">
 
         </com.amap.api.maps2d.MapView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-            >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{demandDetailLocationModel.nearName}"
-                    android:textColor="#333333"
-                    android:textSize="14.5sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="@{demandDetailLocationModel.nearDistance}"
-                    android:textColor="#cccccc"
-                    android:textSize="14.5sp"
-                    android:visibility="invisible"/>
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="9dp"
-                android:layout_marginTop="11dp"
-            >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{demandDetailLocationModel.nearAddress}"
-                    android:textColor="#cccccc"
-                    android:textSize="13.5sp"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@android:color/transparent"
-                    android:src="@mipmap/jihuo_icon"
-                    android:visibility="invisible"
-                />
-
-            </RelativeLayout>
-        </LinearLayout>
-
 
     </LinearLayout>
 </layout>

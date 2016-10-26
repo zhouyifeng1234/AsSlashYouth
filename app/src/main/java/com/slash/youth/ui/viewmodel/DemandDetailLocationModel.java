@@ -2,10 +2,8 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.view.View;
 
-import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityDemandDetailLocationBinding;
 
 /**
@@ -35,37 +33,37 @@ public class DemandDetailLocationModel extends BaseObservable {
         mActivity.finish();
     }
 
-    private String nearName;
-    private String nearAddress;
-    private String nearDistance;
-
-    @Bindable
-    public String getNearName() {
-        return nearName;
-    }
-
-    public void setNearName(String nearName) {
-        this.nearName = nearName;
-        notifyPropertyChanged(BR.nearName);
-    }
-
-    public String getNearAddress() {
-        return nearAddress;
-    }
-
-    @Bindable
-    public void setNearAddress(String nearAddress) {
-        this.nearAddress = nearAddress;
-        notifyPropertyChanged(BR.nearAddress);
-    }
-
-    @Bindable
-    public String getNearDistance() {
-        return nearDistance;
-    }
-
-    public void setNearDistance(String nearDistance) {
-        this.nearDistance = nearDistance;
-        notifyPropertyChanged(BR.nearDistance);
-    }
+//    private String nearName;
+//    private String nearAddress;
+//    private String nearDistance;
+//
+//    @Bindable
+//    public String getNearName() {
+//        return nearName;
+//    }
+//
+//    public void setNearName(String nearName) {
+//        this.nearName = nearName;
+//        notifyPropertyChanged(BR.nearName);
+//    }
+//
+//    public String getNearAddress() {
+//        return nearAddress;
+//    }
+//
+//    @Bindable
+//    public void setNearAddress(String nearAddress) {
+//        this.nearAddress = nearAddress;
+//        notifyPropertyChanged(BR.nearAddress);
+//    }
+//
+//    @Bindable
+//    public String getNearDistance() {
+//        return nearDistance;
+//    }
+//
+//    public void setNearDistance(String nearDistance) {
+//        this.nearDistance = nearDistance;
+//        notifyPropertyChanged(BR.nearDistance);
+//    }
 }
