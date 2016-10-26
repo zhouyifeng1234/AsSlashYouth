@@ -21,6 +21,7 @@ public class MyTaskModel extends BaseObservable {
         this.mActivityMyTaskBinding = activityMyTaskBinding;
         this.mActivity = activity;
         initData();
+        initListener();
         initView();
     }
 
@@ -29,6 +30,10 @@ public class MyTaskModel extends BaseObservable {
     private void initData() {
         getMyTaskList();
         mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+    }
+
+    private void initListener() {
+        //为了方便测试，设置Item的点击事件，实际需要做各种判断
     }
 
     private void initView() {
