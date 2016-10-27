@@ -231,7 +231,7 @@ public class GlobalConstants {
 
         public static final int RES_SUCCESS = 0;
         public static final int RES_FAIL = 1;
-        public static final int RES_INVALID_PARAMS = 2;
+        public static final int RES_INVALID_PARAMS = 2;//参数错误
         public static final int RES_INVALID_TOKEN = 3;
         public static final int RES_TOKEN_TIMEOUT = 4;
         public static final int RES_INVALID_USERNAME_PASSWORD = 5;

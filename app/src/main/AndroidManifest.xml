@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
+
     <!--地图包、搜索包需要的基础权限-->
 
     <!--允许程序打开网络套接字-->

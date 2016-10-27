@@ -1,5 +1,6 @@
 package com.slash.youth.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -40,7 +41,7 @@ public class SkillLabelGetBean {
         this.data = data;
     }
 
-    public  class DataBean {
+    public  class DataBean implements Serializable{
         private int f1;
         private int f2;
         private int id;

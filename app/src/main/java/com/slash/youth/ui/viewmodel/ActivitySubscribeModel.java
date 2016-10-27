@@ -10,11 +10,9 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.activity.SubscribeActivity;
-import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -81,6 +79,7 @@ public class ActivitySubscribeModel extends BaseObservable {
         value = mNpChooseMainLabels.getValue();
         mActivity.checkedFirstLabel = mainLabelsArr[value];
         listener.OnOkChooseMainLabelListener(value);
+
     }
 
     public void submitChooseSkillLabel(View v) {

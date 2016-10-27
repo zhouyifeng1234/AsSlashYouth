@@ -6,6 +6,8 @@ import com.slash.youth.domain.SearchUserBean;
 import com.slash.youth.domain.SkillLabelAllBean;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.Acache;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
@@ -18,6 +20,7 @@ import java.util.LinkedList;
  * Created by zss on 2016/10/24.
  */
 public class SkillLabelAllProtocol extends BaseProtocol< ArrayList<SkillLabelAllBean>>  {
+
     @Override
     public String getUrlString() {
         return GlobalConstants.HttpUrl.SKILLLABEL;
@@ -29,6 +32,7 @@ public class SkillLabelAllProtocol extends BaseProtocol< ArrayList<SkillLabelAll
 
     @Override
     public  ArrayList<SkillLabelAllBean> parseData(String result) {
+
         Gson gson = new Gson();
        // ArrayList<SkillLabelAllBean> skillLabelAllBean = gson.fromJson(result, ArrayList.class);
         Type listType = new TypeToken<ArrayList<SkillLabelAllBean>>(){}.getType();

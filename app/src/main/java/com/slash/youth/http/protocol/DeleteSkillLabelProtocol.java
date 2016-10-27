@@ -3,6 +3,7 @@ package com.slash.youth.http.protocol;
 import com.google.gson.Gson;
 import com.slash.youth.domain.SkillLabelGetBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 
@@ -31,6 +32,7 @@ public class DeleteSkillLabelProtocol extends BaseProtocol<SkillLabelGetBean>{
         params.addBodyParameter("f1",f1+"");
         params.addBodyParameter("f2",f2+"");
         params.addBodyParameter("tags", tags);
+
     }
 
     @Override

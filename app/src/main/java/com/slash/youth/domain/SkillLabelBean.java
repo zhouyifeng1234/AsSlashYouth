@@ -1,9 +1,11 @@
 package com.slash.youth.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by zhouyifeng on 2016/9/8.
  */
-public class SkillLabelBean {
+public class SkillLabelBean implements Serializable {
 
     //public String labelName;
     private int f1;
