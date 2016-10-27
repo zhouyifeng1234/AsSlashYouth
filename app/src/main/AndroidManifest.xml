@@ -172,6 +172,12 @@
         <activity android:name="com.slash.youth.ui.activity.MyTaskActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.DemandChooseServiceActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.MyBidDemandActivity">
+
+        </activity>
 
 
         <!--微信相关-->

@@ -1,11 +1,17 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.slash.youth.databinding.ActivityMyTaskBinding;
 import com.slash.youth.domain.MyTaskBean;
+import com.slash.youth.ui.activity.DemandChooseServiceActivity;
+import com.slash.youth.ui.activity.MyBidDemandActivity;
 import com.slash.youth.ui.adapter.MyTaskAdapter;
+import com.slash.youth.utils.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -34,6 +40,18 @@ public class MyTaskModel extends BaseObservable {
 
     private void initListener() {
         //为了方便测试，设置Item的点击事件，实际需要做各种判断
+        mActivityMyTaskBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
+                    mActivity.startActivity(intentMyBidDemandActivity);
+                } else {
+                    Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
+                    mActivity.startActivity(intentDemandChooseServiceActivity);
+                }
+            }
+        });
     }
 
     private void initView() {
