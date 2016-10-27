@@ -178,6 +178,9 @@
         <activity android:name="com.slash.youth.ui.activity.MyBidDemandActivity">
 
         </activity>
+        <activity android:name=".ui.activity.MyPublishDemandActivity">
+
+        </activity>
 
 
         <!--微信相关-->

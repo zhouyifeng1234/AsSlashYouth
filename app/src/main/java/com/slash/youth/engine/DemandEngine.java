@@ -17,7 +17,7 @@ import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
-import com.slash.youth.ui.activity.test.FileUploadProtocol;
+import com.slash.youth.http.protocol.FileUploadProtocol;
 
 /**
  * Created by zhouyifeng on 2016/9/1.

@@ -10,6 +10,7 @@ import com.slash.youth.databinding.ActivityMyTaskBinding;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.ui.activity.DemandChooseServiceActivity;
 import com.slash.youth.ui.activity.MyBidDemandActivity;
+import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.adapter.MyTaskAdapter;
 import com.slash.youth.utils.CommonUtils;
 
@@ -46,6 +47,9 @@ public class MyTaskModel extends BaseObservable {
                 if (position == 1) {
                     Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
                     mActivity.startActivity(intentMyBidDemandActivity);
+                } else if (position == 2) {
+                    Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
+                    mActivity.startActivity(intentMyPublishDemandActivity);
                 } else {
                     Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
                     mActivity.startActivity(intentDemandChooseServiceActivity);
