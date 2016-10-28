@@ -68,6 +68,8 @@ public class GlobalConstants {
         public static final String SERVER_HOST_DEMAND = "http://121.42.145.178/feed/v1/api/demand/";
         //图片上传下载接口地址前缀
         public static final String SERVER_HOST_IMG_UPLOAD_DOWNLOAD = "http://121.42.145.178/file/v1/api/";
+        //我的任务列表接口 地址前缀
+        public static final String SERVER_HOST_MY_TASK_LIST = "http://121.42.145.178/feed/v1/api/mytask/";
 
         //ZSS
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
@@ -88,6 +90,10 @@ public class GlobalConstants {
 
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
+
+        //一、[需求]-我的任务列表
+        public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
+
 
         //一、[文件]-图片上传
         public static final String IMG_UPLOAD = SERVER_HOST_IMG_UPLOAD_DOWNLOAD + "upload";
@@ -211,9 +217,6 @@ public class GlobalConstants {
 
         //二十八、[搜索]-服务搜索
         public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
-
-
-
 
 
     }
