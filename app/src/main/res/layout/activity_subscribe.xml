@@ -261,6 +261,7 @@
                     android:background="#edf1f2">
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_activity_subscribe_choose_all_skilllabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -342,6 +343,7 @@
                 </RelativeLayout>
 
                 <Button
+                    android:id="@+id/btn_okChooseMainLabel"
                     android:layout_width="333dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"

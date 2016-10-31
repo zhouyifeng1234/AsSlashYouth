@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,57 +22,79 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.databinding.DialogCustomSkilllabelBinding;
+import com.slash.youth.domain.SkillLabelAllBean;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.domain.SkillLabelGetBean;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.http.protocol.CreateSkillLabelProtocol;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.DeleteSkillLabelProtocol;
+import com.slash.youth.http.protocol.SkillLabelAllProtocol;
+import com.slash.youth.http.protocol.SkillLabelGetProtocol;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.ui.viewmodel.ActivitySubscribeModel;
 import com.slash.youth.ui.viewmodel.DialogCustomSkillLabelModel;
 import com.slash.youth.ui.viewmodel.ItemSubscribeSecondSkilllabelModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.NetUtils;
+import com.slash.youth.utils.ToastUtils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/9/8.
  */
 public class SubscribeActivity extends Activity {
-
     public ActivitySubscribeBinding mActivitySubscribeBinding;
     private LinearLayout mLlCheckedLabels;
     public String checkedFirstLabel = "未选择";
     public String checkedSecondLabel = "未选择";
-    private ArrayList<String> listThirdSkilllabelName;
-    private ArrayList<String> listThirdUserCustomSkilllabelName = new ArrayList<String>();
+    private ArrayList<SkillLabelBean> listThirdSkilllabelName = new ArrayList();
+    private ArrayList<SkillLabelBean> listFirstSkilllabelName = new ArrayList();
+    private ArrayList<SkillLabelBean> listThirdUserCustomSkilllabelName = new ArrayList();
     private DialogCustomSkillLabelModel dialogCustomSkillLabelModel;
-    public LinearLayout llSkilllabelLine;;
+    public LinearLayout llSkilllabelLine;
     private int index;
     private int lineCount = 0;
     private int tvThirdSkilllabelWidth;
     private int newSkillLabelLineWidth;
     private int scrollViewWidth;
-    private  int skillLabelLineWidth = 0;
+    private int skillLabelLineWidth = 0;
     private int labelRightMargin;
     private LinearLayout linearLayout;
     private LinearLayout layout;
-    private int type;
-    private LinearLayout  llskillLabel;
     private String labelName;
+    private ActivitySubscribeModel activitySubscribeModel;
+    private ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
+    private ArrayList<SkillLabelBean> commnSkilllabel = new ArrayList<SkillLabelBean>();
+    private ArrayList<SkillLabelBean> commnThirdSkillLabel = new ArrayList<SkillLabelBean>();
+    private SubscribeSecondSkilllabelAdapter subscribeSecondSkilllabelAdapter;
+    private int firstId = 1;
+    private int secondPosition = 0;
+    private int secondId;
+    private int uid;
+    private SkillLabelBean skillLabelBean;
+    private ImageView imageView;
+    private ImageView imageViewAdd;
+    private int clickCount = 0;//默认是0
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivitySubscribeBinding = DataBindingUtil.setContentView(this, R.layout.activity_subscribe);
-        ActivitySubscribeModel activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this);
+        activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this);
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
 
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
@@ -84,9 +104,11 @@ public class SubscribeActivity extends Activity {
         mLlCheckedLabels.removeAllViews();
         initData();
         initListener();
+
     }
 
     private void initData() {
+
         final ArrayList<String> addedSkillLabels = getIntent().getStringArrayListExtra("addedSkillLabels");
         mLlCheckedLabels.post(new Runnable() {
             @Override
@@ -95,51 +117,132 @@ public class SubscribeActivity extends Activity {
                     String labelTag = "label_" + (-i);
                     String labelName = addedSkillLabels.get(i);
                     addCheckedLabels(labelTag, labelName);
+
                 }
             }
         });
 
-        //假数据，实际应该从服务端借口获取
-        ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
+        //假设能够读取网络数据
+        if(NetUtils.isNetworkAvailable(CommonUtils.getApplication())) {
+            //从服务端借口获取非用户定义的接口
+            SkillLabelAllProtocol skillLabelAllProtocol = new SkillLabelAllProtocol();
+            skillLabelAllProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<ArrayList<SkillLabelAllBean>>() {
+                @Override
+                public void execute(ArrayList<SkillLabelAllBean> arrayList) {
+                        //先保存在本地
+                        saveDate2Local("skillLabel", arrayList);
+                        getSkillLabelAllArrayList(arrayList);
+                }
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.d("result : " + result);
+                }
+            });
+            //从服务端借口获取用户自己定义的标签
+            SkillLabelGetProtocol skillLabelGetProtocol = new SkillLabelGetProtocol();
+            skillLabelGetProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SkillLabelGetBean>() {
+                @Override
+                public void execute(SkillLabelGetBean dataBean) {
+                    int rescode = dataBean.getRescode();
+                    if(GlobalConstants.Rescode.RES_SUCCESS == rescode){
+        ArrayList<SkillLabelGetBean.DataBean> data = (ArrayList<SkillLabelGetBean.DataBean>) dataBean.getData();
+                        saveDate2Local("userSkillLabel", data);
+                        getUserSkillLabelArrayList(data);
+                        postThridSkillLabel(commnThirdSkillLabel);
+                    }else {
+                        //获取数据不成功,有网络，有返回值
+                        LogKit.d("rescode :"+rescode);
+                    }
+                }
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.d("result :" + result);
+                }
+            });
+        }else {
+            ArrayList<SkillLabelAllBean> arrayList = getDateFromLocal("skillLabel");
+            getSkillLabelAllArrayList(arrayList);
+            ArrayList<SkillLabelGetBean.DataBean> data = getDateFromLocal("userSkillLabel");
+            getUserSkillLabelArrayList(data);
+            postThridSkillLabel(commnThirdSkillLabel);
+        }
+    }
+    //获取用户自定义标签的集合
+    private void getUserSkillLabelArrayList(ArrayList<SkillLabelGetBean.DataBean> data) {
+        for (SkillLabelGetBean.DataBean bean : data) {
+            //用户的id,不同用户不同id
+            uid = bean.getUid();
+            int userf1 = bean.getF1();
+            int userf2 = bean.getF2();
+            int userid = bean.getId();
+            String userSkillLabel = bean.getTags();
+            String[] thirdSkillNames = userSkillLabel.split("_");
+            for (String thirdSkillName : thirdSkillNames) {
+                if (!thirdSkillName.isEmpty()) {
+                    skillLabelBean = new SkillLabelBean(thirdSkillName, userf1, userf2, userid);
+                    listThirdUserCustomSkilllabelName.add(skillLabelBean);
+                }
+            }
+        }
+    }
+
+    private void getSkillLabelAllArrayList(ArrayList<SkillLabelAllBean> arrayList) {
+        for (SkillLabelAllBean skillLabelAllBean : arrayList) {
+            final int f1 = skillLabelAllBean.getF1();
+            int f2 = skillLabelAllBean.getF2();
+            int id = skillLabelAllBean.getId();
+            String tag = skillLabelAllBean.getTag();
+
+            //一级标签集合
+            if (f1 == 0 && f2 == 0) {
+                SkillLabelBean skillLabelBean = new SkillLabelBean(tag, f1, f2, id);
+                listFirstSkilllabelName.add(skillLabelBean);
+                listener.OnListener(listFirstSkilllabelName);
+            }
+
+            //二级标签集合
+            if (f1 != 0 && f2 == 0) {
+                listSkilllabel.add(new SkillLabelBean(tag, f1, f2, id));
+            }
+
+            //三级标签集合
+            if (f1 != 0 && f2 != 0) {
+                listThirdSkilllabelName.add(new SkillLabelBean(tag, f1, f2, id));
+            }
+        }
+        //第一次展示页面，二级默认为设计页面
+        getCommnSkillLabel(firstId);
+        subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
+        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
+        postSecondSkillLabel();
+        //第一次展示页面，三级默认为品牌设计页面
+        getCommnThirdSkillLabel(secondPosition);
+        //这里先不显示ui，等到自定义的也加到集合里面一起显示
+        // postThridSkillLabel(commnThirdSkillLabel);
+    }
+
+    private void postSecondSkillLabel() {
         SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.post(new Runnable() {
             @Override
             public void run() {
                 View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.getChildAt(0);
-                LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
+                // LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
                 SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
                 lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
             }
         });
-        setThirdSkilllabelData();
+
     }
 
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
 
     private void initListener() {
+        //二级条目点击事件
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 if (lastClickItemModel != null) {
                     lastClickItemModel.setSecondSkilllabelColor(0xff333333);
                 }
@@ -149,188 +252,146 @@ public class SubscribeActivity extends Activity {
                 subscribeSecondSkilllabelHolder.clickItemPosition = position;
                 lastClickItemModel = itemSubscribeSecondSkilllabelModel;
                 checkedSecondLabel = itemSubscribeSecondSkilllabelModel.getSecondSkilllabelName();
-                setThirdSkilllabelData();
+                //根据条目点击事件跳转到三级条目
+                getCommnThirdSkillLabel(position);
+                postThridSkillLabel(commnThirdSkillLabel);
+            }
+        });
+
+        //一级标签根据新的ID跳转到二级
+        activitySubscribeModel.setOnOkChooseMainLabelListener(new ActivitySubscribeModel.OnOkChooseMainLabelListener() {
+            @Override
+            public void OnOkChooseMainLabelListener(int tagId) {
+                //tag+1代表的是f1
+                getCommnSkillLabel(tagId + 1);
+                subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
+                mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
+                postSecondSkillLabel();
+                firstId = tagId + 1;
             }
         });
     }
 
-    /**
-     * 根据选择的二级标签，显示对应的三级标签
-     */
-    public void setThirdSkilllabelData() {
-
-        //TODO 目前只是测试数据，到时候该方法可能需要传入二级标签的ID等信息，以方便查询对应的三级标签
-//        TextView tv = new TextView(CommonUtils.getContext());
-//        tv.setText("APP开发");
-//        mActivitySubscribeBinding.tsgActivitySubscribeThirdSkilllabel.addView(tv);
-
-//        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT);
-//        SlashSkilllabelFlowLayout flowThirdSkilllabel = new SlashSkilllabelFlowLayout(CommonUtils.getContext());
-//        flowThirdSkilllabel.setLayoutParams(params);
-//        flowThirdSkilllabel.setBackgroundColor(0xffff0000);
-//        for (int i = 0; i <= 1; i++) {
-//            TextView tv = new TextView(CommonUtils.getContext());
-//            tv.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
-//            tv.setBackgroundColor(0xffffffff);
-//            tv.setText("APP开发");
-//            tv.setTextColor(0xff333333);
-//            tv.setTextSize(14);
-//            flowThirdSkilllabel.addView(tv);
-//        }
-//        mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.setVerticalScrollBarEnabled(false);
-//        mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.addView(flowThirdSkilllabel);
-
-        listThirdSkilllabelName = new ArrayList<String>();
-
-        //假设上面是读取网络数据
-        boolean canGetDataFromNet = true;
-        //判断 决定数据来源
-        if (canGetDataFromNet){
-            getDataFromNet();
-            if (listThirdSkilllabelName!= null&&listThirdSkilllabelName.size()!=0) {
-                saveDate2Local( "lable",listThirdSkilllabelName);
-            }else {
-                listThirdSkilllabelName = getDateFromLocal("lable");
+    private void getCommnThirdSkillLabel(int position) {
+        commnThirdSkillLabel.clear();
+        SkillLabelBean skillLabelBean = listSkilllabel.get(position);
+        secondId = skillLabelBean.getId();
+        for (SkillLabelBean labelBean : listThirdSkilllabelName) {
+            int f2 = labelBean.getF2();
+            if (f2 == secondId) {
+                commnThirdSkillLabel.add(labelBean);
             }
-        }else {
-            listThirdSkilllabelName=getDateFromLocal("lable");
         }
-        listThirdUserCustomSkilllabelName = getDateFromLocal("userConstom");
+    }
 
+    private void getCommnSkillLabel(int firstId) {
+        commnSkilllabel.clear();
+        for (SkillLabelBean skillLabelBean : listSkilllabel) {
+            int f11 = skillLabelBean.getF1();
+            int f21 = skillLabelBean.getF2();
+            int id1 = skillLabelBean.getId();
+            String tag1 = skillLabelBean.getTag();
+            if (firstId == f11) {
+                commnSkilllabel.add(new SkillLabelBean(tag1, f11, f21, id1));
+            }
+        }
+    }
+
+    private void postThridSkillLabel(final ArrayList<SkillLabelBean> listThirdSkilllabelName) {
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.post(new Runnable() {
-
-        @Override
-        public void run() {
-            scrollViewWidth = mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredWidth();
-    //ToastUtils.shortToast("getMeasuredWidth:" + scrollViewWidth + "   getMeasuredHeight:" + mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredHeight());
-            scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
-            labelRightMargin = CommonUtils.dip2px(10);
-
-            updateLableView();
+            @Override
+            public void run() {
+                scrollViewWidth = mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredWidth();
+                //ToastUtils.shortToast("getMeasuredWidth:" + scrollViewWidth + "   getMeasuredHeight:" + mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredHeight());
+                scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
+                labelRightMargin = CommonUtils.dip2px(10);
+                updateLableView(listThirdSkilllabelName);
             }
         });
     }
 
-    private void saveDate2Local(String  fileName,ArrayList<String> data) {
-        BufferedWriter bw=null;
+   //保存在本地
+    private void saveDate2Local(String fileName, ArrayList data) {
+        ObjectOutputStream oos = null;
         try {
-            if(data==null||data.size()==0){
+            if (data == null || data.size() == 0) {
                 return;
             }
-            int size= data.size();
-            bw=new BufferedWriter(new FileWriter(getLocalFile(fileName)));
-            for(int i = 0;i<size ;i++){
-                bw.write(data.get(i));
-                if (i!=size-1){
-                    bw.newLine();
-                }
-            }
+            //对象流读取一个集合
+            oos = new ObjectOutputStream(new FileOutputStream(getLocalFile(fileName)));
+            oos.writeObject(data);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try{
-                bw.close();
-            }catch (Exception e){
-
+        } finally {
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
-    private ArrayList<String> getDateFromLocal(String  fileName) {
-        ArrayList<String> data = new ArrayList<>();
-        BufferedReader br=null;
-        try{
-            br = new BufferedReader(new FileReader(getLocalFile(fileName)));
-            String buf;
-            while((buf=br.readLine())!=null){
-                data.add(buf);
-            }
-        }catch (Exception e){
+
+    //从本地读取
+    private ArrayList getDateFromLocal(String fileName) {
+        ArrayList data = null;
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream(getLocalFile(fileName)));
+            data = (ArrayList) ois.readObject();
+
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try{
-                br.close();
-            }catch (Exception e){
-                e.printStackTrace();
+        } finally {
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        return  data;
+        return data;
     }
-    private HashMap<String ,File> Files = new HashMap<String ,File>();
-    private File getLocalFile(String fileName){
+    private HashMap<String, File> Files = new HashMap<String, File>();
+    private File getLocalFile(String fileName) {
         File file = Files.get(fileName);
-        if (file==null){
-            file=new File(CommonUtils.getApplication().getCacheDir(),fileName);//lable 存在本地 cache目录下 网络数据和用户自己加的数据存在不同目录下
-            Files.put(fileName,file);
+        if (file == null) {
+            file = new File(CommonUtils.getApplication().getCacheDir(), fileName);//lable 存在本地 cache目录下 网络数据和用户自己加的数据存在不同目录下
+            Files.put(fileName, file);
         }
         return file;
     }
 
-    private void getDataFromNet() {
-        listThirdSkilllabelName.add("设计1");
-        listThirdSkilllabelName.add("A设计");
-        listThirdSkilllabelName.add("A");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add(".NET");
-        listThirdSkilllabelName.add("java");
-        listThirdSkilllabelName.add("android");
-        listThirdSkilllabelName.add("hadoop");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add(".NET");
-        listThirdSkilllabelName.add("java");
-        listThirdSkilllabelName.add("android");
-        listThirdSkilllabelName.add("hadoop");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("APP开发");
-    }
-
-    private void updateLableView() {
+    private void updateLableView(ArrayList<SkillLabelBean> listThirdSkilllabelName) {
+        skillLabelLineWidth = 0;//每次刷新数据就赋值为0
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
         for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
-            String thirdSkilllabelName = listThirdSkilllabelName.get(i);
+            SkillLabelBean skillLabelBean = listThirdSkilllabelName.get(i);
+            String thirdSkilllabelName = skillLabelBean.getTag();
             index = i;
             TextView tvThirdSkilllabelName = getTableView(i, thirdSkilllabelName);
 
             //测量标签TextView的宽度并判断是否换行
             addTableView(tvThirdSkilllabelName);
-            //将标签TextView添加到Line里面
-           // llSkilllabelLine.addView(tvThirdSkilllabelName);
-           // mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
         }
-        for (int i=0;i<listThirdUserCustomSkilllabelName.size();i++){
-            addTableView(getUseCostomLableView(listThirdUserCustomSkilllabelName.get(i)));
+        for (int i = 0; i < listThirdUserCustomSkilllabelName.size(); i++) {
+            SkillLabelBean skillLabelBean = listThirdUserCustomSkilllabelName.get(i);
+            addTableView(getUseCostomLableView(skillLabelBean.getTag()));
         }
         addTableView(getAddLableView());
-        mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
 
+        mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
         //添加一行空格
-        createLabelLine();
-        LinearLayout.LayoutParams llParamsForLine = new LinearLayout.LayoutParams(-1, -2);
-        llParamsForLine.height = CommonUtils.dip2px(55);
-        LinearLayout lllayout = new LinearLayout(CommonUtils.getContext());
-        lllayout.setLayoutParams(llParamsForLine);
-        llSkilllabelLine.addView(lllayout);
-        mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-
+        addLine();
     }
 
     private void addTableView(View tvThirdSkilllabelName) {
         tvThirdSkilllabelName.measure(0, 0);
         tvThirdSkilllabelWidth = tvThirdSkilllabelName.getMeasuredWidth() + labelRightMargin;
         newSkillLabelLineWidth = skillLabelLineWidth + tvThirdSkilllabelWidth;
-
 //                    lineLabelCount++;
         if (skillLabelLineWidth != 0) {
             if (newSkillLabelLineWidth >= scrollViewWidth) {
@@ -375,6 +436,17 @@ public class SubscribeActivity extends Activity {
         return tvThirdSkilllabelName;
     }
 
+    //最后创建一个空行
+    private void addLine() {
+        createLabelLine();
+        LinearLayout.LayoutParams llParamsForLine = new LinearLayout.LayoutParams(-1, -2);
+        llParamsForLine.height = CommonUtils.dip2px(55);
+        LinearLayout lllayout = new LinearLayout(CommonUtils.getContext());
+        lllayout.setLayoutParams(llParamsForLine);
+        llSkilllabelLine.addView(lllayout);
+        mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
+    }
+
     public void createLabelLine() {
         //创建Line
         LinearLayout.LayoutParams llParamsForLine = new LinearLayout.LayoutParams(-1, -2);
@@ -390,53 +462,7 @@ public class SubscribeActivity extends Activity {
 //                lineLabelCount = 0;
     }
 
-   /* private void createCustomSkillLabel() {
-        customLabel();
-
-        if (skillLabelLineWidth != 0) {
-            if (newSkillLabelLineWidth >= scrollViewWidth) {
-                createLabelLine();
-                llSkilllabelLine.addView(linearLayout);
-                skillLabelLineWidth = tvThirdSkilllabelWidth;
-                type = 1;
-                mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-            } else {
-                llSkilllabelLine.addView(linearLayout);
-                skillLabelLineWidth = newSkillLabelLineWidth;
-                type = 2;
-            }
-        } else {
-            //防范一个标签就超过总宽度的情况
-            createLabelLine();
-            llSkilllabelLine.addView(linearLayout);
-            if (newSkillLabelLineWidth >= scrollViewWidth) {
-                mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-                skillLabelLineWidth = 0;
-            } else {
-                skillLabelLineWidth = newSkillLabelLineWidth;
-            }
-        }
-
-        //再加一行空的，出现空白区域
-        layout = new LinearLayout(CommonUtils.getContext());
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(-1, -2);
-        llParams.height = CommonUtils.dip2px(30);
-        llParams.width = CommonUtils.dip2px(30);
-        layout.setLayoutParams(llParams);
-        createLabelLine();
-        llSkilllabelLine.addView(layout);
-        mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
-    }*/
-
-  /*  private void customLabel() {
-        getAddLableView();
-        //测量标签的宽度并判断是否换行
-        linearLayout.measure(0,0);
-        tvThirdSkilllabelWidth= linearLayout.getMeasuredWidth() + labelRightMargin;
-        newSkillLabelLineWidth =  skillLabelLineWidth+tvThirdSkilllabelWidth;
-    }*/
-
-    private View getUseCostomLableView(final String text){
+    private View getUseCostomLableView(final String text) {
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
         TextView textview = new TextView(CommonUtils.getContext());
         textview.setLayoutParams(ll);
@@ -445,20 +471,28 @@ public class SubscribeActivity extends Activity {
         textview.setTextColor(0xff333333);
         textview.setTextSize(14);
         textview.setText(text);
-        textview.setTag(("label_" + (index+1)));
+        index += 1;
+        textview.setTag(("label_" + index));
         textview.setOnClickListener(new CheckThirdLabelListener());
-        textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(3), CommonUtils.dip2px(11));
+        textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(9), CommonUtils.dip2px(11));
 
-        ImageView imageView = new ImageView(CommonUtils.getContext());
-        imageView.setImageResource(R.mipmap.delete_icon);
-        imageView.setPadding(CommonUtils.dip2px(3), CommonUtils.dip2px(13), CommonUtils.dip2px(13), CommonUtils.dip2px(13));
+        imageView = new ImageView(CommonUtils.getContext());
+        imageView.setImageResource(R.mipmap.minus_icon);
+        imageView.setPadding(CommonUtils.dip2px(5), CommonUtils.dip2px(10), CommonUtils.dip2px(5), CommonUtils.dip2px(10));
         imageView.setLayoutParams(ll);
+
+        TextView lineTextView = new TextView(CommonUtils.getContext());
+        lineTextView.setHeight(CommonUtils.dip2px(39));
+        lineTextView.setWidth(CommonUtils.dip2px(1));
+        lineTextView.setBackgroundColor(Color.parseColor("#e5e5e5"));
+        lineTextView.setPadding(CommonUtils.dip2px(8), CommonUtils.dip2px(0), CommonUtils.dip2px(4), CommonUtils.dip2px(0));
 
         LinearLayout.LayoutParams ll2 = new LinearLayout.LayoutParams(-2, -2);
         ll2.rightMargin = CommonUtils.dip2px(labelRightMargin);
         linearLayout = new LinearLayout(CommonUtils.getContext());
         linearLayout.setLayoutParams(ll2);
         linearLayout.addView(textview);
+        linearLayout.addView(lineTextView);
         linearLayout.addView(imageView);
         linearLayout.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
         linearLayout.setGravity(Gravity.CENTER);
@@ -466,11 +500,56 @@ public class SubscribeActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listThirdUserCustomSkilllabelName.remove(text);
-                updateLableView();
+                for (int i = 0; i < listThirdUserCustomSkilllabelName.size(); i++) {
+                    String skillLabelName = listThirdUserCustomSkilllabelName.get(i).getTag();
+                    if (skillLabelName == text) {
+
+                        String tags = listThirdUserCustomSkilllabelName.get(i).getTag();
+                        int f1 = listThirdUserCustomSkilllabelName.get(i).getF1();
+                        int f2 = listThirdUserCustomSkilllabelName.get(i).getF2();
+
+                        listThirdUserCustomSkilllabelName.remove(listThirdUserCustomSkilllabelName.get(i));
+                        //把删除的标签存在网络
+                        saveMoveIntent(f1, f2, tags);
+                    }
+                }
+                updateLableView(commnThirdSkillLabel);
             }
         });
         return linearLayout;
+    }
+
+    //删除标签在网络
+    private void saveMoveIntent(int f1, int f2, String tags) {
+        DeleteSkillLabelProtocol deleteSkillLabelProtocol = new DeleteSkillLabelProtocol(f1, f2, tags);
+        deleteSkillLabelProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SkillLabelGetBean>() {
+            @Override
+            public void execute(SkillLabelGetBean dataBean) {
+                int rescode = dataBean.getRescode();
+                switch (rescode) {
+                    case GlobalConstants.Rescode.RES_SUCCESS:
+                        LogKit.d("返回成功");
+                        break;
+                    case GlobalConstants.Rescode.RES_FAIL:
+                        LogKit.d("返回失败");
+                        break;
+                    case GlobalConstants.Rescode.RES_TAG_EXIST:
+                        LogKit.d("标签已存在");
+                        break;
+                    case GlobalConstants.Rescode.RES_INVALID_TOKEN:
+                        LogKit.d("用户uid不存在");
+                        break;
+                    case GlobalConstants.Rescode.RES_INVALID_PARAMS:
+                        LogKit.d("参数错误");
+                        break;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result :" + result);
+            }
+        });
     }
 
     private View getAddLableView() {
@@ -482,17 +561,26 @@ public class SubscribeActivity extends Activity {
         textview.setTextColor(0xff333333);
         textview.setTextSize(14);
         textview.setText("自定义");
-        textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(3), CommonUtils.dip2px(11));
-        ImageView imageView = new ImageView(CommonUtils.getContext());
-        imageView.setImageResource(R.mipmap.add_icon);
-        imageView.setPadding(CommonUtils.dip2px(3), CommonUtils.dip2px(13), CommonUtils.dip2px(13), CommonUtils.dip2px(13));
-        imageView.setLayoutParams(ll);
+        textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(9), CommonUtils.dip2px(11));
+        imageViewAdd = new ImageView(CommonUtils.getContext());
+        imageViewAdd.setImageResource(R.mipmap.pluse_icon);
+        imageViewAdd.setPadding(CommonUtils.dip2px(5), CommonUtils.dip2px(12), CommonUtils.dip2px(5), CommonUtils.dip2px(10));
+        imageViewAdd.setLayoutParams(ll);
+
+        TextView linetextView = new TextView(CommonUtils.getContext());
+        linetextView.setHeight(CommonUtils.dip2px(39));
+        linetextView.setWidth(CommonUtils.dip2px(1));
+        linetextView.setBackgroundColor(Color.parseColor("#e5e5e5"));
+        linetextView.setPadding(CommonUtils.dip2px(8), CommonUtils.dip2px(0), CommonUtils.dip2px(4), CommonUtils.dip2px(0));
+
         LinearLayout.LayoutParams ll2 = new LinearLayout.LayoutParams(-2, -2);
         ll2.rightMargin = CommonUtils.dip2px(labelRightMargin);
         linearLayout = new LinearLayout(CommonUtils.getContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(ll2);
         linearLayout.addView(textview);
-        linearLayout.addView(imageView);
+        linearLayout.addView(linetextView);
+        linearLayout.addView(imageViewAdd);
         linearLayout.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
         linearLayout.setGravity(Gravity.CENTER);
 
@@ -500,19 +588,59 @@ public class SubscribeActivity extends Activity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showCustomDialog();
                 //监听得到数据
                 dialogCustomSkillLabelModel.setOnOkDialogListener(new DialogCustomSkillLabelModel.OnOkDialogListener() {
                     @Override
                     public void OnOkDialogClick(String text) {
-                        listThirdUserCustomSkilllabelName.add(text);
-                        saveDate2Local("userCostom",listThirdUserCustomSkilllabelName);
-                        updateLableView();
+                        if(text!=null){
+                            int thirsId = listThirdSkilllabelName.size() + 1;
+                            SkillLabelBean skillLabelBean = new SkillLabelBean(text, firstId,secondId,thirsId);
+                            listThirdUserCustomSkilllabelName.add(skillLabelBean);
+                            // saveDate2Local("userCostom",listThirdUserCustomSkilllabelName);
+                            updateLableView(commnThirdSkillLabel);
+                            //增加自定义标签保存在网络
+                            saveAddInternet(firstId,secondId,text);
+                        }else {
+                             LogKit.d("创建的标签是空白");
+                        }
                     }
                 });
             }
         });
         return linearLayout;
+    }
+
+    //保存早网络
+    private void saveAddInternet(int f1, int f2, String tags) {
+        CreateSkillLabelProtocol addSkillLabelProtocol = new CreateSkillLabelProtocol(f1, f2, tags);
+        addSkillLabelProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SkillLabelGetBean>() {
+            @Override
+            public void execute(SkillLabelGetBean dataBean) {
+                int rescode = dataBean.getRescode();
+                switch (rescode) {
+                    case GlobalConstants.Rescode.RES_SUCCESS:
+                        LogKit.d("返回成功");
+                        break;
+                    case GlobalConstants.Rescode.RES_FAIL:
+                        LogKit.d("返回失败");
+                        break;
+                    case GlobalConstants.Rescode.RES_TAG_EXIST:
+                        LogKit.d("标签已存在");
+                        break;
+                    case GlobalConstants.Rescode.RES_INVALID_TOKEN:
+                        LogKit.d("用户uid不存在");
+                        break;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result :" + result);
+            }
+        });
+
     }
 
     private void showCustomDialog() {
@@ -537,13 +665,25 @@ public class SubscribeActivity extends Activity {
 //        dialogBuilder.show();
     }
 
+    private String lastLabelName = "";
+
     public class CheckThirdLabelListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             String labelTag = (String) v.getTag();
 //            ToastUtils.shortToast(tvLabel);
             labelName = ((TextView) v).getText().toString();
-            addCheckedLabels(labelTag, labelName);
+            if (clickCount >= 0 && clickCount < 3) {
+                if (!lastLabelName.equals(labelName)) {
+                    addCheckedLabels(labelTag, labelName);
+                    clickCount += 1;
+                    lastLabelName = labelName;
+                } else {
+                    ToastUtils.shortToast("此标签已被添加");
+                }
+            } else {
+                ToastUtils.shortToast("最多添加三个标签");
+            }
 
         }
     }
@@ -626,13 +766,15 @@ public class SubscribeActivity extends Activity {
         ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
         ivbtnUnCheckedLabel.setLayoutParams(ivbtnParams);
 
+        //最多出现三个标签
         llCheckedLabel.addView(tvLabelName);
         llCheckedLabel.addView(ivbtnUnCheckedLabel);
-       // llCheckedLabel.setOnClickListener(new deleteCheckedLabelListener());
-        ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
+        // llCheckedLabel.setOnClickListener(new deleteCheckedLabelListener());
 
+        ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
         return llCheckedLabel;
     }
+
 
     public class deleteCheckedLabelListener implements View.OnClickListener {
         LinearLayout mLlCheckedLabel;
@@ -658,7 +800,21 @@ public class SubscribeActivity extends Activity {
             }
 //            ToastUtils.shortToast(listCheckedLabelName.get(deleteIndex));
 
-
+            clickCount -= 1;
+            if (clickCount == 0) {
+                lastLabelName = "";
+            }
         }
+    }
+
+    //接口回调传递数据
+    public interface OnListener {
+        void OnListener(ArrayList<SkillLabelBean> firstList);
+    }
+
+    private OnListener listener;
+
+    public void setOnListener(OnListener listener) {
+        this.listener = listener;
     }
 }
