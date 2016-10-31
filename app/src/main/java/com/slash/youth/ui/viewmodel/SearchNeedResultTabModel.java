@@ -7,6 +7,7 @@ import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
+import android.net.sip.SipAudioCall;
 import android.os.Build;
 import android.os.Handler;
 import android.text.Editable;
@@ -134,6 +135,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 
             if(searchType.equals("热搜服务")){
                 searchTabView.findViewById(R.id.rl_tab_user).setVisibility(View.GONE);
+                searchTabView.findViewById(R.id.view_user).setVisibility(View.GONE);
                 setAdapter(2);
             }else if(searchType.equals("热搜需求")){
                 searchTabView.findViewById(R.id.rl_tab_user).setVisibility(View.VISIBLE);
@@ -170,6 +172,9 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 
     //展示搜索人的数据
     private void setSearchPersonData() {
+        /////////////////////////////////////////////////////////////////
+
+
         listPerson = new ArrayList<>();
         listPerson.add(new SearchPersonBean());
         listPerson.add(new SearchPersonBean());
@@ -357,17 +362,18 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         listViewAdapter.notifyDataSetChanged();
        lv.setOnItemClickListener(this);
         publicView = lineView;
-        setRemoveView();
+       // setRemoveView();
     }
 
     //返回按钮监听，去除Tab的下来选项
     private void setRemoveView() {
+      /*
         ((SearchActivity)currentActivity).setOnCBacklickListener(new SearchActivity.OnCBacklickListener() {
             @Override
             public void OnBackClick() {
                 mSearchNeedResultTabBinding.flShowSearchResult.removeView(publicView);
             }
-        });
+        });*/
     }
 
     private void setImageView(boolean isclick, View v, int v1, int v2, int v3) {
@@ -681,6 +687,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
         }
         clickSearchTab(R.id.fl_showSearchResult);
     }
+
 
 
     //箭头向下排序
