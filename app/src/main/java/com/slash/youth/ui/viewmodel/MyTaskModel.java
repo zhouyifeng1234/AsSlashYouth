@@ -10,6 +10,9 @@ import android.widget.AdapterView;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMyTaskBinding;
 import com.slash.youth.domain.MyTaskBean;
+import com.slash.youth.domain.MyTaskList;
+import com.slash.youth.engine.MyTaskEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandChooseServiceActivity;
 import com.slash.youth.ui.activity.MyBidDemandActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
@@ -35,17 +38,16 @@ public class MyTaskModel extends BaseObservable {
         initView();
     }
 
-    ArrayList<MyTaskBean> listMyTask = new ArrayList<MyTaskBean>();
+    ArrayList<MyTaskBean> listMyTask = null;
 
     private void initData() {
         //首次进入页面，加载我的全部任务
-        setTotalTaskData();
+        getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, 0, 20);
     }
 
     private void setTotalTaskData() {
-        setMyTaskTypeText("全部任务");
-        getMyTotalTaskList();
-        if (listMyTask.size() > 0) {
+        if (listMyTask != null && listMyTask.size() > 0) {
+            setMyTaskTypeText("全部任务");
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
             mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
@@ -57,20 +59,23 @@ public class MyTaskModel extends BaseObservable {
 
     private void setMyPublishTaskData() {
         setMyTaskTypeText("发布的任务");
-        getMyPublishTaskList();
-        mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+        if (listMyTask != null && listMyTask.size() > 0) {
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+        }
     }
 
     private void setMyBidTaskData() {
         setMyTaskTypeText("抢到的任务");
-        getMyBidTaskList();
-        mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+        if (listMyTask != null && listMyTask.size() > 0) {
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+        }
     }
 
     private void setMyHistoryTaskData() {
         setMyTaskTypeText("历史任务");
-        getMyHistoryTaskList();
-        mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+        if (listMyTask != null && listMyTask.size() > 0) {
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+        }
     }
 
     private void initListener() {
@@ -100,53 +105,105 @@ public class MyTaskModel extends BaseObservable {
     /**
      * 获取我全部任务
      */
-    public void getMyTotalTaskList() {
+    public void getMyTotalTaskList(int type, int offset, int limit) {
         //模拟数据，实际由服务端 返回
-        listMyTask.clear();
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
+//        listMyTask.clear();
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+
+        MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
+            @Override
+            public void execute(MyTaskList dataBean) {
+                listMyTask = dataBean.data.list;
+                setTotalTaskData();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("get my total task error\r\n" + result);
+            }
+        }, type, offset, limit);
     }
 
     /**
      * 获取我发布的任务
      */
-    public void getMyPublishTaskList() {
+    public void getMyPublishTaskList(int type, int offset, int limit) {
         //模拟数据，实际由服务端 返回
-        listMyTask.clear();
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
+//        listMyTask.clear();
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+
+        MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
+            @Override
+            public void execute(MyTaskList dataBean) {
+                listMyTask = dataBean.data.list;
+                setMyPublishTaskData();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("get my total task error\r\n" + result);
+            }
+        }, type, offset, limit);
     }
 
     /**
      * 获取我抢的任务
      */
-    public void getMyBidTaskList() {
+    public void getMyBidTaskList(int type, int offset, int limit) {
         //模拟数据，实际由服务端 返回
-        listMyTask.clear();
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
+//        listMyTask.clear();
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+
+        MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
+            @Override
+            public void execute(MyTaskList dataBean) {
+                listMyTask = dataBean.data.list;
+                setMyBidTaskData();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("get my total task error\r\n" + result);
+            }
+        }, type, offset, limit);
     }
 
     /**
      * 获取我的历史任务
      */
-    public void getMyHistoryTaskList() {
+    public void getMyHistoryTaskList(int type, int offset, int limit) {
         //模拟数据，实际由服务端 返回
-        listMyTask.clear();
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
-        listMyTask.add(new MyTaskBean());
+//        listMyTask.clear();
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+//        listMyTask.add(new MyTaskBean());
+
+        MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
+            @Override
+            public void execute(MyTaskList dataBean) {
+                listMyTask = dataBean.data.list;
+                setMyHistoryTaskData();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("get my total task error\r\n" + result);
+            }
+        }, type, offset, limit);
     }
 
     public void goBack(View v) {
@@ -190,25 +247,25 @@ public class MyTaskModel extends BaseObservable {
 
     //筛选全部任务
     public void filterMyTotalTask(View v) {
-        setTotalTaskData();
+        getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, 0, 20);
         setOpenTaskVisibility(View.GONE);
     }
 
     //筛选我发布的任务
     public void filterMyPublishTask(View v) {
-        setMyPublishTaskData();
+        getMyPublishTaskList(MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE, 0, 20);
         setOpenTaskVisibility(View.GONE);
     }
 
     //筛选我抢的任务
     public void filterMyBidTask(View v) {
-        setMyBidTaskData();
+        getMyBidTaskList(MyTaskEngine.USER_TASK_MY_BID_TYPE, 0, 20);
         setOpenTaskVisibility(View.GONE);
     }
 
     //筛选我的历史任务（下架的或者过期的）
     public void filterMyHistoryTask(View v) {
-        setMyHistoryTaskData();
+        getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, 0, 20);
         setOpenTaskVisibility(View.GONE);
     }
 
