@@ -9,7 +9,6 @@ import com.slash.youth.databinding.ItemListviewSubscribeSecondSkilllabelBinding;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.viewmodel.ItemSubscribeSecondSkilllabelModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zhouyifeng on 2016/9/8.

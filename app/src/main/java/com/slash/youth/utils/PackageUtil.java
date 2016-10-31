@@ -27,7 +27,6 @@ public class PackageUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return "未知版本名";
 	}
 	
@@ -44,8 +43,6 @@ public class PackageUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return 1;
 	}
-
 }

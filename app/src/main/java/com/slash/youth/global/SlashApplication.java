@@ -3,12 +3,15 @@ package com.slash.youth.global;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
+import com.slash.youth.utils.LogKit;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import org.xutils.x;
+
 
 /**
  * Created by zhouyifeng on 2016/8/31.
@@ -38,8 +41,13 @@ public class SlashApplication extends Application {
         application = this;
         x.Ext.init(this);
         //注册微信的APPID
-    }
 
+        /**
+         * 初始化融云
+         */
+       // RongIM.init(this);
+
+    }
 
     public static Context getContext() {
         return context;
@@ -56,4 +64,7 @@ public class SlashApplication extends Application {
     public static Application getApplication() {
         return application;
     }
+
+
+
 }

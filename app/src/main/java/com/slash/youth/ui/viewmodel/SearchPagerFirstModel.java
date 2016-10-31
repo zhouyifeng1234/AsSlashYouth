@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.net.sip.SipAudioCall;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -49,6 +50,8 @@ public class SearchPagerFirstModel extends BaseObservable {
         this.searchPagerFirstBinding = searchPagerFirstBinding;
     }
 
+
+
     //搜索需求
     public void searchDemand(View v) {
         showView("热搜需求");
@@ -73,4 +76,5 @@ public class SearchPagerFirstModel extends BaseObservable {
         SearchActivityHotServiceModel searchActivityHotServiceModel = new SearchActivityHotServiceModel(currentActivity.searchActivityHotServiceBinding,currentActivity.activitySearchBinding);
         currentActivity.searchActivityHotServiceBinding.setSearchActivityHotServiceModel(searchActivityHotServiceModel);
     }
+
 }

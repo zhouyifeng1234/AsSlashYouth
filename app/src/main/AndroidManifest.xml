@@ -8,8 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-
+    <!--弹窗的权限-->
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!--地图包、搜索包需要的基础权限-->
 
@@ -68,6 +69,14 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
 
+    <!--友盟统计权限-->
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.slash.youth.global.SlashApplication"
@@ -91,10 +100,33 @@
             android:name="UMENG_APPKEY"
             android:value="561cae6ae0f55abd990035bf">
         </meta-data>
-        <!--友盟appkey-->
+
+        <!--友盟统计-->
+       <!-- <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="561cae6ae0f55abd990035bf" >
+        </meta-data>-->
+    <!--value:友盟统计的推广名称,这是在清单文件中配置，也可以在代码中配置-->
+      <!--  <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>-->
+
+        <!--推广ID-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+
+        <!--融云推送-->、
+        <meta-data
+            android:name="4z3hlwrv33rqt"
+            android:value="z3v5yqkbv8v30" />
 
 
-        <activity
+
+
+    <activity
             android:name="com.slash.youth.ui.activity.HomeActivity"
             android:windowSoftInputMode="adjustPan">
 
@@ -104,6 +136,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+
+                <!--融云推送-->
+                <data
+                    android:host="com.slash.youth"
+                    android:pathPrefix="/push_message"
+                    android:scheme="rong" />
+
             </intent-filter>
         </activity>
         <activity android:name="com.slash.youth.ui.activity.CityLocationActivity">
@@ -164,6 +203,18 @@
         <!--高德定位相关-->
         <service android:name="com.amap.api.location.APSService"></service>
         <!--高德定位相关-->
+
+        <!--融云消息推送,接受者-->
+        <receiver
+            android:exported="true"
+            android:name="com.slash.youth.Reciver.RongNotificationReceiver">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+            </intent-filter>
+        </receiver>
 
         <!--QQ相关-->
         <!--<activity-->
@@ -271,6 +322,8 @@
         <!--富文本测试 Activity-->
         <activity android:name=".ui.activity.PublishDemandBaseInfoActivity"/>
         <activity android:name=".ui.activity.PublishDemandAddInfoActivity"/>
+
+
 
     </application>
 

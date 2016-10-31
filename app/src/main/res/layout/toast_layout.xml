@@ -4,10 +4,7 @@
     android:layout_height="match_parent"
     >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
+
 
     <LinearLayout
         android:layout_centerInParent="true"
@@ -16,7 +13,7 @@
         android:orientation="vertical"
         android:background="@drawable/shape_show_toast_bg">
        <RelativeLayout
-           android:layout_width="match_parent"
+           android:layout_width="322dp"
            android:layout_height="61dp"
            android:background="@mipmap/bg_3">
            <TextView
@@ -64,7 +61,7 @@
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="两地分居都是风景就联发科范dsfjk dfsk dssdlfk 鲁大师打开看 多德萨发大师傅答复阿斯蒂芬阿斯蒂芬 阿斯蒂芬的发生是打发阿斯蒂芬大师傅爱的方式艾弗森阿斯蒂芬是打发 大神大神打扫垃圾都看见爱上考虑经济是的大神快来减肥 立即大幅都是开飞机大数据来看就是的浪费了看电视就疯了是的非了解了科技 撒旦了空间啊是打开链接 按时 就亏了多少分捡垃圾的方式极端方式理解的发生记录是打飞机减肥的时间了解数据来看厦快决定是否"
+                android:text="sfjk dfsk dssdlfk 鲁大师打开看 多德萨发大师傅答复阿斯蒂芬阿斯蒂芬 阿斯蒂芬的发生是打发阿斯蒂芬大师傅爱的方式艾弗森阿斯蒂芬是打发 大神大神打扫垃圾都看见爱上考虑经济是的大神快来减肥 立即大幅都是开飞机大数据来看就是的浪费了看电视就疯了是的非了解了科技 撒旦了空间啊是打开链接 按时 就亏了多少分捡垃圾的方式极端方式理解的发生记录是打飞机减肥的时间了解数据来看厦快决定是否"
                 android:textSize="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
@@ -73,6 +70,5 @@
         </LinearLayout>
 
     </LinearLayout>
-    </RelativeLayout>
 
 </RelativeLayout>

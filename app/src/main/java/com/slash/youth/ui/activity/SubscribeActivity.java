@@ -37,6 +37,7 @@ import com.slash.youth.ui.viewmodel.ActivitySubscribeModel;
 import com.slash.youth.ui.viewmodel.DialogCustomSkillLabelModel;
 import com.slash.youth.ui.viewmodel.ItemSubscribeSecondSkilllabelModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.NetUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -587,6 +588,7 @@ public class SubscribeActivity extends Activity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showCustomDialog();
                 //监听得到数据
                 dialogCustomSkillLabelModel.setOnOkDialogListener(new DialogCustomSkillLabelModel.OnOkDialogListener() {

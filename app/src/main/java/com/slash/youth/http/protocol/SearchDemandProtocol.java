@@ -12,12 +12,15 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/10/2.
  */
 public class SearchDemandProtocol extends BaseProtocol<SearchDemandBean> {
-    String uid;
-    String extra;
+    String tag;
+    int pattern;
+    int isauth;
 
-    public SearchDemandProtocol(String tag,String extra) {
-        this.uid= tag;
-        this.extra=extra;
+
+    public SearchDemandProtocol(String tag,int  pattern,int isauth) {
+        this.tag= tag;
+        this.pattern = pattern;
+        this.isauth = isauth;
     }
 
     @Override
@@ -27,9 +30,10 @@ public class SearchDemandProtocol extends BaseProtocol<SearchDemandBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-        LogKit.v(uid+extra);
-        params.addBodyParameter("uid", uid);
-        params.addBodyParameter("extra", extra);
+        LogKit.v(tag+"  "+pattern+"  "+isauth);
+        params.addBodyParameter("uid", tag);
+        params.addBodyParameter("pattern", String.valueOf(pattern));
+        params.addBodyParameter("isauth", String.valueOf(isauth));
     }
 
     @Override

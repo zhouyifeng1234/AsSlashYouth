@@ -42,7 +42,7 @@
         </RelativeLayout>
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/view_user"
             android:layout_marginLeft="2dp"
             android:layout_width="0.5dp"
             android:layout_height="20dp"
