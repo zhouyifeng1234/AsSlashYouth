@@ -226,11 +226,6 @@ public class GlobalConstants {
 
         //二十八、[搜索]-服务搜索
         public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
-
-<<<<<<< HEAD
-
-=======
->>>>>>> e33507070f436083be207840b3c64f439544b4c2
     }
 
 
