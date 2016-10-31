@@ -9,7 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/rl_search_main"
             android:layout_width="match_parent"
@@ -88,6 +89,33 @@
                     android:textSize="14sp"/>
             </LinearLayout>
         </RelativeLayout>
-    </LinearLayout>
 
+           <Button
+            android:id="@+id/btn_zhanghaoLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="账号统计登录"/>
+        <Button
+            android:id="@+id/btn_zhanghaoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="账号统计退出"/>
+        <Button
+            android:id="@+id/btn_shejiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="社交统计"/>
+        <Button
+            android:id="@+id/btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="社交统计测试"/>
+
+
+
+    </LinearLayout>
 </layout>

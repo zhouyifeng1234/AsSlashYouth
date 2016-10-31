@@ -1,31 +1,23 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
-import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
 
 import java.util.ArrayList;
 
@@ -36,18 +28,13 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
     private  ActivitySearchBinding mActivitySearchBinding;
-    //private SearchNeedResultTabBinding searchNeedResultTabBinding;
     private int rlChooseMainLabelVisible = View.INVISIBLE;
     private NumberPicker mNpChooseMainLabels;
     String[] mainLabelsArr;
     private SearchNeedResultTabModel searchNeedResultTabModel;
 
-
-    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding) {
-        this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
-    }
-
-    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding, ActivitySearchBinding mActivitySearchBinding) {
+    public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding,
+                                         ActivitySearchBinding mActivitySearchBinding) {
         this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
         this.mActivitySearchBinding = mActivitySearchBinding;
         initView();
@@ -61,38 +48,39 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         searchActivityHotServiceBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
         initData();
         initListener();
+
     }
 
     //加载数据
     private void initData() {
         //假数据，实际应该从服务端借口获取
         ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("设计"));
-        listSkilllabel.add(new SkillLabelBean("研发"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("产品"));
-        listSkilllabel.add(new SkillLabelBean("市场上午"));
-        listSkilllabel.add(new SkillLabelBean("高管"));
-        listSkilllabel.add(new SkillLabelBean("运营"));
-        listSkilllabel.add(new SkillLabelBean("销售"));
+        listSkilllabel.add(new SkillLabelBean("设计",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("研发",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("产品",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("市场上午",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("高管",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("设计",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("研发",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("产品",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("市场上午",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("高管",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
+        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
         SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {
             @Override
             public void run() {
                 View lvActivitySubscribeSecondSkilllableListFirstChild = searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
-              //  LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
+                LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
                 SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();//获取他的tag
                 lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;//tag建立数据模型
             }

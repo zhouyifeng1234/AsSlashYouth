@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.NumberPicker;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
+import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.activity.SubscribeActivity;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by zhouyifeng on 2016/9/8.
@@ -18,6 +23,9 @@ public class ActivitySubscribeModel extends BaseObservable {
     SubscribeActivity mActivity;
     private NumberPicker mNpChooseMainLabels;
     String[] mainLabelsArr;
+    private Iterator iter;
+    private Map.Entry entry;
+    private int value;
 
     public ActivitySubscribeModel(ActivitySubscribeBinding activitySubscribeBinding, SubscribeActivity activity) {
         this.mActivitySubscribeBinding = activitySubscribeBinding;
@@ -31,13 +39,23 @@ public class ActivitySubscribeModel extends BaseObservable {
     }
 
     private void initData() {
-        mainLabelsArr = new String[]{"金融", "IT", "农业", "水产", "文学"};//大类标签内容实际应该由服务端接口返回
-        mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
-        mNpChooseMainLabels.setMinValue(0);
-        mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
-        mNpChooseMainLabels.setValue(1);
+        mActivity.setOnListener(new SubscribeActivity.OnListener() {
+            @Override
+            public void OnListener(ArrayList<SkillLabelBean> firstList) {
+                int i=0;
+                mainLabelsArr = new String[firstList.size()];
+                for (SkillLabelBean skillLabelBean : firstList) {
+                    String tag = skillLabelBean.getTag();
+                    mainLabelsArr[i] = tag;
+                    i+=1;
+                }
+                mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
+                mNpChooseMainLabels.setMinValue(0);
+                mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
+                mNpChooseMainLabels.setValue(1);
+            }
+        });
     }
-
 
     private int rlChooseMainLabelVisible = View.INVISIBLE;
 
@@ -55,10 +73,13 @@ public class ActivitySubscribeModel extends BaseObservable {
         setRlChooseMainLabelVisible(View.VISIBLE);
     }
 
+    //点击按钮
     public void okChooseMainLabel(View v) {
         setRlChooseMainLabelVisible(View.INVISIBLE);
-        int value = mNpChooseMainLabels.getValue();
+        value = mNpChooseMainLabels.getValue();
         mActivity.checkedFirstLabel = mainLabelsArr[value];
+        listener.OnOkChooseMainLabelListener(value);
+
     }
 
     public void submitChooseSkillLabel(View v) {
@@ -75,4 +96,16 @@ public class ActivitySubscribeModel extends BaseObservable {
     public void goBack(View v) {
         mActivity.finish();
     }
+
+
+    //接口回调传递数据
+    public interface OnOkChooseMainLabelListener{
+        void OnOkChooseMainLabelListener(int tagId);
+    }
+
+    private OnOkChooseMainLabelListener listener;
+    public void setOnOkChooseMainLabelListener( OnOkChooseMainLabelListener listener) {
+        this.listener = listener;
+    }
+
 }

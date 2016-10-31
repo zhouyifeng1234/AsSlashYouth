@@ -29,11 +29,13 @@ public class SubscribeSecondSkilllabelHolder extends BaseHolder<SkillLabelBean> 
 
     @Override
     public void refreshView(SkillLabelBean data) {
-        mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelName(data.labelName);
+        mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelName(data.tag);
         if (getCurrentPosition() == clickItemPosition) {
             mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
         } else {
             mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff333333);
         }
+
     }
+
 }

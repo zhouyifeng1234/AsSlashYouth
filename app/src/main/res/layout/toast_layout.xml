@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shape_show_toast_bg">
+       <RelativeLayout
+           android:layout_width="322dp"
+           android:layout_height="61dp"
+           android:background="@mipmap/bg_3">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="#333333"
+               android:text="温馨提示"
+               android:textSize="21dp"
+               android:layout_centerInParent="true"
+               />
+           <ImageButton
+               android:id="@+id/ib_close"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:background="@mipmap/close_btn_icon"
+               android:layout_marginRight="8dp"
+               android:layout_alignParentRight="true"/>
+
+       </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginRight="26dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="活动时间"
+                android:textSize="15dp"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/tv_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015.11.26-2016.12.24"
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sfjk dfsk dssdlfk 鲁大师打开看 多德萨发大师傅答复阿斯蒂芬阿斯蒂芬 阿斯蒂芬的发生是打发阿斯蒂芬大师傅爱的方式艾弗森阿斯蒂芬是打发 大神大神打扫垃圾都看见爱上考虑经济是的大神快来减肥 立即大幅都是开飞机大数据来看就是的浪费了看电视就疯了是的非了解了科技 撒旦了空间啊是打开链接 按时 就亏了多少分捡垃圾的方式极端方式理解的发生记录是打飞机减肥的时间了解数据来看厦快决定是否"
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="#333333"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

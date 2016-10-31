@@ -1,0 +1,166 @@
+package com.slash.youth.utils;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.slash.youth.R;
+
+/**
+ * Created by zss on 2016/10/28.
+ */
+public class DialogUtils  {
+
+    private static AlertDialog dialog;
+
+
+    public static void showDialogOne(Context context,String title,String time,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout, null);
+        ImageButton understand = (ImageButton) view.findViewById(R.id.ib_close);
+        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_time_title);
+        TextView text3 = (TextView) view.findViewById(R.id.tv_data);
+        text2.setText(title);
+        text1.setText(content);
+        text3.setText(time);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        understand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCallUnderStandBack.OkDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+    }
+
+    public static void showDialogSecond(Context context,String title,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout_second, null);
+        View understand = view.findViewById(R.id.understand);
+        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_title);
+        text2.setText(title);
+        text1.setText(content);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        understand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCallUnderStandBack.OkDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+    }
+
+    public static void showDialogThree(Context context,String title,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout_third, null);
+        View understand = view.findViewById(R.id.iv_chacha);
+        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_title);
+        text2.setText(title);
+        text1.setText(content);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        understand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCallUnderStandBack.OkDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+    }
+
+    public static void showDialogFour(Context context,int imageView,String title,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout_fouth, null);
+        View understand = view.findViewById(R.id.understand);
+        if (imageView!=-1) {
+            ImageView src = (ImageView) view.findViewById(R.id.iv);
+            src.setImageResource(imageView);
+        }
+        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_title);
+        text2.setText(title);
+        text1.setText(content);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        understand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCallUnderStandBack.OkDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+    }
+
+    public static void showDialogFive(Context context,String title,String content,final DialogCallBack dialogcallback){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout_five, null);
+        View ok = view.findViewById(R.id.ok);
+        View cancel = view.findViewById(R.id.cancel);
+        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_title);
+        text2.setText(title);
+        text1.setText(content);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogcallback.OkDown();
+                dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogcallback.CancleDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+
+    }
+
+    private static void setDialog() {
+        //  Window dialogSubscribeWindow = dialog.getWindow();
+        // WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
+        //定义显示的dialog的宽和高
+        // dialogParams.width = CommonUtils.dip2px(width);//宽度
+        // dialogParams.height = CommonUtils.dip2px(height);//高度
+        //dialogSubscribeWindow.setAttributes(dialogParams);
+        //dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        dialog.setCanceledOnTouchOutside(false);
+    }
+
+
+    public interface DialogCallBack {
+        abstract void OkDown();
+        abstract void CancleDown();
+    }
+
+    public interface DialogCallUnderStandBack {
+        abstract void OkDown();
+    }
+
+
+}

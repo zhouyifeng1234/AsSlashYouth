@@ -20,6 +20,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.StringUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -59,6 +60,7 @@ public class ActivitySearchModel extends BaseObservable {
 
     //zss,点击直接搜索
     public void etSearch(View v) {
+
         currentActivity.changeView(4);
         SearchAssociationModel searchDialogModel = new SearchAssociationModel(currentActivity.searchListviewAssociationBinding);
         currentActivity.searchListviewAssociationBinding.setSearchAssociationModel(searchDialogModel);

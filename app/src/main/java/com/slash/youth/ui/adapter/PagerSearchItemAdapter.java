@@ -1,8 +1,6 @@
 package com.slash.youth.ui.adapter;
 
 import android.annotation.TargetApi;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.TimeZone;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,7 @@ import com.slash.youth.utils.LogKit;
 import org.xutils.x;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.IdentityHashMap;

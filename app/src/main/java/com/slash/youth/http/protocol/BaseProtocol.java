@@ -47,6 +47,7 @@ abstract public class BaseProtocol<T> {
                 ex.printStackTrace();
             }
 
+
             @Override
             public void onCancelled(CancelledException cex) {
                 LogKit.v("onCancelled");

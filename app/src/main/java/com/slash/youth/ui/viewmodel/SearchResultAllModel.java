@@ -87,7 +87,6 @@ public class SearchResultAllModel extends BaseObservable {
 
     }
 
-
     private void showMoreSearch() {
         currentActivity.changeView(2);
         searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding);
