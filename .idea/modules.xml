@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/AsSlashYouth.iml" filepath="$PROJECT_DIR$/AsSlashYouth.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IMKit/Rong_Cloud_Android_IMKit_SDK_v2_7_3_stable.iml" filepath="$PROJECT_DIR$/IMKit/Rong_Cloud_Android_IMKit_SDK_v2_7_3_stable.iml" />
+>>>>>>> e33507070f436083be207840b3c64f439544b4c2
       <module fileurl="file://$PROJECT_DIR$/SlashYouth.iml" filepath="$PROJECT_DIR$/SlashYouth.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicatorLibrary/ViewPagerIndicatorLibrary.iml" filepath="$PROJECT_DIR$/ViewPagerIndicatorLibrary/ViewPagerIndicatorLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicatorSample/ViewPagerIndicatorSample.iml" filepath="$PROJECT_DIR$/ViewPagerIndicatorSample/ViewPagerIndicatorSample.iml" />

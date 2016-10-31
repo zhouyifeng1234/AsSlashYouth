@@ -72,6 +72,7 @@ public class GlobalConstants {
         public static final String SERVER_HOST_MY_TASK_LIST = "http://121.42.145.178/feed/v1/api/mytask/";
 
         //ZSS
+        public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
 
 
@@ -132,6 +133,14 @@ public class GlobalConstants {
         public static final String GET_DEMAND_DESC = SERVER_HOST_DEMAND + "descget";
         //十五、[需求]-设置需求描述信息
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
+        //十六、[需求]-技能标签(一 二 三 级的技能标签)
+        public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
+        //十七、[需求]-技能标签(所有自定义技能标签)
+        public static final String SKILLLABEL_GET = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/get";
+        //十八、[需求]-技能标签(增加自定义技能标签)
+        public static final String SKILLLABEL_CREATE = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/create";
+        //十九、[需求]-技能标签(删除自定义技能标签)
+        public static final String SKILLLABEL_DELETE = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/delete";
 
 
         //一、[用户认证]-真实用户认证接口
@@ -218,7 +227,10 @@ public class GlobalConstants {
         //二十八、[搜索]-服务搜索
         public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e33507070f436083be207840b3c64f439544b4c2
     }
 
 
@@ -229,11 +241,13 @@ public class GlobalConstants {
 
         public static final int RES_SUCCESS = 0;
         public static final int RES_FAIL = 1;
-        public static final int RES_INVALID_PARAMS = 2;
+        public static final int RES_INVALID_PARAMS = 2;//参数错误
         public static final int RES_INVALID_TOKEN = 3;
         public static final int RES_TOKEN_TIMEOUT = 4;
         public static final int RES_INVALID_USERNAME_PASSWORD = 5;
         public static final int RES_USER_EXISTS = 6;
+        //zss 新加的，根据后端返回的值
+        public static final int RES_TAG_EXIST = 50;
 
         public static final int RES_INVALID_PIN = 7;
 

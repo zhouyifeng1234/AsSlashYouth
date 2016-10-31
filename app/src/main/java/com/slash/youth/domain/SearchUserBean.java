@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class SearchUserBean {
 
-    public DataBean data;
+  /*  public DataBean data;
     public int rescode;
 
     class DataBean{
@@ -23,6 +23,12 @@ public class SearchUserBean {
         String company;
         String profession;
         String lasttime;
-    }
+    }*/
+
+
+
+
+
+
 
 }

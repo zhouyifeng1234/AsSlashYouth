@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.slash.youth">
+    package="com.slash.youth">
 
     <!--微信相关-->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -8,7 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <!--弹窗的权限-->
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!--地图包、搜索包需要的基础权限-->
 
@@ -67,6 +69,14 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
 
+    <!--友盟统计权限-->
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.slash.youth.global.SlashApplication"
@@ -90,18 +100,49 @@
             android:name="UMENG_APPKEY"
             android:value="561cae6ae0f55abd990035bf">
         </meta-data>
-        <!--友盟appkey-->
+
+        <!--友盟统计-->
+       <!-- <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="561cae6ae0f55abd990035bf" >
+        </meta-data>-->
+    <!--value:友盟统计的推广名称,这是在清单文件中配置，也可以在代码中配置-->
+      <!--  <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>-->
+
+        <!--推广ID-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+
+        <!--融云推送-->、
+        <meta-data
+            android:name="4z3hlwrv33rqt"
+            android:value="z3v5yqkbv8v30" />
 
 
-        <activity
-            android:name=".ui.activity.HomeActivity"
+
+
+    <activity
+            android:name="com.slash.youth.ui.activity.HomeActivity"
             android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.LoginActivity">
+        <activity android:name="com.slash.youth.ui.activity.LoginActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+
+                <!--融云推送-->
+                <data
+                    android:host="com.slash.youth"
+                    android:pathPrefix="/push_message"
+                    android:scheme="rong" />
+
             </intent-filter>
         </activity>
         <activity android:name="com.slash.youth.ui.activity.CityLocationActivity">
@@ -147,19 +188,8 @@
         <activity android:name="com.slash.youth.ui.activity.PublishDemandModeActivity">
 
         </activity>
-        <activity
-            android:name="com.slash.youth.ui.activity.PublishDemandBaseInfoActivity"
-            android:windowSoftInputMode="adjustPan">
 
-        </activity>
-        <activity
-            android:name="com.slash.youth.ui.activity.PublishDemandAddInfoActivity"
-            android:windowSoftInputMode="adjustPan">
 
-        </activity>
-        <activity android:name="com.slash.youth.ui.activity.PublishDemandSuccessActivity">
-
-        </activity>
         <activity android:name="com.slash.youth.ui.activity.DemandDetailActivity">
 
         </activity>
@@ -195,6 +225,18 @@
         <service android:name="com.amap.api.location.APSService"></service>
         <!--高德定位相关-->
 
+        <!--融云消息推送,接受者-->
+        <receiver
+            android:exported="true"
+            android:name="com.slash.youth.Reciver.RongNotificationReceiver">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+            </intent-filter>
+        </receiver>
+
         <!--QQ相关-->
         <!--<activity-->
         <!--android:name="com.tencent.tauth.AuthActivity"-->
@@ -217,12 +259,12 @@
 
         <!--新浪微博相关-->
         <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-                  android:configChanges="keyboardHidden|orientation"
-                  android:exported="false"
-                  android:windowSoftInputMode="adjustResize">
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <service android:name="com.sina.weibo.sdk.net.DownloadService"
-                 android:exported="false">
+            android:exported="false">
         </service>
         <!--新浪微博相关-->
 
@@ -259,7 +301,7 @@
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.UMDefault"
-        />
+            />
 
 
         <!--服务端接口测试页面-->
@@ -271,7 +313,7 @@
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data android:name="com.google.android.gms.version"
-                   android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version"/>
         <!--服务端接口测试页面-->
 
         <!--ScaleViewPager测试页面-->
@@ -299,6 +341,10 @@
 
         </activity>
         <!--富文本测试 Activity-->
+        <activity android:name=".ui.activity.PublishDemandBaseInfoActivity"/>
+        <activity android:name=".ui.activity.PublishDemandAddInfoActivity"/>
+
+
 
     </application>
 

@@ -13,15 +13,13 @@ import org.xutils.http.RequestParams;
  */
 public class SearchUserProtocol extends BaseProtocol<SearchUserBean> {
     String tag;
-    String auth;
-    String star;
-    String activeness;
+    int isauth;
+    int star;
 
-    public SearchUserProtocol(String tag, String auth, String star, String activeness) {
+    public SearchUserProtocol(String tag, int isauth, int star) {
         this.tag = tag;
-        this.auth=auth;
+        this.isauth=isauth;
         this.star=star;
-        this.activeness=activeness;
     }
 
     @Override
@@ -31,11 +29,10 @@ public class SearchUserProtocol extends BaseProtocol<SearchUserBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-        LogKit.v(tag+auth+star+activeness);
+        LogKit.v(tag+"  "+isauth+"   "+star);
         params.addBodyParameter("tag", tag);
-        params.addBodyParameter("auth", auth);
-        params.addBodyParameter("star", star);
-        params.addBodyParameter("activeness", activeness);
+        params.addBodyParameter("isauth", String.valueOf(isauth));
+        params.addBodyParameter("star", String.valueOf(star));
     }
 
     @Override

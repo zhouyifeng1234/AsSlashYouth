@@ -12,21 +12,27 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/10/2.
  */
 public class SearchServiceProtocol extends BaseProtocol<SearchServiceBean> {
-    String uid;
+    String tag;
+    int pattern;
+    int isauth;
 
-    public SearchServiceProtocol(String uid) {
-        this.uid= uid;
+    public SearchServiceProtocol(String tag,int pattern,int isauth) {
+        this.tag= tag;
+        this.pattern = pattern;
+        this.isauth = isauth;
     }
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.SEND_PHONE_VERIFICATION_CODE;
+        return GlobalConstants.HttpUrl.SEARCH_SERVICE;
     }
 
     @Override
     public void addRequestParams(RequestParams params) {
-        LogKit.v(uid);
-        params.addBodyParameter("uid", uid);
+        LogKit.v(tag+"  "+pattern+"  "+isauth);
+        params.addBodyParameter("tag", tag);
+        params.addBodyParameter("pattern", String.valueOf(pattern));
+        params.addBodyParameter("isauth", String.valueOf(isauth));
     }
 
     @Override
