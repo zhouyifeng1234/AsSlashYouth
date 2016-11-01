@@ -45,7 +45,8 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_gravity="right|bottom"
-                            android:src="@mipmap/small_v_icon"/>
+                            android:src="@mipmap/small_v_icon"
+                            android:visibility="@{itemMyTaskModel.addVvisibility}"/>
                     </FrameLayout>
 
                     <LinearLayout
@@ -56,9 +57,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="220dp"
                             android:layout_height="wrap_content"
-                            android:text="做一个互联网公司企业宣传策划案"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text="@{itemMyTaskModel.taskTitle}"
                             android:textColor="#666666"
                             android:textSize="14sp"
                             android:textStyle="bold"/>
@@ -67,7 +71,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
-                            android:text="开始时间:2016年9月18日 8:00"
+                            android:text="@{itemMyTaskModel.startTime}"
                             android:textColor="#666666" android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -86,16 +90,17 @@
                             android:layout_height="18dp"
                             android:background="@drawable/shape_circle_news_count"
                             android:gravity="center"
-                            android:text="1"
+                            android:text="@{itemMyTaskModel.bidnum}"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp"
-                            android:visibility="gone"/>
+                            android:visibility="@{itemMyTaskModel.publishDemandStatusPointVisibility}"/>
 
                         <View
                             android:layout_width="10dp"
                             android:layout_height="10dp"
                             android:layout_gravity="center"
                             android:background="@drawable/shape_circle_news_count"
+                            android:visibility="@{itemMyTaskModel.bidDemandStatusPointVisibility}"
                         />
 
                     </FrameLayout>
@@ -115,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
-                        android:text="曹文成"
+                        android:text="@{itemMyTaskModel.username}"
                         android:textColor="#CCCCCC"
                         android:textSize="13sp"
                     />
@@ -125,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="21dp"
-                        android:text="300元"
+                        android:text="@{itemMyTaskModel.quote}"
                         android:textColor="#FF7333"
                         android:textSize="13sp"/>
 
@@ -137,7 +142,7 @@
                         android:background="@drawable/shape_rounded_visitor_marker"
                         android:gravity="center"
                         android:padding="2dp"
-                        android:text="分期到账"
+                        android:text="@{itemMyTaskModel.instalmentText}"
                         android:textColor="#31C5E4"
                         android:textSize="11sp"/>
 
@@ -184,7 +189,6 @@
 
 
                     </FrameLayout>
-
 
                 </LinearLayout>
 

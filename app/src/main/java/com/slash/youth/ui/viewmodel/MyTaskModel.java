@@ -123,6 +123,7 @@ public class MyTaskModel extends BaseObservable {
             @Override
             public void execute(MyTaskList dataBean) {
                 listMyTask = dataBean.data.list;
+                ToastUtils.shortToast(listMyTask.size() + "");
                 setTotalTaskData();
             }
 
@@ -147,6 +148,7 @@ public class MyTaskModel extends BaseObservable {
             @Override
             public void execute(MyTaskList dataBean) {
                 listMyTask = dataBean.data.list;
+                ToastUtils.shortToast(listMyTask.size() + "");
                 setMyPublishTaskData();
             }
 
@@ -170,6 +172,7 @@ public class MyTaskModel extends BaseObservable {
             @Override
             public void execute(MyTaskList dataBean) {
                 listMyTask = dataBean.data.list;
+                ToastUtils.shortToast(listMyTask.size() + "");
                 setMyBidTaskData();
             }
 
@@ -196,6 +199,7 @@ public class MyTaskModel extends BaseObservable {
             @Override
             public void execute(MyTaskList dataBean) {
                 listMyTask = dataBean.data.list;
+                ToastUtils.shortToast(listMyTask.size() + "");
                 setMyHistoryTaskData();
             }
 
