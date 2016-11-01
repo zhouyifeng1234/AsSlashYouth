@@ -26,6 +26,13 @@ public class ItemMyTaskModel extends BaseObservable {
 
     }
 
+    /**
+     * @param status
+     */
+    public void displayCurrentBigStatus(int status) {
+
+    }
+
     private String taskTitle;//任务标题
     private String startTime;//任务开始时间
     private int addVvisibility;//是否显示加V认证

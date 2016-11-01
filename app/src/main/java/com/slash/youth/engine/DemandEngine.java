@@ -203,8 +203,8 @@ public class DemandEngine {
     }
 
     //二、[文件]-图片下载
-    public static void downloadFile(BaseProtocol.IResultExecutor onDownloadFileFinished) {
-        DownloadFileProtocol downloadFileProtocol = new DownloadFileProtocol();
+    public static void downloadFile(BaseProtocol.IResultExecutor onDownloadFileFinished, String fileId) {
+        DownloadFileProtocol downloadFileProtocol = new DownloadFileProtocol(fileId);
         downloadFileProtocol.getDataFromServer(onDownloadFileFinished);
     }
 
