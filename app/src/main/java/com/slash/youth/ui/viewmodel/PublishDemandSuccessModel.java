@@ -1,12 +1,15 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityPublishDemandSuccessBinding;
 import com.slash.youth.domain.AutoRecommendServicePartBean;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
+import com.slash.youth.utils.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -54,5 +57,10 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
     public void closeSuccessActivity(View v) {
         mActivity.finish();
+    }
+
+    public void gotoDemandDetail(View v) {
+        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+        mActivity.startActivity(intentDemandDetailActivity);
     }
 }

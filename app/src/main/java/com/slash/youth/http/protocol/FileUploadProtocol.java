@@ -1,4 +1,4 @@
-package com.slash.youth.ui.activity.test;
+package com.slash.youth.http.protocol;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 

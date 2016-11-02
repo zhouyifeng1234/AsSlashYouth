@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -14,10 +15,12 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandAddinfoBinding;
 import com.slash.youth.ui.activity.MapActivity;
+import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ import java.util.ArrayList;
  */
 public class PublishDemandAddInfoModel extends BaseObservable {
 
+    String isUpdate = "";//是否为修改需求
     ActivityPublishDemandAddinfoBinding mActivityPublishDemandAddinfoBinding;
     Activity mActivity;
     boolean isOnline = true;//“线上”或者“线下”，默认为线上
@@ -45,6 +49,10 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     }
 
     private void initData() {
+        isUpdate = mActivity.getIntent().getStringExtra("update");
+        if (TextUtils.equals(isUpdate, "update")) {
+            ToastUtils.shortToast("修改需求");
+        }
         mPublishDemandData = mActivity.getIntent().getExtras();
     }
 
@@ -61,9 +69,12 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
     public void publish(View v) {
         Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
-        intentPublishDemandSuccessActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentPublishDemandSuccessActivity);
+        mActivity.startActivity(intentPublishDemandSuccessActivity);
         mActivity.finish();
+        if (PublishDemandBaseInfoActivity.mActivity != null) {
+            PublishDemandBaseInfoActivity.mActivity.finish();
+            PublishDemandBaseInfoActivity.mActivity = null;
+        }
     }
 
     public void checkOnline(View v) {
