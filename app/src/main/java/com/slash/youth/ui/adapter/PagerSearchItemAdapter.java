@@ -221,6 +221,7 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                 break;
             case personResult:
 
+                //Todo
                 break;
         }
       return convertView;

@@ -48,7 +48,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         searchActivityHotServiceBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
         initData();
         initListener();
-
     }
 
     //加载数据

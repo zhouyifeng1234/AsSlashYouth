@@ -1,13 +1,19 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.net.sip.SipAudioCall;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.slash.youth.databinding.PagerHomeMyBinding;
+import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zhouyifeng on 2016/10/11.
@@ -92,5 +98,10 @@ public class PagerHomeMyModel extends BaseObservable {
             expertMarksProgress = 270 + (expertMarks - expertⅢMaxMarks) / (expertⅣMaxMarks - expertⅢMaxMarks) * 90;
         }
     }
-
+        //编辑点击事件
+        public void editor(View view){
+            Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+            intentUserInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            CommonUtils.getContext().startActivity(intentUserInfoActivity);
+         }
 }

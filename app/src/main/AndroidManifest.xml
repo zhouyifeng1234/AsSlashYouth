@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+
     <!--地图包、搜索包需要的基础权限-->
 
     <!--允许程序打开网络套接字-->
@@ -136,13 +137,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-
-                <!--融云推送-->
-                <data
-                    android:host="com.slash.youth"
-                    android:pathPrefix="/push_message"
-                    android:scheme="rong" />
-
             </intent-filter>
         </activity>
         <activity android:name="com.slash.youth.ui.activity.CityLocationActivity">
@@ -188,9 +182,9 @@
         <activity android:name="com.slash.youth.ui.activity.PublishDemandModeActivity">
 
         </activity>
-
-
-
+        <activity android:name=".ui.activity.UserInfoActivity"/>
+        <activity android:name=".ui.activity.UserinfoEditorActivity"/>
+        <activity android:name=".ui.activity.EditorIdentityActivity"/>
 
         <!--微信相关-->
         <!--<activity-->
@@ -205,7 +199,7 @@
         <!--高德定位相关-->
 
         <!--融云消息推送,接受者-->
-        <receiver
+       <!-- <receiver
             android:exported="true"
             android:name="com.slash.youth.Reciver.RongNotificationReceiver">
             <intent-filter>
@@ -214,7 +208,7 @@
                 <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <!--QQ相关-->
         <!--<activity-->

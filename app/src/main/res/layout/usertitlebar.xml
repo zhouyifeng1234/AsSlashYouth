@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:background="#31C5E4"
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_userinfo">
+
+    <ImageView
+        android:id="@+id/iv_userinfo_back"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/nav_back"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_userinfo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="个人信息"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
+
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_userinfo_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="编辑"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+           />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_userinfo_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/menu_icon"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

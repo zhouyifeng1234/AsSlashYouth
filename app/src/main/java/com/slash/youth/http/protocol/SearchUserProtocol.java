@@ -29,7 +29,7 @@ public class SearchUserProtocol extends BaseProtocol<SearchUserBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-        LogKit.v(tag+"  "+isauth+"   "+star);
+        LogKit.v("这是什么情况     "+tag+"  "+isauth+"   "+star);
         params.addBodyParameter("tag", tag);
         params.addBodyParameter("isauth", String.valueOf(isauth));
         params.addBodyParameter("star", String.valueOf(star));
@@ -39,6 +39,9 @@ public class SearchUserProtocol extends BaseProtocol<SearchUserBean> {
     public SearchUserBean parseData(String result) {
         Gson gson = new Gson();
         SearchUserBean searchUserBean = gson.fromJson(result, SearchUserBean.class);
+        LogKit.d("dsklfh 了解多少发的连接上看见=="+result);
+
+
         return searchUserBean;
     }
 

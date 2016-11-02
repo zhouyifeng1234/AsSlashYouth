@@ -50,8 +50,6 @@ public class SearchPagerFirstModel extends BaseObservable {
         this.searchPagerFirstBinding = searchPagerFirstBinding;
     }
 
-
-
     //搜索需求
     public void searchDemand(View v) {
         showView("热搜需求");
