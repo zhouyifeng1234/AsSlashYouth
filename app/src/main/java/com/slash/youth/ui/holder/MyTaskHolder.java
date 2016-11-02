@@ -75,17 +75,37 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 
         mItemMyTaskModel.setUsername(data.name);
 
+
+        //首先需要判断是否开启了分期，如果没有开启，下面两个字段不需要显示，暂时服务端没有返回判断是否开启分期的字段
         if (data.instalment == 0) {
             mItemMyTaskModel.setInstalmentText("分期到账");
         } else {
             mItemMyTaskModel.setInstalmentText("分期");
         }
+        //显示每一期的分期比例
+        String[] instalmentratioArray = data.instalmentratio.split(",");
+        String instalmentratioStr = "";
+        for (int i = 0; i < instalmentratioArray.length; i++) {
+            String ratio = instalmentratioArray[i];
+            if (TextUtils.isEmpty(ratio)) {
+                continue;
+            }
+            if (i < instalmentratioArray.length - 1) {
+                instalmentratioStr += ratio + "%/";
+            } else {
+                instalmentratioStr += ratio + "%";
+            }
+        }
+        mItemMyTaskModel.setInstalmentratioStr(instalmentratioStr);
+
 
         //显示报价前应该先判断是否需要显示报价
-        mItemMyTaskModel.setQuote(data.quote + "");
+        mItemMyTaskModel.setQuote((int) (data.quote) + "元");
 
         //抢单数量，服务端返回的是所有的抢单数量，这里需要新增的抢单数量
         mItemMyTaskModel.setBidnum(data.bidnum + "");
+
+        mItemMyTaskModel.displayCurrentBigStatusAndButtons(data.status, data.type, data.roleid);
 
         if (data.type == 1) {
             //type 1 表示需求

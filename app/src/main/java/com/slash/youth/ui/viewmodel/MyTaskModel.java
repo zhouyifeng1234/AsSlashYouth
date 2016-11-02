@@ -41,13 +41,13 @@ public class MyTaskModel extends BaseObservable {
     ArrayList<MyTaskBean> listMyTask = null;
 
     private void initData() {
-        //首次进入页面，加载我的全部任务
+        //首次进入页面，加载我的全部任务（进行中任务，发的和抢的，不包括历史任务）
         getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, 0, 20);
     }
 
     private void setTotalTaskData() {
         if (listMyTask != null && listMyTask.size() > 0) {
-            setMyTaskTypeText("全部任务");
+            setMyTaskTypeText("进行中任务");
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
             mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
@@ -103,7 +103,7 @@ public class MyTaskModel extends BaseObservable {
 
 
     /**
-     * 获取我全部任务
+     * 获取我全部任务（进行中任务，发的和抢的，不包括历史任务）
      */
     public void getMyTotalTaskList(int type, int offset, int limit) {
         //模拟数据，实际由服务端 返回
@@ -249,7 +249,7 @@ public class MyTaskModel extends BaseObservable {
         ToastUtils.shortToast("发布服务");
     }
 
-    //筛选全部任务
+    //筛选全部任务（进行中任务，发的和抢的，不包括历史任务）
     public void filterMyTotalTask(View v) {
         getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, 0, 20);
         setOpenTaskVisibility(View.GONE);
@@ -277,7 +277,7 @@ public class MyTaskModel extends BaseObservable {
     private int myTaskListVisibility = View.GONE;
     private int noTaskVisibility = View.GONE;
     private int publishTaskDialogVisibility = View.GONE;
-    private String myTaskTypeText = "全部任务";
+    private String myTaskTypeText = "进行中任务";
 
     @Bindable
     public int getOpenTaskVisibility() {
