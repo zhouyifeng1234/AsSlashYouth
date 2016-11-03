@@ -133,6 +133,14 @@ public class GlobalConstants {
         public static final String GET_DEMAND_DESC = SERVER_HOST_DEMAND + "descget";
         //十五、[需求]-设置需求描述信息
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
+        //十八、[需求]-服务方确认同意退款
+        public static final String SERVICE_PARTY_AGREE_REFUND = SERVER_HOST_DEMAND + "agreeRefund";
+        //十九、[需求]-服务方不同意退款并申请平台介入
+        public static final String SERVICE_PARTY_INTERVENTION = SERVER_HOST_DEMAND + "intervention";
+        //[需求]-需求方要求延期付款接口
+        public static final String DEMAND_PARTY_DELAY_PAY = SERVER_HOST_DEMAND + "rollback";
+
+
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
         //十七、[需求]-技能标签(所有自定义技能标签)

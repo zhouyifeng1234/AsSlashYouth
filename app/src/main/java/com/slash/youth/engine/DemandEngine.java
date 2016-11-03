@@ -1,14 +1,18 @@
 package com.slash.youth.engine;
 
+import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
+import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
+import com.slash.youth.http.protocol.InterventionProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
@@ -17,7 +21,6 @@ import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
-import com.slash.youth.http.protocol.FileUploadProtocol;
 
 /**
  * Created by zhouyifeng on 2016/9/1.
@@ -123,8 +126,8 @@ public class DemandEngine {
      * @param onDemandPartyPrePaymentFinished
      * @param id                              需求ID
      */
-    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id) {
-        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id);
+    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel) {
+        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel);
         demandPartyPrePaymentProtocol.getDataFromServer(onDemandPartyPrePaymentFinished);
     }
 
@@ -157,8 +160,8 @@ public class DemandEngine {
      * @param onConfirmCompleteFinished
      * @param id                        需求ID
      */
-    public static void demandPartyConfirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String id) {
-        DemandPartyConfirmCompleteProtocol demandPartyConfirmCompleteProtocol = new DemandPartyConfirmCompleteProtocol(id);
+    public static void demandPartyConfirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String id, String fid) {
+        DemandPartyConfirmCompleteProtocol demandPartyConfirmCompleteProtocol = new DemandPartyConfirmCompleteProtocol(id, fid);
         demandPartyConfirmCompleteProtocol.getDataFromServer(onConfirmCompleteFinished);
     }
 
@@ -195,6 +198,42 @@ public class DemandEngine {
         SetDemandDescProtocol setDemandDescProtocol = new SetDemandDescProtocol(id, desc);
         setDemandDescProtocol.getDataFromServer(onSetDemandDescFinished);
     }
+
+
+    /**
+     * 十八、[需求]-服务方确认同意退款
+     *
+     * @param onAgreeRefundFinished
+     * @param id
+     */
+    public static void servicePartyAgreeRefund(BaseProtocol.IResultExecutor onAgreeRefundFinished, String id) {
+        AgreeRefundProtocol agreeRefundProtocol = new AgreeRefundProtocol(id);
+        agreeRefundProtocol.getDataFromServer(onAgreeRefundFinished);
+    }
+
+    /**
+     * 十九、[需求]-服务方不同意退款并申请平台介入
+     *
+     * @param onInterventionFinished
+     * @param id                     需求ID
+     */
+    public static void servicePartyIntervention(BaseProtocol.IResultExecutor onInterventionFinished, String id) {
+        InterventionProtocol interventionProtocol = new InterventionProtocol(id);
+        interventionProtocol.getDataFromServer(onInterventionFinished);
+    }
+
+    /**
+     * [需求]-需求方要求延期付款接口
+     *
+     * @param onDelayPayFinished
+     * @param id                 需求ID
+     * @param fid
+     */
+    public static void delayPay(BaseProtocol.IResultExecutor onDelayPayFinished, String id, String fid) {
+        DelayPayProtocol delayPayProtocol = new DelayPayProtocol(id, fid);
+        delayPayProtocol.getDataFromServer(onDelayPayFinished);
+    }
+
 
     //一、[文件]-图片上传
     public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished) {

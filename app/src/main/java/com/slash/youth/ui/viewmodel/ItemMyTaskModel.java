@@ -2,16 +2,29 @@ package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMyTaskBinding;
+import com.slash.youth.domain.AgreeRefundBean;
+import com.slash.youth.domain.DelayPayBean;
+import com.slash.youth.domain.InterventionBean;
+import com.slash.youth.domain.PaymentBean;
+import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.ToastUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/26.
  */
 public class ItemMyTaskModel extends BaseObservable {
     ItemMyTaskBinding mItemMyTaskBinding;
+    public long uid;//当前任务的用户ID
+    public long tid;//任务ID (即:需求或者服务ID)
+    public long loginUserId;//当前登录的用户ID
+    public double amount;
+    public int channel;
 
     public ItemMyTaskModel(ItemMyTaskBinding itemMyTaskBinding) {
         this.mItemMyTaskBinding = itemMyTaskBinding;
@@ -24,8 +37,161 @@ public class ItemMyTaskModel extends BaseObservable {
     }
 
     private void initData() {
+        loginUserId = getCurrentLoginUserId();
+        amount = getCurrentPayAmount();
+        //TODO 给channel赋值 暂时写死，模拟数据
+        channel = 0;
 
     }
+
+    private double getCurrentPayAmount() {
+        //TODO 获取当前所要支付的金额 暂时写死，模拟数据
+        return 10000;
+    }
+
+    //获取当前登录的用户ID
+    private long getCurrentLoginUserId() {
+        //todo 暂时写死
+        return 10000;
+    }
+
+    //弹出聊一聊弹框
+    public void haveAChat(View v) {
+        ToastUtils.shortToast("弹出聊一聊弹框");
+    }
+
+    //服务者在未确认之前，修改抢单信息
+    public void updateBidInfo(View v) {
+        //需要再次弹出抢单页面，重新填写抢单信息
+    }
+
+    //当需求方选择服务方，服务方不接受需求方
+    public void noAcceptDemand(View v) {
+        DemandEngine.servicePartyReject(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "");
+    }
+
+    //当需求方选择服务方，服务方接受需求方
+    public void acceptDemand(View v) {
+        DemandEngine.servicePartyConfirmServant(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "", loginUserId + "");
+    }
+
+    //服务方每完成一期，可以点击完成
+    public void completeDemand(View v) {
+        DemandEngine.servicePartyComplete(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "");
+    }
+
+    //服务方申诉，当需求方申请退款，服务方如果不同意，可以申诉
+    public void complain(View v) {
+        DemandEngine.servicePartyIntervention(new BaseProtocol.IResultExecutor<InterventionBean>() {
+            @Override
+            public void execute(InterventionBean dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "");
+    }
+
+    //服务方同意退款
+    public void agreeRefund(View v) {
+        DemandEngine.servicePartyAgreeRefund(new BaseProtocol.IResultExecutor<AgreeRefundBean>() {
+            @Override
+            public void execute(AgreeRefundBean dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "");
+    }
+
+    //当需求方选择的服务方有一个同意以后，就形成了一对一的关系，需求方需要去支付
+    public void pay(View v) {
+        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<PaymentBean>() {
+            @Override
+            public void execute(PaymentBean dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "", amount + "", channel + "");
+    }
+
+    //当服务方完成最后一期后，如果需求方不满意，可以延期支付，回滚一期，延期支付的机会有一次
+    public void delayPay(View v) {
+        int fid = 4;//TODO 模拟假数据,暂时不知道这个字段是什么意思
+        DemandEngine.delayPay(new BaseProtocol.IResultExecutor<DelayPayBean>() {
+            @Override
+            public void execute(DelayPayBean dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "", fid + "");
+    }
+
+    //服务方完成每一期任务，需求方确认完成
+    public void confirmComplete(View v) {
+        int fid = 4;//TODO 模拟假数据,暂时不知道这个字段是什么意思
+        DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<String>() {
+            @Override
+            public void execute(String dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "", fid + "");
+    }
+
+    //任务完成后，需求方进行评价
+    public void comment(View v) {
+
+    }
+
 
     /**
      * @param status 需求 or 服务状态

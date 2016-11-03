@@ -10,9 +10,11 @@ import org.xutils.http.RequestParams;
  */
 public class DemandPartyConfirmCompleteProtocol extends BaseProtocol<String> {
     private String id;// 需求ID
+    String fid;
 
-    public DemandPartyConfirmCompleteProtocol(String id) {
+    public DemandPartyConfirmCompleteProtocol(String id, String fid) {
         this.id = id;
+        this.fid = fid;
     }
 
     @Override
@@ -23,6 +25,7 @@ public class DemandPartyConfirmCompleteProtocol extends BaseProtocol<String> {
     @Override
     public void addRequestParams(RequestParams params) {
         params.addBodyParameter("id", id);
+        params.addBodyParameter("fid", fid);
     }
 
     @Override

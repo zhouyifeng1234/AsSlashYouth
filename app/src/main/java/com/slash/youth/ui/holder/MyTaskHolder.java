@@ -35,6 +35,9 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 
     @Override
     public void refreshView(MyTaskBean data) {
+        mItemMyTaskModel.tid = data.tid;
+        mItemMyTaskModel.uid = data.uid;
+
         //加载头像
         data.avatar = "group1/M00/00/00/eBtfY1gM2JmAa1SOAAJJOkiaAls.ac3597";//为了测试，设置的模拟数据
         if (TextUtils.isEmpty(data.avatar)) {
