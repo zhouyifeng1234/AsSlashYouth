@@ -195,6 +195,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_update"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -227,6 +228,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_accept"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -236,22 +238,22 @@
                     >
 
                         <TextView
-                            android:onClick="@{itemMyTaskModel.noAcceptDemand}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.noAcceptDemand}"
                             android:text="不接受"
                             android:textColor="#999999"
                             android:textSize="13sp"
                         />
                         <View android:layout_width="18dp" android:layout_height="0dp"/>
                         <TextView
-                            android:onClick="@{itemMyTaskModel.acceptDemand}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.acceptDemand}"
                             android:text="接受"
                             android:textColor="#31C6E4"
                             android:textSize="13sp"
@@ -271,6 +273,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_complete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -280,11 +283,11 @@
                     >
 
                         <TextView
-                            android:onClick="@{itemMyTaskModel.completeDemand}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.completeDemand}"
                             android:text="完成"
                             android:textColor="#31C6E4"
                             android:textSize="13sp"
@@ -304,6 +307,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_refund"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -313,22 +317,22 @@
                     >
 
                         <TextView
-                            android:onClick="@{itemMyTaskModel.complain}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.complain}"
                             android:text="申诉"
                             android:textColor="#999999"
                             android:textSize="13sp"
                         />
                         <View android:layout_width="18dp" android:layout_height="0dp"/>
                         <TextView
-                            android:onClick="@{itemMyTaskModel.agreeRefund}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.agreeRefund}"
                             android:text="同意退款"
                             android:textColor="#31C6E4"
                             android:textSize="13sp"
@@ -348,6 +352,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_status_publish_demand_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -357,11 +362,11 @@
                     >
 
                         <TextView
-                            android:onClick="@{itemMyTaskModel.pay}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.pay}"
                             android:text="支付"
                             android:textColor="#31C6E4"
                             android:textSize="13sp"
@@ -381,6 +386,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_status_publish_demand_confirm_complete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -390,22 +396,22 @@
                     >
 
                         <TextView
-                            android:onClick="@{itemMyTaskModel.delayPay}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.delayPay}"
                             android:text="延期支付"
                             android:textColor="#999999"
                             android:textSize="13sp"
                         />
                         <View android:layout_width="18dp" android:layout_height="0dp"/>
                         <TextView
-                            android:onClick="@{itemMyTaskModel.confirmComplete}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.confirmComplete}"
                             android:text="确认"
                             android:textColor="#31C6E4"
                             android:textSize="13sp"
@@ -425,6 +431,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_status_publish_demand_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -434,11 +441,11 @@
                     >
 
                         <TextView
-                            android:onClick="@{itemMyTaskModel.comment}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/task_demand_btn_bg"
                             android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.comment}"
                             android:text="评价"
                             android:textColor="#31C6E4"
                             android:textSize="13sp"
