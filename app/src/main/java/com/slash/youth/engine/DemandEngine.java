@@ -8,6 +8,7 @@ import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
+import com.slash.youth.http.protocol.DemandPurposeProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
@@ -199,6 +200,17 @@ public class DemandEngine {
         setDemandDescProtocol.getDataFromServer(onSetDemandDescFinished);
     }
 
+
+    /**
+     * 十六、[需求]-需求方获取意向单列表
+     *
+     * @param onGetPurposeListFinished
+     * @param id                       需求ID
+     */
+    public static void getDemandPurposeList(BaseProtocol.IResultExecutor onGetPurposeListFinished, String id) {
+        DemandPurposeProtocol demandPurposeProtocol = new DemandPurposeProtocol(id);
+        demandPurposeProtocol.getDataFromServer(onGetPurposeListFinished);
+    }
 
     /**
      * 十八、[需求]-服务方确认同意退款

@@ -133,6 +133,8 @@ public class GlobalConstants {
         public static final String GET_DEMAND_DESC = SERVER_HOST_DEMAND + "descget";
         //十五、[需求]-设置需求描述信息
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
+        //十六、[需求]-需求方获取意向单列表
+        public static final String GET_DEMAND_PURPOSE_LIST = SERVER_HOST_DEMAND + "purposelist";
         //十八、[需求]-服务方确认同意退款
         public static final String SERVICE_PARTY_AGREE_REFUND = SERVER_HOST_DEMAND + "agreeRefund";
         //十九、[需求]-服务方不同意退款并申请平台介入
