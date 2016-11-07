@@ -1,5 +1,6 @@
 package com.slash.youth.http.protocol;
 
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.common.Callback;
@@ -10,16 +11,23 @@ import org.xutils.x;
  * Created by zhouyifeng on 2016/10/23.
  */
 public class DownloadFileProtocol extends BaseProtocol<byte[]> {
+
+    String fileId;
+
+    public DownloadFileProtocol(String fileId) {
+        this.fileId = fileId;
+    }
+
     @Override
     public String getUrlString() {
-        return "http://121.42.145.178/file/v1/api/download";
+        return GlobalConstants.HttpUrl.IMG_DOWNLOAD;
     }
 
     @Override
     public void addRequestParams(RequestParams params) {
         params.setAsJsonContent(false);
         params.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        params.addBodyParameter("fileId", "group1/M00/00/00/eBtfY1gM2JmAa1SOAAJJOkiaAls.ac3597");
+        params.addBodyParameter("fileId", fileId);
     }
 
     @Override

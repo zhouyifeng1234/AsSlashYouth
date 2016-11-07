@@ -38,8 +38,10 @@
 
                     <FrameLayout android:layout_width="60dp" android:layout_height="60dp">
                         <ImageView
+                            android:id="@+id/iv_my_task_avatar"
                             android:layout_width="58dp"
                             android:layout_height="58dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/assistant_icon"/>
                         <ImageView
                             android:layout_width="15dp"
@@ -116,10 +118,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="62dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:maxLines="1"
                         android:text="@{itemMyTaskModel.username}"
                         android:textColor="#CCCCCC"
                         android:textSize="13sp"
@@ -129,7 +135,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="21dp"
+                        android:layout_marginLeft="7dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:maxLines="1"
                         android:text="@{itemMyTaskModel.quote}"
                         android:textColor="#FF7333"
                         android:textSize="13sp"/>
@@ -151,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="4dp"
-                        android:text="30%/40%/40%/50%"
+                        android:text="@{itemMyTaskModel.instalmentratioStr}"
                         android:textColor="#999999"
                         android:textSize="13sp"
                     />
@@ -161,34 +170,16 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="42dp"
-                            android:layout_height="16dp"
-                            android:background="@mipmap/state_bg"
-                            android:gravity="center"
-                            android:text="预约中"
-                            android:textColor="#FFFFFF"
-                            android:textSize="11sp"
-                            android:visibility="gone"
-                        />
-
-                        <TextView
-                            android:layout_width="42dp"
-                            android:layout_height="16dp"
-                            android:background="@mipmap/state_huise"
-                            android:gravity="center"
-                            android:text="已过期"
-                            android:textColor="#FFFFFF"
-                            android:textSize="11sp"
-                        />
-
-
-                    </FrameLayout>
+                    <TextView
+                        android:id="@+id/tv_my_task_status"
+                        android:layout_width="42dp"
+                        android:layout_height="16dp"
+                        android:background="@mipmap/state_bg"
+                        android:gravity="center"
+                        android:text="@{itemMyTaskModel.statusText}"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                    />
 
                 </LinearLayout>
 
@@ -199,42 +190,279 @@
                 />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_update"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/task_demand_btn_bg"
-                        android:gravity="center"
-                        android:text="不接受"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                    />
-                    <View android:layout_width="18dp" android:layout_height="0dp"/>
-                    <TextView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.updateBidInfo}"
+                            android:text="修改条件"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_accept"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/task_demand_btn_bg"
-                        android:gravity="center"
-                        android:text="接受"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                    />
-                    <View android:layout_width="18dp" android:layout_height="0dp"/>
-                    <TextView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.noAcceptDemand}"
+                            android:text="不接受"
+                            android:textColor="#999999"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.acceptDemand}"
+                            android:text="接受"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_complete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/task_demand_btn_bg"
-                        android:gravity="center"
-                        android:text="聊一聊"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                    />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.completeDemand}"
+                            android:text="完成"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_bid_demand_refund"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.complain}"
+                            android:text="申诉"
+                            android:textColor="#999999"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.agreeRefund}"
+                            android:text="同意退款"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_publish_demand_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.pay}"
+                            android:text="支付"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_publish_demand_confirm_complete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.delayPay}"
+                            android:text="延期支付"
+                            android:textColor="#999999"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.confirmComplete}"
+                            android:text="确认"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_status_publish_demand_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.comment}"
+                            android:text="评价"
+                            android:textColor="#31C6E4"
+                            android:textSize="13sp"
+                        />
+                        <View android:layout_width="18dp" android:layout_height="0dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/task_demand_btn_bg"
+                            android:gravity="center"
+                            android:onClick="@{itemMyTaskModel.haveAChat}"
+                            android:text="聊一聊"
+                            android:textColor="#2ACDA9"
+                            android:textSize="13sp"
+                        />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -174,7 +174,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22");
+        }, "22","1300","0");
     }
 
     //十、[需求]-我发布的历史需求列表
@@ -219,7 +219,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22");
+        }, "22","4");
     }
 
     //十三、[需求]-需求方查看竞标（抢需求服务者）列表
@@ -298,6 +298,6 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        });
+        }, "group1/M00/00/00/eBtfY1gM2JmAa1SOAAJJOkiaAls.ac3597");
     }
 }

@@ -1,5 +1,7 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.Gson;
+import com.slash.youth.domain.PaymentBean;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -8,12 +10,16 @@ import org.xutils.http.RequestParams;
  * 九、[需求]-需求方预支付
  * Created by zhouyifeng on 2016/10/8.
  */
-public class DemandPartyPrePaymentProtocol extends BaseProtocol<String> {
+public class DemandPartyPrePaymentProtocol extends BaseProtocol<PaymentBean> {
 
     private String id;// 需求ID
+    private String amount;
+    private String channel;
 
-    public DemandPartyPrePaymentProtocol(String id) {
+    public DemandPartyPrePaymentProtocol(String id, String amount, String channel) {
         this.id = id;
+        this.amount = amount;
+        this.channel = channel;
     }
 
     @Override
@@ -24,11 +30,15 @@ public class DemandPartyPrePaymentProtocol extends BaseProtocol<String> {
     @Override
     public void addRequestParams(RequestParams params) {
         params.addBodyParameter("id", id);
+        params.addBodyParameter("amount", amount);
+        params.addBodyParameter("channel", channel);
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public PaymentBean parseData(String result) {
+        Gson gson = new Gson();
+        PaymentBean paymentBean = gson.fromJson(result, PaymentBean.class);
+        return paymentBean;
     }
 
     @Override
