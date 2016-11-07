@@ -16,7 +16,7 @@ public class DemandDetailLocationModel extends BaseObservable {
 
     public DemandDetailLocationModel(ActivityDemandDetailLocationBinding activityDemandDetailLocationBinding, Activity activity) {
         this.mActivity = activity;
-        this.mActivityDemandDetailLocationBinding = mActivityDemandDetailLocationBinding;
+        this.mActivityDemandDetailLocationBinding = activityDemandDetailLocationBinding;
         initData();
         initView();
     }

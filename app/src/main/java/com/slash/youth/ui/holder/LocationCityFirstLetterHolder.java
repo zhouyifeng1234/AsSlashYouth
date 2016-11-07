@@ -24,7 +24,7 @@ public class LocationCityFirstLetterHolder extends BaseHolder<Character> {
     @Override
     public View initView() {
         mTvLocationCityFirstLetter = new TextView(CommonUtils.getContext());
-        mTvLocationCityFirstLetter.setTextSize((float) 10.5);
+        mTvLocationCityFirstLetter.setTextSize(12);
         mTvLocationCityFirstLetter.setTextColor(Color.parseColor("#999999"));
         mTvLocationCityFirstLetter.setGravity(Gravity.CENTER);
         return mTvLocationCityFirstLetter;

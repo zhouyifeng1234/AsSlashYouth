@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="mySettingModel"
+                  type="com.slash.youth.ui.viewmodel.MySettingModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/usertitlebar" />
+
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <!--时间-->
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="时间免打扰"
+                        android:textSize="15dp"
+                        android:textColor="#333333"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="22:00-8:00"
+                        android:layout_centerVertical="true"
+                        android:textSize="15dp"
+                        android:textColor="#60A7B6"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="50dp"
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_toggle"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="10dp"
+                        android:onClick="@{mySettingModel.timeSetting}"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_publish_demand_instalment_bg1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/background_safebox_toggle"/>
+
+                        <ImageView
+                            android:id="@+id/iv_publish_demand_instalment_handle1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/handle"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="1px"
+                    android:background="#999999"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="信息免打扰"
+                        android:textSize="15dp"
+                        android:textColor="#333333"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <RelativeLayout
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="10dp"
+                        android:onClick="@{mySettingModel.newsSetting}"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_publish_demand_instalment_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/background_safebox_toggle"/>
+
+                        <ImageView
+                            android:id="@+id/iv_publish_demand_instalment_handle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/handle"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="1px"
+                    android:background="#999999"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:onClick="@{mySettingModel.sheild}"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="屏蔽"
+                        android:textSize="15dp"
+                        android:textColor="#333333"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="暂无屏蔽人"
+                        android:layout_centerVertical="true"
+                        android:textSize="13dp"
+                        android:textColor="#60A7B6"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="30dp"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/right1_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="1px"
+                    android:background="#999999"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:onClick="@{mySettingModel.revisePassWord}"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="修改交易密码"
+                        android:textSize="15dp"
+                        android:textColor="#333333"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/right1_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="1px"
+                    android:background="#999999"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <RelativeLayout
+                    android:onClick="@{mySettingModel.findPassWord}"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="找回交易密码"
+                        android:textSize="15dp"
+                        android:textColor="#333333"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/right1_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:textColor="#333333"
+            android:gravity="center_vertical"
+            android:text="退出登录"/>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</layout>

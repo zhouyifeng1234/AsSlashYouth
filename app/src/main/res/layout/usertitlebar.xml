@@ -28,6 +28,7 @@
 
 
     <FrameLayout
+        android:id="@+id/fl_title_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -38,6 +39,7 @@
             android:id="@+id/tv_userinfo_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="编辑"
             android:textColor="#FFFFFF"
             android:textSize="15sp"

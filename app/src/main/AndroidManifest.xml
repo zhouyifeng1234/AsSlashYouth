@@ -119,9 +119,9 @@
         </meta-data>
 
         <!--融云推送-->、
-        <meta-data
+       <!-- <meta-data
             android:name="4z3hlwrv33rqt"
-            android:value="z3v5yqkbv8v30"/>
+            android:value="z3v5yqkbv8v30"/>-->
 
 
         <activity
@@ -224,6 +224,25 @@
         <activity android:name=".ui.activity.UserInfoActivity"/>
         <activity android:name=".ui.activity.UserinfoEditorActivity"/>
         <activity android:name=".ui.activity.EditorIdentityActivity"/>
+        <activity android:name=".ui.activity.ReportTAActivity"/>
+        <activity android:name=".ui.activity.ReplacePhoneActivity"/>
+        <activity android:name=".ui.activity.FinishPhoneActivity"/>
+        <activity android:name=".ui.activity.ChooseFriendActivtiy"/>
+        <activity android:name=".ui.activity.MySkillManageActivity"/>
+        <activity android:name=".ui.activity.MyAddSkillActivity"/>
+        <activity android:name=".ui.activity.MySettingActivity"/>
+        <activity android:name=".ui.activity.SheildActivity"/>
+        <activity android:name=".ui.activity.RevisePasswordActivity"/>
+        <activity android:name=".ui.activity.FindPassWordActivity"/>
+        <activity android:name=".ui.activity.ThridPartyActivity"/>
+        <activity android:name=".ui.activity.MyCollectionActivity"/>
+        <activity android:name=".ui.activity.MyHelpActivity"/>
+        <activity android:name=".ui.activity.ContactUsActivity"/>
+        <activity android:name=".ui.activity.ApprovalActivity"/>
+        <activity android:name=".ui.activity.ExamineActivity"/>
+        <activity android:name=".ui.activity.MyAccountActivity"/>
+        <activity android:name=".ui.activity.TransactionRecordActivity"/>
+        <activity android:name=".ui.activity.WithdrawalsActivity"/>
 
         <!--微信相关-->
         <!--<activity-->
@@ -238,7 +257,7 @@
         <!--高德定位相关-->
 
         <!--融云消息推送,接受者-->
-        <receiver
+       <!-- <receiver
             android:name="com.slash.youth.Reciver.RongNotificationReceiver"
             android:exported="true">
             <intent-filter>
@@ -247,7 +266,7 @@
                 <action android:name="io.rong.push.intent.MESSAGE_CLICKED"/>
                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED"/>
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <!--QQ相关-->
         <!--<activity-->

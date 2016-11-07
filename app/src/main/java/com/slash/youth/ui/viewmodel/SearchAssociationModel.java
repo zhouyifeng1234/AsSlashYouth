@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import com.slash.youth.R;
+import com.slash.youth.databinding.DialogPasswordBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.SearchListviewAssociationBinding;
 import com.slash.youth.utils.CommonUtils;

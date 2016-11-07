@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="thirdPartyModel"
+                  type="com.slash.youth.ui.viewmodel.ThirdPartyModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/usertitlebar" />
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="144dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_weixin"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/weixin_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
+                    android:text="微信"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+                
+                <TextView
+                    android:id="@+id/tv_weixin_binding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#60A7B6"
+                    android:textSize="13dp"
+                    android:text="解绑"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E5E5"
+                />
+
+            <LinearLayout
+                android:id="@+id/ll_QQ"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/qq_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
+                    android:text="QQ"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/tv_QQ_binding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#60A7B6"
+                    android:textSize="13dp"
+                    android:text="解绑"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E5E5"
+                />
+
+            <LinearLayout
+                android:id="@+id/ll_weibo"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/weibo_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
+                    android:text="微博"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/tv_weibo_binding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#60A7B6"
+                    android:textSize="13dp"
+                    android:text="去绑定"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</layout>

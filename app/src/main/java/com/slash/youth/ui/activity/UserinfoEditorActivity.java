@@ -3,6 +3,7 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
@@ -21,5 +22,17 @@ public class UserinfoEditorActivity extends Activity {
         ActivityUserInfoEditorModel activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding);
         activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);
 
+        back();
     }
+
+    private void back() {
+        activityUserinfoEditorBinding.ivUserinfoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+
 }

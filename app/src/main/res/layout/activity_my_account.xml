@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="myAccountModel"
+                  type="com.slash.youth.ui.viewmodel.MyAccountModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <include layout="@layout/usertitlebar" />
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_blue"
+            android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="1200.00元"
+            android:textSize="24dp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="14dp"
+            android:layout_gravity="center_horizontal"
+            android:text="账户总余额"/>
+
+        <View
+            android:background="#ffffff"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
+        <LinearLayout
+            android:layout_marginTop="17dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+        <TextView
+            android:textSize="14dp"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可提现金额 "/>
+
+            <TextView
+                android:textColor="#FFE083"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10,800元"/>
+
+         <View
+             android:layout_weight="1"
+             android:layout_width="0dp"
+             android:layout_height="0dp"/>
+
+            <TextView
+                android:textSize="14dp"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="冻结金额 "/>
+
+            <TextView
+                android:textColor="#FFE083"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1800元"/>
+
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/question_mark_icon"/>
+        </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:background="#e5e5e5"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:orientation="horizontal">
+
+       <LinearLayout
+           android:gravity="center"
+           android:layout_gravity="center"
+           android:layout_weight="1"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:textSize="17dp"
+            android:drawableLeft="@mipmap/income_icon"
+            android:text="累计收入"/>
+
+           <TextView
+               android:layout_marginTop="14dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="17dp"
+               android:text="1088"/>
+
+       </LinearLayout>
+
+        <View
+            android:background="#e5e5e5"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:drawableLeft="@mipmap/expenditure_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:textSize="17dp"
+                    android:text="累计支出"/>
+
+                <TextView
+                    android:layout_marginTop="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:text="1088"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:background="#e5e5e5"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:onClick="@{myAccountModel.withdrawals}"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            android:layout_marginTop="15dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@mipmap/withdraw_cash_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="提现"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:textSize="13dp"
+                    android:textColor="#31C5E4"
+                    android:text="1088"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</layout>

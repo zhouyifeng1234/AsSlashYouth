@@ -46,7 +46,7 @@ public class DemandDetailLocationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivityDemandDetailLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_demand_detail_location);
+       mActivityDemandDetailLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_demand_detail_location);
         mDemandDetailLocationModel = new DemandDetailLocationModel(mActivityDemandDetailLocationBinding, this);
         mActivityDemandDetailLocationBinding.setDemandDetailLocationModel(mDemandDetailLocationModel);
 

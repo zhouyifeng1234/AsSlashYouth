@@ -25,14 +25,62 @@
         android:layout_marginTop="14dp"
         android:background="#e5e5e5"/>
 
-    <FrameLayout
-        android:id="@+id/fl_addSkillLabel"
+        <LinearLayout
+            android:id="@+id/fl_addSkillLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/fl_add"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:layout_width="82dp"
+                    android:layout_height="39dp"
+                    android:background="@drawable/shape_userinfo_add_skilllabel"
+                    android:paddingLeft="10dp"
+                    android:text="UI"
+                    android:textSize="15dp"
+                    android:drawableRight="@mipmap/close1_icon"
+                    android:textColor="#FFFFFF"
+                    />
+
+              <!--  <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/close1_icon"
+                    />-->
+
+            </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_addIdentity"
+            android:layout_width="82dp"
+            android:layout_height="39dp"
+            android:background="@drawable/shape_userinfo_skilllabel"
+            android:layout_marginLeft="14dp"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@mipmap/pluse1_icon"
+            android:text="添加"
+            android:textSize="15dp"
+            android:textColor="#FFFFFF"
+            />
+
+        </LinearLayout>
+        
+  <!--  <FrameLayout
         android:layout_width="match_parent"
         android:layout_marginTop="14dp"
         android:layout_height="wrap_content">
 
-
-    </FrameLayout>
+    </FrameLayout>-->
 
     </LinearLayout>
 </layout>

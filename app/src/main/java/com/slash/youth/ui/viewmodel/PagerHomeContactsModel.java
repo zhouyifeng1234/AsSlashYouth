@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -10,8 +11,10 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
 import com.slash.youth.databinding.PagerHomeContactsBinding;
 import com.slash.youth.domain.HomeContactsVisitorBean;
+import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
@@ -60,4 +63,7 @@ public class PagerHomeContactsModel extends BaseObservable {
         listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
         listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
     }
+
+
+
 }

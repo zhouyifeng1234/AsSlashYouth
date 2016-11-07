@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="个人信息"
+                android:text="编辑个人信息"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 />
@@ -146,6 +146,7 @@
                                />
                            <!--手机号码-->
                            <RelativeLayout
+                               android:onClick="@{activityUserInfoEditorModel.setPhone}"
                                android:layout_weight="1"
                                android:layout_width="match_parent"
                                android:layout_height="0dp"
@@ -310,7 +311,39 @@
                                 android:layout_marginLeft="10dp"
                                 />
 
-                            <ImageView
+                            <RadioGroup
+                                android:layout_alignParentRight="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:button="@null"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="上班族"
+                                    android:checked="true"
+                                    android:textColor="#333333"
+                                    android:drawablePadding="8dp"
+                                    android:drawableLeft="@drawable/selector_radiobutton_bg"
+                                    android:textSize="15dp"/>
+                                <RadioButton
+                                    android:button="@null"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="自雇者"
+                                    android:textColor="#333333"
+                                    android:drawablePadding="8dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:drawableLeft="@drawable/selector_radiobutton_bg"
+                                    android:textSize="15dp"/>
+
+                            </RadioGroup>
+
+
+                          <!--  <ImageView
                                 android:id="@+id/iv_btn1"
                                 android:clickable="true"
                                 android:layout_width="17dp"
@@ -350,7 +383,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_alignLeft="@+id/iv_btn2"
                                 android:layout_marginLeft="25dp"
-                                />
+                                />-->
 
                         </RelativeLayout>
                         <View

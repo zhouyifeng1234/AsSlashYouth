@@ -28,25 +28,12 @@ import com.slash.youth.utils.LogKit;
  * Created by zss on 2016/10/31.
  */
 public class UserInfoActivity extends Activity implements View.OnClickListener {
-
-
-    private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private ActivityUserinfoBinding activityUserinfoBinding;
-    private FloatViewBinding floatViewBinding;
-    private ImageView menu;
-    private TextView save;
     private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //这是我的视角编辑按钮界面
-      /*  activityUserinfoEditorBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo_editor);
-        ActivityUserInfoEditorModel activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding);
-        activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);*/
-
-
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         ActivityUserInfoModel userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
@@ -59,7 +46,12 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     }
 
     private void title() {
-        //setTitle("李小四");
+    //从搜索获取发布任务的页面，到转到个人信息页面
+
+    //setTitle("李小四");
+
+    //如果不是就不传值，就是本人打开的
+
     }
 
     private void setTitle(String name) {
@@ -106,13 +98,27 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 LogKit.d("弹出弹框");
                 showPopupWindow(v);
                 break;
-        }
+            case R.id.tv_reportTA:
+                LogKit.d("举报他");
+                Intent intentReportTAActivity = new Intent(CommonUtils.getContext(), ReportTAActivity.class);
+                intentReportTAActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                CommonUtils.getContext().startActivity(intentReportTAActivity);
+                popupWindow.dismiss();
+                break;
+            case R.id.tv_shieldTA:
+                LogKit.d("屏蔽他");
+                popupWindow.dismiss();
+                break;
 
+        }
     }
 
     private void showPopupWindow(View v) {
         View contentView = LayoutInflater.from(UserInfoActivity.this).inflate(
                 R.layout.pop_window, null);
+
+        contentView.findViewById(R.id.tv_reportTA).setOnClickListener(this);
+        contentView.findViewById(R.id.tv_shieldTA).setOnClickListener(this);
 
         popupWindow = new PopupWindow(contentView,
                 RandomLayout.LayoutParams.WRAP_CONTENT, RandomLayout.LayoutParams.WRAP_CONTENT, true);
@@ -122,10 +128,11 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (popupWindow != null && popupWindow.isShowing()) {
+              /*  if (popupWindow != null && popupWindow.isShowing()) {
                     popupWindow.dismiss();
                     popupWindow = null;
-                }
+                }*/
+
                 return false;
                 // 这里如果返回true的话，touch事件将被拦截
                 // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
@@ -136,6 +143,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 R.mipmap.dropdown_box));
 
         popupWindow.showAsDropDown(v);
-
     }
+
+
 }

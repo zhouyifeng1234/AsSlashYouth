@@ -9,10 +9,15 @@
         android:background="@mipmap/dropdown_box"
         >
             <TextView
+                android:id="@+id/tv_reportTA"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 android:text="举报TA"/>
             <View
                 android:layout_marginTop="58dp"
@@ -24,11 +29,16 @@
                 android:background="#e5e5e5"/>
 
             <TextView
+                android:id="@+id/tv_shieldTA"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="12dp"
                 android:text="屏蔽TA"/>
 
     </RelativeLayout>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="myAddSkillModel"
+                  type="com.slash.youth.ui.viewmodel.MyAddSkillModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#31C5E4"
+        android:orientation="vertical">
+
+        <include layout="@layout/usertitlebar" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                app:cardBackgroundColor="#ffffff"
+                android:layout_marginTop="-10dp"
+                android:layout_marginBottom="0dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="服务标题"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="8dp"
+                            android:text="请输入5-20个字"
+                            android:textColor="#cccccc"
+                            android:textSize="14sp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="121dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_rounded_demand2_desc_bg">
+                    <EditText
+                        android:id="@+id/et_publish_demand_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/transparent"
+                        android:gravity="top|left"
+                        android:hint="描述一下你的需求300字内"
+                        android:textColorHint="#cccccc"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="5dp"
+                        android:text="0/300"
+                        android:textColor="#cccccc"
+                        android:textSize="16dp"/>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="报价:"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:hint="不填表示对方报价 "
+                        android:textColorHint="#CCCCCC"
+                        android:textSize="13sp"/>
+                    <TextView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="13dp"
+                        android:textColor="#333333"
+                        android:text="元"
+                    />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#E5E5E5"/>
+
+                <com.slash.youth.ui.view.SlashAddPicLayout
+                    android:id="@+id/sapl_publish_demand_addpic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </com.slash.youth.ui.view.SlashAddPicLayout>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginTop="24dp"
+                        android:text="＊建议上传清晰度高的图片上限5张"
+                        android:textColor="#CCCCCC"
+                        android:textSize="11sp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="15dp"
+                        android:background="#E5E5E5"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="关联标签"
+                            android:textColor="#333333"
+                            android:textSize="14sp"/>
+
+                        <View android:layout_width="0dp" android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:hint="为了高效匹配需求者请添加"
+                            android:textColorHint="#CCCCCC"
+                            android:textSize="13sp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="6dp"
+                            android:src="@mipmap/towards_right_icon"/>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="74dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/shape_rounded_demand2_desc_bg">
+                    </FrameLayout>
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="67dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@mipmap/demand_layer_3">
+
+                        <Button
+                            android:layout_width="252dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/btn_next_step"
+                            android:text="提交"
+                            android:layout_marginBottom="9dp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+             </android.support.v7.widget.CardView>
+        </ScrollView>
+    </LinearLayout>
+</layout>

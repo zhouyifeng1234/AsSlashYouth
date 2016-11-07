@@ -51,7 +51,6 @@
                         android:textSize="15sp"
                         />
 
-
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/iv_userinfo_menu"
@@ -117,6 +116,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/iv_userinfo_usericon"
                             android:layout_width="59dp"
                             android:layout_height="59dp"
                             android:layout_marginTop="2dp"
@@ -131,20 +131,26 @@
                                 android:orientation="horizontal"
                                 >
                                 <TextView
+                                    android:id="@+id/tv_userinfo_username"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:text="李小四"
                                     android:textColor="#333333"
                                     android:textSize="15sp"/>
+
+
+
                                 <ImageView
+                                    android:id="@+id/iv_userinfo_v"
+                                    android:visibility="gone"
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="9dp"
                                     android:src="@mipmap/v_icon_home_my"/>
                                 <TextView
-                                    android:id="@+id/tv_identity"
+                                    android:id="@+id/tv_userinfo_identity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -158,6 +164,17 @@
                                     android:layout_marginLeft="11dp"
                                     android:background="@drawable/shape_search_item_bg"
                                     />
+
+                                <TextView
+                                    android:id="@+id/tv_userinfo_Approval"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="9dp"
+                                    android:textColor="#ef3e3e"
+                                    android:text="去认证"
+                                    />
+
                                 <View android:layout_width="0dp" android:layout_height="0dp"
                                     android:layout_weight="1"
                                     />
@@ -170,7 +187,7 @@
                                     android:src="@mipmap/mark_icon1"/>
 
                                 <TextView
-                                    android:id="@+id/tv_area"
+                                    android:id="@+id/tv_userinfo_area"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -180,6 +197,8 @@
                                     android:textSize="12sp"/>
                             </LinearLayout>
                             <TextView
+                                android:layout_marginTop="5dp"
+                                android:id="@+id/tv_userInfo_company"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -188,6 +207,7 @@
                                 android:textColor="#666666"
                                 android:textSize="12sp"/>
                             <TextView
+                                android:id="@+id/tv_userInfo_profession"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -203,6 +223,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="10dp">
                             <TextView
+                                android:id="@+id/tv_slash_identity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12dp"
@@ -457,16 +478,16 @@
                                     android:textColor="#999999" />
 
                                 <TextView
-                                    android:id="@+id/tv_skilldescribe"
+                                    android:id="@+id/tv_userinfo_skilldescribe"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
                                     android:textSize="13dp"
+                                    android:maxEms="50"
+                                    android:lineSpacingExtra="4dp"
                                     android:textColor="#999999"
                                     android:ellipsize="end"
-                                    android:maxLength="20"
-                                    android:maxLines="4"
-                                    android:text="技能描述,例:充满后歌手，多少分回家,s对方即可看见盛大交付,看到健身房独守空房。打扫房间" />
+                                    android:text="例：从事UI设计行业5年，具有丰富的设计经验..." />
                             </LinearLayout>
 
                             <View
@@ -492,6 +513,7 @@
                                     android:text="行业方向" />
 
                                 <TextView
+                                    android:id="@+id/tv_profession"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
@@ -502,6 +524,7 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:onClick="@{activityUserInfoModel.openskilllabel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
@@ -516,6 +539,7 @@
                                     android:text="技能标签" />
 
                                 <LinearLayout
+                                    android:id="@+id/ll_skilllabel_container"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
@@ -523,7 +547,8 @@
                                     android:orientation="horizontal">
 
                                     <TextView
-                                        android:id="@+id/tv_line"
+                                        android:id="@+id/tv_skilllabel3"
+                                        android:visibility="gone"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
@@ -531,13 +556,14 @@
                                         android:paddingRight="5dp"
                                         android:paddingTop="5dp"
                                         android:paddingBottom="5dp"
-                                        android:text="UI设计"
+                                        android:text="技能标签3"
                                         android:textColor="#31C5E4"
                                         android:textSize="12sp"
                                         android:background="@drawable/shape_search_item_bg" />
 
                                     <TextView
-                                        android:id="@+id/tv_line2"
+                                        android:id="@+id/tv_skilllabel2"
+                                        android:visibility="gone"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
@@ -546,13 +572,14 @@
                                         android:paddingTop="5dp"
                                         android:paddingBottom="5dp"
                                         android:layout_marginLeft="10dp"
-                                        android:text="UI设计"
+                                        android:text="技能标签2"
                                         android:textColor="#31C5E4"
                                         android:textSize="12sp"
                                         android:background="@drawable/shape_search_item_bg" />
 
                                     <TextView
-                                        android:id="@+id/tv_line3"
+                                        android:id="@+id/tv_skilllabel1"
+                                        android:visibility="gone"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
@@ -561,7 +588,7 @@
                                         android:paddingTop="5dp"
                                         android:paddingBottom="5dp"
                                         android:layout_marginLeft="10dp"
-                                        android:text="UI设计"
+                                        android:text="技能标签1"
                                         android:textColor="#31C5E4"
                                         android:textSize="12sp"
                                         android:background="@drawable/shape_search_item_bg" />
@@ -736,7 +763,8 @@
                     <RelativeLayout
                         android:layout_width="173dp"
                         android:layout_height="match_parent"
-                        android:background="#31C5E4">
+                        android:background="#31C5E4"
+                        android:onClick="@{activityUserInfoModel.addFriend}">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

@@ -287,28 +287,28 @@
                     android:textSize="13sp"/>
 
                 <RelativeLayout
-                    android:layout_width="33dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:onClick="@{publishDemandAddInfoModel.toggleInstalment}"
+                android:layout_width="33dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:onClick="@{publishDemandAddInfoModel.toggleInstalment}"
                 >
-                    <ImageView
-                        android:id="@+id/iv_publish_demand_instalment_bg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/background_safebox_toggle"/>
+                <ImageView
+                    android:id="@+id/iv_publish_demand_instalment_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/background_safebox_toggle"/>
 
-                    <ImageView
-                        android:id="@+id/iv_publish_demand_instalment_handle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/handle"/>
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_publish_demand_instalment_handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/handle"/>
+            </RelativeLayout>
 
             </LinearLayout>
 

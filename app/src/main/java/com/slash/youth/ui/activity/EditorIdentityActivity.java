@@ -8,10 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityEditorIdentityBinding;
-import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.ui.viewmodel.EditorIdentityModel;
 
 /**
@@ -27,7 +25,7 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
         super.onCreate(savedInstanceState);
 
         activityEditorIdentityBinding = DataBindingUtil.setContentView(this, R.layout.activity_editor_identity);
-        EditorIdentityModel editorIdentityModel = new EditorIdentityModel(activityEditorIdentityBinding);
+        EditorIdentityModel editorIdentityModel = new EditorIdentityModel(activityEditorIdentityBinding,this);
         activityEditorIdentityBinding.setEditorIdentityModel(editorIdentityModel);
 
         initView();
