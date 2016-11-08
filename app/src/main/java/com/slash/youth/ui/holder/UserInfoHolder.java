@@ -8,6 +8,7 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.ItemUserinfoBinding;
+import com.slash.youth.domain.NewTaskUserInfoBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.ui.viewmodel.ItemUserInfoModel;
 import com.slash.youth.utils.CommonUtils;
@@ -15,7 +16,7 @@ import com.slash.youth.utils.CommonUtils;
 /**
  * Created by zss on 2016/11/1.
  */
-public class UserInfoHolder extends BaseHolder<UserInfoItemBean> {
+public class UserInfoHolder extends BaseHolder<NewTaskUserInfoBean> {
 
     private ItemUserinfoBinding itemUserinfoBinding;
 
@@ -28,7 +29,8 @@ public class UserInfoHolder extends BaseHolder<UserInfoItemBean> {
     }
 
     @Override
-    public void refreshView(UserInfoItemBean data) {
+    public void refreshView(NewTaskUserInfoBean data) {
+
 
     }
 

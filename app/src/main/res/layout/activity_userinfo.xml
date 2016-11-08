@@ -180,6 +180,7 @@
                                     />
 
                                 <ImageView
+                                    android:id="@+id/iv_userinfo_location"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -187,12 +188,12 @@
                                     android:src="@mipmap/mark_icon1"/>
 
                                 <TextView
-                                    android:id="@+id/tv_userinfo_area"
+                                    android:id="@+id/tv_place"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:gravity="center"
-                                    android:text="江苏苏州"
+                                    android:text="暂未填写"
                                     android:textColor="#31C5E4"
                                     android:textSize="12sp"/>
                             </LinearLayout>
@@ -203,11 +204,11 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="北京中意之路信息技术有限公司-人事行政总监"
+                                android:text="暂未填写职务信息"
                                 android:textColor="#666666"
                                 android:textSize="12sp"/>
                             <TextView
-                                android:id="@+id/tv_userInfo_profession"
+                                android:id="@+id/tv_userInfo_tag"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -253,6 +254,7 @@
                         android:src="@mipmap/fans_icon"
                         />
                     <TextView
+                        android:id="@+id/tv_user_info_fans_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -269,6 +271,7 @@
                         android:src="@mipmap/dea_iconl"
                         />
                     <TextView
+                        android:id="@+id/tv_user_info_achieve_task_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -285,6 +288,7 @@
                         android:src="@mipmap/service_orce_icon"
                         />
                     <TextView
+                        android:id="@+id/tv_user_info_service_point"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -313,6 +317,7 @@
                                 android:layout_height="match_parent"
                                 android:background="@drawable/shape_home_my_info_fanscount_bg"/>
                             <TextView
+                                android:id="@+id/tv_user_info_fansratio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -337,6 +342,7 @@
                                 android:layout_height="match_parent"
                                 android:background="@drawable/shape_home_my_info_trade_ticket_bg"/>
                             <TextView
+                                android:id="@+id/tv_Achieve_Task_Count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -361,6 +367,7 @@
                                 android:layout_height="match_parent"
                                 android:background="@drawable/shape_home_my_info_service_star_bg"/>
                             <TextView
+                                android:id="@+id/tv_Average_Service_Point"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -379,6 +386,7 @@
                         android:layout_marginTop="7dp"
                         android:orientation="horizontal">
                         <TextView
+                            android:id="@+id/tv_fans_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -389,6 +397,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"/>
                         <TextView
+                            android:id="@+id/tv_totol_task_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -399,6 +408,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"/>
                         <TextView
+                            android:id="@+id/average_service_point"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

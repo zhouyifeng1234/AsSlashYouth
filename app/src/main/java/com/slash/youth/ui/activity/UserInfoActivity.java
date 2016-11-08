@@ -30,12 +30,13 @@ import com.slash.youth.utils.LogKit;
 public class UserInfoActivity extends Activity implements View.OnClickListener {
     private ActivityUserinfoBinding activityUserinfoBinding;
     private PopupWindow popupWindow;
+    private ActivityUserInfoModel userInfoModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        ActivityUserInfoModel userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
 
         back();
@@ -46,23 +47,23 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     }
 
     private void title() {
-    //从搜索获取发布任务的页面，到转到个人信息页面
-
-    //setTitle("李小四");
-
-    //如果不是就不传值，就是本人打开的
-
+        userInfoModel.setOnNameListener(new ActivityUserInfoModel.OnNameListener() {
+            @Override
+            public void OnNameListener(String name) {
+                setTitle(userInfoModel.isOther,name);
+            }
+        });
     }
 
-    private void setTitle(String name) {
+    private void setTitle(boolean isOther,String name) {
 
-        if(name!=null){
+        if(isOther){
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
 
-        }else {
+        }else  {
             activityUserinfoBinding.tvUserinfoTitle.setText("个人信息");
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);

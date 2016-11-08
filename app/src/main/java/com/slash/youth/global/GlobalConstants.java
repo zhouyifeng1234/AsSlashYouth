@@ -75,6 +75,9 @@ public class GlobalConstants {
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
 
+        //zss [我的模块]
+        public static final String SERVER_HOST_MY_USERINFO = "http://121.42.145.178/uinfo/v1/api";
+
 
         /**
          * 以下为服务端各接口的相对地址
@@ -236,6 +239,21 @@ public class GlobalConstants {
 
         //二十八、[搜索]-服务搜索
         public static final String SEARCH_SERVICE = SERVER_HOST_BAR + "/service";
+
+
+        //一、[我的]-[用户中心]-用户个人信息
+        public static final String MY_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/info/get";
+        //二、[我的]-[用户中心]-获取个人资料
+        public static final String GET_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/basic/info/get";
+
+
+
+
+
+
+
+
+
     }
 
 
