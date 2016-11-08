@@ -37,7 +37,9 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:background="#31C5E4"></FrameLayout>
+                    android:background="#31C5E4">
+
+                </FrameLayout>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -70,62 +72,64 @@
                                 android:layout_height="59dp"
                                 android:layout_marginTop="2dp"
                                 android:src="@mipmap/assistant_icon"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                  <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
-                                android:orientation="vertical">
-
-                                <LinearLayout android:layout_width="match_parent"
-                                              android:layout_height="wrap_content"
-                                              android:orientation="horizontal"
+                                android:orientation="horizontal"
                                 >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:text="李小四"
-                                        android:textColor="#333333"
-                                        android:textSize="15sp"/>
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="14dp"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="9dp"
-                                        android:src="@mipmap/v_icon_home_my"/>
-                                    <View android:layout_width="0dp" android:layout_height="0dp"
-                                          android:layout_weight="1"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="李小四"
+                                    android:textColor="#333333"
+                                    android:textSize="15sp"/>
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="9dp"
+                                    android:src="@mipmap/v_icon_home_my"/>
+                                <View android:layout_width="0dp" android:layout_height="0dp"
+                                    android:layout_weight="1"
                                     />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:background="@mipmap/icon_bg_home_my_edit"
-                                        android:gravity="center"
-                                        android:text="编辑资料"
-                                        android:textColor="#ffffff"
-                                        android:textSize="10sp"/>
-                                </LinearLayout>
                                 <TextView
+                                    android:id="@+id/tv_editor"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="北京中意之路信息技术有限公司-人事行政总监"
-                                    android:textColor="#999999"
-                                    android:textSize="12sp"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:text="IT互联网｜市场商务"
-                                    android:textColor="#999999"
-                                    android:textSize="12sp"/>
-
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@mipmap/icon_bg_home_my_edit"
+                                    android:gravity="center"
+                                    android:text="编辑资料"
+                                    android:textColor="#ffffff"
+                                    android:onClick="@{pagerHomeMyModel.editor}"
+                                    android:textSize="10sp"/>
                             </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="北京中意之路信息技术有限公司-人事行政总监"
+                                android:textColor="#999999"
+                                android:textSize="12sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="IT互联网｜市场商务"
+                                android:textColor="#999999"
+                                android:textSize="12sp"/>
 
                         </LinearLayout>
+
+                    </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -260,8 +264,6 @@
                                     android:textColor="#FFFFFF"
                                     android:textSize="8dp"/>
                             </FrameLayout>
-
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -550,6 +552,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:onClick="@{pagerHomeMyModel.myAccount}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
@@ -625,10 +628,14 @@
                                       android:layout_weight="1"
                                       android:orientation="horizontal"
                         >
+
+                            <!--技能管理-->
                             <FrameLayout
+                                android:id="@+id/fl_skillManage"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:onClick="@{pagerHomeMyModel.skillManage }"
                             >
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -649,7 +656,10 @@
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                             </FrameLayout>
+
+                            <!--管理我发布的-->
                             <FrameLayout
+                                android:onClick="@{pagerHomeMyModel.managePublish }"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -663,18 +673,21 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@mipmap/my_collection_icon"/>
+                                        android:src="@mipmap/task_management_icon"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="16dp"
-                                        android:text="我的收藏"
+                                        android:text="管理我发布的"
                                         android:textColor="#718083"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                             </FrameLayout>
+
+                            <!--第三方绑定-->
                             <FrameLayout
                                 android:layout_width="0dp"
+                                android:onClick="@{pagerHomeMyModel.myThirdParty}"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                             >
@@ -704,7 +717,10 @@
                                       android:layout_weight="1"
                                       android:orientation="horizontal"
                         >
+
+                            <!--我的收藏-->
                             <FrameLayout
+                                android:onClick="@{pagerHomeMyModel.collection}"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -718,20 +734,50 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@mipmap/problem_icon"/>
+                                        android:src="@mipmap/my_collection_icon"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="16dp"
-                                        android:text="常见问题"
+                                        android:text="我的收藏"
                                         android:textColor="#718083"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
                             </FrameLayout>
+
+                            <!--帮助-->
+                              <FrameLayout
+                              android:onClick="@{pagerHomeMyModel.help}"
+                              android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:layout_weight="1"
+                          >
+                              <LinearLayout
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="center"
+                                  android:orientation="vertical">
+                                  <ImageView
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:layout_gravity="center_horizontal"
+                                      android:src="@mipmap/problem_icon"/>
+                                  <TextView
+                                      android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:layout_marginTop="16dp"
+                                      android:text="帮助"
+                                      android:textColor="#718083"
+                                      android:textSize="12sp"/>
+                              </LinearLayout>
+                          </FrameLayout>
+
+                            <!--设置-->
                             <FrameLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:onClick="@{pagerHomeMyModel.mySetting}"
                             >
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -748,30 +794,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="16dp"
                                         android:text="设置"
-                                        android:textColor="#718083"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                            </FrameLayout>
-                            <FrameLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                            >
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:orientation="vertical">
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@mipmap/contact_us_icon"/>
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="16dp"
-                                        android:text="联系我们"
                                         android:textColor="#718083"
                                         android:textSize="12sp"/>
                                 </LinearLayout>
