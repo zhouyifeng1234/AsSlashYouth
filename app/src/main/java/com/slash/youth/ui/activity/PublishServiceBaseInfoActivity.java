@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -13,11 +14,17 @@ import com.slash.youth.ui.viewmodel.PublishServiceBaseInfoModel;
  */
 public class PublishServiceBaseInfoActivity extends Activity {
 
+    private PublishServiceBaseInfoModel mPublishServiceBaseInfoModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityPublishServiceBaseinfoBinding activityPublishServiceBaseinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_service_baseinfo);
-        PublishServiceBaseInfoModel publishServiceBaseInfoModel = new PublishServiceBaseInfoModel(activityPublishServiceBaseinfoBinding, this);
-        activityPublishServiceBaseinfoBinding.setPublishServiceBaseInfoModel(publishServiceBaseInfoModel);
+        mPublishServiceBaseInfoModel = new PublishServiceBaseInfoModel(activityPublishServiceBaseinfoBinding, this);
+        activityPublishServiceBaseinfoBinding.setPublishServiceBaseInfoModel(mPublishServiceBaseInfoModel);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPublishServiceBaseInfoModel.mSaplAddPic.addPicResult(requestCode, resultCode, data);
     }
 }
