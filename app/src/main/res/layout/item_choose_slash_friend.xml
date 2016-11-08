@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+   <RelativeLayout
+       android:layout_marginBottom="7dp"
+       android:layout_marginTop="7dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginRight="10dp"
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       android:orientation="horizontal">
+
+      <ImageView
+          android:layout_centerVertical="true"
+          android:id="@+id/iv_friend_icon"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@mipmap/assistant_icon"/>
+
+       <TextView
+           android:id="@+id/tv_SlashFriendName"
+           android:layout_marginLeft="11dp"
+           android:layout_centerVertical="true"
+           android:layout_toRightOf="@+id/iv_friend_icon"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="好友姓名"
+           android:textSize="15dp"
+           android:textColor="#333333"/>
+
+
+       <CheckBox
+           android:id="@+id/cb_sheld"
+           android:visibility="gone"
+           android:button="@null"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="#333333"
+          android:layout_alignParentRight="true"
+           android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+           android:drawableLeft="@drawable/selector_radiobutton_bg"
+           android:textSize="15dp"/>
+
+   </RelativeLayout>
+
+
+</LinearLayout>
