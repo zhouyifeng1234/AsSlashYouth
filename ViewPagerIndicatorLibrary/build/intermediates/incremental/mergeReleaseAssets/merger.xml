@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="C:\Users\acer\Desktop\AsSlashYouth\ViewPagerIndicatorLibrary\src\main\assets"/></dataSet><dataSet config="release"><source path="C:\Users\acer\Desktop\AsSlashYouth\ViewPagerIndicatorLibrary\src\release\assets"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="E:\sss\SlashYouth\ViewPagerIndicatorLibrary\src\main\assets"/></dataSet><dataSet config="release"><source path="E:\sss\SlashYouth\ViewPagerIndicatorLibrary\src\release\assets"/></dataSet></merger>
->>>>>>> c1399498df1338c0ff9a7b5075932abc9eda5557
