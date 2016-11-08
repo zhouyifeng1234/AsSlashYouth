@@ -119,9 +119,9 @@
         </meta-data>
 
         <!--融云推送-->、
-       <!-- <meta-data
-            android:name="4z3hlwrv33rqt"
-            android:value="z3v5yqkbv8v30"/>-->
+        <!-- <meta-data
+             android:name="4z3hlwrv33rqt"
+             android:value="z3v5yqkbv8v30"/>-->
 
 
         <activity
@@ -220,6 +220,11 @@
         <activity android:name=".ui.activity.MyPublishDemandActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceBaseInfoActivity"
+                  android:windowSoftInputMode="adjustPan"
+        >
+
+        </activity>
 
         <activity android:name=".ui.activity.UserInfoActivity"/>
         <activity android:name=".ui.activity.UserinfoEditorActivity"/>
@@ -257,16 +262,16 @@
         <!--高德定位相关-->
 
         <!--融云消息推送,接受者-->
-       <!-- <receiver
-            android:name="com.slash.youth.Reciver.RongNotificationReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED"/>
-                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED"/>
-                <action android:name="io.rong.push.intent.MESSAGE_CLICKED"/>
-                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED"/>
-            </intent-filter>
-        </receiver>-->
+        <!-- <receiver
+             android:name="com.slash.youth.Reciver.RongNotificationReceiver"
+             android:exported="true">
+             <intent-filter>
+                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED"/>
+                 <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED"/>
+                 <action android:name="io.rong.push.intent.MESSAGE_CLICKED"/>
+                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED"/>
+             </intent-filter>
+         </receiver>-->
 
         <!--QQ相关-->
         <!--<activity-->
