@@ -2,28 +2,18 @@ package com.slash.youth.ui.viewmodel;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.graphics.Color;
-import android.net.sip.SipAudioCall;
 import android.os.Build;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.slash.youth.R;
@@ -32,9 +22,9 @@ import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.DemandBean;
 import com.slash.youth.domain.LocationCityInfo;
-import com.slash.youth.domain.SearchPersonBean;
-import com.slash.youth.ui.activity.CityLocationActivity;
-import com.slash.youth.ui.activity.SearchActivity;
+import com.slash.youth.domain.SearchUserBean;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.SearchUserProtocol;
 import com.slash.youth.ui.adapter.ListViewAdapter;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
@@ -42,8 +32,6 @@ import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
 import com.slash.youth.ui.adapter.PagerSearchPersonAdapter;
 import com.slash.youth.ui.adapter.SearchCityAdapter;
-import com.slash.youth.ui.holder.BaseHolder;
-import com.slash.youth.ui.holder.LocationCityFirstLetterHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
@@ -51,8 +39,8 @@ import com.slash.youth.utils.SpUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EventListener;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by zss on 2016/9/23.
@@ -70,7 +58,7 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     private boolean isClickHot = false;
     private PagerHomeDemandtAdapter pagerHomeDemandtAdapter;
     private ArrayList<DemandBean> listDemand;
-    private ArrayList<SearchPersonBean> listPerson;
+    private ArrayList<SearchUserBean.DataBean.ListBean> listPerson  = new ArrayList<>();
     private PagerSearchPersonAdapter pagerSearchPersonAdapter;
     private ListView lv;
     private String cityName = "苏州";
@@ -164,26 +152,36 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
 
     //加载数据
     private void initData() {
-        //设置搜索人的数据
-        setSearchPersonData();
+        //设置搜索人的数据,这里是直接点击过来的应该不填，是所有的数据
+        setSearchPersonData("刘",5,1);
         //获取listview要展示的数据
         setSearchResultData();
     }
 
     //展示搜索人的数据
-    private void setSearchPersonData() {
-        /////////////////////////////////////////////////////////////////
+    private void setSearchPersonData(String tag,int isauth,int star) {
+        SearchUserProtocol searchUserProtocol = new SearchUserProtocol(tag,isauth,star);
+        searchUserProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SearchUserBean>() {
+            @Override
+            public void execute(SearchUserBean dataBean) {
+                int rescode = dataBean.getRescode();
+                SearchUserBean.DataBean data = dataBean.getData();
+                List<SearchUserBean.DataBean.ListBean> list = data.getList();
+                if(rescode == 0){
+                    for (SearchUserBean.DataBean.ListBean listBean : list) {
 
+                        listPerson.add(listBean);
+                    }
+                }else {
+                    LogKit.d("rescode:"+rescode);
+                }
+            }
 
-        listPerson = new ArrayList<>();
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
-        listPerson.add(new SearchPersonBean());
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:"+result);
+            }
+        });
     }
 
     //获取listview要展示的数据

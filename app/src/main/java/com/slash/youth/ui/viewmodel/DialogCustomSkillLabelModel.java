@@ -32,6 +32,8 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
 
     public DialogCustomSkillLabelModel(DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding) {
         this.dialogCustomSkilllabelBinding = dialogCustomSkilllabelBinding;
+        dialogCustomSkilllabelBinding.tvTitle.setText("请输入");
+
     }
 
     //取消搜索对话框(xml中取消按钮绑定方法)
