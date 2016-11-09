@@ -43,8 +43,9 @@
                     android:onClick="@{activityHomeBinding.changePager}"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_freetime_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@mipmap/home_xianshi_btn"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -62,8 +63,9 @@
                     android:onClick="@{activityHomeBinding.changePager}"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_info_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@mipmap/home_message_btn"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -89,8 +91,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_contacts_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@mipmap/home_renmai_btn"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -108,8 +111,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_my_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@mipmap/home_wode_btn"/>
                     <TextView
                         android:layout_width="wrap_content"

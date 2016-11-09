@@ -22,13 +22,13 @@ import com.slash.youth.utils.LogKit;
  * Created by zhouyifeng on 2016/9/6.
  */
 public class ActivityHomeModel extends BaseObservable {
-    ActivityHomeBinding activityHomeBinding;
+    ActivityHomeBinding mActivityHomeBinding;
     private int chooseServiceAndDemandLayerVisibility = View.INVISIBLE;
     public Activity mActivity;
 
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
         this.mActivity = activity;
-        this.activityHomeBinding = activityHomeBinding;
+        this.mActivityHomeBinding = activityHomeBinding;
     }
 
     @Bindable
@@ -47,25 +47,36 @@ public class ActivityHomeModel extends BaseObservable {
      * @param v
      */
     public void changePager(View v) {
-        activityHomeBinding.flActivityHomePager.removeAllViews();
+        mActivityHomeBinding.flActivityHomePager.removeAllViews();
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
-                activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.home_xianshi_btn, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(mActivity).getRootView());
                 LogKit.v("freetime");
                 break;
             case R.id.ll_activity_home_info:
-                activityHomeBinding.flActivityHomePager.addView(new HomeInfoPager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeInfoPager(mActivity).getRootView());
                 LogKit.v("info");
                 break;
             case R.id.ll_activity_home_contacts:
-                activityHomeBinding.flActivityHomePager.addView(new HomeContactsPager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_press, R.mipmap.home_wode_btn);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeContactsPager(mActivity).getRootView());
                 LogKit.v("contacts");
                 break;
             case R.id.ll_activity_home_my:
-                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.icon_my_center_press);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeMyPager(mActivity).getRootView());
                 LogKit.v("my");
                 break;
         }
+    }
+
+    private void setBottomTabIcon(int freetimeIcon, int infoIcon, int contactsIcon, int myIcon) {
+        mActivityHomeBinding.ivFreetimeIcon.setImageResource(freetimeIcon);
+        mActivityHomeBinding.ivInfoIcon.setImageResource(infoIcon);
+        mActivityHomeBinding.ivContactsIcon.setImageResource(contactsIcon);
+        mActivityHomeBinding.ivMyIcon.setImageResource(myIcon);
     }
 
     public void chooseServiceAndDemandLayerDisplay(View v) {

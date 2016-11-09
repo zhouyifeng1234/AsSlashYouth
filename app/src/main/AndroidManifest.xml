@@ -231,6 +231,12 @@
         >
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.PublishServiceSucceddActivity">
+
+        </activity>
+        <activity android:name="com.slash.youth.ui.activity.ServiceDetailActivity">
+
+        </activity>
 
         <activity android:name=".ui.activity.UserInfoActivity"/>
         <activity android:name=".ui.activity.UserinfoEditorActivity"/>
