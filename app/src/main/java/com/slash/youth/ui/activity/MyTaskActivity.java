@@ -15,6 +15,7 @@ public class MyTaskActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
         super.onCreate(savedInstanceState);
 
         ActivityMyTaskBinding activityMyTaskBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_task);

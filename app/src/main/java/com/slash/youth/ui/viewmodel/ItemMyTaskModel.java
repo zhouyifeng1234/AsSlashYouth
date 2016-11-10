@@ -205,9 +205,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -219,9 +219,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -233,9 +233,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -247,9 +247,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -259,9 +259,9 @@ public class ItemMyTaskModel extends BaseObservable {
             setStatusText("预约中");
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -273,9 +273,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.VISIBLE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -287,9 +287,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -301,9 +301,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.VISIBLE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -315,9 +315,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -328,9 +328,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -342,9 +342,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
             } else if (type == 2) {//当前任务是服务
 
@@ -353,7 +353,7 @@ public class ItemMyTaskModel extends BaseObservable {
         }
     }
 
-    public void displayOrHideStatusButton(int bidDemandUpdateVisibility, int bidDemandAcceptVisibility, int bidDemandCompleteVisibility, int bidDemandRefundVisibility, int publishDemandPaymentVisibility, int publishDemandConfirmCompleteVisibility, int publishDemandCommentVisibility) {
+    public void displayOrHideStatusButton(int bidDemandUpdateVisibility, int bidDemandAcceptVisibility, int bidDemandCompleteVisibility, int bidDemandRefundVisibility, int publishDemandPaymentVisibility, int publishDemandConfirmCompleteVisibility, int publishDemandCommentVisibility, int statusButtonDividerVisibility) {
         mItemMyTaskBinding.llStatusBidDemandUpdate.setVisibility(bidDemandUpdateVisibility);
         mItemMyTaskBinding.llStatusBidDemandAccept.setVisibility(bidDemandAcceptVisibility);
         mItemMyTaskBinding.llStatusBidDemandComplete.setVisibility(bidDemandCompleteVisibility);
@@ -361,6 +361,9 @@ public class ItemMyTaskModel extends BaseObservable {
         mItemMyTaskBinding.llStatusPublishDemandPayment.setVisibility(publishDemandPaymentVisibility);
         mItemMyTaskBinding.llStatusPublishDemandConfirmComplete.setVisibility(publishDemandConfirmCompleteVisibility);
         mItemMyTaskBinding.llStatusPublishDemandComment.setVisibility(publishDemandCommentVisibility);
+
+        //当没有按钮的时候，需要隐藏分割线
+        mItemMyTaskBinding.vStatusButtonDivider.setVisibility(statusButtonDividerVisibility);
     }
 
 

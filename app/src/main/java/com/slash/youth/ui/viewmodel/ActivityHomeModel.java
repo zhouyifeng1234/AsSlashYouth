@@ -10,7 +10,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
-import com.slash.youth.ui.activity.SecondTimePublishServiceActivity;
+import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
@@ -22,13 +22,13 @@ import com.slash.youth.utils.LogKit;
  * Created by zhouyifeng on 2016/9/6.
  */
 public class ActivityHomeModel extends BaseObservable {
-    ActivityHomeBinding activityHomeBinding;
+    ActivityHomeBinding mActivityHomeBinding;
     private int chooseServiceAndDemandLayerVisibility = View.INVISIBLE;
     public Activity mActivity;
 
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
         this.mActivity = activity;
-        this.activityHomeBinding = activityHomeBinding;
+        this.mActivityHomeBinding = activityHomeBinding;
     }
 
     @Bindable
@@ -47,25 +47,36 @@ public class ActivityHomeModel extends BaseObservable {
      * @param v
      */
     public void changePager(View v) {
-        activityHomeBinding.flActivityHomePager.removeAllViews();
+        mActivityHomeBinding.flActivityHomePager.removeAllViews();
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
-                activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.home_xianshi_btn, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(mActivity).getRootView());
                 LogKit.v("freetime");
                 break;
             case R.id.ll_activity_home_info:
-                activityHomeBinding.flActivityHomePager.addView(new HomeInfoPager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeInfoPager(mActivity).getRootView());
                 LogKit.v("info");
                 break;
             case R.id.ll_activity_home_contacts:
-                activityHomeBinding.flActivityHomePager.addView(new HomeContactsPager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_press, R.mipmap.home_wode_btn);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeContactsPager(mActivity).getRootView());
                 LogKit.v("contacts");
                 break;
             case R.id.ll_activity_home_my:
-                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(mActivity).getRootView());
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.icon_my_center_press);
+                mActivityHomeBinding.flActivityHomePager.addView(new HomeMyPager(mActivity).getRootView());
                 LogKit.v("my");
                 break;
         }
+    }
+
+    private void setBottomTabIcon(int freetimeIcon, int infoIcon, int contactsIcon, int myIcon) {
+        mActivityHomeBinding.ivFreetimeIcon.setImageResource(freetimeIcon);
+        mActivityHomeBinding.ivInfoIcon.setImageResource(infoIcon);
+        mActivityHomeBinding.ivContactsIcon.setImageResource(contactsIcon);
+        mActivityHomeBinding.ivMyIcon.setImageResource(myIcon);
     }
 
     public void chooseServiceAndDemandLayerDisplay(View v) {
@@ -94,8 +105,11 @@ public class ActivityHomeModel extends BaseObservable {
 //        intentPublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentPublishServiceActivity);
 
-        Intent intentSecondTimePublishServiceActivity = new Intent(CommonUtils.getContext(), SecondTimePublishServiceActivity.class);
-        intentSecondTimePublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentSecondTimePublishServiceActivity);
+//        Intent intentSecondTimePublishServiceActivity = new Intent(CommonUtils.getContext(), SecondTimePublishServiceActivity.class);
+//        intentSecondTimePublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentSecondTimePublishServiceActivity);
+
+        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
+        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
     }
 }
