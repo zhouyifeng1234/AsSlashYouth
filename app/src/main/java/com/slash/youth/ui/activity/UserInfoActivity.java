@@ -91,9 +91,9 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.tv_userinfo_save:
                 LogKit.d("跳转到编辑页面");
-                Intent UserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
-                UserinfoEditorActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                CommonUtils.getContext().startActivity(UserinfoEditorActivity);
+                Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+                intentUserinfoEditorActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                CommonUtils.getContext().startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
                 LogKit.d("弹出弹框");

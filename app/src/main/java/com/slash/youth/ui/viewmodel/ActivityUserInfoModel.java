@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -37,7 +38,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private String slashIdentity = "暂未填写";//默认
     private String defaultArea  = "暂未填写";
     private UserInfoItemBean.DataBean.UinfoBean uinfo;
-    public long  userUid = -11;//-1是自己看自己的
+    public long  userUid = -1;//-1是自己看自己的
     public String name;
     private int expert;
     private int isauth;
@@ -93,7 +94,8 @@ public class ActivityUserInfoModel extends BaseObservable {
         userInfoListView.add(new NewTaskUserInfoBean(true));
         userInfoListView.add(new NewTaskUserInfoBean(true));
         userInfoListView.add(new NewTaskUserInfoBean(true));
-    }
+
+    }   
 
     private void getOtherUserInfoData() {
         //这是从其他页面里面传过来的，我看其他人的资料数据
@@ -153,6 +155,9 @@ public class ActivityUserInfoModel extends BaseObservable {
         userInfoAdapter = new UserInfoAdapter(userInfoListView);
         activityUserinfoBinding.lvUserinfo.setAdapter(userInfoAdapter);
 
+        //让listview不获取焦点
+        activityUserinfoBinding.lvUserinfo.setFocusable(false);
+
         //手动ScrollView设置到顶部
         activityUserinfoBinding.sv.smoothScrollTo(0,0);
 
@@ -163,7 +168,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
         });
     }
-
 
     //加好友
     public void addFriend(View view) {
@@ -185,7 +189,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         //用户头像
         avatar = uinfo.getAvatar();
         if(!avatar.isEmpty()){
-           // x.image().bind(activityUserinfoBinding.ivUserinfoUsericon,avatar);
+          //  x.image().bind(activityUserinfoBinding.ivUserinfoUsericon,avatar);
         }
 
         //用户姓名
@@ -196,8 +200,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         }else {
             activityUserinfoBinding.tvUserinfoUsername.setText("个人信息中心");
         }
-
-
 
         //专家  用户身份，是否是专家，专家几级,默认是不显示
         expert = uinfo.getExpert();
@@ -258,15 +260,40 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //ios android
         tag = uinfo.getTag();
-        if(!tag.contains("-")){
+        if(!tag.contains(" ")){
             activityUserinfoBinding.tvUserInfoTag.setText(tag);
+            //技能标签
+            activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
+            activityUserinfoBinding.tvSkilllabel1.setText(tag);
+
         }else {
-            String[] split = tag.split("-");
+            String[] split = tag.split(" ");
             for (int i = 0; i < split.length; i++) {
                 if(i == split.length-1){
                     activityUserinfoBinding.tvUserInfoTag.setText(split[i]);
                 }else {
                     activityUserinfoBinding.tvUserInfoTag.setText(split[i]+"|");
+                }
+         //最多三个，分情况,技能标签
+                switch (split.length){
+                    case 1:
+                        activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
+                        activityUserinfoBinding.tvSkilllabel1.setText(split[0]);
+                        break;
+                    case 2:
+                        activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
+                        activityUserinfoBinding.tvSkilllabel1.setText(split[0]);
+                        activityUserinfoBinding.tvSkilllabel2.setVisibility(View.VISIBLE);
+                        activityUserinfoBinding.tvSkilllabel2.setText(split[1]);
+                        break;
+                    case 3:
+                        activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
+                        activityUserinfoBinding.tvSkilllabel1.setText(split[0]);
+                        activityUserinfoBinding.tvSkilllabel2.setVisibility(View.VISIBLE);
+                        activityUserinfoBinding.tvSkilllabel2.setText(split[1]);
+                        activityUserinfoBinding.tvSkilllabel3.setVisibility(View.VISIBLE);
+                        activityUserinfoBinding.tvSkilllabel3.setText(split[2]);
+                        break;
                 }
             }
         }
@@ -274,10 +301,14 @@ public class ActivityUserInfoModel extends BaseObservable {
         //身份,斜杠 斜杠身份  没填写斜杠身份时，显示暂未填写 ,如果有的话，就填写
         identity = uinfo.getIdentity();
         if(!identity.contains(",")){
-            activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份:"+slashIdentity);
+            if(identity.isEmpty()){
+                activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份: "+slashIdentity);
+            }else {
+                activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份: "+identity);
+            }
         }else {
             String[] splitIdentity = identity.split(",");
-            stringBuffer.append("斜杠身份:");
+            stringBuffer.append("斜杠身份: ");
             for (int i = 0; i < splitIdentity.length; i++) {
                 if(i == splitIdentity.length-1){
                     stringBuffer.append(splitIdentity[i]);
@@ -287,6 +318,8 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
             activityUserinfoBinding.tvSlashIdentity.setText(stringBuffer.toString());
         }
+
+        // TODO 如果是我自己的，那么粉丝数等数据是从前面的数据传递过来的
 
         //粉丝数
         fanscount = uinfo.getFanscount();
@@ -310,7 +343,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         //用户服务指向
         userservicepoint = uinfo.getUserservicepoint();
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力"+userservicepoint+"星");
-        activityUserinfoBinding.tvAverageServicePoint.setText(averageservicepoint);
+        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint);
         activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为"+averageservicepoint+"星");
 
         //方向
@@ -325,11 +358,8 @@ public class ActivityUserInfoModel extends BaseObservable {
         //String profession ="";
        // activityUserinfoBinding.tvUserInfoProfession.setText(profession);
 
-
         //技能描述,从编辑页面传过来
         //activityUserinfoBinding.tvUserinfoSkilldescribe.setText();
-
-
 
         //技能标签，一开始是注册时传过来的三个标签，点击到技能标签页面修改，点击后修改完的显示
         //标签的数量是(0.3],默认全不显示
@@ -351,6 +381,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     }
 
     private void OpenApprovalActivtity() {
+        //去认证
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentApprovalActivity);

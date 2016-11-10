@@ -43,6 +43,7 @@
                 android:orientation="vertical">
 
                 <CheckBox
+                    android:id="@+id/cb1"
                     android:button="@null"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
@@ -58,6 +59,7 @@
                     android:layout_height="1px"
                     android:background="#999999"/>
                 <CheckBox
+                    android:id="@+id/cb2"
                     android:layout_weight="1"
                     android:button="@null"
                     android:layout_width="wrap_content"
@@ -75,6 +77,7 @@
                     />
 
                 <CheckBox
+                    android:id="@+id/cb3"
                     android:button="@null"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
@@ -126,16 +129,35 @@
                 android:layout_height="120dp"
                 android:background="@drawable/shape_report_bg">
 
-                <TextView
+              <!--  <EditText
+                    android:id="@+id/et_report_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="点击这里输入"
+                    android:hint="点击这里输入"
                     android:textSize="13dp"
+                    android:textColorHint="#cccccc"
+                    android:background="@null"
                     android:layout_marginLeft="6dp"
                     android:layout_marginTop="10dp"
-                    android:textColor="#cccccc"/>
+                    android:textColor="#cccccc"/>-->
+
+                <EditText
+                    android:id="@+id/et_report_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textSize="13dp"
+                    android:hint="点击这里输入"
+                    android:inputType="text"
+                    android:textColorHint="#cccccc"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="10dp"
+                    android:cursorVisible="false"
+                    />
+
 
                 <TextView
+                    android:id="@+id/tv_report_num"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"

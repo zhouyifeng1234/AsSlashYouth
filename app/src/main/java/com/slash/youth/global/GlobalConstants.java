@@ -245,14 +245,28 @@ public class GlobalConstants {
         public static final String MY_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/info/get";
         //二、[我的]-[用户中心]-获取个人资料
         public static final String GET_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/basic/info/get";
-
-
-
-
-
-
-
-
+        //三、[我的]-[用户中心]-保存个人资料
+        public static final String SAVE_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/basic/info/set";
+        //四、[我的]-[用户中心]-设置所在地
+        public static final String SET_LOCATION = "/vcard/location/set";
+        //五、[我的]-[用户中心]-设置斜杠身份
+        public static final String SET_SLASH_IDENTITY = "/vcard/identity/set";
+        //六、[我的]-[用户中心]-设置公司和职位
+        public static final String SET_SLASH_COMPANY_AND_POSITION = "/vcard/company/set";
+        //七、[我的]-[用户中心]-设置设置行业和方向
+        public static final String SET_SLASH_INDUSTRY = "/vcard/industry/set";
+        //八、[我的]-[用户中心]-设置设置头像
+        public static final String SET_SLASH_AVATAR = "/vcard/avatar/set";
+        //九、[我的]-[用户中心]-设置用户标签
+        public static final String SET_SLASH_TAG = "/vcard/tag/set";
+        //十、[我的]-[用户中心]-设置用户认证
+        public static final String SET_SLASH_AUTH = "/real/auth";
+        //十一、[我的]-[用户中心]-用户认证流程状态
+        public static final String SLASH_STATUS = "/real/status";
+        //十二、[我的]-[用户中心]-举报用户
+        public static final String CLAIMS  = "/claims";
+        //十三、[我的]-[用户中心]-我的首页数据
+        public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
 
     }
 

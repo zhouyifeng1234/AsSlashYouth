@@ -1,21 +1,20 @@
 package com.slash.youth.domain;
 
-import android.os.Parcelable;
-
-import java.io.Serializable;
+import java.util.List;
 
 /**
- * Created by zss on 2016/10/12.
+ * Created by zss on 2016/11/9. //我的模块首页Bean
  */
-public class UserInfoItemBean implements Serializable{
+public class MyFirstPageBean {
+
 
     /**
-     * uinfo : {"achievetaskcount":0,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}
+     * myinfo : {"achievetaskcount":0,"amount":102400,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"expertlevel":0,"expertlevels":[],"expertscore":0,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}
      */
 
     private DataBean data;
     /**
-     * data : {"uinfo":{"achievetaskcount":0,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}}
+     * data : {"myinfo":{"achievetaskcount":0,"amount":102400,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"expertlevel":0,"expertlevels":[],"expertscore":0,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}}
      * rescode : 0
      */
 
@@ -40,6 +39,7 @@ public class UserInfoItemBean implements Serializable{
     public static class DataBean {
         /**
          * achievetaskcount : 0
+         * amount : 102400
          * avatar :
          * averageservicepoint : 0
          * careertype : 1
@@ -47,6 +47,9 @@ public class UserInfoItemBean implements Serializable{
          * company : 腾讯
          * direction : 客户端
          * expert : 2
+         * expertlevel : 0
+         * expertlevels : []
+         * expertscore : 0
          * fanscount : 0
          * fansratio : 0
          * id : 10002
@@ -61,18 +64,19 @@ public class UserInfoItemBean implements Serializable{
          * userservicepoint : 0
          */
 
-        private UinfoBean uinfo;
+        private MyinfoBean myinfo;
 
-        public UinfoBean getUinfo() {
-            return uinfo;
+        public MyinfoBean getMyinfo() {
+            return myinfo;
         }
 
-        public void setUinfo(UinfoBean uinfo) {
-            this.uinfo = uinfo;
+        public void setMyinfo(MyinfoBean myinfo) {
+            this.myinfo = myinfo;
         }
 
-        public static class UinfoBean {
+        public static class MyinfoBean {
             private int achievetaskcount;
+            private int amount;
             private String avatar;
             private int averageservicepoint;
             private int careertype;
@@ -80,6 +84,8 @@ public class UserInfoItemBean implements Serializable{
             private String company;
             private String direction;
             private int expert;
+            private int expertlevel;
+            private int expertscore;
             private int fanscount;
             private int fansratio;
             private int id;
@@ -92,6 +98,7 @@ public class UserInfoItemBean implements Serializable{
             private String tag;
             private int totoltaskcount;
             private int userservicepoint;
+            private List<?> expertlevels;
 
             public int getAchievetaskcount() {
                 return achievetaskcount;
@@ -99,6 +106,14 @@ public class UserInfoItemBean implements Serializable{
 
             public void setAchievetaskcount(int achievetaskcount) {
                 this.achievetaskcount = achievetaskcount;
+            }
+
+            public int getAmount() {
+                return amount;
+            }
+
+            public void setAmount(int amount) {
+                this.amount = amount;
             }
 
             public String getAvatar() {
@@ -155,6 +170,22 @@ public class UserInfoItemBean implements Serializable{
 
             public void setExpert(int expert) {
                 this.expert = expert;
+            }
+
+            public int getExpertlevel() {
+                return expertlevel;
+            }
+
+            public void setExpertlevel(int expertlevel) {
+                this.expertlevel = expertlevel;
+            }
+
+            public int getExpertscore() {
+                return expertscore;
+            }
+
+            public void setExpertscore(int expertscore) {
+                this.expertscore = expertscore;
             }
 
             public int getFanscount() {
@@ -252,7 +283,14 @@ public class UserInfoItemBean implements Serializable{
             public void setUserservicepoint(int userservicepoint) {
                 this.userservicepoint = userservicepoint;
             }
+
+            public List<?> getExpertlevels() {
+                return expertlevels;
+            }
+
+            public void setExpertlevels(List<?> expertlevels) {
+                this.expertlevels = expertlevels;
+            }
         }
     }
-
 }
