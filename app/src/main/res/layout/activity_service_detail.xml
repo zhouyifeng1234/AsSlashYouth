@@ -884,8 +884,8 @@
                     android:id="@+id/ll_similar_service_recommend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
                     android:orientation="vertical">
 
                 </LinearLayout>
