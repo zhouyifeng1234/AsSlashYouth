@@ -134,130 +134,225 @@
                 android:layout_weight="1"/>
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="31dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/shape_rounded_demand2_baseinfo_inner_bg"
-            android:orientation="vertical"
-        >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:onClick="@{publishServiceSuccessModel.gotoServiceDetail}"
-                android:text="查看详情"
-                android:textColor="#CCCCCC"
-                android:textSize="12sp"/>
-
-            <ImageView
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="-6dp"
-                android:src="@mipmap/success_icon"/>
-
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="31dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="发布成功 获得"
-                          android:textColor="#999999"
-                          android:textSize="15sp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="20"
-                          android:textColor="#31C5E4"
-                          android:textSize="15sp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="积分"
-                          android:textColor="#999999"
-                          android:textSize="15sp"/>
+                android:background="@drawable/shape_rounded_demand2_baseinfo_inner_bg"
+                android:orientation="vertical"
+                android:visibility="gone"
+            >
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/bar_left"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="系统已自动匹配优质需求"
-                    android:textColor="#666666"
-                    android:textSize="12sp"
-                />
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:onClick="@{publishServiceSuccessModel.gotoServiceDetail}"
+                    android:text="查看详情"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp"/>
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/bar_right"/>
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/lv_recommend_demand"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="8dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-            >
-
-            </ListView>
-
-            <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="91dp"
-                android:background="@mipmap/demand_layer_3">
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="-6dp"
+                    android:src="@mipmap/success_icon"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-                    <Button
-                        android:layout_width="252dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/btn_next_step"
-                        android:text="马上联系他们"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="发布成功 获得"
+                              android:textColor="#999999"
+                              android:textSize="15sp"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="20"
+                              android:textColor="#31C5E4"
+                              android:textSize="15sp"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="积分"
+                              android:textColor="#999999"
+                              android:textSize="15sp"/>
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/bar_left"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="3dp"
-                        android:text="展示有效期至2016年6月28日24:00"
-                        android:textColor="#999999"
-                        android:textSize="12sp"/>
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="系统已自动匹配优质需求"
+                        android:textColor="#666666"
+                        android:textSize="12sp"
+                    />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/bar_right"/>
                 </LinearLayout>
 
-            </FrameLayout>
+                <ListView
+                    android:id="@+id/lv_recommend_demand"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="8dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0dp"
+                >
 
-        </LinearLayout>
+                </ListView>
+
+                <View android:layout_width="0dp" android:layout_height="0dp"
+                      android:layout_weight="1"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:background="@mipmap/demand_layer_3">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+                        <Button
+                            android:layout_width="252dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/btn_next_step"
+                            android:text="马上联系他们"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="3dp"
+                            android:text="展示有效期至2016年6月28日24:00"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="31dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_rounded_demand2_baseinfo_inner_bg"
+                android:orientation="vertical"
+            >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:onClick="@{publishServiceSuccessModel.gotoServiceDetail}"
+                    android:text="查看详情"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp"/>
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="-6dp"
+                    android:src="@mipmap/success_icon"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="9dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/bar_left"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="服务已提交,未上架"
+                        android:textColor="#666666"
+                        android:textSize="12sp"
+                    />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/bar_right"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="268dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="29dp"
+                    android:text="您的服务已提交但未上架，需认证后才能上架 认证后，该服务会自动上架"
+                    android:textColor="#999999"
+                    android:textSize="14sp"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="91dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/demand_layer_3">
+
+                    <Button
+                        android:layout_width="252dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/btn_next_step"
+                        android:text="去认证"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+
 
     </LinearLayout>
 </layout>
