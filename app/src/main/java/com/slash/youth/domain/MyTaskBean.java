@@ -11,7 +11,7 @@ public class MyTaskBean {
     public int his;//是否是历史任务 0 否 1 是 （这个字段暂时无用）
     public int id;
     public int instalment;//0 or 1 表示是否开启分期   0不允许分期 1允许分期
-    public String instalmentcurr;//表示当前处于第几个分期 1 到 4
+    public int instalmentcurr;//表示当前处于第几个分期 1 到 4
     public int instalmentcurrfinish;//表示当期是否服务方完成 0未完成 1已经完成
     public String instalmentratio;//表示分期情况，格式为30,20,10,40 (英文逗号分隔)
 

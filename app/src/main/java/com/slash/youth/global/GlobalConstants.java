@@ -148,7 +148,8 @@ public class GlobalConstants {
         public static final String DEMAND_PARTY_DELAY_PAY = SERVER_HOST_DEMAND + "rollback";
         //二、[需求]-需求方淘汰服务者
         public static final String DEMAND_ELIMINATE_SERVICE = SERVER_HOST_DEMAND + "eliminate";
-
+        //二、[需求]-查看需求详情
+        public static final String GET_DEMAND_DETAIL = SERVER_HOST_DEMAND + "queryone";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";

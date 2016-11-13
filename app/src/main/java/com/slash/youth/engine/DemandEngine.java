@@ -4,6 +4,7 @@ import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
+import com.slash.youth.http.protocol.DemandDetailProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
@@ -270,6 +271,17 @@ public class DemandEngine {
     public static void demandEliminateService(BaseProtocol.IResultExecutor onEliminateFinished, String id, String uid) {
         EliminateProtocol eliminateProtocol = new EliminateProtocol(id, uid);
         eliminateProtocol.getDataFromServer(onEliminateFinished);
+    }
+
+    /**
+     * 二、[需求]-查看需求详情
+     *
+     * @param onGetDemandDetailFinished
+     * @param id                        需求ID
+     */
+    public static void getDemandDetail(BaseProtocol.IResultExecutor onGetDemandDetailFinished, String id) {
+        DemandDetailProtocol demandDetailProtocol = new DemandDetailProtocol(id);
+        demandDetailProtocol.getDataFromServer(onGetDemandDetailFinished);
     }
 
 }
