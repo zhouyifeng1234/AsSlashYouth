@@ -7,21 +7,21 @@ import com.slash.youth.global.GlobalConstants;
 import org.xutils.http.RequestParams;
 
 /**
- * Created by zhouyifeng on 2016/10/6.
+ * Created by zhouyifeng on 2016/11/13.
  */
-public class DemandPartySelectServicePartyProtocol extends BaseProtocol<CommonResultBean> {
+public class EliminateProtocol extends BaseProtocol<CommonResultBean> {
 
-    private String id;//需求ID
-    private String uid;//服务方UID
+    String id;
+    String uid;
 
-    public DemandPartySelectServicePartyProtocol(String id, String uid) {
+    public EliminateProtocol(String id, String uid) {
         this.id = id;
         this.uid = uid;
     }
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.DEMAND_PARTY_SELECT_SERVICE_PARTY;
+        return GlobalConstants.HttpUrl.DEMAND_ELIMINATE_SERVICE;
     }
 
     @Override

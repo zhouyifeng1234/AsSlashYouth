@@ -578,7 +578,7 @@
             <FrameLayout
                 android:layout_width="269dp"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/ll_payment_password_keyboard"
+                android:layout_above="@+id/ll_payment_password_keyboard"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="9dp">
 

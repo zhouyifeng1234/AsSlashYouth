@@ -97,6 +97,8 @@ public class GlobalConstants {
 
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
+        //二、[需求]-我的任务ITEM
+        public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
 
 
         //一、[文件]-图片上传
@@ -144,6 +146,8 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_INTERVENTION = SERVER_HOST_DEMAND + "intervention";
         //[需求]-需求方要求延期付款接口
         public static final String DEMAND_PARTY_DELAY_PAY = SERVER_HOST_DEMAND + "rollback";
+        //二、[需求]-需求方淘汰服务者
+        public static final String DEMAND_ELIMINATE_SERVICE = SERVER_HOST_DEMAND + "eliminate";
 
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
@@ -245,13 +249,6 @@ public class GlobalConstants {
         public static final String MY_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/info/get";
         //二、[我的]-[用户中心]-获取个人资料
         public static final String GET_USERINFO = SERVER_HOST_MY_USERINFO + "/vcard/basic/info/get";
-
-
-
-
-
-
-
 
 
     }

@@ -10,6 +10,7 @@ import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
+import com.slash.youth.http.protocol.EliminateProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
@@ -257,6 +258,18 @@ public class DemandEngine {
     public static void downloadFile(BaseProtocol.IResultExecutor onDownloadFileFinished, String fileId) {
         DownloadFileProtocol downloadFileProtocol = new DownloadFileProtocol(fileId);
         downloadFileProtocol.getDataFromServer(onDownloadFileFinished);
+    }
+
+    /**
+     * 二、[需求]-需求方淘汰服务者
+     *
+     * @param onEliminateFinished
+     * @param id                  需求ID
+     * @param uid                 服务者ID
+     */
+    public static void demandEliminateService(BaseProtocol.IResultExecutor onEliminateFinished, String id, String uid) {
+        EliminateProtocol eliminateProtocol = new EliminateProtocol(id, uid);
+        eliminateProtocol.getDataFromServer(onEliminateFinished);
     }
 
 }

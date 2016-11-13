@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -91,6 +92,13 @@ public class MyTaskModel extends BaseObservable {
                     mActivity.startActivity(intentMyPublishDemandActivity);
                 } else {
                     Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
+
+                    Bundle taskInfo = new Bundle();
+                    taskInfo.putLong("tid", 193);
+                    taskInfo.putInt("type", 1);
+                    taskInfo.putInt("roleid", 1);
+                    intentDemandChooseServiceActivity.putExtras(taskInfo);
+
                     mActivity.startActivity(intentDemandChooseServiceActivity);
                 }
             }
