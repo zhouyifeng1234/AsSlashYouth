@@ -84,19 +84,25 @@ public class MyTaskModel extends BaseObservable {
         mActivityMyTaskBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle taskInfo = new Bundle();
+                taskInfo.putLong("tid", 193);
+                taskInfo.putInt("type", 1);
+                taskInfo.putInt("roleid", 1);
+
                 if (position == 1) {
                     Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
                     mActivity.startActivity(intentMyBidDemandActivity);
                 } else if (position == 2) {
                     Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
+
+                    intentMyPublishDemandActivity.putExtras(taskInfo);
+
                     mActivity.startActivity(intentMyPublishDemandActivity);
                 } else {
                     Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
 
-                    Bundle taskInfo = new Bundle();
-                    taskInfo.putLong("tid", 193);
-                    taskInfo.putInt("type", 1);
-                    taskInfo.putInt("roleid", 1);
+
                     intentDemandChooseServiceActivity.putExtras(taskInfo);
 
                     mActivity.startActivity(intentDemandChooseServiceActivity);
