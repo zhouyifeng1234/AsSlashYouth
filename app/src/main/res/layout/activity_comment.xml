@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="12dp"
+                    android:onClick="@{commentModel.completeComment}"
                     android:text="完成"
                     android:textColor="#ffffff"
                     android:textSize="15sp"/>
@@ -313,6 +314,7 @@
                     />
 
                     <ImageView
+
                         android:layout_width="79dp"
                         android:layout_height="79dp"
                         android:layout_gravity="bottom|right"
@@ -351,6 +353,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
+            android:visibility="gone"
         >
 
             <FrameLayout
@@ -361,7 +364,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#F8F8F8"
+                    android:background="@drawable/shape_payment_centerbox_bg"
                     android:orientation="vertical">
 
                     <ImageView
@@ -413,6 +416,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="3dp"
                         android:background="#ffffff">
 
                         <Button

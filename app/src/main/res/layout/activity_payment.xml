@@ -30,13 +30,14 @@
                         android:paddingLeft="12dp"
                         android:paddingRight="12dp"
                         android:src="@mipmap/nav_back"
+                        android:visibility="@{paymentModel.gobackVisibility}"
                     />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="预支付"
+                        android:text="@{paymentModel.paymentTopText}"
                         android:textColor="#ffffff"
                         android:textSize="17sp"/>
 
@@ -49,7 +50,8 @@
                         android:onClick="@{paymentModel.closePaymentActivity}"
                         android:text="关闭"
                         android:textColor="#ffffff"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp"
+                        android:visibility="@{paymentModel.closeVisibility}"/>
 
                 </RelativeLayout>
 
@@ -64,7 +66,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="@{paymentModel.payMainInfoVisibility}"
+                >
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -179,6 +182,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="12dp"
+                                android:onClick="@{paymentModel.checkBalancePayment}"
                                 android:orientation="horizontal"
                             >
                                 <ImageView
@@ -235,9 +239,12 @@
                                     android:layout_weight="1"/>
 
                                 <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
+                                    android:id="@+id/iv_payment_balance"
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
                                     android:layout_gravity="center_vertical"
+
+                                    android:padding="5dp"
                                     android:src="@mipmap/pitchon_btn"/>
 
                             </LinearLayout>
@@ -254,6 +261,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="12dp"
+                                android:onClick="@{paymentModel.checkAlipay}"
                                 android:orientation="horizontal"
                             >
                                 <ImageView
@@ -292,9 +300,12 @@
                                     android:layout_weight="1"/>
 
                                 <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
+                                    android:id="@+id/iv_payment_alipay"
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
                                     android:layout_gravity="center_vertical"
+
+                                    android:padding="5dp"
                                     android:src="@mipmap/service_ptype_moren_icon"/>
 
                             </LinearLayout>
@@ -312,6 +323,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="12dp"
+                                android:onClick="@{paymentModel.checkWeixinPayment}"
                                 android:orientation="horizontal"
                             >
                                 <ImageView
@@ -350,9 +362,12 @@
                                     android:layout_weight="1"/>
 
                                 <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
+                                    android:id="@+id/iv_payment_weixin"
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp"
                                     android:layout_gravity="center_vertical"
+
+                                    android:padding="5dp"
                                     android:src="@mipmap/service_ptype_moren_icon"/>
 
                             </LinearLayout>
@@ -401,7 +416,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{paymentModel.paySuccessVisibility}">
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -453,51 +469,58 @@
                     </android.support.v7.widget.CardView>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="22dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:visibility="@{paymentModel.setTradePasswordVisibility}">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="22dp"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="为了您"
-                            android:textColor="#666666"
-                            android:textSize="14sp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="账户安全"
-                            android:textColor="#FF7333"
-                            android:textSize="14sp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="，请前往设置斜杠平台交易密码"
-                            android:textColor="#666666"
-                            android:textSize="14sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="为了您"
+                                android:textColor="#666666"
+                                android:textSize="14sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="账户安全"
+                                android:textColor="#FF7333"
+                                android:textSize="14sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="，请前往设置斜杠平台交易密码"
+                                android:textColor="#666666"
+                                android:textSize="14sp"/>
 
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="67dp"
+                            android:layout_marginTop="14dp"
+                            android:background="@mipmap/demand_layer_3">
+
+                            <Button
+                                android:layout_width="250dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/btn_next_step"
+                                android:onClick="@{paymentModel.gotoSettingTransactionPassword}"
+                                android:text="去设置"
+                                android:textColor="#FFFFFF"
+                                android:textSize="15sp"/>
+
+                        </FrameLayout>
                     </LinearLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="67dp"
-                        android:layout_marginTop="14dp"
-                        android:background="@mipmap/demand_layer_3">
-
-                        <Button
-                            android:layout_width="250dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/btn_next_step"
-                            android:onClick="@{paymentModel.gotoSettingTransactionPassword}"
-                            android:text="去设置"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"/>
-
-                    </FrameLayout>
 
                 </LinearLayout>
 
@@ -510,7 +533,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="gone">
+            android:visibility="@{paymentModel.payFailVisibility}">
 
             <LinearLayout
                 android:layout_width="269dp"
@@ -558,6 +581,7 @@
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:background="@drawable/btn_next_step"
+                        android:onClick="@{paymentModel.closeFailDialog}"
                         android:text="确定"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"/>
@@ -573,6 +597,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
+            android:visibility="@{paymentModel.inputPasswordVisibility}"
         >
 
             <FrameLayout
@@ -585,7 +610,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone">
+                    android:visibility="@{paymentModel.setTradePasswordBoxVisibility}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -707,13 +732,14 @@
                         android:layout_gravity="right"
                         android:layout_marginRight="9dp"
                         android:layout_marginTop="9dp"
+                        android:onClick="@{paymentModel.closeSetPasswordBox}"
                         android:src="@mipmap/withdraw_cash_close_icon"/>
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone">
+                    android:visibility="@{paymentModel.sureTradePasswordBoxVisibility}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -835,12 +861,14 @@
                         android:layout_gravity="right"
                         android:layout_marginRight="9dp"
                         android:layout_marginTop="9dp"
+                        android:onClick="@{paymentModel.closeSurePasswordBox}"
                         android:src="@mipmap/withdraw_cash_close_icon"/>
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:visibility="@{paymentModel.inputTradePasswordBoxVisibility}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -945,6 +973,7 @@
                         android:layout_gravity="right"
                         android:layout_marginRight="9dp"
                         android:layout_marginTop="9dp"
+                        android:onClick="@{paymentModel.closeInputPasswordBox}"
                         android:src="@mipmap/withdraw_cash_close_icon"/>
                 </FrameLayout>
 

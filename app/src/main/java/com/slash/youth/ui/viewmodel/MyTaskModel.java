@@ -91,6 +91,8 @@ public class MyTaskModel extends BaseObservable {
                 taskInfo.putInt("type", myTaskBean.type);
                 taskInfo.putInt("roleid", myTaskBean.roleid);
 
+//                ToastUtils.shortToast(myTaskBean.status + "");
+
                 if (myTaskBean.roleid == 1) {//发布者
                     if (myTaskBean.type == 1) {//需求
                         switch (myTaskBean.status) {

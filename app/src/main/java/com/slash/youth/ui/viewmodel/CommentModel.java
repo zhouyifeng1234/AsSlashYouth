@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,6 +23,10 @@ public class CommentModel extends BaseObservable {
     int completeSpeedMarks = 0;
     int serviceAttitudeMarks = 0;
 
+    long tid;//任务ID（需求or服务ID）
+    int type;//需求服务类型 1需求 2服务
+    long suid;//服务者UID
+
 
     public CommentModel(ActivityCommentBinding activityCommentBinding, Activity activity) {
         this.mActivityCommentBinding = activityCommentBinding;
@@ -35,7 +40,10 @@ public class CommentModel extends BaseObservable {
     }
 
     private void initData() {
-
+        Bundle commentInfo = mActivity.getIntent().getExtras();
+        tid = commentInfo.getLong("tid");
+        type = commentInfo.getInt("type");
+        suid = commentInfo.getLong("suid");
     }
 
     public void gotoBack(View v) {
@@ -69,6 +77,11 @@ public class CommentModel extends BaseObservable {
                 ivStar.setImageResource(R.mipmap.default_star);
             }
         }
+    }
+
+    //完成提交评论
+    public void completeComment(View v) {
+
     }
 
 }

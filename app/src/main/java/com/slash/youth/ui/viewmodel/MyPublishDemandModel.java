@@ -13,6 +13,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyPublishDemandBinding;
 import com.slash.youth.databinding.ItemDemandFlowLogBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.MyTaskBean;
@@ -20,8 +21,11 @@ import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.CommentActivity;
+import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -67,7 +71,15 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //需求方评论
     public void comment(View v) {
+        Intent intentCommentActivity = new Intent(CommonUtils.getContext(), CommentActivity.class);
 
+        Bundle commentInfo = new Bundle();
+        commentInfo.putLong("tid", tid);
+        commentInfo.putInt("type", type);
+        commentInfo.putLong("suid", innerDemandCardInfo.suid);
+        intentCommentActivity.putExtras(commentInfo);
+
+        mActivity.startActivity(intentCommentActivity);
     }
 
     //申请退款
@@ -83,13 +95,32 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //需求方确认完成
     public void confirmFinish(View v) {
+        int fid = innerDemandCardInfo.instalmentcurr;
+        DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                //确认完成成功
+                ToastUtils.shortToast("确认完成成功");
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                //确认完成失败
+                ToastUtils.shortToast("确认完成失败");
+            }
+        }, tid + "", fid + "");
     }
 
     //打开支付界面
     public void openPaymentActivity(View v) {
-//        Intent intentPaymentActivity = new Intent(CommonUtils.getContext(), PaymentActivity.class);
-//        mActivity.startActivity(intentPaymentActivity);
+        Intent intentPaymentActivity = new Intent(CommonUtils.getContext(), PaymentActivity.class);
+
+        Bundle payInfo = new Bundle();
+        payInfo.putLong("tid", tid);
+        payInfo.putDouble("quote", innerDemandCardInfo.quote);
+        intentPaymentActivity.putExtras(payInfo);
+
+        mActivity.startActivity(intentPaymentActivity);
 
         //暂时先用余额支付测试
     }

@@ -26,7 +26,7 @@ import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
 
 /**
- * Created by zhouyifeng on 2016/9/1.
+ * Created by zhouyifeng on 2016/9/1.inputPasswordVisibility
  * 需求相关操作
  */
 public class DemandEngine {
@@ -128,6 +128,8 @@ public class DemandEngine {
      *
      * @param onDemandPartyPrePaymentFinished
      * @param id                              需求ID
+     * @param amount
+     * @param channel                         PAYMENT_TYPE_BALANCE= 0; PAYMENT_TYPE_ALIPAY = 1;PAYMENT_TYPE_WX = 2;
      */
     public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel) {
         DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel);
@@ -283,5 +285,8 @@ public class DemandEngine {
         DemandDetailProtocol demandDetailProtocol = new DemandDetailProtocol(id);
         demandDetailProtocol.getDataFromServer(onGetDemandDetailFinished);
     }
+
+
+
 
 }

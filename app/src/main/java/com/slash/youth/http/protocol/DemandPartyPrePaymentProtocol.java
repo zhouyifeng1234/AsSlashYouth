@@ -34,15 +34,21 @@ public class DemandPartyPrePaymentProtocol extends BaseProtocol<PaymentBean> {
         params.addBodyParameter("channel", channel);
     }
 
+    PaymentBean paymentBean = null;
+
     @Override
     public PaymentBean parseData(String result) {
-        Gson gson = new Gson();
-        PaymentBean paymentBean = gson.fromJson(result, PaymentBean.class);
         return paymentBean;
     }
 
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        paymentBean = gson.fromJson(result, PaymentBean.class);
+        if (paymentBean.rescode == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
