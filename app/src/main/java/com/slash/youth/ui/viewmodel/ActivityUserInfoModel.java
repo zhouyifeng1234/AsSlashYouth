@@ -19,6 +19,8 @@ import com.slash.youth.ui.activity.ChooseFriendActivtiy;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.StringUtils;
 import com.tencent.connect.UserInfo;
 
 import org.xutils.x;
@@ -60,31 +62,26 @@ public class ActivityUserInfoModel extends BaseObservable {
     private String direction;
     private int totoltaskcount;
     private int userservicepoint;
+    private long otherUid;
+    public long myUid;
+    public long otherId;
 
-    //自己
-    public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding ) {
+    public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding,long otherUid) {
         this.activityUserinfoBinding = activityUserinfoBinding;
+        this.otherUid = otherUid;
         initData();
         initView();
 
     }
-
-    //看其他用户
-    public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding ,long uid) {
-        this.activityUserinfoBinding = activityUserinfoBinding;
-        this.userUid = uid;
-        initData();
-        initView();
-    }
-
     //加载数据
     private void initData() {
-
-        if(userUid == -1){
+        if(otherUid == -1){
+            //我的id
             getUserOwnInfoData();
-            isOther = false;
+            isOther = false; //我的id
         }else {
-            getOtherUserInfoData();
+            //其他的id
+            getOtherUserInfoData(otherUid);
             isOther = true;
         }
 
@@ -97,11 +94,12 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     }   
 
-    private void getOtherUserInfoData() {
+    private void getOtherUserInfoData(long otherUid) {
         //这是从其他页面里面传过来的，我看其他人的资料数据
         //uid是从登陆页面第一次获得uid
 
         //目前 默认是10001
+        //userUid =  otherUid;
         userUid = 10001;
         MyUserInfoProtocol myUserInfoProtocol = new MyUserInfoProtocol(userUid);
         myUserInfoProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<UserInfoItemBean>() {
@@ -111,7 +109,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 if(rescode == 0){
                     UserInfoItemBean.DataBean data = dataBean.getData();
                     uinfo = data.getUinfo();
-                    //这是我看别人的信息
                     updateUserInfo();
                 }else {
                     LogKit.d("rescode ="+rescode);
@@ -126,7 +123,6 @@ public class ActivityUserInfoModel extends BaseObservable {
     }
 
     private void getUserOwnInfoData() {
-        //这是看我自己的个人信息，是直接从我的里面点击进来的
         GetUserInfoProtocol getUserInfoProtocol = new GetUserInfoProtocol();
         getUserInfoProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<UserInfoItemBean>() {
             @Override
@@ -135,7 +131,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 if(rescode == 0){
                     UserInfoItemBean.DataBean data = dataBean.getData();
                     uinfo = data.getUinfo();
-                    //这是我自己看自己的
                     updateUserInfo();
                 }else {
                     LogKit.d("rescode="+rescode);
@@ -182,21 +177,28 @@ public class ActivityUserInfoModel extends BaseObservable {
         LogKit.d("打开技能标签页面，去选择标签");
 
 
+
+
+
+
     }
 
     //更新用户信息
     private void updateUserInfo() {
+
         //用户头像
         avatar = uinfo.getAvatar();
         if(!avatar.isEmpty()){
-          //  x.image().bind(activityUserinfoBinding.ivUserinfoUsericon,avatar);
+            x.image().bind(activityUserinfoBinding.ivUserinfoUsericon,avatar);
         }
 
         //用户姓名
         name = uinfo.getName();
+        //用户ID
+        myUid = uinfo.getId();
         activityUserinfoBinding.tvUserinfoUsername.setText(name);
         if(!name.isEmpty()){
-            onNameListener.OnNameListener(name);
+            onNameListener.OnNameListener(name,myUid);
         }else {
             activityUserinfoBinding.tvUserinfoUsername.setText("个人信息中心");
         }
@@ -214,7 +216,9 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.ivUserinfoV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OpenApprovalActivtity();
+                    if(!isOther){
+                        OpenApprovalActivtity();
+                    }
                 }
             });
 
@@ -225,7 +229,9 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvUserinfoApproval.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OpenApprovalActivtity();
+                    if(!isOther){
+                        OpenApprovalActivtity();
+                    }
                 }
             });
         }
@@ -349,8 +355,16 @@ public class ActivityUserInfoModel extends BaseObservable {
         //方向
         direction = uinfo.getDirection();
         activityUserinfoBinding.tvProfession.setText(direction);
+
         //用户id
-        int id = uinfo.getId();
+      /*  if(isOther){
+            otherId = uinfo.getId();
+
+            LogKit.d("其他的ID "+otherId);
+        }else {
+
+        }*/
+
 
 
 
@@ -388,7 +402,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     }
 
     public interface OnNameListener{
-        void OnNameListener(String name);
+        void OnNameListener(String name ,long myId);
     }
 
     private OnNameListener onNameListener;

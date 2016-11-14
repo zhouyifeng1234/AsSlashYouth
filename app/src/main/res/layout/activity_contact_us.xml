@@ -91,6 +91,7 @@
                         android:layout_height="0dp"/>
 
                     <TextView
+                        android:id="@+id/tv_phone"
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

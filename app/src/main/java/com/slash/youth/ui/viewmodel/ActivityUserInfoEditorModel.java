@@ -17,6 +17,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SetBaseProtocol;
 import com.slash.youth.http.protocol.SetSaveUserInfoProtocol;
+import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.ui.activity.EditorIdentityActivity;
 import com.slash.youth.ui.activity.ReplacePhoneActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -43,14 +44,15 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String company;
     private String position;
     private String direction;
+    private long myUid;//我自己的id
 
-    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding) {
+    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding,long myUid) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
+        this.myUid = myUid;
         initView();
 
         listener();
     }
-
 
     private void initView() {
        // activityUserinfoEditorBinding.etUsername.setText("小玩");
@@ -59,7 +61,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         name = activityUserinfoEditorBinding.etUsername.getText().toString();
         skilldescrib = activityUserinfoEditorBinding.tvSkilldescribe.getText().toString();
         checked = activityUserinfoEditorBinding.rbOfficeWorker.isChecked();
-
     }
 
     //设置斜杠身份
@@ -88,7 +89,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
        // paramsMap.put("tag",tag);
       //   SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_TAG,paramsMap);
 
-
     }
 
 
@@ -110,8 +110,12 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
       LogKit.d("点击所在地");
         // TODO 先跳转到选择地点的页面，获取省和市之后，回显到现在页面，并监听改变赋值
 
-        paramsMap.put("province",setLocation);
-        paramsMap.put("city",setLocation);
+        Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(), CityLocationActivity.class);
+        intentCityLocationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentCityLocationActivity);
+
+       // paramsMap.put("province",setLocation);
+       // paramsMap.put("city",setLocation);
        // SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION,paramsMap);
     }
 

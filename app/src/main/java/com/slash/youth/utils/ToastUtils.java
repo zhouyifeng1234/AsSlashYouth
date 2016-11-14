@@ -46,7 +46,22 @@ public class ToastUtils {
     }
 
 
-
+    //可以避免出现toast叠加
+    private Context context;
+    private Toast toast = null;
+    public ToastUtils(Context context) {
+        this.context = context;
+    }
+    public void toastShow(String text) {
+        if(toast == null)
+        {
+            toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        }
+        else {
+            toast.setText(text);
+        }
+        toast.show();
+    }
 
 }
 

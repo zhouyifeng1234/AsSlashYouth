@@ -47,6 +47,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="22:00-8:00"
@@ -61,10 +62,9 @@
                         android:id="@+id/rl_toggle"
                         android:layout_marginRight="10dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginLeft="10dp"
                         android:onClick="@{mySettingModel.timeSetting}"
                         android:layout_centerVertical="true"
-                        android:layout_width="wrap_content"
+                        android:layout_width="33dp"
                         android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/iv_publish_demand_instalment_bg1"
@@ -116,7 +116,7 @@
                         android:layout_marginLeft="10dp"
                         android:onClick="@{mySettingModel.newsSetting}"
                         android:layout_centerVertical="true"
-                        android:layout_width="wrap_content"
+                        android:layout_width="33dp"
                         android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/iv_publish_demand_instalment_bg"
@@ -139,6 +139,7 @@
                 </RelativeLayout>
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -148,9 +149,9 @@
                     />
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:onClick="@{mySettingModel.sheild}"
                     android:layout_height="0dp"
                     android:layout_marginTop="15dp">
                     <TextView
@@ -185,6 +186,8 @@
                 </RelativeLayout>
 
                 <View
+                    android:visibility="gone"
+                    android:id="@+id/view_revise"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -194,6 +197,8 @@
                     />
 
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/rl_revise"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:onClick="@{mySettingModel.revisePassWord}"
@@ -229,7 +234,10 @@
                     android:layout_marginTop="15dp"
                     />
 
+
+
                 <RelativeLayout
+                    android:id="@+id/rl_set"
                     android:onClick="@{mySettingModel.findPassWord}"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -237,9 +245,10 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp">
                     <TextView
+                        android:id="@+id/tv_setAndfindPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="找回交易密码"
+                        android:text="设置交易密码"
                         android:textSize="15dp"
                         android:textColor="#333333"
                         android:layout_centerVertical="true"
@@ -261,6 +270,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:onClick="@{mySettingModel.finishApp}"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"

@@ -77,12 +77,12 @@ public class GlobalConstants {
 
         //zss [我的模块]
         public static final String SERVER_HOST_MY_USERINFO = "http://121.42.145.178/uinfo/v1/api";
-
+        //ZSS 我的账户
+        public static final String SERVER_HOST_MY_ACCOUNT ="http://121.42.145.178/uinfo/v1/api/wallet";
 
         /**
          * 以下为服务端各接口的相对地址
          */
-
 
         //手机验证码发送
         public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/phone";
@@ -267,6 +267,47 @@ public class GlobalConstants {
         public static final String CLAIMS  = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
+
+        //
+
+
+        //一、[我的账户]-获取我的账户信息
+        public static final String MY_ACCOUNT = SERVER_HOST_MY_ACCOUNT +"/info/get";
+        //二、[我的账户]-获取我的交易流水
+        public static final String MY_TRANSACTIONRECORE = SERVER_HOST_MY_ACCOUNT +"/trade/stream";
+
+
+        //一、[设置]-查询时间免打扰设置
+        public static final String SERVER_HOST_SETTING ="http://121.42.145.178/uinfo/v1/api/config";
+        public static final String SET_TIME_GET = SERVER_HOST_SETTING +"/dnd/time/get";
+        //二、[设置]-时间免打扰设置
+        //public static final String SET_TIME_SET = SERVER_HOST_SETTING +"/dnd/time/set";
+        public static final String SET_TIME_SET = "/dnd/time/set";
+        //三、[设置]-获取消息免打扰设置
+        public static final String  SET_MSG_GET = SERVER_HOST_SETTING +"/dnd/msg/get";
+        //四、[设置]-消息免打扰设置
+        public static final String SET_MSG_SET = "/dnd/msg/set";
+        //五，上传图片
+        public static final String UPLOAD_PHOTO = "http://121.42.145.178/file/v1/api"+"/upload";
+       // 五、[设置]-设置新的交易密码
+       public static final String  SET_PASSWORD = SERVER_HOST_SETTING +"/tradepassword/set";
+        //六、[设置]-创建交易密码
+        public static final String  CREATE_PASSWORD = SERVER_HOST_SETTING +"/tradepassword/create";
+
+        //第三方，获得第三方平台列表
+        public static final String GET_BINDING = SERVER_HOST+"auth/v1/login/getBind";
+        //绑定第三方账号
+        public static final String LOGIN_BINDING = SERVER_HOST+"auth/v1/login/bind";
+        //解绑第三方账号
+        public static final String UNBINDING = SERVER_HOST+"auth/v1/login/unbind";
+
+
+
+
+
+
+
+
 
     }
 

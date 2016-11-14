@@ -23,6 +23,7 @@ import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.ui.viewmodel.FloatViewModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 
 /**
  * Created by zss on 2016/10/31.
@@ -31,12 +32,15 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private ActivityUserinfoBinding activityUserinfoBinding;
     private PopupWindow popupWindow;
     private ActivityUserInfoModel userInfoModel;
+    private  long myId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        long uid = intent.getLongExtra("Uid", -1);//这是其他用的id
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
 
         back();
@@ -49,8 +53,10 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private void title() {
         userInfoModel.setOnNameListener(new ActivityUserInfoModel.OnNameListener() {
             @Override
-            public void OnNameListener(String name) {
+            public void OnNameListener(String name ,long myUid) {
                 setTitle(userInfoModel.isOther,name);
+                myId = myUid;
+
             }
         });
     }
@@ -90,27 +96,27 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
         switch (v.getId()){
             case R.id.tv_userinfo_save:
-                LogKit.d("跳转到编辑页面");
+                //LogKit.d("跳转到编辑页面");
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+                intentUserinfoEditorActivity.putExtra("myId",myId);
                 intentUserinfoEditorActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 CommonUtils.getContext().startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
-                LogKit.d("弹出弹框");
+               // LogKit.d("弹出弹框");
                 showPopupWindow(v);
                 break;
             case R.id.tv_reportTA:
-                LogKit.d("举报他");
                 Intent intentReportTAActivity = new Intent(CommonUtils.getContext(), ReportTAActivity.class);
+                intentReportTAActivity.putExtra("uid", userInfoModel.otherId);
                 intentReportTAActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 CommonUtils.getContext().startActivity(intentReportTAActivity);
                 popupWindow.dismiss();
                 break;
             case R.id.tv_shieldTA:
-                LogKit.d("屏蔽他");
+               // LogKit.d("屏蔽他");
                 popupWindow.dismiss();
                 break;
-
         }
     }
 
@@ -145,6 +151,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
         popupWindow.showAsDropDown(v);
     }
+
 
 
 }
