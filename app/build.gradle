@@ -40,9 +40,16 @@ android {
     dataBinding {
         enabled = true
     }
+
+    sourceSets {
+        main {
+//            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
+
     //    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
@@ -68,4 +75,5 @@ dependencies {
     //    compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/umeng-analytics-v6.0.3.jar')
     compile 'com.jungly:gridPasswordView:0.3'
+    compile files('libs/Rong_IMLib.jar')
 }

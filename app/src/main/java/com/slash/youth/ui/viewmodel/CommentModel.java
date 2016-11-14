@@ -9,6 +9,10 @@ import android.widget.ImageView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommentBinding;
+import com.slash.youth.domain.CommentResultBean;
+import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.ToastUtils;
 
 /**
  * 当服务方顺利完成需求方的任务之后，需求方对服务方评价F
@@ -81,7 +85,20 @@ public class CommentModel extends BaseObservable {
 
     //完成提交评论
     public void completeComment(View v) {
+        String remark = mActivityCommentBinding.etCommentContent.getText().toString();
+        DemandEngine.comment(new BaseProtocol.IResultExecutor<CommentResultBean>() {
+            @Override
+            public void execute(CommentResultBean dataBean) {
+                //评论成功
+                ToastUtils.shortToast("评论成功");
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                //评论失败
+                ToastUtils.shortToast("评论失败");
+            }
+        }, serviceQualityMarks + "", completeSpeedMarks + "", serviceAttitudeMarks + "", remark, type + "", tid + "", suid + "");
     }
 
 }

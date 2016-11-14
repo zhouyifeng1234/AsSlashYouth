@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
@@ -286,7 +287,22 @@ public class DemandEngine {
         demandDetailProtocol.getDataFromServer(onGetDemandDetailFinished);
     }
 
-
+    /**
+     * 一、[需求]-需求方评价接口
+     *
+     * @param onCommentFinished
+     * @param quality           服务质量评分 枚举类型 1 2 3 4 5 表示等级
+     * @param speed             服务速度评分 枚举类型 1 2 3 4 5 表示等级
+     * @param attitude          服务态度评分 枚举类型 1 2 3 4 5 表示等级
+     * @param remark            评价描述 长度小于4096字节
+     * @param type              需求服务类型 1需求 2服务
+     * @param tid               需求or服务ID
+     * @param suid              服务者UID
+     */
+    public static void comment(BaseProtocol.IResultExecutor onCommentFinished, String quality, String speed, String attitude, String remark, String type, String tid, String suid) {
+        CommentProtocol commentProtocol = new CommentProtocol(quality, speed, attitude, remark, type, tid, suid);
+        commentProtocol.getDataFromServer(onCommentFinished);
+    }
 
 
 }

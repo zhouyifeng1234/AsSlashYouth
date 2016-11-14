@@ -78,6 +78,20 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!--融云相关-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name="com.slash.youth.global.SlashApplication"
         android:allowBackup="true"
@@ -118,11 +132,6 @@
             android:value="Umeng">
         </meta-data>
 
-        <!--融云推送-->、
-        <!-- <meta-data
-             android:name="4z3hlwrv33rqt"
-             android:value="z3v5yqkbv8v30"/>-->
-
 
         <activity
             android:name="com.slash.youth.ui.activity.HomeActivity"
@@ -135,11 +144,6 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
 
-                <!--融云推送-->
-                <!--<data-->
-                <!--android:host="com.slash.youth"-->
-                <!--android:pathPrefix="/push_message"-->
-                <!--android:scheme="rong" />-->
 
             </intent-filter>
         </activity>
@@ -286,18 +290,6 @@
         <service android:name="com.amap.api.location.APSService"></service>
         <!--高德定位相关-->
 
-        <!--融云消息推送,接受者-->
-        <!-- <receiver
-             android:name="com.slash.youth.Reciver.RongNotificationReceiver"
-             android:exported="true">
-             <intent-filter>
-                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED"/>
-                 <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED"/>
-                 <action android:name="io.rong.push.intent.MESSAGE_CLICKED"/>
-                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED"/>
-             </intent-filter>
-         </receiver>-->
-
         <!--QQ相关-->
         <!--<activity-->
         <!--android:name="com.tencent.tauth.AuthActivity"-->
@@ -402,6 +394,30 @@
 
         </activity>
         <!--富文本测试 Activity-->
+
+
+        <!--融云-->
+        <!-- imlib config begin -->
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="4z3hlwrv33rqt"/>
+
+        <service
+            android:name="io.rong.imlib.ipc.RongService"
+            android:exported="true"
+            android:process=":ipc"/>
+
+        <service android:name="io.rong.imlib.ReConnectService"
+                 android:exported="true"/>
+
+        <receiver android:name="io.rong.imlib.ConnectChangeReceiver"
+                  android:exported="true"/>
+
+        <receiver
+            android:name="io.rong.imlib.HeartbeatReceiver"
+            android:process=":ipc"/>
+        <!-- imlib config end -->
+        <!--融云-->
 
 
     </application>

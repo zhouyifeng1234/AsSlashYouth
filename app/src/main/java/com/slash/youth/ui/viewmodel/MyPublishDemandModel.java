@@ -194,9 +194,9 @@ public class MyPublishDemandModel extends BaseObservable {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
-                innerDemandCardInfo.suid = dataBean.suid;
-                innerDemandCardInfo.bp = dataBean.bp;
-                innerDemandCardInfo.isComment = dataBean.iscomment;
+                innerDemandCardInfo.suid = dataBean.data.demand.suid;
+                innerDemandCardInfo.bp = dataBean.data.demand.bp;
+                innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
 
                 setMyPublishDemandInfo();
             }
