@@ -25,6 +25,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
 
+import static com.slash.youth.ui.activity.LoginActivity.*;
+
 /**
  * Created by zhouyifeng on 2016/9/5.
  */
@@ -96,6 +98,8 @@ public class ActivityLoginModel extends BaseObservable {
 
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
         mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.QQ, umAuthListener);
+
+
     }
 
     public void weiboLogin(View v) {
@@ -105,6 +109,7 @@ public class ActivityLoginModel extends BaseObservable {
         mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.SINA, umAuthListener);
 
     }
+
 
     public class SlashWeiboAuthListener implements WeiboAuthListener {
 

@@ -10,6 +10,9 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.slash.youth.databinding.PagerHomeMyBinding;
+import com.slash.youth.domain.MyFirstPageBean;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.MyFirstPageProtocol;
 import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.ui.activity.MyAccountActivity;
 import com.slash.youth.ui.activity.MyCollectionActivity;
@@ -20,6 +23,11 @@ import com.slash.youth.ui.activity.ThridPartyActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
+
+import org.xutils.x;
+
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/10/11.
@@ -34,6 +42,27 @@ public class PagerHomeMyModel extends BaseObservable {
     float expertⅣMaxMarks = 99999;
     float expertMarks;
     float expertMarksProgress;//0到360
+    private int achievetaskcount;
+    private int amount;
+    private String avatar;
+    private int averageservicepoint;
+    private int userservicepoint;
+    private int careertype;
+    private String company;
+    private String position;
+    private String city;
+    private String province;
+    private String place;
+    private String name;
+    private int isauth;
+    private String industry;
+    private String direction;
+    private String tag;
+    private int fanscount;
+    private int fansratio;
+    private int totoltaskcount;
+    private MyFirstPageBean.DataBean.MyinfoBean myinfo;
+    private long id;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
@@ -92,6 +121,145 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     private void initData() {
+
+        //峰哥原来就在这里的，就是把他抽取出来啦
+       // setExpertMarks(9999);
+
+        //从网络获取我的首页的数据
+
+        MyFirstPageProtocol myFirstPageProtocol = new MyFirstPageProtocol();
+         myFirstPageProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<MyFirstPageBean>() {
+             @Override
+             public void execute(MyFirstPageBean dataBean) {
+                 int rescode = dataBean.getRescode();
+
+                 if(rescode == 0){
+                     MyFirstPageBean.DataBean data = dataBean.getData();
+                     myinfo = data.getMyinfo();
+                     int amount = myinfo.getAmount();
+                     setMyInfoData();
+                 }else {
+                    LogKit.d("rescode : "+rescode);
+                 }
+             }
+
+             @Override
+             public void executeResultError(String result) {
+                 LogKit.d("result:"+result);
+             }
+         });
+    }
+
+    //设置我的数据
+    private void setMyInfoData() {
+        setExpertMarks(9999);
+
+        //金额
+        amount = myinfo.getAmount();
+        mPagerHomeMyBinding.tvAmount.setText(amount+"元");
+
+
+        id = myinfo.getId();
+
+        //姓名
+        name = myinfo.getName();
+        LogKit.d("name "+name );
+        mPagerHomeMyBinding.tvName.setText(name);
+
+        //完成任务的单数
+        achievetaskcount = myinfo.getAchievetaskcount();
+        totoltaskcount = myinfo.getTotoltaskcount();
+        mPagerHomeMyBinding.tvAchieveTaskCount.setText("顺利成交"+achievetaskcount+"单");
+        mPagerHomeMyBinding.tvAchieveTaskCount1.setText(achievetaskcount);
+        mPagerHomeMyBinding.tvTotolTaskCount.setText("共"+totoltaskcount+"单任务");
+
+
+        //数量,网络获取的分数
+        int expertscore = myinfo.getExpertscore();//超过多少用户
+        //超出用户的百分比
+        mPagerHomeMyBinding.tvOver.setText(expertscore);
+        int expert = myinfo.getExpert();//排名
+        int expertlevel = myinfo.getExpertlevel();//对应的等级
+        List<?> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
+        //TODO 等有数据，就打开
+        /* expertⅠMaxMarks = (float) expertlevels.get(0);
+         expertⅡMaxMarks = (float) expertlevels.get(1);
+         expertⅢMaxMarks = (float) expertlevels.get(2);
+         expertⅣMaxMarks = (float) expertlevels.get(3);
+         expertMarks = (float) expertlevels.get(expert);
+        setExpertMarks(expertMarks);*/
+
+        setExpertMarks(9999);
+
+        //头像
+        avatar = myinfo.getAvatar();
+        if(!avatar.isEmpty()){
+            x.image().bind(mPagerHomeMyBinding.ivAssistantIcon,avatar);
+        }
+
+        //平均服务点
+        averageservicepoint = myinfo.getAverageservicepoint();
+        //用户服务指向
+        userservicepoint = myinfo.getUserservicepoint();
+        mPagerHomeMyBinding.tvServicePoint1.setText("服务力"+ userservicepoint +"星");
+        mPagerHomeMyBinding.tvAverageServicePoint.setText(userservicepoint);
+        mPagerHomeMyBinding.tvUserServicePoint.setText("---平台平均服务力为"+averageservicepoint+"星");
+
+        //职业类型
+        careertype = myinfo.getCareertype();
+        if(careertype == 1){//固定职业者
+            //公司
+            company = myinfo.getCompany();
+            //技术专家
+            position = myinfo.getPosition();
+            String companyAndPosition = company +"-"+ position;
+            if(!company.isEmpty()){
+                mPagerHomeMyBinding.tvMyUserInfoCompany.setText(companyAndPosition);
+            }else {
+                mPagerHomeMyBinding.tvMyUserInfoCompany.setText("暂未填写职务信息");
+            }
+        }else if(careertype == 2){//自由职业者
+            mPagerHomeMyBinding.tvMyUserInfoCompany.setText("自雇者");
+        }
+
+        //城市
+       // city = myinfo.getCity();
+        //省份
+     /*   province = myinfo.getProvince();
+        if(!city.equals(province)){
+            place = province +""+ city;
+        }else {
+            place = city;
+        }*/
+
+        //是否认证
+        isauth = myinfo.getIsauth();
+        if(isauth == 1){
+            //认证过的
+            mPagerHomeMyBinding.ivV.setVisibility(View.VISIBLE);
+        }else if(isauth == 0){
+            //非认证
+            mPagerHomeMyBinding.ivV.setVisibility(View.GONE);
+        }
+
+        //行业 方向 技能标签
+        industry = myinfo.getIndustry();
+        direction = myinfo.getDirection();
+        // tag = myinfo.getTag();
+        mPagerHomeMyBinding.tvIndustry.setText(industry+" | "+direction);
+
+        //粉丝数
+        fanscount = myinfo.getFanscount();
+        mPagerHomeMyBinding.tvFansCount.setText("粉丝数"+ fanscount);
+        //粉丝比率
+        fansratio = myinfo.getFansratio();
+        mPagerHomeMyBinding.tvFansRadio.setText(fansratio);
+        mPagerHomeMyBinding.tvFansCount.setText("超过平台"+fansratio+"的用户");
+
+    }
+
+
+    private void setExpertMarks(float expertMarks) {
         expertMarks = 9999;//这个数据实际应该从服务端获取
 //        expertMarksProgress = expertMarks / totalExpertMarks * 360;
         if (expertMarks >= 0 && expertMarks <= expertⅠMaxMarks) {
@@ -104,7 +272,8 @@ public class PagerHomeMyModel extends BaseObservable {
             expertMarksProgress = 270 + (expertMarks - expertⅢMaxMarks) / (expertⅣMaxMarks - expertⅢMaxMarks) * 90;
         }
     }
-        //编辑点击事件
+
+    //编辑点击事件
         public void editor(View view){
             Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
             intentUserInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -168,12 +337,4 @@ public class PagerHomeMyModel extends BaseObservable {
             intentMyCollectionActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             CommonUtils.getContext().startActivity(intentMyCollectionActivity);
         }
-
-
-
-
-
-
-
-
 }

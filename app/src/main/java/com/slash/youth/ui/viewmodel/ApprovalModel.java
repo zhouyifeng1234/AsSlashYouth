@@ -79,30 +79,7 @@ public class ApprovalModel extends BaseObservable {
 
         }
     });
-        //两边出现边界
-        activityApprovalBinding.vpApprovalContainer.setPageTransformer(false, new ViewPager.PageTransformer() {
-            @Override
-            public void transformPage(View page, float position) {
-                if (position < -1) { // [-Infinity,-1)
-                   // page.setScaleX(2);
-                   // page.setScaleY(2);
-                   // page.setTranslationX(2);
-                } else if (position <= 0) { // [-1,0]
-                   // page.setScaleX((float) 1 + position / (float) 9);
-                  //  page.setScaleY((float) 1 + position / (float) 9);
-                 //   page.setTranslationX((0 - position) * translationX);
-                } else if (position <= 1) { // (0,1]
-                   // page.setScaleX((float) 1 - position / (float) 9);
-                  //  page.setScaleY((float) 1 - position / (float) 9);
-                  //  page.setTranslationX((0 - position) * translationX);
-                } else { // (1,+Infinity]
-                    //page.setScaleX(2);
-                   //page.setScaleY(2);
-                   //page.setTranslationX(-2);
-                }
-            }
-
-        });
+        
 
     }
 
