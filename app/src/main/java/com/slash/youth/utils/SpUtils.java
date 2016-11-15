@@ -34,6 +34,16 @@ public class SpUtils {
 		edit.commit();
 	}
 
+	public static void setLong(String key, long value) {
+		SharedPreferences sharedPreferences = CommonUtils.getContext()
+				.getSharedPreferences(GlobalConstants.SP_NAME,
+						Context.MODE_PRIVATE);
+		Editor edit = sharedPreferences.edit();
+		edit.putLong(key, value);
+		edit.commit();
+	}
+
+
 	public static String getString(String key, String defaultValue) {
 		SharedPreferences sharedPreferences = CommonUtils.getContext()
 				.getSharedPreferences(GlobalConstants.SP_NAME,
@@ -41,5 +51,14 @@ public class SpUtils {
 		String value = sharedPreferences.getString(key, defaultValue);
 		return value;
 	}
+
+	public static long getLong(String key, long defaultValue) {
+		SharedPreferences sharedPreferences = CommonUtils.getContext()
+				.getSharedPreferences(GlobalConstants.SP_NAME,
+						Context.MODE_PRIVATE);
+		long value = sharedPreferences.getLong(key, defaultValue);
+		return value;
+	}
+
 
 }
