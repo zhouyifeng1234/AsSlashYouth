@@ -26,7 +26,6 @@ public class SearchAssociativeProtocol extends BaseProtocol<SearchAssociativeBea
 
     @Override
     public void addRequestParams(RequestParams params) {
-        LogKit.v(tag);
       params.addBodyParameter("tag",tag );
     }
 

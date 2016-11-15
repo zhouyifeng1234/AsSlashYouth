@@ -1,9 +1,14 @@
 package com.slash.youth.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -12,6 +17,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityContactUsBinding;
 import com.slash.youth.ui.viewmodel.ContactUsModel;
 import com.slash.youth.ui.viewmodel.MyHelpModel;
+import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zss on 2016/11/4.
@@ -26,7 +32,7 @@ public class ContactUsActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         activityContactUsBinding = DataBindingUtil.setContentView(this, R.layout.activity_contact_us);
-        ContactUsModel contactUsModel = new ContactUsModel(activityContactUsBinding);
+        ContactUsModel contactUsModel = new ContactUsModel(activityContactUsBinding, this);
         activityContactUsBinding.setContactUsModel(contactUsModel);
 
         listener();
@@ -43,7 +49,7 @@ public class ContactUsActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();
                 break;

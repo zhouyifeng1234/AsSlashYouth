@@ -22,7 +22,10 @@ import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;
 import com.slash.youth.ui.viewmodel.ActivityCityLocationModel;
 import com.slash.youth.ui.viewmodel.HeaderLocationCityInfoModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,11 +55,28 @@ public class  CityLocationActivity extends Activity {
 
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setVerticalScrollBarEnabled(false);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setVerticalScrollBarEnabled(false);
-        initData();
+        try {
+            initData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         initListener();
     }
 
-    private void initData() {
+    private void initData() throws IOException {
+
+        InputStream is = getAssets().open("province_city_zone.db");
+        LogKit.d("考虑到富商巨贾 == "+is.toString());
+
+
+
+
+
+
+
+
+
+
         //城市名称模拟数据
         ArrayList<LocationCityInfo> listCityInfo = new ArrayList<LocationCityInfo>();
         listCityInfo.add(new LocationCityInfo(true, "A", ""));

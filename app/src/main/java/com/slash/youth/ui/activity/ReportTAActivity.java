@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.net.sip.SipSession;
@@ -12,6 +13,9 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityReportTaBinding;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.ui.viewmodel.ReportTAModel;
+import com.slash.youth.utils.LogKit;
+
+import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/2.
@@ -21,17 +25,23 @@ public class ReportTAActivity extends Activity implements View.OnClickListener {
     private ActivityReportTaBinding activityReportTaBinding;
     private TextView title;
     private TextView save;
+    private ReportTAModel reportTAModel;
+    private int uid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        uid = intent.getIntExtra("uid", -1);
 
     activityReportTaBinding = DataBindingUtil.setContentView(this, R.layout.activity_report_ta);
-    ReportTAModel reportTAModel = new ReportTAModel(activityReportTaBinding);
+    reportTAModel = new ReportTAModel(activityReportTaBinding,uid);
     activityReportTaBinding.setReportTAModel(reportTAModel);
-    listener();
 
+    listener();
     }
+
 
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
@@ -45,15 +55,16 @@ public class ReportTAActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.iv_userinfo_back:
                 finish();
                 break;
 
             case R.id.tv_userinfo_save:
-
+                reportTAModel.sendData();
+                finish();
                 break;
         }
 
     }
+
 }

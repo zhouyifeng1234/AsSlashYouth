@@ -1,8 +1,10 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,6 +14,8 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMySettingBinding;
 import com.slash.youth.ui.viewmodel.MyAddSkillModel;
 import com.slash.youth.ui.viewmodel.MySettingModel;
+import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 
 /**
  * Created by acer on 2016/11/3.
@@ -27,8 +31,9 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         activityMySettingBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_setting);
-        MySettingModel mySettingModel = new MySettingModel(activityMySettingBinding);
+        MySettingModel mySettingModel = new MySettingModel(activityMySettingBinding,this);
         activityMySettingBinding.setMySettingModel(mySettingModel);
+
 
         listener();
 
@@ -51,4 +56,16 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       // super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode==RESULT_OK){
+                activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
+                activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
+                activityMySettingBinding.tvSetAndfindPassword.setText("找回交易密码");
+                SpUtils.setBoolean("create_ok",true);
+            }
+        }
+    }
 }
