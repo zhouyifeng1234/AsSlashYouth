@@ -2,7 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="activityUserInfoEditorModel" type="com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel"/>
+        <variable name="activityUserInfoEditorModel"
+            type="com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel"/>
     </data>
 
         <LinearLayout
@@ -34,6 +35,7 @@
                 />
 
             <TextView
+                android:onClick="@{activityUserInfoEditorModel.save}"
                 android:id="@+id/tv_save"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -71,6 +73,7 @@
                            android:orientation="vertical">
                            <!--头像-->
                            <RelativeLayout
+                               android:onClick="@{activityUserInfoEditorModel.clickAvatar}"
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
                                android:layout_marginTop="10dp">
@@ -113,7 +116,9 @@
                                android:layout_weight="1"
                                android:layout_width="match_parent"
                                android:layout_height="0dp"
-                               android:layout_marginTop="15dp">
+                               android:layout_marginTop="15dp"
+                               android:focusable="true"
+                               android:focusableInTouchMode="true">
                                <TextView
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
@@ -123,17 +128,21 @@
                                    android:layout_centerVertical="true"
                                    android:layout_marginLeft="10dp"
                                    />
-                               <TextView
-                                   android:id="@+id/tv_username"
+                               <EditText
+                                   android:id="@+id/et_username"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
-                                   android:text="曹文昌"
+                                   android:hint="请输入姓名"
+                                   android:cursorVisible="false"
                                    android:textSize="13dp"
                                    android:textColor="#60A7B6"
+                                   android:textColorHint="#60A7B6"
+                                   android:maxLength="256"
                                    android:layout_centerVertical="true"
                                    android:layout_marginLeft="10dp"
                                    android:layout_alignParentRight="true"
-                                   android:layout_marginRight="10dp"
+                                   android:layout_marginRight="15dp"
+                                   android:background="@null"
                                    />
                            </RelativeLayout>
                            <View
@@ -193,6 +202,7 @@
 
                            <!--所在地-->
                            <RelativeLayout
+                               android:onClick="@{activityUserInfoEditorModel.setLocation}"
                                android:layout_weight="1"
                                android:layout_width="match_parent"
                                android:layout_height="0dp"
@@ -207,6 +217,7 @@
                                    android:layout_marginLeft="10dp"
                                    />
                                <TextView
+                                   android:id="@+id/tv_location"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
                                    android:text="江苏苏州"
@@ -254,6 +265,7 @@
                                    android:layout_marginLeft="10dp"
                                    />
                                <TextView
+                                   android:id="@+id/tv_identity"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
                                    android:text="互联网金融/UI设计师/系统架构师"
@@ -317,9 +329,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="10dp"
+                                android:checkedButton="@+id/rb_office_worker"
                                 android:orientation="horizontal">
 
                                 <RadioButton
+                                    android:id="@+id/rb_office_worker"
                                     android:button="@null"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -330,6 +344,7 @@
                                     android:drawableLeft="@drawable/selector_radiobutton_bg"
                                     android:textSize="15dp"/>
                                 <RadioButton
+                                    android:id="@+id/rb_self_employed"
                                     android:button="@null"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -341,49 +356,6 @@
                                     android:textSize="15dp"/>
 
                             </RadioGroup>
-
-
-                          <!--  <ImageView
-                                android:id="@+id/iv_btn1"
-                                android:clickable="true"
-                                android:layout_width="17dp"
-                                android:layout_height="17dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="150dp"
-                                android:background="@drawable/selector_userinfo_btn"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="上班族"
-                                android:textColor="#999999"
-                                android:layout_centerVertical="true"
-                                android:layout_alignLeft="@+id/iv_btn1"
-                                android:layout_marginLeft="25dp"
-                                />
-
-                            <ImageView
-                                android:id="@+id/iv_btn2"
-                                android:clickable="true"
-                                android:layout_width="17dp"
-                                android:layout_height="17dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="70dp"
-                                android:background="@drawable/selector_userinfo_btn"
-                                />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="自雇者"
-                                android:layout_centerVertical="true"
-                                android:layout_alignLeft="@+id/iv_btn2"
-                                android:layout_marginLeft="25dp"
-                                />-->
 
                         </RelativeLayout>
                         <View
@@ -408,13 +380,16 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 />
-                            <TextView
+                            <EditText
                                 android:id="@+id/tv_company"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="请填写"
+                                android:hint="请填写"
                                 android:textSize="13dp"
+                                android:cursorVisible="false"
+                                android:background="@null"
                                 android:textColor="#60A7B6"
+                                android:textColorHint="#60A7B6"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_alignParentRight="true"
@@ -445,16 +420,19 @@
                                 android:textColor="#333333"
                                 android:textSize="15dp"
                                 />
-                            <TextView
+                            <EditText
                                 android:id="@+id/tv_profession"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="请填写"
+                                android:hint="请填写"
+                                android:cursorVisible="false"
+                                android:background="@null"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="10dp"
                                 android:textSize="13dp"
+                                android:textColorHint="#60A7B6"
                                 android:textColor="#60A7B6"
                                 />
                         </RelativeLayout>
@@ -462,9 +440,9 @@
                     </android.support.v7.widget.CardView>
 
                     <!--技能描述-->
-                    <include layout="@layout/layout_skill_describe" />
+                    <!--<include layout="@layout/layout_skill_describe" />-->
 
-                  <!--  <android.support.v7.widget.CardView
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"
@@ -479,7 +457,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            &lt;!&ndash;技能描述&ndash;&gt;
+                            <!--技能描述-->
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -508,7 +486,7 @@
                                 android:background="#999999"
                                 android:layout_marginTop="15dp"
                                 />
-                            &lt;!&ndash;技能描述内容&ndash;&gt;
+                          <!--  技能描述内容-->
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -523,17 +501,21 @@
                                     android:textSize="13dp"
                                     android:textColor="#999999"
                                     />
-                               <TextView
+                               <EditText
                                    android:id="@+id/tv_skilldescribe"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                    android:layout_marginTop="4dp"
                                    android:textSize="13dp"
                                    android:textColor="#999999"
+                                   android:textColorHint="#999999"
                                    android:ellipsize="end"
                                    android:maxLength="20"
+                                   android:background="@null"
+                                   android:cursorVisible="false"
+                                   android:freezesText="true"
                                    android:maxLines="4"
-                                    android:text="技能描述,例:充满后歌手，多少分回家,s对方即可看见盛大交付,看到健身房独守空房。打扫房间"/>
+                                    android:hint="例：从事UI设计行业5年，具有丰富的设计经验..."/>
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"
@@ -543,7 +525,7 @@
                                 android:background="#999999"
                                 android:layout_marginTop="15dp"
                                 />
-                            &lt;!&ndash;行业方向&ndash;&gt;
+                           <!-- 行业方向-->
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -559,6 +541,7 @@
                                     android:text="行业方向"/>
 
                                 <TextView
+                                    android:id="@+id/tv_direction"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                    android:layout_alignParentRight="true"
@@ -569,6 +552,7 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:onClick="@{activityUserInfoEditorModel.skillLabel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
@@ -647,7 +631,7 @@
                                     />
                             </RelativeLayout>
                         </LinearLayout>
-                    </android.support.v7.widget.CardView>-->
+                    </android.support.v7.widget.CardView>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

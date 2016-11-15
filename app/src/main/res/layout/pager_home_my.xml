@@ -68,6 +68,7 @@
                             android:orientation="horizontal"
                         >
                             <ImageView
+                                android:id="@+id/iv_assistant_icon"
                                 android:layout_width="59dp"
                                 android:layout_height="59dp"
                                 android:layout_marginTop="2dp"
@@ -83,6 +84,7 @@
                                 android:orientation="horizontal"
                                 >
                                 <TextView
+                                    android:id="@+id/tv_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -90,6 +92,8 @@
                                     android:textColor="#333333"
                                     android:textSize="15sp"/>
                                 <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/iv_v"
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
                                     android:layout_gravity="center_vertical"
@@ -111,6 +115,7 @@
                                     android:textSize="10sp"/>
                             </LinearLayout>
                             <TextView
+                                android:id="@+id/tv_my_user_info_company"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -120,6 +125,7 @@
                                 android:textSize="12sp"/>
 
                             <TextView
+                                android:id="@+id/tv_industry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -146,6 +152,7 @@
                                 android:src="@mipmap/fans_icon"
                             />
                             <TextView
+                                android:id="@+id/tv_fans_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -162,6 +169,7 @@
                                 android:src="@mipmap/dea_iconl"
                             />
                             <TextView
+                                android:id="@+id/tv_Achieve_Task_Count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -178,6 +186,7 @@
                                 android:src="@mipmap/service_orce_icon"
                             />
                             <TextView
+                                android:id="@+id/tv_service_point1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -208,6 +217,7 @@
                                     android:layout_height="match_parent"
                                     android:background="@drawable/shape_home_my_info_fanscount_bg"/>
                                 <TextView
+                                    android:id="@+id/tv_fans_radio"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -232,6 +242,7 @@
                                     android:layout_height="match_parent"
                                     android:background="@drawable/shape_home_my_info_trade_ticket_bg"/>
                                 <TextView
+                                    android:id="@+id/tv_Achieve_Task_Count1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -256,6 +267,7 @@
                                     android:layout_height="match_parent"
                                     android:background="@drawable/shape_home_my_info_service_star_bg"/>
                                 <TextView
+                                    android:id="@+id/tv_Average_Service_Point"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -274,6 +286,7 @@
                             android:layout_marginTop="7dp"
                             android:orientation="horizontal">
                             <TextView
+                                android:id="@+id/tv_Fans_Count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -284,6 +297,7 @@
                                   android:layout_height="0dp"
                                   android:layout_weight="1"/>
                             <TextView
+                                android:id="@+id/tv_totol_task_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -294,6 +308,7 @@
                                   android:layout_height="0dp"
                                   android:layout_weight="1"/>
                             <TextView
+                                android:id="@+id/tv_user_service_point"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -409,6 +424,7 @@
                                 android:textColor="#999999"
                                 android:textSize="11dp"/>
                             <TextView
+                                android:id="@+id/tv_over"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
@@ -589,6 +605,7 @@
                               android:layout_weight="1"/>
 
                         <TextView
+                            android:id="@+id/tv_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
