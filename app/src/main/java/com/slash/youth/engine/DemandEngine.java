@@ -244,7 +244,7 @@ public class DemandEngine {
      *
      * @param onDelayPayFinished
      * @param id                 需求ID
-     * @param fid
+     * @param fid                当前第几期（延期支付只能为最后一期）
      */
     public static void delayPay(BaseProtocol.IResultExecutor onDelayPayFinished, String id, String fid) {
         DelayPayProtocol delayPayProtocol = new DelayPayProtocol(id, fid);

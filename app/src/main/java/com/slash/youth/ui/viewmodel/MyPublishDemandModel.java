@@ -21,6 +21,7 @@ import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
@@ -88,9 +89,37 @@ public class MyPublishDemandModel extends BaseObservable {
         mActivity.startActivity(intentRefundActivity);
     }
 
-    //延期支付
+    //延期支付,出现他弹框
     public void rectifyPayment(View v) {
+        setRectifyLayerVisibility(View.VISIBLE);
+    }
 
+    //取消延期支付，关闭弹框
+    public void cancelRectifyPayment(View v) {
+        setRectifyLayerVisibility(View.GONE);
+    }
+
+    //确认延期支付
+    public void okRectifyPayment(View v) {
+        DemandEngine.delayPay(new BaseProtocol.IResultExecutor<DelayPayProtocol>() {
+            @Override
+            public void execute(DelayPayProtocol dataBean) {
+                //延期支付成功
+                ToastUtils.shortToast("延期支付成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                //延期支付失败
+                ToastUtils.shortToast("延期支付失败");
+
+            }
+        }, tid + "", innerDemandCardInfo.instalmentcurr + "");
+    }
+
+    //延期支付右上角按钮，关闭弹框
+    public void closeRectifyLayer(View v) {
+        setRectifyLayerVisibility(View.GONE);
     }
 
     //需求方确认完成
@@ -318,6 +347,7 @@ public class MyPublishDemandModel extends BaseObservable {
     private int confirmFinishVisibility = View.GONE;
     private int commentVisibility = View.GONE;
     private int rectifyVisibility = View.GONE;
+    private int rectifyLayerVisibility = View.GONE;
 
     @Bindable
     public int getCommentVisibility() {
@@ -357,5 +387,16 @@ public class MyPublishDemandModel extends BaseObservable {
     public void setRectifyVisibility(int rectifyVisibility) {
         this.rectifyVisibility = rectifyVisibility;
         notifyPropertyChanged(BR.rectifyVisibility);
+    }
+
+    @Bindable
+    public int getRectifyLayerVisibility() {
+        return rectifyLayerVisibility;
+    }
+
+
+    public void setRectifyLayerVisibility(int rectifyLayerVisibility) {
+        this.rectifyLayerVisibility = rectifyLayerVisibility;
+        notifyPropertyChanged(BR.rectifyLayerVisibility);
     }
 }

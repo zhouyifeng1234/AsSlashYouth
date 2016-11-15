@@ -59,7 +59,8 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
                 continue;
             }
             LogKit.v("instalmentratioStr：" + ratio);
-            ratio = (ratio.split("\\."))[1];
+//            ratio = (ratio.split("\\."))[1];
+            ratio = (int)(Double.parseDouble(ratio) * 100) + "";
             if (i < instalmentratioArray.length - 1) {
                 instalmentratioStr += ratio + "%/";
             } else {
