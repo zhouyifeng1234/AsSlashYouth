@@ -220,6 +220,7 @@
                         android:layout_marginLeft="20dp"
                         android:background="@mipmap/task_demand_btn_bg"
                         android:gravity="center"
+                        android:onClick="@{itemDemandChooseServiceModel.haveAChat}"
                         android:text="聊一聊"
                         android:textColor="#2ACDA9"
                         android:textSize="13sp"

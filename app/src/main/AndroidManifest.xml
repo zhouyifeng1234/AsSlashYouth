@@ -4,7 +4,7 @@
 
     <!--电话功能-->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name= "andoird.permission.CALL_PRIVILEGED"/>
+    <uses-permission android:name="andoird.permission.CALL_PRIVILEGED"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!--微信相关-->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -256,6 +256,11 @@
 
         </activity>
         <activity android:name="com.slash.youth.ui.activity.PaymentActivity">
+
+        </activity>
+        <activity
+            android:name="com.slash.youth.ui.activity.ChatActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
 

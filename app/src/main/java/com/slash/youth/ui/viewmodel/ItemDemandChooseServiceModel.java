@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,8 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandPurposeListBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 /**
@@ -40,6 +43,12 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
         displayPurposeData();
     }
 
+    //打开聊天界面 聊一聊
+    public void haveAChat(View v) {
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        mActivty.startActivity(intentChatActivity);
+    }
+
     private void displayPurposeData() {
         if (mDemandChooseServiceBean.isauth == 1) {
             mItemDemandChooseServiceBinding.ivPurposeIsauthIcon.setVisibility(View.VISIBLE);
@@ -60,7 +69,7 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
             }
             LogKit.v("instalmentratioStr：" + ratio);
 //            ratio = (ratio.split("\\."))[1];
-            ratio = (int)(Double.parseDouble(ratio) * 100) + "";
+            ratio = (int) (Double.parseDouble(ratio) * 100) + "";
             if (i < instalmentratioArray.length - 1) {
                 instalmentratioStr += ratio + "%/";
             } else {
