@@ -30,6 +30,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_chat_friend_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -100,8 +101,8 @@
                         android:layout_gravity="center"
                         android:orientation="horizontal">
                         <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="19dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
                             android:src="@mipmap/add_friends_icon"/>
                         <TextView
@@ -136,12 +137,22 @@
             </FrameLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#f3f3f3"
-        ></LinearLayout>
+            android:background="#f3f3f3">
+
+            <LinearLayout
+                android:id="@+id/ll_chat_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+            >
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,6 +168,7 @@
                 android:src="@mipmap/voice_icon"/>
 
             <EditText
+                android:id="@+id/et_chat_input"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center_vertical"
@@ -164,9 +176,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_chat_input_bg"
                 android:gravity="center_vertical"
+                android:hint="请输入想说的..."
                 android:paddingLeft="11dp"
-                android:text="请输入想说的..."
-                android:textColor="#CCCCCC"
+                android:textColorHint="#CCCCCC"
                 android:textSize="14sp"/>
 
             <ImageView
