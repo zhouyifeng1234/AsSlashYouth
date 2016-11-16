@@ -46,6 +46,14 @@ public class ChatModel extends BaseObservable {
         mTvChatFriendName.requestFocus();
 
         mLlChatContent = mActivityChatBinding.llChatContent;
+
+        //测试添加各种消息条目
+        mLlChatContent.addView(createDateTimeView());
+        mLlChatContent.addView(createFriendTextView());
+        mLlChatContent.addView(createMyTextView());
+        mLlChatContent.addView(createDateTimeView());
+        mLlChatContent.addView(createFriendPicView());
+        mLlChatContent.addView(createMyPicView());
     }
 
     public void goBack(View v) {

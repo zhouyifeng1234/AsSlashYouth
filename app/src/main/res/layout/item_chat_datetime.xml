@@ -3,10 +3,20 @@
     <data>
         <variable name="chatDatetimeModel" type="com.slash.youth.ui.viewmodel.ChatDatetimeModel"/>
     </data>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+    >
+        <TextView
+            android:layout_width="79dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="23dp"
+            android:background="@drawable/shape_chat_datetime_bg"
+            android:gravity="center"
+            android:text="11月7日 14:17"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"/>
 
-    </LinearLayout>
+    </FrameLayout>
 </layout>
