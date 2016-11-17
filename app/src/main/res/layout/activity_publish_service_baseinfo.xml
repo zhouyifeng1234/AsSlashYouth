@@ -429,6 +429,7 @@
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="7dp"
                                     android:layout_marginRight="5dp"
+                                    android:onClick="@{publishServiceBaseInfoModel.chooseCustomIdleTime}"
                                     android:text="自定义"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>
@@ -491,6 +492,95 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:clickable="true"
+            android:visibility="@{publishServiceBaseInfoModel.setStartTimeAndEndTimeLayerVisibility}"
+        >
+
+            <FrameLayout
+                android:layout_width="269dp"
+                android:layout_height="214dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F8F8F8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="24dp"
+                        android:text="选择闲置时间"
+                        android:textColor="#333333"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="231dp"
+                        android:layout_height="43dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/shape_starttime_text_bg"
+                        android:gravity="center"
+                        android:onClick="@{publishServiceBaseInfoModel.chooseStartTime}"
+                        android:text="开始时间"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="231dp"
+                        android:layout_height="43dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/shape_starttime_text_bg"
+                        android:gravity="center"
+                        android:onClick="@{publishServiceBaseInfoModel.chooseEndTime}"
+                        android:text=" 结束时间"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff">
+
+                        <Button
+                            android:layout_width="170dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/btn_next_step"
+                            android:onClick="@{publishServiceBaseInfoModel.okChooseIdleStartTimeAndEndTime}"
+                            android:text="确定"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="9dp"
+                    android:layout_marginTop="9dp"
+                    android:onClick="@{publishServiceBaseInfoModel.closeStartTimeAndEndTimeLayer}"
+                    android:src="@mipmap/withdraw_cash_close_icon"/>
+
+
+            </FrameLayout>
+
+        </FrameLayout>
+
         <RelativeLayout
 
             android:layout_width="match_parent"
@@ -549,5 +639,6 @@
             </LinearLayout>
 
         </RelativeLayout>
+
     </FrameLayout>
 </layout>

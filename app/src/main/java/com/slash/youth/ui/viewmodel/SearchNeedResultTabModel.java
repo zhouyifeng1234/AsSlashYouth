@@ -594,10 +594,10 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
     }
 
    /* private void setSearchArea( View view) {
-        currentCity = (TextView) view.findViewById(R.id.tv_currentCity);
+        currentCity = (TextView) view.findViewById(R.tid.tv_currentCity);
         currentCity.setText("当前城市:" + cityName);//TODO具体的数据看返回值
 
-        switchCity = (TextView) view.findViewById(R.id.tv_switchCity);
+        switchCity = (TextView) view.findViewById(R.tid.tv_switchCity);
         switchCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -608,20 +608,20 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
             }
         });
 
-        gridViewv = (GridView) view.findViewById(R.id.gv_city);
+        gridViewv = (GridView) view.findViewById(R.tid.gv_city);
         getData();
         searchCityAdapter = new SearchCityAdapter(items,clickPostion);
         //配置适配器
         gridViewv.setAdapter(searchCityAdapter);
         gridViewv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long tid) {
                 locale = items.get(position);
-                ((TextView)searchTabView.findViewById(R.id.tv_area)).setText(locale);
-                switchSearchTab(R.id.rl_tab_area,false);
-                TextView local = (TextView) view.findViewById(R.id.tv_city);
+                ((TextView)searchTabView.findViewById(R.tid.tv_area)).setText(locale);
+                switchSearchTab(R.tid.rl_tab_area,false);
+                TextView local = (TextView) view.findViewById(R.tid.tv_city);
                 clickPostion = position;
-                clickSearchTab(R.id.fl_showSearchResult);
+                clickSearchTab(R.tid.fl_showSearchResult);
             }
         });
     }*/

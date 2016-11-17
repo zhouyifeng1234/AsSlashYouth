@@ -14,6 +14,7 @@ import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.ItemMyTaskModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.text.SimpleDateFormat;
 
@@ -93,6 +94,9 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
             if (TextUtils.isEmpty(ratio)) {
                 continue;
             }
+            LogKit.v("instalmentratioStr：" + ratio);
+//            ratio = (ratio.split("\\."))[1];
+            ratio = (int) (Double.parseDouble(ratio) * 100) + "";
             if (i < instalmentratioArray.length - 1) {
                 instalmentratioStr += ratio + "%/";
             } else {

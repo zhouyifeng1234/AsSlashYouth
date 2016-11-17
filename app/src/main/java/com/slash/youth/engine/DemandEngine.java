@@ -3,13 +3,16 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
+import com.slash.youth.http.protocol.DemandDetailProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
+import com.slash.youth.http.protocol.EliminateProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
@@ -24,7 +27,7 @@ import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
 
 /**
- * Created by zhouyifeng on 2016/9/1.
+ * Created by zhouyifeng on 2016/9/1.inputPasswordVisibility
  * 需求相关操作
  */
 public class DemandEngine {
@@ -126,6 +129,8 @@ public class DemandEngine {
      *
      * @param onDemandPartyPrePaymentFinished
      * @param id                              需求ID
+     * @param amount
+     * @param channel                         PAYMENT_TYPE_BALANCE= 0; PAYMENT_TYPE_ALIPAY = 1;PAYMENT_TYPE_WX = 2;
      */
     public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel) {
         DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel);
@@ -239,7 +244,7 @@ public class DemandEngine {
      *
      * @param onDelayPayFinished
      * @param id                 需求ID
-     * @param fid
+     * @param fid                当前第几期（延期支付只能为最后一期）
      */
     public static void delayPay(BaseProtocol.IResultExecutor onDelayPayFinished, String id, String fid) {
         DelayPayProtocol delayPayProtocol = new DelayPayProtocol(id, fid);
@@ -258,5 +263,46 @@ public class DemandEngine {
         DownloadFileProtocol downloadFileProtocol = new DownloadFileProtocol(fileId);
         downloadFileProtocol.getDataFromServer(onDownloadFileFinished);
     }
+
+    /**
+     * 二、[需求]-需求方淘汰服务者
+     *
+     * @param onEliminateFinished
+     * @param id                  需求ID
+     * @param uid                 服务者ID
+     */
+    public static void demandEliminateService(BaseProtocol.IResultExecutor onEliminateFinished, String id, String uid) {
+        EliminateProtocol eliminateProtocol = new EliminateProtocol(id, uid);
+        eliminateProtocol.getDataFromServer(onEliminateFinished);
+    }
+
+    /**
+     * 二、[需求]-查看需求详情
+     *
+     * @param onGetDemandDetailFinished
+     * @param id                        需求ID
+     */
+    public static void getDemandDetail(BaseProtocol.IResultExecutor onGetDemandDetailFinished, String id) {
+        DemandDetailProtocol demandDetailProtocol = new DemandDetailProtocol(id);
+        demandDetailProtocol.getDataFromServer(onGetDemandDetailFinished);
+    }
+
+    /**
+     * 一、[需求]-需求方评价接口
+     *
+     * @param onCommentFinished
+     * @param quality           服务质量评分 枚举类型 1 2 3 4 5 表示等级
+     * @param speed             服务速度评分 枚举类型 1 2 3 4 5 表示等级
+     * @param attitude          服务态度评分 枚举类型 1 2 3 4 5 表示等级
+     * @param remark            评价描述 长度小于4096字节
+     * @param type              需求服务类型 1需求 2服务
+     * @param tid               需求or服务ID
+     * @param suid              服务者UID
+     */
+    public static void comment(BaseProtocol.IResultExecutor onCommentFinished, String quality, String speed, String attitude, String remark, String type, String tid, String suid) {
+        CommentProtocol commentProtocol = new CommentProtocol(quality, speed, attitude, remark, type, tid, suid);
+        commentProtocol.getDataFromServer(onCommentFinished);
+    }
+
 
 }

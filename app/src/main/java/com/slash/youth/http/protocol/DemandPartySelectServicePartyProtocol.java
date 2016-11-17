@@ -1,5 +1,7 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.Gson;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -7,7 +9,7 @@ import org.xutils.http.RequestParams;
 /**
  * Created by zhouyifeng on 2016/10/6.
  */
-public class DemandPartySelectServicePartyProtocol extends BaseProtocol<String> {
+public class DemandPartySelectServicePartyProtocol extends BaseProtocol<CommonResultBean> {
 
     private String id;//需求ID
     private String uid;//服务方UID
@@ -29,12 +31,20 @@ public class DemandPartySelectServicePartyProtocol extends BaseProtocol<String> 
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public CommonResultBean parseData(String result) {
+        Gson gson = new Gson();
+        CommonResultBean commonResultBean = gson.fromJson(result, CommonResultBean.class);
+        return commonResultBean;
     }
 
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        CommonResultBean commonResultBean = gson.fromJson(result, CommonResultBean.class);
+        if (commonResultBean.rescode == 0 && commonResultBean.data.status == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

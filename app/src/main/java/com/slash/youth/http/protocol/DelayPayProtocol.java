@@ -8,13 +8,13 @@ import org.xutils.http.RequestParams;
 
 /**
  * [需求]-需求方要求延期付款接口
- *
+ * <p/>
  * Created by zhouyifeng on 2016/11/3.
  */
 public class DelayPayProtocol extends BaseProtocol<DelayPayBean> {
 
     String id;// 需求ID
-    String fid;
+    String fid;//当前第几期（延期支付只能为最后一期）
 
     public DelayPayProtocol(String id, String fid) {
         this.id = id;
@@ -34,13 +34,19 @@ public class DelayPayProtocol extends BaseProtocol<DelayPayBean> {
 
     @Override
     public DelayPayBean parseData(String result) {
-        Gson gson = new Gson();
-        DelayPayBean delayPayBean = gson.fromJson(result, DelayPayBean.class);
         return delayPayBean;
     }
 
+    DelayPayBean delayPayBean;
+
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        delayPayBean = gson.fromJson(result, DelayPayBean.class);
+        if (delayPayBean.rescode == 0 && delayPayBean.data.status == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

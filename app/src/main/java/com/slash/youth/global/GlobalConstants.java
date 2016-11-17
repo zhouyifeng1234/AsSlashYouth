@@ -71,6 +71,10 @@ public class GlobalConstants {
         public static final String SERVER_HOST_IMG_UPLOAD_DOWNLOAD = "http://121.42.145.178/file/v1/api/";
         //我的任务列表接口 地址前缀
         public static final String SERVER_HOST_MY_TASK_LIST = "http://121.42.145.178/feed/v1/api/mytask/";
+        //用户设置接口 地址前缀
+        public static final String SERVER_HOST_USER_SETTING = "http://121.42.145.178/uinfo/v1/api/config/";
+        //评价和分享上报接口 地址前缀
+        public static final String SERVER_HOST_COMMENT_SHARE = "http://121.42.145.178/feed/v1/api/evaluation/";
 
         //ZSS
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
@@ -98,6 +102,8 @@ public class GlobalConstants {
 
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
+        //二、[需求]-我的任务ITEM
+        public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
 
 
         //一、[文件]-图片上传
@@ -145,7 +151,14 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_INTERVENTION = SERVER_HOST_DEMAND + "intervention";
         //[需求]-需求方要求延期付款接口
         public static final String DEMAND_PARTY_DELAY_PAY = SERVER_HOST_DEMAND + "rollback";
-
+        //二、[需求]-需求方淘汰服务者
+        public static final String DEMAND_ELIMINATE_SERVICE = SERVER_HOST_DEMAND + "eliminate";
+        //二、[需求]-查看需求详情
+        public static final String GET_DEMAND_DETAIL = SERVER_HOST_DEMAND + "queryone";
+        //七、[设置]-判断是否有交易密码
+        public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
+        //一、[需求]-需求方评价接口
+        public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
@@ -301,13 +314,6 @@ public class GlobalConstants {
         public static final String LOGIN_BINDING = SERVER_HOST+"auth/v1/login/bind";
         //解绑第三方账号
         public static final String UNBINDING = SERVER_HOST+"auth/v1/login/unbind";
-
-
-
-
-
-
-
 
 
     }
