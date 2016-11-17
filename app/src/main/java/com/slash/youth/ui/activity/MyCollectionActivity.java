@@ -24,7 +24,6 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityMyCollectionBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_collection);
         MyCollectionModel myCollectionModel = new MyCollectionModel(activityMyCollectionBinding);
         activityMyCollectionBinding.setMyCollectionModel(myCollectionModel);
@@ -43,12 +42,9 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.iv_userinfo_back:
                 finish();
                 break;
-
-
         }
     }
 }

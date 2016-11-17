@@ -5,9 +5,9 @@
                   type="com.slash.youth.ui.viewmodel.ItemLocationCityInfoModel"/>
     </data>
     <LinearLayout
+        android:id="@+id/ll_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_search_result_line_item_bg"
         android:orientation="vertical">
 
         <TextView

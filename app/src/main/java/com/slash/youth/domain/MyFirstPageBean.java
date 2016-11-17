@@ -1,5 +1,7 @@
 package com.slash.youth.domain;
 
+import android.graphics.drawable.GradientDrawable;
+
 import java.util.List;
 
 /**
@@ -77,6 +79,7 @@ public class MyFirstPageBean {
         public static class MyinfoBean {
             private int achievetaskcount;
             private int amount;
+            private String phone;
             private String avatar;
             private int averageservicepoint;
             private int careertype;
@@ -99,6 +102,14 @@ public class MyFirstPageBean {
             private int totoltaskcount;
             private int userservicepoint;
             private List<?> expertlevels;
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
 
             public int getAchievetaskcount() {
                 return achievetaskcount;

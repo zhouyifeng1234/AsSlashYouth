@@ -89,29 +89,39 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"/>
 
-
                     <RadioGroup
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:checkedButton="@+id/rb_office_worker"
                         android:orientation="horizontal">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="支付宝"
-                        android:textSize="15dp"
-                        android:textColor="#333333"
-                        android:checked="true"/>
-
                         <RadioButton
+                            android:id="@+id/rb_office_worker"
+                            android:button="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="支付宝"
+                            android:checked="true"
+                            android:textColor="#333333"
+                            android:drawablePadding="8dp"
+                            android:drawableLeft="@drawable/selector_radiobutton_bg"
+                            android:textSize="15dp"/>
+                        <RadioButton
+                            android:id="@+id/rb_self_employed"
+                            android:button="@null"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="微信"
-                            android:textSize="15dp"
                             android:textColor="#333333"
-                            />
+                            android:drawablePadding="8dp"
+                            android:layout_marginLeft="10dp"
+                            android:drawableLeft="@drawable/selector_radiobutton_bg"
+                            android:textSize="15dp"/>
+
                     </RadioGroup>
 
                 </LinearLayout>
@@ -164,11 +174,11 @@
                 android:layout_marginTop="15dp"
                  android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
+                android:layout_width="193dp"
+                android:layout_height="30dp"
                 android:textSize="15dp"
                 android:textColor="#ffffff"
-                android:background="@mipmap/btn22"
+                android:background="@mipmap/login_button"
                 android:text="下一步"/>
 
     </LinearLayout>

@@ -23,19 +23,19 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
     private View root;
     private EditorIdentityModel editorIdentityModel;
     private ActivityEditorIdentityBinding activityEditorIdentityBinding;
+    private Intent intent;
+    private StringBuffer sb = new StringBuffer();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        intent = getIntent();
         activityEditorIdentityBinding = DataBindingUtil.setContentView(this, R.layout.activity_editor_identity);
         editorIdentityModel = new EditorIdentityModel(activityEditorIdentityBinding,this);
         activityEditorIdentityBinding.setEditorIdentityModel(editorIdentityModel);
         initView();
         back();
-
-
-
     }
 
     private void initView() {
@@ -47,7 +47,6 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
         tvfinish.setOnClickListener(this);
         ImageView ivmenu = (ImageView) findViewById(R.id.iv_userinfo_menu);
         ivmenu.setVisibility(View.GONE);
-
     }
 
     //返回键
@@ -60,23 +59,22 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
         });
     }
 
-    //点击事件
+    //点击事件,完成
     @Override
     public void onClick(View v) {
-        //完成返回，是保存数据的，携带数据返回到上一个页面
-        editorIdentityModel.setOnSkillLabelListListener(new EditorIdentityModel.onSkillLabelListListener() {
-            @Override
-            public void onListClick(ArrayList<String> list) {
-            //获取到这个的集合的数据
-
-
+        ArrayList<String> newSkillLabelList = editorIdentityModel.newSkillLabelList;
+        if(!newSkillLabelList.isEmpty()){
+            for (int i = 0; i < newSkillLabelList.size(); i++) {
+                if(i!=newSkillLabelList.size()-1&&i>=0){
+                    sb.append(newSkillLabelList.get(i));
+                    sb.append("/");
+                }else {
+                    sb.append(newSkillLabelList.get(i));
+                }
             }
-        });
-
-
+            intent.putExtra("identity",sb.toString());
+            setResult(RESULT_OK,intent);
+        }
         finish();
-
     }
-
-
 }

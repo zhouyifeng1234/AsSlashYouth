@@ -60,19 +60,26 @@ public class DialogPassWorsModel extends BaseObservable {
 
             @Override
             public void afterTextChanged(Editable s) {
+           /*     String s1 = s.toString();
+                stringBuffer1.append(s1);
+                int length = stringBuffer1.length();
+                LogKit.d("==========="+stringBuffer1.toString()+"-----"+length);
+*/
+
+
                 //重点 如果字符不为""时才进行操作
                 if (!s.toString().equals("")) {
-                    if (stringBuffer.length()>5){
+                    if (DialogPassWorsModel.this.stringBuffer.length()>5){
                         //当密码长度大于5位时edittext置空
                         dialogPasswordBinding.itemEdittext.setText("");
                         return;
                     }else {
                         //将文字添加到StringBuffer中
-                        stringBuffer.append(s);
+                        DialogPassWorsModel.this.stringBuffer.append(s);
                         dialogPasswordBinding.itemEdittext.setText("");//添加后将EditText置空 造成没有文字输入的错局
-                        count = stringBuffer.length();//记录stringbuffer的长度
-                        strPassword = stringBuffer.toString();
-                        if (stringBuffer.length()==6){
+                        count = DialogPassWorsModel.this.stringBuffer.length();//记录stringbuffer的长度
+                        strPassword = DialogPassWorsModel.this.stringBuffer.toString();
+                        if (DialogPassWorsModel.this.stringBuffer.length()==6){
                             //文字长度位6 则调用完成输入的监听
                             if (inputCompleteListener!=null){
                                 inputCompleteListener.inputComplete();
@@ -80,7 +87,7 @@ public class DialogPassWorsModel extends BaseObservable {
                         }
                     }
 
-                    for (int i =0;i<stringBuffer.length();i++){
+                    for (int i = 0; i< DialogPassWorsModel.this.stringBuffer.length(); i++){
                         imageViews[i].setImageResource(R.drawable.shape_approval_tv_left);
                     }
                 }
@@ -153,21 +160,11 @@ public class DialogPassWorsModel extends BaseObservable {
 
     //取消
     public void cannel(View view){
-        LogKit.d("取消对话框");
-
         currentDialog.dismiss();
-
     }
-
 
     //确定
     public void sure(View view){
-        LogKit.d("确定");
-
-
         currentDialog.dismiss();
     }
-
-
-
 }

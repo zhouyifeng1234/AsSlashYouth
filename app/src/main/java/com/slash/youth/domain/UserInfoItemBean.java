@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by zss on 2016/10/12.
  */
-public class UserInfoItemBean implements Serializable{
+public class UserInfoItemBean  {
 
     /**
      * uinfo : {"achievetaskcount":0,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}
@@ -37,7 +37,7 @@ public class UserInfoItemBean implements Serializable{
         this.rescode = rescode;
     }
 
-    public static class DataBean {
+    public static class DataBean  {
         /**
          * achievetaskcount : 0
          * avatar :
@@ -71,7 +71,7 @@ public class UserInfoItemBean implements Serializable{
             this.uinfo = uinfo;
         }
 
-        public static class UinfoBean {
+        public static class UinfoBean implements Serializable{
             private int achievetaskcount;
             private String avatar;
             private int averageservicepoint;
@@ -92,6 +92,15 @@ public class UserInfoItemBean implements Serializable{
             private String tag;
             private int totoltaskcount;
             private int userservicepoint;
+            private String desc;
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
 
             public int getAchievetaskcount() {
                 return achievetaskcount;

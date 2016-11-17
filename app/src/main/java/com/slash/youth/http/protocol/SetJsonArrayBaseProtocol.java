@@ -4,24 +4,25 @@ import com.google.gson.Gson;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.global.GlobalConstants;
 
+import org.json.JSONArray;
 import org.xutils.http.RequestParams;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Set;
 
 /**
  * Created by zss on 2016/11/8.
  */
-public class SetBaseProtocol extends BaseProtocol<SetBean> {
+public class SetJsonArrayBaseProtocol extends BaseProtocol<SetBean> {
 
     private String url;
-    private Map<String,String> stringMap;
+    private Map<String,String[]> jsonarrayMap;
+    private  StringBuffer sb = new StringBuffer();
 
-    public SetBaseProtocol(String url, Map<String,String> stringMap) {
+    public SetJsonArrayBaseProtocol(String url, Map<String,String[]>  jsonarrayMap) {
         this.url = url;
-        this.stringMap = stringMap;
+        this.jsonarrayMap = jsonarrayMap;
+
     }
 
     @Override
@@ -31,14 +32,23 @@ public class SetBaseProtocol extends BaseProtocol<SetBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-        for (Map.Entry<String, String> stringStringEntry : stringMap.entrySet()) {
+        for (Map.Entry<String, String[]> stringStringEntry : jsonarrayMap.entrySet()) {
             String key = stringStringEntry.getKey();
-            String value = stringStringEntry.getValue();
-            params.addBodyParameter(key, value);
+            String[] values = stringStringEntry.getValue();
+            sb.append("[");
+            for (int i = 0; i < values.length; i++) {
+                sb.append(values[i]);
+
+            }
+
+            sb.append("]");
+            params.addBodyParameter(key,sb.toString());
+
+
+
+
         }
-
-        stringMap.clear();
-
+        jsonarrayMap.clear();
     }
 
     @Override

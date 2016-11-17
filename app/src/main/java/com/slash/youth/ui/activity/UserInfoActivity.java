@@ -18,6 +18,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
 import com.slash.youth.databinding.FloatViewBinding;
+import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.ui.viewmodel.FloatViewModel;
@@ -33,11 +34,13 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private PopupWindow popupWindow;
     private ActivityUserInfoModel userInfoModel;
     private  long myId;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
+        phone = intent.getStringExtra("phone");
         long uid = intent.getLongExtra("Uid", -1);//这是其他用的id
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid);
@@ -56,13 +59,11 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
             public void OnNameListener(String name ,long myUid) {
                 setTitle(userInfoModel.isOther,name);
                 myId = myUid;
-
             }
         });
     }
 
     private void setTitle(boolean isOther,String name) {
-
         if(isOther){
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
@@ -78,7 +79,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     }
 
     private void back() {
-        findViewById(R.id.iv_userinfo_back).setOnClickListener(new View.OnClickListener() {
+        activityUserinfoBinding.ivUserinfoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -96,14 +97,14 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
         switch (v.getId()){
             case R.id.tv_userinfo_save:
-                //LogKit.d("跳转到编辑页面");
+                UserInfoItemBean.DataBean.UinfoBean uinfo = userInfoModel.uinfo;
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+                intentUserinfoEditorActivity.putExtra("phone",phone);
                 intentUserinfoEditorActivity.putExtra("myId",myId);
-                intentUserinfoEditorActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                CommonUtils.getContext().startActivity(intentUserinfoEditorActivity);
+                intentUserinfoEditorActivity.putExtra("uifo",uinfo);
+                UserInfoActivity.this.startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
-               // LogKit.d("弹出弹框");
                 showPopupWindow(v);
                 break;
             case R.id.tv_reportTA:
@@ -114,7 +115,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 popupWindow.dismiss();
                 break;
             case R.id.tv_shieldTA:
-               // LogKit.d("屏蔽他");
                 popupWindow.dismiss();
                 break;
         }
@@ -151,7 +151,4 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
         popupWindow.showAsDropDown(v);
     }
-
-
-
 }

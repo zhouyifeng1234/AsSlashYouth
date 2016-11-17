@@ -25,12 +25,12 @@ import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by acer on 2016/11/1.
  */
 public class EditorIdentityModel extends BaseObservable {
-
     private ActivityEditorIdentityBinding activityEditorIdentityBinding;
     private EditorIdentityActivity editorIdentityActivity;
     private DialogCustomSkillLabelModel dialogCustomSkillLabelModel;
@@ -39,8 +39,7 @@ public class EditorIdentityModel extends BaseObservable {
     private ImageView imageViewAdd;
     private LinearLayout addSkillaLabel;
     private LinearLayout newSkillLabrel;
-    private int addSkillLabelWidth;
-    public ArrayList<String> newSkillLabelList  = new ArrayList<>();
+    public static ArrayList<String> newSkillLabelList  = new ArrayList<>();
     private int newSkillWidth;
     private int width = 0;
     private  int index = 0;
@@ -51,12 +50,11 @@ public class EditorIdentityModel extends BaseObservable {
         this.editorIdentityActivity = editorIdentityActivity;
         initData();
         initView();
+
     }
 
     private void initData() {
-       newSkillLabelList.add("1234567");
-       newSkillLabelList.add("哇哈哈");
-       newSkillLabelList.add("一个很长很长的字符串");
+
     }
 
     private void initView() {
@@ -69,18 +67,6 @@ public class EditorIdentityModel extends BaseObservable {
                 updateLableView(newSkillLabelList);
             }
         });
-
-
-//        activityEditorIdentityBinding.llAddSkillLabel.removeAllViews();
-
-
-
-//        //先做添加标签
-//        addSkillaLabel = (LinearLayout) addSkillaLabel();
-//        activityEditorIdentityBinding.llAddSkillLabel.addView(addSkillaLabel);
-//        //添加标签的宽度
-//        addSkillaLabel.measure(0,0);
-//        addSkillLabelWidth = addSkillaLabel.getMeasuredWidth();
     }
 
     private View addSkillaLabel() {
@@ -113,16 +99,12 @@ public class EditorIdentityModel extends BaseObservable {
                 dialogCustomSkillLabelModel.setOnOkDialogListener(new DialogCustomSkillLabelModel.OnOkDialogListener() {
                     @Override
                     public void OnOkDialogClick(String text) {
-
-                       // listener.onListClick(newSkillLabelList);
                     if(newSkillLabelList.size()>=4){
                         ToastUtils.shortToast("最多创建四个技能");
                     }else {
                         newSkillLabelList.add(text);
                         updateLableView(newSkillLabelList);
                     }
-//                    addLinearLayoutView();
-
                     }
                 });
             }
@@ -131,7 +113,6 @@ public class EditorIdentityModel extends BaseObservable {
     }
 
     private void addLinearLayoutView() {
-
         activityEditorIdentityBinding.llAddSkillLabel.removeAllViews();
         for (int i = 0; i < newSkillLabelList.size(); i++) {
             index = i;
@@ -144,20 +125,8 @@ public class EditorIdentityModel extends BaseObservable {
             width = width +newSkillWidth;
             activityEditorIdentityBinding.llAddSkillLabel.addView(newSkillLabrel);
         }
-
         addSkillaLabel = (LinearLayout) addSkillaLabel();
         activityEditorIdentityBinding.llAddSkillLabel.addView(addSkillaLabel);
-
-        //剩余的宽度
-       // int endWidth = measuredllWidth - (addSkillLabelWidth + width);
-
-       /* if(endWidth <= 2){
-            activityEditorIdentityBinding.llAddSkillLabel1.removeView(addSkillaLabel);
-
-            activityEditorIdentityBinding.llAddSkillLabel2.addView(addSkillaLabel);
-
-        }
-*/
     }
 
     //创造技能标签
@@ -191,13 +160,10 @@ public class EditorIdentityModel extends BaseObservable {
         ivbtnUnCheckedLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogKit.d("删除");
                 newSkillLabelList.remove(text);
                 updateLableView(newSkillLabelList);
             }
         });
-
-
         return llCheckedLabel;
     }
 
@@ -221,19 +187,17 @@ public class EditorIdentityModel extends BaseObservable {
 //        dialogBuilder.show();
     }
 
-    public interface onSkillLabelListListener{
+  /*  public interface onSkillLabelListListener{
         void onListClick(ArrayList<String> list);
     }
 
     private onSkillLabelListListener listener;
     public void  setOnSkillLabelListListener( onSkillLabelListListener listener) {
         this.listener = listener;
-    }
+    }*/
 
     private int lineCount = 0;
     private int lineWidth = 0;
-//    private int childViewWidth;
-//    private int newLineWidth;
     public LinearLayout llSkilllabelLine;
 
     private void updateLableView(ArrayList<String> data) {
@@ -242,40 +206,12 @@ public class EditorIdentityModel extends BaseObservable {
         createLabelLine();//new
         for (int i = 0; i < data.size(); i++) {
             //测量标签TextView的宽度并判断是否换行
-//            addTableView(createSkillaLabel( data.get(i)));//old
-            adddView(createSkillaLabel( data.get(i)));//new
+            adddView(createSkillaLabel( data.get(i)));
         }
-//        addTableView(addSkillaLabel());//old
-        adddView(addSkillaLabel());//new
-//        activityEditorIdentityBinding.llAddSkillLabel.removeView(llSkilllabelLine);
+        adddView(addSkillaLabel());
         activityEditorIdentityBinding.llAddSkillLabel.addView(llSkilllabelLine);
     }
-//    private void addTableView(View childView) {
-//        childView.measure(spec, 0);
-//        childViewWidth = childView.getMeasuredWidth() + (( LinearLayout.LayoutParams)childView.getLayoutParams()).leftMargin;
-//        newLineWidth = lineWidth + childViewWidth;
-//        if (lineWidth != 0) {
-//            if (newLineWidth >= measuredllWidth) {
-//                activityEditorIdentityBinding.llAddSkillLabel.addView(llSkilllabelLine);
-//                createLabelLine();
-//                llSkilllabelLine.addView(childView);
-//                lineWidth = childViewWidth;
-//            } else {
-//                llSkilllabelLine.addView(childView);
-//                lineWidth = newLineWidth;
-//            }
-//        } else {
-//            //防范一个标签就超过总宽度的情况
-//            createLabelLine();
-//            llSkilllabelLine.addView(childView);
-//            if (newLineWidth >= measuredllWidth) {
-//                activityEditorIdentityBinding.llAddSkillLabel.addView(llSkilllabelLine);
-//                lineWidth = 0;
-//            } else {
-//                lineWidth = newLineWidth;
-//            }
-//        }
-//    }
+
     public void createLabelLine() {
         //创建Line
         LinearLayout.LayoutParams llParamsForLine = new LinearLayout.LayoutParams(-1, -2);

@@ -559,37 +559,13 @@ public class SearchNeedResultTabModel extends BaseObservable implements View.OnC
             }
         }*/
 
-        listCityInfo.add(new LocationCityInfo(true, "A", ""));
-        listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
-        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
-        listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
-        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
-        listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
-        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
-        listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
-        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
-        listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
-        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
-        listCityInfo.add(new LocationCityInfo(false, "", "安徽"));
-        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢"));
-        listCityInfo.add(new LocationCityInfo(true, "S", ""));
-        listCityInfo.add(new LocationCityInfo(false, "", "上海"));
-        listCityInfo.add(new LocationCityInfo(false, "", "苏州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "上海"));
-        listCityInfo.add(new LocationCityInfo(false, "", "苏州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "上海"));
-        listCityInfo.add(new LocationCityInfo(false, "", "苏州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "上海"));
-        listCityInfo.add(new LocationCityInfo(false, "", "苏州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "上海"));
-        listCityInfo.add(new LocationCityInfo(false, "", "苏州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "上海"));
-        listCityInfo.add(new LocationCityInfo(false, "", "苏州"));
-        listCityInfo.add(new LocationCityInfo(true, "X", ""));
-        listCityInfo.add(new LocationCityInfo(false, "", "徐州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "徐州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "徐州"));
-        listCityInfo.add(new LocationCityInfo(false, "", "徐州"));
+       listCityInfo.add(new LocationCityInfo(true, "A", "",-1));
+        listCityInfo.add(new LocationCityInfo(false, "", "安徽",1));
+        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢",1));
+        listCityInfo.add(new LocationCityInfo(false, "", "安徽",1));
+        listCityInfo.add(new LocationCityInfo(false, "", "鞍钢",1));
+        listCityInfo.add(new LocationCityInfo(false, "", "安徽",1));
+
         //城市名称首字母模拟数据
         listCityNameFirstLetter = new ArrayList<Character>();
         for (char cha = 'A'; cha <= 'Z'; cha++) {

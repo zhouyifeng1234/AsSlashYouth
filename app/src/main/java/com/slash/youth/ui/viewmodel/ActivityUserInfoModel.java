@@ -39,7 +39,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private FloatViewBinding floatViewBinding;
     private String slashIdentity = "暂未填写";//默认
     private String defaultArea  = "暂未填写";
-    private UserInfoItemBean.DataBean.UinfoBean uinfo;
+    public UserInfoItemBean.DataBean.UinfoBean uinfo;//从网络获取的个人信息
     public long  userUid = -1;//-1是自己看自己的
     public String name;
     private int expert;
