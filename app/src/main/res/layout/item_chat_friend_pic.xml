@@ -25,14 +25,14 @@
 
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="11dp"
             android:background="@drawable/chat_box_bg"
             android:paddingLeft="4dp"
-        >
-        </ImageView>
+            android:src="@mipmap/chat_pic_test"
+        />
 
     </LinearLayout>
 </layout>
