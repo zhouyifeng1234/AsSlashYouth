@@ -25,7 +25,7 @@
 
 
         <ImageView
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="11dp"
@@ -33,6 +33,7 @@
             android:paddingLeft="4dp"
             android:src="@mipmap/chat_pic_test"
         />
+
 
     </LinearLayout>
 </layout>

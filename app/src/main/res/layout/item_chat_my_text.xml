@@ -10,7 +10,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="39dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="11dp"
             android:orientation="horizontal">
@@ -26,9 +26,9 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="39dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
-                android:background="#31C5E4"
+                android:background="@drawable/chat_box_blue_bg"
                 android:paddingLeft="12dp"
                 android:paddingRight="16dp">
 
