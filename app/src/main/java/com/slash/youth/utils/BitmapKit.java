@@ -6,6 +6,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.widget.ImageView;
+
+import org.xutils.http.RequestParams;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 /**
  * Created by zhouyifeng on 2016/10/15.
@@ -30,5 +35,20 @@ public class BitmapKit {
         canvas.drawRoundRect(rectF, CommonUtils.dip2px(radius), CommonUtils.dip2px(radius), paintRectF);
         canvas.drawBitmap(srcBitmap, null, rectF, paintBitmap);
         return roundedBitmap;
+    }
+
+
+    public static void bindImage(ImageView iv, String url) {
+        ImageOptions.Builder builder = new ImageOptions.Builder();
+        ImageOptions imageOptions = builder.build();
+        builder.setParamsBuilder(new ImageOptions.ParamsBuilder() {
+            @Override
+            public RequestParams buildParams(RequestParams params, ImageOptions options) {
+                params.addHeader("uid", "10000");
+                params.addHeader("pass", "1");
+                return params;
+            }
+        });
+        x.image().bind(iv, url, imageOptions);
     }
 }

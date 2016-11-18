@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
 import com.slash.youth.databinding.ItemChatChangeContactWayInfoBinding;
@@ -18,11 +20,13 @@ import com.slash.youth.databinding.ItemChatFriendTextBinding;
 import com.slash.youth.databinding.ItemChatInfoBinding;
 import com.slash.youth.databinding.ItemChatMyPicBinding;
 import com.slash.youth.databinding.ItemChatMySendBusinessCardBinding;
+import com.slash.youth.databinding.ItemChatMySendVoiceBinding;
 import com.slash.youth.databinding.ItemChatMyShareTaskBinding;
 import com.slash.youth.databinding.ItemChatMyTextBinding;
 import com.slash.youth.databinding.ItemChatOtherChangeContactWayBinding;
 import com.slash.youth.databinding.ItemChatOtherSendAddFriendBinding;
 import com.slash.youth.databinding.ItemChatOtherSendBusinessCardBinding;
+import com.slash.youth.databinding.ItemChatOtherSendVoiceBinding;
 import com.slash.youth.databinding.ItemChatOtherShareTaskBinding;
 import com.slash.youth.utils.CommonUtils;
 
@@ -72,7 +76,9 @@ public class ChatModel extends BaseObservable {
         mLlChatContent.addView(createOtherSendBusinessCardView());
         mLlChatContent.addView(createMySendBusinessCardView());
         mLlChatContent.addView(createOtherChangeContactWayView());
-        mLlChatContent.addView(createChangeContactWayInfoView());
+        mLlChatContent.addView(createChangeContactWayInfoView());//因为背景切图还没有，所以暂未实现
+        mLlChatContent.addView(createOtherSendVoiceView());
+        mLlChatContent.addView(createMySendVoiceView());
 
         //自动滚动到底部
         mSvChatContent = mActivityChatBinding.svChatContent;
@@ -192,4 +198,41 @@ public class ChatModel extends BaseObservable {
         return itemChatChangeContactWayInfoBinding.getRoot();
     }
 
+    private View createOtherSendVoiceView() {
+        ItemChatOtherSendVoiceBinding itemChatOtherSendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_voice, null, false);
+        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity);
+        itemChatOtherSendVoiceBinding.setChatOtherSendVoiceModel(chatOtherSendVoiceModel);
+        return itemChatOtherSendVoiceBinding.getRoot();
+    }
+
+    private View createMySendVoiceView() {
+        ItemChatMySendVoiceBinding itemChatMySendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_send_voice, null, false);
+        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity);
+        itemChatMySendVoiceBinding.setChatMySendVoiceModel(chatMySendVoiceModel);
+        return itemChatMySendVoiceBinding.getRoot();
+    }
+
+
+    private int voiceInputIconVisibility = View.VISIBLE;
+    private int textInputIconVisibility = View.GONE;
+
+    @Bindable
+    public int getTextInputIconVisibility() {
+        return textInputIconVisibility;
+    }
+
+    public void setTextInputIconVisibility(int textInputIconVisibility) {
+        this.textInputIconVisibility = textInputIconVisibility;
+        notifyPropertyChanged(BR.textInputIconVisibility);
+    }
+
+    @Bindable
+    public int getVoiceInputIconVisibility() {
+        return voiceInputIconVisibility;
+    }
+
+    public void setVoiceInputIconVisibility(int voiceInputIconVisibility) {
+        this.voiceInputIconVisibility = voiceInputIconVisibility;
+        notifyPropertyChanged(BR.voiceInputIconVisibility);
+    }
 }
