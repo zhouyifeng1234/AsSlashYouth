@@ -20,4 +20,5 @@ public class ChatActivity extends Activity {
         ChatModel chatModel = new ChatModel(activityChatBinding, this);
         activityChatBinding.setChatModel(chatModel);
     }
+
 }

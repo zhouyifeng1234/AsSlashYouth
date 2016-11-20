@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -46,7 +48,9 @@ public class ChatModel extends BaseObservable {
         this.mActivity = activity;
         initData();
         initView();
+        initListener();
     }
+
 
     private void initData() {
 
@@ -86,6 +90,31 @@ public class ChatModel extends BaseObservable {
             @Override
             public void run() {
                 mSvChatContent.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+    }
+
+    private void initListener() {
+        mActivityChatBinding.etChatInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() <= 0) {
+                    setUploadPicBtnVisibility(View.VISIBLE);
+                    setSendTextBtnVisibility(View.GONE);
+                } else {
+                    setUploadPicBtnVisibility(View.GONE);
+                    setSendTextBtnVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -212,9 +241,47 @@ public class ChatModel extends BaseObservable {
         return itemChatMySendVoiceBinding.getRoot();
     }
 
+    public void openUploadPic(View v) {
+        setUploadPicLayerVisibility(View.VISIBLE);
+    }
+
+    public void closeUploadPic(View v) {
+        setUploadPicLayerVisibility(View.GONE);
+    }
+
+    public void switchVoiceInput(View v) {
+        switchVoiceInput();
+    }
+
+    public void switchTextInput(View v) {
+        switchTextInput();
+    }
+
+    //切换到语音输入
+    public void switchVoiceInput() {
+        //当切换到语音输入状态时，语音输入按钮需要隐藏，文本输入按钮需要显示
+        setVoiceInputIconVisibility(View.GONE);
+        setTextInputIconVisibility(View.VISIBLE);
+        setInputVoiceTvVisibility(View.VISIBLE);
+        setInputTextEtVisibility(View.GONE);
+    }
+
+    //切换到文本输入
+    public void switchTextInput() {
+        //当切换到文本输入状态时，语音输入按钮需要显示，文本输入按钮需要隐藏
+        setVoiceInputIconVisibility(View.VISIBLE);
+        setTextInputIconVisibility(View.GONE);
+        setInputVoiceTvVisibility(View.GONE);
+        setInputTextEtVisibility(View.VISIBLE);
+    }
 
     private int voiceInputIconVisibility = View.VISIBLE;
     private int textInputIconVisibility = View.GONE;
+    private int inputTextEtVisibility = View.VISIBLE;
+    private int inputVoiceTvVisibility = View.GONE;
+    private int uploadPicLayerVisibility = View.GONE;
+    private int uploadPicBtnVisibility = View.VISIBLE;
+    private int sendTextBtnVisibility = View.GONE;
 
     @Bindable
     public int getTextInputIconVisibility() {
@@ -234,5 +301,55 @@ public class ChatModel extends BaseObservable {
     public void setVoiceInputIconVisibility(int voiceInputIconVisibility) {
         this.voiceInputIconVisibility = voiceInputIconVisibility;
         notifyPropertyChanged(BR.voiceInputIconVisibility);
+    }
+
+    @Bindable
+    public int getInputVoiceTvVisibility() {
+        return inputVoiceTvVisibility;
+    }
+
+    public void setInputVoiceTvVisibility(int inputVoiceTvVisibility) {
+        this.inputVoiceTvVisibility = inputVoiceTvVisibility;
+        notifyPropertyChanged(BR.inputVoiceTvVisibility);
+    }
+
+    @Bindable
+    public int getInputTextEtVisibility() {
+        return inputTextEtVisibility;
+    }
+
+    public void setInputTextEtVisibility(int inputTextEtVisibility) {
+        this.inputTextEtVisibility = inputTextEtVisibility;
+        notifyPropertyChanged(BR.inputTextEtVisibility);
+    }
+
+    @Bindable
+    public int getUploadPicLayerVisibility() {
+        return uploadPicLayerVisibility;
+    }
+
+    public void setUploadPicLayerVisibility(int uploadPicLayerVisibility) {
+        this.uploadPicLayerVisibility = uploadPicLayerVisibility;
+        notifyPropertyChanged(BR.uploadPicLayerVisibility);
+    }
+
+    @Bindable
+    public int getUploadPicBtnVisibility() {
+        return uploadPicBtnVisibility;
+    }
+
+    public void setUploadPicBtnVisibility(int uploadPicBtnVisibility) {
+        this.uploadPicBtnVisibility = uploadPicBtnVisibility;
+        notifyPropertyChanged(BR.uploadPicBtnVisibility);
+    }
+
+    @Bindable
+    public int getSendTextBtnVisibility() {
+        return sendTextBtnVisibility;
+    }
+
+    public void setSendTextBtnVisibility(int sendTextBtnVisibility) {
+        this.sendTextBtnVisibility = sendTextBtnVisibility;
+        notifyPropertyChanged(BR.sendTextBtnVisibility);
     }
 }
