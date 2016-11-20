@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.ui.viewmodel.ChatModel;
 
 /**
@@ -21,4 +22,11 @@ public class ChatActivity extends Activity {
         activityChatBinding.setChatModel(chatModel);
     }
 
+    @Override
+    protected void onDestroy() {
+        MsgManager.removeChatTextListener();
+        MsgManager.removeChatPicListener();
+        MsgManager.removeChatVoiceListener();
+        super.onDestroy();
+    }
 }

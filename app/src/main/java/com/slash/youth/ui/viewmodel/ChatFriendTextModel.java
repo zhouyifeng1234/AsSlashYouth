@@ -2,7 +2,9 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemChatFriendTextBinding;
 
 /**
@@ -16,6 +18,7 @@ public class ChatFriendTextModel extends BaseObservable {
         this.mItemChatFriendTextBinding = itemChatFriendTextBinding;
         this.mActivity = activity;
 
+
         initData();
         initView();
     }
@@ -26,5 +29,17 @@ public class ChatFriendTextModel extends BaseObservable {
 
     private void initView() {
 
+    }
+
+    private String textContent;
+
+    @Bindable
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+        notifyPropertyChanged(BR.textContent);
     }
 }

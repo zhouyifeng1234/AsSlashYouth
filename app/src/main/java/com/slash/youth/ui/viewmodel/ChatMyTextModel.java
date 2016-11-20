@@ -2,7 +2,9 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemChatMyTextBinding;
 
 /**
@@ -13,9 +15,12 @@ public class ChatMyTextModel extends BaseObservable {
     ItemChatMyTextBinding mItemChatMyTextBinding;
     Activity mActivity;
 
-    public ChatMyTextModel(ItemChatMyTextBinding itemChatMyTextBinding, Activity activity) {
+    public ChatMyTextModel(ItemChatMyTextBinding itemChatMyTextBinding, Activity activity, String inputText) {
         this.mItemChatMyTextBinding = itemChatMyTextBinding;
         this.mActivity = activity;
+
+        setMySendText(inputText);
+
         initData();
         initView();
     }
@@ -28,4 +33,15 @@ public class ChatMyTextModel extends BaseObservable {
 
     }
 
+    private String mySendText;
+
+    @Bindable
+    public String getMySendText() {
+        return mySendText;
+    }
+
+    public void setMySendText(String mySendText) {
+        this.mySendText = mySendText;
+        notifyPropertyChanged(BR.mySendText);
+    }
 }

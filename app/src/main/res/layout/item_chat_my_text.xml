@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="你今天准备好了"
+                    android:text="@{chatMyTextModel.mySendText}"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"/>
             </FrameLayout>
