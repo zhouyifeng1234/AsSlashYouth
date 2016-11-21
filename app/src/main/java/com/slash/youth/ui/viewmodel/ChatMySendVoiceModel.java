@@ -77,7 +77,11 @@ public class ChatMySendVoiceModel extends BaseObservable {
     private void stopVoice() {
         if (mediaPlayer != null) {
 //            mediaPlayer.reset();
-            mediaPlayer.stop();
+            try {
+                mediaPlayer.stop();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             mediaPlayer.release();
             mediaPlayer = null;
         }

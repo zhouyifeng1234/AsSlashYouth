@@ -42,6 +42,7 @@ import com.slash.youth.databinding.ItemChatOtherShareTaskBinding;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -268,9 +269,14 @@ public class ChatModel extends BaseObservable {
     public void stopSoundRecording() {
         if (mediaRecorder != null) {
 //            mediaRecorder.reset();
-            mediaRecorder.stop();
+            try {
+                mediaRecorder.stop();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             mediaRecorder.release();
             mediaRecorder = null;
+
         }
         int duration = 0;
         MediaPlayer mediaPlayer = new MediaPlayer();
@@ -281,7 +287,11 @@ public class ChatModel extends BaseObservable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        if (duration < 1) {
+            ToastUtils.shortToast("录音时间过短");
+            deleteTmpRecordingFile();
+            return;
+        }
         if (!isCancelRecord) {
             sendVoice(tmpVoiceFile.getAbsolutePath(), duration);
         } else {

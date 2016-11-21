@@ -22,6 +22,14 @@ public class MsgManager {
      * @param token
      */
     public static void connectRongCloud(String token) {
+
+        RongIMClient.setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
+            @Override
+            public void onChanged(ConnectionStatus connectionStatus) {
+                String connMessage = connectionStatus.getMessage();
+                LogKit.v("connectionStatus:" + connMessage);
+            }
+        });
         /**
          * IMKit SDK调用第二步,建立与服务器的连接
          */
