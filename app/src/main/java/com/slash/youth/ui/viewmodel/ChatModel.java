@@ -4,7 +4,14 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -34,6 +41,11 @@ import com.slash.youth.databinding.ItemChatOtherSendVoiceBinding;
 import com.slash.youth.databinding.ItemChatOtherShareTaskBinding;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -52,6 +64,7 @@ public class ChatModel extends BaseObservable {
     private TextView mTvChatFriendName;
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
+    private String targetId = "10003";
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -171,14 +184,7 @@ public class ChatModel extends BaseObservable {
                         break;
                     case MotionEvent.ACTION_UP:
                         setSendVoiceCmdLayerVisibility(View.GONE);
-                        if (!isCancelRecord) {
-                            stopSoundRecording();
-                            sendVoice();
-                            deleteTmpRecordingFile();
-                        } else {
-                            stopSoundRecording();
-                            deleteTmpRecordingFile();
-                        }
+                        stopSoundRecording();
                         break;
                 }
                 return true;
@@ -204,7 +210,8 @@ public class ChatModel extends BaseObservable {
                 ImageMessage imageMessage = (ImageMessage) message.getContent();
                 Uri thumUri = imageMessage.getThumUri();
 //                Uri localUri = imageMessage.getLocalUri();
-//                Uri remoteUri = imageMessage.getRemoteUri();
+                Uri remoteUri = imageMessage.getRemoteUri();
+                LogKit.v("remoteUri:" + remoteUri.toString());
                 View friendPicView = createFriendPicView(thumUri);
                 mLlChatContent.addView(friendPicView);
             }
@@ -213,19 +220,45 @@ public class ChatModel extends BaseObservable {
             @Override
             public void loadVoice(Message message, int left) {
                 VoiceMessage voiceMessage = (VoiceMessage) message.getContent();
-                mLlChatContent.addView(createOtherSendVoiceView());
+                int duration = voiceMessage.getDuration();
+                Uri voiceUri = voiceMessage.getUri();
+                mLlChatContent.addView(createOtherSendVoiceView(voiceUri, duration));
             }
         });
 
     }
 
     boolean isCancelRecord = false;
+    MediaRecorder mediaRecorder;
+    File tmpVoiceFile;
 
     /**
      * 开始录音
      */
     public void startSoundRecording() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tmpVoiceFile = new File(CommonUtils.getContext().getCacheDir(), "tmpVoice" + SystemClock.currentThreadTimeMillis());
+                mediaRecorder = new MediaRecorder();
+                mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+                mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
+                mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
+                    @Override
+                    public void onInfo(MediaRecorder mr, int what, int extra) {
 
+                    }
+                });
+                try {
+                    mediaRecorder.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaRecorder.start();
+            }
+        }).start();
     }
 
 
@@ -233,20 +266,56 @@ public class ChatModel extends BaseObservable {
      * 停止录音
      */
     public void stopSoundRecording() {
+        if (mediaRecorder != null) {
+//            mediaRecorder.reset();
+            mediaRecorder.stop();
+            mediaRecorder.release();
+            mediaRecorder = null;
+        }
+        int duration = 0;
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(tmpVoiceFile.getAbsolutePath());
+            mediaPlayer.prepare();
+            duration = mediaPlayer.getDuration() / 1000;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        if (!isCancelRecord) {
+            sendVoice(tmpVoiceFile.getAbsolutePath(), duration);
+        } else {
+            deleteTmpRecordingFile();
+        }
     }
 
     /**
      * 删除录音保存的临时文件
      */
     public void deleteTmpRecordingFile() {
-
+        if (tmpVoiceFile != null && tmpVoiceFile.exists()) {
+            tmpVoiceFile.delete();
+        }
     }
 
     /**
      * 发送语音
      */
-    public void sendVoice() {
+    public void sendVoice(String voiceFilePath, final int duration) {
+        final File voiceFile = new File(voiceFilePath);
+        VoiceMessage vocMsg = VoiceMessage.obtain(Uri.fromFile(voiceFile), duration);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, vocMsg, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onError(Integer messageId, RongIMClient.ErrorCode e) {
+                deleteTmpRecordingFile();
+            }
+
+            @Override
+            public void onSuccess(Integer integer) {
+                mLlChatContent.addView(createMySendVoiceView(Uri.fromFile(voiceFile), duration));
+                deleteTmpRecordingFile();
+            }
+        });
 
     }
 
@@ -256,7 +325,7 @@ public class ChatModel extends BaseObservable {
     public void sendText() {
         final String inputText = mActivityChatBinding.etChatInput.getText().toString();
         TextMessage textMessage = TextMessage.obtain(inputText);
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, "10000", textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             //发送消息的回调
             @Override
             public void onSuccess(Integer integer) {
@@ -285,8 +354,63 @@ public class ChatModel extends BaseObservable {
     /**
      * 发送图片
      */
-    public void sendPic() {
+    public void sendPic(String imgPath) {
+        File imageSource = new File(imgPath);
+        File imageThumb = new File(CommonUtils.getContext().getCacheDir(), "thumb" + SystemClock.currentThreadTimeMillis());
 
+        try {
+            Bitmap bmpSource = BitmapFactory.decodeFile(imgPath);
+
+            // 创建缩略图变换矩阵。
+            Matrix m = new Matrix();
+            m.setRectToRect(new RectF(0, 0, bmpSource.getWidth(), bmpSource.getHeight()), new RectF(0, 0, 160, 160), Matrix.ScaleToFit.CENTER);
+
+            // 生成缩略图。
+            Bitmap bmpThumb = Bitmap.createBitmap(bmpSource, 0, 0, bmpSource.getWidth(), bmpSource.getHeight(), m, true);
+
+            imageThumb.createNewFile();
+
+            FileOutputStream fosThumb = new FileOutputStream(imageThumb);
+
+            // 保存缩略图。
+            bmpThumb.compress(Bitmap.CompressFormat.JPEG, 60, fosThumb);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
+
+        RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, null, null, new RongIMClient.SendImageMessageCallback() {
+
+            @Override
+            public void onAttached(Message message) {
+                //保存数据库成功
+                LogKit.v("保存数据库成功");
+            }
+
+            @Override
+            public void onError(Message message, RongIMClient.ErrorCode code) {
+                //发送失败
+                LogKit.v("发送失败");
+            }
+
+            @Override
+            public void onSuccess(Message message) {
+                //发送成功
+                LogKit.v("发送成功");
+                ImageMessage imageMessage1 = (ImageMessage) message.getContent();
+                LogKit.v(imageMessage1.getRemoteUri().toString());
+            }
+
+            @Override
+            public void onProgress(Message message, int progress) {
+                //发送进度
+                LogKit.v("发送进度:" + progress);
+            }
+        });
+
+        mLlChatContent.addView(createMyPicView(Uri.fromFile(imageThumb)));
     }
 
     public void goBack(View v) {
@@ -320,9 +444,9 @@ public class ChatModel extends BaseObservable {
     }
 
     //创建我发的图片View
-    private View createMyPicView() {
+    private View createMyPicView(Uri thumUri) {
         ItemChatMyPicBinding itemChatMyPicBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_pic, null, false);
-        ChatMyPicModel chatMyPicModel = new ChatMyPicModel(itemChatMyPicBinding, mActivity);
+        ChatMyPicModel chatMyPicModel = new ChatMyPicModel(itemChatMyPicBinding, mActivity, thumUri);
         itemChatMyPicBinding.setChatMyPicModel(chatMyPicModel);
         return itemChatMyPicBinding.getRoot();
     }
@@ -398,16 +522,16 @@ public class ChatModel extends BaseObservable {
         return itemChatChangeContactWayInfoBinding.getRoot();
     }
 
-    private View createOtherSendVoiceView() {
+    private View createOtherSendVoiceView(Uri voiceUri, int duration) {
         ItemChatOtherSendVoiceBinding itemChatOtherSendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_voice, null, false);
-        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity);
+        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity, voiceUri, duration);
         itemChatOtherSendVoiceBinding.setChatOtherSendVoiceModel(chatOtherSendVoiceModel);
         return itemChatOtherSendVoiceBinding.getRoot();
     }
 
-    private View createMySendVoiceView() {
+    private View createMySendVoiceView(Uri voiceUri, int duration) {
         ItemChatMySendVoiceBinding itemChatMySendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_send_voice, null, false);
-        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity);
+        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity, voiceUri, duration);
         itemChatMySendVoiceBinding.setChatMySendVoiceModel(chatMySendVoiceModel);
         return itemChatMySendVoiceBinding.getRoot();
     }
@@ -426,12 +550,12 @@ public class ChatModel extends BaseObservable {
 
     //拍照发送图片
     public void photoGraph(View v) {
-//sendPic();
+//        sendPic("/storage/sdcard1/4.jpg");
     }
 
     //选择相册图片发送
     public void getAlbumPic(View v) {
-//sendPic();
+        sendPic("/storage/sdcard1/4.jpg");
     }
 
     public void switchVoiceInput(View v) {
