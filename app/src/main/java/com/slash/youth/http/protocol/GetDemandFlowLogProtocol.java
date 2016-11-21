@@ -1,5 +1,7 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.Gson;
+import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -8,7 +10,7 @@ import org.xutils.http.RequestParams;
  * 七、[需求]-查看需求流程日志
  * Created by zhouyifeng on 2016/10/8.
  */
-public class GetDemandFlowLogProtocol extends BaseProtocol<String> {
+public class GetDemandFlowLogProtocol extends BaseProtocol<DemandFlowLogList> {
 
     private String id;//需求ID
 
@@ -27,8 +29,11 @@ public class GetDemandFlowLogProtocol extends BaseProtocol<String> {
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public DemandFlowLogList parseData(String result) {
+        Gson gson = new Gson();
+        DemandFlowLogList demandFlowLogList = gson.fromJson(result, DemandFlowLogList.class);
+
+        return demandFlowLogList;
     }
 
     @Override

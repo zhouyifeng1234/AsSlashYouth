@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.domain.PaymentBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.CommentActivity;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -189,7 +192,9 @@ public class ItemMyTaskModel extends BaseObservable {
 
     //任务完成后，需求方进行评价
     public void comment(View v) {
-
+        Intent intentCommentActivity = new Intent(CommonUtils.getContext(), CommentActivity.class);
+        intentCommentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentCommentActivity);
     }
 
 

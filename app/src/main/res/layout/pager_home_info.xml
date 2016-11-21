@@ -103,11 +103,13 @@
                     android:textSize="13sp"/>
 
                 <ImageView
-                    android:onClick="@{pagerHomeInfoModel.gotoMyTask}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="24dp"
+                    android:onClick="@{pagerHomeInfoModel.gotoMyTask}"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="10dp"
                     android:src="@mipmap/nav_goto_my_newscenter"/>
 
             </LinearLayout>

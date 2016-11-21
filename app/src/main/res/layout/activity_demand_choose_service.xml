@@ -93,7 +93,8 @@
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_gravity="right|bottom"
-                                    android:src="@mipmap/small_v_icon"/>
+                                    android:src="@mipmap/small_v_icon"
+                                    android:visibility="@{demandChooseServiceModel.isAuthVisibility}"/>
                             </FrameLayout>
 
                             <LinearLayout
@@ -104,9 +105,12 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="220dp"
                                     android:layout_height="wrap_content"
-                                    android:text="做一个互联网公司企业宣传策划案"
+                                    android:ellipsize="end"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="@{demandChooseServiceModel.title}"
                                     android:textColor="#666666"
                                     android:textSize="14sp"
                                     android:textStyle="bold"/>
@@ -115,7 +119,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
-                                    android:text="开始时间:2016年9月18日 8:00"
+                                    android:text="@{demandChooseServiceModel.startTime}"
                                     android:textColor="#666666" android:textSize="14sp"/>
 
                             </LinearLayout>
@@ -164,7 +168,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="20dp"
-                                android:text="曹文成"
+                                android:text="@{demandChooseServiceModel.username}"
                                 android:textColor="#CCCCCC"
                                 android:textSize="13sp"
                             />
@@ -174,7 +178,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="21dp"
-                                android:text="300元"
+                                android:text="@{demandChooseServiceModel.quote}"
                                 android:textColor="#FF7333"
                                 android:textSize="13sp"/>
 
@@ -188,7 +192,8 @@
                                 android:padding="3dp"
                                 android:text="分期到账"
                                 android:textColor="#31C5E4"
-                                android:textSize="11sp"/>
+                                android:textSize="11sp"
+                                android:visibility="@{demandChooseServiceModel.isInstalmentVisibility}"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -216,7 +221,7 @@
                                     android:layout_height="16dp"
                                     android:background="@mipmap/state_bg"
                                     android:gravity="center"
-                                    android:text="预约中"
+                                    android:text="@{demandChooseServiceModel.bigState}"
                                     android:textColor="#FFFFFF"
                                     android:textSize="11sp"
 

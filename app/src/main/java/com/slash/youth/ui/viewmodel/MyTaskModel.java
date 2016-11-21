@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -83,15 +84,60 @@ public class MyTaskModel extends BaseObservable {
         mActivityMyTaskBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {
-                    Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
-                    mActivity.startActivity(intentMyBidDemandActivity);
-                } else if (position == 2) {
-                    Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
-                    mActivity.startActivity(intentMyPublishDemandActivity);
-                } else {
-                    Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
-                    mActivity.startActivity(intentDemandChooseServiceActivity);
+                MyTaskBean myTaskBean = listMyTask.get(position);
+
+                Bundle taskInfo = new Bundle();
+                taskInfo.putLong("tid", myTaskBean.tid);
+                taskInfo.putInt("type", myTaskBean.type);
+                taskInfo.putInt("roleid", myTaskBean.roleid);
+
+//                ToastUtils.shortToast(myTaskBean.status + "");
+
+                if (myTaskBean.roleid == 1) {//发布者
+                    if (myTaskBean.type == 1) {//需求
+                        switch (myTaskBean.status) {
+                            case 1:
+                            case 4:
+                            case 5:
+                                Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
+                                intentDemandChooseServiceActivity.putExtras(taskInfo);
+                                mActivity.startActivity(intentDemandChooseServiceActivity);
+                                break;
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                                Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
+                                intentMyPublishDemandActivity.putExtras(taskInfo);
+                                mActivity.startActivity(intentMyPublishDemandActivity);
+                                break;
+                            default:
+                                //其它情况应该跳转到需求详情页
+                                break;
+                        }
+                    } else if (myTaskBean.type == 2) {//服务
+
+                    }
+
+                } else if (myTaskBean.roleid == 2) {//抢单者
+                    if (myTaskBean.type == 1) {//需求
+                        switch (myTaskBean.status) {
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9:
+                                Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
+                                intentMyBidDemandActivity.putExtras(taskInfo);
+                                mActivity.startActivity(intentMyBidDemandActivity);
+                                break;
+                            default:
+                                //其它情况应该跳转到需求详情页
+                                break;
+                        }
+                    } else if (myTaskBean.type == 2) {//服务
+
+                    }
                 }
             }
         });

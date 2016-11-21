@@ -34,6 +34,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     private int mCurrentChooseDay;
     private int mCurrentChooseHour;
     private int mCurrentChooseMinute;
+    private boolean mIsChooseStartTime;
 
     public PublishServiceBaseInfoModel(ActivityPublishServiceBaseinfoBinding activityPublishServiceBaseinfoBinding, Activity activity) {
         this.mActivity = activity;
@@ -87,7 +88,13 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         mCurrentChooseDay = mChooseDateTimePicker.getCurrentChooseDay();
         mCurrentChooseHour = mChooseDateTimePicker.getCurrentChooseHour();
         mCurrentChooseMinute = mChooseDateTimePicker.getCurrentChooseMinute();
-        //String dateTimeStr = mCurrentChooseMonth + "月" + mCurrentChooseDay + "日" + "-" + mCurrentChooseHour + ":" + (mCurrentChooseMinute < 10 ? "0" + mCurrentChooseMinute : mCurrentChooseMinute);
+        String dateTimeStr = mCurrentChooseMonth + "月" + mCurrentChooseDay + "日" + "-" + mCurrentChooseHour + ":" + (mCurrentChooseMinute < 10 ? "0" + mCurrentChooseMinute : mCurrentChooseMinute);
+        if (mIsChooseStartTime) {
+            mActivityPublishServiceBaseinfoBinding.tvStartTime.setText(dateTimeStr);
+        } else {
+            mActivityPublishServiceBaseinfoBinding.tvEndTime.setText(dateTimeStr);
+        }
+
         convertTimeToMillis();
     }
 
@@ -102,7 +109,33 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         return calendar.getTimeInMillis();
     }
 
+
+    public void chooseCustomIdleTime(View v) {
+        setSetStartTimeAndEndTimeLayerVisibility(View.VISIBLE);
+
+    }
+
+    public void okChooseIdleStartTimeAndEndTime(View v) {
+        setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
+
+    }
+
+    public void closeStartTimeAndEndTimeLayer(View v) {
+        setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
+    }
+
+    public void chooseStartTime(View v) {
+        mIsChooseStartTime = true;
+        setChooseDateTimeLayerVisibility(View.VISIBLE);
+    }
+
+    public void chooseEndTime(View v) {
+        mIsChooseStartTime = false;
+        setChooseDateTimeLayerVisibility(View.VISIBLE);
+    }
+
     private int chooseDateTimeLayerVisibility = View.GONE;
+    private int setStartTimeAndEndTimeLayerVisibility = View.GONE;
 
     @Bindable
     public int getChooseDateTimeLayerVisibility() {
@@ -112,5 +145,15 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     public void setChooseDateTimeLayerVisibility(int chooseDateTimeLayerVisibility) {
         this.chooseDateTimeLayerVisibility = chooseDateTimeLayerVisibility;
         notifyPropertyChanged(BR.chooseDateTimeLayerVisibility);
+    }
+
+    @Bindable
+    public int getSetStartTimeAndEndTimeLayerVisibility() {
+        return setStartTimeAndEndTimeLayerVisibility;
+    }
+
+    public void setSetStartTimeAndEndTimeLayerVisibility(int setStartTimeAndEndTimeLayerVisibility) {
+        this.setStartTimeAndEndTimeLayerVisibility = setStartTimeAndEndTimeLayerVisibility;
+        notifyPropertyChanged(BR.setStartTimeAndEndTimeLayerVisibility);
     }
 }

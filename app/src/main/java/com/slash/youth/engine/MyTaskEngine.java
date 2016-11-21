@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
+import com.slash.youth.http.protocol.GetTaskItemProtocol;
 
 /**
  * Created by zhouyifeng on 2016/10/29.
@@ -22,5 +23,16 @@ public class MyTaskEngine {
     public static void getMyTaskList(BaseProtocol.IResultExecutor onGetMyTaskListFinished, int type, int offset, int limit) {
         GetMyTaskListProtocol getMyTaskListProtocol = new GetMyTaskListProtocol(type, offset, limit);
         getMyTaskListProtocol.getDataFromServer(onGetMyTaskListFinished);
+    }
+
+    /**
+     * @param onGetTaskItemFinished
+     * @param tid                   任务ID
+     * @param type                  取值范围只能是: 1需求 2服务
+     * @param roleid                表示是'我抢的单子' 还是 '我发布的任务' 1发布者 2抢单者
+     */
+    public static void getMyTaskItem(BaseProtocol.IResultExecutor onGetTaskItemFinished, String tid, String type, String roleid) {
+        GetTaskItemProtocol getTaskItemProtocol = new GetTaskItemProtocol(tid, type, roleid);
+        getTaskItemProtocol.getDataFromServer(onGetTaskItemFinished);
     }
 }

@@ -1,16 +1,19 @@
 package com.slash.youth.global;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.LogKit;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import org.xutils.x;
+
+import io.rong.imlib.RongIMClient;
 
 
 /**
@@ -43,11 +46,39 @@ public class SlashApplication extends Application {
         //注册微信的APPID
 
         /**
-         * 初始化融云
+         * OnCreate 会被多个进程重入，这段保护代码，确保只有您需要使用 RongIMClient 的进程和 Push 进程执行了 init。
+         * io.rong.push 为融云 push 进程名称，不可修改。
          */
-       // RongIM.init(this);
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) ||
+                "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
+            RongIMClient.init(this);
+        }
 
+        LogKit.v("one");
+        //注册融云消息接收监听器
+        MsgManager.setMessReceiver();
+        //通过token连接融云
+        MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
+        LogKit.v("two");
     }
+
+    public static String getCurProcessName(Context context) {
+
+        int pid = android.os.Process.myPid();
+
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager
+                .getRunningAppProcesses()) {
+
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
 
     public static Context getContext() {
         return context;
@@ -64,7 +95,6 @@ public class SlashApplication extends Application {
     public static Application getApplication() {
         return application;
     }
-
 
 
 }
