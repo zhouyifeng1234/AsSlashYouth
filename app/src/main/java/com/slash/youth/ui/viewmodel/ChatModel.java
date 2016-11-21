@@ -303,7 +303,7 @@ public class ChatModel extends BaseObservable {
      */
     public void sendVoice(String voiceFilePath, final int duration) {
         final File voiceFile = new File(voiceFilePath);
-        VoiceMessage vocMsg = VoiceMessage.obtain(Uri.fromFile(voiceFile), duration);
+        final VoiceMessage vocMsg = VoiceMessage.obtain(Uri.fromFile(voiceFile), duration);
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, vocMsg, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onError(Integer messageId, RongIMClient.ErrorCode e) {
@@ -312,8 +312,20 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void onSuccess(Integer integer) {
-                mLlChatContent.addView(createMySendVoiceView(Uri.fromFile(voiceFile), duration));
+//                mLlChatContent.addView(createMySendVoiceView(Uri.fromFile(voiceFile), duration));
+//                mLlChatContent.addView(createMySendVoiceView(vocMsg.getUri(), duration));
                 deleteTmpRecordingFile();
+            }
+        }, new RongIMClient.ResultCallback<Message>() {
+            @Override
+            public void onSuccess(Message message) {
+                VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
+                mLlChatContent.addView(createMySendVoiceView(savedVoiceMessage.getUri(), duration));
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
             }
         });
 
