@@ -70,4 +70,5 @@ dependencies {
     compile files('libs/umeng-analytics-v6.0.3.jar')
     compile 'com.jungly:gridPasswordView:0.3'
     compile files('libs/pinyin4j-2.5.0.jar')
+
 }

@@ -57,6 +57,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:inputType="number"
                         android:textColor="#CCCCCC"
                         android:background="@null"
                         android:hint="请输入提现金额，最多可提12,800元"
@@ -160,6 +161,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
                         android:textColor="#CCCCCC"
+                        android:inputType="number"
                         android:background="@null"
                         android:hint="请输入想要转入的账号"
                         />

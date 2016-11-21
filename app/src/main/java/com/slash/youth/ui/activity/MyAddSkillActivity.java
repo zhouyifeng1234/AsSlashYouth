@@ -31,7 +31,7 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
 
         activityMyAddSkillBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_add_skill);
-        MyAddSkillModel myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding);
+        MyAddSkillModel myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding,this);
         activityMyAddSkillBinding.setMyAddSkillModel(myAddSkillModel);
         listener();
 
@@ -43,6 +43,7 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
         title.setText("添加技能");
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
+
     }
 
 

@@ -1,43 +1,34 @@
 package com.slash.youth.ui.adapter;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.slash.youth.R;
-import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.domain.MyCollectionBean;
 import com.slash.youth.domain.SkillManageBean;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.BaseHolder;
-import com.slash.youth.ui.holder.MyCollectionHolder;
+import com.slash.youth.ui.holder.ManagePublishHolder;
 import com.slash.youth.ui.holder.MySkillManageHolder;
-import com.slash.youth.ui.holder.SearchContentHolder;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.ViewHolder;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 /**
- * Created by zss on 2016/11/3.
+ * Created by acer on 2016/11/3.
  */
-public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean>{
+public class ManagePublishAdapter extends SlashBaseAdapter<MyCollectionBean> {
 
-    private ArrayList<MyCollectionBean> listData;
-    private MyCollectionHolder myCollectionHolder;
+    private MySkillManageActivity mySkillManageActivity;
+    private ArrayList<MyCollectionBean> managePublishList;
+    private ManagePublishHolder managePublishHolder;
 
-    public MyCollectionAdapter(ArrayList<MyCollectionBean> listData) {
+    public ManagePublishAdapter(ArrayList<MyCollectionBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<MyCollectionBean> managePublishList) {
         super(listData);
-        this.listData = listData;
+        this.mySkillManageActivity = mySkillManageActivity;
+        this.managePublishList = managePublishList;
     }
 
     @Override
@@ -47,12 +38,12 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean>{
 
     @Override
     public BaseHolder getHolder(int position) {
-        myCollectionHolder = new MyCollectionHolder(position, listData);
-        return myCollectionHolder;
+        managePublishHolder = new ManagePublishHolder(position, mySkillManageActivity, managePublishList);
+        return managePublishHolder;
     }
 
     @Override
-    public View getView( int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         BaseHolder holder;
         if (convertView == null) {
             if (getItemViewType(position) == HOLDER_TYPE_MORE) {
@@ -74,7 +65,7 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean>{
         }
         View rootView = holder.getRootView();
         if (rootView != null) {
-            ImageView ivDeleteSkill = myCollectionHolder.itemMyCollectionBinding.ivDeleteSkill;
+            ImageView ivDeleteSkill = managePublishHolder.itemManagePublishHolderBinding.ivDeleteSkill;
             ivDeleteSkill.setOnClickListener(new lvButtonListener(position));
 
             return rootView;

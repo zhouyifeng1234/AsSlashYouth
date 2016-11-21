@@ -42,8 +42,9 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         long uid = intent.getLongExtra("Uid", -1);//这是其他用的id
+        String skillTag = intent.getStringExtra("skillTag");
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid,this,skillTag);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
 
         back();
@@ -85,7 +86,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 finish();
             }
         });
-    }
+}
 
     private void listener() {
         activityUserinfoBinding.ivUserinfoMenu.setOnClickListener(this);

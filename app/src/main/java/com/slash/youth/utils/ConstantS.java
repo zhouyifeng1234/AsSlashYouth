@@ -10,10 +10,17 @@ public class Constants {
     public static final int  USERINFO_IDENTITY = 3;//斜杠身份
     public static final int  USERINFO_IMAGVIEW = 4;//头像
     public static final int  USERINFO_SKILLLABEL =5 ;//技能标签
+    //个人信息，认证拍照照片
+    public static final int  USERINFO_TAKEPHOTO =6 ;//认证拍照照片
+    //个人信息，认证相册照片
+    public static final int  USERINFO_PHOTOALBUM =7 ;//认证相册照片
 
 
     //我的  设置
     public static final int  MYSETTING_SETPASSWORD =1 ;//设置密码
+
+
+
 
 
 

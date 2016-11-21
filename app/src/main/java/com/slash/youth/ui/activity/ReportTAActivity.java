@@ -3,19 +3,13 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityReportTaBinding;
-import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.ui.viewmodel.ReportTAModel;
-import com.slash.youth.utils.LogKit;
-
-import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/2.

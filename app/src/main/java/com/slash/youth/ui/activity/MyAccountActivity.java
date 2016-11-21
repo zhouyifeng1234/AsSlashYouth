@@ -26,13 +26,10 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityMyAccountBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_account);
         MyAccountModel myAccountModel = new MyAccountModel(activityMyAccountBinding);
         activityMyAccountBinding.setMyAccountModel(myAccountModel);
-
         listener();
-
     }
 
     private void listener() {

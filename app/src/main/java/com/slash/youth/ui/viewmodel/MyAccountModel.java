@@ -69,7 +69,6 @@ public class MyAccountModel extends BaseObservable {
 
 
     public void withdrawals(View view){
-        LogKit.d("提现");
         Intent intentWithdrawalsActivity = new Intent(CommonUtils.getContext(), WithdrawalsActivity.class);
         intentWithdrawalsActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);

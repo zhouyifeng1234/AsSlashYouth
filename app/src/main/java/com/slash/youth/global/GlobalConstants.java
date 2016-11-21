@@ -268,8 +268,13 @@ public class GlobalConstants {
         public static final String CLAIMS  = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
-        //登出
+        //十四，[我的]-[用户中心]-认证
+        public static final String MY_CHECKOUT_AUTH = SERVER_HOST +"/real/auth";
+        //十五，[我的]-[用户中心]-用户认证流程状态
+       // public static final String MY_CHECKOUT_AUTH_SRATUS = SERVER_HOST +"/real/status";
+        //十六，[我的]-[用户中心]-登出
         public static final String MY_LOGOUT = SERVER_HOST +"auth/v1/logout";
+
 
 
         //一、[我的账户]-获取我的账户信息
@@ -304,8 +309,21 @@ public class GlobalConstants {
 
 
 
+        //我的收藏
+        public static final String COLLECTION_HOST = "http://121.42.145.178/feed/v1/api/myfavorite";
+        public static final String MY_COLLECTION_LIST = COLLECTION_HOST+"/list";
+        public static final String MY_ADD_COLLECTION_ITEM = COLLECTION_HOST+"/add";
+        public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST+"/del";
 
+        //管理我发布的
+        public static final String MANAGE_PUBLISH_HOST ="http://121.42.145.178/feed/v1/api/mytaskmanagement";
+        public static final String MANAGE_PUBLISH_LIST =MANAGE_PUBLISH_HOST+"/list";
+        public static final String MANAGE_PUBLISH_DELETE =MANAGE_PUBLISH_HOST+"/del";
 
+        //技能管理
+        public static final String SKILL_MANAGE_HOST ="http://121.42.145.178/feed/v1/api/myservicemanagement";
+        public static final String SKILL_MANAGE_LIST =SKILL_MANAGE_HOST+"/list";
+        public static final String SKILL_MANAGE_DELETE =SKILL_MANAGE_HOST+"/del";
 
 
 

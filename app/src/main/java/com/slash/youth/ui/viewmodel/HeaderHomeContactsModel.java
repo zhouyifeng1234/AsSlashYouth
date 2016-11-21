@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
 import com.slash.youth.databinding.ItemHscFriendRecommendBinding;
 import com.slash.youth.databinding.ItemHscFriendRecommendChangeLoadBinding;
 import com.slash.youth.domain.FriendRecommendBean;
+import com.slash.youth.ui.activity.ContactsCareActivity;
+import com.slash.youth.ui.activity.TransactionRecordActivity;
 import com.slash.youth.utils.CommonUtils;
 
 import java.util.ArrayList;
@@ -88,6 +91,36 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     public void clearFriendRecommend() {
         mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.removeAllViews();
+    }
+
+    //关注我的
+    public void careMe(View view) {
+        openContactsCareActivity("关注我的");
+    }
+    //我关注
+    public void myCare(View view) {
+        openContactsCareActivity("我关注");
+    }
+    //加我的
+    public void addMe(View view) {
+        openContactsCareActivity("加我的");
+    }
+    //我加的
+    public void myAdd(View view) {
+        openContactsCareActivity("我加的");
+    }
+
+    //人脉潜能
+    public void contactsPotential(View view) {
+
+
+    }
+
+    private void openContactsCareActivity(String title) {
+        Intent intentContactsCareActivity = new Intent(CommonUtils.getContext(), ContactsCareActivity.class);
+        intentContactsCareActivity.putExtra("title",title);
+        intentContactsCareActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentContactsCareActivity);
     }
 
 }

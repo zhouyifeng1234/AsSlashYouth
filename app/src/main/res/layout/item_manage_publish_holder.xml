@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="itemMySkillManageModel"
-                  type="com.slash.youth.ui.viewmodel.ItemMySkillManageModel"/>
+        <variable name="itemManagePublishModel"
+                  type="com.slash.youth.ui.viewmodel.ItemManagePublishModel"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 </LinearLayout>
 
                  <ImageView
-                     android:onClick="@{itemMySkillManageModel.delete}"
+                     android:onClick="@{itemManagePublishModel.delete}"
                      android:id="@+id/iv_delete_skill"
                      android:layout_marginTop="11dp"
                      android:layout_alignParentRight="true"

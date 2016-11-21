@@ -13,8 +13,11 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
+import com.slash.youth.domain.Bean;
+import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UserInfoItemBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SetBaseProtocol;
@@ -44,7 +47,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * Created by acer on 2016/10/31.
+ * Created by zss on 2016/10/31.
  */
 public class ActivityUserInfoEditorModel extends BaseObservable {
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
@@ -72,44 +75,102 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String avatar;
     private   boolean  isSetLocation  =false ;
     private String industry;
-
+    private String identity;
+    private int careertype;
+    private String tag;
+    private MyFirstPageBean.DataBean.MyinfoBean myinfo;
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid,
-                                       UserinfoEditorActivity userinfoEditorActivity, UserInfoItemBean.DataBean.UinfoBean uifo
+                                       UserinfoEditorActivity userinfoEditorActivity, MyFirstPageBean.DataBean.MyinfoBean myinfo) {
+        this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
+        this.myUid = myUid;
+        this.myinfo = myinfo;
+        this.userinfoEditorActivity = userinfoEditorActivity;
+        initData();
+        initView();
+        listener();
+    }
+
+    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid,
+                                       UserinfoEditorActivity userinfoEditorActivity,   UserInfoItemBean.DataBean.UinfoBean uifo
                                         ,String phone) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
         this.myUid = myUid;
         this.userinfoEditorActivity = userinfoEditorActivity;
         this.uifo = uifo;
         this.phone = phone;
+        initData();
         initView();
         listener();
     }
 
-    private void initView() {
-        //初始化信息内容
+    private void initData() {
+        if(myUid == -1){//我的
+            getMyData();
+         //   MyManager.getMyUserinfo(new OnGetMyUserinfo());
+        }else {//个人信息
+            getPersonData();
+        }
+    }
+
+    private void getMyData() {
+        avatar = myinfo.getAvatar();
+        name = myinfo.getName();
+        phone = myinfo.getPhone();
+        province =  myinfo.getProvince();
+        city = myinfo.getCity();
+        identity = myinfo.getIdentity();
+        careertype = myinfo.getCareertype();
+        company = myinfo.getCompany();
+        position = myinfo.getPosition();
+        industry = myinfo.getIndustry();
+        direction = myinfo.getDirection();
+        tag = myinfo.getTag();
+    }
+
+    private void getPersonData() {
         //头像的路径
         avatar = uifo.getAvatar();
-        x.image().bind(activityUserinfoEditorBinding.ivHead, avatar);
-        //姓名
         name = uifo.getName();
+        //所在地
+        province =  uifo.getProvince();
+        city = uifo.getCity();
+        //斜杠身份
+        identity = uifo.getIdentity();
+        //职业类型
+        careertype = uifo.getCareertype();
+        //公司
+        company = uifo.getCompany();
+        //职位
+        position = uifo.getPosition();
+        //技能描述
+        skilldescrib = uifo.getDesc();
+        //行业方向
+        industry = uifo.getIndustry();
+        direction = uifo.getDirection();
+        //技能标签
+        tag = uifo.getTag();
+    }
+
+    private void initView() {
+        //头像的路径
+        if(!avatar.isEmpty()){
+            x.image().bind(activityUserinfoEditorBinding.ivHead, avatar);
+        }
+        //姓名
         activityUserinfoEditorBinding.etUsername.setText(name);
         //手机号码
         activityUserinfoEditorBinding.tvUserphone.setText(phone);
         //所在地
-        province =  uifo.getProvince();
-        city = uifo.getCity();
         if(province.equals(city)){
             activityUserinfoEditorBinding.tvLocation.setText(province);
         }else {
             activityUserinfoEditorBinding.tvLocation.setText(province +""+city);
         }
         //斜杠身份
-        String identity = uifo.getIdentity();
         String replace = identity.replace(",", "/");
         activityUserinfoEditorBinding.tvIdentity.setText(replace);
         //职业类型
-       int careertype = uifo.getCareertype();
         switch (careertype){
             case 1://固定职业
                 activityUserinfoEditorBinding.rbOfficeWorker.setChecked(true);
@@ -121,20 +182,16 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 break;
         }
         //公司
-        company = uifo.getCompany();
         activityUserinfoEditorBinding.tvCompany.setText(company);
         //职位
-         position = uifo.getPosition();
         activityUserinfoEditorBinding.tvProfession.setText(position);
         //技能描述
-       /* skilldescrib = uifo.getDesc();
-        activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);*/
+       /* if(!skilldescrib.isEmpty()){
+            activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
+        }*/
         //行业方向
-        industry = uifo.getIndustry();
-         direction = uifo.getDirection();
         activityUserinfoEditorBinding.tvDirection.setText(industry +"|"+direction);
         //技能标签
-        String tag = uifo.getTag();
         skillLabels = tag.split(" ");
         List<String> lists = Arrays.asList(skillLabels);
         skillLabelList = new ArrayList<>(lists);
@@ -236,8 +293,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
          paramsMap.put("direction",direction);
           SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY,paramsMap);
 
-
-        //保存斜杠身份-------------------
         //斜杠身份只能包含中文\英文\数字
    /*     String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
         Pattern pattern = Pattern.compile(regex);*/
@@ -390,5 +445,30 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             }
         });
         paramsMap.clear();
+    }
+
+    //获取个人信息的接口
+    public class OnGetMyUserinfo implements BaseProtocol.IResultExecutor<UserInfoItemBean> {
+        @Override
+        public void execute(UserInfoItemBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                UserInfoItemBean.DataBean data = dataBean.getData();
+                UserInfoItemBean.DataBean.UinfoBean uinfo = data.getUinfo();
+                String desc = uinfo.getDesc();
+                if(!desc.isEmpty()){
+                    //技能描述
+                    activityUserinfoEditorBinding.etSkilldescribe.setText(desc);
+                }
+
+            }else {
+                LogKit.d("rescode="+rescode);
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
     }
 }

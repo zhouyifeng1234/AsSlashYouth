@@ -216,9 +216,9 @@ public class MySettingModel extends BaseObservable {
     //修改密码
     public void revisePassWord(View view){
         Intent intentRevisePasswordActivity = new Intent(CommonUtils.getContext(), RevisePasswordActivity.class);
-        intentRevisePasswordActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-       // mySettingActivity.startActivityForResult(intentRevisePasswordActivity,2);
-        CommonUtils.getContext().startActivity(intentRevisePasswordActivity);
+       // intentRevisePasswordActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mySettingActivity.startActivityForResult(intentRevisePasswordActivity,2);
+       // CommonUtils.getContext().startActivity(intentRevisePasswordActivity);
     }
 
     //设置密码

@@ -210,20 +210,7 @@ public class SubscribeActivity extends Activity {
             int f2 = skillLabelAllBean.getF2();
             int id = skillLabelAllBean.getId();
             String tag = skillLabelAllBean.getTag();
-            //---------------------------------------------
-//            SkillLabelBean child = new SkillLabelBean(tag, id, 0, 0);//所有数据
-//            if(f1==0){
-//                data.addChild(child);
-//            }else if(f2==0){
-//                data.findChildById(child.getF1()).addChild(child);
-//            }else {
-//                data.findChildById(child.getF1()).findChildById(child.getF2()).addChild(child);
-//            }
-//            mF1 = data.getChild().get(0).getId();
-//            mF2 = data.findChildById(mF1).getChild().get(0).getId();
-//            listFirstSkilllabelName= data.getChild();
-//            listener.OnListener(listFirstSkilllabelName);
-            //---------------------------------------------
+
             //一级标签集合
             if (f1 == 0 && f2 == 0) {
                 SkillLabelBean skillLabelBean = new SkillLabelBean(tag, f1, f2, id);
@@ -315,16 +302,7 @@ public class SubscribeActivity extends Activity {
         });
     }
 
-//    private void updataThridMenu() {
-//        postThridSkillLabel(data.findChildById(mF1).findChildById(mF2).getChild());
-//    }
-//    private void updataSecondMenu(){
-////        subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
-//        subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(data.findChildById(mF1).getChild());
-//        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
-//        postSecondSkillLabel();
-//        updataThridMenu();
-//    }
+
 
     private void getCommnThirdSkillLabel(int position) {
         commnThirdSkillLabel.clear();

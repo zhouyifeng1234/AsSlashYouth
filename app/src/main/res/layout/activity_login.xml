@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="17dp"
-                android:background="@mipmap/login_button"
+                android:background="@drawable/dalei_ok_icon"
                 android:onClick="@{activityLoginModel.login}"
                 android:text="登录"
                 android:textColor="#ffffff"

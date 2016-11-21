@@ -3,17 +3,14 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityExamineCertificatesBinding;
-import com.slash.youth.ui.viewmodel.ApprovalModel;
 import com.slash.youth.ui.viewmodel.ExamineCertificatesModel;
-import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zss on 2016/11/6.
@@ -21,17 +18,28 @@ import com.slash.youth.utils.LogKit;
 public class ExamineActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private ActivityExamineCertificatesBinding activityExamineCertificatesBinding;
+    private Bitmap bitmap;
+    private int type;
+    private int cardType;
+    private String photoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Intent intent = getIntent();
+        if(intent!=null) {
+            bitmap = intent.getParcelableExtra("bitmap");
+            type = intent.getIntExtra("careertype", -1);
+            cardType = intent.getIntExtra("cardType", -1);
+            photoUri = intent.getStringExtra("photoUri");
+        }
         activityExamineCertificatesBinding = DataBindingUtil.setContentView(this, R.layout.activity_examine_certificates);
-        ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding);
+        ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding,this,bitmap,type,cardType,photoUri);
         activityExamineCertificatesBinding.setExamineCertificatesModel(examineCertificatesModel);
-
         listener();
     }
+
+
 
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
@@ -43,15 +51,13 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.iv_userinfo_back:
                 finish();
                 break;
-
         }
-
-
-
-
     }
+
+
+
+
 }

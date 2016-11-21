@@ -5,6 +5,10 @@
         <variable name="myAddSkillModel"
                   type="com.slash.youth.ui.viewmodel.MyAddSkillModel"/>
     </data>
+        <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,8 +19,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -139,6 +141,48 @@
                     />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#E5E5E5"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="价格单位"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:hint="请选择"
+                        android:textColorHint="#CCCCCC"
+                        android:textSize="13sp"/>
+                    <ImageView
+                        android:onClick="@{myAddSkillModel.chooseUnit}"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="6dp"
+                        android:src="@mipmap/towards_right_icon"/>
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -164,6 +208,14 @@
                         android:text="＊建议上传清晰度高的图片上限5张"
                         android:textColor="#CCCCCC"
                         android:textSize="11sp"/>
+
+                    <com.slash.youth.ui.view.SlashAddPicLayout
+                        android:id="@+id/add_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    </com.slash.youth.ui.view.SlashAddPicLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -242,4 +294,68 @@
              </android.support.v7.widget.CardView>
         </ScrollView>
     </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#55000000"
+            android:clickable="true"
+            android:visibility="@{myAddSkillModel.rlChooseMainLabelVisible}"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View android:layout_width="match_parent"
+                            android:layout_height="110dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="61dp"
+                            android:background="@drawable/shape_rectangle_gradient"/>
+                        <View android:layout_width="match_parent"
+                            android:layout_height="110dp"/>
+                        <View android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#E5E5E5"/>
+
+                    </LinearLayout>
+                    <com.slash.youth.ui.view.SlashNumberPicker
+                        android:id="@+id/np_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true">
+
+                    </com.slash.youth.ui.view.SlashNumberPicker>
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btn_okChooseMainLabel"
+                    android:layout_width="333dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dalei_ok_icon"
+                    android:text="确定"
+                    android:onClick="@{myAddSkillModel.sure}"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+
 </layout>

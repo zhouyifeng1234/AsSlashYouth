@@ -79,6 +79,7 @@
             android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/rl_take_photo"
             android:onClick="@{approvalCertificatesModel.shotPhoto}"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -95,6 +96,7 @@
         </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_photo_album"
                 android:onClick="@{approvalCertificatesModel.albunPhoto}"
                 android:layout_weight="1"
                 android:layout_width="0dp"

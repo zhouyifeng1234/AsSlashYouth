@@ -90,9 +90,9 @@ public class FindPassWordModel extends BaseObservable {
     }
 
     //点击拍照
-    public  void photo(View view){
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            findPassWordActivity.startActivityForResult(intent, CAMERA_RESULT);
+    public  void photo(View view) {
+       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        findPassWordActivity.startActivityForResult(intent, CAMERA_RESULT);
     }
 
 
