@@ -476,12 +476,14 @@ public class ChatModel extends BaseObservable {
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
-
+//                ToastUtils.shortToast("send add friend success");
+                View infoView = createInfoView("您已发送添加好友请求");
+                mLlChatContent.addView(infoView);
             }
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                ToastUtils.shortToast("send add friend success");
+
             }
         });
     }
@@ -491,7 +493,24 @@ public class ChatModel extends BaseObservable {
      * 交换联系方式
      */
     public void sendChangeContact() {
+        ChatCmdChangeContactBean chatCmdChangeContactBean = new ChatCmdChangeContactBean();
+        chatCmdChangeContactBean.uid = 10000;
+        chatCmdChangeContactBean.phone = "18888888888";
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatCmdChangeContactBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View infoView = createInfoView("您已发送交换手机号请求");
+                mLlChatContent.addView(infoView);
+            }
 
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 
     public void goBack(View v) {
