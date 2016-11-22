@@ -75,7 +75,4 @@ public class MyAccountModel extends BaseObservable {
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);
     }
 
-
-
-
 }

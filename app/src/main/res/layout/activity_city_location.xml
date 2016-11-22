@@ -52,12 +52,20 @@
                 android:background="@drawable/shape_rounded_rectangle_city_search"
                 android:drawableLeft="@mipmap/city_search_icon"
                 android:drawablePadding="9dp"
-                android:drawableRight="@mipmap/city_close_icon"
                 android:hint="输入城市名称或首字母"
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp"
                 android:textColorHint="#999999"
                 android:textSize="14.5sp"/>
+            <ImageView
+                android:onClick="@{activityCityLocationModel.cleanEt}"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/city_close_icon"/>
+
 
         </RelativeLayout>
 

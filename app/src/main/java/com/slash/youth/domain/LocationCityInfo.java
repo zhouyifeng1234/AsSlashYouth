@@ -11,10 +11,30 @@ public class LocationCityInfo {
 
     public String CityName;
 
-    public LocationCityInfo(boolean isFirstLetter, String firstLetter, String cityName) {
+    private int id;
+
+    public LocationCityInfo(String cityName, String firstLetter) {
+        CityName = cityName;
+        this.firstLetter = firstLetter;
+    }
+
+    public LocationCityInfo(boolean isFirstLetter, String firstLetter, String cityName,int id) {
         this.isFirstLetter = isFirstLetter;
         this.firstLetter = firstLetter;
+        this.id = id;
+        this.CityName = cityName;
+    }
+
+    public void setCityName(String cityName) {
         CityName = cityName;
+    }
+
+    public void setFirstLetter(String firstLetter) {
+        this.firstLetter = firstLetter;
+    }
+
+    public void setFirstLetter(boolean firstLetter) {
+        isFirstLetter = firstLetter;
     }
 
     public String getCityName() {
@@ -27,5 +47,14 @@ public class LocationCityInfo {
 
     public boolean isFirstLetter() {
         return isFirstLetter;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

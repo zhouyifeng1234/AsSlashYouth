@@ -63,6 +63,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int totoltaskcount;
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
     private long id;
+    public String phone;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
@@ -123,7 +124,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private void initData() {
 
         //峰哥原来就在这里的，就是把他抽取出来啦
-       // setExpertMarks(9999);
+        setExpertMarks(9999);
 
         //从网络获取我的首页的数据
 
@@ -152,28 +153,23 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //设置我的数据
     private void setMyInfoData() {
-        setExpertMarks(9999);
-
+        //电话号码
+        phone = myinfo.getPhone();
         //金额
         amount = myinfo.getAmount();
         mPagerHomeMyBinding.tvAmount.setText(amount+"元");
-
-
+        //用户的id
         id = myinfo.getId();
-
         //姓名
         name = myinfo.getName();
         LogKit.d("name "+name );
         mPagerHomeMyBinding.tvName.setText(name);
-
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
         mPagerHomeMyBinding.tvAchieveTaskCount.setText("顺利成交"+achievetaskcount+"单");
         mPagerHomeMyBinding.tvAchieveTaskCount1.setText(achievetaskcount);
         mPagerHomeMyBinding.tvTotolTaskCount.setText("共"+totoltaskcount+"单任务");
-
-
         //数量,网络获取的分数
         int expertscore = myinfo.getExpertscore();//超过多少用户
         //超出用户的百分比
@@ -189,14 +185,13 @@ public class PagerHomeMyModel extends BaseObservable {
          expertMarks = (float) expertlevels.get(expert);
         setExpertMarks(expertMarks);*/
 
-        setExpertMarks(9999);
+      //  setExpertMarks(9999);
 
         //头像
         avatar = myinfo.getAvatar();
         if(!avatar.isEmpty()){
             x.image().bind(mPagerHomeMyBinding.ivAssistantIcon,avatar);
         }
-
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
         //用户服务指向
@@ -204,7 +199,6 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力"+ userservicepoint +"星");
         mPagerHomeMyBinding.tvAverageServicePoint.setText(userservicepoint);
         mPagerHomeMyBinding.tvUserServicePoint.setText("---平台平均服务力为"+averageservicepoint+"星");
-
         //职业类型
         careertype = myinfo.getCareertype();
         if(careertype == 1){//固定职业者
@@ -276,8 +270,10 @@ public class PagerHomeMyModel extends BaseObservable {
     //编辑点击事件
         public void editor(View view){
             Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-            intentUserInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            CommonUtils.getContext().startActivity(intentUserInfoActivity);
+            intentUserInfoActivity.putExtra("phone",phone);
+            mActivity.startActivity(intentUserInfoActivity);
+            //intentUserInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //CommonUtils.getContext().startActivity(intentUserInfoActivity);
          }
 
          //我的账户

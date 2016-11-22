@@ -27,7 +27,6 @@ public class LoginManager {
 
         //QQ初始化
         mTencent = Tencent.createInstance(GlobalConstants.ThirdAppId.APPID_QQ, CommonUtils.getContext());
-
     }
 
     //调用发送手机验证码接口，将验证码发送到手机上
@@ -38,10 +37,8 @@ public class LoginManager {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
-
             @Override
             public void executeResultError(String result) {
-
             }
         });
     }

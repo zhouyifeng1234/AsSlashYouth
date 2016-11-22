@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.net.sip.SipAudioCall;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,20 +14,34 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SetBaseProtocol;
+import com.slash.youth.http.protocol.SetJsonArrayBaseProtocol;
 import com.slash.youth.http.protocol.SetSaveUserInfoProtocol;
+import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.ui.activity.EditorIdentityActivity;
 import com.slash.youth.ui.activity.ReplacePhoneActivity;
+import com.slash.youth.ui.activity.SubscribeActivity;
+import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtil;
 import com.slash.youth.utils.ToastUtils;
 
+import org.xutils.x;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by acer on 2016/10/31.
@@ -38,6 +53,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private boolean checked;
     private String setLocation;
     private  HashMap<String, String> paramsMap = new HashMap<>();
+    private  HashMap<String, String[]> paramsMaps = new HashMap<>();
     private String textView;
     private String[] slashIdentitys;
     private String editext;
@@ -45,95 +61,221 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String position;
     private String direction;
     private long myUid;//我自己的id
+    private UserinfoEditorActivity userinfoEditorActivity;
+    private  StringBuffer sb = new StringBuffer();
+    public String city;
+    public String province;
+    private UserInfoItemBean.DataBean.UinfoBean uifo;
+    private String phone;
+    private String[] skillLabels;
+    public ArrayList<String> skillLabelList;
+    private String avatar;
+    private   boolean  isSetLocation  =false ;
+    private String industry;
 
-    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding,long myUid) {
+
+    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid,
+                                       UserinfoEditorActivity userinfoEditorActivity, UserInfoItemBean.DataBean.UinfoBean uifo
+                                        ,String phone) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
         this.myUid = myUid;
+        this.userinfoEditorActivity = userinfoEditorActivity;
+        this.uifo = uifo;
+        this.phone = phone;
         initView();
-
         listener();
     }
 
     private void initView() {
-       // activityUserinfoEditorBinding.etUsername.setText("小玩");
+        //初始化信息内容
+        //头像的路径
+        avatar = uifo.getAvatar();
+        x.image().bind(activityUserinfoEditorBinding.ivHead, avatar);
+        //姓名
+        name = uifo.getName();
+        activityUserinfoEditorBinding.etUsername.setText(name);
+        //手机号码
+        activityUserinfoEditorBinding.tvUserphone.setText(phone);
+        //所在地
+        province =  uifo.getProvince();
+        city = uifo.getCity();
+        if(province.equals(city)){
+            activityUserinfoEditorBinding.tvLocation.setText(province);
+        }else {
+            activityUserinfoEditorBinding.tvLocation.setText(province +""+city);
+        }
+        //斜杠身份
+        String identity = uifo.getIdentity();
+        String replace = identity.replace(",", "/");
+        activityUserinfoEditorBinding.tvIdentity.setText(replace);
+        //职业类型
+       int careertype = uifo.getCareertype();
+        switch (careertype){
+            case 1://固定职业
+                activityUserinfoEditorBinding.rbOfficeWorker.setChecked(true);
+                activityUserinfoEditorBinding.rbSelfEmployed.setChecked(false);
+                break;
+            case 2://自由职业
+                activityUserinfoEditorBinding.rbOfficeWorker.setChecked(false);
+                activityUserinfoEditorBinding.rbSelfEmployed.setChecked(true);
+                break;
+        }
+        //公司
+        company = uifo.getCompany();
+        activityUserinfoEditorBinding.tvCompany.setText(company);
+        //职位
+         position = uifo.getPosition();
+        activityUserinfoEditorBinding.tvProfession.setText(position);
+        //技能描述
+       /* skilldescrib = uifo.getDesc();
+        activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);*/
+        //行业方向
+        industry = uifo.getIndustry();
+         direction = uifo.getDirection();
+        activityUserinfoEditorBinding.tvDirection.setText(industry +"|"+direction);
+        //技能标签
+        String tag = uifo.getTag();
+        skillLabels = tag.split(" ");
+        List<String> lists = Arrays.asList(skillLabels);
+        skillLabelList = new ArrayList<>(lists);
+        int length = skillLabels.length;
+        switch (length){
+            case 1:
+                activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
+                activityUserinfoEditorBinding.tvLine.setText(skillLabels[0]);
+                break;
+            case 2:
+                activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
+                activityUserinfoEditorBinding.tvLine.setText(skillLabels[0]);
+                activityUserinfoEditorBinding.tvLine2.setVisibility(View.VISIBLE);
+                activityUserinfoEditorBinding.tvLine2.setText(skillLabels[1]);
+                break;
+            case 3:
+                activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
+                activityUserinfoEditorBinding.tvLine.setText(skillLabels[0]);
+                activityUserinfoEditorBinding.tvLine2.setVisibility(View.VISIBLE);
+                activityUserinfoEditorBinding.tvLine2.setText(skillLabels[1]);
+                activityUserinfoEditorBinding.tvLine3.setVisibility(View.VISIBLE);
+                activityUserinfoEditorBinding.tvLine3.setText(skillLabels[2]);
+                break;
+        }
+    }
 
-        //初始化的时候获取一下，但是时刻监听变化
-        name = activityUserinfoEditorBinding.etUsername.getText().toString();
-        skilldescrib = activityUserinfoEditorBinding.tvSkilldescribe.getText().toString();
-        checked = activityUserinfoEditorBinding.rbOfficeWorker.isChecked();
+    //点击头像
+    public void clickAvatar(View view) {
+        //去相册里面调用图片
+        Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");//相片类型
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX", 48);
+        intent.putExtra("outputY", 48);
+        userinfoEditorActivity.startActivityForResult(intent, Constants.USERINFO_IMAGVIEW);
     }
 
     //设置斜杠身份
     public void editorIdentity(View view) {
-        //先跳转到身份编辑页面，获取到身份后会显示这个页面
         Intent editorIdentityActivity = new Intent(CommonUtils.getContext(), EditorIdentityActivity.class);
-        editorIdentityActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(editorIdentityActivity);
-        // TODO 等到数据回来，可以传到后端
-
-       // paramsMap.put("identity",slashIdentitys);
-       // SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_IDENTITY,paramsMap);
+        userinfoEditorActivity.startActivityForResult(editorIdentityActivity, Constants.USERINFO_IDENTITY);
     }
-
+    //设置手机号码
     public void setPhone(View view) {
         Intent replacePhoneActivity = new Intent(CommonUtils.getContext(), ReplacePhoneActivity.class);
-        replacePhoneActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(replacePhoneActivity);
-    }
-
-    //skillLabel
-    public void skillLabel(View view) {
-        LogKit.d("点击技能标签");
-        //去技能标签页面选标签
-
-       // paramsMap.put("tag",tag);
-      //   SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_TAG,paramsMap);
-
-    }
-
-
-    //点击头像
-    public void clickAvatar(View view) {
-        LogKit.d("点击头像");
-        //去相册里面调用图片
-
-        //图片路径
-        String url = "";
-        paramsMap.put("url",url);
-       // SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_AVATAR,paramsMap);
-
-
+        userinfoEditorActivity.startActivityForResult(replacePhoneActivity, Constants.USERINFO_PHONE);
     }
 
     //点击所在地
     public void setLocation(View view) {
-      LogKit.d("点击所在地");
-        // TODO 先跳转到选择地点的页面，获取省和市之后，回显到现在页面，并监听改变赋值
-
+       isSetLocation = true;
         Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(), CityLocationActivity.class);
-        intentCityLocationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentCityLocationActivity);
+        userinfoEditorActivity.startActivityForResult(intentCityLocationActivity, Constants.USERINFO_LOCATION);
+    }
 
-       // paramsMap.put("province",setLocation);
-       // paramsMap.put("city",setLocation);
-       // SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION,paramsMap);
+    //技能标签
+    public void skillLabel(View view) {
+        Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
+        intentSubscribeActivity.putExtra("isEditor",true);
+        intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels",skillLabelList);
+        userinfoEditorActivity.startActivityForResult(intentSubscribeActivity, Constants.USERINFO_SKILLLABEL);
     }
 
     //点击保存
     public void save(View view) {
-       // saveUserInfo(name,checked?1:2,skilldescrib);
+        //保存图片路径
+         paramsMap.put("url",avatar);
+         SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_AVATAR,paramsMap);
+        //保存姓名，技能描述，职业类型
+       name = activityUserinfoEditorBinding.etUsername.getText().toString();
+        skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
+        checked = activityUserinfoEditorBinding.rbOfficeWorker.isChecked();
+        saveUserInfo(name,checked?1:2,skilldescrib);
 
-      //保存的时候，我也保存一下公司和职位
-      //  paramsMap.put("company",company);
-       // paramsMap.put("position",position);
-      //  SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_COMPANY_AND_POSITION,paramsMap);
+      //保存公司和职位
+        paramsMap.put("company",company);
+        paramsMap.put("position",position);
+        SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_COMPANY_AND_POSITION,paramsMap);
 
-       //保存行业方向
-       // direction
-        paramsMap.put("industry",company);
-         paramsMap.put("direction",position);
-       //  SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY,paramsMap);
+        //保存所在地
+        if(isSetLocation){
+           city = CityLocationActivity.map.get("city");
+            province = CityLocationActivity.map.get("province");
+        }
+        if(city!=null&&province!=null){
+             paramsMap.put("province",province);
+             paramsMap.put("city",city);
+             SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION,paramsMap);
+        }
+        //保存行业方向
+        String industryAndDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
+        String[] split = industryAndDirection.split("|");
+        industry =  split[0];
+        direction = split[1];
+        paramsMap.put("industry",industry);
+         paramsMap.put("direction",direction);
+          SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY,paramsMap);
 
+
+        //保存斜杠身份-------------------
+        //斜杠身份只能包含中文\英文\数字
+   /*     String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
+        Pattern pattern = Pattern.compile(regex);*/
+      /*  ArrayList<String> newSkillLabelList = EditorIdentityModel.newSkillLabelList;
+        for (int i = 0; i < newSkillLabelList.size()-1; i++) {
+            if(i>=0&&i<newSkillLabelList.size()-1){
+                sb.append(newSkillLabelList.get(i));
+                sb.append("/");
+            }else if(i==newSkillLabelList.size()-1){
+                sb.append(newSkillLabelList.get(newSkillLabelList.size()-1));
+            }
+        }
+        paramsMap.put("identity",sb.toString());
+        SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_IDENTITY,paramsMap);*/
+
+
+      /*  String[] s = {"1","2","3"};
+        paramsMaps.put("tag",s);
+        SetJsonArrayBaseProtocol setJsonArrayBaseProtocol =
+                new SetJsonArrayBaseProtocol(GlobalConstants.HttpUrl.SET_SLASH_TAG,paramsMaps);
+
+        setJsonArrayBaseProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetBean>() {
+            @Override
+            public void execute(SetBean dataBean) {
+                int rescode = dataBean.rescode;
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                LogKit.d("rescode=="+rescode+"======"+status);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+            
+            }
+        });*/
+        //保存技能标签页面
+       //  paramsMap.put("tag",tag);
+         //  SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_TAG,paramsMap);
     }
 
     private void saveUserInfo(String name,int careertype,String desc) {
@@ -147,13 +289,11 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                         LogKit.d("保存用户信息错误");
                     }
                 }
-
                 @Override
                 public void executeResultError(String result) {
                 LogKit.d("result:"+result);
                 }
             });
-
         }
 
         if(name.length()>256){
@@ -166,10 +306,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void listener() {
-
+        //监听名字和描述信息和职业类型的变化
         name = editxetChangeListener(activityUserinfoEditorBinding.etUsername);
-        skilldescrib = editxetChangeListener(activityUserinfoEditorBinding.tvSkilldescribe);
-
+        skilldescrib = editxetChangeListener(activityUserinfoEditorBinding.etSkilldescribe);
         activityUserinfoEditorBinding.rbOfficeWorker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -179,16 +318,15 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             }
         });
 
-        setLocation = textChangeListener(activityUserinfoEditorBinding.tvLocation);
-        //公司
+        //监听公司和职位
         company = textChangeListener(activityUserinfoEditorBinding.tvCompany);
-        //职位
         position = textChangeListener(activityUserinfoEditorBinding.tvProfession);
-        //slashIdentity = textChangeListener(activityUserinfoEditorBinding.tvIdentity);
+        //设置所在地
+        setLocation = textChangeListener(activityUserinfoEditorBinding.tvLocation);
         //行业 方向
         direction = textChangeListener(activityUserinfoEditorBinding.tvDirection);
-
-
+        //监听shenf
+        //slashIdentity = textChangeListener(activityUserinfoEditorBinding.tvIdentity);
     }
 
     //Editext的监听
@@ -214,7 +352,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //textview 的监听
     private String textChangeListener(TextView tv) {
-
         tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -235,7 +372,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
 
-    //设置协议
+    //设置协议 参数String
     private void SetProtocol(String url,Map<String,String> paramsMap) {
         SetBaseProtocol setBaseProtocol = new SetBaseProtocol(url,paramsMap);
         setBaseProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetBean>() {
@@ -254,5 +391,4 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         });
         paramsMap.clear();
     }
-
 }

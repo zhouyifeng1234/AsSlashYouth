@@ -87,6 +87,7 @@
                                    android:layout_marginLeft="15dp"
                                    />
                                <ImageView
+                                   android:id="@+id/iv_head"
                                    android:layout_width="48dp"
                                    android:layout_height="48dp"
                                    android:src="@mipmap/assistant_icon"
@@ -441,7 +442,6 @@
 
                     <!--技能描述-->
                     <!--<include layout="@layout/layout_skill_describe" />-->
-
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -502,7 +502,7 @@
                                     android:textColor="#999999"
                                     />
                                <EditText
-                                   android:id="@+id/tv_skilldescribe"
+                                   android:id="@+id/et_skilldescribe"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                    android:layout_marginTop="4dp"
@@ -510,11 +510,13 @@
                                    android:textColor="#999999"
                                    android:textColorHint="#999999"
                                    android:ellipsize="end"
-                                   android:maxLength="20"
+                                   android:inputType="textMultiLine"
                                    android:background="@null"
                                    android:cursorVisible="false"
-                                   android:freezesText="true"
-                                   android:maxLines="4"
+                                   android:gravity="left|top"
+                                   android:maxLines="3"
+                                   android:maxLength="50"
+                                   android:lineSpacingExtra="2dp"
                                     android:hint="例：从事UI设计行业5年，具有丰富的设计经验..."/>
                             </LinearLayout>
                             <View
@@ -567,6 +569,7 @@
                                     android:text="技能标签"/>
 
                                 <LinearLayout
+                                    android:id="@+id/ll_editor_skill_container"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
@@ -574,6 +577,7 @@
                                     android:orientation="horizontal"
                                     >
                                         <TextView
+                                            android:visibility="gone"
                                             android:id="@+id/tv_line"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -582,13 +586,14 @@
                                             android:paddingRight="5dp"
                                             android:paddingTop="5dp"
                                             android:paddingBottom="5dp"
-                                            android:text="UI设计"
+                                            android:text="ios开发"
                                             android:textColor="#31C5E4"
                                             android:textSize="12sp"
                                             android:background="@drawable/shape_search_item_bg"
                                             />
 
                                     <TextView
+                                        android:visibility="gone"
                                         android:id="@+id/tv_line2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -605,6 +610,7 @@
                                         />
 
                                     <TextView
+                                        android:visibility="gone"
                                         android:id="@+id/tv_line3"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -614,7 +620,7 @@
                                         android:paddingTop="5dp"
                                         android:paddingBottom="5dp"
                                         android:layout_marginLeft="10dp"
-                                        android:text="UI设计"
+                                        android:text="品牌宣传"
                                         android:textColor="#31C5E4"
                                         android:textSize="12sp"
                                         android:background="@drawable/shape_search_item_bg"

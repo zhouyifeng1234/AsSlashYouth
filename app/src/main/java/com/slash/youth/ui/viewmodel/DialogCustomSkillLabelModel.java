@@ -19,6 +19,8 @@ import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zss on 2016/10/20.
@@ -28,11 +30,13 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
   public AlertDialog currentDialog;//当前对话框
     private LinearLayout linearLayout;
     private String name;
-
+    private Pattern pattern;
 
     public DialogCustomSkillLabelModel(DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding) {
         this.dialogCustomSkilllabelBinding = dialogCustomSkilllabelBinding;
         dialogCustomSkilllabelBinding.tvTitle.setText("请输入");
+        String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
+        pattern = Pattern.compile(regex);
 
     }
 
@@ -45,6 +49,18 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
     //ok搜索对话框
     public void okDialog(View v) {
         String text = dialogCustomSkilllabelBinding.etSkillLabelName.getText().toString();
+        //新的标签的规则  只能包含中文\英文\数字
+        Matcher m = pattern.matcher(text);
+        boolean matches = m.matches();
+        if(matches){
+            MatchPattern(text);
+        }else {
+            ToastUtils.shortToast("只能包含中文\\英文\\数字");
+        }
+        currentDialog.dismiss();
+    }
+
+    private void MatchPattern(String text) {
         boolean contains = text.contains("-");
         char[] chars = text.toCharArray();
         if(!text.isEmpty()){
@@ -62,8 +78,8 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
         }else {
             ToastUtils.shortToast("不能输入空标签");
         }
-        currentDialog.dismiss();
     }
+
     //接口回调传递数据
     public interface OnOkDialogListener{
         void OnOkDialogClick(String text);

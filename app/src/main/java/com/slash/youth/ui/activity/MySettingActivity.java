@@ -33,10 +33,7 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
         activityMySettingBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_setting);
         MySettingModel mySettingModel = new MySettingModel(activityMySettingBinding,this);
         activityMySettingBinding.setMySettingModel(mySettingModel);
-
-
         listener();
-
     }
 
     private void listener() {
@@ -58,7 +55,6 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
             if(resultCode==RESULT_OK){
                 activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
@@ -67,5 +63,6 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
                 SpUtils.setBoolean("create_ok",true);
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

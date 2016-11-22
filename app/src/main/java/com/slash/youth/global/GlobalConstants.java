@@ -62,7 +62,8 @@ public class GlobalConstants {
 
 
         //服务器主机地址
-        public static final String SERVER_HOST = "http://121.42.145.178:8400/";
+        //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
+        public static final String SERVER_HOST = "http://121.42.145.178/";
 
         //需求流程相关接口地址前缀
         public static final String SERVER_HOST_DEMAND = "http://121.42.145.178/feed/v1/api/demand/";
@@ -280,8 +281,8 @@ public class GlobalConstants {
         public static final String CLAIMS  = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
-
-        //
+        //登出
+        public static final String MY_LOGOUT = SERVER_HOST +"auth/v1/logout";
 
 
         //一、[我的账户]-获取我的账户信息

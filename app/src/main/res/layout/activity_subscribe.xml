@@ -19,6 +19,7 @@
                 android:layout_height="wrap_content"
                 android:background="#31c5e4">
                 <TextView
+                    android:id="@+id/tv_subscribe_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -26,14 +27,15 @@
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>
                 <ImageButton
+                    android:id="@+id/ib_subscribe_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="11dp"
                     android:layout_marginLeft="11dp"
+                    android:onClick="@{activitySubscribeModel.goBack}"
                     android:layout_marginTop="11dp"
                     android:background="@android:color/transparent"
-                    android:onClick="@{activitySubscribeModel.goBack}"
                     android:src="@mipmap/nav_back"
                 />
                 <TextView
@@ -51,6 +53,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tv_title_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
@@ -230,13 +233,14 @@
                     android:src="@mipmap/xiangxia_icon"/>
 
                 <TextView
+                    android:id="@+id/tv_first_skill_label_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@id/ivbtn_activity_subscribe_main_categories"
                     android:onClick="@{activitySubscribeModel.openRlChooseMainLabel}"
-                    android:text="IT互联网"
+                    android:text="设计"
                     android:textColor="#333333"
                     android:textSize="14.5sp"/>
 

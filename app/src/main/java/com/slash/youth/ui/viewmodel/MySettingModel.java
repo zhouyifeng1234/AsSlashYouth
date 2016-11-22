@@ -13,6 +13,7 @@ import com.slash.youth.domain.SetMsgBean;
 import com.slash.youth.domain.SetTimeBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.LoginoutProtocol;
 import com.slash.youth.http.protocol.MySettingProtocol;
 import com.slash.youth.http.protocol.SetMsgProtocol;
 import com.slash.youth.http.protocol.SetTimeProtocol;
@@ -20,6 +21,7 @@ import com.slash.youth.ui.activity.FindPassWordActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
@@ -222,17 +224,32 @@ public class MySettingModel extends BaseObservable {
     //设置密码
     public void findPassWord(View view){
         Intent intentFindPassWordActivity = new Intent(CommonUtils.getContext(), FindPassWordActivity.class);
-       // intentFindPassWordActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mySettingActivity.startActivityForResult(intentFindPassWordActivity, 1);
-       // CommonUtils.getContext().startActivity(intentFindPassWordActivity);
+        mySettingActivity.startActivityForResult(intentFindPassWordActivity, Constants.MYSETTING_SETPASSWORD);
     }
 
     //退出程序
     public void finishApp(View view){
+        logout();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         mySettingActivity.startActivity(intent);
+    }
+
+    //登录退出的接口
+    private void logout() {
+        final LoginoutProtocol loginoutProtocol = new LoginoutProtocol();
+        loginoutProtocol.getDataFromServer(new BaseProtocol.IResultExecutor() {
+            @Override
+            public void execute(Object dataBean) {
+                LogKit.d("dataBean :"+dataBean.toString());
+            }
+
+            @Override
+            public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+            }
+        });
     }
 
 

@@ -17,15 +17,17 @@ public class LocationCityInfoHolder extends BaseHolder<LocationCityInfo> {
 
 
     private ItemLocationCityInfoModel mItemLocationCityInfo;
+    private ItemListviewLocationCityInfoBinding itemListviewLocationCityInfoBinding;
 
     @Override
     public View initView() {
-        ItemListviewLocationCityInfoBinding itemListviewLocationCityInfoBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_listview_location_city_info, null, false);
+        itemListviewLocationCityInfoBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_listview_location_city_info, null, false);
         mItemLocationCityInfo = new ItemLocationCityInfoModel();
         itemListviewLocationCityInfoBinding.setItemLocationCityInfo(mItemLocationCityInfo);
         return itemListviewLocationCityInfoBinding.getRoot();
     }
 
+    //R.drawable.selector_search_result_line_item_bg
     @Override
     public void refreshView(LocationCityInfo data) {
         if (data.isFirstLetter) {
@@ -35,5 +37,6 @@ public class LocationCityInfoHolder extends BaseHolder<LocationCityInfo> {
             mItemLocationCityInfo.setCityName(data.CityName);
             mItemLocationCityInfo.setVisible(View.VISIBLE);
         }
+
     }
 }

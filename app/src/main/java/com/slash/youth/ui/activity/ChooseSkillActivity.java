@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 

@@ -46,4 +46,12 @@ public class ActivityCityLocationModel extends BaseObservable {
     public void finishCityLocationActivity(View v){
         mCityLocationActivity.finish();
     }
+
+
+    //清除搜索内容
+    public void cleanEt(View v){
+        mActivityCityLocationBinding.etActivityCityLocationSearchbox.setText(null);
+    }
+
+
 }
