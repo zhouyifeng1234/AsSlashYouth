@@ -1,11 +1,14 @@
 package com.slash.youth.global;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.LogKit;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -35,6 +38,45 @@ public class SlashApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                LogKit.v("onActivityCreated");
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                LogKit.v("onActivityStarted");
+                ActivityUtils.currentActivity = activity;
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                LogKit.v("onActivityResumed");
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                LogKit.v("onActivityPaused");
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                LogKit.v("onActivityStopped");
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                LogKit.v("onActivitySaveInstanceState");
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                LogKit.v("onActivityDestroyed");
+            }
+        });
+
         UMShareAPI.get(this);
         Config.REDIRECT_URL = "www.slashyouth.com";
 

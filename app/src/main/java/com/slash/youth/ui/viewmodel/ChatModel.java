@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
@@ -39,6 +40,10 @@ import com.slash.youth.databinding.ItemChatOtherSendAddFriendBinding;
 import com.slash.youth.databinding.ItemChatOtherSendBusinessCardBinding;
 import com.slash.youth.databinding.ItemChatOtherSendVoiceBinding;
 import com.slash.youth.databinding.ItemChatOtherShareTaskBinding;
+import com.slash.youth.domain.ChatCmdAddFriendBean;
+import com.slash.youth.domain.ChatCmdBusinesssCardBean;
+import com.slash.youth.domain.ChatCmdChangeContactBean;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -51,6 +56,7 @@ import java.io.IOException;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.message.CommandMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
@@ -226,7 +232,29 @@ public class ChatModel extends BaseObservable {
                 mLlChatContent.addView(createOtherSendVoiceView(voiceUri, duration));
             }
         });
+        MsgManager.setChatOtherCmdListener(new MsgManager.ChatOtherCmdListener() {
+            @Override
+            public void doOtherCmd(Message message, int left) {
+                CommandMessage commandMessage = (CommandMessage) message.getContent();
+                String name = commandMessage.getName();
+                String data = commandMessage.getData();
+                Gson gson = new Gson();
+                if (name.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                    ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(data, ChatCmdAddFriendBean.class);
+                    mLlChatContent.addView(createOtherSendAddFriendView(chatCmdAddFriendBean));
+                } else if (name.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                    ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(data, ChatCmdShareTaskBean.class);
+                    mLlChatContent.addView(createOtherShareTaskView(chatCmdShareTaskBean));
+                } else if (name.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                    ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = gson.fromJson(data, ChatCmdBusinesssCardBean.class);
+                    mLlChatContent.addView(createOtherSendBusinessCardView(chatCmdBusinesssCardBean));
 
+                } else if (name.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                    ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(data, ChatCmdChangeContactBean.class);
+                    mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean));
+                }
+            }
+        });
     }
 
     boolean isCancelRecord = false;
@@ -435,6 +463,37 @@ public class ChatModel extends BaseObservable {
         mLlChatContent.addView(createMyPicView(Uri.fromFile(imageThumb)));
     }
 
+
+    /**
+     * 添加好友
+     */
+    public void sendAddFriend() {
+        ChatCmdAddFriendBean chatCmdAddFriendBean = new ChatCmdAddFriendBean();
+        chatCmdAddFriendBean.uid = 10000;
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatCmdAddFriendBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                ToastUtils.shortToast("send add friend success");
+            }
+        });
+    }
+
+
+    /**
+     * 交换联系方式
+     */
+    public void sendChangeContact() {
+
+    }
+
     public void goBack(View v) {
         mActivity.finish();
     }
@@ -481,7 +540,7 @@ public class ChatModel extends BaseObservable {
         return itemChatFriendPicBinding.getRoot();
     }
 
-    private View createOtherSendAddFriendView() {
+    private View createOtherSendAddFriendView(ChatCmdAddFriendBean chatCmdAddFriendBean) {
         ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_add_friend, null, false);
         ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity);
         itemChatOtherSendAddFriendBinding.setChatOtherSendAddFriendModel(chatOtherSendAddFriendModel);
@@ -502,7 +561,7 @@ public class ChatModel extends BaseObservable {
         return itemChatInfoBinding.getRoot();
     }
 
-    private View createOtherShareTaskView() {
+    private View createOtherShareTaskView(ChatCmdShareTaskBean chatCmdShareTaskBean) {
         ItemChatOtherShareTaskBinding itemChatOtherShareTaskBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_share_task, null, false);
         ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity);
         itemChatOtherShareTaskBinding.setChatOtherShareTaskModel(chatOtherShareTaskModel);
@@ -516,7 +575,7 @@ public class ChatModel extends BaseObservable {
         return itemChatMyShareTaskBinding.getRoot();
     }
 
-    private View createOtherSendBusinessCardView() {
+    private View createOtherSendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
         ItemChatOtherSendBusinessCardBinding itemChatOtherSendBusinessCardBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_business_card, null, false);
         ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity);
         itemChatOtherSendBusinessCardBinding.setChatOtherSendBusinessCardModel(chatOtherSendBusinessCardModel);
@@ -530,7 +589,7 @@ public class ChatModel extends BaseObservable {
         return itemChatMySendBusinessCardBinding.getRoot();
     }
 
-    private View createOtherChangeContactWayView() {
+    private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean) {
         ItemChatOtherChangeContactWayBinding itemChatOtherChangeContactWayBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_change_contact_way, null, false);
         ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity);
         itemChatOtherChangeContactWayBinding.setChatOtherChangeContactWayModel(chatOtherChangeContactWayModel);
@@ -578,6 +637,16 @@ public class ChatModel extends BaseObservable {
     //选择相册图片发送
     public void getAlbumPic(View v) {
         sendPic("/storage/sdcard1/4.jpg");
+    }
+
+    //交换联系方式
+    public void sendChangeContact(View v) {
+        sendChangeContact();
+    }
+
+    //添加好友
+    public void sendAddFriend(View v) {
+        sendAddFriend();
     }
 
     public void switchVoiceInput(View v) {
