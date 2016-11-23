@@ -133,6 +133,9 @@ public class ChatModel extends BaseObservable {
         });
     }
 
+    long startRecorderTime = 0;
+    long endRecorderTime = 0;
+
     private void initListener() {
         setMessageListener();
 
@@ -179,9 +182,11 @@ public class ChatModel extends BaseObservable {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundResource(R.drawable.shape_chat_input_voice_bg);
                         setSendVoiceCmdLayerVisibility(View.VISIBLE);
                         setUpCancelSendVoiceVisibility(View.VISIBLE);
                         setRelaseCancelSendVoiceVisibility(View.GONE);
+                        startRecorderTime = SystemClock.currentThreadTimeMillis();
                         startSoundRecording();
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -198,8 +203,20 @@ public class ChatModel extends BaseObservable {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
+                        v.setBackgroundResource(R.drawable.shape_chat_input_voice_untouch_bg);
                         setSendVoiceCmdLayerVisibility(View.GONE);
-                        stopSoundRecording();
+                        endRecorderTime = SystemClock.currentThreadTimeMillis();
+                        long timeSpan = endRecorderTime - startRecorderTime;
+                        if (timeSpan > 500) {
+                            stopSoundRecording();
+                        } else {//这个判断只是为了防止不崩溃
+                            CommonUtils.getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    stopSoundRecording();
+                                }
+                            }, (500 - timeSpan));
+                        }
                         break;
                 }
                 return true;
@@ -283,12 +300,6 @@ public class ChatModel extends BaseObservable {
                 mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
                 mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
                 mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
-                    @Override
-                    public void onInfo(MediaRecorder mr, int what, int extra) {
-
-                    }
-                });
                 try {
                     mediaRecorder.prepare();
                 } catch (IOException e) {
@@ -297,6 +308,58 @@ public class ChatModel extends BaseObservable {
                 mediaRecorder.start();
             }
         }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mediaRecorder != null) {
+                    int maxAmplitude = 0;
+                    try {
+                        maxAmplitude = mediaRecorder.getMaxAmplitude();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    LogKit.v("maxAmplitude:" + maxAmplitude);
+                    int volumeLevel;
+                    if (maxAmplitude >= 0 && maxAmplitude < 2000) {
+                        volumeLevel = 1;
+                    } else if (maxAmplitude >= 1000 && maxAmplitude < 4000) {
+                        volumeLevel = 2;
+                    } else if (maxAmplitude >= 2000 && maxAmplitude < 6000) {
+                        volumeLevel = 3;
+                    } else if (maxAmplitude >= 3000 && maxAmplitude < 8000) {
+                        volumeLevel = 4;
+                    } else {
+                        volumeLevel = 5;
+                    }
+
+                    setRecorderVolumeLevelIcon(volumeLevel);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void setRecorderVolumeLevelIcon(final int volumeLevel) {
+        CommonUtils.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (volumeLevel == 1) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column1);
+                } else if (volumeLevel == 2) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column2);
+                } else if (volumeLevel == 3) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column3);
+                } else if (volumeLevel == 4) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column4);
+                } else if (volumeLevel == 5) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column5);
+                }
+            }
+        });
     }
 
 

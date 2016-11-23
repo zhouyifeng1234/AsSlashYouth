@@ -3,11 +3,13 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatOtherSendVoiceBinding;
 import com.slash.youth.utils.LogKit;
 
@@ -67,6 +69,7 @@ public class ChatOtherSendVoiceModel extends BaseObservable {
             mediaPlayer.setDataSource(mActivity, mVoiceUri);
             mediaPlayer.prepare();
             mediaPlayer.start();
+            startVoiceAnimation();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +82,22 @@ public class ChatOtherSendVoiceModel extends BaseObservable {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+            stopVoiceAnimation();
         }
+    }
+
+    AnimationDrawable animVoicePlay;
+
+    private void startVoiceAnimation() {
+        mItemChatOtherSendVoiceBinding.ivChatVoiceAnim.setImageResource(R.drawable.anim_other_voice_play);
+        animVoicePlay = (AnimationDrawable) mItemChatOtherSendVoiceBinding.ivChatVoiceAnim.getDrawable();
+        animVoicePlay.start();
+    }
+
+    private void stopVoiceAnimation() {
+        animVoicePlay.stop();
+        animVoicePlay = null;
+        mItemChatOtherSendVoiceBinding.ivChatVoiceAnim.setImageResource(R.mipmap.sound3_icon);
     }
 
 

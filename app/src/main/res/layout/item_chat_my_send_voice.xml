@@ -34,10 +34,11 @@
                 android:paddingRight="16dp">
 
                 <ImageView
+                    android:id="@+id/iv_chat_voice_anim"
                     android:layout_width="12dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center_vertical|right"
-                    android:src="@mipmap/sound_icon"/>
+                    android:src="@mipmap/sound_bai3_icon"/>
 
             </FrameLayout>
 

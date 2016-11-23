@@ -219,7 +219,7 @@
                             android:id="@+id/tv_chat_input_voice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/shape_chat_input_voice_bg"
+                            android:background="@drawable/shape_chat_input_voice_untouch_bg"
                             android:gravity="center"
                             android:text="按住 说话"
                             android:textColor="#666666"
@@ -287,12 +287,21 @@
                         android:layout_height="wrap_content"
                         android:src="@mipmap/sound_column_icon"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <FrameLayout
+                        android:layout_width="43dp"
+                        android:layout_height="86dp"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="20dp"
-                        android:src="@mipmap/column5"/>
+                    >
+                        <ImageView
+                            android:id="@+id/iv_chat_recorder_volume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:src="@mipmap/column1"/>
+
+                    </FrameLayout>
+
 
                 </LinearLayout>
 
@@ -400,11 +409,11 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{chatModel.uploadPicLayerVisibility}"
+            android:visibility="gone"
 
         >
+            <!--android:visibility="@{chatModel.uploadPicLayerVisibility}"-->
 
-            <!--android:visibility="gone"-->
 
             <LinearLayout
                 android:layout_width="match_parent"
