@@ -66,6 +66,8 @@ public class ActivityMapModel extends BaseObservable {
     public void okChooseLocation(View v) {
         Intent intentResult = new Intent();
         intentResult.putExtra("mCurrentAddress", mActivity.mCurrentAddress);
+        intentResult.putExtra("lng", mActivity.mCurrentLatlng.longitude);//线下服务地点地图经度
+        intentResult.putExtra("lat", mActivity.mCurrentLatlng.latitude);//线下服务地点地图纬度
         mActivity.setResult(20, intentResult);
         mActivity.finish();
     }

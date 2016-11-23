@@ -75,7 +75,8 @@ public class GlobalConstants {
         public static final String SERVER_HOST_USER_SETTING = "http://121.42.145.178/uinfo/v1/api/config/";
         //评价和分享上报接口 地址前缀
         public static final String SERVER_HOST_COMMENT_SHARE = "http://121.42.145.178/feed/v1/api/evaluation/";
-
+        //服务流程接口地址前缀
+        public static final String SERVER_HOST_SERVICE = "http://121.42.145.178/feed/v1/api/service/";
         //ZSS
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
@@ -83,7 +84,7 @@ public class GlobalConstants {
         //zss [我的模块]
         public static final String SERVER_HOST_MY_USERINFO = "http://121.42.145.178/uinfo/v1/api";
         //ZSS 我的账户
-        public static final String SERVER_HOST_MY_ACCOUNT ="http://121.42.145.178/uinfo/v1/api/wallet";
+        public static final String SERVER_HOST_MY_ACCOUNT = "http://121.42.145.178/uinfo/v1/api/wallet";
 
         /**
          * 以下为服务端各接口的相对地址
@@ -159,6 +160,10 @@ public class GlobalConstants {
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
+
+
+        //一、[服务]-发布服务
+        public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
@@ -278,42 +283,42 @@ public class GlobalConstants {
         //十一、[我的]-[用户中心]-用户认证流程状态
         public static final String SLASH_STATUS = "/real/status";
         //十二、[我的]-[用户中心]-举报用户
-        public static final String CLAIMS  = "/claims";
+        public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
-        public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
+        public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //登出
-        public static final String MY_LOGOUT = SERVER_HOST +"auth/v1/logout";
+        public static final String MY_LOGOUT = SERVER_HOST + "auth/v1/logout";
 
 
         //一、[我的账户]-获取我的账户信息
-        public static final String MY_ACCOUNT = SERVER_HOST_MY_ACCOUNT +"/info/get";
+        public static final String MY_ACCOUNT = SERVER_HOST_MY_ACCOUNT + "/info/get";
         //二、[我的账户]-获取我的交易流水
-        public static final String MY_TRANSACTIONRECORE = SERVER_HOST_MY_ACCOUNT +"/trade/stream";
+        public static final String MY_TRANSACTIONRECORE = SERVER_HOST_MY_ACCOUNT + "/trade/stream";
 
 
         //一、[设置]-查询时间免打扰设置
-        public static final String SERVER_HOST_SETTING ="http://121.42.145.178/uinfo/v1/api/config";
-        public static final String SET_TIME_GET = SERVER_HOST_SETTING +"/dnd/time/get";
+        public static final String SERVER_HOST_SETTING = "http://121.42.145.178/uinfo/v1/api/config";
+        public static final String SET_TIME_GET = SERVER_HOST_SETTING + "/dnd/time/get";
         //二、[设置]-时间免打扰设置
         //public static final String SET_TIME_SET = SERVER_HOST_SETTING +"/dnd/time/set";
         public static final String SET_TIME_SET = "/dnd/time/set";
         //三、[设置]-获取消息免打扰设置
-        public static final String  SET_MSG_GET = SERVER_HOST_SETTING +"/dnd/msg/get";
+        public static final String SET_MSG_GET = SERVER_HOST_SETTING + "/dnd/msg/get";
         //四、[设置]-消息免打扰设置
         public static final String SET_MSG_SET = "/dnd/msg/set";
         //五，上传图片
-        public static final String UPLOAD_PHOTO = "http://121.42.145.178/file/v1/api"+"/upload";
-       // 五、[设置]-设置新的交易密码
-       public static final String  SET_PASSWORD = SERVER_HOST_SETTING +"/tradepassword/set";
+        public static final String UPLOAD_PHOTO = "http://121.42.145.178/file/v1/api" + "/upload";
+        // 五、[设置]-设置新的交易密码
+        public static final String SET_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/set";
         //六、[设置]-创建交易密码
-        public static final String  CREATE_PASSWORD = SERVER_HOST_SETTING +"/tradepassword/create";
+        public static final String CREATE_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/create";
 
         //第三方，获得第三方平台列表
-        public static final String GET_BINDING = SERVER_HOST+"auth/v1/login/getBind";
+        public static final String GET_BINDING = SERVER_HOST + "auth/v1/login/getBind";
         //绑定第三方账号
-        public static final String LOGIN_BINDING = SERVER_HOST+"auth/v1/login/bind";
+        public static final String LOGIN_BINDING = SERVER_HOST + "auth/v1/login/bind";
         //解绑第三方账号
-        public static final String UNBINDING = SERVER_HOST+"auth/v1/login/unbind";
+        public static final String UNBINDING = SERVER_HOST + "auth/v1/login/unbind";
 
 
     }

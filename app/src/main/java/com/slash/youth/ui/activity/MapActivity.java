@@ -65,7 +65,7 @@ public class MapActivity extends Activity {
     private ActivityMapModel mActivityMapModel;
     private ActivityMapBinding mActivityMapBinding;
     private String mCurrentCityCode;
-    private LatLng mCurrentLatlng;
+    public LatLng mCurrentLatlng;
     private MarkerOptions mMapCenterMarkerOptions;
     private Marker mMarker;
     private boolean isMoveByGestures = false;
@@ -361,6 +361,7 @@ public class MapActivity extends Activity {
         @Override
         public void onCameraChangeFinish(CameraPosition cameraPosition) {
             LatLng target = cameraPosition.target;
+            mCurrentLatlng = target;
             // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
             LatLonPoint latLonPoint = new LatLonPoint(target.latitude, target.longitude);
             RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 100, GeocodeSearch.AMAP);

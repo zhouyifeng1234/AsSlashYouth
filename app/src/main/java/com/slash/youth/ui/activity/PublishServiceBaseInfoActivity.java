@@ -16,9 +16,13 @@ public class PublishServiceBaseInfoActivity extends Activity {
 
     private PublishServiceBaseInfoModel mPublishServiceBaseInfoModel;
 
+    public static Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
+
         ActivityPublishServiceBaseinfoBinding activityPublishServiceBaseinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_service_baseinfo);
         mPublishServiceBaseInfoModel = new PublishServiceBaseInfoModel(activityPublishServiceBaseinfoBinding, this);
         activityPublishServiceBaseinfoBinding.setPublishServiceBaseInfoModel(mPublishServiceBaseInfoModel);

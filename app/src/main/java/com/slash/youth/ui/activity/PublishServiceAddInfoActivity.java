@@ -32,7 +32,9 @@ public class PublishServiceAddInfoActivity extends Activity {
         }
         if (requestCode == 20 && resultCode == 20) {
             String mCurrentAddress = data.getStringExtra("mCurrentAddress");
-            mPublishServiceAddInfoModel.setLocationAddress(mCurrentAddress);
+            Double lng = data.getDoubleExtra("lng", 0);
+            Double lat = data.getDoubleExtra("lat", 0);
+            mPublishServiceAddInfoModel.setLocationInfo(mCurrentAddress, lng, lat);
         }
     }
 }

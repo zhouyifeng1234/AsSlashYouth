@@ -1,6 +1,8 @@
 package com.slash.youth.http.protocol;
 
-import com.slash.youth.http.protocol.BaseProtocol;
+import com.google.gson.Gson;
+import com.slash.youth.domain.UploadFileResultBean;
+import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.common.util.KeyValue;
 import org.xutils.http.RequestParams;
@@ -13,10 +15,17 @@ import java.util.List;
 /**
  * Created by zhouyifeng on 2016/10/23.
  */
-public class FileUploadProtocol extends BaseProtocol<String> {
+public class FileUploadProtocol extends BaseProtocol<UploadFileResultBean> {
+
+    String mFilePath;
+
+    public FileUploadProtocol(String filePath) {
+        mFilePath = filePath;
+    }
+
     @Override
     public String getUrlString() {
-        return "http://121.42.145.178/file/v1/api/upload";
+        return GlobalConstants.HttpUrl.IMG_UPLOAD;
     }
 
     @Override
@@ -25,18 +34,26 @@ public class FileUploadProtocol extends BaseProtocol<String> {
 //        params.setMultipart(true);
 //        params.addBodyParameter("filename", new File("/storage/emulated/0/360WiFi/file/4.jpg"));
         List<KeyValue> multipartParams = new ArrayList<KeyValue>();
-        multipartParams.add(new KeyValue("filename", new File("/storage/emulated/0/360WiFi/file/4.jpg")));
+        multipartParams.add(new KeyValue("filename", new File(mFilePath)));
         MultipartBody mb = new MultipartBody(multipartParams, null);
         params.setRequestBody(mb);
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public UploadFileResultBean parseData(String result) {
+        return mUploadFileResultBean;
     }
+
+    UploadFileResultBean mUploadFileResultBean;
 
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        mUploadFileResultBean = gson.fromJson(result, UploadFileResultBean.class);
+        if (mUploadFileResultBean.rescode == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
