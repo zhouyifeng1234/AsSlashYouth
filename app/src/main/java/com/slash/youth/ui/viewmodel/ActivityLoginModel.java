@@ -73,6 +73,7 @@ public class ActivityLoginModel extends BaseObservable {
 
         //这里跳转至聊天界面只是为了测试聊天界面
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
         intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentChatActivity);
 

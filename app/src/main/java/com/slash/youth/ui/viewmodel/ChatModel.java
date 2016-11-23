@@ -72,6 +72,7 @@ public class ChatModel extends BaseObservable {
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
     private String targetId = "10003";
+//    private String targetId = "10000";
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -84,6 +85,13 @@ public class ChatModel extends BaseObservable {
 
     private void initData() {
         MsgManager.loadHistoryChatRecord();
+
+        String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
+        if (chatCmdName.equals("sendBusinessCard")) {
+            sendBusinessCard();
+        } else if (chatCmdName.equals("sendShareTask")) {
+            sendShareTask();
+        }
     }
 
 
@@ -199,6 +207,7 @@ public class ChatModel extends BaseObservable {
         });
     }
 
+    //接受消息用的监听
     private void setMessageListener() {
         MsgManager.setChatTextListener(new MsgManager.ChatTextListener() {
             @Override
@@ -498,12 +507,66 @@ public class ChatModel extends BaseObservable {
         chatCmdChangeContactBean.phone = "18888888888";
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdChangeContactBean);
-        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View infoView = createInfoView("您已发送交换手机号请求");
                 mLlChatContent.addView(infoView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    /**
+     * 发送任务分享
+     */
+    public void sendShareTask() {
+        ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+        chatCmdShareTaskBean.uid = 10000;
+        chatCmdShareTaskBean.avatar = "";
+        chatCmdShareTaskBean.title = "";
+        chatCmdShareTaskBean.quote = 10;
+        chatCmdShareTaskBean.type = 1;//服务或者需求
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatCmdShareTaskBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View myShareTaskView = createMyShareTaskView();
+                mLlChatContent.addView(myShareTaskView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    /**
+     * 发送个人名片
+     */
+    public void sendBusinessCard() {
+        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = new ChatCmdBusinesssCardBean();
+        chatCmdBusinesssCardBean.uid = 10000;
+        chatCmdBusinesssCardBean.avatar = "";
+        chatCmdBusinesssCardBean.name = "tom";
+        chatCmdBusinesssCardBean.industry = "";
+        chatCmdBusinesssCardBean.profession = "";
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatCmdBusinesssCardBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View mySendBusinessCardView = createMySendBusinessCardView();
+                mLlChatContent.addView(mySendBusinessCardView);
             }
 
             @Override
