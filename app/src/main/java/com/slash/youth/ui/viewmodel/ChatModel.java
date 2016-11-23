@@ -72,6 +72,7 @@ public class ChatModel extends BaseObservable {
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
     private String targetId = "10003";
+//    private String targetId = "10000";
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -84,6 +85,13 @@ public class ChatModel extends BaseObservable {
 
     private void initData() {
         MsgManager.loadHistoryChatRecord();
+
+        String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
+        if (chatCmdName.equals("sendBusinessCard")) {
+            sendBusinessCard();
+        } else if (chatCmdName.equals("sendShareTask")) {
+            sendShareTask();
+        }
     }
 
 
@@ -124,6 +132,9 @@ public class ChatModel extends BaseObservable {
             }
         });
     }
+
+    long startRecorderTime = 0;
+    long endRecorderTime = 0;
 
     private void initListener() {
         setMessageListener();
@@ -171,9 +182,11 @@ public class ChatModel extends BaseObservable {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundResource(R.drawable.shape_chat_input_voice_bg);
                         setSendVoiceCmdLayerVisibility(View.VISIBLE);
                         setUpCancelSendVoiceVisibility(View.VISIBLE);
                         setRelaseCancelSendVoiceVisibility(View.GONE);
+                        startRecorderTime = SystemClock.currentThreadTimeMillis();
                         startSoundRecording();
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -190,8 +203,20 @@ public class ChatModel extends BaseObservable {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
+                        v.setBackgroundResource(R.drawable.shape_chat_input_voice_untouch_bg);
                         setSendVoiceCmdLayerVisibility(View.GONE);
-                        stopSoundRecording();
+                        endRecorderTime = SystemClock.currentThreadTimeMillis();
+                        long timeSpan = endRecorderTime - startRecorderTime;
+                        if (timeSpan > 500) {
+                            stopSoundRecording();
+                        } else {//这个判断只是为了防止不崩溃
+                            CommonUtils.getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    stopSoundRecording();
+                                }
+                            }, (500 - timeSpan));
+                        }
                         break;
                 }
                 return true;
@@ -199,6 +224,7 @@ public class ChatModel extends BaseObservable {
         });
     }
 
+    //接受消息用的监听
     private void setMessageListener() {
         MsgManager.setChatTextListener(new MsgManager.ChatTextListener() {
             @Override
@@ -274,12 +300,6 @@ public class ChatModel extends BaseObservable {
                 mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
                 mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
                 mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
-                    @Override
-                    public void onInfo(MediaRecorder mr, int what, int extra) {
-
-                    }
-                });
                 try {
                     mediaRecorder.prepare();
                 } catch (IOException e) {
@@ -288,6 +308,58 @@ public class ChatModel extends BaseObservable {
                 mediaRecorder.start();
             }
         }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mediaRecorder != null) {
+                    int maxAmplitude = 0;
+                    try {
+                        maxAmplitude = mediaRecorder.getMaxAmplitude();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    LogKit.v("maxAmplitude:" + maxAmplitude);
+                    int volumeLevel;
+                    if (maxAmplitude >= 0 && maxAmplitude < 2000) {
+                        volumeLevel = 1;
+                    } else if (maxAmplitude >= 1000 && maxAmplitude < 4000) {
+                        volumeLevel = 2;
+                    } else if (maxAmplitude >= 2000 && maxAmplitude < 6000) {
+                        volumeLevel = 3;
+                    } else if (maxAmplitude >= 3000 && maxAmplitude < 8000) {
+                        volumeLevel = 4;
+                    } else {
+                        volumeLevel = 5;
+                    }
+
+                    setRecorderVolumeLevelIcon(volumeLevel);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void setRecorderVolumeLevelIcon(final int volumeLevel) {
+        CommonUtils.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (volumeLevel == 1) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column1);
+                } else if (volumeLevel == 2) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column2);
+                } else if (volumeLevel == 3) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column3);
+                } else if (volumeLevel == 4) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column4);
+                } else if (volumeLevel == 5) {
+                    mActivityChatBinding.ivChatRecorderVolume.setImageResource(R.mipmap.column5);
+                }
+            }
+        });
     }
 
 
@@ -498,12 +570,66 @@ public class ChatModel extends BaseObservable {
         chatCmdChangeContactBean.phone = "18888888888";
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdChangeContactBean);
-        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View infoView = createInfoView("您已发送交换手机号请求");
                 mLlChatContent.addView(infoView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    /**
+     * 发送任务分享
+     */
+    public void sendShareTask() {
+        ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+        chatCmdShareTaskBean.uid = 10000;
+        chatCmdShareTaskBean.avatar = "";
+        chatCmdShareTaskBean.title = "";
+        chatCmdShareTaskBean.quote = 10;
+        chatCmdShareTaskBean.type = 1;//服务或者需求
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatCmdShareTaskBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View myShareTaskView = createMyShareTaskView();
+                mLlChatContent.addView(myShareTaskView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    /**
+     * 发送个人名片
+     */
+    public void sendBusinessCard() {
+        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = new ChatCmdBusinesssCardBean();
+        chatCmdBusinesssCardBean.uid = 10000;
+        chatCmdBusinesssCardBean.avatar = "";
+        chatCmdBusinesssCardBean.name = "tom";
+        chatCmdBusinesssCardBean.industry = "";
+        chatCmdBusinesssCardBean.profession = "";
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatCmdBusinesssCardBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View mySendBusinessCardView = createMySendBusinessCardView();
+                mLlChatContent.addView(mySendBusinessCardView);
             }
 
             @Override

@@ -10,5 +10,6 @@ public class ChatCmdShareTaskBean {
     public String title;
     public double quote;
     public int type;
+    
 
 }
