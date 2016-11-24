@@ -39,6 +39,7 @@ public class MsgManager {
     private static ChatPicListener mChatPicListener;
     private static ChatVoiceListener mChatVoiceListener;
     private static ChatOtherCmdListener mChatOtherCmdListener;
+    private static HistoryListener mHistoryListener;
 
     /**
      * 建立与融云服务器的连接
@@ -298,20 +299,23 @@ public class MsgManager {
      * 从客户端本地读取聊天记录
      */
     private static void getHisMsgFromLocal() {
-        RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 20, new RongIMClient.ResultCallback<List<Message>>() {
-            @Override
-            public void onSuccess(List<Message> messages) {
-                LogKit.v("Message Count:" + messages.size());
-                for (Message message : messages) {
-                    LogKit.v("SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+        if (mHistoryListener != null) {
+            RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 20, new RongIMClient.ResultCallback<List<Message>>() {
+                @Override
+                public void onSuccess(List<Message> messages) {
+//                    LogKit.v("Message Count:" + messages.size());
+//                    for (Message message : messages) {
+//                        LogKit.v("SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+//                    }
+                    mHistoryListener.displayHistory(messages);
                 }
-            }
 
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     /**
@@ -366,6 +370,10 @@ public class MsgManager {
         public void doOtherCmd(Message message, int left);
     }
 
+    public interface HistoryListener {
+        public void displayHistory(List<Message> messages);
+    }
+
     public static void setMessReceiver() {
         RongIMClient.setOnReceiveMessageListener(new MyReceiveMessageListener());
     }
@@ -400,5 +408,13 @@ public class MsgManager {
 
     public static void removeChatOtherCmdListener() {
         mChatOtherCmdListener = null;
+    }
+
+    public static void setHistoryListener(HistoryListener historyListener) {
+        mHistoryListener = historyListener;
+    }
+
+    public static void removeHistoryListener() {
+        mHistoryListener = null;
     }
 }

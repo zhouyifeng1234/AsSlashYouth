@@ -61,6 +61,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -97,6 +98,7 @@ public class ChatModel extends BaseObservable {
     private void initData() {
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
 
+        MsgManager.setHistoryListener(new ChatHistoryListener());
         MsgManager.loadHistoryChatRecord();
 
         String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
@@ -933,6 +935,15 @@ public class ChatModel extends BaseObservable {
         setTextInputIconVisibility(View.GONE);
         setInputVoiceTvVisibility(View.GONE);
         setInputTextEtVisibility(View.VISIBLE);
+    }
+
+    public class ChatHistoryListener implements MsgManager.HistoryListener {
+
+        @Override
+        public void displayHistory(List<Message> messages) {
+
+            sendReadReceipt(SystemClock.currentThreadTimeMillis());
+        }
     }
 
     private int voiceInputIconVisibility = View.VISIBLE;
