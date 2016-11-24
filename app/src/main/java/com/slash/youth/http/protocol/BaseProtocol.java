@@ -2,6 +2,7 @@ package com.slash.youth.http.protocol;
 
 import com.google.gson.Gson;
 import com.slash.youth.domain.ResultErrorBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.utils.AuthHeaderUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -94,9 +95,9 @@ abstract public class BaseProtocol<T> {
         params.addHeader("Date", date);
         params.addHeader("Authorization", authorizationStr);
         //跳过验证
-        params.addHeader("uid", "10000");
+        params.addHeader("uid", LoginManager.currentLoginUserId + "");
         params.addHeader("pass", "1");
-        params.addHeader("Content-Type","application/json");
+        params.addHeader("Content-Type", "application/json");
     }
 
     public ResultErrorBean parseErrorResultData(String result) {

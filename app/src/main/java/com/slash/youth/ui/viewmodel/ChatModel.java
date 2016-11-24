@@ -1,6 +1,8 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
@@ -11,7 +13,10 @@ import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -44,6 +49,8 @@ import com.slash.youth.domain.ChatCmdAddFriendBean;
 import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.domain.ChatCmdChangeContactBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
+import com.slash.youth.domain.SendMessageBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -52,12 +59,15 @@ import com.slash.youth.utils.ToastUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
 import io.rong.message.ImageMessage;
+import io.rong.message.ReadReceiptMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
 
@@ -71,8 +81,9 @@ public class ChatModel extends BaseObservable {
     private TextView mTvChatFriendName;
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
-    private String targetId = "10003";
-//    private String targetId = "10000";
+    private String targetId = "10002";
+    //    private String targetId = "10000";
+    ArrayList<SendMessageBean> listSendMsg = new ArrayList<SendMessageBean>();
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -84,6 +95,8 @@ public class ChatModel extends BaseObservable {
 
 
     private void initData() {
+        MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
+
         MsgManager.loadHistoryChatRecord();
 
         String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
@@ -233,6 +246,9 @@ public class ChatModel extends BaseObservable {
                 String content = textMessage.getContent();
                 View friendTextView = createFriendTextView(content);
                 mLlChatContent.addView(friendTextView);
+
+                //发送已经阅读的回执
+                sendReadReceipt(message.getSentTime());
             }
         });
 
@@ -247,6 +263,9 @@ public class ChatModel extends BaseObservable {
                 LogKit.v("remoteUri:" + remoteUri.toString());
                 View friendPicView = createFriendPicView(thumUri);
                 mLlChatContent.addView(friendPicView);
+
+                //发送已经阅读的回执
+                sendReadReceipt(message.getSentTime());
             }
         });
         MsgManager.setChatVoiceListener(new MsgManager.ChatVoiceListener() {
@@ -256,6 +275,9 @@ public class ChatModel extends BaseObservable {
                 int duration = voiceMessage.getDuration();
                 Uri voiceUri = voiceMessage.getUri();
                 mLlChatContent.addView(createOtherSendVoiceView(voiceUri, duration));
+
+                //发送已经阅读的回执
+                sendReadReceipt(message.getSentTime());
             }
         });
         MsgManager.setChatOtherCmdListener(new MsgManager.ChatOtherCmdListener() {
@@ -279,8 +301,56 @@ public class ChatModel extends BaseObservable {
                     ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(data, ChatCmdChangeContactBean.class);
                     mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean));
                 }
+
+                //发送已经阅读的回执
+                sendReadReceipt(message.getSentTime());
             }
         });
+        //接受消息回执的监听
+        //在 onReadReceiptReceived() 回调里，请先判断 message.getConversationType() 和
+        // message.getTargetId() 和当前会话一致，
+        // 然后在UI里把该会话中发送时间戳之前的所有已发送消息状态置为已读（底层数据库消息状态已经改为已读）。
+        RongIMClient.setReadReceiptListener(new RongIMClient.ReadReceiptListener() {
+            @Override
+            public void onReadReceiptReceived(Message message) {
+                ReadReceiptMessage content = (ReadReceiptMessage) message.getContent();
+                long lastMessageSendTime = content.getLastMessageSendTime();
+                //自行进行UI处理，把会话中发送时间戳之前的所有已发送消息状态置为已读
+                ArrayList<SendMessageBean> listNeedRemove = new ArrayList<SendMessageBean>();
+                for (SendMessageBean sendMessageBean : listSendMsg) {
+                    if (sendMessageBean.sendTime < lastMessageSendTime) {
+                        final TextView tvReadStatus = (TextView) sendMessageBean.vReadStatus;
+                        CommonUtils.getHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tvReadStatus.setText("已读");
+                            }
+                        });
+                        listNeedRemove.add(sendMessageBean);
+                    }
+                }
+                listSendMsg.removeAll(listNeedRemove);
+            }
+
+            @Override
+            public void onMessageReceiptRequest(Conversation.ConversationType conversationType, String s, String s1) {
+
+            }
+
+            @Override
+            public void onMessageReceiptResponse(Conversation.ConversationType conversationType, String s, String s1, HashMap<String, Long> hashMap) {
+
+            }
+        });
+    }
+
+    /**
+     * 发送阅读huizhi
+     *
+     * @param sentTime
+     */
+    private void sendReadReceipt(long sentTime) {
+        RongIMClient.getInstance().sendReadReceiptMessage(Conversation.ConversationType.PRIVATE, targetId, sentTime);
     }
 
     boolean isCancelRecord = false;
@@ -291,6 +361,18 @@ public class ChatModel extends BaseObservable {
      * 开始录音
      */
     public void startSoundRecording() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(CommonUtils.getContext(), Manifest.permission.RECORD_AUDIO);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.RECORD_AUDIO}, 100);
+                return;
+            }
+        }
+        soundRecord();
+    }
+
+    public void soundRecord() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -367,17 +449,18 @@ public class ChatModel extends BaseObservable {
      * 停止录音
      */
     public void stopSoundRecording() {
-        if (mediaRecorder != null) {
-//            mediaRecorder.reset();
-            try {
-                mediaRecorder.stop();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            mediaRecorder.release();
-            mediaRecorder = null;
-
+        if (mediaRecorder == null) {
+            return;
         }
+//            mediaRecorder.reset();
+        try {
+            mediaRecorder.stop();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        mediaRecorder.release();
+        mediaRecorder = null;
+
         int duration = 0;
         MediaPlayer mediaPlayer = new MediaPlayer();
         try {
@@ -414,6 +497,7 @@ public class ChatModel extends BaseObservable {
     public void sendVoice(String voiceFilePath, final int duration) {
         final File voiceFile = new File(voiceFilePath);
         final VoiceMessage vocMsg = VoiceMessage.obtain(Uri.fromFile(voiceFile), duration);
+        final long sendTime = SystemClock.currentThreadTimeMillis();
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, vocMsg, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onError(Integer messageId, RongIMClient.ErrorCode e) {
@@ -430,7 +514,13 @@ public class ChatModel extends BaseObservable {
             @Override
             public void onSuccess(Message message) {
                 VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
-                mLlChatContent.addView(createMySendVoiceView(savedVoiceMessage.getUri(), duration));
+                View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), duration);
+
+                View vReadStatus = mySendVoiceView.findViewById(R.id.tv_chat_msg_read_status);
+                SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
+                listSendMsg.add(sendMessageBean);
+
+                mLlChatContent.addView(mySendVoiceView);
             }
 
             @Override
@@ -447,11 +537,17 @@ public class ChatModel extends BaseObservable {
     public void sendText() {
         final String inputText = mActivityChatBinding.etChatInput.getText().toString();
         TextMessage textMessage = TextMessage.obtain(inputText);
+        final long sendTime = SystemClock.currentThreadTimeMillis();
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             //发送消息的回调
             @Override
             public void onSuccess(Integer integer) {
                 View myTextView = createMyTextView(inputText);
+
+                View vReadStatus = myTextView.findViewById(R.id.tv_chat_msg_read_status);
+                SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
+                listSendMsg.add(sendMessageBean);
+
                 mLlChatContent.addView(myTextView);
             }
 
@@ -502,7 +598,7 @@ public class ChatModel extends BaseObservable {
         }
 
         ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
-
+        long sendTime = SystemClock.currentThreadTimeMillis();
         RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, null, null, new RongIMClient.SendImageMessageCallback() {
 
             @Override
@@ -532,7 +628,13 @@ public class ChatModel extends BaseObservable {
             }
         });
 
-        mLlChatContent.addView(createMyPicView(Uri.fromFile(imageThumb)));
+        View myPicView = createMyPicView(Uri.fromFile(imageThumb));
+
+        View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
+        SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
+        listSendMsg.add(sendMessageBean);
+
+        mLlChatContent.addView(myPicView);
     }
 
 
@@ -541,7 +643,7 @@ public class ChatModel extends BaseObservable {
      */
     public void sendAddFriend() {
         ChatCmdAddFriendBean chatCmdAddFriendBean = new ChatCmdAddFriendBean();
-        chatCmdAddFriendBean.uid = 10000;
+        chatCmdAddFriendBean.uid = LoginManager.currentLoginUserId;
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdAddFriendBean);
         CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
@@ -566,7 +668,7 @@ public class ChatModel extends BaseObservable {
      */
     public void sendChangeContact() {
         ChatCmdChangeContactBean chatCmdChangeContactBean = new ChatCmdChangeContactBean();
-        chatCmdChangeContactBean.uid = 10000;
+        chatCmdChangeContactBean.uid = LoginManager.currentLoginUserId;
         chatCmdChangeContactBean.phone = "18888888888";
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdChangeContactBean);
@@ -590,7 +692,7 @@ public class ChatModel extends BaseObservable {
      */
     public void sendShareTask() {
         ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
-        chatCmdShareTaskBean.uid = 10000;
+        chatCmdShareTaskBean.uid = LoginManager.currentLoginUserId;
         chatCmdShareTaskBean.avatar = "";
         chatCmdShareTaskBean.title = "";
         chatCmdShareTaskBean.quote = 10;
@@ -598,10 +700,17 @@ public class ChatModel extends BaseObservable {
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdShareTaskBean);
         CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+        final long sendTime = SystemClock.currentThreadTimeMillis();
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View myShareTaskView = createMyShareTaskView();
+
+
+                View vReadStatus = myShareTaskView.findViewById(R.id.tv_chat_msg_read_status);
+                SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
+                listSendMsg.add(sendMessageBean);
+
                 mLlChatContent.addView(myShareTaskView);
             }
 
@@ -617,7 +726,7 @@ public class ChatModel extends BaseObservable {
      */
     public void sendBusinessCard() {
         ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = new ChatCmdBusinesssCardBean();
-        chatCmdBusinesssCardBean.uid = 10000;
+        chatCmdBusinesssCardBean.uid = LoginManager.currentLoginUserId;
         chatCmdBusinesssCardBean.avatar = "";
         chatCmdBusinesssCardBean.name = "tom";
         chatCmdBusinesssCardBean.industry = "";
@@ -625,10 +734,16 @@ public class ChatModel extends BaseObservable {
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdBusinesssCardBean);
         CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
+        final long sendTime = SystemClock.currentThreadTimeMillis();
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View mySendBusinessCardView = createMySendBusinessCardView();
+
+                View vReadStatus = mySendBusinessCardView.findViewById(R.id.tv_chat_msg_read_status);
+                SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
+                listSendMsg.add(sendMessageBean);
+
                 mLlChatContent.addView(mySendBusinessCardView);
             }
 

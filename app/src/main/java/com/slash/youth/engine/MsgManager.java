@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
+import java.util.List;
+
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -28,9 +31,9 @@ import io.rong.message.TextMessage;
 public class MsgManager {
 
     public static final String CHAT_CMD_ADD_FRIEND = "addFriend";
-    public static final String CHAT_CMD_SHARE_TASK="shareTask";
+    public static final String CHAT_CMD_SHARE_TASK = "shareTask";
     public static final String CHAT_CMD_BUSINESS_CARD = "businessCard";
-    public static final String CHAT_CMD_CHANGE_CONTACT="changeContact";
+    public static final String CHAT_CMD_CHANGE_CONTACT = "changeContact";
 
     private static ChatTextListener mChatTextListener;
     private static ChatPicListener mChatPicListener;
@@ -98,16 +101,13 @@ public class MsgManager {
          */
         @Override
         public boolean onReceived(final Message message, final int left) {
-            //开发者根据自己需求自行处理
-            String senderUserId = message.getSenderUserId();
-            LogKit.v("senderUserId:" + senderUserId);
 
-//            String extra = message.getExtra();
-//            LogKit.v("extra:" + extra);
+            //开发者根据自己需求自行处理
+            final String senderUserId = message.getSenderUserId();
+            LogKit.v("senderUserId:" + senderUserId);
 
             final String objectName = message.getObjectName();
             LogKit.v("objectName:" + objectName);
-
 
 //            if (objectName.equals("RC:TxtMsg")) {
 //                TextMessage textMessage = (TextMessage) message.getContent();
@@ -160,7 +160,7 @@ public class MsgManager {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (mChatTextListener != null) {
+                                if (mChatTextListener != null && targetId.equals(senderUserId)) {
                                     mChatTextListener.displayText(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
@@ -177,7 +177,7 @@ public class MsgManager {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (mChatPicListener != null) {
+                                if (mChatPicListener != null && targetId.equals(senderUserId)) {
                                     mChatPicListener.dispayPic(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
@@ -190,7 +190,7 @@ public class MsgManager {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (mChatVoiceListener != null) {
+                                if (mChatVoiceListener != null && targetId.equals(senderUserId)) {
                                     mChatVoiceListener.loadVoice(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
@@ -203,7 +203,7 @@ public class MsgManager {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (mChatVoiceListener != null) {
+                                if (mChatVoiceListener != null && targetId.equals(senderUserId)) {
                                     mChatOtherCmdListener.doOtherCmd(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
@@ -290,10 +290,66 @@ public class MsgManager {
     }
 
     public static void loadHistoryChatRecord() {
+        getHisMsgFromLocal();
+//        getHisMsgFromRemote();
+    }
+
+    /**
+     * 从客户端本地读取聊天记录
+     */
+    private static void getHisMsgFromLocal() {
+        RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 20, new RongIMClient.ResultCallback<List<Message>>() {
+            @Override
+            public void onSuccess(List<Message> messages) {
+                LogKit.v("Message Count:" + messages.size());
+                for (Message message : messages) {
+                    LogKit.v("SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    /**
+     * 从融云服务器远程获取聊天历史记录
+     */
+    private static void getHisMsgFromRemote() {
+        /**
+         * 根据会话类型的目标 Id，回调方式获取某消息类型标识的N条历史消息记录。
+         *
+         * @param conversationType 会话类型。不支持传入 ConversationType.CHATROOM 聊天室会话类型。
+         * @param targetId         目标 Id。根据不同的 conversationType，可能是用户 Id、讨论组 Id、群组 Id 。
+         * @param dateTime         从该时间点开始获取消息。即：消息中的 sentTime；第一次可传 0，获取最新 count 条。
+         * @param count            要获取的消息数量，最多 20 条。
+         * @param callback         获取历史消息记录的回调，按照时间顺序从新到旧排列。
+         */
+        RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE, targetId, SystemClock.currentThreadTimeMillis() - 60 * 60 * 1000, 5, new RongIMClient.ResultCallback<List<Message>>() {
+            @Override
+            public void onSuccess(List<Message> messages) {
+                LogKit.v("get Remote His ----------------------------------");
+                LogKit.v("get Remote His " + messages);
+                LogKit.v("Reomte Message Count:" + messages.size());
+                for (Message message : messages) {
+                    LogKit.v("Reomte------SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                LogKit.v("Remote------errorCode:" + errorCode);
+            }
+        });
 
     }
 
     //自定义的各种聊天消息的监听器
+
+    public static String targetId = "-1";
+
     public interface ChatTextListener {
         public void displayText(Message message, int left);
     }
