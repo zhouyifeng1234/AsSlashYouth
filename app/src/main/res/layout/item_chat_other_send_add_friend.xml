@@ -60,6 +60,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shape_chat_deny_add_friend_bg"
                     android:gravity="center"
+                    android:onClick="@{chatOtherSendAddFriendModel.refuseAddFriend}"
                     android:text="拒绝"
                     android:textColor="#ffffff"
                     android:textSize="14sp"/>
@@ -71,6 +72,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shape_chat_agree_add_friend_bg"
                     android:gravity="center"
+                    android:onClick="@{chatOtherSendAddFriendModel.agreeAddFriend}"
                     android:text="同意"
                     android:textColor="#ffffff"
                     android:textSize="14sp"/>

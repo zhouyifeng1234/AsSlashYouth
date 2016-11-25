@@ -49,6 +49,7 @@ import com.slash.youth.domain.ChatCmdAddFriendBean;
 import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.domain.ChatCmdChangeContactBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
+import com.slash.youth.domain.ChatTaskInfoBean;
 import com.slash.youth.domain.SendMessageBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
@@ -83,6 +84,7 @@ public class ChatModel extends BaseObservable {
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
     private String targetId = "10002";
+    private String targetName = "Jim";
     //    private String targetId = "10000";
     ArrayList<SendMessageBean> listSendMsg = new ArrayList<SendMessageBean>();
 
@@ -301,7 +303,7 @@ public class ChatModel extends BaseObservable {
 
                 } else if (name.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
                     ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(data, ChatCmdChangeContactBean.class);
-                    mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean));
+                    mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone));
                 }
 
                 //发送已经阅读的回执
@@ -648,8 +650,11 @@ public class ChatModel extends BaseObservable {
         chatCmdAddFriendBean.uid = LoginManager.currentLoginUserId;
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdAddFriendBean);
-        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+//        {"content":"addFriend","extra":"{\"uid\":\"10003\"}"}
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND);
+        textMessage.setExtra(jsonData);
+//        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
 //                ToastUtils.shortToast("send add friend success");
@@ -674,8 +679,11 @@ public class ChatModel extends BaseObservable {
         chatCmdChangeContactBean.phone = "18888888888";
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdChangeContactBean);
-        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_CHANGE_CONTACT);
+        textMessage.setExtra(jsonData);
+
+//        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View infoView = createInfoView("您已发送交换手机号请求");
@@ -701,9 +709,12 @@ public class ChatModel extends BaseObservable {
         chatCmdShareTaskBean.type = 1;//服务或者需求
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdShareTaskBean);
-        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK);
+        textMessage.setExtra(jsonData);
+
+//        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
         final long sendTime = SystemClock.currentThreadTimeMillis();
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View myShareTaskView = createMyShareTaskView();
@@ -735,9 +746,13 @@ public class ChatModel extends BaseObservable {
         chatCmdBusinesssCardBean.profession = "";
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdBusinesssCardBean);
-        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD);
+        textMessage.setExtra(jsonData);
+
+
+//        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
         final long sendTime = SystemClock.currentThreadTimeMillis();
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 View mySendBusinessCardView = createMySendBusinessCardView();
@@ -754,6 +769,90 @@ public class ChatModel extends BaseObservable {
 
             }
         });
+    }
+
+    //同意交换联系方式
+    public void agreeChangeContact(final String otherPhone) {
+        //需要调用服务端保存已交换过联系方式状态的接口,对方收到消息后也需要调用
+
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT);
+        String myPhone = "18888888888";
+        textMessage.setExtra("{\"content\":\"" + myPhone + "\"}");
+
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View changeContactWayInfoView = createChangeContactWayInfoView(targetName, otherPhone);
+                mLlChatContent.addView(changeContactWayInfoView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    //拒绝交换联系方式
+    public void refuseChangeContact() {
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CME_REFUSE_CHANGE_CONTACT);
+        textMessage.setExtra("{\"content\":\"对方拒绝交换联系方式\"}");
+
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View infoView = createInfoView("您已拒绝和对方交换联系方式");
+                mLlChatContent.addView(infoView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    //同意添加对方为好友
+    public void agreeAddFriend() {
+        //需要先调用添加好友接口，对方收到我同意的消息后也需要调用添加好友的接口
+
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
+        textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
+
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View infoView = createInfoView("你");
+                mLlChatContent.addView(infoView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    //拒绝添加对方为好友
+    public void refuseAddFriend() {
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
+        textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
+    }
+
+
+    /**
+     * 发送相关任务信息，一般是从“聊一聊”按钮进来，就需要发送相关任务信息
+     */
+    public void sendRelatedTaskInfo() {
+        //{"name":"taskInfo","data":"{\"tid\":\"123\",\"type\":\"1\",\"title\":\"APP开发\"}"}
+        ChatTaskInfoBean chatTaskInfoBean = new ChatTaskInfoBean();
+        chatTaskInfoBean.tid = 111;
+        chatTaskInfoBean.type = 1;
+        chatTaskInfoBean.title = "APP开发";
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(chatTaskInfoBean);
+        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_TASK_INFO, jsonData);
+
     }
 
     public void goBack(View v) {
@@ -804,7 +903,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherSendAddFriendView(ChatCmdAddFriendBean chatCmdAddFriendBean) {
         ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_add_friend, null, false);
-        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity);
+        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this);
         itemChatOtherSendAddFriendBinding.setChatOtherSendAddFriendModel(chatOtherSendAddFriendModel);
         return itemChatOtherSendAddFriendBinding.getRoot();
     }
@@ -851,16 +950,16 @@ public class ChatModel extends BaseObservable {
         return itemChatMySendBusinessCardBinding.getRoot();
     }
 
-    private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean) {
+    private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean, String otherPhone) {
         ItemChatOtherChangeContactWayBinding itemChatOtherChangeContactWayBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_change_contact_way, null, false);
-        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity);
+        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone);
         itemChatOtherChangeContactWayBinding.setChatOtherChangeContactWayModel(chatOtherChangeContactWayModel);
         return itemChatOtherChangeContactWayBinding.getRoot();
     }
 
-    private View createChangeContactWayInfoView() {
+    private View createChangeContactWayInfoView(String name, String otherPhone) {
         ItemChatChangeContactWayInfoBinding itemChatChangeContactWayInfoBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_change_contact_way_info, null, false);
-        ChatChangeContactWayInfoModel chatChangeContactWayInfoModel = new ChatChangeContactWayInfoModel(itemChatChangeContactWayInfoBinding, mActivity);
+        ChatChangeContactWayInfoModel chatChangeContactWayInfoModel = new ChatChangeContactWayInfoModel(itemChatChangeContactWayInfoBinding, mActivity, name, otherPhone);
         itemChatChangeContactWayInfoBinding.setChatChangeContactWayInfoModel(chatChangeContactWayInfoModel);
         return itemChatChangeContactWayInfoBinding.getRoot();
     }

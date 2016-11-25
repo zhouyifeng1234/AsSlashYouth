@@ -34,10 +34,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="6dp"
-                android:text="顾振强的手机号：18611051582"
+                android:text="@{chatChangeContactWayInfoModel.otherContactInfo]"
                 android:textColor="#333333"
                 android:textSize="11sp"/>
-
+            <!--顾振强的手机号：18611051582-->
 
         </FrameLayout>
 

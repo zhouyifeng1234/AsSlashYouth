@@ -5,6 +5,7 @@
                   type="com.slash.youth.ui.viewmodel.ChatOtherChangeContactWayModel"/>
     </data>
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -60,6 +61,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shape_chat_deny_change_contact_way_bg"
                     android:gravity="center"
+                    android:onClick="@{chatOtherChangeContactWayModel.refuseChangeContact}"
                     android:text="拒绝"
                     android:textColor="#ffffff"
                     android:textSize="14sp"/>
@@ -76,6 +78,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shape_chat_agree_change_contact_way_bg"
                     android:gravity="center"
+                    android:onClick="@{chatOtherChangeContactWayModel.agreeChangeContact}"
                     android:text="同意"
                     android:textColor="#ffffff"
                     android:textSize="14sp"/>

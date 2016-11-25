@@ -34,6 +34,12 @@ public class MsgManager {
     public static final String CHAT_CMD_SHARE_TASK = "shareTask";
     public static final String CHAT_CMD_BUSINESS_CARD = "businessCard";
     public static final String CHAT_CMD_CHANGE_CONTACT = "changeContact";
+    public static final String CHAT_CMD_AGREE_ADD_FRIEND = "agreeAddFriend";
+    public static final String CHAT_CMD_REFUSE_ADD_FRIEND = "refuseAddFriend";
+    public static final String CHAT_CMD_AGREE_CHANGE_CONTACT = "agreeChangeContact";
+    public static final String CHAT_CME_REFUSE_CHANGE_CONTACT = "refuseChangeContact";
+
+    public static final String CHAT_TASK_INFO = "taskInfo";
 
     private static ChatTextListener mChatTextListener;
     private static ChatPicListener mChatPicListener;
