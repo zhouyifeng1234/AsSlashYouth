@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,20 @@ import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.message.CommandMessage;
 import io.rong.message.TextMessage;
 
 /**
@@ -37,7 +45,7 @@ public class MsgManager {
     public static final String CHAT_CMD_AGREE_ADD_FRIEND = "agreeAddFriend";
     public static final String CHAT_CMD_REFUSE_ADD_FRIEND = "refuseAddFriend";
     public static final String CHAT_CMD_AGREE_CHANGE_CONTACT = "agreeChangeContact";
-    public static final String CHAT_CME_REFUSE_CHANGE_CONTACT = "refuseChangeContact";
+    public static final String CHAT_CMD_REFUSE_CHANGE_CONTACT = "refuseChangeContact";
 
     public static final String CHAT_TASK_INFO = "taskInfo";
 
@@ -46,6 +54,7 @@ public class MsgManager {
     private static ChatVoiceListener mChatVoiceListener;
     private static ChatOtherCmdListener mChatOtherCmdListener;
     private static HistoryListener mHistoryListener;
+    private static RelatedTaskListener mRelatedTaskListener;
 
     /**
      * 建立与融云服务器的连接
@@ -110,6 +119,8 @@ public class MsgManager {
         public boolean onReceived(final Message message, final int left) {
 
             //开发者根据自己需求自行处理
+            LogKit.v("left:" + left);
+
             final String senderUserId = message.getSenderUserId();
             LogKit.v("senderUserId:" + senderUserId);
 
@@ -162,19 +173,29 @@ public class MsgManager {
 
             } else {//聊天消息
                 if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//判断是单聊消息
-                    //接收聊天的文本消息
                     if (objectName.equals("RC:TxtMsg")) {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (mChatTextListener != null && targetId.equals(senderUserId)) {
-                                    mChatTextListener.displayText(message, left);
+                                TextMessage textMessage = (TextMessage) message.getContent();
+                                String extra = textMessage.getExtra();
+                                //接收聊天的文本消息
+                                if (TextUtils.isEmpty(extra)) {
+                                    if (mChatTextListener != null && targetId.equals(senderUserId)) {
+                                        mChatTextListener.displayText(message, left);
+                                    } else {
+                                        //消息推送的顶部弹框提示
+                                        PushInfoBean pushInfoBean = new PushInfoBean();
+                                        pushInfoBean.pushText = textMessage.getContent();
+                                        displayPushInfo(pushInfoBean);
+                                    }
                                 } else {
-                                    //消息推送的顶部弹框提示
-                                    TextMessage textMessage = (TextMessage) message.getContent();
-                                    PushInfoBean pushInfoBean = new PushInfoBean();
-                                    pushInfoBean.pushText = textMessage.getContent();
-                                    displayPushInfo(pushInfoBean);
+                                    //接收聊天中的其它命令消息
+                                    if (mChatVoiceListener != null && targetId.equals(senderUserId)) {
+                                        mChatOtherCmdListener.doOtherCmd(message, left);
+                                    } else {
+                                        //消息推送的顶部弹框提示
+                                    }
                                 }
                             }
                         });
@@ -204,16 +225,37 @@ public class MsgManager {
                                 }
                             }
                         });
-                    }
-                    //接收聊天中的其它命令消息
-                    else if (objectName.equals("RC:CmdMsg")) {
+                    } else if (objectName.equals("RC:CmdMsg")) {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (mChatVoiceListener != null && targetId.equals(senderUserId)) {
-                                    mChatOtherCmdListener.doOtherCmd(message, left);
-                                } else {
-                                    //消息推送的顶部弹框提示
+                                CommandMessage commandMessage = (CommandMessage) message.getContent();
+                                String name = commandMessage.getName();
+                                //相关任务消息,需要进行存储
+                                if (name.equals("taskInfo")) {
+                                    //先要往本地保存
+                                    File relatedTaskFiles = new File(CommonUtils.getContext().getDataDir(),
+                                            "relatedTaskDir/" + LoginManager.currentLoginUserId + "to" + targetId);
+                                    FileOutputStream fos = null;
+                                    OutputStreamWriter osw = null;
+                                    BufferedWriter bw = null;
+                                    try {
+                                        relatedTaskFiles.createNewFile();
+                                        String jsonData = commandMessage.getData();
+                                        fos = new FileOutputStream(relatedTaskFiles);
+                                        osw = new OutputStreamWriter(fos);
+                                        bw = new BufferedWriter(osw);
+                                        bw.append(jsonData);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        IOUtils.close(bw);
+                                        IOUtils.close(osw);
+                                        IOUtils.close(fos);
+                                    }
+                                    if (mRelatedTaskListener != null) {
+                                        mRelatedTaskListener.displayRelatedTask();
+                                    }
                                 }
                             }
                         });
@@ -318,7 +360,7 @@ public class MsgManager {
 
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
-
+                    LogKit.v("getHisMsgFromLocal error");
                 }
             });
         }
@@ -356,6 +398,7 @@ public class MsgManager {
 
     }
 
+
     //自定义的各种聊天消息的监听器
 
     public static String targetId = "-1";
@@ -378,6 +421,10 @@ public class MsgManager {
 
     public interface HistoryListener {
         public void displayHistory(List<Message> messages);
+    }
+
+    public interface RelatedTaskListener {
+        public void displayRelatedTask();
     }
 
     public static void setMessReceiver() {
@@ -422,5 +469,13 @@ public class MsgManager {
 
     public static void removeHistoryListener() {
         mHistoryListener = null;
+    }
+
+    public static void setRelatedTaskListener(RelatedTaskListener relatedTaskListener) {
+        mRelatedTaskListener = relatedTaskListener;
+    }
+
+    public static void removeRelatedTaskListener() {
+        mRelatedTaskListener = null;
     }
 }

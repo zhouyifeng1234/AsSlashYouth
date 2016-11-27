@@ -6,6 +6,9 @@ import android.databinding.Bindable;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemChatMyTextBinding;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 
 /**
  * Created by zhouyifeng on 2016/11/16.
@@ -30,7 +33,7 @@ public class ChatMyTextModel extends BaseObservable {
     }
 
     private void initView() {
-
+        BitmapKit.bindImage(mItemChatMyTextBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
     }
 
     private String mySendText;

@@ -5,6 +5,9 @@ import android.databinding.BaseObservable;
 import android.net.Uri;
 
 import com.slash.youth.databinding.ItemChatMyPicBinding;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
@@ -34,5 +37,7 @@ public class ChatMyPicModel extends BaseObservable {
     private void initView() {
         LogKit.v(mThumUri.toString());
         x.image().bind(mItemChatMyPicBinding.ivChatMyPic, mThumUri.toString());
+        //加载图像
+        BitmapKit.bindImage(mItemChatMyPicBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
     }
 }

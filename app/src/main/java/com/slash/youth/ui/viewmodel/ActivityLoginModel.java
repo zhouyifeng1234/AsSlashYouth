@@ -16,7 +16,6 @@ import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.LoginActivity;
-import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -70,9 +69,16 @@ public class ActivityLoginModel extends BaseObservable {
 //        LoginManager.checkPhoneVerificationCode(phoenNum, pin);
 
         //这里跳转至聊天界面只是为了测试聊天界面
-        
+
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("chatCmdName", "sendShareTask");
+
+        Bundle taskInfoBundle = new Bundle();
+        taskInfoBundle.putLong("tid", 111);
+        taskInfoBundle.putInt("type", 1);
+        taskInfoBundle.putString("title", "APP开发");
+        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
+
         intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentChatActivity);
 

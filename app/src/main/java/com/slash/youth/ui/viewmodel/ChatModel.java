@@ -14,10 +14,12 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -50,16 +52,27 @@ import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.domain.ChatCmdChangeContactBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.ChatTaskInfoBean;
+import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.SendMessageBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,8 +96,11 @@ public class ChatModel extends BaseObservable {
     private TextView mTvChatFriendName;
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
+
     private String targetId = "10002";
     private String targetName = "Jim";
+    private String targetAvatar = "group1/M00/00/02/eBtfY1g68kiAfiCNAABuHg0Rbxs.0a9ae1";
+
     //    private String targetId = "10000";
     ArrayList<SendMessageBean> listSendMsg = new ArrayList<SendMessageBean>();
 
@@ -108,6 +124,16 @@ public class ChatModel extends BaseObservable {
             sendBusinessCard();
         } else if (chatCmdName.equals("sendShareTask")) {
             sendShareTask();
+        }
+        Bundle taskInfoBundle = mActivity.getIntent().getBundleExtra("taskInfo");
+        if (taskInfoBundle != null) {//如果通过“聊一聊”进入聊天界面，会带上任务，并发送给对方
+            ChatTaskInfoBean chatTaskInfoBean = new ChatTaskInfoBean();
+            chatTaskInfoBean.tid = taskInfoBundle.getLong("tid");
+            chatTaskInfoBean.type = taskInfoBundle.getInt("type");
+            chatTaskInfoBean.title = taskInfoBundle.getString("title");
+            sendRelatedTaskInfo(chatTaskInfoBean);
+        } else {//如果进入界面时没有带上任务，就检测本地是否有对方发送过来的相关任务
+            displayRelatedTask();
         }
     }
 
@@ -246,10 +272,7 @@ public class ChatModel extends BaseObservable {
         MsgManager.setChatTextListener(new MsgManager.ChatTextListener() {
             @Override
             public void displayText(Message message, int left) {
-                TextMessage textMessage = (TextMessage) message.getContent();
-                String content = textMessage.getContent();
-                View friendTextView = createFriendTextView(content);
-                mLlChatContent.addView(friendTextView);
+                displayReceiveTextMsg(message, false);
 
                 //发送已经阅读的回执
                 sendReadReceipt(message.getSentTime());
@@ -260,13 +283,7 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void dispayPic(Message message, int left) {
-                ImageMessage imageMessage = (ImageMessage) message.getContent();
-                Uri thumUri = imageMessage.getThumUri();
-//                Uri localUri = imageMessage.getLocalUri();
-                Uri remoteUri = imageMessage.getRemoteUri();
-                LogKit.v("remoteUri:" + remoteUri.toString());
-                View friendPicView = createFriendPicView(thumUri);
-                mLlChatContent.addView(friendPicView);
+                displayReceiveImageMsg(message, false);
 
                 //发送已经阅读的回执
                 sendReadReceipt(message.getSentTime());
@@ -275,10 +292,7 @@ public class ChatModel extends BaseObservable {
         MsgManager.setChatVoiceListener(new MsgManager.ChatVoiceListener() {
             @Override
             public void loadVoice(Message message, int left) {
-                VoiceMessage voiceMessage = (VoiceMessage) message.getContent();
-                int duration = voiceMessage.getDuration();
-                Uri voiceUri = voiceMessage.getUri();
-                mLlChatContent.addView(createOtherSendVoiceView(voiceUri, duration));
+                displayReceiveVoiceMsg(message, false);
 
                 //发送已经阅读的回执
                 sendReadReceipt(message.getSentTime());
@@ -287,27 +301,17 @@ public class ChatModel extends BaseObservable {
         MsgManager.setChatOtherCmdListener(new MsgManager.ChatOtherCmdListener() {
             @Override
             public void doOtherCmd(Message message, int left) {
-                CommandMessage commandMessage = (CommandMessage) message.getContent();
-                String name = commandMessage.getName();
-                String data = commandMessage.getData();
-                Gson gson = new Gson();
-                if (name.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
-                    ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(data, ChatCmdAddFriendBean.class);
-                    mLlChatContent.addView(createOtherSendAddFriendView(chatCmdAddFriendBean));
-                } else if (name.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
-                    ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(data, ChatCmdShareTaskBean.class);
-                    mLlChatContent.addView(createOtherShareTaskView(chatCmdShareTaskBean));
-                } else if (name.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
-                    ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = gson.fromJson(data, ChatCmdBusinesssCardBean.class);
-                    mLlChatContent.addView(createOtherSendBusinessCardView(chatCmdBusinesssCardBean));
-
-                } else if (name.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
-                    ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(data, ChatCmdChangeContactBean.class);
-                    mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone));
-                }
+                displayReceiveOtherCmdMsg(message, false);
 
                 //发送已经阅读的回执
                 sendReadReceipt(message.getSentTime());
+            }
+        });
+        MsgManager.setRelatedTaskListener(new MsgManager.RelatedTaskListener() {
+
+            @Override
+            public void displayRelatedTask() {
+                ChatModel.this.displayRelatedTask();
             }
         });
         //接受消息回执的监听
@@ -777,7 +781,7 @@ public class ChatModel extends BaseObservable {
 
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT);
         String myPhone = "18888888888";
-        textMessage.setExtra("{\"content\":\"" + myPhone + "\"}");
+        textMessage.setExtra("{\"content\":\"" + myPhone + "\",\"otherPhone\":\"\" + otherPhone + \"\"}");
 
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
@@ -795,7 +799,7 @@ public class ChatModel extends BaseObservable {
 
     //拒绝交换联系方式
     public void refuseChangeContact() {
-        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CME_REFUSE_CHANGE_CONTACT);
+        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT);
         textMessage.setExtra("{\"content\":\"对方拒绝交换联系方式\"}");
 
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
@@ -814,7 +818,8 @@ public class ChatModel extends BaseObservable {
 
     //同意添加对方为好友
     public void agreeAddFriend() {
-        //需要先调用添加好友接口，对方收到我同意的消息后也需要调用添加好友的接口
+        //需要先调用添加好友接口，(对方收到我同意的消息后也需要调用添加好友的接口,
+        // 如果其中一方调用添加好友的接口后，双方就能够成为好友关系，那么对方就不需要再调用一遍了，看接口的情况)
 
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
         textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
@@ -822,7 +827,7 @@ public class ChatModel extends BaseObservable {
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
-                View infoView = createInfoView("你");
+                View infoView = createInfoView("您已同意添加对方为好友");
                 mLlChatContent.addView(infoView);
             }
 
@@ -837,22 +842,43 @@ public class ChatModel extends BaseObservable {
     public void refuseAddFriend() {
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
         textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
+
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+                View infoView = createInfoView("您已拒绝添加对方为好友");
+                mLlChatContent.addView(infoView);
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 
 
     /**
      * 发送相关任务信息，一般是从“聊一聊”按钮进来，就需要发送相关任务信息
      */
-    public void sendRelatedTaskInfo() {
+    public void sendRelatedTaskInfo(ChatTaskInfoBean chatTaskInfoBean) {
         //{"name":"taskInfo","data":"{\"tid\":\"123\",\"type\":\"1\",\"title\":\"APP开发\"}"}
-        ChatTaskInfoBean chatTaskInfoBean = new ChatTaskInfoBean();
-        chatTaskInfoBean.tid = 111;
-        chatTaskInfoBean.type = 1;
-        chatTaskInfoBean.title = "APP开发";
+
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatTaskInfoBean);
         CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_TASK_INFO, jsonData);
 
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
+            @Override
+            public void onSuccess(Integer integer) {
+
+            }
+
+            @Override
+            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 
     public void goBack(View v) {
@@ -870,7 +896,7 @@ public class ChatModel extends BaseObservable {
     //创建好友发的文本消息View
     private View createFriendTextView(String content) {
         ItemChatFriendTextBinding itemChatFriendTextBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_friend_text, null, false);
-        ChatFriendTextModel chatFriendTextModel = new ChatFriendTextModel(itemChatFriendTextBinding, mActivity);
+        ChatFriendTextModel chatFriendTextModel = new ChatFriendTextModel(itemChatFriendTextBinding, mActivity,targetAvatar);
         itemChatFriendTextBinding.setChatFriendTextModel(chatFriendTextModel);
         chatFriendTextModel.setTextContent(content);
         return itemChatFriendTextBinding.getRoot();
@@ -896,14 +922,14 @@ public class ChatModel extends BaseObservable {
     //创建好友发的图片View
     private View createFriendPicView(Uri thumUri) {
         ItemChatFriendPicBinding itemChatFriendPicBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_friend_pic, null, false);
-        ChatFriendPicModel chatFriendPicModel = new ChatFriendPicModel(itemChatFriendPicBinding, mActivity, thumUri);
+        ChatFriendPicModel chatFriendPicModel = new ChatFriendPicModel(itemChatFriendPicBinding, mActivity, thumUri,targetAvatar);
         itemChatFriendPicBinding.setChatFriendPicModel(chatFriendPicModel);
         return itemChatFriendPicBinding.getRoot();
     }
 
     private View createOtherSendAddFriendView(ChatCmdAddFriendBean chatCmdAddFriendBean) {
         ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_add_friend, null, false);
-        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this);
+        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this,targetAvatar);
         itemChatOtherSendAddFriendBinding.setChatOtherSendAddFriendModel(chatOtherSendAddFriendModel);
         return itemChatOtherSendAddFriendBinding.getRoot();
     }
@@ -924,7 +950,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherShareTaskView(ChatCmdShareTaskBean chatCmdShareTaskBean) {
         ItemChatOtherShareTaskBinding itemChatOtherShareTaskBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_share_task, null, false);
-        ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity);
+        ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity,targetAvatar);
         itemChatOtherShareTaskBinding.setChatOtherShareTaskModel(chatOtherShareTaskModel);
         return itemChatOtherShareTaskBinding.getRoot();
     }
@@ -938,7 +964,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherSendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
         ItemChatOtherSendBusinessCardBinding itemChatOtherSendBusinessCardBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_business_card, null, false);
-        ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity);
+        ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity,targetAvatar);
         itemChatOtherSendBusinessCardBinding.setChatOtherSendBusinessCardModel(chatOtherSendBusinessCardModel);
         return itemChatOtherSendBusinessCardBinding.getRoot();
     }
@@ -952,7 +978,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean, String otherPhone) {
         ItemChatOtherChangeContactWayBinding itemChatOtherChangeContactWayBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_change_contact_way, null, false);
-        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone);
+        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone,targetAvatar);
         itemChatOtherChangeContactWayBinding.setChatOtherChangeContactWayModel(chatOtherChangeContactWayModel);
         return itemChatOtherChangeContactWayBinding.getRoot();
     }
@@ -966,7 +992,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherSendVoiceView(Uri voiceUri, int duration) {
         ItemChatOtherSendVoiceBinding itemChatOtherSendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_voice, null, false);
-        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity, voiceUri, duration);
+        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity, voiceUri, duration,targetAvatar);
         itemChatOtherSendVoiceBinding.setChatOtherSendVoiceModel(chatOtherSendVoiceModel);
         return itemChatOtherSendVoiceBinding.getRoot();
     }
@@ -1041,7 +1067,251 @@ public class ChatModel extends BaseObservable {
         @Override
         public void displayHistory(List<Message> messages) {
 
+            LogKit.v("Message Count:" + messages.size());
+            for (Message message : messages) {
+                LogKit.v("SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+                Message.MessageDirection messageDirection = message.getMessageDirection();
+                if (messageDirection == Message.MessageDirection.SEND) {
+                    //自己发送的消息
+                    loadSendHisMsg(message);
+                } else if (messageDirection == Message.MessageDirection.RECEIVE) {
+                    //接收到的消息
+                    loadReceiveHisMsg(message);
+                }
+
+            }
+
             sendReadReceipt(SystemClock.currentThreadTimeMillis());
+        }
+    }
+
+
+    /**
+     * 加载显示自己发送的历史消息
+     *
+     * @param message
+     */
+    private void loadSendHisMsg(Message message) {
+        String objectName = message.getObjectName();
+        if (objectName.equals("RC:TxtMsg")) {
+            TextMessage textMessage = (TextMessage) message.getContent();
+            String extra = textMessage.getExtra();
+            //接收聊天的文本消息
+            if (TextUtils.isEmpty(extra)) {
+                View myTextView = createMyTextView(textMessage.getContent());
+                mLlChatContent.addView(myTextView, 0);
+            } else {
+                String content = textMessage.getContent();
+                if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                    View infoView = createInfoView("您已发送添加好友请求");
+                    mLlChatContent.addView(infoView, 0);
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                    View myShareTaskView = createMyShareTaskView();
+                    mLlChatContent.addView(myShareTaskView, 0);
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                    View mySendBusinessCardView = createMySendBusinessCardView();
+                    mLlChatContent.addView(mySendBusinessCardView, 0);
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                    View infoView = createInfoView("您已发送交换手机号请求");
+                    mLlChatContent.addView(infoView, 0);
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+                    View infoView = createInfoView("您已同意添加对方为好友");
+                    mLlChatContent.addView(infoView, 0);
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+                    View infoView = createInfoView("您已拒绝添加对方为好友");
+                    mLlChatContent.addView(infoView, 0);
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+                    try {
+                        JSONObject jo = new JSONObject(extra);
+                        String otherPhone = jo.getString("otherPhone");
+                        View changeContactWayInfoView = createChangeContactWayInfoView(targetName, otherPhone);
+                        mLlChatContent.addView(changeContactWayInfoView, 0);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+                    View infoView = createInfoView("您已拒绝和对方交换联系方式");
+                    mLlChatContent.addView(infoView, 0);
+                }
+            }
+        }
+        //接收聊天的图片消息
+        else if (objectName.equals("RC:ImgMsg")) {
+            ImageMessage imageMessage = (ImageMessage) message.getContent();
+            View myPicView = createMyPicView(imageMessage.getThumUri());
+            mLlChatContent.addView(myPicView, 0);
+        }
+        //接受聊天的语音消息
+        else if (objectName.equals("RC:VcMsg")) {
+            VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
+            View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), savedVoiceMessage.getDuration());
+            mLlChatContent.addView(mySendVoiceView, 0);
+        }
+    }
+
+    /**
+     * 加载显示接收到的历史消息
+     *
+     * @param message
+     */
+    private void loadReceiveHisMsg(Message message) {
+        String objectName = message.getObjectName();
+        if (objectName.equals("RC:TxtMsg")) {
+            TextMessage textMessage = (TextMessage) message.getContent();
+            String extra = textMessage.getExtra();
+            //接收聊天的文本消息
+            if (TextUtils.isEmpty(extra)) {
+                displayReceiveTextMsg(message, true);
+            } else {
+                //接收聊天中的其它命令消息
+                displayReceiveOtherCmdMsg(message, true);
+            }
+        }
+        //接收聊天的图片消息
+        else if (objectName.equals("RC:ImgMsg")) {
+            displayReceiveImageMsg(message, true);
+        }
+        //接受聊天的语音消息
+        else if (objectName.equals("RC:VcMsg")) {
+            displayReceiveVoiceMsg(message, true);
+        }
+    }
+
+    private void displayReceiveTextMsg(Message message, boolean isLoadHis) {
+        TextMessage textMessage = (TextMessage) message.getContent();
+        String content = textMessage.getContent();
+        View friendTextView = createFriendTextView(content);
+        if (isLoadHis) {
+            mLlChatContent.addView(friendTextView, 0);
+        } else {
+            mLlChatContent.addView(friendTextView);
+        }
+    }
+
+    private void displayReceiveImageMsg(Message message, boolean isLoadHis) {
+        ImageMessage imageMessage = (ImageMessage) message.getContent();
+        Uri thumUri = imageMessage.getThumUri();
+//                Uri localUri = imageMessage.getLocalUri();
+        Uri remoteUri = imageMessage.getRemoteUri();
+        LogKit.v("remoteUri:" + remoteUri.toString());
+        View friendPicView = createFriendPicView(thumUri);
+        if (isLoadHis) {
+            mLlChatContent.addView(friendPicView, 0);
+        } else {
+            mLlChatContent.addView(friendPicView);
+        }
+    }
+
+    private void displayReceiveVoiceMsg(Message message, boolean isLoadHis) {
+        VoiceMessage voiceMessage = (VoiceMessage) message.getContent();
+        int duration = voiceMessage.getDuration();
+        Uri voiceUri = voiceMessage.getUri();
+        if (isLoadHis) {
+            mLlChatContent.addView(createOtherSendVoiceView(voiceUri, duration), 0);
+        } else {
+            mLlChatContent.addView(createOtherSendVoiceView(voiceUri, duration));
+        }
+    }
+
+    private void displayReceiveOtherCmdMsg(Message message, boolean isLoadHis) {
+        TextMessage textMessage = (TextMessage) message.getContent();
+        String content = textMessage.getContent();
+        String extra = textMessage.getExtra();
+
+//                String name = commandMessage.getName();
+//                String data = commandMessage.getData();
+        Gson gson = new Gson();
+        View msgView = null;
+        if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+            ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
+            msgView = createOtherSendAddFriendView(chatCmdAddFriendBean);
+//            mLlChatContent.addView(createOtherSendAddFriendView(chatCmdAddFriendBean));
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+            ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(extra, ChatCmdShareTaskBean.class);
+            msgView = createOtherShareTaskView(chatCmdShareTaskBean);
+//            mLlChatContent.addView(createOtherShareTaskView(chatCmdShareTaskBean));
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+            ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = gson.fromJson(extra, ChatCmdBusinesssCardBean.class);
+            msgView = createOtherSendBusinessCardView(chatCmdBusinesssCardBean);
+//            mLlChatContent.addView(createOtherSendBusinessCardView(chatCmdBusinesssCardBean));
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+            ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(extra, ChatCmdChangeContactBean.class);
+            msgView = createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone);
+//            mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone));
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+            try {
+                JSONObject jo = new JSONObject(extra);
+                String info = jo.getString("content");
+                msgView = createInfoView(info);
+//                View infoView = createInfoView(info);
+//                mLlChatContent.addView(infoView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+            try {
+                JSONObject jo = new JSONObject(extra);
+                String info = jo.getString("content");
+                msgView = createInfoView(info);
+//                View infoView = createInfoView(info);
+//                mLlChatContent.addView(infoView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+            try {
+                JSONObject jo = new JSONObject(extra);
+                String phone = jo.getString("content");
+                msgView = createChangeContactWayInfoView(targetName, phone);
+//                View changeContactWayInfoView = createChangeContactWayInfoView(targetName, phone);
+//                mLlChatContent.addView(changeContactWayInfoView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+            try {
+                JSONObject jo = new JSONObject(extra);
+                String info = jo.getString("content");
+                msgView = createInfoView(info);
+//                View infoView = createInfoView(info);
+//                mLlChatContent.addView(infoView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (isLoadHis) {
+            mLlChatContent.addView(msgView, 0);
+        } else {
+            mLlChatContent.addView(msgView);
+        }
+
+    }
+
+    public void displayRelatedTask() {
+        File relatedTaskFiles = new File(CommonUtils.getContext().getDataDir(),
+                "relatedTaskDir/" + LoginManager.currentLoginUserId + "to" + targetId);
+        if (relatedTaskFiles.exists()) {
+            FileInputStream fis = null;
+            InputStreamReader isr = null;
+            BufferedReader br = null;
+            try {
+                fis = new FileInputStream(relatedTaskFiles);
+                isr = new InputStreamReader(fis);
+                br = new BufferedReader(isr);
+                String jsonData = br.readLine();
+                Gson gson = new Gson();
+                ChatTaskInfoBean chatTaskInfoBean = gson.fromJson(jsonData, ChatTaskInfoBean.class);
+                setRelatedTaskTitle(chatTaskInfoBean.title);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                IOUtils.close(br);
+                IOUtils.close(isr);
+                IOUtils.close(fis);
+            }
+            relatedTaskFiles.delete();
         }
     }
 
@@ -1055,6 +1325,7 @@ public class ChatModel extends BaseObservable {
     private int sendVoiceCmdLayerVisibility = View.GONE;
     private int upCancelSendVoiceVisibility;
     private int relaseCancelSendVoiceVisibility;
+    private String relatedTaskTitle = "相关任务:";
 
     @Bindable
     public int getTextInputIconVisibility() {
@@ -1154,5 +1425,15 @@ public class ChatModel extends BaseObservable {
     public void setRelaseCancelSendVoiceVisibility(int relaseCancelSendVoiceVisibility) {
         this.relaseCancelSendVoiceVisibility = relaseCancelSendVoiceVisibility;
         notifyPropertyChanged(BR.relaseCancelSendVoiceVisibility);
+    }
+
+    @Bindable
+    public String getRelatedTaskTitle() {
+        return relatedTaskTitle;
+    }
+
+    public void setRelatedTaskTitle(String relatedTaskTitle) {
+        this.relatedTaskTitle = relatedTaskTitle;
+        notifyPropertyChanged(BR.relatedTaskTitle);
     }
 }

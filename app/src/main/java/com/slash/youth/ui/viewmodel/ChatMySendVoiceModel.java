@@ -11,6 +11,9 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMySendVoiceBinding;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import java.io.IOException;
@@ -41,6 +44,8 @@ public class ChatMySendVoiceModel extends BaseObservable {
 
     private void initView() {
         setVoiceDuration(mDuration + " ̋   ");
+
+        BitmapKit.bindImage(mItemChatMySendVoiceBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
     }
 
     boolean isClickStartVoice = true;

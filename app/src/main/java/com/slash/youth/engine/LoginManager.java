@@ -18,6 +18,9 @@ import com.tencent.tauth.Tencent;
  */
 public class LoginManager {
     public static long currentLoginUserId = 10000;//实际应该在登录状态中获取
+    public static String currentLoginUserName = "风";
+    public static String currentLoginUserAvatar = "group1/M00/00/02/eBtfY1g68l2AYPzzAACY_JV8bdw.7ad5ad";
+    public static String token = "";//我们自己服务器登录后的toekn
 
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
