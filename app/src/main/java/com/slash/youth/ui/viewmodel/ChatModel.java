@@ -1094,7 +1094,6 @@ public class ChatModel extends BaseObservable {
      */
     private void loadSendHisMsg(Message message) {
         Message.SentStatus sentStatus = message.getSentStatus();
-        message.getReadReceiptInfo()
 
         String objectName = message.getObjectName();
         if (objectName.equals("RC:TxtMsg")) {
