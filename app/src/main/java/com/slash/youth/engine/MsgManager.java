@@ -117,7 +117,6 @@ public class MsgManager {
          */
         @Override
         public boolean onReceived(final Message message, final int left) {
-
             //开发者根据自己需求自行处理
             LogKit.v("left:" + left);
 

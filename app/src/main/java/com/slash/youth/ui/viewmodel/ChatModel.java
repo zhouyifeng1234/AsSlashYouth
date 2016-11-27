@@ -80,6 +80,7 @@ import java.util.List;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.ReadReceiptInfo;
 import io.rong.message.CommandMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.ReadReceiptMessage;
@@ -896,7 +897,7 @@ public class ChatModel extends BaseObservable {
     //创建好友发的文本消息View
     private View createFriendTextView(String content) {
         ItemChatFriendTextBinding itemChatFriendTextBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_friend_text, null, false);
-        ChatFriendTextModel chatFriendTextModel = new ChatFriendTextModel(itemChatFriendTextBinding, mActivity,targetAvatar);
+        ChatFriendTextModel chatFriendTextModel = new ChatFriendTextModel(itemChatFriendTextBinding, mActivity, targetAvatar);
         itemChatFriendTextBinding.setChatFriendTextModel(chatFriendTextModel);
         chatFriendTextModel.setTextContent(content);
         return itemChatFriendTextBinding.getRoot();
@@ -922,14 +923,14 @@ public class ChatModel extends BaseObservable {
     //创建好友发的图片View
     private View createFriendPicView(Uri thumUri) {
         ItemChatFriendPicBinding itemChatFriendPicBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_friend_pic, null, false);
-        ChatFriendPicModel chatFriendPicModel = new ChatFriendPicModel(itemChatFriendPicBinding, mActivity, thumUri,targetAvatar);
+        ChatFriendPicModel chatFriendPicModel = new ChatFriendPicModel(itemChatFriendPicBinding, mActivity, thumUri, targetAvatar);
         itemChatFriendPicBinding.setChatFriendPicModel(chatFriendPicModel);
         return itemChatFriendPicBinding.getRoot();
     }
 
     private View createOtherSendAddFriendView(ChatCmdAddFriendBean chatCmdAddFriendBean) {
         ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_add_friend, null, false);
-        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this,targetAvatar);
+        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this, targetAvatar);
         itemChatOtherSendAddFriendBinding.setChatOtherSendAddFriendModel(chatOtherSendAddFriendModel);
         return itemChatOtherSendAddFriendBinding.getRoot();
     }
@@ -950,7 +951,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherShareTaskView(ChatCmdShareTaskBean chatCmdShareTaskBean) {
         ItemChatOtherShareTaskBinding itemChatOtherShareTaskBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_share_task, null, false);
-        ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity,targetAvatar);
+        ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity, targetAvatar);
         itemChatOtherShareTaskBinding.setChatOtherShareTaskModel(chatOtherShareTaskModel);
         return itemChatOtherShareTaskBinding.getRoot();
     }
@@ -964,7 +965,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherSendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
         ItemChatOtherSendBusinessCardBinding itemChatOtherSendBusinessCardBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_business_card, null, false);
-        ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity,targetAvatar);
+        ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity, targetAvatar);
         itemChatOtherSendBusinessCardBinding.setChatOtherSendBusinessCardModel(chatOtherSendBusinessCardModel);
         return itemChatOtherSendBusinessCardBinding.getRoot();
     }
@@ -978,7 +979,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean, String otherPhone) {
         ItemChatOtherChangeContactWayBinding itemChatOtherChangeContactWayBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_change_contact_way, null, false);
-        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone,targetAvatar);
+        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone, targetAvatar);
         itemChatOtherChangeContactWayBinding.setChatOtherChangeContactWayModel(chatOtherChangeContactWayModel);
         return itemChatOtherChangeContactWayBinding.getRoot();
     }
@@ -992,7 +993,7 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherSendVoiceView(Uri voiceUri, int duration) {
         ItemChatOtherSendVoiceBinding itemChatOtherSendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_voice, null, false);
-        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity, voiceUri, duration,targetAvatar);
+        ChatOtherSendVoiceModel chatOtherSendVoiceModel = new ChatOtherSendVoiceModel(itemChatOtherSendVoiceBinding, mActivity, voiceUri, duration, targetAvatar);
         itemChatOtherSendVoiceBinding.setChatOtherSendVoiceModel(chatOtherSendVoiceModel);
         return itemChatOtherSendVoiceBinding.getRoot();
     }
@@ -1092,6 +1093,9 @@ public class ChatModel extends BaseObservable {
      * @param message
      */
     private void loadSendHisMsg(Message message) {
+        Message.SentStatus sentStatus = message.getSentStatus();
+        message.getReadReceiptInfo()
+
         String objectName = message.getObjectName();
         if (objectName.equals("RC:TxtMsg")) {
             TextMessage textMessage = (TextMessage) message.getContent();
