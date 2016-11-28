@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.databinding.tool.reflection.Callable;
 import android.net.sip.SipAudioCall;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -173,6 +174,26 @@ public class SearchActivity extends Activity {
     }*/
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //友盟分享SDK
     //如果使用的是qq或者新浪精简版jar，需要在您使用分享或授权的Activity（fragment不行）中添加如下回调代码
     @Override
@@ -187,11 +208,24 @@ public class SearchActivity extends Activity {
         searchNeedResultTabBinding.lvSearchTab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new ShareAction(SearchActivity.this).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
+              /*  new ShareAction(SearchActivity.this).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
                         // .withTitle("友盟：新浪,QQ,微信")
                         .withText("——来自友盟分享面板")
                         .setCallback(umShareListener)
                         .open();
+*/
+
+               View inflate = View.inflate(SearchActivity.this, R.layout.dialog_recommend, null);
+
+                new ShareAction(SearchActivity.this).withShareBoardDirection(inflate,Gravity.CENTER)
+                        .open();
+
+               /* new ShareAction(SearchActivity.this)
+                        .withTitle("你是什么情况")
+                        .withText("这勇士什么鬼")
+                        .withFollow("你是什么网页")
+                        .open();*/
+
             }
         });
     }
@@ -248,7 +282,7 @@ public class SearchActivity extends Activity {
         MobclickAgent.onPause(this);
     }
 
-    public void onButtonClick(View view) {
+   /* public void onButtonClick(View view) {
         int id = view.getId();
 
         switch (id) {
@@ -267,10 +301,9 @@ public class SearchActivity extends Activity {
             case R.id.btn_text:
                 MobclickAgent.setDebugMode(true);
                 break;
-
         }
     }
-
+*/
     //融云推送
     private void RongYunPush() {
         //建立联系与服务器的连接

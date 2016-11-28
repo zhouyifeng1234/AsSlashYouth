@@ -15,16 +15,21 @@
         android:layout_height="wrap_content"
         >
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="11dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="11dp"
-            android:background="@android:color/transparent"
+        <LinearLayout
             android:onClick="@{activityCityLocationModel.finishCityLocationActivity}"
-            android:src="@mipmap/city_back_icon"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="11dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="11dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/city_back_icon"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,10 +64,10 @@
             android:textSize="14.5sp"/>
         <ImageView
             android:onClick="@{activityCityLocationModel.cleanEt}"
-            android:layout_marginRight="8dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/city_close_icon"/>
 

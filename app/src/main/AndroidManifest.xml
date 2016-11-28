@@ -277,14 +277,14 @@
         <activity android:name=".ui.activity.ReportTAActivity"/>
         <activity android:name=".ui.activity.ReplacePhoneActivity"/>
         <activity android:name=".ui.activity.FinishPhoneActivity"/>
-        <activity android:name=".ui.activity.ChooseFriendActivtiy"/>
+        <activity android:name=".ui.activity.MyFriendActivtiy"/>
         <activity android:name=".ui.activity.MySkillManageActivity"/>
         <activity android:name=".ui.activity.MyAddSkillActivity"/>
         <activity android:name=".ui.activity.MySettingActivity"/>
         <activity android:name=".ui.activity.SheildActivity"/>
         <activity android:name=".ui.activity.RevisePasswordActivity"/>
         <activity android:name=".ui.activity.FindPassWordActivity"/>
-        <activity android:name=".ui.activity.ThridPartyActivity"/>
+        <activity android:name=".ui.activity.BindThridPartyActivity"/>
         <activity android:name=".ui.activity.MyCollectionActivity"/>
         <activity android:name=".ui.activity.MyHelpActivity"/>
         <activity android:name=".ui.activity.ContactUsActivity"/>

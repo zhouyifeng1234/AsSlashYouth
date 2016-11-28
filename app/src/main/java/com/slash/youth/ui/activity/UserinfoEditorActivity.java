@@ -145,7 +145,12 @@ public class UserinfoEditorActivity extends Activity {
                     }
                 }
                 break;
+        }
 
+        //最近访问的城市
+        if(resultCode == Constants.CURRENT_ACCESS_CITY){
+            String currentCityAccess = data.getStringExtra("currentCityAccess");
+            activityUserinfoEditorBinding.tvLocation.setText(currentCityAccess);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

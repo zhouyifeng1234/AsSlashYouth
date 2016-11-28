@@ -25,6 +25,11 @@ import com.slash.youth.ui.viewmodel.FloatViewModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.shareboard.SnsPlatform;
+
+import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/10/31.
@@ -35,6 +40,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private ActivityUserInfoModel userInfoModel;
     private  long myId;
     private String phone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +54,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
 
         back();
-
         title();
-
         listener();
     }
 
@@ -146,10 +150,20 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
             }
         });
-
         popupWindow.setBackgroundDrawable(getResources().getDrawable(
                 R.mipmap.dropdown_box));
 
         popupWindow.showAsDropDown(v);
     }
+
+
+    //添加返回值
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
 }

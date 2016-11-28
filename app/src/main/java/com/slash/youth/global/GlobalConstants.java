@@ -288,13 +288,10 @@ public class GlobalConstants {
         //十六，[我的]-[用户中心]-登出
         public static final String MY_LOGOUT = SERVER_HOST +"auth/v1/logout";
 
-
-
         //一、[我的账户]-获取我的账户信息
         public static final String MY_ACCOUNT = SERVER_HOST_MY_ACCOUNT +"/info/get";
         //二、[我的账户]-获取我的交易流水
         public static final String MY_TRANSACTIONRECORE = SERVER_HOST_MY_ACCOUNT +"/trade/stream";
-
 
         //一、[设置]-查询时间免打扰设置
         public static final String SERVER_HOST_SETTING ="http://121.42.145.178/uinfo/v1/api/config";
@@ -320,8 +317,6 @@ public class GlobalConstants {
         //解绑第三方账号
         public static final String UNBINDING = SERVER_HOST+"auth/v1/login/unbind";
 
-
-
         //我的收藏
         public static final String COLLECTION_HOST = "http://121.42.145.178/feed/v1/api/myfavorite";
         public static final String MY_COLLECTION_LIST = COLLECTION_HOST+"/list";
@@ -337,6 +332,34 @@ public class GlobalConstants {
         public static final String SKILL_MANAGE_HOST ="http://121.42.145.178/feed/v1/api/myservicemanagement";
         public static final String SKILL_MANAGE_LIST =SKILL_MANAGE_HOST+"/list";
         public static final String SKILL_MANAGE_DELETE =SKILL_MANAGE_HOST+"/del";
+
+        //[我的人脉]-人脉首页
+        public static final String PERSON_RELATION_HOST ="http://121.42.145.178/uinfo/v1/api/relation";
+       //人脉首页
+       public static final String PERSON_RELATION_FIRST_PAGER =PERSON_RELATION_HOST+"/facade";
+       //[我的访客]-访客列表
+       public static final String MY_VISITOR_HOST ="http://121.42.145.178/uinfo/v1/api/relation/visitor";
+        public static final String MY_VISITOR_LIST = MY_VISITOR_HOST+"/list";
+
+        //一、[好友]-查看我的好友列表
+        public static final String MY_FRIEND_LIST_HOST = "http://121.42.145.178/uinfo/v1/api/relation/friend";
+        public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST+"/list";
+        //[好友]-查看加我的列表
+        public static final String MY_FRIEND_LIST_ADD_ME_LIST =MY_FRIEND_LIST_HOST+"/addmelist";
+        //三、[关注]-查询我关注的人
+        public static final String  RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
+        public static final String  MY_CARE_PERSON = RELATION_HOST+"/myfollow";
+        //[关注]-查询我的粉丝
+        public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
+
+
+
+
+
+        //[推荐]-推荐好友
+        public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/list";
+
+
 
 
 

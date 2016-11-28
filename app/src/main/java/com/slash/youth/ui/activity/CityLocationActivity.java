@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCityLocationBinding;
@@ -29,18 +31,22 @@ import com.slash.youth.ui.viewmodel.ActivityCityLocationModel;
 import com.slash.youth.ui.viewmodel.HeaderLocationCityInfoModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DBManager;
+import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PatternUtils;
 import com.slash.youth.utils.Pinyin4JUtils;
 import com.slash.youth.utils.ToastUtils;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhouyifeng on 2016/9/7.
  */
 public class CityLocationActivity extends Activity {
     private ActivityCityLocationBinding mActivityCityLocationBinding;
-    private HashMap<String, Integer> mHashFirstLetterIndex = new HashMap<String, Integer>();
     private ActivityCityLocationModel mActivityCityLocationModel;
     private SQLiteDatabase database;
     public DBManager dbHelper;
@@ -52,6 +58,7 @@ public class CityLocationActivity extends Activity {
     private ArrayList<LocationCityInfo> listCityInfo = new ArrayList<LocationCityInfo>();
     private ArrayList<ListCityBean> listCity = new ArrayList();
     private ArrayList<ListProvinceBean> listProvince = new ArrayList();
+    private  ArrayList<String> listSearchCity = new ArrayList<String>();
     private ArrayList<CityClassBean> province;
     private int pro_sort;
     private int city_id;
@@ -68,7 +75,7 @@ public class CityLocationActivity extends Activity {
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
         HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
-        HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel();
+        HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
         ImageView ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
@@ -133,11 +140,9 @@ public class CityLocationActivity extends Activity {
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setAdapter(new LocationCityFirstLetterAdapter(listCityNameFirstLetter));
         //搜索的自动提示数据，实际应该由服务端返回
         //搜索自动提示测试数据
-        ArrayList<String> listSearchCity = new ArrayList<String>();
-        listSearchCity.add("苏州");
-        listSearchCity.add("上海");
-        listSearchCity.add("北京");
-        mActivityCityLocationBinding.lvActivityCityLocationSearchList.setAdapter(new LocationCitySearchListAdapter(listSearchCity));
+
+
+
     }
 
     //获取城市
@@ -186,36 +191,38 @@ public class CityLocationActivity extends Activity {
         }
     }
 
+    private int index =-1;
     private void initListener() {
         //点击条目，获得省市，传递到所在地
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
-                boolean isFirstLetter = locationCityInfo.isFirstLetter;
-                String cityName1 = locationCityInfo.CityName;
-                int id1 = locationCityInfo.getId();
-                for (ListProvinceBean listProvinceBean : listProvince) {
-                    int proId = listProvinceBean.proId;
-                    if(proId == id1){
-                        String provinceName = listProvinceBean.provinceName;
-                        intent.putExtra("city",cityName1);
-                        intent.putExtra("province",provinceName);
-                        setResult(RESULT_OK,intent);
-                        //map.put("city",cityName1);
-                        //map.put("province",provinceName);
-                        finish();
+                if(position>0){
+                    LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
+                    boolean isFirstLetter = locationCityInfo.isFirstLetter;
+                    String cityName1 = locationCityInfo.CityName;
+                    int id1 = locationCityInfo.getId();
+                    for (ListProvinceBean listProvinceBean : listProvince) {
+                        int proId = listProvinceBean.proId;
+                        if(proId == id1){
+                            String provinceName = listProvinceBean.provinceName;
+                            intent.putExtra("city",cityName1);
+                            intent.putExtra("province",provinceName);
+                            setResult(RESULT_OK,intent);
+                            //map.put("city",cityName1);
+                            //map.put("province",provinceName);
+                            finish();
+                        }
                     }
                 }
             }
         });
 
+
+        //点击左侧字母弹出吐司并定位到对应的位置
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TextView tv= (TextView) view;
-//                ToastUtils.shortToast(position + " "+tv.getText());
-//                int clickIndex = position - mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount();
                 if (position > 0) {
                     TextView tvFirstLetter = (TextView) view;
                     String firstLetter = tvFirstLetter.getText().toString();
@@ -231,10 +238,11 @@ public class CityLocationActivity extends Activity {
                 }
             }
         });
+
+        //搜索框的监听
         mActivityCityLocationBinding.etActivityCityLocationSearchbox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -250,6 +258,52 @@ public class CityLocationActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String first = null;
+                if(s!=null) {
+                    listSearchCity.clear();
+                    String text = s.toString();
+                    String pinyin = Pinyin4JUtils.cn2PYInitial(text);
+                    if (pinyin!="") {
+                        first = pinyin.substring(0, 1);
+                    }
+                    //如果是汉字
+                    if(PatternUtils.match(PatternUtils.chineseRegex, text)){
+                        for (ListCityBean listCityBean : listCity) {
+                            String cityName = listCityBean.getCityName();
+                            String pinyinCity = Pinyin4JUtils.cn2PYInitial(cityName);
+                            String firstLetter = pinyinCity.substring(0, 1);
+                            if(cityName.contains(text)&&firstLetter.equals(first)){
+                                listSearchCity.add(cityName);
+                            }
+                        }
+                    }else if(PatternUtils.match(PatternUtils.letterRegex, text)){//如果是字母
+                        for (ListCityBean listCityBean : listCity) {
+                            String substring = text.substring(0, 1);
+                            String firstLetter = listCityBean.getFirstLetter();
+                            if(firstLetter.equals(substring.toUpperCase())){
+                                listSearchCity.add(listCityBean.getCityName());
+                            }
+                        }
+                    }
+                mActivityCityLocationBinding.lvActivityCityLocationSearchList.setAdapter(new LocationCitySearchListAdapter(listSearchCity));
+                }
+            }
+        });
+
+        //点击条目
+        mActivityCityLocationBinding.lvActivityCityLocationSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String cityName = listSearchCity.get(position);
+                for (int i = 0; i < listCityInfo.size(); i++) {
+                    String city = listCityInfo.get(i).getCityName();
+                     if(city.equals(cityName)){
+                         index = i;
+                     }
+                }
+                mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(index + mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                mActivityCityLocationModel.setSearchCityListVisible(View.INVISIBLE);
+                mActivityCityLocationModel.setCityInfoListVisible(View.VISIBLE);
             }
         });
     }

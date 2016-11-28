@@ -32,28 +32,25 @@ public class WithdrawalsModel extends BaseObservable {
         this.withdrawalsActivity = withdrawalsActivity;
     }
 
-
     //next
     public void next(View view){
-        LogKit.d("下一步");
-        //创建AlertDialog
+    layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+    }
+
+    //确定
+    public void hintSure(View view){
+        layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(withdrawalsActivity);
-        //数据绑定填充视图
         DialogPasswordBinding dialogPasswordBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_password, null, false);
-        //创建数据模型
         DialogPassWorsModel dialogPassWorsModel = new DialogPassWorsModel(dialogPasswordBinding);
-        //绑定数据模型
         dialogPasswordBinding.setDialogPasWorsModel(dialogPassWorsModel);
-        //设置布局
         dialogBuilder.setView(dialogPasswordBinding.getRoot());//getRoot返回根布局
-        //创建dialogSearch
         AlertDialog dialogPassWord = dialogBuilder.create();
         dialogPassWord.show();
         dialogPassWorsModel.currentDialog = dialogPassWord;
         dialogPassWord.setCanceledOnTouchOutside(false);//设置点击Dialog外部任意区域关闭Dialog
         Window dialogSubscribeWindow = dialogPassWord.getWindow();
         WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
-        //定义显示的dialog的宽和高
         dialogParams.width = CommonUtils.dip2px(280);//宽度
         dialogParams.height = CommonUtils.dip2px(200);//高度
         dialogSubscribeWindow.setAttributes(dialogParams);
@@ -62,4 +59,8 @@ public class WithdrawalsModel extends BaseObservable {
 //        dialogBuilder.show();
     }
 
+    //取消
+    public void hintCannel(View view){
+    layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
+    }
 }

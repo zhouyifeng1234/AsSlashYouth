@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemListviewLocationCityInfoBinding;
+import com.slash.youth.domain.CityClassBean;
+import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.ui.viewmodel.ItemLocationCityInfoModel;
 import com.slash.youth.utils.CommonUtils;

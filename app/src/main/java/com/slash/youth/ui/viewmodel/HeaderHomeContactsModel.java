@@ -11,17 +11,32 @@ import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
 import com.slash.youth.databinding.ItemHscFriendRecommendBinding;
 import com.slash.youth.databinding.ItemHscFriendRecommendChangeLoadBinding;
 import com.slash.youth.domain.FriendRecommendBean;
+import com.slash.youth.domain.MyFriendListBean;
+import com.slash.youth.domain.PersonRelationBean;
+import com.slash.youth.domain.RecommendFriendBean;
+import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.ContactsCareActivity;
-import com.slash.youth.ui.activity.TransactionRecordActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
  */
 public class HeaderHomeContactsModel extends BaseObservable {
     HeaderListviewHomeContactsBinding mHeaderListviewHomeContactsBinding;
+    private PersonRelationBean.DataBean.InfoBean info;
+    private  ArrayList<RecommendFriendBean.DataBean.ListBean> listFriendRecommendBean = new ArrayList<>();
+    private int addMeFriendCount;
+    private int friendCount;
+    private int myAddFriendCount;
+    private int myFollowCount;
+    private int myFansCount;
+    private int limit = 5;
 
     public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding) {
         this.mHeaderListviewHomeContactsBinding = headerListviewHomeContactsBinding;
@@ -29,16 +44,21 @@ public class HeaderHomeContactsModel extends BaseObservable {
         initData();
     }
 
-    ArrayList<FriendRecommendBean> listFriendRecommendBean = new ArrayList<FriendRecommendBean>();
-
     private void initView() {
         mHeaderListviewHomeContactsBinding.hsvHomeContactsRecommend.setHorizontalScrollBarEnabled(false);
+        //获取首页的信息
+        ContactsManager.getPersonRelationFirstPage(new onPersonRelationFirstPage());
+
+        mHeaderListviewHomeContactsBinding.tvCareMe.setText( String.valueOf(myFansCount) );
+        mHeaderListviewHomeContactsBinding.tvMyCare.setText( String.valueOf(myFollowCount));
+        mHeaderListviewHomeContactsBinding.tvMyAdd.setText(String.valueOf(myAddFriendCount));
+        mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
     }
 
+
     private void initData() {
-        getDataFromServer();
-        //设置好友推荐列表数据
-        displayFriendRecommend();
+        getFriendRecommendData();
+
     }
 
 //    private View createRecommendHorizontalSpace() {
@@ -48,23 +68,14 @@ public class HeaderHomeContactsModel extends BaseObservable {
 //        return space;
 //    }
 
-    public void getDataFromServer() {
+   /* public void getDataFromServer() {
         //模拟数据 推荐数据
         getFriendRecommendData();
     }
-
+*/
     public void getFriendRecommendData() {
         listFriendRecommendBean.clear();
-        listFriendRecommendBean.add(new FriendRecommendBean(true, "曹文成1"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成2"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成3"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成4"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成5"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成6"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成7"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成8"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成9"));
-        listFriendRecommendBean.add(new FriendRecommendBean(false, "曹文成10"));
+        ContactsManager.getMyRecommendFriendList(new onGetMyRecommendFriendList(),limit);
     }
 
     public void displayFriendRecommend() {
@@ -112,8 +123,13 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //人脉潜能
     public void contactsPotential(View view) {
+    }
 
-
+    //我的好友
+    public void MyFriend(View view){
+    Intent intentChooseFriendActivtiy = new Intent(CommonUtils.getContext(), MyFriendActivtiy.class);
+    intentChooseFriendActivtiy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    CommonUtils.getContext().startActivity(intentChooseFriendActivtiy);
     }
 
     private void openContactsCareActivity(String title) {
@@ -122,5 +138,47 @@ public class HeaderHomeContactsModel extends BaseObservable {
         intentContactsCareActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentContactsCareActivity);
     }
+
+    //首页展示的数据
+    public class onPersonRelationFirstPage implements BaseProtocol.IResultExecutor<PersonRelationBean> {
+        @Override
+        public void execute(PersonRelationBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                PersonRelationBean.DataBean data = dataBean.getData();
+                info = data.getInfo();
+                addMeFriendCount = info.getAddMeFriendCount();
+                friendCount = info.getFriendCount();
+                myAddFriendCount = info.getMyAddFriendCount();
+                myFollowCount = info.getMyFollowCount();
+                myFansCount = info.getMyFansCount();
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    public class onGetMyRecommendFriendList implements BaseProtocol.IResultExecutor<RecommendFriendBean> {
+        @Override
+        public void execute(RecommendFriendBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                RecommendFriendBean.DataBean data = dataBean.getData();
+                List<RecommendFriendBean.DataBean.ListBean> list = data.getList();
+                for (RecommendFriendBean.DataBean.ListBean listBean : list) {
+                    listFriendRecommendBean.add(listBean);
+                }
+                //设置好友推荐列表数据
+                displayFriendRecommend();
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
 
 }

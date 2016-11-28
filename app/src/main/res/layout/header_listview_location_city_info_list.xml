@@ -27,7 +27,7 @@
             android:drawableLeft="@mipmap/city_dingwei_icon"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
-            android:paddingLeft="22dp"
+            android:paddingLeft="15dp"
             android:text="苏州1"
             android:textColor="#333333"
             android:textSize="13.5sp"/>
@@ -44,13 +44,14 @@
             android:id="@+id/ll_recentlyCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_city_first"
                 android:layout_width="85dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/shape_search_city"
                 android:gravity="center"
                 android:text="苏州2"
@@ -58,12 +59,12 @@
                 android:textSize="13.5sp"
                 />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_city_second"
                 android:layout_width="85dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/shape_search_city"
                 android:gravity="center"
                 android:text="苏州3"
@@ -71,12 +72,12 @@
                 android:textSize="13.5sp"
                 />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_city_thrid"
                 android:layout_width="85dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/shape_search_city"
                 android:gravity="center"
                 android:text="苏州4"

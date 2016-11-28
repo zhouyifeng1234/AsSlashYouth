@@ -3,7 +3,6 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.net.sip.SipAudioCall;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -13,26 +12,19 @@ import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.http.protocol.MyFirstPageProtocol;
-import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.MyAccountActivity;
 import com.slash.youth.ui.activity.MyCollectionActivity;
 import com.slash.youth.ui.activity.MyHelpActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.MySkillManageActivity;
-import com.slash.youth.ui.activity.ThridPartyActivity;
+import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
-import com.slash.youth.utils.ToastUtils;
 
 import org.xutils.x;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/10/11.
@@ -252,6 +244,14 @@ public class PagerHomeMyModel extends BaseObservable {
         }
     }
 
+    //认证
+    public void identificate(View view){
+        Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
+        intentApprovalActivity.putExtra("careertype",careertype);
+        intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentApprovalActivity);
+    }
+
     //编辑点击事件
     public void editor(View view){
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
@@ -292,7 +292,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //第三方
     public void myThirdParty(View view){
-        Intent intentThridPartyActivity = new Intent(CommonUtils.getContext(), ThridPartyActivity.class);
+        Intent intentThridPartyActivity = new Intent(CommonUtils.getContext(), BindThridPartyActivity.class);
         intentThridPartyActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentThridPartyActivity);
     }
@@ -307,7 +307,6 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //帮助
     public void help(View view){
-        LogKit.d("帮助");
         Intent intentMyHelpActivity = new Intent(CommonUtils.getContext(), MyHelpActivity.class);
         intentMyHelpActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyHelpActivity);

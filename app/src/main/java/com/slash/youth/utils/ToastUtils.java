@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.slash.youth.R;
@@ -44,6 +45,26 @@ public class ToastUtils {
         toast.show();
 
     }
+
+    public static void shortCenterToast(String text,int messageColor, int duration) {
+        Toast  toast = Toast.makeText(CommonUtils.getApplication(),
+                text, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        View view = toast.getView();
+        if(view!=null){
+            TextView message=((TextView) view.findViewById(android.R.id.message));
+           // message.setBackgroundResource(background);
+            message.setTextColor(messageColor);
+        }
+        toast.setDuration(duration);
+        toast.show();
+
+    }
+
+
+
+
+
 
 
     //可以避免出现toast叠加

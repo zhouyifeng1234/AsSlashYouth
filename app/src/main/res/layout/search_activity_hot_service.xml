@@ -52,7 +52,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/ivbtn_activity_search_main_categories"
-                android:text="IT互联网"
+                android:text="为选择"
                 android:textColor="#333333"
                 android:textSize="14.5sp"/>
 

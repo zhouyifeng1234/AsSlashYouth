@@ -62,6 +62,7 @@
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/iv_recommend_icon"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_gravity="center_horizontal"
@@ -84,6 +85,7 @@
                     android:textSize="13dp"/>
 
                 <ImageView
+                    android:id="@+id/iv_recommend_V"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -93,6 +95,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_recommend_commpany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -102,6 +105,7 @@
                 android:textSize="11dp"/>
 
             <TextView
+                android:id="@+id/tv_recommend_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

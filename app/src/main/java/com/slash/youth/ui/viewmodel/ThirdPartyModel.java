@@ -7,11 +7,13 @@ import android.widget.TextView;
 import com.slash.youth.databinding.ActivityMyThridPartyBinding;
 import com.slash.youth.domain.GetBindBean;
 import com.slash.youth.domain.LoginBindBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.GetBindProtocol;
 import com.slash.youth.http.protocol.LoginBindProtocol;
 import com.slash.youth.http.protocol.LoginUnBindProtocol;
+import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
@@ -25,9 +27,13 @@ public class ThirdPartyModel extends BaseObservable {
     private boolean isWinxinBing;
     private boolean isQQBing;
     private boolean isWinboBing;
+    private BindThridPartyActivity bindThridPartyActivity;
+    private final LoginManager loginManager;
 
-    public ThirdPartyModel(ActivityMyThridPartyBinding activityMyThridPartyBinding) {
+    public ThirdPartyModel(ActivityMyThridPartyBinding activityMyThridPartyBinding,BindThridPartyActivity bindThridPartyActivity) {
         this.activityMyThridPartyBinding = activityMyThridPartyBinding;
+        this.bindThridPartyActivity = bindThridPartyActivity;
+        loginManager = new LoginManager();
         initView();
     }
 
@@ -107,7 +113,6 @@ public class ThirdPartyModel extends BaseObservable {
                 String uid2 = data.getUid();
                 LogKit.d("unbind返回值:"+token2+" "+uid2);
             }
-
             @Override
             public void executeResultError(String result) {
             LogKit.d("result:"+result);
@@ -118,8 +123,14 @@ public class ThirdPartyModel extends BaseObservable {
     //微信
     public void weixin(View view){
         if(isWinxinBing){
+            if(SpUtils.getString("WEIXIN_token", "").equals("")){
+                loginManager.authorizateWEIXIN(bindThridPartyActivity);
+            }
+            String WEIXIN_token = SpUtils.getString("WEIXIN_token", "");
+            String WEIXIN_uid = SpUtils.getString("WEIXIN_uid", "");
+
+            loginBind(WEIXIN_token,WEIXIN_uid, GlobalConstants.LoginPlatformType.WECHAT);
             activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
-          //  loginBind(" token的值 ",GlobalConstants.ThirdAppId.APPID_WECHAT, GlobalConstants.LoginPlatformType.WECHAT);
             SpUtils.setBoolean("isWinxin",false);
         }else {
             activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
@@ -129,13 +140,18 @@ public class ThirdPartyModel extends BaseObservable {
       isWinxinBing = !isWinxinBing;
     }
 
-
     //qq
     public void qq(View view){
         if(isQQBing){
+            if(SpUtils.getString("QQ_token", "").equals("")){
+                loginManager.authorizateQQ(bindThridPartyActivity);
+            }
+            String qq_token = SpUtils.getString("QQ_token", "");
+            String qq_uid = SpUtils.getString("QQ_uid", "");
             activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
-          //  loginBind(" token的值 ",GlobalConstants.ThirdAppId.APPID_QQ, GlobalConstants.LoginPlatformType.QQ);
+            loginBind(qq_token,qq_uid, GlobalConstants.LoginPlatformType.QQ);
             SpUtils.setBoolean("isQQ",false);
+
         }else {
             activityMyThridPartyBinding.tvQQBinding.setText("解绑");
             loginUnBind(GlobalConstants.LoginPlatformType.QQ);

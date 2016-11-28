@@ -9,16 +9,16 @@ import java.util.ArrayList;
 /**
  * Created by zss on 2016/11/20.
  */
-public class ContactsCareAdapter extends SlashBaseAdapter<ContactsBean> {
+public class ContactsCareAdapter extends SlashBaseAdapter<ContactsBean.DataBean.ListBean> {
 
     private ContactsCareHolder contactsCareHolder;
 
-    public ContactsCareAdapter(ArrayList<ContactsBean> listData) {
+    public ContactsCareAdapter(ArrayList<ContactsBean.DataBean.ListBean> listData) {
         super(listData);
     }
 
     @Override
-    public ArrayList<ContactsBean> onLoadMore() {
+    public ArrayList<ContactsBean.DataBean.ListBean> onLoadMore() {
         return null;
     }
 

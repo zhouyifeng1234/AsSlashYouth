@@ -2,34 +2,30 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.os.Bundle;
+import android.databinding.DataBindingUtil;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
+import com.slash.youth.databinding.DialogRecommendBinding;
 import com.slash.youth.databinding.FloatViewBinding;
-import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.NewTaskUserInfoBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.http.protocol.GetUserInfoProtocol;
-import com.slash.youth.http.protocol.MyUserInfoProtocol;
-import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
-import com.slash.youth.ui.activity.ChooseFriendActivtiy;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
-import com.slash.youth.utils.StringUtils;
-import com.tencent.connect.UserInfo;
+import com.slash.youth.utils.ToastUtils;
 
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.UnknownFormatConversionException;
 
 /**
  * Created by acer on 2016/11/1.
@@ -124,17 +120,9 @@ public class ActivityUserInfoModel extends BaseObservable {
         });
     }
 
-    //加好友
-    public void addFriend(View view) {
-        Intent intentChooseFriendActivtiy = new Intent(CommonUtils.getContext(), ChooseFriendActivtiy.class);
-        intentChooseFriendActivtiy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentChooseFriendActivtiy);
-    }
-
     //点击打开技能标签页面
     public void openskilllabel(View view) {
         LogKit.d("打开技能标签页面，去选择标签");
-
     }
 
     //更新用户信息
@@ -192,31 +180,10 @@ public class ActivityUserInfoModel extends BaseObservable {
             //认证过的
             activityUserinfoBinding.ivUserinfoV.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.GONE);
-            activityUserinfoBinding.ivUserinfoV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!isOther){
-                        OpenApprovalActivtity();
-                    }
-                }
-            });
-
         }else if(isauth == 0){
             //非认证
             activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
-            // TODO  如果没有确定职业类型，还要去编辑页面去判断
-
-
-
-            activityUserinfoBinding.tvUserinfoApproval.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!isOther){
-                        OpenApprovalActivtity();
-                    }
-                }
-            });
         }
 
 
@@ -265,7 +232,7 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //技能描述
         desc = uinfo.getDesc();
-        if(!desc.isEmpty()){
+        if(desc!=null){
         activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
         }
 
@@ -315,7 +282,7 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     }
     //去认证
-    private void OpenApprovalActivtity() {
+    public void OpenApprovalActivtity(View view) {
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.putExtra("careertype",careertype);
         intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -372,4 +339,31 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
+    //加好友
+    public void addFriend(View view) {
+        ToastUtils.shortCenterToast("加好友成功");
+        activityUserinfoBinding.tvAddFriend.setText("已加好友");
+    }
+
+    //聊一聊
+    public void chat(View view) {
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        userInfoActivity.startActivity(intentChatActivity);
+    }
+
+    //关注他
+    public void attention(View view) {
+        LogKit.d("关注他");
+        ToastUtils.shortCenterToast("已关注TA");
+        activityUserinfoBinding.tvAttentionTA.setText("已关注TA");
+       // ToastUtils.shortCenterToast("关注成功",Color.parseColor("#e5e5e5"),3000);
+    }
+
+    //推荐
+    public void recommend(View view) {
+        DialogRecommendBinding dialogRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_recommend, null, false);
+        DialogRecommendModel dialogRecommendModel = new DialogRecommendModel(dialogRecommendBinding,userInfoActivity,activityUserinfoBinding);
+        dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);
+        activityUserinfoBinding.flDialogContainer.addView(dialogRecommendBinding.getRoot());
+    }
 }

@@ -80,8 +80,6 @@ public class SubscribeActivity extends Activity {
     private ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
     private ArrayList<SkillLabelBean> commnSkilllabel = new ArrayList<SkillLabelBean>();
     private ArrayList<SkillLabelBean> commnThirdSkillLabel = new ArrayList<SkillLabelBean>();
-//    private int mF1 ;
-//    private int mF2
     private SubscribeSecondSkilllabelAdapter subscribeSecondSkilllabelAdapter;
     private int firstId = 1;
     private int secondPosition = 0;
@@ -93,7 +91,6 @@ public class SubscribeActivity extends Activity {
     private int clickCount = 0;//默认是0
     private Intent intent;
     private boolean isEditor = false;
-//    private SkillLabelBean data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +106,6 @@ public class SubscribeActivity extends Activity {
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
 
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
-//        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setDivider(new ColorDrawable(0xedf1f2));
         mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.setVerticalScrollBarEnabled(false);
         mLlCheckedLabels = mActivitySubscribeBinding.llActivitySubscribeCheckedLabels;
         mLlCheckedLabels.removeAllViews();
@@ -163,9 +159,7 @@ public class SubscribeActivity extends Activity {
                         saveDate2Local("userSkillLabel", data);
                         getUserSkillLabelArrayList(data);
                         postThridSkillLabel(commnThirdSkillLabel);
-//                        updataThridMenu();//li
                     }else {
-                        //获取数据不成功,有网络，有返回值
                         LogKit.d("rescode :"+rescode);
                     }
                 }
@@ -203,8 +197,6 @@ public class SubscribeActivity extends Activity {
     }
 
     private void getSkillLabelAllArrayList(ArrayList<SkillLabelAllBean> arrayList) {
-        //所有数据
-//        data = new SkillLabelBean("", 0, 0, 0);
         for (SkillLabelAllBean skillLabelAllBean : arrayList) {
             final int f1 = skillLabelAllBean.getF1();
             int f2 = skillLabelAllBean.getF2();
@@ -226,7 +218,6 @@ public class SubscribeActivity extends Activity {
             //三级标签集合
             if (f1 != 0 && f2 != 0) {
                 listThirdSkilllabelName.add(new SkillLabelBean(tag, f1, f2, id));
-
             }
         }
 
@@ -237,9 +228,6 @@ public class SubscribeActivity extends Activity {
         postSecondSkillLabel();
         //第一次展示页面，三级默认为品牌设计页面
         getCommnThirdSkillLabel(secondPosition);
-        //这里先不显示ui，等到自定义的也加到集合里面一起显示
-        // postThridSkillLabel(commnThirdSkillLabel);
-//        updataSecondMenu();//li
     }
 
     private void postSecondSkillLabel() {
@@ -248,12 +236,10 @@ public class SubscribeActivity extends Activity {
             @Override
             public void run() {
                 View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.getChildAt(0);
-                // LogKit.v(lvActivitySubscribeSecondSkilllableListFirstChild.getTag() + "");
                 SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
                 lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
             }
         });
-
     }
 
     private ItemSubscribeSecondSkilllabelModel lastClickItemModel = null;
@@ -276,8 +262,6 @@ public class SubscribeActivity extends Activity {
                 //根据条目点击事件跳转到三级条目
              getCommnThirdSkillLabel(position);
             postThridSkillLabel(commnThirdSkillLabel);
-//                mF2 =data.findChildById(mF1).getChild().get(position).getId();//li
-//                updataThridMenu();//li
             }
         });
 
@@ -287,8 +271,6 @@ public class SubscribeActivity extends Activity {
             public void OnOkChooseMainLabelListener(int tagId) {
                 //tag+1代表的是f1
                 getCommnSkillLabel(tagId + 1);
-//                mF1=data.getChild().get(tagId).getId();
-//               updataSecondMenu();
                 subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
                 mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
                 postSecondSkillLabel();
@@ -301,8 +283,6 @@ public class SubscribeActivity extends Activity {
             }
         });
     }
-
-
 
     private void getCommnThirdSkillLabel(int position) {
         commnThirdSkillLabel.clear();
@@ -336,7 +316,6 @@ public class SubscribeActivity extends Activity {
             @Override
             public void run() {
                 scrollViewWidth = mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredWidth();
-                //ToastUtils.shortToast("getMeasuredWidth:" + scrollViewWidth + "getMeasuredHeight:" + mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredHeight());
                 scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
                 labelRightMargin = CommonUtils.dip2px(10);
                 updateLableView(listThirdSkilllabelName);
@@ -464,7 +443,6 @@ public class SubscribeActivity extends Activity {
         tvThirdSkilllabelName.setTextColor(0xff333333);
         tvThirdSkilllabelName.setTextSize(14);
         tvThirdSkilllabelName.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
-//                    tvThirdSkilllabelName.setBackgroundColor(0xffffffff);
         tvThirdSkilllabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
         tvThirdSkilllabelName.setText(thirdSkilllabelName);
         return tvThirdSkilllabelName;
@@ -548,7 +526,6 @@ public class SubscribeActivity extends Activity {
                     }
                 }
                 updateLableView(commnThirdSkillLabel);
-//                updataThridMenu();\\li
             }
         });
         return linearLayout;
@@ -634,7 +611,6 @@ public class SubscribeActivity extends Activity {
                             listThirdUserCustomSkilllabelName.add(skillLabelBean);
                             // saveDate2Local("userCostom",listThirdUserCustomSkilllabelName);
                             updateLableView(commnThirdSkillLabel);
-//                            updataThridMenu();//li
                             //增加自定义标签保存在网络
                             saveAddInternet(firstId,secondId,text);
                         }else {
@@ -675,7 +651,6 @@ public class SubscribeActivity extends Activity {
                 LogKit.d("result :" + result);
             }
         });
-
     }
 
     private void showCustomDialog() {
@@ -706,7 +681,6 @@ public class SubscribeActivity extends Activity {
         @Override
         public void onClick(View v) {
             String labelTag = (String) v.getTag();
-//            ToastUtils.shortToast(tvLabel);
             labelName = ((TextView) v).getText().toString();
             if (clickCount >= 0 && clickCount < 3) {
                 if (!lastLabelName.equals(labelName)) {
@@ -803,7 +777,6 @@ public class SubscribeActivity extends Activity {
         //最多出现三个标签
         llCheckedLabel.addView(tvLabelName);
         llCheckedLabel.addView(ivbtnUnCheckedLabel);
-        // llCheckedLabel.setOnClickListener(new deleteCheckedLabelListener());
 
         ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
         return llCheckedLabel;
@@ -832,7 +805,6 @@ public class SubscribeActivity extends Activity {
                     parentCheckedLabels.removeView(parentLabelsLine);
                 }
             }
-//            ToastUtils.shortToast(listCheckedLabelName.get(deleteIndex));
 
             clickCount -= 1;
             if (clickCount == 0) {
@@ -847,7 +819,6 @@ public class SubscribeActivity extends Activity {
     }
 
     private OnListener listener;
-
     public void setOnListener(OnListener listener) {
         this.listener = listener;
     }
