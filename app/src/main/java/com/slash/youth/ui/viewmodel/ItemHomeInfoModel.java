@@ -25,6 +25,8 @@ public class ItemHomeInfoModel extends BaseObservable {
     private int relatedTasksInfoVisibility;
     private int addVVisibility;
     private int userLabelsInfoVisibility;
+    private String companyAndPosition;
+    private String lastMsg;
 
     @Bindable
     public String getUsername() {
@@ -65,5 +67,25 @@ public class ItemHomeInfoModel extends BaseObservable {
     public void setUserLabelsInfoVisibility(int userLabelsInfoVisibility) {
         this.userLabelsInfoVisibility = userLabelsInfoVisibility;
         notifyPropertyChanged(BR.userLabelsInfoVisibility);
+    }
+
+    @Bindable
+    public String getCompanyAndPosition() {
+        return companyAndPosition;
+    }
+
+    public void setCompanyAndPosition(String companyAndPosition) {
+        this.companyAndPosition = companyAndPosition;
+        notifyPropertyChanged(BR.companyAndPosition);
+    }
+
+    @Bindable
+    public String getLastMsg() {
+        return lastMsg;
+    }
+
+    public void setLastMsg(String lastMsg) {
+        this.lastMsg = lastMsg;
+        notifyPropertyChanged(BR.lastMsg);
     }
 }

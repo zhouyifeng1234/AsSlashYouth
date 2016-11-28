@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
 import com.slash.youth.domain.PushInfoBean;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.ConversationListProtocol;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
@@ -479,5 +481,18 @@ public class MsgManager {
 
     public static void removeRelatedTaskListener() {
         mRelatedTaskListener = null;
+    }
+
+
+    /**
+     * 三、[消息系统]-获得会话列表
+     *
+     * @param onGetConversationListFinished
+     * @param offset                        请求偏移量
+     * @param limit                         分页请求数量
+     */
+    public static void getConversationList(BaseProtocol.IResultExecutor onGetConversationListFinished, String offset, String limit) {
+        ConversationListProtocol conversationListProtocol = new ConversationListProtocol(offset, limit);
+        conversationListProtocol.getDataFromServer(onGetConversationListFinished);
     }
 }

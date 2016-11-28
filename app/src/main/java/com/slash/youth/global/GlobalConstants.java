@@ -77,6 +77,8 @@ public class GlobalConstants {
         public static final String SERVER_HOST_COMMENT_SHARE = "http://121.42.145.178/feed/v1/api/evaluation/";
         //服务流程接口地址前缀
         public static final String SERVER_HOST_SERVICE = "http://121.42.145.178/feed/v1/api/service/";
+        //消息系统接口 地址前缀
+        public static final String SERVER_HOST_MESSAGE_SYSTEM = "http://121.42.145.178/msg/v1/api/";
         //ZSS
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
@@ -164,6 +166,9 @@ public class GlobalConstants {
 
         //一、[服务]-发布服务
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
+
+        //三、[消息系统]-获得会话列表
+        public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";

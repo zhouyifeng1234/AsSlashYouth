@@ -18,14 +18,14 @@
             android:layout_marginTop="11dp">
 
             <ImageView
-                android:id="@+id/iv_item_home_info_header"
+                android:id="@+id/iv_info_conversation_avatar"
                 android:layout_width="58dp"
                 android:layout_height="58dp"
                 android:layout_alignParentBottom="true"
                 android:src="@mipmap/assistant_icon"/>
 
             <TextView
-                android:id="@+id/tv_item_home_info_count"
+                android:id="@+id/tv_info_unread_msg_count"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -69,10 +69,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:layout_marginLeft="6dp"
-                    android:text="（阿里资深UI设计师、IOS开发）"
+                    android:text="@{itemHomeInfoModel.companyAndPosition}"
                     android:textColor="#999999"
                     android:textSize="10dp"
                     android:visibility="@{itemHomeInfoModel.userLabelsInfoVisibility}"/>
+                <!--（阿里资深UI设计师、IOS开发）-->
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -92,7 +93,7 @@
                 android:layout_marginTop="11dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="对于咱们的任务我有了新的方案时间上您看是否方对于咱们的任务我有了新的方案时间上您看是否方对于咱们的任务我有了新的方案时间上您看是否方"
+                android:text="@{itemHomeInfoModel.lastMsg}"
                 android:textColor="#999999"
                 android:textSize="12sp"
             />
