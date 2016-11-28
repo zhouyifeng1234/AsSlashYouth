@@ -2,7 +2,6 @@ package com.slash.youth.engine;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -233,7 +232,9 @@ public class MsgManager {
                                 //相关任务消息,需要进行存储
                                 if (name.equals("taskInfo")) {
                                     //先要往本地保存
-                                    File relatedTaskFiles = new File(CommonUtils.getContext().getDataDir(),
+                                    File dataDir = CommonUtils.getContext().getFilesDir();
+                                    LogKit.v("getFilesDir():" + dataDir.getAbsolutePath());
+                                    File relatedTaskFiles = new File(dataDir,
                                             "relatedTaskDir/" + LoginManager.currentLoginUserId + "to" + targetId);
                                     FileOutputStream fos = null;
                                     OutputStreamWriter osw = null;
@@ -369,32 +370,34 @@ public class MsgManager {
      * 从融云服务器远程获取聊天历史记录
      */
     private static void getHisMsgFromRemote() {
-        /**
-         * 根据会话类型的目标 Id，回调方式获取某消息类型标识的N条历史消息记录。
-         *
-         * @param conversationType 会话类型。不支持传入 ConversationType.CHATROOM 聊天室会话类型。
-         * @param targetId         目标 Id。根据不同的 conversationType，可能是用户 Id、讨论组 Id、群组 Id 。
-         * @param dateTime         从该时间点开始获取消息。即：消息中的 sentTime；第一次可传 0，获取最新 count 条。
-         * @param count            要获取的消息数量，最多 20 条。
-         * @param callback         获取历史消息记录的回调，按照时间顺序从新到旧排列。
-         */
-        RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE, targetId, SystemClock.currentThreadTimeMillis() - 60 * 60 * 1000, 5, new RongIMClient.ResultCallback<List<Message>>() {
-            @Override
-            public void onSuccess(List<Message> messages) {
-                LogKit.v("get Remote His ----------------------------------");
-                LogKit.v("get Remote His " + messages);
-                LogKit.v("Reomte Message Count:" + messages.size());
-                for (Message message : messages) {
-                    LogKit.v("Reomte------SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+        if (mHistoryListener != null) {
+            /**
+             * 根据会话类型的目标 Id，回调方式获取某消息类型标识的N条历史消息记录。
+             *
+             * @param conversationType 会话类型。不支持传入 ConversationType.CHATROOM 聊天室会话类型。
+             * @param targetId         目标 Id。根据不同的 conversationType，可能是用户 Id、讨论组 Id、群组 Id 。
+             * @param dateTime         从该时间点开始获取消息。即：消息中的 sentTime；第一次可传 0，获取最新 count 条。
+             * @param count            要获取的消息数量，最多 20 条。
+             * @param callback         获取历史消息记录的回调，按照时间顺序从新到旧排列。
+             */
+            RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE, targetId, System.currentTimeMillis(), 5, new RongIMClient.ResultCallback<List<Message>>() {
+                @Override
+                public void onSuccess(List<Message> messages) {
+//                    System.currentTimeMillis()
+                    LogKit.v("get Remote His ----------------------------------");
+                    LogKit.v("get Remote His " + messages);
+                    LogKit.v("Reomte Message Count:" + messages.size());
+                    for (Message message : messages) {
+                        LogKit.v("Reomte------SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+                    }
                 }
-            }
 
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                LogKit.v("Remote------errorCode:" + errorCode);
-            }
-        });
-
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogKit.v("Remote------errorCode:" + errorCode);
+                }
+            });
+        }
     }
 
 

@@ -15,10 +15,13 @@ public class ChatMyShareTaskModel extends BaseObservable {
 
     ItemChatMyShareTaskBinding mItemChatMyShareTaskBinding;
     Activity mActivity;
+    boolean mIsRead;
 
-    public ChatMyShareTaskModel(ItemChatMyShareTaskBinding itemChatMyShareTaskBinding, Activity activity) {
+    public ChatMyShareTaskModel(ItemChatMyShareTaskBinding itemChatMyShareTaskBinding, Activity activity, boolean isRead) {
         this.mItemChatMyShareTaskBinding = itemChatMyShareTaskBinding;
         this.mActivity = activity;
+        this.mIsRead = isRead;
+
         initData();
         initView();
 
@@ -30,5 +33,11 @@ public class ChatMyShareTaskModel extends BaseObservable {
 
     private void initView() {
         BitmapKit.bindImage(mItemChatMyShareTaskBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+
+        if (mIsRead) {
+            mItemChatMyShareTaskBinding.tvChatMsgReadStatus.setText("已读");
+        } else {
+            mItemChatMyShareTaskBinding.tvChatMsgReadStatus.setText("未读");
+        }
     }
 }

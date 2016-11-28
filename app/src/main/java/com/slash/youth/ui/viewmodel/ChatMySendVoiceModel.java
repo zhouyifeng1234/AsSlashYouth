@@ -26,13 +26,14 @@ public class ChatMySendVoiceModel extends BaseObservable {
     Activity mActivity;
     Uri mVoiceUri;
     int mDuration;
+    boolean mIsRead;
 
-
-    public ChatMySendVoiceModel(ItemChatMySendVoiceBinding itemChatMySendVoiceBinding, Activity activity, Uri voiceUri, int duration) {
+    public ChatMySendVoiceModel(ItemChatMySendVoiceBinding itemChatMySendVoiceBinding, Activity activity, Uri voiceUri, int duration, boolean isRead) {
         this.mItemChatMySendVoiceBinding = itemChatMySendVoiceBinding;
         this.mActivity = activity;
         this.mVoiceUri = voiceUri;
         this.mDuration = duration;
+        this.mIsRead = isRead;
 
         initData();
         initView();
@@ -46,6 +47,12 @@ public class ChatMySendVoiceModel extends BaseObservable {
         setVoiceDuration(mDuration + " ̋   ");
 
         BitmapKit.bindImage(mItemChatMySendVoiceBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+
+        if (mIsRead) {
+            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("已读");
+        } else {
+            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("未读");
+        }
     }
 
     boolean isClickStartVoice = true;

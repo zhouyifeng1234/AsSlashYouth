@@ -14,10 +14,14 @@ import com.slash.youth.utils.BitmapKit;
 public class ChatMySendBusinessCardModel extends BaseObservable {
     ItemChatMySendBusinessCardBinding mItemChatMySendBusinessCardBinding;
     Activity mActivity;
+    boolean mIsRead;
 
-    public ChatMySendBusinessCardModel(ItemChatMySendBusinessCardBinding itemChatMySendBusinessCardBinding, Activity activity) {
+
+    public ChatMySendBusinessCardModel(ItemChatMySendBusinessCardBinding itemChatMySendBusinessCardBinding, Activity activity, boolean isRead) {
         this.mItemChatMySendBusinessCardBinding = itemChatMySendBusinessCardBinding;
         this.mActivity = activity;
+        this.mIsRead = isRead;
+
         initData();
         initView();
     }
@@ -28,6 +32,13 @@ public class ChatMySendBusinessCardModel extends BaseObservable {
 
     private void initView() {
         BitmapKit.bindImage(mItemChatMySendBusinessCardBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+
+
+        if (mIsRead) {
+            mItemChatMySendBusinessCardBinding.tvChatMsgReadStatus.setText("已读");
+        } else {
+            mItemChatMySendBusinessCardBinding.tvChatMsgReadStatus.setText("未读");
+        }
     }
 
 }

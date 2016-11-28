@@ -17,10 +17,12 @@ public class ChatMyTextModel extends BaseObservable {
 
     ItemChatMyTextBinding mItemChatMyTextBinding;
     Activity mActivity;
+    boolean mIsRead;
 
-    public ChatMyTextModel(ItemChatMyTextBinding itemChatMyTextBinding, Activity activity, String inputText) {
+    public ChatMyTextModel(ItemChatMyTextBinding itemChatMyTextBinding, Activity activity, String inputText, boolean isRead) {
         this.mItemChatMyTextBinding = itemChatMyTextBinding;
         this.mActivity = activity;
+        this.mIsRead = isRead;
 
         setMySendText(inputText);
 
@@ -34,6 +36,12 @@ public class ChatMyTextModel extends BaseObservable {
 
     private void initView() {
         BitmapKit.bindImage(mItemChatMyTextBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+
+        if (mIsRead) {
+            mItemChatMyTextBinding.tvChatMsgReadStatus.setText("已读");
+        } else {
+            mItemChatMyTextBinding.tvChatMsgReadStatus.setText("未读");
+        }
     }
 
     private String mySendText;

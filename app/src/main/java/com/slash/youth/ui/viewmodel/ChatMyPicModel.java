@@ -20,11 +20,13 @@ public class ChatMyPicModel extends BaseObservable {
     ItemChatMyPicBinding mItemChatMyPicBinding;
     Activity mActivity;
     Uri mThumUri;
+    boolean mIsRead;
 
-    public ChatMyPicModel(ItemChatMyPicBinding itemChatMyPicBinding, Activity activity, Uri thumUri) {
+    public ChatMyPicModel(ItemChatMyPicBinding itemChatMyPicBinding, Activity activity, Uri thumUri, boolean isRead) {
         this.mItemChatMyPicBinding = itemChatMyPicBinding;
         this.mActivity = activity;
         this.mThumUri = thumUri;
+        this.mIsRead = isRead;
 
         initData();
         initView();
@@ -39,5 +41,11 @@ public class ChatMyPicModel extends BaseObservable {
         x.image().bind(mItemChatMyPicBinding.ivChatMyPic, mThumUri.toString());
         //加载图像
         BitmapKit.bindImage(mItemChatMyPicBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+
+        if (mIsRead) {
+            mItemChatMyPicBinding.tvChatMsgReadStatus.setText("已读");
+        } else {
+            mItemChatMyPicBinding.tvChatMsgReadStatus.setText("未读");
+        }
     }
 }
