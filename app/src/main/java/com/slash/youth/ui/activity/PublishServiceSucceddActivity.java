@@ -12,9 +12,12 @@ import com.slash.youth.ui.viewmodel.PublishServiceSuccessModel;
  * Created by zhouyifeng on 2016/11/9.
  */
 public class PublishServiceSucceddActivity extends Activity {
+    public static Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
 
         ActivityPublishServiceSuccessBinding activityPublishServiceSuccessBinding = DataBindingUtil.setContentView(this, R.layout.activity_publish_service_success);
         PublishServiceSuccessModel publishServiceSuccessModel = new PublishServiceSuccessModel(activityPublishServiceSuccessBinding, this);

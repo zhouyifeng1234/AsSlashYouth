@@ -253,8 +253,8 @@ public class DemandEngine {
 
 
     //一、[文件]-图片上传
-    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished) {
-        FileUploadProtocol fileUploadProtocol = new FileUploadProtocol();
+    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished,String filePath) {
+        FileUploadProtocol fileUploadProtocol = new FileUploadProtocol(filePath);
         fileUploadProtocol.getDataFromServer(onUploadFileFinished);
     }
 

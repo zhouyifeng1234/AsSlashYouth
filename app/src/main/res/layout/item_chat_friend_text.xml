@@ -27,7 +27,7 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="39dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="11dp"
             android:background="@drawable/chat_box_bg"
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="你今天准备好了吗把枪都买好了"
+                android:text="@{chatFriendTextModel.textContent}"
                 android:textColor="#333333"
                 android:textSize="14sp"/>
         </FrameLayout>

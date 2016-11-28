@@ -1,8 +1,6 @@
 package com.slash.youth.ui.holder;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +8,9 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMyTaskBinding;
 import com.slash.youth.domain.MyTaskBean;
-import com.slash.youth.engine.DemandEngine;
-import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemMyTaskModel;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -45,24 +43,26 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
             //加载默认头像
             loadDefaultAvatar();
         } else {
-            DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
-                @Override
-                public void execute(byte[] dataBean) {
-                    try {
-                        //字节转换成头像成功，显示下载的头像
-                        Bitmap bitmapAvatar = BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length);
-                        mItemMyTaskBinding.ivMyTaskAvatar.setImageBitmap(bitmapAvatar);
-                    } catch (Exception ex) {
-                        //转换失败，显示默认头像
-                        loadDefaultAvatar();
-                    }
-                }
+//            DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
+//                @Override
+//                public void execute(byte[] dataBean) {
+//                    try {
+//                        //字节转换成头像成功，显示下载的头像
+//                        Bitmap bitmapAvatar = BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length);
+//                        mItemMyTaskBinding.ivMyTaskAvatar.setImageBitmap(bitmapAvatar);
+//                    } catch (Exception ex) {
+//                        //转换失败，显示默认头像
+//                        loadDefaultAvatar();
+//                    }
+//                }
+//
+//                @Override
+//                public void executeResultError(String result) {
+//
+//                }
+//            }, data.avatar);
 
-                @Override
-                public void executeResultError(String result) {
-
-                }
-            }, data.avatar);
+            BitmapKit.bindImage(mItemMyTaskBinding.ivMyTaskAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + data.avatar);
         }
 
         mItemMyTaskModel.setTaskTitle(data.title);
