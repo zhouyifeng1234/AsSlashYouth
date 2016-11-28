@@ -20,8 +20,8 @@ public class ActivityCityLocationModel extends BaseObservable {
         this.mCityLocationActivity = cityLocationActivity;
     }
 
-    private int cityInfoListVisible = View.VISIBLE;
-    private int searchCityListVisible = View.INVISIBLE;
+    public int cityInfoListVisible = View.VISIBLE;
+    public int searchCityListVisible = View.INVISIBLE;
 
     @Bindable
     public int getCityInfoListVisible() {

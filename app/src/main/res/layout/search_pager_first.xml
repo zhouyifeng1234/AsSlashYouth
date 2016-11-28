@@ -90,7 +90,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-           <Button
+         <!--  <Button
             android:id="@+id/btn_zhanghaoLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,9 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onButtonClick"
-            android:text="社交统计测试"/>
-
-
+            android:text="社交统计测试"/>-->
 
     </LinearLayout>
 </layout>

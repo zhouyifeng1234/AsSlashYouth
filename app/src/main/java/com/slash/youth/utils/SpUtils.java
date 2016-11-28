@@ -43,7 +43,6 @@ public class SpUtils {
 		edit.commit();
 	}
 
-
 	public static String getString(String key, String defaultValue) {
 		SharedPreferences sharedPreferences = CommonUtils.getContext()
 				.getSharedPreferences(GlobalConstants.SP_NAME,
@@ -59,6 +58,12 @@ public class SpUtils {
 		long value = sharedPreferences.getLong(key, defaultValue);
 		return value;
 	}
+
+
+
+
+
+
 
 
 }

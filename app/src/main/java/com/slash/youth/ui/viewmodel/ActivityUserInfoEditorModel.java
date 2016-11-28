@@ -107,7 +107,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private void initData() {
         if(myUid == -1){//我的
             getMyData();
-         //   MyManager.getMyUserinfo(new OnGetMyUserinfo());
+            MyManager.getMyUserinfo(new OnGetMyUserinfo());
         }else {//个人信息
             getPersonData();
         }
@@ -154,7 +154,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     private void initView() {
         //头像的路径
-        if(!avatar.isEmpty()){
+        if(avatar!=null){
             x.image().bind(activityUserinfoEditorBinding.ivHead, avatar);
         }
         //姓名
@@ -364,14 +364,14 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         //监听名字和描述信息和职业类型的变化
         name = editxetChangeListener(activityUserinfoEditorBinding.etUsername);
         skilldescrib = editxetChangeListener(activityUserinfoEditorBinding.etSkilldescribe);
-        activityUserinfoEditorBinding.rbOfficeWorker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+       /* activityUserinfoEditorBinding.rbOfficeWorker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(buttonView.getId() == R.id.rb_office_worker){
                     checked  =  isChecked;
                 }
             }
-        });
+        });*/
 
         //监听公司和职位
         company = textChangeListener(activityUserinfoEditorBinding.tvCompany);

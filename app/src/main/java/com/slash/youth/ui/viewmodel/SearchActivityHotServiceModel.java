@@ -12,7 +12,10 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchActivityHotServiceBinding;
+import com.slash.youth.domain.SkillLabelAllBean;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.engine.SkillLabelHouseManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
@@ -30,110 +33,158 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private  ActivitySearchBinding mActivitySearchBinding;
     private int rlChooseMainLabelVisible = View.INVISIBLE;
     private NumberPicker mNpChooseMainLabels;
-    String[] mainLabelsArr;
+    private String[] mainLabelsArr ;
     private SearchNeedResultTabModel searchNeedResultTabModel;
+    private ArrayList<SkillLabelBean> listFirstSkilllabel = new ArrayList<>();
+    private ArrayList<SkillLabelBean> listSecondSkilllabel = new ArrayList<>();
+    private ArrayList<SkillLabelBean> listThirdSkilllabel = new ArrayList();
+    private ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
+    private  ArrayList<String> listThirdSkilllabelName = new ArrayList<String>();
+    private int secondId;
+    private int firstId;
+    private int thridId;
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding,
                                          ActivitySearchBinding mActivitySearchBinding) {
         this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
         this.mActivitySearchBinding = mActivitySearchBinding;
+        initData();
         initView();
+        initListener();
     }
 
     //加载布局
     private void initView() {
+        searchActivityHotServiceBinding.tvOpenChoose.setText("未选择");
         mNpChooseMainLabels = searchActivityHotServiceBinding.npPublishServiceMainLabels;
-        //zss  先展示首页
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
         searchActivityHotServiceBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
-        initData();
-        initListener();
     }
 
-    //加载数据
+    //获取所有的标签
     private void initData() {
-        //假数据，实际应该从服务端借口获取
-        ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-        listSkilllabel.add(new SkillLabelBean("设计",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("研发",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("产品",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("市场上午",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("高管",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("设计",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("研发",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("产品",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("市场上午",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("高管",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("运营",1,1,1));
-        listSkilllabel.add(new SkillLabelBean("销售",1,1,1));
-        searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
-        SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
-        searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {
-            @Override
-            public void run() {
-                View lvActivitySubscribeSecondSkilllableListFirstChild = searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
-                LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
-                SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();//获取他的tag
-                lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;//tag建立数据模型
-            }
-        });
-        setThirdSkilllabelData();
-
-        //openChoose的数据
-        setOpenChoose();
+        SkillLabelHouseManager.getSkillLabelHouseData(new onGetSkillLabelHouseData());
     }
 
-    private void setOpenChoose() {
-        mainLabelsArr = new String[]{"金融", "IT", "农业", "水产", "文学"};//大类标签内容实际应该由服务端接口返回
+    @Bindable
+    public int getRlChooseMainLabelVisible() {
+        return rlChooseMainLabelVisible;
+    }
+
+    public void setRlChooseMainLabelVisible(int rlChooseMainLabelVisible) {
+        this.rlChooseMainLabelVisible = rlChooseMainLabelVisible;
+        notifyPropertyChanged(BR.rlChooseMainLabelVisible);
+    }
+
+    //获取从后台所有的技能标签数据
+    public class onGetSkillLabelHouseData implements BaseProtocol.IResultExecutor<ArrayList<SkillLabelAllBean>> {
+        @Override
+        public void execute(ArrayList<SkillLabelAllBean> arrayList) {
+            //对集合进行分类
+            getSkillLabelAllArrayList(arrayList);
+            showFirstLabel();
+            showSecondLabel(1);
+            showThridLabel(1,listFirstSkilllabel.size()+1);
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    private void getSkillLabelAllArrayList(ArrayList<SkillLabelAllBean> arrayList) {
+        for (SkillLabelAllBean skillLabelAllBean : arrayList) {
+            final int f1 = skillLabelAllBean.getF1();
+            int f2 = skillLabelAllBean.getF2();
+            int id = skillLabelAllBean.getId();
+            String tag = skillLabelAllBean.getTag();
+
+            //一级标签集合
+            if (f1 == 0 && f2 == 0) {
+                SkillLabelBean skillLabelBean = new SkillLabelBean(tag, f1, f2, id);
+                listFirstSkilllabel.add(skillLabelBean);
+            }
+
+            //二级标签集合
+            if (f1 != 0 && f2 == 0) {
+                listSecondSkilllabel.add(new SkillLabelBean(tag, f1, f2, id));
+            }
+
+            //三级标签集合
+            if (f1 != 0 && f2 != 0) {
+                listThirdSkilllabel.add(new SkillLabelBean(tag, f1, f2, id));
+            }
+        }
+    }
+
+    //展示一级标签
+    private void showFirstLabel() {
+        int size = listFirstSkilllabel.size();
+         mainLabelsArr = new String[size];
+        for (int i = 0; i < listFirstSkilllabel.size(); i++) {
+            mainLabelsArr[i] = listFirstSkilllabel.get(i).getTag();
+        }
         mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
         mNpChooseMainLabels.setMinValue(0);
         mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
         mNpChooseMainLabels.setValue(1);
     }
 
-    /**
-     * 根据选择的二级标签，显示对应的三级标签
-     */
-    public void setThirdSkilllabelData() {
-        //TODO 目前只是测试数据，到时候该方法可能需要传入二级标签的ID等信息，以方便查询对应的三级标签
-        final ArrayList<String> listThirdSkilllabelName = new ArrayList<String>();
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("A设计");
-        listThirdSkilllabelName.add("A");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add(".NET");
-        listThirdSkilllabelName.add("java");
-        listThirdSkilllabelName.add("android");
-        listThirdSkilllabelName.add("hadoop");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add(".NET");
-        listThirdSkilllabelName.add("java");
-        listThirdSkilllabelName.add("android");
-        listThirdSkilllabelName.add("hadoop");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
-        listThirdSkilllabelName.add("设计");
-        listThirdSkilllabelName.add("APP设计");
-        listThirdSkilllabelName.add("APP开发设计");
-        listThirdSkilllabelName.add("APP开发");
+    //点击一级标签确定按钮
+    public void okChooseMainLabel(View v) {
+        setRlChooseMainLabelVisible(View.INVISIBLE);
+        int value = mNpChooseMainLabels.getValue();
+        SearchActivity searchActivity = (SearchActivity) CommonUtils.getCurrentActivity();
+        searchActivity.checkedFirstLabel = mainLabelsArr[value];
+        searchActivityHotServiceBinding.tvOpenChoose.setText(mainLabelsArr[value]);
+        //一级标签的id
+        firstId = value+1;
+        showSecondLabel(firstId);
+    }
+
+    //初始化展示二级标签
+    private void showSecondLabel(int id) {
+    listSkilllabel.clear();
+        //初始化的时候展示的是id为1的二级标签
+        for (SkillLabelBean skillLabelBean : listSecondSkilllabel) {
+            int f1 = skillLabelBean.getF1();
+            int f2 = skillLabelBean.getF2();
+
+            if(f1 == id&&f2==0){
+                listSkilllabel.add(skillLabelBean);
+            }
+        }
+    searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
+    SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
+    searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {
+        @Override
+        public void run() {
+            View lvActivitySubscribeSecondSkilllableListFirstChild = searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
+            // LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
+            SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();//获取他的tag
+            lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
+        }
+    });
+    }
+
+    //初始化展示三级标签，默认是id为1的对应的三级标签
+    private void showThridLabel(int firstId,int secondId) {
+        listThirdSkilllabelName.clear();
+        for (SkillLabelBean skillLabelBean : listThirdSkilllabel) {
+            int f1 = skillLabelBean.getF1();
+            int f2 = skillLabelBean.getF2();
+            thridId = skillLabelBean.getId();
+            String tag = skillLabelBean.getTag();
+            if(f2!=0){
+                if(f1 == firstId&&f2 == secondId){
+                    listThirdSkilllabelName.add(tag);
+                }
+            }
+        }
         searchActivityHotServiceBinding.llActivitySearchThirdSkilllabel.removeAllViews();
         searchActivityHotServiceBinding.llActivitySearchThirdSkilllabel.post(new Runnable() {
             LinearLayout llSkilllabelLine;
             int lineCount = 0;
-//            int lineLabelCount = 0;
             @Override
             public void run() {
                 int scrollViewWidth =searchActivityHotServiceBinding.llActivitySearchThirdSkilllabel.getMeasuredWidth();
@@ -142,7 +193,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                 int skillLabelLineWidth = 0;
                 for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
                     String thirdSkilllabelName = listThirdSkilllabelName.get(i);//这是第几个技能名字
-
                     //创建标签TextView
                     LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2); //-1 match -2 wrap
                     llParamsForSkillLabel.rightMargin = CommonUtils.dip2px(labelRightMargin);
@@ -153,14 +203,12 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                     tvThirdSkilllabelName.setTextColor(0xff333333);
                     tvThirdSkilllabelName.setTextSize(14);
                     tvThirdSkilllabelName.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
-//                    tvThirdSkilllabelName.setBackgroundColor(0xffffffff);
                     tvThirdSkilllabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
                     tvThirdSkilllabelName.setText(thirdSkilllabelName);
                     //测量标签TextView的宽度并判断是否换行
                     tvThirdSkilllabelName.measure(0, 0);
                     int tvThirdSkilllabelWidth = tvThirdSkilllabelName.getMeasuredWidth() + labelRightMargin;
                     int newSkillLabelLineWidth = skillLabelLineWidth + tvThirdSkilllabelWidth;
-//                    lineLabelCount++;
                     if (skillLabelLineWidth != 0) {
                         if (newSkillLabelLineWidth >= scrollViewWidth) {
                             searchActivityHotServiceBinding.llActivitySearchThirdSkilllabel.addView(llSkilllabelLine);
@@ -186,7 +234,8 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                     tvThirdSkilllabelName.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            showSearchResult();
+                            showSearchResult(thridId);
+
                         }
                     });
                 }
@@ -203,7 +252,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                 llSkilllabelLine.setLayoutParams(llParamsForLine);
                 llSkilllabelLine.setOrientation(LinearLayout.HORIZONTAL);
                 lineCount++;
-//                lineLabelCount = 0;
             }
         });
     }
@@ -222,46 +270,27 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                 itemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
                 subscribeSecondSkilllabelHolder.clickItemPosition = position;
                 lastClickItemModel = itemSubscribeSecondSkilllabelModel;
-                setThirdSkilllabelData();
+
+                SkillLabelBean skillLabelBean = listSkilllabel.get(position);
+                int f1 = skillLabelBean.getF1();
+                int secondId = skillLabelBean.getId();
+                showThridLabel(f1,secondId);
             }
         });
         //点击事件
         searchActivityHotServiceBinding.tvOpenChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openChoose();
+                setRlChooseMainLabelVisible(View.VISIBLE);
             }
         });
     }
 
-    //zss 显示搜索页面
-    public void showSearchResult()  {
+    // 显示搜索页面
+    public void showSearchResult(int thridId)  {
         SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
         currentActivity.changeView(2);
         searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding);
         currentActivity.searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
     }
-
-    //选择行业
-    public void openChoose() {
-        setRlChooseMainLabelVisible(View.VISIBLE);
-    }
-
-    @Bindable
-    public int getRlChooseMainLabelVisible() {
-        return rlChooseMainLabelVisible;
-    }
-
-    public void setRlChooseMainLabelVisible(int rlChooseMainLabelVisible) {
-       this.rlChooseMainLabelVisible = rlChooseMainLabelVisible;
-        notifyPropertyChanged(BR.rlChooseMainLabelVisible);
-    }
-
-    public void okChooseMainLabel(View v) {
-        setRlChooseMainLabelVisible(View.INVISIBLE);
-        int value = mNpChooseMainLabels.getValue();
-        SearchActivity searchActivity = (SearchActivity) CommonUtils.getCurrentActivity();
-        searchActivity.checkedFirstLabel = mainLabelsArr[value];
-    }
-
 }

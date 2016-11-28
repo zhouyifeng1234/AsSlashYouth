@@ -50,24 +50,23 @@
                         android:textColor="#333333"
                         android:textSize="14sp"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/et_title"
+                            android:background="@null"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="8dp"
-                            android:text="请输入5-20个字"
-                            android:textColor="#cccccc"
+                            android:layout_marginLeft="20dp"
+                            android:hint="请输入5-20个字"
+                            android:maxLength="20"
+                            android:textColor="#333333"
+                            android:textColorHint="#cccccc"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -81,17 +80,20 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/shape_rounded_demand2_desc_bg">
                     <EditText
-                        android:id="@+id/et_publish_demand_desc"
+                        android:id="@+id/et_skill_manage_desc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
+                        android:maxLength="300"
+                        android:textColor="#333333"
                         android:background="@android:color/transparent"
                         android:gravity="top|left"
                         android:hint="描述一下你的需求300字内"
                         android:textColorHint="#cccccc"
                         android:textSize="16sp"/>
                     <TextView
+                        android:id="@+id/tv_desc_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|bottom"
@@ -122,13 +124,15 @@
                     <View android:layout_width="0dp" android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/et_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@android:color/transparent"
                         android:hint="不填表示对方报价 "
                         android:textColorHint="#CCCCCC"
+                        android:textColor="#333333"
                         android:textSize="13sp"/>
                     <TextView
                         android:layout_width="18dp"
@@ -168,12 +172,14 @@
                         android:layout_weight="1"/>
 
                     <TextView
+                        android:id="@+id/tv_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@android:color/transparent"
                         android:hint="请选择"
                         android:textColorHint="#CCCCCC"
+                        android:textColor="#333333"
                         android:textSize="13sp"/>
                     <ImageView
                         android:onClick="@{myAddSkillModel.chooseUnit}"
@@ -254,6 +260,7 @@
                             android:textColorHint="#CCCCCC"
                             android:textSize="13sp"/>
                         <ImageView
+                            android:onClick="@{myAddSkillModel.jumpSkillLabel}"
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center_vertical"

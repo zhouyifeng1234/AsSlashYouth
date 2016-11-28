@@ -41,14 +41,12 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
         save.setText("交易记录");
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_userinfo_back:
                 finish();
                 break;
-
             case R.id.tv_userinfo_save:
                 LogKit.d("交易记录");
                 Intent intentTransactionRecordActivity = new Intent(CommonUtils.getContext(), TransactionRecordActivity.class);

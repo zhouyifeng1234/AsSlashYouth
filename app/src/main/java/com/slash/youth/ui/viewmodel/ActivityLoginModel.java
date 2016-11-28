@@ -1,10 +1,13 @@
 package com.slash.youth.ui.viewmodel;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -18,9 +21,12 @@ import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.tencent.tauth.AuthActivity;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UmengTool;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
@@ -74,6 +80,8 @@ public class ActivityLoginModel extends BaseObservable {
 //        LoginManager.checkPhoneVerificationCode(phoenNum, pin);
 
 
+
+
     }
 
     public void sendPhoneVerificationCode(View v) {
@@ -85,11 +93,18 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     public void wechatLogin(View v) {
-//        LoginManager.loginWeChat();
+      //  LoginManager.loginWeChat();
 
 
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
         mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(loginActivity, mPermissionList, 123);
+        }
+
     }
 
     public void qqLogin(View v) {
@@ -105,14 +120,15 @@ public class ActivityLoginModel extends BaseObservable {
     public void weiboLogin(View v) {
 //        mSsoHandler.authorize(new SlashWeiboAuthListener());
 
-        UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
-        mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.SINA, umAuthListener);
+        //验证包名和签名,是微信那边的
+        UmengTool.getSignature(loginActivity);
 
+       /* UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
+        mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.SINA, umAuthListener);*/
     }
 
 
     public class SlashWeiboAuthListener implements WeiboAuthListener {
-
         @Override
         public void onComplete(Bundle values) {
             // 从 Bundle 中解析 Token
@@ -143,6 +159,20 @@ public class ActivityLoginModel extends BaseObservable {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             ToastUtils.shortToast("Authorize succeed");
+            switch (platform){
+                case QQ:
+                    String QQ_access_token = data.get("access_token");
+                    String uid = data.get("uid");
+                    SpUtils.setString("QQ_token",QQ_access_token);
+                    SpUtils.setString("QQ_uid",uid);
+                    break;
+                case WEIXIN:
+                    String WEIXIN_access_token = data.get("access_token");
+                    String openid = data.get("unionid");
+                    SpUtils.setString("WEIXIN_token",WEIXIN_access_token);
+                    SpUtils.setString("WEIXIN_uid",openid);
+                    break;
+            }
         }
 
         @Override

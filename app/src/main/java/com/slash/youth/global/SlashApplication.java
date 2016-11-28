@@ -58,7 +58,7 @@ public class SlashApplication extends Application {
         //注册融云消息接收监听器
         MsgManager.setMessReceiver();
         //通过token连接融云
-        MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
+       // MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
         LogKit.v("two");
     }
 
