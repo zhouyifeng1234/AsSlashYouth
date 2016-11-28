@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AsSlashYouth.iml" filepath="$PROJECT_DIR$/AsSlashYouth.iml" />
       <module fileurl="file://$PROJECT_DIR$/SlashYouth.iml" filepath="$PROJECT_DIR$/SlashYouth.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicatorLibrary/ViewPagerIndicatorLibrary.iml" filepath="$PROJECT_DIR$/ViewPagerIndicatorLibrary/ViewPagerIndicatorLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicatorSample/ViewPagerIndicatorSample.iml" filepath="$PROJECT_DIR$/ViewPagerIndicatorSample/ViewPagerIndicatorSample.iml" />

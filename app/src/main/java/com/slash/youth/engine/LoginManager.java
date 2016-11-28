@@ -33,6 +33,8 @@ import java.util.Map;
  * Created by Administrator on 2016/8/31.
  */
 public class LoginManager {
+    public static long currentLoginUserId = 10000;//实际应该在登录状态中获取
+
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
 
@@ -54,6 +56,7 @@ public class LoginManager {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
+
             @Override
             public void executeResultError(String result) {
             }

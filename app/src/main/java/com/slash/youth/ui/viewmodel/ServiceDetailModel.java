@@ -13,6 +13,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.SimilarServiceRecommendBean;
+import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.utils.CommonUtils;
 
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class ServiceDetailModel extends BaseObservable {
     //修改服务
     public void updateService(View v) {
 
+        mActivity.finish();
+        if (PublishServiceSucceddActivity.activity != null) {
+            PublishServiceSucceddActivity.activity.finish();
+            PublishServiceSucceddActivity.activity = null;
+        }
     }
 
     //下架服务

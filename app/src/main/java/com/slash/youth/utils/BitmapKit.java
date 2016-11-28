@@ -9,6 +9,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.widget.ImageView;
+
+import org.xutils.http.RequestParams;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import com.sina.weibo.sdk.utils.ResourceManager;
 
@@ -40,6 +45,21 @@ public class BitmapKit {
         canvas.drawRoundRect(rectF, CommonUtils.dip2px(radius), CommonUtils.dip2px(radius), paintRectF);
         canvas.drawBitmap(srcBitmap, null, rectF, paintBitmap);
         return roundedBitmap;
+    }
+
+
+    public static void bindImage(ImageView iv, String url) {
+        ImageOptions.Builder builder = new ImageOptions.Builder();
+        ImageOptions imageOptions = builder.build();
+        builder.setParamsBuilder(new ImageOptions.ParamsBuilder() {
+            @Override
+            public RequestParams buildParams(RequestParams params, ImageOptions options) {
+                params.addHeader("uid", "10000");
+                params.addHeader("pass", "1");
+                return params;
+            }
+        });
+        x.image().bind(iv, url, imageOptions);
     }
 
     //获取手机相片和手机相册中的图片处理

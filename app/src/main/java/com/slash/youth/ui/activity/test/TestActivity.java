@@ -10,6 +10,7 @@ import android.widget.ScrollView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
+import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.ToastUtils;
@@ -174,7 +175,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22","1300","0");
+        }, "22", "1300", "0");
     }
 
     //十、[需求]-我发布的历史需求列表
@@ -219,7 +220,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22","4");
+        }, "22", "4");
     }
 
     //十三、[需求]-需求方查看竞标（抢需求服务者）列表
@@ -272,17 +273,17 @@ public class TestActivity extends Activity {
 
     //一、[文件]-图片上传
     public void uploadFile(View v) {
-        DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<String>() {
+        DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
             @Override
-            public void execute(String dataBean) {
-                ToastUtils.shortToast(dataBean);
+            public void execute(UploadFileResultBean dataBean) {
+                ToastUtils.shortToast(dataBean.toString());
             }
 
             @Override
             public void executeResultError(String result) {
 
             }
-        });
+        }, "");
     }
 
     //二、[文件]-图片下载
