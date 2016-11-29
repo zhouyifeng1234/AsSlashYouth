@@ -234,15 +234,19 @@ public class MsgManager {
                                 //相关任务消息,需要进行存储
                                 if (name.equals("taskInfo")) {
                                     //先要往本地保存
-                                    File dataDir = CommonUtils.getContext().getFilesDir();
+                                    File dataDir = new File(CommonUtils.getContext().getFilesDir(), "relatedTaskDir");
                                     LogKit.v("getFilesDir():" + dataDir.getAbsolutePath());
-                                    File relatedTaskFiles = new File(dataDir,
-                                            "relatedTaskDir/" + LoginManager.currentLoginUserId + "to" + targetId);
+                                    if (!dataDir.exists()) {
+                                        dataDir.mkdirs();
+                                    }
+                                    File relatedTaskFiles = new File(dataDir, LoginManager.currentLoginUserId + "to" + targetId);
+
                                     FileOutputStream fos = null;
                                     OutputStreamWriter osw = null;
                                     BufferedWriter bw = null;
                                     try {
                                         relatedTaskFiles.createNewFile();
+
                                         String jsonData = commandMessage.getData();
                                         fos = new FileOutputStream(relatedTaskFiles);
                                         osw = new OutputStreamWriter(fos);

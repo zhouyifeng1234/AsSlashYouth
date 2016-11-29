@@ -31,7 +31,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
                 android:background="@drawable/right_chat_bg"
+                android:maxHeight="116dp"
+                android:maxWidth="140dp"
+                android:onClick="@{chatMyPicModel.loadOriginalPic}"
                 android:paddingRight="4dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/chat_pic_test"
             />
 

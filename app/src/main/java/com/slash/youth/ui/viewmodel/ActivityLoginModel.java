@@ -14,8 +14,8 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.LoginActivity;
-import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -59,9 +59,9 @@ public class ActivityLoginModel extends BaseObservable {
      */
     public void login(View v) {
         //TODO 具体的登录逻辑，等服务端相关接口完成以后再实现
-                Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
-        intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
+//                Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
+//        intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
 
 //        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
 //        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -73,17 +73,17 @@ public class ActivityLoginModel extends BaseObservable {
 
         //这里跳转至聊天界面只是为了测试聊天界面
 
-//        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-////        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
-//
-//        Bundle taskInfoBundle = new Bundle();
-//        taskInfoBundle.putLong("tid", 111);
-//        taskInfoBundle.putInt("type", 1);
-//        taskInfoBundle.putString("title", "APP开发");
-//        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
-//
-//        intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        CommonUtils.getContext().startActivity(intentChatActivity);
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+//        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
+
+        Bundle taskInfoBundle = new Bundle();
+        taskInfoBundle.putLong("tid", 111);
+        taskInfoBundle.putInt("type", 1);
+        taskInfoBundle.putString("title", "APP开发");
+        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
+
+        intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentChatActivity);
 
     }
 

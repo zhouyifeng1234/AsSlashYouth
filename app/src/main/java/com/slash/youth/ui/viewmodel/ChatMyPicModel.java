@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.net.Uri;
+import android.view.View;
 
 import com.slash.youth.databinding.ItemChatMyPicBinding;
 import com.slash.youth.engine.LoginManager;
@@ -47,5 +48,9 @@ public class ChatMyPicModel extends BaseObservable {
         } else {
             mItemChatMyPicBinding.tvChatMsgReadStatus.setText("未读");
         }
+    }
+
+    public void loadOriginalPic(View v) {
+
     }
 }

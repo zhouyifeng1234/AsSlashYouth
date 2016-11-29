@@ -26,6 +26,9 @@
 
 
         <ImageView
+            android:scaleType="centerCrop"
+            android:maxHeight="116dp"
+            android:maxWidth="140dp"
             android:id="@+id/iv_chat_friend_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

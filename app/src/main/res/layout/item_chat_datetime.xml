@@ -14,9 +14,10 @@
             android:layout_marginTop="23dp"
             android:background="@drawable/shape_chat_datetime_bg"
             android:gravity="center"
-            android:text="11月7日 14:17"
+            android:text="@{chatDatetimeModel.datetimeText}"
             android:textColor="#FFFFFF"
             android:textSize="11sp"/>
+        <!--11月7日 14:17-->
 
     </FrameLayout>
 </layout>
