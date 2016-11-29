@@ -5,14 +5,24 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemListviewHomeInfoBinding;
+import com.slash.youth.domain.ChatTaskInfoBean;
 import com.slash.youth.domain.ConversationListBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemHomeInfoModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import io.rong.imlib.RongIMClient;
@@ -45,8 +55,23 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
         } else {
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
         }
-        int unreadCount = RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, data.uid + "");
-        mItemListviewHomeInfoBinding.tvInfoUnreadMsgCount.setText(unreadCount + "");
+        RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, data.uid + "", new RongIMClient.ResultCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                int unreadCount = integer;
+                if (unreadCount > 0) {
+                    mItemListviewHomeInfoBinding.tvInfoUnreadMsgCount.setVisibility(View.VISIBLE);
+                    mItemListviewHomeInfoBinding.tvInfoUnreadMsgCount.setText(unreadCount + "");
+                } else {
+                    mItemListviewHomeInfoBinding.tvInfoUnreadMsgCount.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
         mItemHomeInfoModel.setCompanyAndPosition("(" + data.company + "," + data.position + ")");
         RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, data.uid + "", 1, new RongIMClient.ResultCallback<List<Message>>() {
             @Override
@@ -78,7 +103,21 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
             }
         });
         //相关任务的加载，通过本地文件存储,暂时路劲上有点BUG
-
+        displayRelatedTask(data);
+        //显示会话时间信息（例：6分钟前）
+        long timeSpan = System.currentTimeMillis() - data.uts;
+        long minutes = timeSpan / 1000 / 60;
+        if (minutes < 60) {
+            mItemHomeInfoModel.setConversationTimeInfo(minutes + "分钟前");
+        } else {
+            long hours = minutes / 60;
+            if (hours < 24) {
+                mItemHomeInfoModel.setConversationTimeInfo(hours + "小时前");
+            } else {
+                long days = hours / 24;
+                mItemHomeInfoModel.setConversationTimeInfo(days + "天前");
+            }
+        }
 //        if (data.isSlashLittleHelper) {
 //            mItemHomeInfoModel.setUsername("斜杠小助手");
 //            mItemHomeInfoModel.setRelatedTasksInfoVisibility(View.INVISIBLE);
@@ -99,4 +138,36 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
 //            mItemHomeInfoModel.setUserLabelsInfoVisibility(View.VISIBLE);
 //        }
     }
+
+    public void displayRelatedTask(ConversationListBean.ConversationInfo data) {
+        File dataDir = CommonUtils.getContext().getFilesDir();
+        File relatedTaskFiles = new File(dataDir,
+                "relatedTaskDir/" + LoginManager.currentLoginUserId + "to" + data.uid);
+        if (relatedTaskFiles.exists()) {
+            FileInputStream fis = null;
+            InputStreamReader isr = null;
+            BufferedReader br = null;
+            try {
+                fis = new FileInputStream(relatedTaskFiles);
+                isr = new InputStreamReader(fis);
+                br = new BufferedReader(isr);
+                String jsonData = br.readLine();
+                Gson gson = new Gson();
+                ChatTaskInfoBean chatTaskInfoBean = gson.fromJson(jsonData, ChatTaskInfoBean.class);
+                mItemHomeInfoModel.setRelatedTasksInfoVisibility(View.VISIBLE);
+                mItemHomeInfoModel.setRelatedTaskTitle(chatTaskInfoBean.title);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                IOUtils.close(br);
+                IOUtils.close(isr);
+                IOUtils.close(fis);
+            }
+        } else {
+            mItemHomeInfoModel.setRelatedTasksInfoVisibility(View.INVISIBLE);
+        }
+    }
+
 }

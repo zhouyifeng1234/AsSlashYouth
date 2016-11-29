@@ -27,6 +27,8 @@ public class ItemHomeInfoModel extends BaseObservable {
     private int userLabelsInfoVisibility;
     private String companyAndPosition;
     private String lastMsg;
+    private String relatedTaskTitle;
+    private String conversationTimeInfo;
 
     @Bindable
     public String getUsername() {
@@ -87,5 +89,25 @@ public class ItemHomeInfoModel extends BaseObservable {
     public void setLastMsg(String lastMsg) {
         this.lastMsg = lastMsg;
         notifyPropertyChanged(BR.lastMsg);
+    }
+
+    @Bindable
+    public String getRelatedTaskTitle() {
+        return relatedTaskTitle;
+    }
+
+    public void setRelatedTaskTitle(String relatedTaskTitle) {
+        this.relatedTaskTitle = relatedTaskTitle;
+        notifyPropertyChanged(BR.relatedTaskTitle);
+    }
+
+    @Bindable
+    public String getConversationTimeInfo() {
+        return conversationTimeInfo;
+    }
+
+    public void setConversationTimeInfo(String conversationTimeInfo) {
+        this.conversationTimeInfo = conversationTimeInfo;
+        notifyPropertyChanged(BR.conversationTimeInfo);
     }
 }

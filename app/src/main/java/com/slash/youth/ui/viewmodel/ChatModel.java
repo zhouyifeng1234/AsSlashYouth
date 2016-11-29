@@ -523,10 +523,16 @@ public class ChatModel extends BaseObservable {
         final File voiceFile = new File(voiceFilePath);
         final VoiceMessage vocMsg = VoiceMessage.obtain(Uri.fromFile(voiceFile), duration);
         final long sendTime = System.currentTimeMillis();
+
+        final View mySendVoiceView = null;
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, vocMsg, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onError(Integer messageId, RongIMClient.ErrorCode e) {
                 deleteTmpRecordingFile();
+                if (mySendVoiceView != null) {
+                    View view = mySendVoiceView.findViewById(R.id.iv_chat_send_msg_again);
+                    view.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -542,7 +548,7 @@ public class ChatModel extends BaseObservable {
                 displayMsgTimeView(sentTime);
 
                 VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
-                View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), duration, false);
+                View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), duration, false, savedVoiceMessage, targetId);
 
                 View vReadStatus = mySendVoiceView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
@@ -566,25 +572,18 @@ public class ChatModel extends BaseObservable {
         final String inputText = mActivityChatBinding.etChatInput.getText().toString();
         TextMessage textMessage = TextMessage.obtain(inputText);
         final long sendTime = System.currentTimeMillis();
+        final View myTextView = createMyTextView(inputText, false, textMessage, targetId);
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             //发送消息的回调
             @Override
             public void onSuccess(Integer integer) {
-                long sentTime = System.currentTimeMillis();
-                displayMsgTimeView(sentTime);
 
-                View myTextView = createMyTextView(inputText, false);
-
-                View vReadStatus = myTextView.findViewById(R.id.tv_chat_msg_read_status);
-                SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
-                listSendMsg.add(sendMessageBean);
-
-                mLlChatContent.addView(myTextView);
             }
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
+                View view = myTextView.findViewById(R.id.iv_chat_send_msg_again);
+                view.setVisibility(View.VISIBLE);
             }
         }, new RongIMClient.ResultCallback<Message>() {
             //消息存库的回调，可用于获取消息实体
@@ -598,6 +597,15 @@ public class ChatModel extends BaseObservable {
 
             }
         });
+        long sentTime = System.currentTimeMillis();
+        displayMsgTimeView(sentTime);
+
+        View vReadStatus = myTextView.findViewById(R.id.tv_chat_msg_read_status);
+        SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
+        listSendMsg.add(sendMessageBean);
+
+        mLlChatContent.addView(myTextView);
+
     }
 
     /**
@@ -630,6 +638,8 @@ public class ChatModel extends BaseObservable {
 
         ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
         long sendTime = System.currentTimeMillis();
+
+        final View myPicView = createMyPicView(Uri.fromFile(imageThumb), false, imageMessage, targetId);
         RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, null, null, new RongIMClient.SendImageMessageCallback() {
 
             @Override
@@ -642,6 +652,8 @@ public class ChatModel extends BaseObservable {
             public void onError(Message message, RongIMClient.ErrorCode code) {
                 //发送失败
                 LogKit.v("发送失败");
+                View view = myPicView.findViewById(R.id.iv_chat_send_msg_again);
+                view.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -661,8 +673,6 @@ public class ChatModel extends BaseObservable {
 
         long sentTime = System.currentTimeMillis();
         displayMsgTimeView(sentTime);
-
-        View myPicView = createMyPicView(Uri.fromFile(imageThumb), false);
 
         View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
         SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
@@ -697,7 +707,11 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                long sentTime = System.currentTimeMillis();
+                displayMsgTimeView(sentTime);
 
+                View infoView = createInfoView("发送添加好友请求失败！！！");
+                mLlChatContent.addView(infoView);
             }
         });
     }
@@ -728,7 +742,11 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                long sentTime = System.currentTimeMillis();
+                displayMsgTimeView(sentTime);
 
+                View infoView = createInfoView("发送交换联系方式请求失败");
+                mLlChatContent.addView(infoView);
             }
         });
     }
@@ -953,9 +971,9 @@ public class ChatModel extends BaseObservable {
     }
 
     //创建我发的文本消息View
-    private View createMyTextView(String inputText, boolean isRead) {
+    private View createMyTextView(String inputText, boolean isRead, TextMessage textMessage, String targetId) {
         ItemChatMyTextBinding itemChatMyTextBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_text, null, false);
-        ChatMyTextModel chatMyTextModel = new ChatMyTextModel(itemChatMyTextBinding, mActivity, inputText, isRead);
+        ChatMyTextModel chatMyTextModel = new ChatMyTextModel(itemChatMyTextBinding, mActivity, inputText, isRead, textMessage, targetId);
         itemChatMyTextBinding.setChatMyTextModel(chatMyTextModel);
         return itemChatMyTextBinding.getRoot();
     }
@@ -979,9 +997,9 @@ public class ChatModel extends BaseObservable {
     }
 
     //创建我发的图片View
-    private View createMyPicView(Uri thumUri, boolean isRead) {
+    private View createMyPicView(Uri thumUri, boolean isRead, ImageMessage imageMessage, String targetId) {
         ItemChatMyPicBinding itemChatMyPicBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_pic, null, false);
-        ChatMyPicModel chatMyPicModel = new ChatMyPicModel(itemChatMyPicBinding, mActivity, thumUri, isRead);
+        ChatMyPicModel chatMyPicModel = new ChatMyPicModel(itemChatMyPicBinding, mActivity, thumUri, isRead, imageMessage, targetId);
         itemChatMyPicBinding.setChatMyPicModel(chatMyPicModel);
         return itemChatMyPicBinding.getRoot();
     }
@@ -1064,9 +1082,9 @@ public class ChatModel extends BaseObservable {
         return itemChatOtherSendVoiceBinding.getRoot();
     }
 
-    private View createMySendVoiceView(Uri voiceUri, int duration, boolean isRead) {
+    private View createMySendVoiceView(Uri voiceUri, int duration, boolean isRead, VoiceMessage voiceMessage, String targetId) {
         ItemChatMySendVoiceBinding itemChatMySendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_send_voice, null, false);
-        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity, voiceUri, duration, isRead);
+        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity, voiceUri, duration, isRead, voiceMessage, targetId);
         itemChatMySendVoiceBinding.setChatMySendVoiceModel(chatMySendVoiceModel);
         return itemChatMySendVoiceBinding.getRoot();
     }
@@ -1163,7 +1181,7 @@ public class ChatModel extends BaseObservable {
 
         @Override
         public void displayHistory(List<Message> messages) {
-            if (isLoadHisMsgFirst) {
+            if (isLoadHisMsgFirst && messages.size() > 0) {
                 View hisInfoView = createInfoView("----以上是历史消息----");
                 mLlChatContent.addView(hisInfoView);
                 isLoadHisMsgFirst = false;
@@ -1211,7 +1229,7 @@ public class ChatModel extends BaseObservable {
             String extra = textMessage.getExtra();
             //接收聊天的文本消息
             if (TextUtils.isEmpty(extra)) {
-                View myTextView = createMyTextView(textMessage.getContent(), isRead);
+                View myTextView = createMyTextView(textMessage.getContent(), isRead, null, null);
                 if (!isRead) {
                     View vReadStatus = myTextView.findViewById(R.id.tv_chat_msg_read_status);
                     SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
@@ -1266,7 +1284,7 @@ public class ChatModel extends BaseObservable {
         //接收聊天的图片消息
         else if (objectName.equals("RC:ImgMsg")) {
             ImageMessage imageMessage = (ImageMessage) message.getContent();
-            View myPicView = createMyPicView(imageMessage.getThumUri(), isRead);
+            View myPicView = createMyPicView(imageMessage.getThumUri(), isRead, null, null);
             if (!isRead) {
                 View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
@@ -1277,7 +1295,7 @@ public class ChatModel extends BaseObservable {
         //接受聊天的语音消息
         else if (objectName.equals("RC:VcMsg")) {
             VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
-            View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), savedVoiceMessage.getDuration(), isRead);
+            View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), savedVoiceMessage.getDuration(), isRead, null, null);
             if (!isRead) {
                 View vReadStatus = mySendVoiceView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
