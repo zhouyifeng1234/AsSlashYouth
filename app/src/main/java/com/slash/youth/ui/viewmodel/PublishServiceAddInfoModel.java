@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -14,16 +13,12 @@ import android.widget.RelativeLayout;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceAddinfoBinding;
-import com.slash.youth.domain.PublishServiceResultBean;
-import com.slash.youth.engine.ServiceEngine;
-import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
@@ -124,57 +119,59 @@ public class PublishServiceAddInfoModel extends BaseObservable {
     }
 
     public void publish(View v) {
-        //发布成功以后才能跳转到成功页面
-//        Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
-//        mActivity.startActivity(intentPublishServiceSuccessActivity);
-//        mActivity.finish();
-//        if (PublishServiceBaseInfoActivity.activity != null) {
-//            PublishServiceBaseInfoActivity.activity.finish();
-//            PublishServiceBaseInfoActivity.activity = null;
-//        }
-
-        Bundle bundleServiceData = mActivity.getIntent().getExtras();
-        String title = bundleServiceData.getString("title");
-        String desc = bundleServiceData.getString("desc");
-        int anonymity = bundleServiceData.getInt("anonymity");
-        int timetype = bundleServiceData.getInt("timetype");
-        long starttime = bundleServiceData.getLong("starttime");
-        long endtime = bundleServiceData.getLong("endtime");
-        ArrayList<String> listPic = bundleServiceData.getStringArrayList("pic");
-
-
-        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
-        double quote;
-        try {
-            quote = Double.parseDouble(mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString());
-        } catch (Exception ex) {
-            quote = 0;
+        //发布成功以后才能跳转到成功页面,这里只是为了方便测试直接跳转
+        Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
+        intentPublishServiceSuccessActivity.putExtra("serviceId", 88l);
+        mActivity.startActivity(intentPublishServiceSuccessActivity);
+        mActivity.finish();
+        if (PublishServiceBaseInfoActivity.activity != null) {
+            PublishServiceBaseInfoActivity.activity.finish();
+            PublishServiceBaseInfoActivity.activity = null;
         }
 
-        int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
-        int pattern = isOnline == true ? 0 : 1;//1线下 0线上
-        int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
-        String place = getLocationAddress();
-
-        ServiceEngine.publishService(new BaseProtocol.IResultExecutor<PublishServiceResultBean>() {
-            @Override
-            public void execute(PublishServiceResultBean dataBean) {
-                LogKit.v("发布成功，id:" + dataBean.data.id);
-                //发布成功以后才能跳转到成功页面
-                Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
-                mActivity.startActivity(intentPublishServiceSuccessActivity);
-                mActivity.finish();
-                if (PublishServiceBaseInfoActivity.activity != null) {
-                    PublishServiceBaseInfoActivity.activity.finish();
-                    PublishServiceBaseInfoActivity.activity = null;
-                }
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        }, title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+//        Bundle bundleServiceData = mActivity.getIntent().getExtras();
+//        String title = bundleServiceData.getString("title");
+//        String desc = bundleServiceData.getString("desc");
+//        int anonymity = bundleServiceData.getInt("anonymity");
+//        int timetype = bundleServiceData.getInt("timetype");
+//        long starttime = bundleServiceData.getLong("starttime");
+//        long endtime = bundleServiceData.getLong("endtime");
+//        ArrayList<String> listPic = bundleServiceData.getStringArrayList("pic");
+//
+//
+//        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
+//        double quote;
+//        try {
+//            quote = Double.parseDouble(mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString());
+//        } catch (Exception ex) {
+//            quote = 0;
+//        }
+//
+//        int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
+//        int pattern = isOnline == true ? 0 : 1;//1线下 0线上
+//        int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
+//        String place = getLocationAddress();
+//
+//        ServiceEngine.publishService(new BaseProtocol.IResultExecutor<PublishServiceResultBean>() {
+//            @Override
+//            public void execute(PublishServiceResultBean dataBean) {
+//                LogKit.v("发布成功，id:" + dataBean.data.id);
+//                //发布成功以后才能跳转到成功页面
+//                Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
+//                intentPublishServiceSuccessActivity.putExtra("serviceId", dataBean.data.id);
+//                mActivity.startActivity(intentPublishServiceSuccessActivity);
+//                mActivity.finish();
+//                if (PublishServiceBaseInfoActivity.activity != null) {
+//                    PublishServiceBaseInfoActivity.activity.finish();
+//                    PublishServiceBaseInfoActivity.activity = null;
+//                }
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//
+//            }
+//        }, title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
     }
 
     public void openMapActivity(View v) {

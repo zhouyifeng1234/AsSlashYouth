@@ -4,23 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Bundle;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
-import com.slash.youth.domain.UploadFileResultBean;
-import com.slash.youth.engine.DemandEngine;
-import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -123,56 +116,57 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     }
 
     public void nextStep(View v) {
-        final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+//        final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+//
+//        final Bundle bundleServiceData = new Bundle();
+//        String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
+//        bundleServiceData.putString("title", title);
+//        String desc = mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.getText().toString();
+//        bundleServiceData.putString("desc", desc);
+//        bundleServiceData.putInt("anonymity", anonymity);//取值只能1或者0 (1实名 0匿名)
+//        bundleServiceData.putInt("timetype", timetype);
+//        bundleServiceData.putLong("starttime", starttime);
+//        bundleServiceData.putLong("endtime", endtime);
+//        final ArrayList<String> imgUrl = new ArrayList<String>();
+//        bundleServiceData.putStringArrayList("pic", imgUrl);
+//        final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
+//        if (addedPicTempPath.size() <= 0) {
+//            ToastUtils.shortToast("至少上传一张图片");
+//            return;
+//        }
+//        LogKit.v(addedPicTempPath.size() + "");
+//        final int[] uploadCount = {0};
+//        for (final String filePath : addedPicTempPath) {
+//            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
+//                @Override
+//                public void execute(UploadFileResultBean dataBean) {
+//                    LogKit.v(filePath + ":上传成功");
+//                    uploadCount[0]++;
+//                    LogKit.v("uploadCount:" + uploadCount[0]);
+//                    LogKit.v(dataBean + "");
+//                    imgUrl.add(dataBean.data.fileId);
+//
+//                    if (uploadCount[0] >= addedPicTempPath.size()) {
+//                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
+//                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
+//                    }
+//                }
+//
+//                @Override
+//                public void executeResultError(String result) {
+//                    LogKit.v(filePath + ":上传失败");
+//                    uploadCount[0]++;
+//                    LogKit.v("uploadCount:" + uploadCount[0]);
+//                    if (uploadCount[0] >= addedPicTempPath.size()) {
+//                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
+//                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
+//                    }
+//                }
+//            }, filePath);
+//        }
 
-        final Bundle bundleServiceData = new Bundle();
-        String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
-        bundleServiceData.putString("title", title);
-        String desc = mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.getText().toString();
-        bundleServiceData.putString("desc", desc);
-        bundleServiceData.putInt("anonymity", anonymity);//取值只能1或者0 (1实名 0匿名)
-        bundleServiceData.putInt("timetype", timetype);
-        bundleServiceData.putLong("starttime", starttime);
-        bundleServiceData.putLong("endtime", endtime);
-        final ArrayList<String> imgUrl = new ArrayList<String>();
-        bundleServiceData.putStringArrayList("pic", imgUrl);
-        final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
-        if (addedPicTempPath.size() <= 0) {
-            ToastUtils.shortToast("至少上传一张图片");
-            return;
-        }
-        LogKit.v(addedPicTempPath.size() + "");
-        final int[] uploadCount = {0};
-        for (final String filePath : addedPicTempPath) {
-            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
-                @Override
-                public void execute(UploadFileResultBean dataBean) {
-                    LogKit.v(filePath + ":上传成功");
-                    uploadCount[0]++;
-                    LogKit.v("uploadCount:" + uploadCount[0]);
-                    LogKit.v(dataBean + "");
-                    imgUrl.add(dataBean.data.fileId);
-
-                    if (uploadCount[0] >= addedPicTempPath.size()) {
-                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
-                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
-                    }
-                }
-
-                @Override
-                public void executeResultError(String result) {
-                    LogKit.v(filePath + ":上传失败");
-                    uploadCount[0]++;
-                    LogKit.v("uploadCount:" + uploadCount[0]);
-                    if (uploadCount[0] >= addedPicTempPath.size()) {
-                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
-                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
-                    }
-                }
-            }, filePath);
-        }
-
-
+        Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+        mActivity.startActivity(intentPublishServiceAddInfoActivity);
     }
 
     public void cancelChooseTime(View v) {

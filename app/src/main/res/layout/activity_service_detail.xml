@@ -133,7 +133,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="做一个公司互联网公司的LOGO"
+                                    android:text="@{serviceDetailModel.title}"
                                     android:textColor="#666666"
                                     android:textSize="15sp"/>
 
@@ -152,9 +152,10 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="4dp"
-                                        android:text="时间:9月18日 8:30-9月19日 8:30"
+                                        android:text="@{serviceDetailModel.serviceTime}"
                                         android:textColor="#31C5E4"
                                         android:textSize="14sp"/>
+                                    <!--时间:9月18日 8:30-9月19日 8:30-->
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -164,6 +165,7 @@
                                     android:orientation="horizontal"
                                 >
                                     <TextView
+                                        android:id="@+id/tv_service_detail_tag1"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@drawable/shape_rounded_visitor_marker"
@@ -171,10 +173,12 @@
                                         android:paddingLeft="9dp"
                                         android:paddingRight="9dp"
                                         android:paddingTop="6dp"
-                                        android:text="自动化测试"
+                                        android:text=""
                                         android:textColor="#31C5E4"
-                                        android:textSize="11dp"/>
+                                        android:textSize="11dp"
+                                        android:visibility="invisible"/>
                                     <TextView
+                                        android:id="@+id/tv_service_detail_tag2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="9dp"
@@ -183,10 +187,12 @@
                                         android:paddingLeft="9dp"
                                         android:paddingRight="9dp"
                                         android:paddingTop="6dp"
-                                        android:text="自动化测试"
+                                        android:text=""
                                         android:textColor="#31C5E4"
-                                        android:textSize="11dp"/>
+                                        android:textSize="11dp"
+                                        android:visibility="invisible"/>
                                     <TextView
+                                        android:id="@+id/tv_service_detail_tag3"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="9dp"
@@ -195,9 +201,10 @@
                                         android:paddingLeft="9dp"
                                         android:paddingRight="9dp"
                                         android:paddingTop="6dp"
-                                        android:text="自动化测试"
+                                        android:text=""
                                         android:textColor="#31C5E4"
-                                        android:textSize="11dp"/>
+                                        android:textSize="11dp"
+                                        android:visibility="invisible"/>
 
 
                                 </LinearLayout>
@@ -214,17 +221,19 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="¥300元"
+                                    android:text="@{serviceDetailModel.quote}"
                                     android:textColor="#FF9666"
                                     android:textSize="21sp"/>
+                                <!--¥300元-->
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
-                                    android:text="300人浏览"
+                                    android:text="@{serviceDetailModel.viewCount}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="11sp"/>
+                                <!--300人浏览-->
 
                             </LinearLayout>
 
@@ -236,6 +245,7 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="12dp"
                             android:orientation="horizontal"
+                            android:visibility="@{serviceDetailModel.offlineItemVisibility}"
                         >
                             <TextView
                                 android:layout_width="30dp"
@@ -259,9 +269,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="约定地点星湖街328号星湖广场"
+                                    android:text="@{serviceDetailModel.offlinePlace}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
+                                <!--约定地点:星湖街328号星湖广场-->
 
                                 <ImageView
                                     android:layout_width="18dp"
@@ -280,6 +291,7 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="9dp"
                             android:orientation="horizontal"
+                            android:visibility="@{serviceDetailModel.instalmentItemVisibility}"
                         >
                             <TextView
                                 android:layout_width="39dp"

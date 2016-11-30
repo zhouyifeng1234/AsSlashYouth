@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -23,6 +24,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -1089,7 +1091,17 @@ public class ChatModel extends BaseObservable {
         return itemChatMySendVoiceBinding.getRoot();
     }
 
+    private void hideSoftInputMethod() {
+        mTvChatFriendName.setFocusable(true);
+        mTvChatFriendName.setFocusableInTouchMode(true);
+        mTvChatFriendName.requestFocus();
+        InputMethodManager imm = (InputMethodManager) CommonUtils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mTvChatFriendName.getWindowToken(), 0);
+    }
+
     public void openUploadPic(View v) {
+        hideSoftInputMethod();
+
         setUploadPicLayerVisibility(View.VISIBLE);
     }
 
@@ -1099,6 +1111,9 @@ public class ChatModel extends BaseObservable {
 
     public void sendText(View v) {
         sendText();
+        mActivityChatBinding.etChatInput.setText("");
+
+        v.requestFocus();
     }
 
     //拍照发送图片
