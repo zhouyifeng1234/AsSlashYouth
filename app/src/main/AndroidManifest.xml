@@ -5,7 +5,8 @@
     <!--相册和拍照-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <!--电话功能-->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -276,14 +277,14 @@
         <activity android:name=".ui.activity.ReportTAActivity"/>
         <activity android:name=".ui.activity.ReplacePhoneActivity"/>
         <activity android:name=".ui.activity.FinishPhoneActivity"/>
-        <activity android:name=".ui.activity.ChooseFriendActivtiy"/>
+        <activity android:name=".ui.activity.MyFriendActivtiy"/>
         <activity android:name=".ui.activity.MySkillManageActivity"/>
         <activity android:name=".ui.activity.MyAddSkillActivity"/>
         <activity android:name=".ui.activity.MySettingActivity"/>
         <activity android:name=".ui.activity.SheildActivity"/>
         <activity android:name=".ui.activity.RevisePasswordActivity"/>
         <activity android:name=".ui.activity.FindPassWordActivity"/>
-        <activity android:name=".ui.activity.ThridPartyActivity"/>
+        <activity android:name=".ui.activity.BindThridPartyActivity"/>
         <activity android:name=".ui.activity.MyCollectionActivity"/>
         <activity android:name=".ui.activity.MyHelpActivity"/>
         <activity android:name=".ui.activity.ContactUsActivity"/>
@@ -292,6 +293,7 @@
         <activity android:name=".ui.activity.MyAccountActivity"/>
         <activity android:name=".ui.activity.TransactionRecordActivity"/>
         <activity android:name=".ui.activity.WithdrawalsActivity"/>
+        <activity android:name=".ui.activity.ContactsCareActivity"/>
 
         <!--微信相关-->
         <!--<activity-->
