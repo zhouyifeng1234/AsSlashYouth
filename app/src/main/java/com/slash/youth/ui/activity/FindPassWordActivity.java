@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
@@ -99,7 +100,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
           if(requestCode == 0){
-              Bundle bundle = data.getExtras();
+          Bundle bundle = data.getExtras();
            Bitmap bitmap = (Bitmap) bundle.get("data");
             WriteFile(bitmap);
               //文件的绝对路径

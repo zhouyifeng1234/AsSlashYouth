@@ -24,11 +24,8 @@ public class MyAccountProtocol extends BaseProtocol<MyAccountBean>  {
     @Override
     public MyAccountBean parseData(String result) {
 
-
         Gson gson = new Gson();
-
         MyAccountBean myAccountBean = gson.fromJson(result, MyAccountBean.class);
-
         return myAccountBean;
     }
 

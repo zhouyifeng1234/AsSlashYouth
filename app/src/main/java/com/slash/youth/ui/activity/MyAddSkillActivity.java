@@ -15,6 +15,7 @@ import com.slash.youth.databinding.ActivityMyAddSkillBinding;
 import com.slash.youth.ui.viewmodel.MyAddSkillModel;
 import com.slash.youth.ui.viewmodel.MySkillManageModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
 /**
@@ -29,9 +30,8 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityMyAddSkillBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_add_skill);
-        MyAddSkillModel myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding);
+        MyAddSkillModel myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding,this);
         activityMyAddSkillBinding.setMyAddSkillModel(myAddSkillModel);
         listener();
 
@@ -43,8 +43,8 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
         title.setText("添加技能");
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
-    }
 
+    }
 
     @Override
     public void onClick(View v) {
@@ -53,5 +53,22 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case Constants.CONTACTS_ADD_SKILL_LABELS:
+
+                    break;
+
+
+
+
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

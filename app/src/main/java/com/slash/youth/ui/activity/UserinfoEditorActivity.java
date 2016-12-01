@@ -3,21 +3,17 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
+import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
-import com.slash.youth.ui.viewmodel.EditorIdentityModel;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
@@ -39,19 +35,21 @@ public class UserinfoEditorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String phone = intent.getStringExtra("phone");
-        long myId = intent.getLongExtra("myId", -1);
-        UserInfoItemBean.DataBean.UinfoBean uifo = (UserInfoItemBean.DataBean.UinfoBean) intent.getSerializableExtra("uifo");
         activityUserinfoEditorBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo_editor);
-        activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding, myId, this,uifo,phone);
+        long myId = intent.getLongExtra("myId", -1);
+        if(myId == -1){
+            MyFirstPageBean.DataBean.MyinfoBean myinfo = (MyFirstPageBean.DataBean.MyinfoBean) intent.getSerializableExtra("myUinfo");
+            activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this,myinfo);
+        }else {
+            String phone = intent.getStringExtra("phone");
+            UserInfoItemBean.DataBean.UinfoBean uifo = (UserInfoItemBean.DataBean.UinfoBean) intent.getSerializableExtra("uifo");
+            activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this,uifo,phone);
+        }
         activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);
         back();
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     private void back() {
         activityUserinfoEditorBinding.ivUserinfoBack.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +108,7 @@ public class UserinfoEditorActivity extends Activity {
                         String secondSkillLabelTitle = null;
                         //第三级技能标签集合
                         ArrayList<String> listCheckedLabelName = bundleCheckedLabelsData.getStringArrayList("listCheckedLabelName");
-                        if (listCheckedLabelName!=null) {
+                        if (listCheckedLabelName != null) {
                             activityUserInfoEditorModel.skillLabelList.clear();
                             activityUserInfoEditorModel.skillLabelList.addAll(listCheckedLabelName);
                             int size = listCheckedLabelName.size();
@@ -141,16 +139,24 @@ public class UserinfoEditorActivity extends Activity {
                         //第一级技能标签 //第二级技能标签
                         String checkFirstLabel = bundleCheckedLabelsData.getString("checkedFirstLabel", "未选择");
                         String checkedSecondLabel = bundleCheckedLabelsData.getString("checkedSecondLabel", "未选择");
-                        if (checkFirstLabel!=null&&checkedSecondLabel!=null) {
+                        if (checkFirstLabel != null && checkedSecondLabel != null) {
                             activityUserinfoEditorBinding.tvDirection.setText(checkFirstLabel + "|" + checkedSecondLabel);
                         }
                     }
                 }
                 break;
+        }
 
+        //最近访问的城市
+        if(resultCode == Constants.CURRENT_ACCESS_CITY){
+            String currentCityAccess = data.getStringExtra("currentCityAccess");
+            activityUserinfoEditorBinding.tvLocation.setText(currentCityAccess);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
 
    /* @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {

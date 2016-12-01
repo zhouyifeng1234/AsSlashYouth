@@ -22,9 +22,12 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PackageUtil;
 import com.slash.youth.utils.SpUtils;
+import com.tencent.tauth.AuthActivity;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UmengTool;
 import com.umeng.socialize.media.Constant;
 
 import java.io.Closeable;
