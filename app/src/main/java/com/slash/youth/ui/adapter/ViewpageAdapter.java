@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ApprovalCertificatesBinding;
+import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.viewmodel.ApprovalCertificatesModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -19,11 +20,13 @@ import com.slash.youth.utils.LogKit;
 public class ViewpageAdapter extends PagerAdapter {
     private int[] images;
     private String[] names;
-    private ApprovalCertificatesBinding approvalCertificatesBinding;
+    public ApprovalCertificatesBinding approvalCertificatesBinding;
+    private ApprovalActivity approvalActivity;
 
-    public ViewpageAdapter(int[] images,String[] names) {
+    public ViewpageAdapter(int[] images,String[] names,ApprovalActivity approvalActivity) {
         this.images = images;
         this.names = names;
+        this.approvalActivity = approvalActivity;
     }
 
     @Override
@@ -41,14 +44,12 @@ public class ViewpageAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
     approvalCertificatesBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.approval_certificates, null, false);
     int realPosition = (position - 1 + images.length)%images.length;
-
-    ApprovalCertificatesModel approvalCertificatesModel = new ApprovalCertificatesModel(approvalCertificatesBinding);
+    ApprovalCertificatesModel approvalCertificatesModel = new ApprovalCertificatesModel(approvalCertificatesBinding,approvalActivity,position);
     approvalCertificatesBinding.setApprovalCertificatesModel(approvalCertificatesModel);
     ImageView imageView = new ImageView(CommonUtils.getContext());
     imageView.setImageResource(images[realPosition]);
     approvalCertificatesBinding.flCertificates.addView(imageView);
     approvalCertificatesBinding.tvCertificatesName.setText(names[realPosition]);
-
     View itemView = approvalCertificatesBinding.getRoot();
 
     container.addView(itemView);
@@ -59,4 +60,6 @@ public class ViewpageAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
+
+
 }

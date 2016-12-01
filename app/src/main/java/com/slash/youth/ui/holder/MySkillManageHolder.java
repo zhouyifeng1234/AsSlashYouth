@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMySkillManageBinding;
+import com.slash.youth.domain.MyCollectionBean;
 import com.slash.youth.domain.SkillManageBean;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.viewmodel.ItemMySkillManageModel;
@@ -16,31 +17,32 @@ import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
+import java.util.ArrayList;
+
 /**
  * Created by acer on 2016/11/3.
  */
 public class MySkillManageHolder extends BaseHolder<SkillManageBean> {
 
-    private ItemMySkillManageBinding itemMySkillManageBinding;
+    public ItemMySkillManageBinding itemMySkillManageBinding;
     private int position;
     private MySkillManageActivity mySkillManageActivity;
     private final String myActivityTitle;
+    private ArrayList<SkillManageBean> skillManageList;
 
-    public MySkillManageHolder(int position, MySkillManageActivity mySkillManageActivity) {
+    public MySkillManageHolder(int position, MySkillManageActivity mySkillManageActivity,ArrayList<SkillManageBean> skillManageList) {
         this.position = position;
         this.mySkillManageActivity = mySkillManageActivity;
+        this.skillManageList = skillManageList;
         myActivityTitle = SpUtils.getString("myActivityTitle", "");
-
     }
 
 
     @Override
     public View initView() {
-
         itemMySkillManageBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_my_skill_manage, null, false);
-        ItemMySkillManageModel itemMySkillManageModel = new ItemMySkillManageModel(itemMySkillManageBinding);
+        ItemMySkillManageModel itemMySkillManageModel = new ItemMySkillManageModel(itemMySkillManageBinding,position,skillManageList,mySkillManageActivity);
         itemMySkillManageBinding.setItemMySkillManageModel(itemMySkillManageModel);
-
         return itemMySkillManageBinding.getRoot();
     }
 
@@ -48,13 +50,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManageBean> {
     public void refreshView(SkillManageBean data) {
         setView(myActivityTitle);
 
-        itemMySkillManageBinding.ivDeleteSkill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
 
-            }
-        });
     }
 
     //设置界面
@@ -71,18 +67,5 @@ public class MySkillManageHolder extends BaseHolder<SkillManageBean> {
         }
     }
 
-    private void showDialog() {
 
-        DialogUtils.showDialogFive(mySkillManageActivity, "是否删除该技能", "", new DialogUtils.DialogCallBack() {
-            @Override
-            public void OkDown() {
-
-            }
-
-            @Override
-            public void CancleDown() {
-
-            }
-        });
-    }
 }

@@ -93,9 +93,11 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
         }
     }
 
+
+
     boolean isLoadingMore = false;
 
-    private void loadMore(final AddMoreHolder addMoreHolder, final int position) {
+    public void loadMore(final AddMoreHolder addMoreHolder, final int position) {
         if (!isLoadingMore) {
             isLoadingMore = true;
             new Thread(new Runnable() {

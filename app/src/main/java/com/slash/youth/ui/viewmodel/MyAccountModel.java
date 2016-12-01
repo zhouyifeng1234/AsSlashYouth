@@ -35,31 +35,30 @@ public class MyAccountModel extends BaseObservable {
                     MyAccountBean.DataBean data = dataBean.getData();
                     MyAccountBean.DataBean.DataBean1 data1 = data.getData();
                     //总的余额
-                    int totalmoney = data1.getTotalmoney();
-                    activityMyAccountBinding.totalMoney.setText(totalmoney+"元");
+                    double totalmoney = data1.getTotalmoney();
+                    activityMyAccountBinding.totalMoney.setText(String.valueOf(totalmoney)+"元");
 
                     //提现金额
-                    int currentmoney = data1.getCurrentmoney();
+                    double currentmoney = data1.getCurrentmoney();
                     activityMyAccountBinding.currentMoney.setText(currentmoney+"元");
+                    activityMyAccountBinding.tvWithdrawals.setText(currentmoney+"元");
 
                     //冻结金额
-                    int freezemoney = data1.getFreezemoney();
+                    double freezemoney = data1.getFreezemoney();
                     activityMyAccountBinding.freezeMoney.setText(freezemoney+"元");
 
                     //总的收入
-                    int totalincome = data1.getTotalincome();
+                    double totalincome = data1.getTotalincome();
                     activityMyAccountBinding.totalincome.setText(totalincome+"元");
 
                     //总支出金额
-                    int totaloutlay = data1.getTotaloutlay();
+                    double totaloutlay = data1.getTotaloutlay();
                     activityMyAccountBinding.totaloutlay.setText(totaloutlay+"元");
-
 
                 }else {
                     LogKit.d("rescode ="+rescode);
                 }
             }
-
             @Override
             public void executeResultError(String result) {
             LogKit.d("result:"+result);
@@ -67,9 +66,8 @@ public class MyAccountModel extends BaseObservable {
         });
     }
 
-
+    //提现
     public void withdrawals(View view){
-        LogKit.d("提现");
         Intent intentWithdrawalsActivity = new Intent(CommonUtils.getContext(), WithdrawalsActivity.class);
         intentWithdrawalsActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);
