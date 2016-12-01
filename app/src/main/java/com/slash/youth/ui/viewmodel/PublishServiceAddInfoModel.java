@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceAddinfoBinding;
+import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
@@ -43,6 +44,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
     private int quoteunit = 9;
     private double lng;
     private double lat;
+    ServiceDetailBean serviceDetailBean;
 
     public PublishServiceAddInfoModel(ActivityPublishServiceAddinfoBinding activityPublishServiceAddinfoBinding, Activity activity) {
         this.mActivityPublishServiceAddinfoBinding = activityPublishServiceAddinfoBinding;
@@ -53,6 +55,11 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
     private void initData() {
         optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
+
+        serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
+        if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
+            loadOriginServiceData();
+        }
     }
 
     private void initView() {
@@ -62,6 +69,14 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         mSallSkillLabels = mActivityPublishServiceAddinfoBinding.sallPublishServiceAddedSkilllabels;
         mSallSkillLabels.setActivity(mActivity);
         mSallSkillLabels.initSkillLabels();
+    }
+
+    /**
+     * 修改服务，首先回填服务数据
+     */
+    private void loadOriginServiceData() {
+        ServiceDetailBean.Service service = serviceDetailBean.data.service;
+
     }
 
     public void gotoBack(View v) {

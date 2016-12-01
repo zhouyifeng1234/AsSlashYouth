@@ -3,7 +3,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="publishServiceBaseInfoModel"
-                  type="com.slash.youth.ui.viewmodel.PublishServiceBaseInfoModel"/>
     </data>
     <FrameLayout
         android:layout_width="match_parent"

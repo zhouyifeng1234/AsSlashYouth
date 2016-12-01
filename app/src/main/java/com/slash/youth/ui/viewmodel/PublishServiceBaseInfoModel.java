@@ -9,11 +9,13 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
+import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -46,6 +48,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     long endtime;
     String starttimeStr;
     String endtimeStr;
+    ServiceDetailBean serviceDetailBean;
 
     public PublishServiceBaseInfoModel(ActivityPublishServiceBaseinfoBinding activityPublishServiceBaseinfoBinding, Activity activity) {
         this.mActivity = activity;
@@ -55,8 +58,12 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     }
 
     private void initData() {
-
+        serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
+        if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
+            loadOriginServiceData();
+        }
     }
+
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishServiceBaseinfoBinding.sdtpPublishServiceChooseDatetime;
@@ -65,6 +72,39 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         mSaplAddPic.initPic();
     }
 
+
+    /**
+     * 修改服务，首先回填服务数据
+     */
+    private void loadOriginServiceData() {
+        ServiceDetailBean.Service service = serviceDetailBean.data.service;
+        if (service.anonymity == PUBLISH_ANONYMITY_ANONYMOUS) {//匿名
+            checkAnonymous(null);
+        } else if (service.anonymity == PUBLISH_ANONYMITY_REALNAME) {//实名
+            checkRealName(null);
+        }
+        mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.setText(service.title);
+        mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.setText(service.desc);
+        if (service.timetype == SERVICE_TIMETYPE_USER_DEFINED) {//自定义
+            timetype = 0;
+            starttime = service.starttime;
+            endtime = service.endtime;
+            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日-hh:mm");
+            starttimeStr = sdf.format(starttime);
+            endtimeStr = sdf.format(endtime);
+            mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
+            mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
+        } else if (service.timetype == SERVICE_TIMETYPE_AFTER_WORK) {//下班后
+            checkIdleTimeAfterWork(null);
+        } else if (service.timetype == SERVICE_TIMETYPE_WEEKEND) {//周末
+            checkIdleTimeWeekend(null);
+        } else if (service.timetype == SERVICE_TIMETYPE_AFTER_WORK_AND_WEEKEND) {//下班后及周末
+            checkIdleTimeAfterWorkAndWeekend(null);
+        } else if (service.timetype == SERVICE_TIMETYPE_ANYTIME) {//随时
+            checkIdleTimeAnytime(null);
+        }
+        //还有图片没有处理
+    }
 
     public void gotoBack(View v) {
         mActivity.finish();
@@ -117,7 +157,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     public void nextStep(View v) {
 //        final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
-//
+//intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
 //        final Bundle bundleServiceData = new Bundle();
 //        String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
 //        bundleServiceData.putString("title", title);
@@ -166,6 +206,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 //        }
 
         Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+        intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
         mActivity.startActivity(intentPublishServiceAddInfoActivity);
     }
 

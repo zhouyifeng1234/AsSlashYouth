@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="17dp"
-                android:background="@drawable/dalei_ok_icon"
+                android:background="@mipmap/login_button"
                 android:onClick="@{activityLoginModel.login}"
                 android:text="登录"
                 android:textColor="#ffffff"
@@ -128,30 +128,30 @@
         >
             <TextView
                 android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="遇到问题?"
-                      android:textColor="#ffffff"
-                      android:textSize="15sp"/>
+                android:layout_height="wrap_content"
+                android:text="遇到问题?"
+                android:textColor="#ffffff"
+                android:textSize="15sp"/>
 
             <TextView
-                android:visibility="@{activityLoginModel.registerVisibility}"
-                android:onClick="@{activityLoginModel.register}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:onClick="@{activityLoginModel.register}"
                 android:text="新手注册"
                 android:textColor="#ffffff"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:visibility="@{activityLoginModel.registerVisibility}"/>
 
             <TextView
-                android:visibility="@{activityLoginModel.gotoLoginVisibility}"
-                android:onClick="@{activityLoginModel.gotoLogin}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:onClick="@{activityLoginModel.gotoLogin}"
                 android:text="我有账号,去登录"
                 android:textColor="#ffffff"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:visibility="@{activityLoginModel.gotoLoginVisibility}"/>
 
         </RelativeLayout>
     </RelativeLayout>

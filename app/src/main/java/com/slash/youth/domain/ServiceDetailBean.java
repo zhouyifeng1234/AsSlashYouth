@@ -1,9 +1,11 @@
 package com.slash.youth.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by zhouyifeng on 2016/11/30.
  */
-public class ServiceDetailBean {
+public class ServiceDetailBean implements Serializable {
     public int rescode;
     public Data data;
 

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
@@ -15,10 +16,13 @@ import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.SimilarServiceRecommendBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.ServiceEngine;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -76,6 +80,9 @@ public class ServiceDetailModel extends BaseObservable {
             PublishServiceSucceddActivity.activity.finish();
             PublishServiceSucceddActivity.activity = null;
         }
+        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
+        intentPublishServiceBaseInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
+        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
     }
 
     //下架服务
@@ -206,6 +213,8 @@ public class ServiceDetailModel extends BaseObservable {
 
     }
 
+    ServiceDetailBean serviceDetailBean;
+
     /**
      * 获取服务详情信息
      */
@@ -215,8 +224,10 @@ public class ServiceDetailModel extends BaseObservable {
                 @Override
                 public void execute(ServiceDetailBean dataBean) {
                     LogKit.v("service data:" + dataBean.data.service.title);
-
+                    serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
+
+                    getServiceUserInfo(service.uid);//获取服务发布者的个人信息
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角
                         setTopServiceBtnVisibility(View.VISIBLE);
@@ -324,6 +335,41 @@ public class ServiceDetailModel extends BaseObservable {
     }
 
     /**
+     * 获取服务发布者的个人信息
+     *
+     * @param uid
+     */
+    private void getServiceUserInfo(long uid) {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setIsAuthVisibility(View.INVISIBLE);
+                } else if (uinfo.isauth == 1) {//已认证
+                    setIsAuthVisibility(View.VISIBLE);
+                }
+                setUsername(uinfo.name);
+                setFanscount("粉丝数" + uinfo.fanscount);
+                setTaskcount("顺利成交单数" + uinfo.achievetaskcount + "/" + uinfo.totoltaskcount);//顺利成交单数9/12
+                String userPlace = "";
+                if (uinfo.province.equals(uinfo.city)) {
+                    userPlace = uinfo.province;
+                } else {
+                    userPlace = uinfo.province + uinfo.city;
+                }
+                setServiceUserPlace(userPlace);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, uid + "", "0");
+    }
+
+    /**
      * 从接口获取相似服务推荐的数据，当需求者视角看服务的时候，需要显示推荐服务
      */
     public void getRecommendServiceData() {
@@ -368,6 +414,11 @@ public class ServiceDetailModel extends BaseObservable {
     private String publishDatetime;//发布时间:9月18日 8:30
     private String serviceDesc;
     private String disputeHandingType;//纠纷处理方式，平台、协商
+    private int isAuthVisibility;
+    private String username;
+    private String fanscount;
+    private String taskcount;
+    private String serviceUserPlace;
 
     @Bindable
     public int getTopShareBtnVisibility() {
@@ -518,5 +569,55 @@ public class ServiceDetailModel extends BaseObservable {
     public void setDisputeHandingType(String disputeHandingType) {
         this.disputeHandingType = disputeHandingType;
         notifyPropertyChanged(BR.disputeHandingType);
+    }
+
+    @Bindable
+    public int getIsAuthVisibility() {
+        return isAuthVisibility;
+    }
+
+    public void setIsAuthVisibility(int isAuthVisibility) {
+        this.isAuthVisibility = isAuthVisibility;
+        notifyPropertyChanged(BR.isAuthVisibility);
+    }
+
+    @Bindable
+    public String getFanscount() {
+        return fanscount;
+    }
+
+    public void setFanscount(String fanscount) {
+        this.fanscount = fanscount;
+        notifyPropertyChanged(BR.fanscount);
+    }
+
+    @Bindable
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        notifyPropertyChanged(BR.username);
+    }
+
+    @Bindable
+    public String getTaskcount() {
+        return taskcount;
+    }
+
+    public void setTaskcount(String taskcount) {
+        this.taskcount = taskcount;
+        notifyPropertyChanged(BR.taskcount);
+    }
+
+    @Bindable
+    public String getServiceUserPlace() {
+        return serviceUserPlace;
+    }
+
+    public void setServiceUserPlace(String serviceUserPlace) {
+        this.serviceUserPlace = serviceUserPlace;
+        notifyPropertyChanged(BR.serviceUserPlace);
     }
 }

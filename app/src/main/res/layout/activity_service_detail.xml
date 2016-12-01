@@ -347,13 +347,16 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp">
                             <ImageView
+                                android:id="@+id/iv_service_user_avatar"
                                 android:layout_width="58dp"
                                 android:layout_height="58dp"
                                 android:src="@mipmap/assistant_icon"/>
                             <ImageView
                                 android:layout_width="15dp"
-                                android:layout_height="15dp" android:layout_gravity="right|bottom"
-                                android:src="@mipmap/tab_authentication"/>
+                                android:layout_height="15dp"
+                                android:layout_gravity="right|bottom"
+                                android:src="@mipmap/tab_authentication"
+                                android:visibility="@{serviceDetailModel.isAuthVisibility}"/>
                         </FrameLayout>
 
                         <LinearLayout
@@ -370,7 +373,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="张文萱"
+                                    android:text="@{serviceDetailModel.username}"
                                     android:textColor="#333333"
                                     android:textSize="15sp"/>
                                 <TextView
@@ -382,9 +385,10 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="粉丝数125"
+                                    android:text="@{serviceDetailModel.fanscount}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="13sp"/>
+                                <!--粉丝数125-->
 
                             </LinearLayout>
 
@@ -403,9 +407,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="顺利成交单数9/12"
+                                    android:text="@{serviceDetailModel.taskcount}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"/>
+                                <!--顺利成交单数9/12-->
                                 <ImageView
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
@@ -417,7 +422,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="苏州工业园区"
+                                    android:text="@{serviceDetailModel.serviceUserPlace}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"/>
 
