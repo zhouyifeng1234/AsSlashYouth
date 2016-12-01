@@ -20,7 +20,7 @@ import com.slash.youth.utils.CommonUtils;
 /**
  * Created by zss on 2016/11/4.
  */
-public class ThridPartyActivity extends Activity implements View.OnClickListener {
+public class BindThridPartyActivity extends Activity implements View.OnClickListener {
 
     private TextView title;
     private FrameLayout fl;
@@ -31,7 +31,7 @@ public class ThridPartyActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
 
         activityMyThridPartyBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_thrid_party);
-        ThirdPartyModel thirdPartyModel = new ThirdPartyModel(activityMyThridPartyBinding);
+        ThirdPartyModel thirdPartyModel = new ThirdPartyModel(activityMyThridPartyBinding,this);
         activityMyThridPartyBinding.setThirdPartyModel(thirdPartyModel);
 
         listener();
@@ -47,7 +47,6 @@ public class ThridPartyActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.iv_userinfo_back:
                 finish();

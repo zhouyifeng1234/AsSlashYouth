@@ -13,7 +13,7 @@ import com.slash.youth.ui.viewmodel.ChooseFriendModel;
 /**
  * Created by zss on 2016/11/2.
  */
-public class ChooseFriendActivtiy extends Activity implements View.OnClickListener {
+public class MyFriendActivtiy extends Activity implements View.OnClickListener {
 
     private TextView title;
     private ActivityChooseFriendBinding activityChooseFriendBinding;
@@ -26,14 +26,13 @@ public class ChooseFriendActivtiy extends Activity implements View.OnClickListen
         ChooseFriendModel chooseFriendModel = new ChooseFriendModel(activityChooseFriendBinding,this);
         activityChooseFriendBinding.setChooseFriendModel(chooseFriendModel);
 
-
         listener();
     }
 
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("选择好友");
+        title.setText("我的好友");
         findViewById(R.id.fl_title_right).setVisibility(View.GONE);
     }
 
