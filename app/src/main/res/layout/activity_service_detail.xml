@@ -466,9 +466,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="发布时间:9月18日 8:30"
+                                android:text="@{serviceDetailModel.publishDatetime}"
                                 android:textColor="#999999"
                                 android:textSize="13sp"/>
+                            <!--发布时间:9月18日 8:30-->
                         </LinearLayout>
 
                         <View
@@ -484,10 +485,11 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="18dp"
-                            android:text="1.良好的美术功底和和设计表现力；重视用户体验了解用户使用习惯；具有设计创意、良好的色彩运用能力"
+                            android:text="@{serviceDetailModel.serviceDesc}"
                             android:textColor="#999999"
                             android:textSize="14sp"
                         />
+                        <!--1.良好的美术功底和和设计表现力；重视用户体验了解用户使用习惯；具有设计创意、良好的色彩运用能力-->
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -498,6 +500,7 @@
                         />
 
                         <LinearLayout
+                            android:id="@+id/ll_service_detail_picline1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
@@ -584,6 +587,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_service_detail_picline2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
@@ -701,9 +705,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="平台方式"
+                                android:text="@{serviceDetailModel.disputeHandingType}"
                                 android:textColor="#31C5E4"
                                 android:textSize="13sp"/>
+                            <!--平台方式-->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

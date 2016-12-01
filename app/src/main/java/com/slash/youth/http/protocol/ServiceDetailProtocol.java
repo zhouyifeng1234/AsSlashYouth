@@ -8,7 +8,7 @@ import org.xutils.http.RequestParams;
 
 /**
  * 二、[服务]-查看服务详情
- *
+ * <p/>
  * Created by zhouyifeng on 2016/11/30.
  */
 public class ServiceDetailProtocol extends BaseProtocol<ServiceDetailBean> {
@@ -21,7 +21,7 @@ public class ServiceDetailProtocol extends BaseProtocol<ServiceDetailBean> {
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.SERVER_HOST_SERVICE;
+        return GlobalConstants.HttpUrl.SERVICE_DETAIL;
     }
 
     @Override

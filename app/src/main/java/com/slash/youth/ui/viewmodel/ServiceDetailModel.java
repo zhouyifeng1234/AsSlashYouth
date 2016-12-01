@@ -15,9 +15,12 @@ import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.SimilarServiceRecommendBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.ServiceEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -47,6 +50,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     private void initData() {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
+        LogKit.v("serviceId:" + serviceId);
         getServiceDetailData();
         getRecommendServiceData();
     }
@@ -151,6 +155,57 @@ public class ServiceDetailModel extends BaseObservable {
         }
     }
 
+    public void displayServicePic(String pic1FileId, String pic2FileId, String pic3FileId, String pic4FileId, String pic5FileId, String pic6FileId) {
+        if (!TextUtils.isEmpty(pic1FileId)) {
+            //加载第1张图片
+            mActivityServiceDetailBinding.flServiceDetailPicbox1.setVisibility(View.VISIBLE);
+            BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic1, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic1FileId);
+        } else {
+            mActivityServiceDetailBinding.flServiceDetailPicbox1.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(pic2FileId)) {
+            //加载第2张图片
+            mActivityServiceDetailBinding.flServiceDetailPicbox2.setVisibility(View.VISIBLE);
+            BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic2, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic2FileId);
+        } else {
+            mActivityServiceDetailBinding.flServiceDetailPicbox2.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(pic3FileId)) {
+            //加载第3张图片
+            mActivityServiceDetailBinding.flServiceDetailPicbox3.setVisibility(View.VISIBLE);
+            BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic3, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic3FileId);
+        } else {
+            mActivityServiceDetailBinding.flServiceDetailPicbox3.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(pic4FileId)) {
+            //加载第4张图片
+            mActivityServiceDetailBinding.flServiceDetailPicbox4.setVisibility(View.VISIBLE);
+            BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic4, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic4FileId);
+        } else {
+            mActivityServiceDetailBinding.flServiceDetailPicbox4.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(pic5FileId)) {
+            //加载第5张图片
+            mActivityServiceDetailBinding.flServiceDetailPicbox5.setVisibility(View.VISIBLE);
+            BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic5, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic5FileId);
+        } else {
+            mActivityServiceDetailBinding.flServiceDetailPicbox5.setVisibility(View.INVISIBLE);
+        }
+
+        if (!TextUtils.isEmpty(pic6FileId)) {//这种情况应该不存在，因为最多只能上传5张
+            //加载第6张图片
+            mActivityServiceDetailBinding.flServiceDetailPicbox6.setVisibility(View.VISIBLE);
+            BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic6, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic6FileId);
+        } else {
+            mActivityServiceDetailBinding.flServiceDetailPicbox6.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
     /**
      * 获取服务详情信息
      */
@@ -162,6 +217,21 @@ public class ServiceDetailModel extends BaseObservable {
                     LogKit.v("service data:" + dataBean.data.service.title);
 
                     ServiceDetailBean.Service service = dataBean.data.service;
+                    if (service.uid == LoginManager.currentLoginUserId) {
+                        //服务者视角
+                        setTopServiceBtnVisibility(View.VISIBLE);
+                        setTopShareBtnVisibility(View.GONE);
+
+                        setBottomBtnServiceVisibility(View.VISIBLE);
+                        setBottomBtnDemandVisibility(View.INVISIBLE);
+                    } else {
+                        //需求者视角
+                        setTopServiceBtnVisibility(View.GONE);
+                        setTopShareBtnVisibility(View.VISIBLE);
+
+                        setBottomBtnServiceVisibility(View.INVISIBLE);
+                        setBottomBtnDemandVisibility(View.VISIBLE);
+                    }
                     setTitle(service.title);
                     setQuote("¥" + service.quote + "元");
                     if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_USER_DEFINED) {//自定义时间
@@ -193,16 +263,56 @@ public class ServiceDetailModel extends BaseObservable {
                         displayTags(tags[0], tags[1], tags[2]);
                     }
                     if (service.pattern == 0) {//线上
-                        setOfflineItemVisibility(View.INVISIBLE);
+                        setOfflineItemVisibility(View.GONE);
                     } else if (service.pattern == 1) {//线下
                         setOffShelfLogoVisibility(View.VISIBLE);
                         setOfflinePlace("约定地点:" + service.place != null ? service.place : "");//约定地点:星湖街328号星湖广场
                     }
                     if (service.instalment == 0) {//关闭分期
-                        setInstalmentItemVisibility(View.INVISIBLE);
+                        setInstalmentItemVisibility(View.GONE);
                     } else if (service.instalment == 1) {//开启分期
                         setInstalmentItemVisibility(View.VISIBLE);
                     }
+                    //发布时间:9月18日 8:30
+                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("发布时间:MM月dd日 hh:mm");
+                    String publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                    setPublishDatetime(publicDatetimeStr);
+                    //服务描述
+                    setServiceDesc(service.desc);
+                    //服务相关图片
+                    String[] picFileIds = service.pic.split(",");
+                    if (picFileIds.length <= 0) {//这种情况应该不存在，因为至少传一张图片
+                        mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.GONE);
+                        mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.GONE);
+                    } else if (picFileIds.length > 0 && picFileIds.length <= 3) {
+                        mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.VISIBLE);
+                        mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.GONE);
+                        if (picFileIds.length == 1) {
+                            displayServicePic(picFileIds[0], null, null, null, null, null);
+                        } else if (picFileIds.length == 2) {
+                            displayServicePic(picFileIds[0], picFileIds[1], null, null, null, null);
+                        } else if (picFileIds.length == 3) {
+                            displayServicePic(picFileIds[0], picFileIds[1], picFileIds[2], null, null, null);
+                        }
+                    } else {
+                        mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.VISIBLE);
+                        mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.VISIBLE);
+                        if (picFileIds.length == 4) {
+                            displayServicePic(picFileIds[0], picFileIds[1], picFileIds[2], picFileIds[3], null, null);
+                        } else if (picFileIds.length == 5) {
+                            displayServicePic(picFileIds[0], picFileIds[1], picFileIds[2], picFileIds[3], picFileIds[4], null);
+                        } else if (picFileIds.length == 6) {//这种情况应该不存在，因为最多就只能传5张图片
+                            displayServicePic(picFileIds[0], picFileIds[1], picFileIds[2], picFileIds[3], picFileIds[4], picFileIds[5]);
+                        }
+                    }
+                    //纠纷处理方式
+                    if (service.bp == 1) {
+                        setDisputeHandingType("平台方式");
+                    } else if (service.bp == 2) {
+                        setDisputeHandingType("协商方式");
+                    }
+                    //上架、下架显示 用isonline字段判断
+//                    if(service.isonline)
                 }
 
                 @Override
@@ -255,7 +365,9 @@ public class ServiceDetailModel extends BaseObservable {
     private int offlineItemVisibility = View.INVISIBLE;
     private String offlinePlace;//约定地点:星湖街328号星湖广场
     private int instalmentItemVisibility = View.INVISIBLE;
-
+    private String publishDatetime;//发布时间:9月18日 8:30
+    private String serviceDesc;
+    private String disputeHandingType;//纠纷处理方式，平台、协商
 
     @Bindable
     public int getTopShareBtnVisibility() {
@@ -375,5 +487,36 @@ public class ServiceDetailModel extends BaseObservable {
     public void setInstalmentItemVisibility(int instalmentItemVisibility) {
         this.instalmentItemVisibility = instalmentItemVisibility;
         notifyPropertyChanged(BR.instalmentItemVisibility);
+    }
+
+    @Bindable
+    public String getPublishDatetime() {
+        return publishDatetime;
+    }
+
+
+    public void setPublishDatetime(String publishDatetime) {
+        this.publishDatetime = publishDatetime;
+        notifyPropertyChanged(BR.publishDatetime);
+    }
+
+    @Bindable
+    public String getServiceDesc() {
+        return serviceDesc;
+    }
+
+    public void setServiceDesc(String serviceDesc) {
+        this.serviceDesc = serviceDesc;
+        notifyPropertyChanged(BR.serviceDesc);
+    }
+
+    @Bindable
+    public String getDisputeHandingType() {
+        return disputeHandingType;
+    }
+
+    public void setDisputeHandingType(String disputeHandingType) {
+        this.disputeHandingType = disputeHandingType;
+        notifyPropertyChanged(BR.disputeHandingType);
     }
 }
