@@ -1,25 +1,13 @@
 package com.slash.youth.domain;
 
-import android.graphics.drawable.GradientDrawable;
-
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by zss on 2016/11/9. //我的模块首页Bean
  */
 public class MyFirstPageBean {
-
-
-    /**
-     * myinfo : {"achievetaskcount":0,"amount":102400,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"expertlevel":0,"expertlevels":[],"expertscore":0,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}
-     */
-
     private DataBean data;
-    /**
-     * data : {"myinfo":{"achievetaskcount":0,"amount":102400,"avatar":"","averageservicepoint":0,"careertype":1,"city":"北京","company":"腾讯","direction":"客户端","expert":2,"expertlevel":0,"expertlevels":[],"expertscore":0,"fanscount":0,"fansratio":0,"id":10002,"identity":"","industry":"互联网","isauth":1,"name":"小赵","position":"技术专家","province":"北京","tag":"android ios","totoltaskcount":0,"userservicepoint":0}}
-     * rescode : 0
-     */
-
     private int rescode;
 
     public DataBean getData() {
@@ -39,33 +27,6 @@ public class MyFirstPageBean {
     }
 
     public static class DataBean {
-        /**
-         * achievetaskcount : 0
-         * amount : 102400
-         * avatar :
-         * averageservicepoint : 0
-         * careertype : 1
-         * city : 北京
-         * company : 腾讯
-         * direction : 客户端
-         * expert : 2
-         * expertlevel : 0
-         * expertlevels : []
-         * expertscore : 0
-         * fanscount : 0
-         * fansratio : 0
-         * id : 10002
-         * identity :
-         * industry : 互联网
-         * isauth : 1
-         * name : 小赵
-         * position : 技术专家
-         * province : 北京
-         * tag : android ios
-         * totoltaskcount : 0
-         * userservicepoint : 0
-         */
-
         private MyinfoBean myinfo;
 
         public MyinfoBean getMyinfo() {
@@ -76,18 +37,17 @@ public class MyFirstPageBean {
             this.myinfo = myinfo;
         }
 
-        public static class MyinfoBean {
+        public static class MyinfoBean implements Serializable {
             private int achievetaskcount;
-            private int amount;
-            private String phone;
+            private double amount;
             private String avatar;
             private int averageservicepoint;
             private int careertype;
             private String city;
             private String company;
             private String direction;
-            private int expert;
             private int expertlevel;
+            private double expertratio;
             private int expertscore;
             private int fanscount;
             private int fansratio;
@@ -96,20 +56,13 @@ public class MyFirstPageBean {
             private String industry;
             private int isauth;
             private String name;
+            private String phone;
             private String position;
             private String province;
             private String tag;
             private int totoltaskcount;
             private int userservicepoint;
-            private List<?> expertlevels;
-
-            public String getPhone() {
-                return phone;
-            }
-
-            public void setPhone(String phone) {
-                this.phone = phone;
-            }
+            private List<Integer> expertlevels;
 
             public int getAchievetaskcount() {
                 return achievetaskcount;
@@ -119,11 +72,11 @@ public class MyFirstPageBean {
                 this.achievetaskcount = achievetaskcount;
             }
 
-            public int getAmount() {
+            public double getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(double amount) {
                 this.amount = amount;
             }
 
@@ -175,20 +128,20 @@ public class MyFirstPageBean {
                 this.direction = direction;
             }
 
-            public int getExpert() {
-                return expert;
-            }
-
-            public void setExpert(int expert) {
-                this.expert = expert;
-            }
-
             public int getExpertlevel() {
                 return expertlevel;
             }
 
             public void setExpertlevel(int expertlevel) {
                 this.expertlevel = expertlevel;
+            }
+
+            public double getExpertratio() {
+                return expertratio;
+            }
+
+            public void setExpertratio(double expertratio) {
+                this.expertratio = expertratio;
             }
 
             public int getExpertscore() {
@@ -255,6 +208,14 @@ public class MyFirstPageBean {
                 this.name = name;
             }
 
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
             public String getPosition() {
                 return position;
             }
@@ -295,11 +256,11 @@ public class MyFirstPageBean {
                 this.userservicepoint = userservicepoint;
             }
 
-            public List<?> getExpertlevels() {
+            public List<Integer> getExpertlevels() {
                 return expertlevels;
             }
 
-            public void setExpertlevels(List<?> expertlevels) {
+            public void setExpertlevels(List<Integer> expertlevels) {
                 this.expertlevels = expertlevels;
             }
         }
