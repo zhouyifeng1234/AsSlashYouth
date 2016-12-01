@@ -73,6 +73,7 @@
                 </LinearLayout>
 
                  <ImageView
+                     android:onClick="@{itemMySkillManageModel.delete}"
                      android:id="@+id/iv_delete_skill"
                      android:layout_marginTop="11dp"
                      android:layout_alignParentRight="true"

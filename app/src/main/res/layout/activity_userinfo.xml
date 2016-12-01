@@ -5,6 +5,10 @@
         <variable name="activityUserInfoModel" type="com.slash.youth.ui.viewmodel.ActivityUserInfoModel"/>
     </data>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -139,6 +143,7 @@
                                     android:textSize="15sp"/>
 
                                 <ImageView
+                                    android:onClick="@{activityUserInfoModel.OpenApprovalActivtity}"
                                     android:id="@+id/iv_userinfo_v"
                                     android:visibility="gone"
                                     android:layout_width="14dp"
@@ -693,6 +698,7 @@
 
                     <!--聊一聊-->
                     <RelativeLayout
+                        android:onClick="@{activityUserInfoModel.chat}"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
@@ -721,6 +727,7 @@
 
                     <!--关注他-->
                     <RelativeLayout
+                        android:onClick="@{activityUserInfoModel.attention}"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
@@ -732,6 +739,7 @@
                             android:layout_height="wrap_content"
                             android:src="@mipmap/attention_icon"/>
                         <TextView
+                            android:id="@+id/tv_attention_TA"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_width="wrap_content"
@@ -747,6 +755,7 @@
 
                     <!--推荐-->
                     <RelativeLayout
+                        android:onClick="@{activityUserInfoModel.recommend}"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
@@ -773,6 +782,7 @@
                         android:background="#31C5E4"
                         android:onClick="@{activityUserInfoModel.addFriend}">
                         <TextView
+                            android:id="@+id/tv_add_friend"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
@@ -791,7 +801,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 />
-
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_dialog_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+
+    </FrameLayout>
 </layout>
 
