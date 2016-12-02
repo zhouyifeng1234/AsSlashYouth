@@ -168,6 +168,8 @@ public class GlobalConstants {
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
         //二、[服务]-查看服务详情
         public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
+        //三、[服务]-修改服务
+        public static final String UPDATE_SERVICE = SERVER_HOST_SERVICE + "updateone";
 
         //三、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";

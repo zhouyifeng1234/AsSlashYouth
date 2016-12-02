@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -13,13 +14,18 @@ import android.widget.RelativeLayout;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceAddinfoBinding;
+import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.PublishServiceResultBean;
 import com.slash.youth.domain.ServiceDetailBean;
+import com.slash.youth.engine.ServiceEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
@@ -76,7 +82,43 @@ public class PublishServiceAddInfoModel extends BaseObservable {
      */
     private void loadOriginServiceData() {
         ServiceDetailBean.Service service = serviceDetailBean.data.service;
+        //填报价
+        mActivityPublishServiceAddinfoBinding.etServiceQuote.setText(service.quote);
+        //报价单位
+        quoteunit = service.quoteunit;
+        mChoosePriceUnit = optionalPriceUnit[service.quoteunit - 1];
+        if (quoteunit < 9) {
+            setPriceUnit("元/" + mChoosePriceUnit);
+        } else {
+            setPriceUnit("元");
+        }
+        //分期
+        RelativeLayout.LayoutParams layoutParams
+                = (RelativeLayout.LayoutParams) mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentHandle.getLayoutParams();
+        if (service.instalment == 0) {//分期关闭
+            isInstalment = false;
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+        } else if (service.instalment == 1) {//分期开启
+            isInstalment = true;
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
 
+        }
+        //线上、线下
+        if (service.pattern == 0) {//线上
+            checkOnline(null);
+        } else if (service.pattern == 1) {//线下
+            checkOffline(null);
+        }
+        //线下地址
+        mActivityPublishServiceAddinfoBinding.etPublishServiceAddress.setText(service.place);
+        lng = service.lng;
+        lat = service.lat;
+        //纠纷处理方式
+        checkedDisputeHandingTypeIndex = service.bp - 1;
+        mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[checkedDisputeHandingTypeIndex]);
+        mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
     }
 
     public void gotoBack(View v) {
@@ -135,58 +177,80 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
     public void publish(View v) {
         //发布成功以后才能跳转到成功页面,这里只是为了方便测试直接跳转
-        Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
-        intentPublishServiceSuccessActivity.putExtra("serviceId", 88l);
-        mActivity.startActivity(intentPublishServiceSuccessActivity);
-        mActivity.finish();
-        if (PublishServiceBaseInfoActivity.activity != null) {
-            PublishServiceBaseInfoActivity.activity.finish();
-            PublishServiceBaseInfoActivity.activity = null;
+//        Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
+//        intentPublishServiceSuccessActivity.putExtra("serviceId", 88l);
+//        mActivity.startActivity(intentPublishServiceSuccessActivity);
+//        mActivity.finish();
+//        if (PublishServiceBaseInfoActivity.activity != null) {
+//            PublishServiceBaseInfoActivity.activity.finish();
+//            PublishServiceBaseInfoActivity.activity = null;
+//        }
+
+        Bundle bundleServiceData = mActivity.getIntent().getExtras();
+        String title = bundleServiceData.getString("title");
+        String desc = bundleServiceData.getString("desc");
+        int anonymity = bundleServiceData.getInt("anonymity");
+        int timetype = bundleServiceData.getInt("timetype");
+        long starttime = bundleServiceData.getLong("starttime");
+        long endtime = bundleServiceData.getLong("endtime");
+        ArrayList<String> listPic = bundleServiceData.getStringArrayList("pic");
+
+
+        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
+        double quote;
+        try {
+            quote = Double.parseDouble(mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString());
+        } catch (Exception ex) {
+            quote = 0;
         }
 
-//        Bundle bundleServiceData = mActivity.getIntent().getExtras();
-//        String title = bundleServiceData.getString("title");
-//        String desc = bundleServiceData.getString("desc");
-//        int anonymity = bundleServiceData.getInt("anonymity");
-//        int timetype = bundleServiceData.getInt("timetype");
-//        long starttime = bundleServiceData.getLong("starttime");
-//        long endtime = bundleServiceData.getLong("endtime");
-//        ArrayList<String> listPic = bundleServiceData.getStringArrayList("pic");
-//
-//
-//        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
-//        double quote;
-//        try {
-//            quote = Double.parseDouble(mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString());
-//        } catch (Exception ex) {
-//            quote = 0;
-//        }
-//
-//        int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
-//        int pattern = isOnline == true ? 0 : 1;//1线下 0线上
-//        int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
-//        String place = getLocationAddress();
-//
-//        ServiceEngine.publishService(new BaseProtocol.IResultExecutor<PublishServiceResultBean>() {
-//            @Override
-//            public void execute(PublishServiceResultBean dataBean) {
-//                LogKit.v("发布成功，id:" + dataBean.data.id);
-//                //发布成功以后才能跳转到成功页面
-//                Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
-//                intentPublishServiceSuccessActivity.putExtra("serviceId", dataBean.data.id);
-//                mActivity.startActivity(intentPublishServiceSuccessActivity);
-//                mActivity.finish();
-//                if (PublishServiceBaseInfoActivity.activity != null) {
-//                    PublishServiceBaseInfoActivity.activity.finish();
-//                    PublishServiceBaseInfoActivity.activity = null;
-//                }
-//            }
-//
-//            @Override
-//            public void executeResultError(String result) {
-//
-//            }
-//        }, title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+        int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
+        int pattern = isOnline == true ? 0 : 1;//1线下 0线上
+        int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
+        String place = getLocationAddress();
+
+        if (serviceDetailBean != null) {//修改服务
+            ServiceEngine.updateService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    //这里是修改服务成功后跳转
+                    Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
+                    intentPublishServiceSuccessActivity.putExtra("serviceId", );
+                    mActivity.startActivity(intentPublishServiceSuccessActivity);
+                    mActivity.finish();
+                    if (PublishServiceBaseInfoActivity.activity != null) {
+                        PublishServiceBaseInfoActivity.activity.finish();
+                        PublishServiceBaseInfoActivity.activity = null;
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, serviceDetailBean.data.service.id + "", title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+        } else {//发布服务
+            ServiceEngine.publishService(new BaseProtocol.IResultExecutor<PublishServiceResultBean>() {
+                @Override
+                public void execute(PublishServiceResultBean dataBean) {
+                    LogKit.v("发布成功，id:" + dataBean.data.id);
+                    //发布成功以后才能跳转到成功页面
+                    Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
+                    intentPublishServiceSuccessActivity.putExtra("serviceId", dataBean.data.id);
+                    mActivity.startActivity(intentPublishServiceSuccessActivity);
+                    mActivity.finish();
+                    if (PublishServiceBaseInfoActivity.activity != null) {
+                        PublishServiceBaseInfoActivity.activity.finish();
+                        PublishServiceBaseInfoActivity.activity = null;
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+        }
     }
 
     public void openMapActivity(View v) {

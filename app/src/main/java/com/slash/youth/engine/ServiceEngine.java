@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
+import com.slash.youth.http.protocol.UpdateServiceProtocol;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,12 @@ public class ServiceEngine {
     public static void getServiceDetail(BaseProtocol.IResultExecutor onGetServiceDetailFinished, String id) {
         ServiceDetailProtocol serviceDetailProtocol = new ServiceDetailProtocol(id);
         serviceDetailProtocol.getDataFromServer(onGetServiceDetailFinished);
+    }
+
+
+    public static void updateService(BaseProtocol.IResultExecutor onUpdateServiceFinished, String id, String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
+        UpdateServiceProtocol updateServiceProtocol = new UpdateServiceProtocol(id, title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+        updateServiceProtocol.getDataFromServer(onUpdateServiceFinished);
     }
 
 
