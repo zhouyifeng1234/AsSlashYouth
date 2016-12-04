@@ -126,6 +126,9 @@
         <ImageView android:id="@+id/iv_download_img" android:layout_width="200dp"
                    android:layout_height="200dp"/>
 
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:onClick="testBA"
+                android:text="BA认证测试(以服务详情页接口测试)"/>
 
     </LinearLayout>
 </ScrollView>

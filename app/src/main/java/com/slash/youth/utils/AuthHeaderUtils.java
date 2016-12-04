@@ -20,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class AuthHeaderUtils {
     private static final String AUTH_METHOD = "SYS";
     private static final String APPKEY = "slash-youth";
-    private static final String APPSECRET = "'8faf2d32-610a-11e6-b39c-00228f0e418a'";
+    private static final String APPSECRET = "8faf2d32-610a-11e6-b39c-00228f0e418a";
 
     /**
      * @param method GET | POST | DELETE | PUT
@@ -65,7 +65,8 @@ public class AuthHeaderUtils {
      */
     public static String getGMTDate() {
         long timeMillis = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH);
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
         String dateStr = sdf.format(new Date(timeMillis));
 //        String[] dateArr = dateStr.split(" ");
 //        dateArr[4] = "GMT";

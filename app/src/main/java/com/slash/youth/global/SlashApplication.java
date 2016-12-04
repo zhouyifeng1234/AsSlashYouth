@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.slash.youth.BuildConfig;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.LogKit;
@@ -85,6 +86,9 @@ public class SlashApplication extends Application {
         handler = new Handler();
         application = this;
         x.Ext.init(this);
+        x.Ext.setDebug(BuildConfig.DEBUG);
+//        x.image().clearCacheFiles();
+//        x.image().clearMemCache();
         //注册微信的APPID
 
         /**

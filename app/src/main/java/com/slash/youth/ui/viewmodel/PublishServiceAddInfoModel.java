@@ -26,6 +26,7 @@ import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
     }
 
     private void initData() {
+        mSallSkillLabels = mActivityPublishServiceAddinfoBinding.sallPublishServiceAddedSkilllabels;//在 loadOriginServiceData()中会使用，所以必须在这里初始化
         optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
 
         serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
@@ -72,7 +74,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         mNpChoosePriceUnit = mActivityPublishServiceAddinfoBinding.npChoosePriceUnit;
 
         mActivityPublishServiceAddinfoBinding.svPublishServiceLabels.setVerticalScrollBarEnabled(false);
-        mSallSkillLabels = mActivityPublishServiceAddinfoBinding.sallPublishServiceAddedSkilllabels;
+
         mSallSkillLabels.setActivity(mActivity);
         mSallSkillLabels.initSkillLabels();
     }
@@ -83,7 +85,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
     private void loadOriginServiceData() {
         ServiceDetailBean.Service service = serviceDetailBean.data.service;
         //填报价
-        mActivityPublishServiceAddinfoBinding.etServiceQuote.setText(service.quote);
+        mActivityPublishServiceAddinfoBinding.etServiceQuote.setText(service.quote + "");
         //报价单位
         quoteunit = service.quoteunit;
         mChoosePriceUnit = optionalPriceUnit[service.quoteunit - 1];
@@ -119,6 +121,20 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         checkedDisputeHandingTypeIndex = service.bp - 1;
         mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[checkedDisputeHandingTypeIndex]);
         mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
+        //技能标签
+        String[] tags = service.tag.split(",");
+        ArrayList<String> reloadLabels = new ArrayList<String>();
+        for (String tag : tags) {
+            String[] tagInfo = tag.split("-");
+            String tagName;
+            if (tagInfo.length == 3) {
+                tagName = tagInfo[2];
+            } else {
+                tagName = tag;
+            }
+            reloadLabels.add(tagName);
+        }
+        mSallSkillLabels.reloadSkillLabels(reloadLabels);
     }
 
     public void gotoBack(View v) {
@@ -215,7 +231,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
                 public void execute(CommonResultBean dataBean) {
                     //这里是修改服务成功后跳转
                     Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
-                    intentPublishServiceSuccessActivity.putExtra("serviceId", );
+                    intentPublishServiceSuccessActivity.putExtra("serviceId", serviceDetailBean.data.service.id);
                     mActivity.startActivity(intentPublishServiceSuccessActivity);
                     mActivity.finish();
                     if (PublishServiceBaseInfoActivity.activity != null) {
@@ -226,7 +242,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
                 @Override
                 public void executeResultError(String result) {
-
+                    ToastUtils.shortToast("修改失败：" + result);
                 }
             }, serviceDetailBean.data.service.id + "", title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
         } else {//发布服务
@@ -247,7 +263,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
                 @Override
                 public void executeResultError(String result) {
-
+                    ToastUtils.shortToast("发布服务失败：" + result);
                 }
             }, title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
         }

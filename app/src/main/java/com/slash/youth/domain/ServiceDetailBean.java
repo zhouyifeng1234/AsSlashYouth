@@ -9,11 +9,11 @@ public class ServiceDetailBean implements Serializable {
     public int rescode;
     public Data data;
 
-    public class Data {
+    public class Data implements Serializable {
         public Service service;
     }
 
-    public class Service {
+    public class Service implements Serializable {
         public int anonymity;
         public int bp;
         public long cts;

@@ -4,18 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
 import com.slash.youth.domain.ServiceDetailBean;
+import com.slash.youth.domain.UploadFileResultBean;
+import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
+import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,6 +71,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     }
 
     private void initData() {
+        mSaplAddPic = mActivityPublishServiceBaseinfoBinding.saplPublishServiceAddpic;//在loadOriginServiceData()中会使用，所以必须在这里初始化
         serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
         if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
             loadOriginServiceData();
@@ -67,7 +81,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishServiceBaseinfoBinding.sdtpPublishServiceChooseDatetime;
-        mSaplAddPic = mActivityPublishServiceBaseinfoBinding.saplPublishServiceAddpic;
+
         mSaplAddPic.setActivity(mActivity);
         mSaplAddPic.initPic();
     }
@@ -104,6 +118,47 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
             checkIdleTimeAnytime(null);
         }
         //还有图片没有处理
+        String[] picFileIds = service.pic.split(",");
+        final String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+        File cacheDir = new File(picCachePath);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdir();
+        }
+        for (String fileId : picFileIds) {
+            DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
+                @Override
+                public void execute(byte[] dataBean) {
+//                    if (dataBean.length < 50) {
+//
+//                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length);
+                    if (bitmap != null) {
+
+
+                        File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(tempFile);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                            fos = new FileOutputStream(tempFile);
+//                            fos.write(dataBean);
+                            mSaplAddPic.reloadPic(tempFile.getAbsolutePath());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } finally {
+                            IOUtils.close(fos);
+                        }
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, fileId);
+        }
+
     }
 
     public void gotoBack(View v) {
@@ -156,58 +211,58 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     }
 
     public void nextStep(View v) {
-//        final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
-//intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
-//        final Bundle bundleServiceData = new Bundle();
-//        String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
-//        bundleServiceData.putString("title", title);
-//        String desc = mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.getText().toString();
-//        bundleServiceData.putString("desc", desc);
-//        bundleServiceData.putInt("anonymity", anonymity);//取值只能1或者0 (1实名 0匿名)
-//        bundleServiceData.putInt("timetype", timetype);
-//        bundleServiceData.putLong("starttime", starttime);
-//        bundleServiceData.putLong("endtime", endtime);
-//        final ArrayList<String> imgUrl = new ArrayList<String>();
-//        bundleServiceData.putStringArrayList("pic", imgUrl);
-//        final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
-//        if (addedPicTempPath.size() <= 0) {
-//            ToastUtils.shortToast("至少上传一张图片");
-//            return;
-//        }
-//        LogKit.v(addedPicTempPath.size() + "");
-//        final int[] uploadCount = {0};
-//        for (final String filePath : addedPicTempPath) {
-//            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
-//                @Override
-//                public void execute(UploadFileResultBean dataBean) {
-//                    LogKit.v(filePath + ":上传成功");
-//                    uploadCount[0]++;
-//                    LogKit.v("uploadCount:" + uploadCount[0]);
-//                    LogKit.v(dataBean + "");
-//                    imgUrl.add(dataBean.data.fileId);
-//
-//                    if (uploadCount[0] >= addedPicTempPath.size()) {
-//                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
-//                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
-//                    }
-//                }
-//
-//                @Override
-//                public void executeResultError(String result) {
-//                    LogKit.v(filePath + ":上传失败");
-//                    uploadCount[0]++;
-//                    LogKit.v("uploadCount:" + uploadCount[0]);
-//                    if (uploadCount[0] >= addedPicTempPath.size()) {
-//                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
-//                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
-//                    }
-//                }
-//            }, filePath);
-//        }
-
-        Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+        final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
         intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
-        mActivity.startActivity(intentPublishServiceAddInfoActivity);
+        final Bundle bundleServiceData = new Bundle();
+        String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
+        bundleServiceData.putString("title", title);
+        String desc = mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.getText().toString();
+        bundleServiceData.putString("desc", desc);
+        bundleServiceData.putInt("anonymity", anonymity);//取值只能1或者0 (1实名 0匿名)
+        bundleServiceData.putInt("timetype", timetype);
+        bundleServiceData.putLong("starttime", starttime);
+        bundleServiceData.putLong("endtime", endtime);
+        final ArrayList<String> imgUrl = new ArrayList<String>();
+        bundleServiceData.putStringArrayList("pic", imgUrl);
+        final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
+        if (addedPicTempPath.size() <= 0) {
+            ToastUtils.shortToast("至少上传一张图片");
+            return;
+        }
+        LogKit.v(addedPicTempPath.size() + "");
+        final int[] uploadCount = {0};
+        for (final String filePath : addedPicTempPath) {
+            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
+                @Override
+                public void execute(UploadFileResultBean dataBean) {
+                    LogKit.v(filePath + ":上传成功");
+                    uploadCount[0]++;
+                    LogKit.v("uploadCount:" + uploadCount[0]);
+                    LogKit.v(dataBean + "");
+                    imgUrl.add(dataBean.data.fileId);
+
+                    if (uploadCount[0] >= addedPicTempPath.size()) {
+                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
+                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.v(filePath + ":上传失败");
+                    uploadCount[0]++;
+                    LogKit.v("uploadCount:" + uploadCount[0]);
+                    if (uploadCount[0] >= addedPicTempPath.size()) {
+                        intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
+                        mActivity.startActivity(intentPublishServiceAddInfoActivity);
+                    }
+                }
+            }, filePath);
+        }
+
+//        Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+//        intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
+//        mActivity.startActivity(intentPublishServiceAddInfoActivity);
     }
 
     public void cancelChooseTime(View v) {

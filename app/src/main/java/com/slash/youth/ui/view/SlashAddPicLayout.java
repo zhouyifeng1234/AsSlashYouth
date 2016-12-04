@@ -192,6 +192,16 @@ public class SlashAddPicLayout extends LinearLayout {
 
     }
 
+    /**
+     * 这个方法主要是用在修改需求或者服务时候，回填之前上传的图片
+     *
+     * @param picPath
+     */
+    public void reloadPic(String picPath) {
+        listFilePath.add(picPath);
+        addPic();
+    }
+
     public void setActivity(Activity activity) {
         this.mActivity = activity;
     }

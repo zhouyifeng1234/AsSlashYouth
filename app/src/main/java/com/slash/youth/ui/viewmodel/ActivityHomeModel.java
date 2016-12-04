@@ -10,7 +10,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
-import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
@@ -109,7 +109,12 @@ public class ActivityHomeModel extends BaseObservable {
 //        intentSecondTimePublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentSecondTimePublishServiceActivity);
 
-        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
-        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
+
+//        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
+//        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
+
+        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+        intentServiceDetailActivity.putExtra("serviceId", 103l);
+        mActivity.startActivity(intentServiceDetailActivity);
     }
 }

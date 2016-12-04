@@ -166,6 +166,7 @@ public class ServiceDetailModel extends BaseObservable {
         if (!TextUtils.isEmpty(pic1FileId)) {
             //加载第1张图片
             mActivityServiceDetailBinding.flServiceDetailPicbox1.setVisibility(View.VISIBLE);
+            LogKit.v("pic1FileId:" + pic1FileId);
             BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceDetailPic1, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic1FileId);
         } else {
             mActivityServiceDetailBinding.flServiceDetailPicbox1.setVisibility(View.INVISIBLE);
