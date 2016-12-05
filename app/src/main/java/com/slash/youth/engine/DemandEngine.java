@@ -25,6 +25,7 @@ import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
+import com.slash.youth.http.protocol.UpdateDemandProtocol;
 
 import java.util.ArrayList;
 
@@ -306,5 +307,13 @@ public class DemandEngine {
         commentProtocol.getDataFromServer(onCommentFinished);
     }
 
+
+    /**
+     * 三、[需求]-修改需求
+     */
+    public static void updateDemand(BaseProtocol.IResultExecutor onUpdateDemandFinished, String id, String title, ArrayList<String> listTag, String starttime, String anonymity, String desc, ArrayList<String> listPic, String instalment, String bp, String pattern, String place, String placedetail, String lng, String lat, String offer, String quote) {
+        UpdateDemandProtocol updateDemandProtocol = new UpdateDemandProtocol(id, title, listTag, starttime, anonymity, desc, listPic, instalment, bp, pattern, place, placedetail, lng, lat, offer, quote);
+        updateDemandProtocol.getDataFromServer(onUpdateDemandFinished);
+    }
 
 }

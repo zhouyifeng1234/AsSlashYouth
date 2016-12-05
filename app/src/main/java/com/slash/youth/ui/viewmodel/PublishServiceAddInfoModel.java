@@ -105,8 +105,8 @@ public class PublishServiceAddInfoModel extends BaseObservable {
             isInstalment = true;
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
-
         }
+        mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentHandle.setLayoutParams(layoutParams);
         //线上、线下
         if (service.pattern == 0) {//线上
             checkOnline(null);

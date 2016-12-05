@@ -160,6 +160,8 @@ public class DemandDetailModel extends BaseObservable {
 
     }
 
+    DemandDetailBean demandDetailBean;
+
     /**
      * 获取需求详情信息
      */
@@ -167,6 +169,7 @@ public class DemandDetailModel extends BaseObservable {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
+                demandDetailBean = dataBean;
                 DemandDetailBean.Demand demand = dataBean.data.demand;
                 if (LoginManager.currentLoginUserId == demand.uid) {//需求者视角
                     setTopShareBtnVisibility(View.GONE);
@@ -241,7 +244,14 @@ public class DemandDetailModel extends BaseObservable {
                         displayServicePic(picFileIds[0], picFileIds[1], picFileIds[2], picFileIds[3], picFileIds[4], picFileIds[5]);
                     }
                 }
-
+                //纠纷处理方式
+                if (demand.bp == 1) {
+                    setDisputeHandingType("平台方式");
+                } else if (demand.bp == 2) {
+                    setDisputeHandingType("协商方式");
+                }
+                //上架、下架显示 用isonline字段判断
+//                    if(demand.isonline)
 
                 getDemandUserInfo(demand.uid);//获取需求发布者的信息
             }
@@ -305,14 +315,15 @@ public class DemandDetailModel extends BaseObservable {
 
     //修改需求内容，会跳转到发布需求的页面，并在发布需求页面自动填充已有的内容
     public void updateDemand(View v) {
+        Intent intentPublishDemandBaseInfo = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
+//        intentPublishDemandBaseInfo.putExtra("update", "update");
+        intentPublishDemandBaseInfo.putExtra("demandDetailBean", demandDetailBean);
+        mActivity.startActivity(intentPublishDemandBaseInfo);
+        mActivity.finish();
         if (PublishDemandSuccessActivity.mActivity != null) {
             PublishDemandSuccessActivity.mActivity.finish();
             PublishDemandSuccessActivity.mActivity = null;
         }
-        Intent intentPublishDemandBaseInfo = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
-        intentPublishDemandBaseInfo.putExtra("update", "update");
-        mActivity.startActivity(intentPublishDemandBaseInfo);
-        mActivity.finish();
     }
 
     //下架需求操作
@@ -373,6 +384,17 @@ public class DemandDetailModel extends BaseObservable {
 
     private String demandPublishTime;
     private String demandDesc;
+    private String disputeHandingType;
+
+    @Bindable
+    public String getDisputeHandingType() {
+        return disputeHandingType;
+    }
+
+    public void setDisputeHandingType(String disputeHandingType) {
+        this.disputeHandingType = disputeHandingType;
+        notifyPropertyChanged(BR.disputeHandingType);
+    }
 
     @Bindable
     public String getDemandDesc() {

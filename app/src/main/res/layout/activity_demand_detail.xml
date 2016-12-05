@@ -673,48 +673,6 @@
 
                         </LinearLayout>
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="7dp"
-                    app:cardBackgroundColor="#ffffff"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="3dp"
-                    app:cardUseCompatPadding="true"
-                >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                    >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="13dp"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:layout_width="19dp"
-                                android:layout_height="15dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@mipmap/payment_icon"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="9dp"
-                                android:text="付款方式分期到账"
-                                android:textColor="#999999"
-                                android:textSize="13sp"/>
-                        </LinearLayout>
-
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -739,7 +697,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="12dp"
-                                android:text="出现问题后以平台方式处理"
+                                android:text="出现问题后以"
+                                android:textColor="#999999"
+                                android:textSize="13sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@{demandDetailModel.disputeHandingType}"
+                                android:textColor="#31C5E4"
+                                android:textSize="13sp"/>
+                            <!--平台方式-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="处理"
                                 android:textColor="#999999"
                                 android:textSize="13sp"/>
 
@@ -751,10 +724,9 @@
                                 android:src="@mipmap/question_mark_icon"/>
                         </LinearLayout>
 
-
                     </LinearLayout>
-
                 </android.support.v7.widget.CardView>
+
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"

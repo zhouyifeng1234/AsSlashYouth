@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,9 +20,14 @@ import com.slash.youth.ui.activity.PublishDemandAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,7 +91,55 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
      * 修改需求时回填需求详情数据
      */
     private void loadDemandDetailData() {
+        DemandDetailBean.Demand demand = demandDetailBean.data.demand;
+        //回填匿名实名
+        if (demand.anonymity == 0) {//匿名
+            checkAnonymous(null);
+        } else if (demand.anonymity == 1) {//实名
+            checkRealName(null);
+        }
+        //回填标题
+        mActivityPublishDemandBaseinfoBinding.etPublishDemandTitle.setText(demand.title);
+        //回填描述
+        mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.setText(demand.desc);
+        //回填开始时间
+        startTime = demand.starttime;
+        SimpleDateFormat sdfStartTime = new SimpleDateFormat("MM月dd日-hh:mm");
+        setStartTimeStr(sdfStartTime.format(startTime));
+        //回填图片
+        String[] picFileIds = demand.pic.split(",");
+        final String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+        File cacheDir = new File(picCachePath);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdir();
+        }
+        for (String fileId : picFileIds) {
+            DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
+                @Override
+                public void execute(byte[] dataBean) {
 
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length);
+                    if (bitmap != null) {
+                        File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(tempFile);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            mSaplAddPic.reloadPic(tempFile.getAbsolutePath());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } finally {
+                            IOUtils.close(fos);
+                        }
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, fileId);
+        }
     }
 
     //选择实名发布
@@ -148,7 +203,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         publishDemandData.putInt("anonymity", anonymity);
         demandTitle = mActivityPublishDemandBaseinfoBinding.etPublishDemandTitle.getText().toString();
         publishDemandData.putString("demandTitle", demandTitle);
-        demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.toString();
+        demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.getText().toString();
         publishDemandData.putString("demandDesc", demandDesc);
         publishDemandData.putLong("startTime", startTime);
         //上传选择的图片，并把服务端返回的fileId提交上去

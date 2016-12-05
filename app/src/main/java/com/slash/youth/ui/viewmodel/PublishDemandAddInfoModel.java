@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandAddinfoBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.PublishDemandResultBean;
 import com.slash.youth.engine.DemandEngine;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
  */
 public class PublishDemandAddInfoModel extends BaseObservable {
 
-    //    String isUpdate = "";//是否为修改需求
     ActivityPublishDemandAddinfoBinding mActivityPublishDemandAddinfoBinding;
     Activity mActivity;
     boolean isOnline = true;//“线上”或者“线下”，默认为线上
@@ -54,11 +54,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     }
 
     private void initData() {
-//        isUpdate = mActivity.getIntent().getStringExtra("update");
-//        if (TextUtils.equals(isUpdate, "update")) {
-//            ToastUtils.shortToast("修改需求");
-//        }
-        DemandDetailBean demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
+        demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
             loadDemandDetailData();
         }
@@ -75,7 +71,50 @@ public class PublishDemandAddInfoModel extends BaseObservable {
      * 修改需求时回填需求详情数据
      */
     private void loadDemandDetailData() {
-
+        DemandDetailBean.Demand demand = demandDetailBean.data.demand;
+        //回填技能标签
+        String[] tags = demand.tag.split(",");
+        ArrayList<String> reloadLabels = new ArrayList<String>();
+        for (String tag : tags) {
+            String[] tagInfo = tag.split("-");
+            String tagName;
+            if (tagInfo.length == 3) {
+                tagName = tagInfo[2];
+            } else {
+                tagName = tag;
+            }
+            reloadLabels.add(tagName);
+        }
+        mSallSkillLabels.reloadSkillLabels(reloadLabels);
+        //回填报价
+        mActivityPublishDemandAddinfoBinding.etDemandQuote.setText(demand.quote + "");
+        //回填分期开关
+        RelativeLayout.LayoutParams layoutParams
+                = (RelativeLayout.LayoutParams) mActivityPublishDemandAddinfoBinding.ivPublishDemandInstalmentHandle.getLayoutParams();
+        if (demand.instalment == 0) {//分期关闭
+            isInstalment = false;
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            mActivityPublishDemandAddinfoBinding.ivPublishDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+        } else if (demand.instalment == 1) {//分期开启
+            isInstalment = true;
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mActivityPublishDemandAddinfoBinding.ivPublishDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+        }
+        mActivityPublishDemandAddinfoBinding.ivPublishDemandInstalmentHandle.setLayoutParams(layoutParams);
+        //回填线上、线下
+        if (demand.pattern == 0) {//线上
+            checkOnline(null);
+        } else if (demand.pattern == 1) {//线下
+            checkOffline(null);
+        }
+        //线下地址
+        mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.setText(demand.place);
+        lng = demand.lng;
+        lat = demand.lat;
+        //纠纷处理方式
+        checkedDisputeHandingTypeIndex = demand.bp - 1;
+        mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[checkedDisputeHandingTypeIndex]);
+        mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
     }
 
     public void gotoBack(View v) {
@@ -108,7 +147,24 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         String place = getLocationAddress();
 
         if (demandDetailBean != null) {//修改需求
+            DemandEngine.updateDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
+                    intentPublishDemandSuccessActivity.putExtra("demandId", demandDetailBean.data.demand.id);
+                    mActivity.startActivity(intentPublishDemandSuccessActivity);
+                    mActivity.finish();
+                    if (PublishDemandBaseInfoActivity.mActivity != null) {
+                        PublishDemandBaseInfoActivity.mActivity.finish();
+                        PublishDemandBaseInfoActivity.mActivity = null;
+                    }
+                }
 
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("修改需求失败:" + result);
+                }
+            }, demandDetailBean.data.demand.id + "", demandTitle, addedSkillLabels, startTime + "", anonymity + "", demandDesc, listPic, instalment + "", bp + "", pattern + "", place, place, lng + "", lat + "", offer + "", quote + "");
         } else {//发布需求
             DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<PublishDemandResultBean>() {
                 @Override

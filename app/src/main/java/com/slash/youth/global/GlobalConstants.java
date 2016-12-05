@@ -158,6 +158,8 @@ public class GlobalConstants {
         public static final String DEMAND_ELIMINATE_SERVICE = SERVER_HOST_DEMAND + "eliminate";
         //二、[需求]-查看需求详情
         public static final String GET_DEMAND_DETAIL = SERVER_HOST_DEMAND + "queryone";
+        //三、[需求]-修改需求
+        public static final String UPDATE_DEMAND = SERVER_HOST_DEMAND + "updateone";
         //七、[设置]-判断是否有交易密码
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
         //一、[需求]-需求方评价接口
