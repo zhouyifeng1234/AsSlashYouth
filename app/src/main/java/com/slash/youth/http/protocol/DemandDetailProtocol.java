@@ -32,13 +32,19 @@ public class DemandDetailProtocol extends BaseProtocol<DemandDetailBean> {
 
     @Override
     public DemandDetailBean parseData(String result) {
-        Gson gson = new Gson();
-        DemandDetailBean demandDetailBean = gson.fromJson(result, DemandDetailBean.class);
         return demandDetailBean;
     }
 
+    DemandDetailBean demandDetailBean;
+
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        demandDetailBean = gson.fromJson(result, DemandDetailBean.class);
+        if (demandDetailBean.rescode == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

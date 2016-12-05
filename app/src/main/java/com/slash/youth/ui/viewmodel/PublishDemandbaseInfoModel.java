@@ -5,18 +5,23 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandBaseinfoBinding;
+import com.slash.youth.domain.DemandDetailBean;
+import com.slash.youth.domain.UploadFileResultBean;
+import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishDemandAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,7 +34,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
     public static final int PUBLISH_ANONYMITY_ANONYMOUS = 0;//匿名发布
     public static final int PUBLISH_ANONYMITY_REALNAME = 1;//实名发布
 
-    String isUpdate = "";//是否为修改需求
+    //    String isUpdate = "";//是否为修改需求
     ActivityPublishDemandBaseinfoBinding mActivityPublishDemandBaseinfoBinding;
     Activity mActivity;
     public SlashAddPicLayout mSaplAddPic;
@@ -44,6 +49,8 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
     private int mCurrentChooseHour;
     private int mCurrentChooseMinute;
 
+    DemandDetailBean demandDetailBean;
+
 
     public PublishDemandBaseInfoModel(ActivityPublishDemandBaseinfoBinding activityPublishDemandBaseinfoBinding, Activity activity) {
         this.mActivityPublishDemandBaseinfoBinding = activityPublishDemandBaseinfoBinding;
@@ -53,10 +60,15 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
     }
 
     private void initData() {
-        isUpdate = mActivity.getIntent().getStringExtra("update");
-        if (TextUtils.equals(isUpdate, "update")) {
-            ToastUtils.shortToast("修改需求");
-            //然后可通过需求详情接口获取需求的数据，并填充到界面上
+
+//        isUpdate = mActivity.getIntent().getStringExtra("update");
+//        if (TextUtils.equals(isUpdate, "update")) {
+//            ToastUtils.shortToast("修改需求");
+//            //然后可通过需求详情接口获取需求的数据，并填充到界面上
+//        }
+        demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
+        if (demandDetailBean != null) {
+            loadDemandDetailData();
         }
     }
 
@@ -65,6 +77,14 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         mSaplAddPic = mActivityPublishDemandBaseinfoBinding.saplPublishDemandAddpic;
         mSaplAddPic.setActivity(mActivity);
         mSaplAddPic.initPic();
+    }
+
+
+    /**
+     * 修改需求时回填需求详情数据
+     */
+    private void loadDemandDetailData() {
+
     }
 
     //选择实名发布
@@ -116,22 +136,61 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
 
     //下一步操作
     public void nextStep(View v) {
-        Intent intentPublishDemandAddInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandAddInfoActivity.class);
+        final Intent intentPublishDemandAddInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandAddInfoActivity.class);
 
         //标记是否为修改需求
-        intentPublishDemandAddInfoActivity.putExtra("update", isUpdate);
+//        intentPublishDemandAddInfoActivity.putExtra("update", isUpdate);
+        if (demandDetailBean != null) {
+            intentPublishDemandAddInfoActivity.putExtra("demandDetailBean", demandDetailBean);
+        }
         //设置发布需求的相关信息
-        Bundle publishDemandData = new Bundle();
+        final Bundle publishDemandData = new Bundle();
         publishDemandData.putInt("anonymity", anonymity);
         demandTitle = mActivityPublishDemandBaseinfoBinding.etPublishDemandTitle.getText().toString();
         publishDemandData.putString("demandTitle", demandTitle);
         demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.toString();
         publishDemandData.putString("demandDesc", demandDesc);
         publishDemandData.putLong("startTime", startTime);
-//        mSaplAddPic.getAddedPicTempPath()
-        intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
+        //上传选择的图片，并把服务端返回的fileId提交上去
+        final ArrayList<String> imgUrl = new ArrayList<String>();
+        publishDemandData.putStringArrayList("pic", imgUrl);
+        final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
+        if (addedPicTempPath.size() <= 0) {
+            ToastUtils.shortToast("至少上传一张图片");
+            return;
+        }
+        final int[] uploadCount = {0};
+        for (final String filePath : addedPicTempPath) {
+            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
+                @Override
+                public void execute(UploadFileResultBean dataBean) {
+                    LogKit.v(filePath + ":上传成功");
+                    uploadCount[0]++;
+                    LogKit.v("uploadCount:" + uploadCount[0]);
+                    LogKit.v(dataBean + "");
+                    imgUrl.add(dataBean.data.fileId);
 
-        mActivity.startActivity(intentPublishDemandAddInfoActivity);
+                    if (uploadCount[0] >= addedPicTempPath.size()) {
+                        intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
+                        mActivity.startActivity(intentPublishDemandAddInfoActivity);
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.v(filePath + ":上传失败");
+                    uploadCount[0]++;
+                    LogKit.v("uploadCount:" + uploadCount[0]);
+                    if (uploadCount[0] >= addedPicTempPath.size()) {
+                        intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
+                        mActivity.startActivity(intentPublishDemandAddInfoActivity);
+                    }
+                }
+            }, filePath);
+        }
+
+//        intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
+//        mActivity.startActivity(intentPublishDemandAddInfoActivity);
     }
 
     //返回操作

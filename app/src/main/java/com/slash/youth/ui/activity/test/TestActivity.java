@@ -42,18 +42,18 @@ public class TestActivity extends Activity {
     }
 
     public void publishDemand(View v) {
-        DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<String>() {
-
-            @Override
-            public void execute(String dataBean) {
-                ToastUtils.shortToast(dataBean);
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        }, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+//        DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<PublishDemandResultBean>() {
+//
+//            @Override
+//            public void execute(PublishDemandResultBean dataBean) {
+//                ToastUtils.shortToast(dataBean.data.id + "");
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//
+//            }
+//        }, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public void cancelDemand(View v) {

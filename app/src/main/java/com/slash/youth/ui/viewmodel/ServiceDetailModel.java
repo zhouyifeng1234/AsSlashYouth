@@ -27,6 +27,7 @@ import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,7 +122,7 @@ public class ServiceDetailModel extends BaseObservable {
     private void displayTags(String tag1, String tag2, String tag3) {
         //加载第一个tag
         if (TextUtils.isEmpty(tag1)) {
-            mActivityServiceDetailBinding.tvServiceDetailTag1.setVisibility(View.INVISIBLE);
+            mActivityServiceDetailBinding.tvServiceDetailTag1.setVisibility(View.GONE);
         } else {
             mActivityServiceDetailBinding.tvServiceDetailTag1.setVisibility(View.VISIBLE);
             String[] tagInfo = tag1.split("-");
@@ -135,7 +136,7 @@ public class ServiceDetailModel extends BaseObservable {
         }
         //加载第二个tag
         if (TextUtils.isEmpty(tag2)) {
-            mActivityServiceDetailBinding.tvServiceDetailTag2.setVisibility(View.INVISIBLE);
+            mActivityServiceDetailBinding.tvServiceDetailTag2.setVisibility(View.GONE);
         } else {
             mActivityServiceDetailBinding.tvServiceDetailTag2.setVisibility(View.VISIBLE);
             String[] tagInfo = tag2.split("-");
@@ -148,7 +149,7 @@ public class ServiceDetailModel extends BaseObservable {
             mActivityServiceDetailBinding.tvServiceDetailTag2.setText(tagName);
         }//加载第三个tag
         if (TextUtils.isEmpty(tag3)) {
-            mActivityServiceDetailBinding.tvServiceDetailTag3.setVisibility(View.INVISIBLE);
+            mActivityServiceDetailBinding.tvServiceDetailTag3.setVisibility(View.GONE);
         } else {
             mActivityServiceDetailBinding.tvServiceDetailTag3.setVisibility(View.VISIBLE);
             String[] tagInfo = tag3.split("-");
@@ -262,6 +263,7 @@ public class ServiceDetailModel extends BaseObservable {
                         setServiceTime("时间:随时");
                     }
                     //接口中好像没有浏览量字段
+                    //相关技能标签
                     String[] tags = service.tag.split(",");
                     if (tags.length == 0) {//这种情况应该不存在
                         displayTags("", "", "");
@@ -365,7 +367,7 @@ public class ServiceDetailModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
-
+                ToastUtils.shortToast("获取服务发布者信息失败:" + result);
             }
         }, uid + "", "0");
     }

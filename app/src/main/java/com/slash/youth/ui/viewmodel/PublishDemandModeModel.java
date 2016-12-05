@@ -13,7 +13,6 @@ import com.amap.api.maps2d.model.Marker;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandModeBinding;
-import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -111,7 +110,7 @@ public class PublishDemandModeModel extends BaseObservable {
         ArrayList<String> listAddedPicTempPath = publishDemandDataBundle.getStringArrayList("listAddedPicTempPath");
 
 
-        DemandEngine.publishDemand(new OnPublishDemandFinished(), demandTitle, "开发", System.currentTimeMillis() + 86400000 + "", 2 + "", (isRealNamePublish ? 1 : 0) + "", demandDesc, "", 1 + "", (isOpenSafeBox ? 1 : 0) + "", 1 + "", (isOnlineDemand ? 0 : 1) + "", "苏州", "苏州工业园区", chooseOfflineCostType + "", 0.000000D + "", 0.000000D + "", 0 + "", 20 + "");
+//        DemandEngine.publishDemand(new OnPublishDemandFinished(), demandTitle, "开发", System.currentTimeMillis() + 86400000 + "", 2 + "", (isRealNamePublish ? 1 : 0) + "", demandDesc, "", 1 + "", (isOpenSafeBox ? 1 : 0) + "", 1 + "", (isOnlineDemand ? 0 : 1) + "", "苏州", "苏州工业园区", chooseOfflineCostType + "", 0.000000D + "", 0.000000D + "", 0 + "", 20 + "");
 
 //        ToastUtils.shortToast("发布需求成功");
     }

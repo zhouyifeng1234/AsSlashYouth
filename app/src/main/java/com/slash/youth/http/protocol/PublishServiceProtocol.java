@@ -106,7 +106,7 @@ public class PublishServiceProtocol extends BaseProtocol<PublishServiceResultBea
     public boolean checkJsonResult(String result) {
         Gson gson = new Gson();
         mPublishServiceResultBean = gson.fromJson(result, PublishServiceResultBean.class);
-        if (mPublishServiceResultBean.rescode == 0) {
+        if (mPublishServiceResultBean.rescode == 0 && mPublishServiceResultBean.data.status == 1) {
             return true;
         } else {
             return false;

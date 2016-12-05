@@ -21,6 +21,7 @@ public class PublishDemandSuccessModel extends BaseObservable {
     ActivityPublishDemandSuccessBinding mActivityPublishDemandSuccessBinding;
     Activity mActivity;
     private RecommendServicePartAdapter mRecommendServicePartAdapter;
+    long demandId;
 
     public PublishDemandSuccessModel(ActivityPublishDemandSuccessBinding activityPublishDemandSuccessBinding, Activity activity) {
         this.mActivityPublishDemandSuccessBinding = activityPublishDemandSuccessBinding;
@@ -32,6 +33,9 @@ public class PublishDemandSuccessModel extends BaseObservable {
     ArrayList<AutoRecommendServicePartBean> listRecommendServicePart = new ArrayList<AutoRecommendServicePartBean>();
 
     private void initData() {
+
+        demandId = mActivity.getIntent().getLongExtra("demandId", -1);
+
         getRecommendServicePartData();
     }
 
@@ -61,6 +65,7 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
     public void gotoDemandDetail(View v) {
         Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+        intentDemandDetailActivity.putExtra("demandId", demandId);
         mActivity.startActivity(intentDemandDetailActivity);
     }
 }

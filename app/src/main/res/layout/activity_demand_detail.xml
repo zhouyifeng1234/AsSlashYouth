@@ -132,7 +132,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="做一个公司互联网公司的LOGO"
+                                    android:text="@{demandDetailModel.demandTitle}"
                                     android:textColor="#666666"
                                     android:textSize="15sp"/>
 
@@ -151,9 +151,10 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="4dp"
-                                        android:text="开始:9月18日 8:30"
+                                        android:text="@{demandDetailModel.demandStartTime}"
                                         android:textColor="#31C5E4"
                                         android:textSize="14sp"/>
+                                    <!--开始:9月18日 8:30-->
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -163,6 +164,7 @@
                                     android:orientation="horizontal"
                                 >
                                     <TextView
+                                        android:id="@+id/tv_demand_detail_tag1"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@drawable/shape_rounded_visitor_marker"
@@ -174,6 +176,7 @@
                                         android:textColor="#31C5E4"
                                         android:textSize="11dp"/>
                                     <TextView
+                                        android:id="@+id/tv_demand_detail_tag2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="9dp"
@@ -186,6 +189,7 @@
                                         android:textColor="#31C5E4"
                                         android:textSize="11dp"/>
                                     <TextView
+                                        android:id="@+id/tv_demand_detail_tag3"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="9dp"
@@ -213,17 +217,19 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="¥300元"
+                                    android:text="@{demandDetailModel.quote}"
                                     android:textColor="#FF9666"
                                     android:textSize="21sp"/>
+                                <!--¥300元-->
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
-                                    android:text="300人浏览"
+                                    android:text="@{demandDetailModel.viewCount}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="11sp"/>
+                                <!--300人浏览-->
 
                             </LinearLayout>
 
@@ -235,6 +241,7 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="12dp"
                             android:orientation="horizontal"
+                            android:visibility="@{demandDetailModel.offlineItemVisibility}"
                         >
                             <TextView
                                 android:layout_width="30dp"
@@ -247,20 +254,21 @@
                                 android:textSize="11dp"/>
 
                             <LinearLayout
-                                android:onClick="@{demandDetailModel.openDemandDetailLocation}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="8dp"
+                                android:onClick="@{demandDetailModel.openDemandDetailLocation}"
                                 android:orientation="horizontal"
                             >
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="约定地点星湖街328号星湖广场"
+                                    android:text="@{demandDetailModel.demandPlace}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
+                                <!--约定地点星湖街328号星湖广场-->
 
                                 <ImageView
                                     android:layout_width="18dp"
@@ -279,6 +287,7 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="9dp"
                             android:orientation="horizontal"
+                            android:visibility="@{demandDetailModel.instalmentItemVisibility}"
                         >
                             <TextView
                                 android:layout_width="39dp"
@@ -334,13 +343,16 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp">
                             <ImageView
+                                android:id="@+id/iv_demand_user_avatar"
                                 android:layout_width="58dp"
                                 android:layout_height="58dp"
                                 android:src="@mipmap/assistant_icon"/>
                             <ImageView
                                 android:layout_width="15dp"
-                                android:layout_height="15dp" android:layout_gravity="right|bottom"
-                                android:src="@mipmap/tab_authentication"/>
+                                android:layout_height="15dp"
+                                android:layout_gravity="right|bottom"
+                                android:src="@mipmap/tab_authentication"
+                                android:visibility="@{demandDetailModel.isAuthVisibility}"/>
                         </FrameLayout>
 
                         <LinearLayout
@@ -357,7 +369,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="张文萱"
+                                    android:text="@{demandDetailModel.username}"
                                     android:textColor="#333333"
                                     android:textSize="15sp"/>
                                 <TextView
@@ -369,7 +381,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="粉丝数125"
+                                    android:text="@{demandDetailModel.fanscount}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="13sp"/>
 
@@ -390,9 +402,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="顺利成交单数9/12"
+                                    android:text="@{demandDetailModel.taskcount}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"/>
+                                <!--顺利成交单数9/12-->
                                 <ImageView
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
@@ -404,7 +417,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="苏州工业园区"
+                                    android:text="@{demandDetailModel.demandUserPlace}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"/>
 
@@ -453,9 +466,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="发布时间:9月18日 8:30"
+                                android:text="@{demandDetailModel.demandPublishTime}"
                                 android:textColor="#999999"
                                 android:textSize="13sp"/>
+                            <!--发布时间:9月18日 8:30-->
                         </LinearLayout>
 
                         <View
@@ -471,7 +485,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="18dp"
-                            android:text="1.良好的美术功底和和设计表现力；重视用户体验了解用户使用习惯；具有设计创意、良好的色彩运用能力"
+                            android:text="@{demandDetailModel.demandDesc}"
                             android:textColor="#999999"
                             android:textSize="14sp"
                         />
@@ -485,6 +499,7 @@
                         />
 
                         <LinearLayout
+                            android:id="@+id/ll_demand_detail_pic_line1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
@@ -571,6 +586,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_demand_detail_pic_line2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"

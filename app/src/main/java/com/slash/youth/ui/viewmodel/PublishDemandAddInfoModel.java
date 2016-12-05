@@ -7,13 +7,16 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandAddinfoBinding;
+import com.slash.youth.domain.DemandDetailBean;
+import com.slash.youth.domain.PublishDemandResultBean;
+import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
@@ -29,17 +32,19 @@ import java.util.ArrayList;
  */
 public class PublishDemandAddInfoModel extends BaseObservable {
 
-    String isUpdate = "";//是否为修改需求
+    //    String isUpdate = "";//是否为修改需求
     ActivityPublishDemandAddinfoBinding mActivityPublishDemandAddinfoBinding;
     Activity mActivity;
     boolean isOnline = true;//“线上”或者“线下”，默认为线上
     boolean isInstalment = true;//是否开启分期付，默认为true,开启
-    private Bundle mPublishDemandData;
     public SlashAddLabelsLayout mSallSkillLabels;
     String[] disputeHandingTypes = new String[]{
             "平台方式", "协商处理"
     };//纠纷处理方式
     public int checkedDisputeHandingTypeIndex = 0;//选择的纠纷处理方式
+    private double lng;
+    private double lat;
+    DemandDetailBean demandDetailBean;
 
     public PublishDemandAddInfoModel(ActivityPublishDemandAddinfoBinding activityPublishDemandAddinfoBinding, Activity activity) {
         this.mActivityPublishDemandAddinfoBinding = activityPublishDemandAddinfoBinding;
@@ -49,11 +54,14 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     }
 
     private void initData() {
-        isUpdate = mActivity.getIntent().getStringExtra("update");
-        if (TextUtils.equals(isUpdate, "update")) {
-            ToastUtils.shortToast("修改需求");
+//        isUpdate = mActivity.getIntent().getStringExtra("update");
+//        if (TextUtils.equals(isUpdate, "update")) {
+//            ToastUtils.shortToast("修改需求");
+//        }
+        DemandDetailBean demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
+        if (demandDetailBean != null) {
+            loadDemandDetailData();
         }
-        mPublishDemandData = mActivity.getIntent().getExtras();
     }
 
     private void initView() {
@@ -63,18 +71,73 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mSallSkillLabels.initSkillLabels();
     }
 
+    /**
+     * 修改需求时回填需求详情数据
+     */
+    private void loadDemandDetailData() {
+
+    }
+
     public void gotoBack(View v) {
         mActivity.finish();
     }
 
     public void publish(View v) {
-        Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
-        mActivity.startActivity(intentPublishDemandSuccessActivity);
-        mActivity.finish();
-        if (PublishDemandBaseInfoActivity.mActivity != null) {
-            PublishDemandBaseInfoActivity.mActivity.finish();
-            PublishDemandBaseInfoActivity.mActivity = null;
+
+        Bundle bundleDemandData = mActivity.getIntent().getExtras();
+        int anonymity = bundleDemandData.getInt("anonymity");
+        String demandTitle = bundleDemandData.getString("demandTitle");
+        String demandDesc = bundleDemandData.getString("demandDesc");
+        long startTime = bundleDemandData.getLong("startTime");
+        ArrayList<String> listPic = bundleDemandData.getStringArrayList("pic");
+
+
+        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
+        double quote;
+        int offer;
+        try {
+            quote = Double.parseDouble(mActivityPublishDemandAddinfoBinding.etDemandQuote.getText().toString());
+            offer = 0;
+        } catch (Exception ex) {
+            quote = 0;
+            offer = 1;
         }
+        int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
+        int pattern = isOnline == true ? 0 : 1;//1线下 0线上
+        int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
+        String place = getLocationAddress();
+
+        if (demandDetailBean != null) {//修改需求
+
+        } else {//发布需求
+            DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<PublishDemandResultBean>() {
+                @Override
+                public void execute(PublishDemandResultBean dataBean) {
+                    Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
+                    intentPublishDemandSuccessActivity.putExtra("demandId", dataBean.data.id);
+                    mActivity.startActivity(intentPublishDemandSuccessActivity);
+                    mActivity.finish();
+                    if (PublishDemandBaseInfoActivity.mActivity != null) {
+                        PublishDemandBaseInfoActivity.mActivity.finish();
+                        PublishDemandBaseInfoActivity.mActivity = null;
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("发布需求失败：" + result);
+                }
+            }, demandTitle, addedSkillLabels, startTime + "", anonymity + "", demandDesc, listPic, instalment + "", bp + "", pattern + "", place, place, lng + "", lat + "", offer + "", quote + "");
+        }
+
+
+//        Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
+//        mActivity.startActivity(intentPublishDemandSuccessActivity);
+//        mActivity.finish();
+//        if (PublishDemandBaseInfoActivity.mActivity != null) {
+//            PublishDemandBaseInfoActivity.mActivity.finish();
+//            PublishDemandBaseInfoActivity.mActivity = null;
+//        }
     }
 
     public void checkOnline(View v) {
@@ -144,9 +207,11 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         notifyPropertyChanged(BR.offlineItemVisibility);
     }
 
-    public void setLocationAddress(String address) {
+    public void setLocationAddress(String address, double lng, double lat) {
 //        ToastUtils.shortToast(address);
         mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.setText(address);
+        this.lng = lng;
+        this.lat = lat;
     }
 
     public String getLocationAddress() {

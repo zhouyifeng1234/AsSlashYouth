@@ -212,7 +212,9 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     public void nextStep(View v) {
         final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
-        intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
+        if (serviceDetailBean != null) {
+            intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
+        }
         final Bundle bundleServiceData = new Bundle();
         String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
         bundleServiceData.putString("title", title);
