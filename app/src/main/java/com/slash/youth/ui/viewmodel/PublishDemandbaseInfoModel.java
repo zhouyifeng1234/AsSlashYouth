@@ -73,6 +73,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
 //            ToastUtils.shortToast("修改需求");
 //            //然后可通过需求详情接口获取需求的数据，并填充到界面上
 //        }
+        mSaplAddPic = mActivityPublishDemandBaseinfoBinding.saplPublishDemandAddpic;
         demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
             loadDemandDetailData();
@@ -81,7 +82,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishDemandBaseinfoBinding.sdtpPublishDemandChooseDatetime;
-        mSaplAddPic = mActivityPublishDemandBaseinfoBinding.saplPublishDemandAddpic;
+
         mSaplAddPic.setActivity(mActivity);
         mSaplAddPic.initPic();
     }

@@ -50,7 +50,7 @@ public class DemandDetailModel extends BaseObservable {
 
     private void initData() {
         demandId = mActivity.getIntent().getLongExtra("demandId", -1);
-        ToastUtils.shortToast("demandId:" + demandId);
+//        ToastUtils.shortToast("demandId:" + demandId);
         getDemandDetailDataFromServer();
 
 //        current_visual_angle = VISUAL_ANGLE_DAMAND;//获取当前者视角，应该根据服务端数据来判断，如果是自己发的需求，就是需求者视角，如果不是自己发的，就是服务者视角

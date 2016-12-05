@@ -21,7 +21,7 @@ public class DemandDetailBean implements Serializable {
         public long cts;
         public String desc;
         public long fighttime;
-        public int id;
+        public long id;
         public int instalment;
         public int invoice;
         public int iscomment;

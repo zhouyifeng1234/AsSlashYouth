@@ -54,6 +54,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     }
 
     private void initData() {
+        mSallSkillLabels = mActivityPublishDemandAddinfoBinding.sallPublishDemandAddedSkilllabels;
         demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
             loadDemandDetailData();
@@ -62,7 +63,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
     private void initView() {
         mActivityPublishDemandAddinfoBinding.svPublishDemandLabels.setVerticalScrollBarEnabled(false);
-        mSallSkillLabels = mActivityPublishDemandAddinfoBinding.sallPublishDemandAddedSkilllabels;
+
         mSallSkillLabels.setActivity(mActivity);
         mSallSkillLabels.initSkillLabels();
     }
