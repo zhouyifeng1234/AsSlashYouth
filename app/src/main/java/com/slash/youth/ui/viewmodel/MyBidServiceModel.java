@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyBidServiceBinding;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.ServiceDetailBean;
@@ -121,7 +122,7 @@ public class MyBidServiceModel extends BaseObservable {
     /**
      * 根据soid(即tid)获取服务订单状态信息
      */
-    public void getServiceOrderInfoData() {
+    private void getServiceOrderInfoData() {
         //这个接口好像不能使用，可以使用“v1/api/service/orderinfo”接口获取订单信息，里面有status
 //        ServiceEngine.getServiceOrderStatus(new BaseProtocol.IResultExecutor<ServiceOrderStatusBean>() {
 //            @Override
@@ -140,7 +141,7 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceOrderInfoBean dataBean) {
                 int status = dataBean.data.order.status;
-
+                displayStatusCycle(status);
 
             }
 
@@ -151,6 +152,51 @@ public class MyBidServiceModel extends BaseObservable {
         }, soid + "");
     }
 
+    private void displayStatusCycle(int status) {
+        switch (status) {
+            case 1:/*初始化订单*/
+            case 2:/*服务者确认*/
+                //预约中 大状态
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+            case 3:/*需求方支付中*/
+                //预支付 大状态
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+            case 5:/*订单进行中*/
+            case 6:/*订单完成*/
+            case 8:/*申请退款*/
+            case 9:/*同意退款*/
+            case 10:/*平台申诉处理*/
+                //服务中 大状态
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+            case 7:/*订单确认完成*/
+                //评价中 大状态
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4);
+                break;
+            case 4:/*订单已经取消*/
+            case 11:/*服务方拒绝*/
+            default:
+                //失效 过期 状态 四个圈全都是灰色
+                setStatusProgress(R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+        }
+    }
+
+    /**
+     * 设置 4个圈 表示的大状态进度
+     */
+    private void setStatusProgress(int bigStateReservationBg, int bigStateReservationTextColor, int bigStatePaymentBg, int bigStatePaymentTextColor, int bigStateServiceBg, int bigStateServiceTextColor, int bigStateCommentBg, int bigStateCommentTextColor) {
+        mActivityMyBidServiceBinding.tvServiceReservationing.setBackgroundResource(bigStateReservationBg);
+        mActivityMyBidServiceBinding.tvServiceReservationing.setTextColor(bigStateReservationTextColor);
+        mActivityMyBidServiceBinding.tvServicePayment.setBackgroundResource(bigStatePaymentBg);
+        mActivityMyBidServiceBinding.tvServicePayment.setTextColor(bigStatePaymentTextColor);
+        mActivityMyBidServiceBinding.tvServiceServiceing.setBackgroundResource(bigStateServiceBg);
+        mActivityMyBidServiceBinding.tvServiceServiceing.setTextColor(bigStateServiceTextColor);
+        mActivityMyBidServiceBinding.tvServiceComment.setBackgroundResource(bigStateCommentBg);
+        mActivityMyBidServiceBinding.tvServiceComment.setTextColor(bigStateCommentTextColor);
+    }
 
     private String serviceTitle;
     private String idleTime;
