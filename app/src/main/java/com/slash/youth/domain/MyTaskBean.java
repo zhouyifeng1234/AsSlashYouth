@@ -1,9 +1,11 @@
 package com.slash.youth.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by zhouyifeng on 2016/10/26.
  */
-public class MyTaskBean {
+public class MyTaskBean implements Serializable {
 
     public String avatar;//用户头像，可以是发布者头像，也可以是竞标者头像
     public int bidnum;//抢单数量

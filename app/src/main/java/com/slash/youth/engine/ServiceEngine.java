@@ -3,6 +3,8 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
+import com.slash.youth.http.protocol.ServiceOrderInfoProtocol;
+import com.slash.youth.http.protocol.ServiceOrderStatusProtocol;
 import com.slash.youth.http.protocol.UpdateServiceProtocol;
 
 import java.util.ArrayList;
@@ -58,9 +60,44 @@ public class ServiceEngine {
     }
 
 
+    /**
+     * 三、[服务]-修改服务
+     *
+     * @param onUpdateServiceFinished
+     * @param id
+     * @param title
+     * @param listTag
+     * @param startime
+     * @param endtime
+     * @param anonymity
+     * @param desc
+     * @param timetype
+     * @param listPic
+     * @param instalment
+     * @param bp
+     * @param pattern
+     * @param place
+     * @param lng
+     * @param lat
+     * @param quote
+     * @param quoteunit
+     */
     public static void updateService(BaseProtocol.IResultExecutor onUpdateServiceFinished, String id, String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
         UpdateServiceProtocol updateServiceProtocol = new UpdateServiceProtocol(id, title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
         updateServiceProtocol.getDataFromServer(onUpdateServiceFinished);
+    }
+
+    /**
+     * 十三、[服务]-查看服务订单状态(好像这个接口不能使用了，使用“v1/api/service/orderinfo”接口获取订单信息，里面有status)
+     */
+    public static void getServiceOrderStatus(BaseProtocol.IResultExecutor onGetServiceOrderStatusFinished, String soid) {
+        ServiceOrderStatusProtocol serviceOrderStatusProtocol = new ServiceOrderStatusProtocol(soid);
+        serviceOrderStatusProtocol.getDataFromServer(onGetServiceOrderStatusFinished);
+    }
+
+    public static void getServiceOrderInfo(BaseProtocol.IResultExecutor onGetServiceOrderInfoFinished, String soid) {
+        ServiceOrderInfoProtocol serviceOrderInfoProtocol = new ServiceOrderInfoProtocol(soid);
+        serviceOrderInfoProtocol.getDataFromServer(onGetServiceOrderInfoFinished);
     }
 
 

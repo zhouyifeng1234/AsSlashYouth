@@ -107,6 +107,8 @@ public class GlobalConstants {
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
         //二、[需求]-我的任务ITEM
         public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
+        //三、[需求]-我的任务tid反查服务或者需求详情信息
+        public static final String GET_MY_TASK_SERVICE_DEMAND_DETAIL = SERVER_HOST_MY_TASK_LIST + "oneinfo";
 
 
         //一、[文件]-图片上传
@@ -172,6 +174,10 @@ public class GlobalConstants {
         public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
         //三、[服务]-修改服务
         public static final String UPDATE_SERVICE = SERVER_HOST_SERVICE + "updateone";
+        //十三、[服务]-查看服务订单状态
+        public static final String GET_SERVICE_ORDER_STATUS = SERVER_HOST_SERVICE + "status";
+        //获取服务订单信息
+        public static final String GET_SERVICE_ORDER_INFO = SERVER_HOST_SERVICE + "orderinfo";
 
         //三、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
