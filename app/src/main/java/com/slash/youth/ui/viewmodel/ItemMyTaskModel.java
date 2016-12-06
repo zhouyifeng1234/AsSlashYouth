@@ -383,7 +383,17 @@ public class ItemMyTaskModel extends BaseObservable {
     private String bidnum;//抢单数量，服务端返回的是所有的抢单数量，这里需要新增的抢单数量
     private String statusText;
     private String instalmentratioStr;//显示的分期支付比例
+    private int taskDemandSideNameVisibility = View.INVISIBLE;//当任务是服务的时候需要显示
 
+    @Bindable
+    public int getTaskDemandSideNameVisibility() {
+        return taskDemandSideNameVisibility;
+    }
+
+    public void setTaskDemandSideNameVisibility(int taskDemandSideNameVisibility) {
+        this.taskDemandSideNameVisibility = taskDemandSideNameVisibility;
+        notifyPropertyChanged(BR.taskDemandSideNameVisibility);
+    }
 
     @Bindable
     public String getTaskTitle() {

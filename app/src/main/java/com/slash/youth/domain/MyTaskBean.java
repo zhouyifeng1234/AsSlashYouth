@@ -20,10 +20,12 @@ public class MyTaskBean {
     //public String profession;//发布人行业
     //public String position;//发布人工作职位
     public double quote;//报价
+    public int quoteunit;//报价单位，服务中需要使用
     public int rectify;
 
     public int roleid;//表示是我抢的单子 还是 我发布的任务 1发布者 2抢单者 （这个字段比较重要，用于判断单子类型）
     public long starttime;//任务开始时间，也可以为空，如果为空返回0
+    public long endtime;//结束时间
     public int status;//需求 or 服务状态 参考:
     public long tid;//任务ID (即:需求或者服务ID)
     public String title;//任务标题（即需求 or 服务标题）
@@ -31,5 +33,8 @@ public class MyTaskBean {
     public int type;//需求或者服务类型 1需求 2服务
     public long uid;//用户ID
     public long uts;//我的任务最后更新时间（因为需求和服务的单子是流转状态的，列表排序依赖这个）
+
+
+    public int timetype;//服务中才有
 
 }
