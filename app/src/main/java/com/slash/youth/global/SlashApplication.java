@@ -6,7 +6,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.LogKit;
@@ -101,7 +100,7 @@ public class SlashApplication extends Application {
         MsgManager.setMessReceiver();
         //通过token连接融云
         //10000的token
-        MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
+      //  MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
 
         //10002的token
 //        MsgManager.connectRongCloud("OWellbpuoVve83MyzB06YVpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcieJmtTlGLY0xSEqae+jIN8rMYEU2oRTbQ==");
@@ -109,7 +108,7 @@ public class SlashApplication extends Application {
         //10003的tokenF
 //        MsgManager.connectRongCloud("J+NjV3RqnU1xfMolWAd6T1pJh/sDSWvAD7s9SQ9t2IpAr12GGUolclxn65zIYrLNwE/geOWQulCDALq54CXhkA==");
        // MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
-       // MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
+
         LogKit.v("two");
     }
 
@@ -146,6 +145,5 @@ public class SlashApplication extends Application {
     public static Application getApplication() {
         return application;
     }
-
 
 }

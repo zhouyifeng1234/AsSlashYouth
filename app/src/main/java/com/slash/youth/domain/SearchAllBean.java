@@ -1,18 +1,14 @@
 package com.slash.youth.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zss on 2016/9/4.
  */
 public class SearchAllBean {
-    private DataBean data;
-    /**
-     * data : {"demandList":[{"avatar":"http://xxxxxxxxx","endtime":1484093980000,"id":22,"isauth":0,"isinstallment":1,"name":"李旭","pattern":0,"place":"五道口清华科技园","quote":1000,"star":4,"starttime":1483993980000,"title":"刘静让我在线聊天","type":1,"uid":10003},{"avatar":"http://xxxxxxxxx","endtime":1484093980000,"id":21,"isauth":1,"isinstallment":1,"name":"李旭","pattern":0,"place":"五道口清华科技园","quote":1000,"star":4,"starttime":1483993980000,"title":"刘静让我在线聊天","type":1,"uid":10002},{"avatar":"http://xxxxxxxxx","endtime":1484093980000,"id":23,"isauth":0,"isinstallment":1,"name":"李旭","pattern":1,"place":"五道口清华科技园","quote":1000,"star":4,"starttime":1483993980000,"title":"刘静让我马上搬家","type":1,"uid":10003},{"avatar":"http://xxxxxxxxx","endtime":1484093980000,"id":20,"isauth":1,"isinstallment":1,"name":"李旭","pattern":1,"place":"五道口清华科技园","quote":1000,"star":4,"starttime":1483993980000,"title":"刘静让我去找人给她搬家","type":1,"uid":10002}],"serviceList":[],"userList":[{"avatar":"http://p5.gexing.com/GSF/touxiang/20161004/1620/57f3665bd094a.jpg@!200x200_3?recache=20131108","company":"北京网易科技","id":10020,"identity":"产品设计师","isauth":1,"isfriend":0,"lasttime":1475651473000,"name":"刘静","profession":"产品经理","star":5}]}
-     * rescode : 0
-     */
 
+
+    private DataBean data;
     private int rescode;
 
     public DataBean getData() {
@@ -32,79 +28,51 @@ public class SearchAllBean {
     }
 
     public static class DataBean {
-        /**
-         * avatar : http://xxxxxxxxx
-         * endtime : 1484093980000
-         * id : 22
-         * isauth : 0
-         * isinstallment : 1
-         * name : 李旭
-         * pattern : 0
-         * place : 五道口清华科技园
-         * quote : 1000
-         * star : 4
-         * starttime : 1483993980000
-         * title : 刘静让我在线聊天
-         * type : 1
-         * uid : 10003
-         */
+        private List<DemandListBean> demandList;
+        private List<ServiceListBean> serviceList;
+        private List<UserListBean> userList;
 
-        private ArrayList<DemandListBean> demandList;
-        private ArrayList<?> serviceList;
-        /**
-         * avatar : http://p5.gexing.com/GSF/touxiang/20161004/1620/57f3665bd094a.jpg@!200x200_3?recache=20131108
-         * company : 北京网易科技
-         * id : 10020
-         * identity : 产品设计师
-         * isauth : 1
-         * isfriend : 0
-         * lasttime : 1475651473000
-         * name : 刘静
-         * profession : 产品经理
-         * star : 5
-         */
-
-        private ArrayList<UserListBean> userList;
-
-        public ArrayList<DemandListBean> getDemandList() {
+        public List<DemandListBean> getDemandList() {
             return demandList;
         }
 
-        public void setDemandList(ArrayList<DemandListBean> demandList) {
+        public void setDemandList(List<DemandListBean> demandList) {
             this.demandList = demandList;
         }
 
-        public ArrayList<?> getServiceList() {
+        public List<ServiceListBean> getServiceList() {
             return serviceList;
         }
 
-        public void setServiceList(ArrayList<?> serviceList) {
+        public void setServiceList(List<ServiceListBean> serviceList) {
             this.serviceList = serviceList;
         }
 
-        public ArrayList<UserListBean> getUserList() {
+        public List<UserListBean> getUserList() {
             return userList;
         }
 
-        public void setUserList(ArrayList<UserListBean> userList) {
+        public void setUserList(List<UserListBean> userList) {
             this.userList = userList;
         }
 
         public static class DemandListBean {
             private String avatar;
-            private long endtime;
+            private String city;
+            private long cts;
             private int id;
+            private int instalment;
             private int isauth;
-            private int isinstallment;
+            private double lat;
+            private double lng;
+            private String location;
             private String name;
             private int pattern;
-            private String place;
             private int quote;
-            private int star;
             private long starttime;
             private String title;
-            private int type;
             private int uid;
+            private long uts;
 
             public String getAvatar() {
                 return avatar;
@@ -114,12 +82,20 @@ public class SearchAllBean {
                 this.avatar = avatar;
             }
 
-            public long getEndtime() {
-                return endtime;
+            public String getCity() {
+                return city;
             }
 
-            public void setEndtime(long endtime) {
-                this.endtime = endtime;
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public long getCts() {
+                return cts;
+            }
+
+            public void setCts(long cts) {
+                this.cts = cts;
             }
 
             public int getId() {
@@ -130,6 +106,14 @@ public class SearchAllBean {
                 this.id = id;
             }
 
+            public int getInstalment() {
+                return instalment;
+            }
+
+            public void setInstalment(int instalment) {
+                this.instalment = instalment;
+            }
+
             public int getIsauth() {
                 return isauth;
             }
@@ -138,12 +122,28 @@ public class SearchAllBean {
                 this.isauth = isauth;
             }
 
-            public int getIsinstallment() {
-                return isinstallment;
+            public double getLat() {
+                return lat;
             }
 
-            public void setIsinstallment(int isinstallment) {
-                this.isinstallment = isinstallment;
+            public void setLat(double lat) {
+                this.lat = lat;
+            }
+
+            public double getLng() {
+                return lng;
+            }
+
+            public void setLng(double lng) {
+                this.lng = lng;
+            }
+
+            public String getLocation() {
+                return location;
+            }
+
+            public void setLocation(String location) {
+                this.location = location;
             }
 
             public String getName() {
@@ -162,28 +162,12 @@ public class SearchAllBean {
                 this.pattern = pattern;
             }
 
-            public String getPlace() {
-                return place;
-            }
-
-            public void setPlace(String place) {
-                this.place = place;
-            }
-
             public int getQuote() {
                 return quote;
             }
 
             public void setQuote(int quote) {
                 this.quote = quote;
-            }
-
-            public int getStar() {
-                return star;
-            }
-
-            public void setStar(int star) {
-                this.star = star;
             }
 
             public long getStarttime() {
@@ -202,12 +186,179 @@ public class SearchAllBean {
                 this.title = title;
             }
 
-            public int getType() {
-                return type;
+            public int getUid() {
+                return uid;
             }
 
-            public void setType(int type) {
-                this.type = type;
+            public void setUid(int uid) {
+                this.uid = uid;
+            }
+
+            public long getUts() {
+                return uts;
+            }
+
+            public void setUts(long uts) {
+                this.uts = uts;
+            }
+        }
+
+        public static class ServiceListBean {
+            private String avatar;
+            private String city;
+            private int cts;
+            private int endtime;
+            private int id;
+            private int instalment;
+            private int isauth;
+            private double lat;
+            private double lng;
+            private String location;
+            private String name;
+            private int pattern;
+            private int quote;
+            private int quoteunit;
+            private int starttime;
+            private int timetype;
+            private String title;
+            private int uid;
+            private double userservicepoint;
+            private long uts;
+
+            public String getAvatar() {
+                return avatar;
+            }
+
+            public void setAvatar(String avatar) {
+                this.avatar = avatar;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public int getCts() {
+                return cts;
+            }
+
+            public void setCts(int cts) {
+                this.cts = cts;
+            }
+
+            public int getEndtime() {
+                return endtime;
+            }
+
+            public void setEndtime(int endtime) {
+                this.endtime = endtime;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getInstalment() {
+                return instalment;
+            }
+
+            public void setInstalment(int instalment) {
+                this.instalment = instalment;
+            }
+
+            public int getIsauth() {
+                return isauth;
+            }
+
+            public void setIsauth(int isauth) {
+                this.isauth = isauth;
+            }
+
+            public double getLat() {
+                return lat;
+            }
+
+            public void setLat(double lat) {
+                this.lat = lat;
+            }
+
+            public double getLng() {
+                return lng;
+            }
+
+            public void setLng(double lng) {
+                this.lng = lng;
+            }
+
+            public String getLocation() {
+                return location;
+            }
+
+            public void setLocation(String location) {
+                this.location = location;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getPattern() {
+                return pattern;
+            }
+
+            public void setPattern(int pattern) {
+                this.pattern = pattern;
+            }
+
+            public int getQuote() {
+                return quote;
+            }
+
+            public void setQuote(int quote) {
+                this.quote = quote;
+            }
+
+            public int getQuoteunit() {
+                return quoteunit;
+            }
+
+            public void setQuoteunit(int quoteunit) {
+                this.quoteunit = quoteunit;
+            }
+
+            public int getStarttime() {
+                return starttime;
+            }
+
+            public void setStarttime(int starttime) {
+                this.starttime = starttime;
+            }
+
+            public int getTimetype() {
+                return timetype;
+            }
+
+            public void setTimetype(int timetype) {
+                this.timetype = timetype;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
             }
 
             public int getUid() {
@@ -217,19 +368,34 @@ public class SearchAllBean {
             public void setUid(int uid) {
                 this.uid = uid;
             }
+
+            public double getUserservicepoint() {
+                return userservicepoint;
+            }
+
+            public void setUserservicepoint(double userservicepoint) {
+                this.userservicepoint = userservicepoint;
+            }
+
+            public long getUts() {
+                return uts;
+            }
+
+            public void setUts(long uts) {
+                this.uts = uts;
+            }
         }
 
         public static class UserListBean {
             private String avatar;
             private String company;
-            private int id;
-            private String identity;
+            private int expertscore;
             private int isauth;
-            private int isfriend;
-            private long lasttime;
             private String name;
-            private String profession;
-            private int star;
+            private String namesplit;
+            private String position;
+            private String tag;
+            private int uid;
 
             public String getAvatar() {
                 return avatar;
@@ -247,20 +413,12 @@ public class SearchAllBean {
                 this.company = company;
             }
 
-            public int getId() {
-                return id;
+            public int getExpertscore() {
+                return expertscore;
             }
 
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getIdentity() {
-                return identity;
-            }
-
-            public void setIdentity(String identity) {
-                this.identity = identity;
+            public void setExpertscore(int expertscore) {
+                this.expertscore = expertscore;
             }
 
             public int getIsauth() {
@@ -271,22 +429,6 @@ public class SearchAllBean {
                 this.isauth = isauth;
             }
 
-            public int getIsfriend() {
-                return isfriend;
-            }
-
-            public void setIsfriend(int isfriend) {
-                this.isfriend = isfriend;
-            }
-
-            public long getLasttime() {
-                return lasttime;
-            }
-
-            public void setLasttime(long lasttime) {
-                this.lasttime = lasttime;
-            }
-
             public String getName() {
                 return name;
             }
@@ -295,42 +437,37 @@ public class SearchAllBean {
                 this.name = name;
             }
 
-            public String getProfession() {
-                return profession;
+            public String getNamesplit() {
+                return namesplit;
             }
 
-            public void setProfession(String profession) {
-                this.profession = profession;
+            public void setNamesplit(String namesplit) {
+                this.namesplit = namesplit;
             }
 
-            public int getStar() {
-                return star;
+            public String getPosition() {
+                return position;
             }
 
-            public void setStar(int star) {
-                this.star = star;
+            public void setPosition(String position) {
+                this.position = position;
+            }
+
+            public String getTag() {
+                return tag;
+            }
+
+            public void setTag(String tag) {
+                this.tag = tag;
+            }
+
+            public int getUid() {
+                return uid;
+            }
+
+            public void setUid(int uid) {
+                this.uid = uid;
             }
         }
     }
-
-    /*public DataBean data;
-    public int rescode;
-
-    class DataBean{
-        ArrayList<TitleBean> demandlist;
-        ArrayList<TitleBean> servicelist;
-        ArrayList<NameBean> userlist;
-    }
-    class TitleBean{
-        String title;
-    }
-    class NameBean{
-        String name;
-    }*/
-
-
-
-
-
-
 }

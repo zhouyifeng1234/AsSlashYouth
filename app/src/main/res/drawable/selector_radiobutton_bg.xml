@@ -4,7 +4,8 @@
 
     <item
         android:state_checked="false"
-        android:drawable="@mipmap/default_btn" />
+        android:drawable="@mipmap/default_btn"
+        />
 
     <item
         android:state_checked="true"

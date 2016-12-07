@@ -14,7 +14,10 @@ import com.slash.youth.domain.SearchAllBean;
 import com.slash.youth.domain.SearchNeedItem;
 import com.slash.youth.domain.SearchPersonItem;
 import com.slash.youth.domain.SearchServiceItem;
+import com.slash.youth.engine.SearchManager;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.holder.BaseHolder;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -127,7 +130,7 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
                     holder.tv_search_person_name = (TextView) convertView.findViewById(R.id.tv_search_person_name);
                     holder.iv_search_person = (ImageView) convertView.findViewById(R.id.iv_search_person);
-                    holder.tv_search_person_zhiye = (TextView) convertView.findViewById(R.id.tv_search_person_zhiye);
+                   // holder.tv_search_person_zhiye = (TextView) convertView.findViewById(R.id.tv_search_person_);
                     holder.iv_search_v = (ImageView) convertView.findViewById(R.id.iv_search_v);
                     holder.iv_jiahao = (TextView) convertView.findViewById(R.id.tv_contacts_visitor_addfriend);
                     holder.iv_star = (ImageView) convertView.findViewById(R.id.iv_star);
@@ -166,62 +169,61 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
         //判断，不同的数据就有不同的展示
         switch (type){
             case searchTitle:
-                holder.tv_title.setText("需求");
+                holder.tv_title.setText(SearchManager.SEARCH_ITEM_TITLE_DEMEND);
             break;
             case serviceTitle:
-                holder.tv_title.setText("服务");
+                holder.tv_title.setText(SearchManager.SEARCH_ITEM_TITLE_SERVICE);
                 break;
             case personTitle:
-                holder.tv_title.setText("找人");
+                holder.tv_title.setText(SearchManager.SEARCH_ITEM_TITLE_PERSON);
                 break;
             case searchMore:
-                holder.tv_search_more.setText("查看更多需求");
+                holder.tv_search_more.setText(SearchManager.SEARCH_ITEM_BOTTOM_DEMEND);
                 break;
             case serviceMore:
-                holder.tv_search_more.setText("查看更多服务");
+                holder.tv_search_more.setText(SearchManager.SEARCH_ITEM_BOTTOM_SERVICE);
                 break;
             case personMore:
-                holder.tv_search_more.setText("查看更多人脉");
+                holder.tv_search_more.setText(SearchManager.SEARCH_ITEM_BOTTOM_PERSON);
                 break;
             case searchResult:
                 for (SearchAllBean.DataBean.DemandListBean demandListBean : mNeedData) {
 
-                    //TODO 传入的图片和姓名 ，有待确认
-                    x.image().bind(holder.iv_item_listview_home_demand_avatar,demandListBean.getAvatar());
+                    String avatar = demandListBean.getAvatar();
+                    if(avatar!=null){
+                        BitmapKit.bindImage(holder.iv_item_listview_home_demand_avatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                    }
+
                     holder.tv_item_listview_home_demand_username.setText(demandListBean.getName());
 
-                    //TODO 这里要明确状态码的含义，是否认证
-                    if(demandListBean.getIsauth() == 0){
+                 /*   if(demandListBean.getIsauth() == 1){
                     holder.iv_authentication.setVisibility(View.VISIBLE);
-                    }else {
-                    holder.iv_authentication.setVisibility(View.INVISIBLE);
-                    }
+                    }else if(demandListBean.getIsauth() == 0){
+                    holder.iv_authentication.setVisibility(View.GONE);
+                    }*/
 
-                    holder.tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
+                /*    holder.tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
                     setTime(holder.tv_item_listview_home_demand_date,demandListBean.getStarttime(),demandListBean.getEndtime());
                     holder.tv_quote.setText("报价：￥"+demandListBean.getQuote());
-
-                    //TODO 这里要明确状态码的含义
+*/
                     if(demandListBean.getPattern() == 0){
-                        holder.tv_line.setText("线上");//线上
+                        holder.tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_UP);
                     }else if(demandListBean.getPattern() == 1){
-                        holder.tv_line.setText("线下");//线下
+                        holder.tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_DOWN);
                     }
 
-                    //TODO 目前后端数据是1  ，有待解决清除
-                    if(demandListBean.getIsinstallment() == 1){
+                    //1开启 0关闭
+                  /*  if(demandListBean.getIsinstallment() == 1){
                         holder.tv_pay.setVisibility(View.VISIBLE);
-                    }else{
+                    }else if(demandListBean.getIsinstallment() == 0){
                         holder.tv_pay.setVisibility(View.GONE);
-                    }
+                    }*/
                 }
                 break;
             case serviceResult:
                 LogKit.d("暂时没有数据");
                 break;
             case personResult:
-
-                //Todo
                 break;
         }
       return convertView;

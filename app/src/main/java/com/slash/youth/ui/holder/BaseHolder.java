@@ -2,6 +2,9 @@ package com.slash.youth.ui.holder;
 
 import android.view.View;
 
+import com.slash.youth.ui.adapter.SlashBaseAdapter;
+import com.slash.youth.utils.LogKit;
+
 public abstract class BaseHolder<T> {
 
     private View mRootView;
@@ -9,7 +12,6 @@ public abstract class BaseHolder<T> {
     private int currentPosition;
 
     public BaseHolder() {
-
         mRootView = initView();
         if (mRootView != null) {
             mRootView.setTag(this);
@@ -39,4 +41,6 @@ public abstract class BaseHolder<T> {
     public int getCurrentPosition() {
         return currentPosition;
     }
+
+
 }

@@ -12,7 +12,7 @@
         <include layout="@layout/usertitlebar" />
 
 
-        <ListView
+        <com.slash.youth.ui.view.NewRefreshListView
             android:id="@+id/lv_collection"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
@@ -21,8 +21,8 @@
             android:scrollbars="none"
             android:divider="#ffffff"
             android:dividerHeight="3dp"
-            android:layout_height="wrap_content">
-        </ListView>
+            android:layout_height="match_parent">
+        </com.slash.youth.ui.view.NewRefreshListView>
 
 
     </LinearLayout>

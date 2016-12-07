@@ -21,7 +21,6 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityChooseFriendBinding = DataBindingUtil.setContentView(this, R.layout.activity_choose_friend);
         ChooseFriendModel chooseFriendModel = new ChooseFriendModel(activityChooseFriendBinding,this);
         activityChooseFriendBinding.setChooseFriendModel(chooseFriendModel);

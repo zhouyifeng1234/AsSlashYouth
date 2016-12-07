@@ -18,7 +18,12 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
 import com.slash.youth.databinding.FloatViewBinding;
+import com.slash.youth.domain.FansBean;
+import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.TransactionRecoreBean;
 import com.slash.youth.domain.UserInfoItemBean;
+import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.ui.viewmodel.FloatViewModel;
@@ -40,6 +45,8 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private ActivityUserInfoModel userInfoModel;
     private  long myId;
     private String phone;
+    private boolean isfriend;
+    private boolean isCare;
 
 
     @Override
@@ -47,12 +54,13 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
-        long uid = intent.getLongExtra("Uid", -1);//这是其他用的id
+        long uid = intent.getLongExtra("Uid", -1);
         String skillTag = intent.getStringExtra("skillTag");
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid,this,skillTag);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
-
+        testIsFriend(uid);
+        testisfollow(uid);
         back();
         title();
         listener();
@@ -102,11 +110,11 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
         switch (v.getId()){
             case R.id.tv_userinfo_save:
-                UserInfoItemBean.DataBean.UinfoBean uinfo = userInfoModel.uinfo;
+              //  UserInfoItemBean.DataBean.UinfoBean uinfo = userInfoModel.uinfo;
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
                 intentUserinfoEditorActivity.putExtra("phone",phone);
                 intentUserinfoEditorActivity.putExtra("myId",myId);
-                intentUserinfoEditorActivity.putExtra("uifo",uinfo);
+               // intentUserinfoEditorActivity.putExtra("uifo",uinfo);
                 UserInfoActivity.this.startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
@@ -156,7 +164,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         popupWindow.showAsDropDown(v);
     }
 
-
     //添加返回值
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -164,6 +171,80 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
+
+    //先验证一下好友关系
+    public void testIsFriend(long uid){
+        ContactsManager.onTestFriendStatueProtocol(new onTestFriendStatue(),uid);
+        if(isfriend){
+            activityUserinfoBinding.tvAddFriend.setText("解除好友");
+        }else {
+            activityUserinfoBinding.tvAddFriend.setText("申请加好友");
+        }
+    }
+
+    //验证好友关系
+    public class onTestFriendStatue implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        isfriend = true;
+                        break;
+                    case 0:
+                        isfriend = false;
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    //先验证我和某用户的关系
+    public void testisfollow(long uid){
+        ContactsManager.onTestIsFollow(new onTestIsFollow(),uid);
+        if (isCare) {
+            activityUserinfoBinding.tvAttentionTA.setText("取消关注TA");
+        }else {
+            activityUserinfoBinding.tvAttentionTA.setText("关注TA");
+        }
+    }
+
+    public class onTestIsFollow implements BaseProtocol.IResultExecutor<FansBean> {
+        @Override
+        public void execute(FansBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                FansBean.DataBean data = dataBean.getData();
+                int fans = data.getFans();
+                switch (fans){
+                    case 1://我是他的粉丝
+                    isCare = true;
+                        break;
+                    case 0://无关系
+                    isCare = false;
+                        break;
+                }
+                int follow = data.getFollow();
+                switch (follow){
+                    case 1://他是我的粉丝
+                        break;
+                    case 0://无关系
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
 
 
 }

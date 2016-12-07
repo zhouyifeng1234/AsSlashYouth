@@ -788,7 +788,7 @@
                             android:layout_centerInParent="true"
                             android:textSize="15dp"
                             android:textColor="#ffffff"
-                            android:text="加好友"/>
+                            android:text="申请加好友"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <View

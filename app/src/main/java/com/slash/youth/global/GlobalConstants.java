@@ -161,6 +161,9 @@ public class GlobalConstants {
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
 
+        //一、[服务]-发布服务
+        public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
+
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
         //十七、[需求]-技能标签(所有自定义技能标签)
@@ -281,9 +284,7 @@ public class GlobalConstants {
         //十二、[我的]-[用户中心]-举报用户
         public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
-        public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //登出
-        public static final String MY_LOGOUT = SERVER_HOST + "auth/v1/logout";
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
         //十四，[我的]-[用户中心]-认证
         public static final String MY_CHECKOUT_AUTH = SERVER_HOST +"/real/auth";
@@ -331,11 +332,14 @@ public class GlobalConstants {
         public static final String MANAGE_PUBLISH_HOST ="http://121.42.145.178/feed/v1/api/mytaskmanagement";
         public static final String MANAGE_PUBLISH_LIST =MANAGE_PUBLISH_HOST+"/list";
         public static final String MANAGE_PUBLISH_DELETE =MANAGE_PUBLISH_HOST+"/del";
+        public static final String MANAGE_PUBLISH_UP_AND_DOWN =MANAGE_PUBLISH_HOST+"/manage";
 
         //技能管理
         public static final String SKILL_MANAGE_HOST ="http://121.42.145.178/feed/v1/api/myservicemanagement";
         public static final String SKILL_MANAGE_LIST =SKILL_MANAGE_HOST+"/list";
         public static final String SKILL_MANAGE_DELETE =SKILL_MANAGE_HOST+"/del";
+        public static final String ADD_SKILL_TEMPLET =SKILL_MANAGE_HOST+"/add";
+        public static final String GET_SKILL_TEMPLET =SKILL_MANAGE_HOST+"/one";
 
         //[我的人脉]-人脉首页
         public static final String PERSON_RELATION_HOST ="http://121.42.145.178/uinfo/v1/api/relation";
@@ -350,15 +354,26 @@ public class GlobalConstants {
         public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST+"/list";
         //[好友]-查看加我的列表
         public static final String MY_FRIEND_LIST_ADD_ME_LIST =MY_FRIEND_LIST_HOST+"/addmelist";
+        //同意添加为好友
+        public static final String  AGREE_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/approval";
+        //[好友]-发起好友申请
+        public static final String  ADD_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/add";
+        //[好友]-验证好友状态
+        public static final String  TEST_FRIEND_STATUE = MY_FRIEND_LIST_HOST+"/isfriend";
+        //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
+        public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/del";
+
         //三、[关注]-查询我关注的人
         public static final String  RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
         public static final String  MY_CARE_PERSON = RELATION_HOST+"/myfollow";
         //[关注]-查询我的粉丝
         public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
-
-
-
-
+       //[关注]-关注动作
+       public static final String  CARE_TA = RELATION_HOST+"/add";
+        //[关注]-我和某用户的关系
+        public static final String IS_FOLLOW = RELATION_HOST+"/isfollow";
+        //[关注]-取消关注动作
+        public static final String CANNEL_CARE = RELATION_HOST+"/cancel";
 
         //[推荐]-推荐好友
         public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/list";

@@ -12,13 +12,18 @@ import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
 import com.slash.youth.databinding.FloatViewBinding;
 import com.slash.youth.domain.NewTaskUserInfoBean;
+import com.slash.youth.domain.OtherInfoBean;
+import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UserInfoItemBean;
+import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -37,7 +42,6 @@ public class ActivityUserInfoModel extends BaseObservable {
     private FloatViewBinding floatViewBinding;
     private String slashIdentity = "暂未填写";//默认
     private String defaultArea  = "暂未填写";
-    public UserInfoItemBean.DataBean.UinfoBean uinfo;//从网络获取的个人信息
     public long  userUid = -1;//-1是自己看自己的
     public String name;
     private int expert;
@@ -59,13 +63,15 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int averageservicepoint;
     private String direction;
     private int totoltaskcount;
-    private int userservicepoint;
+    private double userservicepoint;
     private long otherUid;
     public long myUid;
-    public long otherId;
     private UserInfoActivity userInfoActivity;
     private String industry;
     private String desc;
+    public int otherId;
+    private boolean isSuccessful;
+    private boolean isDelete;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag) {
@@ -80,14 +86,10 @@ public class ActivityUserInfoModel extends BaseObservable {
     //加载数据
     private void initData() {
         if(otherUid == -1){
-            //我的id
             MyManager.getMySelfPersonInfo(new OnGetMyUserinfo());
-            isOther = false; //我的id
+            isOther = false;
         }else {
-            //其他的id
-            //这是从其他页面里面传过来的，我看其他人的资料数据
-            //uid是从登陆页面第一次获得uid
-            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),10001);
+            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
             isOther = true;
         }
 
@@ -125,17 +127,14 @@ public class ActivityUserInfoModel extends BaseObservable {
         LogKit.d("打开技能标签页面，去选择标签");
     }
 
-    //更新用户信息
-    private void updateUserInfo() {
+    private void updateUserInfo(UserInfoItemBean.DataBean.UinfoBean uinfo){
         //用户ID
         myUid = uinfo.getId();
-
         //用户头像
         avatar = uinfo.getAvatar();
         if(!avatar.isEmpty()){
-            x.image().bind(activityUserinfoBinding.ivUserinfoUsericon,avatar);
+            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD+"?fileId="+avatar);
         }
-
         //用户姓名
         name = uinfo.getName();
         activityUserinfoBinding.tvUserinfoUsername.setText(name);
@@ -144,20 +143,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         }else {
             activityUserinfoBinding.tvUserinfoUsername.setText("个人信息中心");
         }
-
-        //专家  用户身份，是否是专家，专家几级,默认是不显示
-        expert = uinfo.getExpert();
-        activityUserinfoBinding.tvUserinfoIdentity.setText("专家"+expert+"级");
-
-        //城市  //省份
-        city = uinfo.getCity();
-        province = uinfo.getProvince();
-        if(!city.equals(province)){
-            place = province+""+city;
-        }else {
-            place = city;
-        }
-        activityUserinfoBinding.tvPlace.setText(place);
 
         //职业类型
         careertype = uinfo.getCareertype();
@@ -186,7 +171,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
         }
 
-
         //身份,斜杠 斜杠身份  没填写斜杠身份时，显示暂未填写 ,如果有的话，就填写
         identity = uinfo.getIdentity();
         if(!identity.contains(",")){
@@ -208,32 +192,10 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvSlashIdentity.setText(stringBuffer.toString());
         }
 
-        //粉丝数
-        fanscount = uinfo.getFanscount();
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数"+fanscount);
-        //粉丝比率
-        fansratio = uinfo.getFansratio();
-        activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio+"%");
-        activityUserinfoBinding.tvFansCount.setText("超过平台"+fansratio+"的用户");
-        //完成任务的单数
-        achievetaskcount = uinfo.getAchievetaskcount();
-        activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交"+achievetaskcount+"单");
-        activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount+"");
-        //任务总数
-        totoltaskcount = uinfo.getTotoltaskcount();
-        activityUserinfoBinding.tvTotolTaskCount.setText("共"+totoltaskcount+"单任务");
-        //平均服务点
-        averageservicepoint = uinfo.getAverageservicepoint();
-        //用户服务指向
-        userservicepoint = uinfo.getUserservicepoint();
-        activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力"+userservicepoint+"星");
-        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint+"");
-        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为"+averageservicepoint+"星");
-
         //技能描述
         desc = uinfo.getDesc();
         if(desc!=null){
-        activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
+            activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
         }
 
         //方向
@@ -241,8 +203,137 @@ public class ActivityUserInfoModel extends BaseObservable {
         industry = uinfo.getIndustry();
         activityUserinfoBinding.tvProfession.setText(industry+"|"+direction);
 
+        //专家  用户身份，是否是专家，专家几级,默认是不显示
+        expert = uinfo.getExpert();
+        activityUserinfoBinding.tvUserinfoIdentity.setText("专家"+expert+"级");
+
+        //城市  //省份
+        city = uinfo.getCity();
+        province = uinfo.getProvince();
+        if(!city.equals(province)){
+            place = province+""+city;
+        }else {
+            place = city;
+        }
+        activityUserinfoBinding.tvPlace.setText(place);
+    }
+
+    //更新用户信息
+    private void updateOtherUserInfo( OtherInfoBean.DataBean.UinfoBean uinfo) {
+
+        //用户ID
+        myUid = uinfo.getId();
+        //用户头像
+        avatar = uinfo.getAvatar();
+        if (!avatar.isEmpty()) {
+            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+        }
+        //用户姓名
+        name = uinfo.getName();
+        activityUserinfoBinding.tvUserinfoUsername.setText(name);
+        if (!name.isEmpty()) {
+            onNameListener.OnNameListener(name, myUid);
+        } else {
+            activityUserinfoBinding.tvUserinfoUsername.setText("个人信息中心");
+        }
+
+        //职业类型
+        careertype = uinfo.getCareertype();
+        if (careertype == 1) {//固定职业者
+            company = uinfo.getCompany();//公司
+            position = uinfo.getPosition();//技术专家
+            String companyAndPosition = company + "-" + position;
+            if (!company.isEmpty()) {
+                activityUserinfoBinding.tvUserInfoCompany.setText(companyAndPosition);
+            } else {
+                activityUserinfoBinding.tvUserInfoCompany.setText("暂未填写职务信息");
+            }
+        } else if (careertype == 2) {//自由职业者
+            activityUserinfoBinding.tvUserInfoCompany.setText("自雇者");
+        }
+
+        //是否认证
+        isauth = uinfo.getIsauth();
+        if (isauth == 1) {
+            //认证过的
+            activityUserinfoBinding.ivUserinfoV.setVisibility(View.VISIBLE);
+            activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.GONE);
+        } else if (isauth == 0) {
+            //非认证
+            activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
+            activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
+        }
+
+        //身份,斜杠 斜杠身份  没填写斜杠身份时，显示暂未填写 ,如果有的话，就填写
+        identity = uinfo.getIdentity();
+        if (!identity.contains(",")) {
+            if (identity.isEmpty()) {
+                activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份: " + slashIdentity);
+            } else {
+                activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份: " + identity);
+            }
+        } else {
+            String[] splitIdentity = identity.split(",");
+            stringBuffer.append("斜杠身份: ");
+            for (int i = 0; i < splitIdentity.length; i++) {
+                if (i == splitIdentity.length - 1) {
+                    stringBuffer.append(splitIdentity[i]);
+                } else {
+                    stringBuffer.append(splitIdentity[i] + "/");
+                }
+            }
+            activityUserinfoBinding.tvSlashIdentity.setText(stringBuffer.toString());
+        }
+
+        //技能描述
+        desc = uinfo.getDesc();
+        if (desc != null) {
+            activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
+        }
+
+        //方向
+        direction = uinfo.getDirection();
+        industry = uinfo.getIndustry();
+        activityUserinfoBinding.tvProfession.setText(industry + "|" + direction);
+
+        //专家  用户身份，是否是专家，专家几级,默认是不显示
+        expert = uinfo.getExpert();
+        activityUserinfoBinding.tvUserinfoIdentity.setText("专家" + expert + "级");
+
+        //城市  //省份
+        city = uinfo.getCity();
+        province = uinfo.getProvince();
+        if (!city.equals(province)) {
+            place = province + "" + city;
+        } else {
+            place = city;
+        }
+        activityUserinfoBinding.tvPlace.setText(place);
+
+        //粉丝数
+        fanscount = uinfo.getFanscount();
+        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
+        //粉丝比率
+        fansratio = uinfo.getFansratio();
+        activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
+        activityUserinfoBinding.tvFansCount.setText("超过平台" + fansratio + "的用户");
+        //完成任务的单数
+        achievetaskcount = uinfo.getAchievetaskcount();
+        activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
+        activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
+        //任务总数
+        totoltaskcount = uinfo.getTotoltaskcount();
+        activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
+        //平均服务点
+        averageservicepoint = uinfo.getAverageservicepoint();
+        //用户服务指向
+        userservicepoint = uinfo.getUserservicepoint();
+        activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
+        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
+        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+
         //   技能标签
-        tag = uinfo.getTag();
+     /*   tag = uinfo.getTag();
         if(!tag.contains(" ")){
             activityUserinfoBinding.tvUserInfoTag.setText(tag);
             activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
@@ -277,8 +368,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                         activityUserinfoBinding.tvSkilllabel3.setText(split[2]);
                         break;
                 }
-            }
-        }
+            }*/
+
 
     }
     //去认证
@@ -306,8 +397,8 @@ public class ActivityUserInfoModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
                 UserInfoItemBean.DataBean data = dataBean.getData();
-                uinfo = data.getUinfo();
-                updateUserInfo();
+                UserInfoItemBean.DataBean.UinfoBean uinfo = data.getUinfo();
+                  updateUserInfo(uinfo);
             }else {
                 LogKit.d("rescode="+rescode);
             }
@@ -320,14 +411,14 @@ public class ActivityUserInfoModel extends BaseObservable {
     }
 
     //获取其他用户信息
-    public class onGetOtherPersonInfo implements BaseProtocol.IResultExecutor<UserInfoItemBean> {
+    public class onGetOtherPersonInfo implements BaseProtocol.IResultExecutor<OtherInfoBean> {
         @Override
-        public void execute(UserInfoItemBean dataBean) {
+        public void execute(OtherInfoBean dataBean) {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
-                UserInfoItemBean.DataBean data = dataBean.getData();
-                uinfo = data.getUinfo();
-                updateUserInfo();
+                OtherInfoBean.DataBean data = dataBean.getData();
+                OtherInfoBean.DataBean.UinfoBean uinfo = data.getUinfo();
+                updateOtherUserInfo(uinfo);
             }else {
                 LogKit.d("rescode ="+rescode);
             }
@@ -341,8 +432,28 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //加好友
     public void addFriend(View view) {
-        ToastUtils.shortCenterToast("加好友成功");
-        activityUserinfoBinding.tvAddFriend.setText("已加好友");
+        String text = activityUserinfoBinding.tvAddFriend.getText().toString();
+        if(text.equals("申请加好友")){
+            ContactsManager.onAddFriendRelationProtocol(new onAddFriendRelationProtocol(),otherUid,"userInfo");
+            if(isSuccessful){
+                ToastUtils.shortCenterToast("已申请加好友成功");
+                activityUserinfoBinding.tvAddFriend.setText("已申请加好友");
+            }else {
+                ToastUtils.shortCenterToast("申请加好友失败");
+                activityUserinfoBinding.tvAddFriend.setText("申请加好友");
+            }
+        }
+
+        if(text.equals("解除好友")){
+        ContactsManager.deleteFriendRelationProtocol(new onDeleteFriendRelationProtocol(),otherUid,"unBindUserInfo");
+            if (isDelete) {
+                ToastUtils.shortCenterToast("已解除好友成功");
+                activityUserinfoBinding.tvAddFriend.setText("申请加好友");
+            }else {
+                ToastUtils.shortCenterToast("解除好友失败");
+                activityUserinfoBinding.tvAddFriend.setText("解除好友");
+            }
+        }
     }
 
     //聊一聊
@@ -353,10 +464,15 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //关注他
     public void attention(View view) {
-        LogKit.d("关注他");
-        ToastUtils.shortCenterToast("已关注TA");
-        activityUserinfoBinding.tvAttentionTA.setText("已关注TA");
-       // ToastUtils.shortCenterToast("关注成功",Color.parseColor("#e5e5e5"),3000);
+        String text = activityUserinfoBinding.tvAttentionTA.getText().toString();
+        if(text.equals("关注TA")){
+            ContactsManager.onCareTAProtocol(new onCareTAProtocol(),otherUid);
+        }
+
+        //取消关注
+        if(text.equals("取消关注")){
+            ContactsManager.onCannelCareProtocol(new onCannelCareProtocol(),otherUid);
+        }
     }
 
     //推荐
@@ -366,4 +482,121 @@ public class ActivityUserInfoModel extends BaseObservable {
         dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);
         activityUserinfoBinding.flDialogContainer.addView(dialogRecommendBinding.getRoot());
     }
+
+    //加好友关系
+    public class onAddFriendRelationProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        isSuccessful = true;
+                        break;
+                    case 0:
+                        isSuccessful = false;
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    //删除好友关系
+    public class onDeleteFriendRelationProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        isDelete = true;
+                        break;
+                    case 0:
+                        isDelete = false;
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    //关注TA
+    public class onCareTAProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
+                        ToastUtils.shortCenterToast("已关注TA");
+                        activityUserinfoBinding.tvAttentionTA.setText("取消关注");
+                        break;
+                    case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
+                        LogKit.d("已经关注过错误");
+                        break;
+                    case ContactsManager.FOLLOW_STATUS_NOT_EXIST_ERROR:
+                        LogKit.d("关注关系不存在错误");
+                        break;
+                    case ContactsManager.FOLLOW_STATUS_UNKNOWN_ERROR:
+                        LogKit.d("服务端错误");
+                        break;
+                    case ContactsManager.FOLLOW_USER_NOT_EXIST_ERROR:
+                        LogKit.d("用户不存在错误");
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    //取消关注
+    public class onCannelCareProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
+                        ToastUtils.shortCenterToast("已取消关注TA");
+                        activityUserinfoBinding.tvAttentionTA.setText("关注TA");
+                        break;
+                    case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
+                        LogKit.d("已经关注过错误");
+                        break;
+                    case ContactsManager.FOLLOW_STATUS_NOT_EXIST_ERROR:
+                        LogKit.d("关注关系不存在错误");
+                        break;
+                    case ContactsManager.FOLLOW_STATUS_UNKNOWN_ERROR:
+                        LogKit.d("服务端错误");
+                        break;
+                    case ContactsManager.FOLLOW_USER_NOT_EXIST_ERROR:
+                        LogKit.d("用户不存在错误");
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
 }

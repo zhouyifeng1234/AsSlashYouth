@@ -7,12 +7,13 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemListviewHomeDemandBinding;
 import com.slash.youth.domain.DemandBean;
+import com.slash.youth.domain.SearchItemDemandBean;
 import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zhouyifeng on 2016/9/6.
  */
-public class PagerHomeDemandHolder extends BaseHolder<DemandBean> {
+public class PagerHomeDemandHolder extends BaseHolder<SearchItemDemandBean.DataBean.ListBean> {
 
     private ItemListviewHomeDemandBinding itemListviewHomeDemandBinding;
 
@@ -25,7 +26,7 @@ public class PagerHomeDemandHolder extends BaseHolder<DemandBean> {
 
 //    SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH);
     @Override
-    public void refreshView(DemandBean data) {
+    public void refreshView(SearchItemDemandBean.DataBean.ListBean data) {
 //        String dateStr = sdf.format(new Date(data.lasttime));
 //        itemListviewHomeDemandBinding.tvItemListviewHomeDemandTime.setText(dateStr);
     }

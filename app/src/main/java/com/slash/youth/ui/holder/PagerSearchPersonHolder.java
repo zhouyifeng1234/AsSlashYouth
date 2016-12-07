@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemListviewSearchPersonBinding;
 import com.slash.youth.domain.SearchUserBean;
+import com.slash.youth.domain.SearchUserItemBean;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -25,7 +26,7 @@ import java.util.TimeZone;
 /**
  * Created by zss on 2016/9/6.
  */
-public class PagerSearchPersonHolder extends BaseHolder<SearchUserBean.DataBean.ListBean> implements View.OnClickListener {
+public class PagerSearchPersonHolder extends BaseHolder<SearchUserItemBean.DataBean.ListBean> implements View.OnClickListener {
 
     private ItemListviewSearchPersonBinding itemListviewSearchPersonBinding;
     private int isauth;
@@ -39,9 +40,9 @@ public class PagerSearchPersonHolder extends BaseHolder<SearchUserBean.DataBean.
     }
 
     @Override
-    public void refreshView(SearchUserBean.DataBean.ListBean data) {
+    public void refreshView(SearchUserItemBean.DataBean.ListBean data) {
         //头像图片
-        x.image().bind(itemListviewSearchPersonBinding.ivSearchPerson, data.getAvatar());
+      /*  x.image().bind(itemListviewSearchPersonBinding.ivSearchPerson, data.getAvatar());
         String company = data.getCompany();
         int id = data.getId();
         String identity = data.getIdentity();
@@ -66,7 +67,7 @@ public class PagerSearchPersonHolder extends BaseHolder<SearchUserBean.DataBean.
         itemListviewSearchPersonBinding.tvSearchPersonName.setText(name);
 
         String profession = data.getProfession();
-        itemListviewSearchPersonBinding.tvSearchPersonZhiye.setText(profession);
+        itemListviewSearchPersonBinding.tvSearchPersonPosition.setText(profession);
         int star = data.getStar();
         for (int i = 0; i <= star; i++) {
             ImageView imageView = new ImageView(CommonUtils.getContext());
@@ -110,7 +111,11 @@ public class PagerSearchPersonHolder extends BaseHolder<SearchUserBean.DataBean.
             formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
             String hour = formatter.format(time);
             itemListviewSearchPersonBinding.tvTime.setText(hour+"时"+"在线");
-        }
+        }*/
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

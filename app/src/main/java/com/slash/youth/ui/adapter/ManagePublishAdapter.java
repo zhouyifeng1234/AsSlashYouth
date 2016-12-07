@@ -5,97 +5,102 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.slash.youth.domain.ManagerMyPublishTaskBean;
 import com.slash.youth.domain.MyCollectionBean;
+import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillManageBean;
+import com.slash.youth.engine.MyManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.ManagePublishHolder;
 import com.slash.youth.ui.holder.MySkillManageHolder;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
+
+import io.rong.message.VoiceMessage;
 
 /**
  * Created by acer on 2016/11/3.
  */
-public class ManagePublishAdapter extends SlashBaseAdapter<MyCollectionBean> {
+public class ManagePublishAdapter extends SlashBaseAdapter<ManagerMyPublishTaskBean.DataBean.ListBean> {
 
     private MySkillManageActivity mySkillManageActivity;
-    private ArrayList<MyCollectionBean> managePublishList;
-    private ManagePublishHolder managePublishHolder;
+    private ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList;
+    public ManagePublishHolder managePublishHolder;
+    private int index = -1;
 
-    public ManagePublishAdapter(ArrayList<MyCollectionBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<MyCollectionBean> managePublishList) {
+    public ManagePublishAdapter(ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList) {
         super(listData);
         this.mySkillManageActivity = mySkillManageActivity;
         this.managePublishList = managePublishList;
     }
 
     @Override
-    public ArrayList<MyCollectionBean> onLoadMore() {
+    public ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> onLoadMore() {
         return null;
     }
 
     @Override
-    public BaseHolder getHolder(int position) {
-        managePublishHolder = new ManagePublishHolder(position, mySkillManageActivity, managePublishList);
+    public BaseHolder getHolder( int position) {
+        managePublishHolder = new ManagePublishHolder(mySkillManageActivity, managePublishList);
+        deleteItem();
         return managePublishHolder;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        BaseHolder holder;
-        if (convertView == null) {
-            if (getItemViewType(position) == HOLDER_TYPE_MORE) {
-                holder = getAddMoreHolder(position);
-            } else {
-                holder = getHolder(position);
+    //删除
+    public void deleteItem() {
+        managePublishHolder.setOnCBacklickListener(new ManagePublishHolder.OnDeleteClickListener() {
+            @Override
+            public void OnDeleteClick(int position) {
+                 index = position;
+                showDialog();
             }
-        } else {
-            holder = (BaseHolder) convertView.getTag();
-        }
-        if (getItemViewType(position) != HOLDER_TYPE_MORE) {
-            holder.setData(getItem(position), position);
-        } else {
-            // holder.setData(AddMoreHolder.STATE_MORE_EMPTY);
-            AddMoreHolder addMoreHolder = (AddMoreHolder) holder;
-            if (addMoreHolder.getData() == AddMoreHolder.STATE_MORE_MORE) {
-                loadMore(addMoreHolder, position);
-            }
-        }
-        View rootView = holder.getRootView();
-        if (rootView != null) {
-            ImageView ivDeleteSkill = managePublishHolder.itemManagePublishHolderBinding.ivDeleteSkill;
-            ivDeleteSkill.setOnClickListener(new lvButtonListener(position));
-
-            return rootView;
-        } else {
-            TextView textViewNull = new TextView(CommonUtils.getContext());
-            textViewNull.setText("Null");
-            return textViewNull;
-        }
+        });
     }
 
+     private void showDialog() {
+        DialogUtils.showDialogFive(mySkillManageActivity, "是否删除该任务", "", new DialogUtils.DialogCallBack() {
+            @Override
+            public void OkDown() {
+                if(index!=-1){
+                ManagerMyPublishTaskBean.DataBean.ListBean listBean = managePublishList.get(index);
+                int type = listBean.getType();
+                int tid = listBean.getTid();
+                managePublishList.remove(index);
+                notifyDataSetChanged();
+                MyManager.onDeleteManagerMyPublishTaskItem(new onAddMyCollectionList(),type,tid);
 
-    class lvButtonListener implements View.OnClickListener {
-        private int position;
-        lvButtonListener(int pos) {
-            position = pos;
+                }
+            }
+
+            @Override
+            public void CancleDown() {
+                LogKit.d("取消删除");
+            }
+        });
+    }
+
+    public class onAddMyCollectionList implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                LogKit.d("status:"+status);
+            }
         }
 
         @Override
-        public void onClick(View v) {
-            listener.onItemRemove(position);
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
         }
     }
 
-    public interface onItemRemoveListener{
-        void onItemRemove( int index);
-    }
-
-    private onItemRemoveListener listener;
-    public void setItemRemoveListener ( onItemRemoveListener listener ) {
-        this.listener = listener;
-    }
 
 }

@@ -11,6 +11,7 @@ import android.view.animation.RotateAnimation;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.MyAccountActivity;
@@ -21,6 +22,7 @@ import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -42,7 +44,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int achievetaskcount;
     private String avatar;
     private int averageservicepoint;
-    private int userservicepoint;
+    private double userservicepoint;
     private int careertype;
     private String company;
     private String position;
@@ -145,7 +147,7 @@ public class PagerHomeMyModel extends BaseObservable {
         //头像
         avatar = myinfo.getAvatar();
         if(!avatar.isEmpty()){
-            x.image().bind(mPagerHomeMyBinding.ivAssistantIcon,avatar);
+            BitmapKit.bindImage(mPagerHomeMyBinding.ivAssistantIcon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
         //行业 方向 技能标签
@@ -256,7 +258,7 @@ public class PagerHomeMyModel extends BaseObservable {
     public void editor(View view){
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("phone",phone);
-        intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
+     //   intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
         mActivity.startActivity(intentUserinfoEditorActivity);
     }
 
@@ -313,7 +315,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
     }
 
-    //常见问题
+    //我的收藏
     public void collection(View view){
         Intent intentMyCollectionActivity = new Intent(CommonUtils.getContext(), MyCollectionActivity.class);
         intentMyCollectionActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

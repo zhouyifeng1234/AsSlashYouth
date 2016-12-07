@@ -1,12 +1,19 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.graphics.Color;
+import android.net.sip.SipSession;
 import android.view.View;
 
 import com.slash.youth.databinding.ItemManagePublishHolderBinding;
+import com.slash.youth.domain.ManagerMyPublishTaskBean;
 import com.slash.youth.domain.MyCollectionBean;
+import com.slash.youth.domain.SetBean;
+import com.slash.youth.engine.MyManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.utils.DialogUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
@@ -14,35 +21,36 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/20.
  */
 public class ItemManagePublishModel extends BaseObservable {
-    private int position;
     private MySkillManageActivity mySkillManageActivity;
-    private ArrayList<MyCollectionBean> managePublishList;
+    private ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList;
     private ItemManagePublishHolderBinding itemManagePublishHolderBinding;
 
-    public ItemManagePublishModel(int position, MySkillManageActivity mySkillManageActivity, ArrayList<MyCollectionBean> managePublishList, ItemManagePublishHolderBinding itemManagePublishHolderBinding) {
-        this.position = position;
+    public ItemManagePublishModel( MySkillManageActivity mySkillManageActivity, ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList, ItemManagePublishHolderBinding itemManagePublishHolderBinding) {
         this.mySkillManageActivity = mySkillManageActivity;
         this.managePublishList = managePublishList;
         this.itemManagePublishHolderBinding = itemManagePublishHolderBinding;
     }
 
-    public void delete(View view){
-        showDialog();
+    //上架，下架
+    public void UpAndDown(int id,int action){
+        MyManager.onManagerMyPublishTaskItemUpAndDown(new onAddMyCollectionList(),id,action);
     }
 
-    private void showDialog() {
-
-        DialogUtils.showDialogFive(mySkillManageActivity, "是否删除该技能", "", new DialogUtils.DialogCallBack() {
-            @Override
-            public void OkDown() {
-                managePublishList.remove(position);
+    public class onAddMyCollectionList implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                LogKit.d("status:"+status);
             }
+        }
 
-            @Override
-            public void CancleDown() {
-
-            }
-        });
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
     }
 
 }

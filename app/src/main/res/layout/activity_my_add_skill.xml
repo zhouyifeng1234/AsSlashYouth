@@ -133,6 +133,7 @@
                         android:hint="不填表示对方报价 "
                         android:textColorHint="#CCCCCC"
                         android:textColor="#333333"
+                        android:inputType="number"
                         android:textSize="13sp"/>
                     <TextView
                         android:layout_width="18dp"
@@ -276,6 +277,22 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/shape_rounded_demand2_desc_bg">
+                        <ScrollView
+                            android:id="@+id/sv_publish_demand_labels"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="5dp">
+                            <com.slash.youth.ui.view.SlashAddLabelsLayout
+                                android:id="@+id/sall_added_skilllabels"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:orientation="vertical"
+                                >
+
+                            </com.slash.youth.ui.view.SlashAddLabelsLayout>
+                        </ScrollView>
                     </FrameLayout>
                 <FrameLayout
                         android:layout_width="match_parent"
@@ -285,6 +302,8 @@
                         android:background="@mipmap/demand_layer_3">
 
                         <Button
+                            android:onClick="@{myAddSkillModel.sumbit}"
+                            android:id="@+id/btn_sumbit"
                             android:layout_width="252dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center"

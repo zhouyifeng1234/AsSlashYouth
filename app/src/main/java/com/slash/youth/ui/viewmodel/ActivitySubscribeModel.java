@@ -11,6 +11,7 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.ui.activity.SubscribeActivity;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -97,7 +98,8 @@ public class ActivitySubscribeModel extends BaseObservable {
         if(isEditor){
        mActivity.setResult(Activity.RESULT_OK,intentResult);
         }else {
-        mActivity.setResult(10, intentResult);
+            mActivity.setResult(10, intentResult);
+            mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
         }
         mActivity.finish();
     }
@@ -105,8 +107,6 @@ public class ActivitySubscribeModel extends BaseObservable {
     public void goBack(View v) {
         if(isEditor){
             LogKit.d("是编辑页面返回的");
-
-
         }
         mActivity.finish();
     }

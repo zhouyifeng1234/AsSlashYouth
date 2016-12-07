@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
+import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
@@ -29,7 +30,7 @@ public class DialogSearchCleanModel extends BaseObservable {
     private ActivitySearchBinding mActivitySearchBinding;
     private DialogSearchCleanBinding mDialogSearchCleanBinding;
     public AlertDialog currentDialog;//当前对话框
-    private ArrayList<String> searchHistoryList;
+    private ArrayList<ItemSearchBean> searchHistoryList;
     private File file;
     private SearchHistoryListAdapter adapter;
     private  SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
@@ -63,7 +64,7 @@ public class DialogSearchCleanModel extends BaseObservable {
 
     public  void initSearchHistoryData() {
         //存储集合
-        searchHistoryList = new ArrayList<String>();
+        searchHistoryList = new ArrayList<>();
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -72,13 +73,13 @@ public class DialogSearchCleanModel extends BaseObservable {
                 if(TextUtils.isEmpty(line)){
                     continue;
                 }
-                searchHistoryList .add(line);
+                searchHistoryList .add(new ItemSearchBean(line,true));
             }
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        adapter= new SearchHistoryListAdapter(searchHistoryList,true);
+        adapter= new SearchHistoryListAdapter(searchHistoryList);
         currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
     }
 }

@@ -26,7 +26,6 @@ public class SearchAllProtocol extends BaseProtocol<SearchAllBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-        LogKit.v(tag);
         params.addBodyParameter("tag", tag);
     }
 

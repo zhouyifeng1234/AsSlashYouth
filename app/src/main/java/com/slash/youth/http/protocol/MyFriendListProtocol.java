@@ -5,6 +5,7 @@ import com.slash.youth.domain.HomeContactsVisitorBean;
 import com.slash.youth.domain.MyFriendListBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 

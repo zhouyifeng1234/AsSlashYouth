@@ -14,17 +14,15 @@ import org.xutils.http.RequestParams;
 public class AddMyCollectionItemProtocol extends BaseProtocol<SetBean> {
     private int type;
     private int tid;
-    private String url;
 
-    public AddMyCollectionItemProtocol(int type, int tid,String url) {
+    public AddMyCollectionItemProtocol(int type, int tid) {
         this.type = type;
         this.tid = tid;
-        this.url = url;
     }
 
     @Override
     public String getUrlString() {
-        return url;
+        return GlobalConstants.HttpUrl.MY_ADD_COLLECTION_ITEM;
     }
 
     @Override

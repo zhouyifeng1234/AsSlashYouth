@@ -17,11 +17,9 @@ import java.util.ArrayList;
 public class ItemMyCollectionModel extends BaseObservable {
 
     private ItemMyCollectionBinding itemMyCollectionBinding;
-    private int position;
-    private ArrayList<MyCollectionBean> listData;
-    public ItemMyCollectionModel(ItemMyCollectionBinding itemMyCollectionBinding,int position, ArrayList<MyCollectionBean> listData) {
+    private ArrayList<MyCollectionBean.DataBean.ListBean> listData;
+    public ItemMyCollectionModel(ItemMyCollectionBinding itemMyCollectionBinding, ArrayList<MyCollectionBean.DataBean.ListBean> listData) {
         this.itemMyCollectionBinding = itemMyCollectionBinding;
-        this.position = position;
         this.listData = listData;
 
     }

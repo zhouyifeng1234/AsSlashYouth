@@ -16,6 +16,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchPagerFirstBinding;
 import com.slash.youth.domain.SearchAllBean;
+import com.slash.youth.engine.SearchManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SearchAllProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
@@ -52,20 +53,20 @@ public class SearchPagerFirstModel extends BaseObservable {
 
     //搜索需求
     public void searchDemand(View v) {
-        showView("热搜需求");
-        SpUtils.setString("searchType","热搜需求");
+        showView(SearchManager.HOT_SEARCH_DEMEND);
+        SpUtils.setString("searchType",SearchManager.HOT_SEARCH_DEMEND);
     }
 
     //搜索服务
     public void searchService(View v) {
-        showView("热搜服务");
-        SpUtils.setString("searchType","热搜服务");
+        showView(SearchManager.HOT_SEARCH_SERVICE);
+        SpUtils.setString("searchType",SearchManager.HOT_SEARCH_SERVICE);
     }
 
     //搜索人
     public void searchUser(View v){
-        showView("搜人");
-        SpUtils.setString("searchType","搜人");
+        showView(SearchManager.HOT_SEARCH_PERSON);
+        SpUtils.setString("searchType",SearchManager.HOT_SEARCH_PERSON);
     }
 
     public void showView(String title) {

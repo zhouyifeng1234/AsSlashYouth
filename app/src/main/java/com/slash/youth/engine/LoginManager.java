@@ -33,17 +33,14 @@ import java.util.Map;
  * Created by Administrator on 2016/8/31.
  */
 public class LoginManager {
-    public static long currentLoginUserId = 10000;//实际应该在登录状态中获取
-
+    public static long currentLoginUserId = 10001;//实际应该在登录状态中获取
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
-
 
     static {
         //微信初始化
         iwxApi = WXAPIFactory.createWXAPI(CommonUtils.getContext(), GlobalConstants.ThirdAppId.APPID_WECHAT, true);
         iwxApi.registerApp(GlobalConstants.ThirdAppId.APPID_WECHAT);
-
         //QQ初始化
         mTencent = Tencent.createInstance(GlobalConstants.ThirdAppId.APPID_QQ, CommonUtils.getContext());
     }
@@ -56,7 +53,6 @@ public class LoginManager {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
-
             @Override
             public void executeResultError(String result) {
             }
@@ -71,7 +67,6 @@ public class LoginManager {
             public void execute(String dataBean) {
                 ToastUtils.shortToast(dataBean);
             }
-
             @Override
             public void executeResultError(String result) {
 
@@ -97,7 +92,6 @@ public class LoginManager {
 
     public boolean Login() {
         //TODO 具体的登录逻辑，判断是否登录成功
-
 
         return true;
     }
