@@ -178,6 +178,8 @@ public class GlobalConstants {
         public static final String SERVICE_FLOW_PAYMENT = SERVER_HOST_SERVICE + "payment";
         //八、[服务]-需求方确认完成任务
         public static final String SERVICE_CONFIRM_COMPLETE = SERVER_HOST_SERVICE + "confirmComplete";
+        //十一、[服务]-服务方不同意退款并申请平台介入
+        public static final String SERVICE_FLOW_INTERVENTION=SERVER_HOST_SERVICE+"intervention";
         //十二、[服务]-查看分期完成情况列表
         public static final String GET_SETVICE_INSTALMENT_LIST = SERVER_HOST_SERVICE + "instalmentlist";
         //十三、[服务]-查看服务订单状态

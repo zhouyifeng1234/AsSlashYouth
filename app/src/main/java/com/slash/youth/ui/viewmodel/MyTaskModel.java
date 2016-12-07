@@ -119,6 +119,7 @@ public class MyTaskModel extends BaseObservable {
                         }
                     } else if (myTaskBean.type == 2) {//我发的服务
                         Intent intentMyPublishServiceActivity = new Intent(CommonUtils.getContext(), MyPublishServiceActivity.class);
+                        intentMyPublishServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
                         mActivity.startActivity(intentMyPublishServiceActivity);
                     }
 

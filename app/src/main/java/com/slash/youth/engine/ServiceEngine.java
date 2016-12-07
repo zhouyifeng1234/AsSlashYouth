@@ -5,6 +5,7 @@ import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.ServiceDelayPayProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
+import com.slash.youth.http.protocol.ServiceFlowComplainProtocol;
 import com.slash.youth.http.protocol.ServiceInstalmentListProtocol;
 import com.slash.youth.http.protocol.ServiceOrderInfoProtocol;
 import com.slash.youth.http.protocol.ServiceOrderStatusProtocol;
@@ -105,6 +106,18 @@ public class ServiceEngine {
     public static void confirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String soid, String fid) {
         ServiceConfirmCompleteProtocol serviceConfirmCompleteProtocol = new ServiceConfirmCompleteProtocol(soid, fid);
         serviceConfirmCompleteProtocol.getDataFromServer(onConfirmCompleteFinished);
+    }
+
+    /**
+     * 十一、[服务]-服务方不同意退款并申请平台介入
+     *
+     * @param onInterventionFinished
+     * @param soid                   服务订单ID
+     * @param remark                 申请平台介入原因  这个字段好像可以不写
+     */
+    public static void serviceComplain(BaseProtocol.IResultExecutor onInterventionFinished, String soid, String remark) {
+        ServiceFlowComplainProtocol serviceFlowComplainProtocol = new ServiceFlowComplainProtocol(soid, remark);
+        serviceFlowComplainProtocol.getDataFromServer(onInterventionFinished);
     }
 
     /**
