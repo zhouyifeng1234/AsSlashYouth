@@ -14,6 +14,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyPublishDemandBinding;
 import com.slash.youth.databinding.ItemDemandFlowLogBinding;
 import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.DelayPayBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.MyTaskBean;
@@ -21,7 +22,6 @@ import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
@@ -101,9 +101,9 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //确认延期支付
     public void okRectifyPayment(View v) {
-        DemandEngine.delayPay(new BaseProtocol.IResultExecutor<DelayPayProtocol>() {
+        DemandEngine.delayPay(new BaseProtocol.IResultExecutor<DelayPayBean>() {
             @Override
-            public void execute(DelayPayProtocol dataBean) {
+            public void execute(DelayPayBean dataBean) {
                 //延期支付成功
                 ToastUtils.shortToast("延期支付成功");
             }
@@ -126,7 +126,7 @@ public class MyPublishDemandModel extends BaseObservable {
     public void confirmFinish(View v) {
         int fid = innerDemandCardInfo.instalmentcurr;
         DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
+                @Override
             public void execute(CommonResultBean dataBean) {
                 //确认完成成功
                 ToastUtils.shortToast("确认完成成功");

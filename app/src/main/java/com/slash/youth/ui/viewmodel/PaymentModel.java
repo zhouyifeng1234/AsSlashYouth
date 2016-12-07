@@ -13,6 +13,7 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PaymentBean;
 import com.slash.youth.engine.AccountManager;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -32,6 +33,8 @@ public class PaymentModel extends BaseObservable {
     long tid;//任务ID（需求ID）
     double quote;//报价，最终以服务方的报价为准
 
+    int type = -1;//1需求 2服务
+
     public PaymentModel(ActivityPaymentBinding activityPaymentBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityPaymentBinding = activityPaymentBinding;
@@ -47,6 +50,7 @@ public class PaymentModel extends BaseObservable {
         Bundle payInfo = mActivity.getIntent().getExtras();
         tid = payInfo.getLong("tid");
         quote = payInfo.getDouble("quote");
+        type = payInfo.getInt("type");
     }
 
     public void gotoBack(View v) {
@@ -87,28 +91,55 @@ public class PaymentModel extends BaseObservable {
 
 
     private void doBalancePayment() {
-        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<PaymentBean>() {
-            @Override
-            public void execute(PaymentBean dataBean) {
-                //余额支付成功
-                setPaymentTopText("支付结果");
-                setCloseVisibility(View.VISIBLE);
-                setGobackVisibility(View.INVISIBLE);
-                setPayMainInfoVisibility(View.GONE);
-                setPaySuccessVisibility(View.VISIBLE);
-                if (isSetTradePassword) {
-                    setSetTradePasswordVisibility(View.GONE);
-                } else {
-                    setSetTradePasswordVisibility(View.VISIBLE);
+        if (type == 1) {//任务类型是需求 中的支付
+            LogKit.v("tid:" + tid + "  quote:" + quote);
+            DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<PaymentBean>() {
+                @Override
+                public void execute(PaymentBean dataBean) {
+                    //余额支付成功
+                    setPaymentTopText("支付结果");
+                    setCloseVisibility(View.VISIBLE);
+                    setGobackVisibility(View.INVISIBLE);
+                    setPayMainInfoVisibility(View.GONE);
+                    setPaySuccessVisibility(View.VISIBLE);
+                    if (isSetTradePassword) {
+                        setSetTradePasswordVisibility(View.GONE);
+                    } else {
+                        setSetTradePasswordVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void executeResultError(String result) {
-                //余额支付失败
-                setPayFailVisibility(View.VISIBLE);
-            }
-        }, tid + "", quote + "", 0 + "");
+                @Override
+                public void executeResultError(String result) {
+                    //余额支付失败
+                    setPayFailVisibility(View.VISIBLE);
+                }
+            }, tid + "", quote + "", 0 + "");
+        } else if (type == 2) {//任务类型是服务 中的支付
+            LogKit.v("tid:" + tid + "  quote:" + quote);
+            ServiceEngine.servicePayment(new BaseProtocol.IResultExecutor<PaymentBean>() {
+                @Override
+                public void execute(PaymentBean dataBean) {
+                    //余额支付成功
+                    setPaymentTopText("支付结果");
+                    setCloseVisibility(View.VISIBLE);
+                    setGobackVisibility(View.INVISIBLE);
+                    setPayMainInfoVisibility(View.GONE);
+                    setPaySuccessVisibility(View.VISIBLE);
+                    if (isSetTradePassword) {
+                        setSetTradePasswordVisibility(View.GONE);
+                    } else {
+                        setSetTradePasswordVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    //余额支付失败
+                    setPayFailVisibility(View.VISIBLE);
+                }
+            }, tid + "", quote + "", 0 + "");
+        }
     }
 
     public void closePaymentActivity(View v) {

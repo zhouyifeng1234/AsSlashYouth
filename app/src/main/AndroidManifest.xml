@@ -276,6 +276,9 @@
         <activity android:name="com.slash.youth.ui.activity.MyPublishServiceActivity">
 
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.ServicePaymentActivity">
+
+        </activity>
 
         <activity android:name=".ui.activity.UserInfoActivity"/>
         <activity android:name=".ui.activity.UserinfoEditorActivity"/>

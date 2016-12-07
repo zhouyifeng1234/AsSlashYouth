@@ -16,6 +16,9 @@ public class RefundModel extends BaseObservable {
     Activity mActivity;
     String currentCheckedReason = "";//选择的退款理由，默认都不选
 
+    private long tid;//需求ID或者服务订单ID
+    private int type = -1;//1需求 2服务
+
     public RefundModel(ActivityRefundBinding activityRefundBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityRefundBinding = activityRefundBinding;
@@ -28,7 +31,8 @@ public class RefundModel extends BaseObservable {
     }
 
     private void initData() {
-
+        tid = mActivity.getIntent().getLongExtra("tid", -1);
+        type = mActivity.getIntent().getIntExtra("type", -1);
     }
 
     public void gotoBack(View v) {

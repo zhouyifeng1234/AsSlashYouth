@@ -2,7 +2,10 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
+import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
+import com.slash.youth.http.protocol.ServiceDelayPayProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
+import com.slash.youth.http.protocol.ServiceInstalmentListProtocol;
 import com.slash.youth.http.protocol.ServiceOrderInfoProtocol;
 import com.slash.youth.http.protocol.ServiceOrderStatusProtocol;
 import com.slash.youth.http.protocol.UpdateServiceProtocol;
@@ -88,6 +91,31 @@ public class ServiceEngine {
     }
 
     /**
+     * 六、[服务]-需求方预支付
+     */
+    public static void servicePayment(BaseProtocol.IResultExecutor onPaymentFinished, String soid, String amount, String channel) {
+        ServiceFlowPaymentProtocol serviceFlowPaymentProtocol = new ServiceFlowPaymentProtocol(soid, amount, channel);
+        serviceFlowPaymentProtocol.getDataFromServer(onPaymentFinished);
+    }
+
+
+    /**
+     * 八、[服务]-需求方确认完成任务
+     */
+    public static void confirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String soid, String fid) {
+        ServiceConfirmCompleteProtocol serviceConfirmCompleteProtocol = new ServiceConfirmCompleteProtocol(soid, fid);
+        serviceConfirmCompleteProtocol.getDataFromServer(onConfirmCompleteFinished);
+    }
+
+    /**
+     * 十二、[服务]-查看分期完成情况列表
+     */
+    public static void getServiceInstalmentList(BaseProtocol.IResultExecutor onGetInstalmentListFinished, String soid) {
+        ServiceInstalmentListProtocol serviceInstalmentListProtocol = new ServiceInstalmentListProtocol(soid);
+        serviceInstalmentListProtocol.getDataFromServer(onGetInstalmentListFinished);
+    }
+
+    /**
      * 十三、[服务]-查看服务订单状态(好像这个接口不能使用了，使用“v1/api/service/orderinfo”接口获取订单信息，里面有status)
      */
     public static void getServiceOrderStatus(BaseProtocol.IResultExecutor onGetServiceOrderStatusFinished, String soid) {
@@ -98,6 +126,14 @@ public class ServiceEngine {
     public static void getServiceOrderInfo(BaseProtocol.IResultExecutor onGetServiceOrderInfoFinished, String soid) {
         ServiceOrderInfoProtocol serviceOrderInfoProtocol = new ServiceOrderInfoProtocol(soid);
         serviceOrderInfoProtocol.getDataFromServer(onGetServiceOrderInfoFinished);
+    }
+
+    /**
+     * 预约服务者 延期支付
+     */
+    public static void delayPay(BaseProtocol.IResultExecutor onDelayPayFinished, String soid, String fid) {
+        ServiceDelayPayProtocol serviceDelayPayProtocol = new ServiceDelayPayProtocol(soid, fid);
+        serviceDelayPayProtocol.getDataFromServer(onDelayPayFinished);
     }
 
 

@@ -5,7 +5,11 @@ package com.slash.youth.domain;
  */
 public class CommentResultBean {
     public int rescode;
-    public Evaluation evaluation;
+    public Data data;
+
+    public class Data {
+        public Evaluation evaluation;
+    }
 
     public class Evaluation {
         public int status;//是否评价成功 1成功 0失败

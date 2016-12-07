@@ -140,6 +140,7 @@ public class MyTaskModel extends BaseObservable {
                         }
                     } else if (myTaskBean.type == 2) {//我抢的服务(我预约的服务)
                         Intent intentMyBidServiceActivity = new Intent(CommonUtils.getContext(), MyBidServiceActivity.class);
+                        intentMyBidServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
                         mActivity.startActivity(intentMyBidServiceActivity);
                     }
                 }

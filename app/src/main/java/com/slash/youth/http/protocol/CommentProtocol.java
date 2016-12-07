@@ -8,7 +8,7 @@ import org.xutils.http.RequestParams;
 
 /**
  * 一、[需求]-需求方评价接口
- * <p>
+ * <p/>
  * Created by zhouyifeng on 2016/11/14.
  */
 public class CommentProtocol extends BaseProtocol<CommentResultBean> {
@@ -58,9 +58,14 @@ public class CommentProtocol extends BaseProtocol<CommentResultBean> {
     public boolean checkJsonResult(String result) {
         Gson gson = new Gson();
         commentResultBean = gson.fromJson(result, CommentResultBean.class);
-        if (commentResultBean.rescode == 0 && commentResultBean.evaluation.status == 1) {
-            return true;
-        } else {
+        try {
+            if (commentResultBean.rescode == 0 && commentResultBean.data.evaluation.status == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
     }

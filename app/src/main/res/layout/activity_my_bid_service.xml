@@ -322,7 +322,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:visibility="@{myPublishDemandModel.commentVisibility}"
+                                android:visibility="@{myBidServiceModel.commentVisibility}"
 
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
@@ -396,7 +396,7 @@
                                                 android:layout_marginTop="4dp"
                                                 android:background="@mipmap/task_demand_btn_bg"
                                                 android:gravity="center"
-                                                android:onClick="@{myPublishDemandModel.comment}"
+                                                android:onClick="@{myBidServiceModel.comment}"
                                                 android:text="去评价"
                                                 android:textColor="#31C6E4"
                                                 android:textSize="13sp"/>
@@ -414,7 +414,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:visibility="@{myPublishDemandModel.confirmFinishVisibility}"
+                                android:visibility="@{myBidServiceModel.confirmFinishVisibility}"
 
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
@@ -493,7 +493,7 @@
                                                     android:layout_height="wrap_content"
                                                     android:background="@mipmap/task_demand_btn_bg"
                                                     android:gravity="center"
-                                                    android:onClick="@{myPublishDemandModel.refund}"
+                                                    android:onClick="@{myBidServiceModel.refund}"
                                                     android:text="申请退款"
                                                     android:textColor="#999999"
                                                     android:textSize="13sp"/>
@@ -503,11 +503,11 @@
                                                     android:layout_height="wrap_content"
                                                     android:background="@mipmap/task_demand_btn_bg"
                                                     android:gravity="center"
-                                                    android:onClick="@{myPublishDemandModel.rectifyPayment}"
+                                                    android:onClick="@{myBidServiceModel.rectifyPayment}"
                                                     android:text="延期支付"
                                                     android:textColor="#2ACDA9"
                                                     android:textSize="13sp"
-                                                    android:visibility="@{myPublishDemandModel.rectifyVisibility}"/>
+                                                    android:visibility="@{myBidServiceModel.rectifyVisibility}"/>
 
                                                 <TextView
                                                     android:layout_width="wrap_content"
@@ -515,7 +515,7 @@
                                                     android:layout_marginLeft="16dp"
                                                     android:background="@mipmap/task_demand_btn_bg"
                                                     android:gravity="center"
-                                                    android:onClick="@{myPublishDemandModel.confirmFinish}"
+                                                    android:onClick="@{myBidServiceModel.confirmFinish}"
                                                     android:text="确认"
                                                     android:textColor="#31C6E4"
                                                     android:textSize="13sp"/>
@@ -535,7 +535,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:visibility="@{myPublishDemandModel.paymentVisibility}"
+                                android:visibility="@{myBidServiceModel. paymentVisibility}"
 
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
@@ -637,7 +637,7 @@
                                                     android:layout_height="wrap_content"
                                                     android:background="@mipmap/task_demand_btn_bg"
                                                     android:gravity="center"
-                                                    android:onClick="@{myPublishDemandModel.openPaymentActivity}"
+                                                    android:onClick="@{myBidServiceModel.openPaymentActivity}"
                                                     android:text="去支付"
                                                     android:textColor="#31C6E4"
                                                     android:textSize="13sp"/>
@@ -800,10 +800,9 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-
-            android:visibility="gone"
+            android:visibility="@{myBidServiceModel.rectifyLayerVisibility}"
         >
-            <!--android:visibility="@{myPublishDemandModel.rectifyLayerVisibility}"-->
+
             <LinearLayout
                 android:layout_width="269dp"
                 android:layout_height="wrap_content"
@@ -817,7 +816,7 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="9dp"
-                    android:onClick="@{myPublishDemandModel.closeRectifyLayer}"
+                    android:onClick="@{myBidServiceModel.closeRectifyLayer}"
                     android:src="@mipmap/close_icon_demand_choose_service"/>
 
                 <ImageView
@@ -854,7 +853,7 @@
                         android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:background="@drawable/btn1"
-                        android:onClick="@{ myPublishDemandModel.cancelRectifyPayment}"
+                        android:onClick="@{ myBidServiceModel.cancelRectifyPayment}"
                         android:text="取消"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"/>
@@ -864,7 +863,7 @@
                         android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:background="@drawable/btn2"
-                        android:onClick="@{myPublishDemandModel.okRectifyPayment}"
+                        android:onClick="@{myBidServiceModel.okRectifyPayment}"
                         android:text="确定"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"/>
