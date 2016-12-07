@@ -33,6 +33,8 @@ public class ChatActivity extends Activity {
         MsgManager.removeChatPicListener();
         MsgManager.removeChatVoiceListener();
         MsgManager.removeChatOtherCmdListener();
+        MsgManager.removeHistoryListener();
+        MsgManager.removeRelatedTaskListener();
         super.onDestroy();
     }
 

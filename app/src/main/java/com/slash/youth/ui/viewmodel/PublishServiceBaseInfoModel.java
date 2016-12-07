@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
+import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -17,9 +20,14 @@ import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +61,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     long endtime;
     String starttimeStr;
     String endtimeStr;
+    ServiceDetailBean serviceDetailBean;
 
     public PublishServiceBaseInfoModel(ActivityPublishServiceBaseinfoBinding activityPublishServiceBaseinfoBinding, Activity activity) {
         this.mActivity = activity;
@@ -62,16 +71,95 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     }
 
     private void initData() {
-
+        mSaplAddPic = mActivityPublishServiceBaseinfoBinding.saplPublishServiceAddpic;//在loadOriginServiceData()中会使用，所以必须在这里初始化
+        serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
+        if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
+            loadOriginServiceData();
+        }
     }
+
 
     private void initView() {
         mChooseDateTimePicker = mActivityPublishServiceBaseinfoBinding.sdtpPublishServiceChooseDatetime;
-        mSaplAddPic = mActivityPublishServiceBaseinfoBinding.saplPublishServiceAddpic;
+
         mSaplAddPic.setActivity(mActivity);
         mSaplAddPic.initPic();
     }
 
+
+    /**
+     * 修改服务，首先回填服务数据
+     */
+    private void loadOriginServiceData() {
+        ServiceDetailBean.Service service = serviceDetailBean.data.service;
+        if (service.anonymity == PUBLISH_ANONYMITY_ANONYMOUS) {//匿名
+            checkAnonymous(null);
+        } else if (service.anonymity == PUBLISH_ANONYMITY_REALNAME) {//实名
+            checkRealName(null);
+        }
+        mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.setText(service.title);
+        mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.setText(service.desc);
+        if (service.timetype == SERVICE_TIMETYPE_USER_DEFINED) {//自定义
+            timetype = 0;
+            starttime = service.starttime;
+            endtime = service.endtime;
+            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日-hh:mm");
+            starttimeStr = sdf.format(starttime);
+            endtimeStr = sdf.format(endtime);
+            mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
+            mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
+        } else if (service.timetype == SERVICE_TIMETYPE_AFTER_WORK) {//下班后
+            checkIdleTimeAfterWork(null);
+        } else if (service.timetype == SERVICE_TIMETYPE_WEEKEND) {//周末
+            checkIdleTimeWeekend(null);
+        } else if (service.timetype == SERVICE_TIMETYPE_AFTER_WORK_AND_WEEKEND) {//下班后及周末
+            checkIdleTimeAfterWorkAndWeekend(null);
+        } else if (service.timetype == SERVICE_TIMETYPE_ANYTIME) {//随时
+            checkIdleTimeAnytime(null);
+        }
+        //还有图片没有处理
+        String[] picFileIds = service.pic.split(",");
+        final String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+        File cacheDir = new File(picCachePath);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdir();
+        }
+        for (String fileId : picFileIds) {
+            DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
+                @Override
+                public void execute(byte[] dataBean) {
+//                    if (dataBean.length < 50) {
+//
+//                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length);
+                    if (bitmap != null) {
+
+
+                        File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(tempFile);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                            fos = new FileOutputStream(tempFile);
+//                            fos.write(dataBean);
+                            mSaplAddPic.reloadPic(tempFile.getAbsolutePath());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } finally {
+                            IOUtils.close(fos);
+                        }
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, fileId);
+        }
+
+    }
 
     public void gotoBack(View v) {
         mActivity.finish();
@@ -124,7 +212,9 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     public void nextStep(View v) {
         final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
-
+        if (serviceDetailBean != null) {
+            intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
+        }
         final Bundle bundleServiceData = new Bundle();
         String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
         bundleServiceData.putString("title", title);
@@ -172,7 +262,9 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
             }, filePath);
         }
 
-
+//        Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+//        intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
+//        mActivity.startActivity(intentPublishServiceAddInfoActivity);
     }
 
     public void cancelChooseTime(View v) {

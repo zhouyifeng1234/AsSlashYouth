@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
 import com.slash.youth.http.protocol.GetTaskItemProtocol;
+import com.slash.youth.http.protocol.MyTaskServiceDetailProtocol;
 
 /**
  * Created by zhouyifeng on 2016/10/29.
@@ -34,5 +35,14 @@ public class MyTaskEngine {
     public static void getMyTaskItem(BaseProtocol.IResultExecutor onGetTaskItemFinished, String tid, String type, String roleid) {
         GetTaskItemProtocol getTaskItemProtocol = new GetTaskItemProtocol(tid, type, roleid);
         getTaskItemProtocol.getDataFromServer(onGetTaskItemFinished);
+    }
+
+
+    /**
+     * 通过tid获取服务详情信息
+     */
+    public static void getServiceDetailByTid(BaseProtocol.IResultExecutor onGetTaskServiceDetailFinished, String tid, String roleid) {
+        MyTaskServiceDetailProtocol myTaskServiceDetailProtocol = new MyTaskServiceDetailProtocol(tid, roleid);
+        myTaskServiceDetailProtocol.getDataFromServer(onGetTaskServiceDetailFinished);
     }
 }

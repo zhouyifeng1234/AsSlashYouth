@@ -25,6 +25,9 @@ import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
+import com.slash.youth.http.protocol.UpdateDemandProtocol;
+
+import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/9/1.inputPasswordVisibility
@@ -36,8 +39,8 @@ public class DemandEngine {
     /**
      * 发布需求
      */
-    public static void publishDemand(BaseProtocol.IResultExecutor onPublishDemandFinished, String title, String label, String tasktime, String fighttime, String anonymity, String desc, String pic, String type, String proofbox, String invoice, String pattern, String place, String placedetail, String consume, String lng, String lat, String offer, String quote) {
-        PublishDemandProtocol publishDemandProtocol = new PublishDemandProtocol(title, label, tasktime, fighttime, anonymity, desc, pic, type, proofbox, invoice, pattern, place, placedetail, consume, lng, lat, offer, quote);
+    public static void publishDemand(BaseProtocol.IResultExecutor onPublishDemandFinished, String title, ArrayList<String> listTag, String starttime, String anonymity, String desc, ArrayList<String> listPic, String instalment, String bp, String pattern, String place, String placedetail, String lng, String lat, String offer, String quote) {
+        PublishDemandProtocol publishDemandProtocol = new PublishDemandProtocol(title, listTag, starttime, anonymity, desc, listPic, instalment, bp, pattern, place, placedetail, lng, lat, offer, quote);
         publishDemandProtocol.getDataFromServer(onPublishDemandFinished);
     }
 
@@ -253,7 +256,7 @@ public class DemandEngine {
 
 
     //一、[文件]-图片上传
-    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished,String filePath) {
+    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished, String filePath) {
         FileUploadProtocol fileUploadProtocol = new FileUploadProtocol(filePath);
         fileUploadProtocol.getDataFromServer(onUploadFileFinished);
     }
@@ -304,5 +307,13 @@ public class DemandEngine {
         commentProtocol.getDataFromServer(onCommentFinished);
     }
 
+
+    /**
+     * 三、[需求]-修改需求
+     */
+    public static void updateDemand(BaseProtocol.IResultExecutor onUpdateDemandFinished, String id, String title, ArrayList<String> listTag, String starttime, String anonymity, String desc, ArrayList<String> listPic, String instalment, String bp, String pattern, String place, String placedetail, String lng, String lat, String offer, String quote) {
+        UpdateDemandProtocol updateDemandProtocol = new UpdateDemandProtocol(id, title, listTag, starttime, anonymity, desc, listPic, instalment, bp, pattern, place, placedetail, lng, lat, offer, quote);
+        updateDemandProtocol.getDataFromServer(onUpdateDemandFinished);
+    }
 
 }

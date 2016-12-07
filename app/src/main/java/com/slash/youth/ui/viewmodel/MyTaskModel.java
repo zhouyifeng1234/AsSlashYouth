@@ -16,7 +16,9 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandChooseServiceActivity;
 import com.slash.youth.ui.activity.MyBidDemandActivity;
+import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
+import com.slash.youth.ui.activity.MyPublishServiceActivity;
 import com.slash.youth.ui.adapter.MyTaskAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -94,7 +96,7 @@ public class MyTaskModel extends BaseObservable {
 //                ToastUtils.shortToast(myTaskBean.status + "");
 
                 if (myTaskBean.roleid == 1) {//发布者
-                    if (myTaskBean.type == 1) {//需求
+                    if (myTaskBean.type == 1) {//我发的需求
                         switch (myTaskBean.status) {
                             case 1:
                             case 4:
@@ -115,12 +117,13 @@ public class MyTaskModel extends BaseObservable {
                                 //其它情况应该跳转到需求详情页
                                 break;
                         }
-                    } else if (myTaskBean.type == 2) {//服务
-
+                    } else if (myTaskBean.type == 2) {//我发的服务
+                        Intent intentMyPublishServiceActivity = new Intent(CommonUtils.getContext(), MyPublishServiceActivity.class);
+                        mActivity.startActivity(intentMyPublishServiceActivity);
                     }
 
                 } else if (myTaskBean.roleid == 2) {//抢单者
-                    if (myTaskBean.type == 1) {//需求
+                    if (myTaskBean.type == 1) {//我抢的需求
                         switch (myTaskBean.status) {
                             case 5:
                             case 6:
@@ -135,8 +138,10 @@ public class MyTaskModel extends BaseObservable {
                                 //其它情况应该跳转到需求详情页
                                 break;
                         }
-                    } else if (myTaskBean.type == 2) {//服务
-
+                    } else if (myTaskBean.type == 2) {//我抢的服务(我预约的服务)
+                        Intent intentMyBidServiceActivity = new Intent(CommonUtils.getContext(), MyBidServiceActivity.class);
+                        intentMyBidServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
+                        mActivity.startActivity(intentMyBidServiceActivity);
                     }
                 }
             }

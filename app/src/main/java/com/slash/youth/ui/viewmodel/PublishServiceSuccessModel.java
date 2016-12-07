@@ -20,6 +20,7 @@ public class PublishServiceSuccessModel extends BaseObservable {
 
     ActivityPublishServiceSuccessBinding mActivityPublishServiceSuccessBinding;
     Activity mActivity;
+    long serviceId;
 
 
     public PublishServiceSuccessModel(ActivityPublishServiceSuccessBinding activityPublishServiceSuccessBinding, Activity activity) {
@@ -32,6 +33,7 @@ public class PublishServiceSuccessModel extends BaseObservable {
     ArrayList<AutoRecommendDemandBean> listRecommendDemand = new ArrayList<AutoRecommendDemandBean>();
 
     private void initData() {
+        serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
         getRecommendDemandData();
     }
 
@@ -46,6 +48,7 @@ public class PublishServiceSuccessModel extends BaseObservable {
     //跳转到服务详情页
     public void gotoServiceDetail(View v) {
         Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+        intentServiceDetailActivity.putExtra("serviceId", serviceId);
         mActivity.startActivity(intentServiceDetailActivity);
     }
 

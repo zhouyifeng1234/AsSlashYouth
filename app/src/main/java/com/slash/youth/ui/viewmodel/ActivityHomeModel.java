@@ -9,8 +9,8 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
-import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
-import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
+import com.slash.youth.ui.activity.DemandDetailActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeInfoPager;
@@ -94,9 +94,13 @@ public class ActivityHomeModel extends BaseObservable {
 //        CommonUtils.getContext().startActivity(intentPublishDemandActivity);
 
         //修改为第二版发布需求页面
-        Intent intentPublishDemandBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
-        intentPublishDemandBaseInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentPublishDemandBaseInfoActivity);
+//        Intent intentPublishDemandBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
+//        mActivity.startActivity(intentPublishDemandBaseInfoActivity);
+
+        //测试用，直接跳转到需求详情页
+        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+        intentDemandDetailActivity.putExtra("demandId", 273l);
+        mActivity.startActivity(intentDemandDetailActivity);
     }
 
     public void publishService(View v) {
@@ -109,7 +113,13 @@ public class ActivityHomeModel extends BaseObservable {
 //        intentSecondTimePublishServiceActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentSecondTimePublishServiceActivity);
 
-        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
-        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
+
+//        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
+//        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
+
+        //测试用，直接跳转到需求详情页
+        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+        intentServiceDetailActivity.putExtra("serviceId", 103l);
+        mActivity.startActivity(intentServiceDetailActivity);
     }
 }

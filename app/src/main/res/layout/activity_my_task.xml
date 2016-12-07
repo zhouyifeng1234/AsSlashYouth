@@ -175,7 +175,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:onClick="@{myTaskModel.filterMyTotalTask}"
-                            android:text="全部任务"
+                            android:text="进行中任务"
                             android:textColor="#666666"
                             android:textSize="14sp"/>
 

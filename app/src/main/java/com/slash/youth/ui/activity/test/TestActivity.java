@@ -10,9 +10,12 @@ import android.widget.ScrollView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
+import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -39,18 +42,18 @@ public class TestActivity extends Activity {
     }
 
     public void publishDemand(View v) {
-        DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<String>() {
-
-            @Override
-            public void execute(String dataBean) {
-                ToastUtils.shortToast(dataBean);
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        }, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+//        DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<PublishDemandResultBean>() {
+//
+//            @Override
+//            public void execute(PublishDemandResultBean dataBean) {
+//                ToastUtils.shortToast(dataBean.data.id + "");
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//
+//            }
+//        }, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public void cancelDemand(View v) {
@@ -300,5 +303,21 @@ public class TestActivity extends Activity {
 
             }
         }, "group1/M00/00/00/eBtfY1gM2JmAa1SOAAJJOkiaAls.ac3597");
+    }
+
+
+    //BA认证测试
+    public void testBA(View v) {
+        ServiceEngine.getServiceDetail(new BaseProtocol.IResultExecutor<ServiceDetailBean>() {
+            @Override
+            public void execute(ServiceDetailBean dataBean) {
+                LogKit.v("Service title:" + dataBean.data.service.title);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, "88");
     }
 }

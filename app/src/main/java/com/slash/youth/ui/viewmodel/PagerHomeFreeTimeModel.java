@@ -107,6 +107,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
                     @Override
                     public void onSuccess(Drawable result) {
+                        LogKit.v("Load banner pic onSuccess");
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) result;
                         Bitmap srcBitmap = bitmapDrawable.getBitmap();
                         Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
@@ -115,17 +116,17 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-
+                        LogKit.v("Load banner pic onError");
                     }
 
                     @Override
                     public void onCancelled(CancelledException cex) {
-
+                        LogKit.v("Load banner pic onCancelled");
                     }
 
                     @Override
                     public void onFinished() {
-
+                        LogKit.v("Load banner pic onFinished");
                     }
                 });
                 ivHomeFreetimeAdv.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -236,8 +237,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         SpUtils.setBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, mIsDisplayDemandList);
         displayDemanList();
     }
-
-
 
 
     //切换为展示服务列条

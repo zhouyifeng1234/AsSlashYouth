@@ -221,7 +221,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="8dp"
-                                    android:text="实名发布"
+                                    android:text="匿名发布"
                                     android:textColor="#999999"
                                     android:textSize="13sp"/>
 

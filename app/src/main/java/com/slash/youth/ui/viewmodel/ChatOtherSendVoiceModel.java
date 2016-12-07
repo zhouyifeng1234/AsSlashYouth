@@ -11,6 +11,8 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatOtherSendVoiceBinding;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import java.io.IOException;
@@ -23,12 +25,14 @@ public class ChatOtherSendVoiceModel extends BaseObservable {
     Activity mActivity;
     Uri mVoiceUri;
     int mDuration;
+    String mTargetAvatar;
 
-    public ChatOtherSendVoiceModel(ItemChatOtherSendVoiceBinding itemChatOtherSendVoiceBinding, Activity activity, Uri voiceUri, int duration) {
+    public ChatOtherSendVoiceModel(ItemChatOtherSendVoiceBinding itemChatOtherSendVoiceBinding, Activity activity, Uri voiceUri, int duration, String targetAvatar) {
         this.mItemChatOtherSendVoiceBinding = itemChatOtherSendVoiceBinding;
         this.mActivity = activity;
         this.mVoiceUri = voiceUri;
         this.mDuration = duration;
+        this.mTargetAvatar = targetAvatar;
 
         initData();
         initView();
@@ -40,6 +44,8 @@ public class ChatOtherSendVoiceModel extends BaseObservable {
 
     private void initView() {
         setVoiceDuration(mDuration + " ̋   ");
+
+        BitmapKit.bindImage(mItemChatOtherSendVoiceBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
     }
 
     boolean isClickStartVoice = true;

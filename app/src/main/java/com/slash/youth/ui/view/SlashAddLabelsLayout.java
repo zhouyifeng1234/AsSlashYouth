@@ -194,6 +194,16 @@ public class SlashAddLabelsLayout extends LinearLayout {
         }
     }
 
+    /**
+     * 修改需求或者服务时，重新加载技能标签
+     *
+     * @param reloadLabels
+     */
+    public void reloadSkillLabels(ArrayList<String> reloadLabels) {
+        listTotalAddedLabels.addAll(reloadLabels);
+        addSkillLabels();
+    }
+
 //    private void limitTotalLabelsCount(int count) {
 //        listTotalAddedLabels.addAll(listTotalAddedLabels.subList(0, 3));
 //    }

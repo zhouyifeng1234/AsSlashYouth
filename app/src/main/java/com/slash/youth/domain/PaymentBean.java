@@ -8,6 +8,7 @@ public class PaymentBean {
     public Data data;
 
     public class Data {
+        public int status;
         public String charge;
     }
 }

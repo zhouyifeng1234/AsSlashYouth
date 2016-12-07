@@ -133,7 +133,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="做一个公司互联网公司的LOGO"
+                                    android:text="@{serviceDetailModel.title}"
                                     android:textColor="#666666"
                                     android:textSize="15sp"/>
 
@@ -152,9 +152,10 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="4dp"
-                                        android:text="时间:9月18日 8:30-9月19日 8:30"
+                                        android:text="@{serviceDetailModel.serviceTime}"
                                         android:textColor="#31C5E4"
                                         android:textSize="14sp"/>
+                                    <!--时间:9月18日 8:30-9月19日 8:30-->
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -164,6 +165,7 @@
                                     android:orientation="horizontal"
                                 >
                                     <TextView
+                                        android:id="@+id/tv_service_detail_tag1"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:background="@drawable/shape_rounded_visitor_marker"
@@ -171,10 +173,12 @@
                                         android:paddingLeft="9dp"
                                         android:paddingRight="9dp"
                                         android:paddingTop="6dp"
-                                        android:text="自动化测试"
+                                        android:text=""
                                         android:textColor="#31C5E4"
-                                        android:textSize="11dp"/>
+                                        android:textSize="11dp"
+                                        android:visibility="invisible"/>
                                     <TextView
+                                        android:id="@+id/tv_service_detail_tag2"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="9dp"
@@ -183,10 +187,12 @@
                                         android:paddingLeft="9dp"
                                         android:paddingRight="9dp"
                                         android:paddingTop="6dp"
-                                        android:text="自动化测试"
+                                        android:text=""
                                         android:textColor="#31C5E4"
-                                        android:textSize="11dp"/>
+                                        android:textSize="11dp"
+                                        android:visibility="invisible"/>
                                     <TextView
+                                        android:id="@+id/tv_service_detail_tag3"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="9dp"
@@ -195,9 +201,10 @@
                                         android:paddingLeft="9dp"
                                         android:paddingRight="9dp"
                                         android:paddingTop="6dp"
-                                        android:text="自动化测试"
+                                        android:text=""
                                         android:textColor="#31C5E4"
-                                        android:textSize="11dp"/>
+                                        android:textSize="11dp"
+                                        android:visibility="invisible"/>
 
 
                                 </LinearLayout>
@@ -214,17 +221,19 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="¥300元"
+                                    android:text="@{serviceDetailModel.quote}"
                                     android:textColor="#FF9666"
                                     android:textSize="21sp"/>
+                                <!--¥300元-->
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
-                                    android:text="300人浏览"
+                                    android:text="@{serviceDetailModel.viewCount}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="11sp"/>
+                                <!--300人浏览-->
 
                             </LinearLayout>
 
@@ -236,6 +245,7 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="12dp"
                             android:orientation="horizontal"
+                            android:visibility="@{serviceDetailModel.offlineItemVisibility}"
                         >
                             <TextView
                                 android:layout_width="30dp"
@@ -259,9 +269,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="约定地点星湖街328号星湖广场"
+                                    android:text="@{serviceDetailModel.offlinePlace}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
+                                <!--约定地点:星湖街328号星湖广场-->
 
                                 <ImageView
                                     android:layout_width="18dp"
@@ -280,6 +291,7 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="9dp"
                             android:orientation="horizontal"
+                            android:visibility="@{serviceDetailModel.instalmentItemVisibility}"
                         >
                             <TextView
                                 android:layout_width="39dp"
@@ -310,7 +322,8 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
                         android:src="@mipmap/pull_off_icon"
-                        android:visibility="@{serviceDetailModel.offShelfLogoVisibility}"/>
+                        android:visibility="gone"/>
+                    <!--android:visibility="@{serviceDetailModel.offShelfLogoVisibility}"-->
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -335,13 +348,16 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp">
                             <ImageView
+                                android:id="@+id/iv_service_user_avatar"
                                 android:layout_width="58dp"
                                 android:layout_height="58dp"
                                 android:src="@mipmap/assistant_icon"/>
                             <ImageView
                                 android:layout_width="15dp"
-                                android:layout_height="15dp" android:layout_gravity="right|bottom"
-                                android:src="@mipmap/tab_authentication"/>
+                                android:layout_height="15dp"
+                                android:layout_gravity="right|bottom"
+                                android:src="@mipmap/tab_authentication"
+                                android:visibility="@{serviceDetailModel.isAuthVisibility}"/>
                         </FrameLayout>
 
                         <LinearLayout
@@ -358,7 +374,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="张文萱"
+                                    android:text="@{serviceDetailModel.username}"
                                     android:textColor="#333333"
                                     android:textSize="15sp"/>
                                 <TextView
@@ -370,9 +386,10 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="粉丝数125"
+                                    android:text="@{serviceDetailModel.fanscount}"
                                     android:textColor="#CCCCCC"
                                     android:textSize="13sp"/>
+                                <!--粉丝数125-->
 
                             </LinearLayout>
 
@@ -391,9 +408,10 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="顺利成交单数9/12"
+                                    android:text="@{serviceDetailModel.taskcount}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"/>
+                                <!--顺利成交单数9/12-->
                                 <ImageView
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
@@ -405,7 +423,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="苏州工业园区"
+                                    android:text="@{serviceDetailModel.serviceUserPlace}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"/>
 
@@ -454,9 +472,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="发布时间:9月18日 8:30"
+                                android:text="@{serviceDetailModel.publishDatetime}"
                                 android:textColor="#999999"
                                 android:textSize="13sp"/>
+                            <!--发布时间:9月18日 8:30-->
                         </LinearLayout>
 
                         <View
@@ -472,10 +491,11 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="18dp"
-                            android:text="1.良好的美术功底和和设计表现力；重视用户体验了解用户使用习惯；具有设计创意、良好的色彩运用能力"
+                            android:text="@{serviceDetailModel.serviceDesc}"
                             android:textColor="#999999"
                             android:textSize="14sp"
                         />
+                        <!--1.良好的美术功底和和设计表现力；重视用户体验了解用户使用习惯；具有设计创意、良好的色彩运用能力-->
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -486,6 +506,7 @@
                         />
 
                         <LinearLayout
+                            android:id="@+id/ll_service_detail_picline1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
@@ -572,6 +593,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_service_detail_picline2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
@@ -689,9 +711,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="平台方式"
+                                android:text="@{serviceDetailModel.disputeHandingType}"
                                 android:textColor="#31C5E4"
                                 android:textSize="13sp"/>
+                            <!--平台方式-->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -861,7 +884,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="18dp"
@@ -886,7 +910,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:layout_marginRight="7dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                 </LinearLayout>
 

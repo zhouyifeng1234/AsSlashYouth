@@ -170,10 +170,38 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="需求方:曹晓琳"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:visibility="@{itemMyTaskModel.taskDemandSideNameVisibility}"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
                     <TextView
                         android:id="@+id/tv_my_task_status"
                         android:layout_width="42dp"
                         android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
                         android:background="@mipmap/state_bg"
                         android:gravity="center"
                         android:text="@{itemMyTaskModel.statusText}"
@@ -183,17 +211,20 @@
 
                 </LinearLayout>
 
+
                 <View
                     android:id="@+id/v_status_button_divider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5"
+                    android:visibility="gone"
                 />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/ll_status_bid_demand_update"

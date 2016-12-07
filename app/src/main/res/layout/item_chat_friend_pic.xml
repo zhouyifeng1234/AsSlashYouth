@@ -15,6 +15,7 @@
             android:layout_marginTop="11dp"
         >
             <ImageView
+                android:id="@+id/iv_chat_other_avatar"
                 android:layout_width="39dp"
                 android:layout_height="39dp"
                 android:scaleType="fitXY"
@@ -25,6 +26,9 @@
 
 
         <ImageView
+            android:scaleType="centerCrop"
+            android:maxHeight="116dp"
+            android:maxWidth="140dp"
             android:id="@+id/iv_chat_friend_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

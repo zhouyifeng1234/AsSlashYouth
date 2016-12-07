@@ -6,14 +6,23 @@ import android.databinding.Bindable;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMySendVoiceBinding;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import java.io.IOException;
+
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.message.VoiceMessage;
 
 /**
  * Created by zhouyifeng on 2016/11/18.
@@ -23,13 +32,18 @@ public class ChatMySendVoiceModel extends BaseObservable {
     Activity mActivity;
     Uri mVoiceUri;
     int mDuration;
+    boolean mIsRead;
+    VoiceMessage mVoiceMessage;
+    String mTargetId;
 
-
-    public ChatMySendVoiceModel(ItemChatMySendVoiceBinding itemChatMySendVoiceBinding, Activity activity, Uri voiceUri, int duration) {
+    public ChatMySendVoiceModel(ItemChatMySendVoiceBinding itemChatMySendVoiceBinding, Activity activity, Uri voiceUri, int duration, boolean isRead, VoiceMessage voiceMessage, String targetId) {
         this.mItemChatMySendVoiceBinding = itemChatMySendVoiceBinding;
         this.mActivity = activity;
         this.mVoiceUri = voiceUri;
         this.mDuration = duration;
+        this.mIsRead = isRead;
+        this.mVoiceMessage = voiceMessage;
+        this.mTargetId = targetId;
 
         initData();
         initView();
@@ -41,6 +55,14 @@ public class ChatMySendVoiceModel extends BaseObservable {
 
     private void initView() {
         setVoiceDuration(mDuration + " ̋   ");
+
+        BitmapKit.bindImage(mItemChatMySendVoiceBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+
+        if (mIsRead) {
+            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("已读");
+        } else {
+            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("未读");
+        }
     }
 
     boolean isClickStartVoice = true;
@@ -103,6 +125,32 @@ public class ChatMySendVoiceModel extends BaseObservable {
         animVoicePlay.stop();
         animVoicePlay = null;
         mItemChatMySendVoiceBinding.ivChatVoiceAnim.setImageResource(R.mipmap.sound_bai3_icon);
+    }
+
+
+    //重新发送消息
+    public void sendMsgAgain(View v) {
+        if (mVoiceMessage != null && !TextUtils.isEmpty(mTargetId)) {
+            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, mTargetId, mVoiceMessage, null, null, new RongIMClient.SendMessageCallback() {
+                @Override
+                public void onError(Integer messageId, RongIMClient.ErrorCode e) {
+                }
+
+                @Override
+                public void onSuccess(Integer integer) {
+                    mItemChatMySendVoiceBinding.ivChatSendMsgAgain.setVisibility(View.GONE);
+                }
+            }, new RongIMClient.ResultCallback<Message>() {
+                @Override
+                public void onSuccess(Message message) {
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                }
+            });
+        }
     }
 
     private String voiceDuration;

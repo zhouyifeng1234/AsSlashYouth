@@ -77,6 +77,8 @@ public class GlobalConstants {
         public static final String SERVER_HOST_COMMENT_SHARE = "http://121.42.145.178/feed/v1/api/evaluation/";
         //服务流程接口地址前缀
         public static final String SERVER_HOST_SERVICE = "http://121.42.145.178/feed/v1/api/service/";
+        //消息系统接口 地址前缀
+        public static final String SERVER_HOST_MESSAGE_SYSTEM = "http://121.42.145.178/msg/v1/api/";
         //ZSS
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
@@ -105,6 +107,8 @@ public class GlobalConstants {
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
         //二、[需求]-我的任务ITEM
         public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
+        //三、[需求]-我的任务tid反查服务或者需求详情信息
+        public static final String GET_MY_TASK_SERVICE_DEMAND_DETAIL = SERVER_HOST_MY_TASK_LIST + "oneinfo";
 
 
         //一、[文件]-图片上传
@@ -156,13 +160,35 @@ public class GlobalConstants {
         public static final String DEMAND_ELIMINATE_SERVICE = SERVER_HOST_DEMAND + "eliminate";
         //二、[需求]-查看需求详情
         public static final String GET_DEMAND_DETAIL = SERVER_HOST_DEMAND + "queryone";
+        //三、[需求]-修改需求
+        public static final String UPDATE_DEMAND = SERVER_HOST_DEMAND + "updateone";
         //七、[设置]-判断是否有交易密码
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
 
+
         //一、[服务]-发布服务
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
+        //二、[服务]-查看服务详情
+        public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
+        //三、[服务]-修改服务
+        public static final String UPDATE_SERVICE = SERVER_HOST_SERVICE + "updateone";
+        //六、[服务]-需求方预支付
+        public static final String SERVICE_FLOW_PAYMENT = SERVER_HOST_SERVICE + "payment";
+        //八、[服务]-需求方确认完成任务
+        public static final String SERVICE_CONFIRM_COMPLETE = SERVER_HOST_SERVICE + "confirmComplete";
+        //十二、[服务]-查看分期完成情况列表
+        public static final String GET_SETVICE_INSTALMENT_LIST = SERVER_HOST_SERVICE + "instalmentlist";
+        //十三、[服务]-查看服务订单状态
+        public static final String GET_SERVICE_ORDER_STATUS = SERVER_HOST_SERVICE + "status";
+        //获取服务订单信息
+        public static final String GET_SERVICE_ORDER_INFO = SERVER_HOST_SERVICE + "orderinfo";
+        //预约服务者 延期支付
+        public static final String SERVICE_DELAY_PAY = SERVER_HOST_SERVICE + "rollback";
+
+        //三、[消息系统]-获得会话列表
+        public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
@@ -284,14 +310,15 @@ public class GlobalConstants {
         //十二、[我的]-[用户中心]-举报用户
         public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
+        public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //登出
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
         //十四，[我的]-[用户中心]-认证
-        public static final String MY_CHECKOUT_AUTH = SERVER_HOST +"/real/auth";
+        public static final String MY_CHECKOUT_AUTH = SERVER_HOST + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态
-       // public static final String MY_CHECKOUT_AUTH_SRATUS = SERVER_HOST +"/real/status";
+        // public static final String MY_CHECKOUT_AUTH_SRATUS = SERVER_HOST +"/real/status";
         //十六，[我的]-[用户中心]-登出
-        public static final String MY_LOGOUT = SERVER_HOST +"auth/v1/logout";
+        public static final String MY_LOGOUT = SERVER_HOST + "auth/v1/logout";
 
         //一、[我的账户]-获取我的账户信息
         public static final String MY_ACCOUNT = SERVER_HOST_MY_ACCOUNT + "/info/get";
@@ -324,9 +351,9 @@ public class GlobalConstants {
 
         //我的收藏
         public static final String COLLECTION_HOST = "http://121.42.145.178/feed/v1/api/myfavorite";
-        public static final String MY_COLLECTION_LIST = COLLECTION_HOST+"/list";
-        public static final String MY_ADD_COLLECTION_ITEM = COLLECTION_HOST+"/add";
-        public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST+"/del";
+        public static final String MY_COLLECTION_LIST = COLLECTION_HOST + "/list";
+        public static final String MY_ADD_COLLECTION_ITEM = COLLECTION_HOST + "/add";
+        public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST + "/del";
 
         //管理我发布的
         public static final String MANAGE_PUBLISH_HOST ="http://121.42.145.178/feed/v1/api/mytaskmanagement";
@@ -342,16 +369,16 @@ public class GlobalConstants {
         public static final String GET_SKILL_TEMPLET =SKILL_MANAGE_HOST+"/one";
 
         //[我的人脉]-人脉首页
-        public static final String PERSON_RELATION_HOST ="http://121.42.145.178/uinfo/v1/api/relation";
-       //人脉首页
-       public static final String PERSON_RELATION_FIRST_PAGER =PERSON_RELATION_HOST+"/facade";
-       //[我的访客]-访客列表
-       public static final String MY_VISITOR_HOST ="http://121.42.145.178/uinfo/v1/api/relation/visitor";
-        public static final String MY_VISITOR_LIST = MY_VISITOR_HOST+"/list";
+        public static final String PERSON_RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation";
+        //人脉首页
+        public static final String PERSON_RELATION_FIRST_PAGER = PERSON_RELATION_HOST + "/facade";
+        //[我的访客]-访客列表
+        public static final String MY_VISITOR_HOST = "http://121.42.145.178/uinfo/v1/api/relation/visitor";
+        public static final String MY_VISITOR_LIST = MY_VISITOR_HOST + "/list";
 
         //一、[好友]-查看我的好友列表
         public static final String MY_FRIEND_LIST_HOST = "http://121.42.145.178/uinfo/v1/api/relation/friend";
-        public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST+"/list";
+        public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST + "/list";
         //[好友]-查看加我的列表
         public static final String MY_FRIEND_LIST_ADD_ME_LIST =MY_FRIEND_LIST_HOST+"/addmelist";
         //同意添加为好友
@@ -363,9 +390,10 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/del";
 
+        public static final String MY_FRIEND_LIST_ADD_ME_LIST = MY_FRIEND_LIST_HOST + "/addmelist";
         //三、[关注]-查询我关注的人
-        public static final String  RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
-        public static final String  MY_CARE_PERSON = RELATION_HOST+"/myfollow";
+        public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
+        public static final String MY_CARE_PERSON = RELATION_HOST + "/myfollow";
         //[关注]-查询我的粉丝
         public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
        //[关注]-关注动作
@@ -375,8 +403,11 @@ public class GlobalConstants {
         //[关注]-取消关注动作
         public static final String CANNEL_CARE = RELATION_HOST+"/cancel";
 
+        public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
+
+
         //[推荐]-推荐好友
-        public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/list";
+        public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
 
 
 

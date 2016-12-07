@@ -5,6 +5,8 @@ import android.databinding.BaseObservable;
 import android.net.Uri;
 
 import com.slash.youth.databinding.ItemChatFriendPicBinding;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
@@ -17,11 +19,13 @@ public class ChatFriendPicModel extends BaseObservable {
     ItemChatFriendPicBinding mItemChatFriendPicBinding;
     Activity mActivity;
     Uri mThumUri;
+    String mTargetAvatar;
 
-    public ChatFriendPicModel(ItemChatFriendPicBinding itemChatFriendPicBinding, Activity activity, Uri thumUri) {
+    public ChatFriendPicModel(ItemChatFriendPicBinding itemChatFriendPicBinding, Activity activity, Uri thumUri, String targetAvatar) {
         this.mItemChatFriendPicBinding = itemChatFriendPicBinding;
         this.mActivity = activity;
         this.mThumUri = thumUri;
+        this.mTargetAvatar = targetAvatar;
 
         initData();
         initView();
@@ -35,6 +39,8 @@ public class ChatFriendPicModel extends BaseObservable {
 //        mItemChatFriendPicBinding.ivChatFriendPic.setImageURI(mThumUri);
         LogKit.v(mThumUri.toString());
         x.image().bind(mItemChatFriendPicBinding.ivChatFriendPic, mThumUri.toString());
+
+        BitmapKit.bindImage(mItemChatFriendPicBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
     }
 
 }

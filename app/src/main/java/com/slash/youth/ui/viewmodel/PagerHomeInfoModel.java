@@ -6,7 +6,9 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.slash.youth.databinding.PagerHomeInfoBinding;
-import com.slash.youth.domain.HomeInfoBean;
+import com.slash.youth.domain.ConversationListBean;
+import com.slash.youth.engine.MsgManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
@@ -20,46 +22,38 @@ public class PagerHomeInfoModel extends BaseObservable {
     PagerHomeInfoBinding mPagerHomeInfoBinding;
     Activity mActivity;
 
+    int conversationListOffset = 0;
+    int conversationListLimit = 20;
+
     public PagerHomeInfoModel(PagerHomeInfoBinding pagerHomeInfoBinding, Activity activity) {
         this.mPagerHomeInfoBinding = pagerHomeInfoBinding;
         this.mActivity = activity;
         initView();
     }
 
-    ArrayList<HomeInfoBean> listHomeInfoBean = new ArrayList<HomeInfoBean>();
+    ArrayList<ConversationListBean.ConversationInfo> listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
 
     private void initView() {
         getDataFromServer();
-        mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(new HomeInfoListAdapter(listHomeInfoBean));
     }
 
     public void getDataFromServer() {
-        //模拟数据
-        listHomeInfoBean.add(new HomeInfoBean(true, false, "", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "小曹", false));
-        listHomeInfoBean.add(new HomeInfoBean(false, false, "大曹", true));
-        listHomeInfoBean.add(new HomeInfoBean(false, true, "曹文成", true));
+        MsgManager.getConversationList(new BaseProtocol.IResultExecutor<ConversationListBean>() {
+            @Override
+            public void execute(ConversationListBean dataBean) {
+                listConversation = dataBean.data.list;
+                setConversationList();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, conversationListOffset + "", conversationListLimit + "");
+    }
+
+    private void setConversationList() {
+        mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(new HomeInfoListAdapter(listConversation));
     }
 
     //跳转到我的任务界面

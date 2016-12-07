@@ -45,7 +45,7 @@ public class DemandPartyPrePaymentProtocol extends BaseProtocol<PaymentBean> {
     public boolean checkJsonResult(String result) {
         Gson gson = new Gson();
         paymentBean = gson.fromJson(result, PaymentBean.class);
-        if (paymentBean.rescode == 0) {
+        if (paymentBean.rescode == 0 && paymentBean.data.status == 1) {
             return true;
         } else {
             return false;
