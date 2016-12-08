@@ -5,7 +5,11 @@ import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.ServiceDelayPayProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
+import com.slash.youth.http.protocol.ServiceFlowAgreeRefundProtocol;
 import com.slash.youth.http.protocol.ServiceFlowComplainProtocol;
+import com.slash.youth.http.protocol.ServiceFlowCompleteProtocol;
+import com.slash.youth.http.protocol.ServiceFlowNoAcceptProtocol;
+import com.slash.youth.http.protocol.ServiceFlowSelectedProtocol;
 import com.slash.youth.http.protocol.ServiceInstalmentListProtocol;
 import com.slash.youth.http.protocol.ServiceOrderInfoProtocol;
 import com.slash.youth.http.protocol.ServiceOrderStatusProtocol;
@@ -91,12 +95,33 @@ public class ServiceEngine {
         updateServiceProtocol.getDataFromServer(onUpdateServiceFinished);
     }
 
+
+    /**
+     * 五、[服务]-服务方选定
+     */
+    public static void selected(BaseProtocol.IResultExecutor onSelectedFinished, String soid, String uid, String quote, String starttime, String endtime, ArrayList<Double> instalment, String bp) {
+        ServiceFlowSelectedProtocol serviceFlowSelectedProtocol = new ServiceFlowSelectedProtocol(soid, uid, quote, starttime, endtime, instalment, bp);
+        serviceFlowSelectedProtocol.getDataFromServer(onSelectedFinished);
+    }
+
     /**
      * 六、[服务]-需求方预支付
      */
     public static void servicePayment(BaseProtocol.IResultExecutor onPaymentFinished, String soid, String amount, String channel) {
         ServiceFlowPaymentProtocol serviceFlowPaymentProtocol = new ServiceFlowPaymentProtocol(soid, amount, channel);
         serviceFlowPaymentProtocol.getDataFromServer(onPaymentFinished);
+    }
+
+    /**
+     * 七、[服务]-服务方完成任务
+     *
+     * @param onCompleteFinished
+     * @param soid               需求ID
+     * @param fid                表示完成第几个分期
+     */
+    public static void complete(BaseProtocol.IResultExecutor onCompleteFinished, String soid, String fid) {
+        ServiceFlowCompleteProtocol serviceFlowCompleteProtocol = new ServiceFlowCompleteProtocol(soid, fid);
+        serviceFlowCompleteProtocol.getDataFromServer(onCompleteFinished);
     }
 
 
@@ -106,6 +131,15 @@ public class ServiceEngine {
     public static void confirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String soid, String fid) {
         ServiceConfirmCompleteProtocol serviceConfirmCompleteProtocol = new ServiceConfirmCompleteProtocol(soid, fid);
         serviceConfirmCompleteProtocol.getDataFromServer(onConfirmCompleteFinished);
+    }
+
+
+    /**
+     * 十、[服务]-服务方同意退款
+     */
+    public static void serviceAgreeRefund(BaseProtocol.IResultExecutor onAgreeRefundFinished, String soid) {
+        ServiceFlowAgreeRefundProtocol serviceFlowAgreeRefundProtocol = new ServiceFlowAgreeRefundProtocol(soid);
+        serviceFlowAgreeRefundProtocol.getDataFromServer(onAgreeRefundFinished);
     }
 
     /**
@@ -136,9 +170,23 @@ public class ServiceEngine {
         serviceOrderStatusProtocol.getDataFromServer(onGetServiceOrderStatusFinished);
     }
 
+    /**
+     * 十三、[服务]-查看服务订单信息和状态
+     *
+     * @param onGetServiceOrderInfoFinished
+     * @param soid
+     */
     public static void getServiceOrderInfo(BaseProtocol.IResultExecutor onGetServiceOrderInfoFinished, String soid) {
         ServiceOrderInfoProtocol serviceOrderInfoProtocol = new ServiceOrderInfoProtocol(soid);
         serviceOrderInfoProtocol.getDataFromServer(onGetServiceOrderInfoFinished);
+    }
+
+    /**
+     * 十六、[需求]-服务方淘汰某需求方
+     */
+    public static void noAccept(BaseProtocol.IResultExecutor onNoAcceptFinished, String soid, String uid) {
+        ServiceFlowNoAcceptProtocol serviceFlowNoAcceptProtocol = new ServiceFlowNoAcceptProtocol(soid, uid);
+        serviceFlowNoAcceptProtocol.getDataFromServer(onNoAcceptFinished);
     }
 
     /**

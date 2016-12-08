@@ -174,18 +174,26 @@ public class GlobalConstants {
         public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
         //三、[服务]-修改服务
         public static final String UPDATE_SERVICE = SERVER_HOST_SERVICE + "updateone";
+        //五、[服务]-服务方选定
+        public static final String SERVICE_FLOW_SELECTED = SERVER_HOST_SERVICE + "selected";
         //六、[服务]-需求方预支付
         public static final String SERVICE_FLOW_PAYMENT = SERVER_HOST_SERVICE + "payment";
+        //七、[需求]-服务方完成任务
+        public static final String SERVICE_FLOW_COMPLETE = SERVER_HOST_SERVICE + "complete";
         //八、[服务]-需求方确认完成任务
         public static final String SERVICE_CONFIRM_COMPLETE = SERVER_HOST_SERVICE + "confirmComplete";
+        //十、[服务]-服务方同意退款
+        public static final String SERVICE_FLOW_AGREE_REFUND = SERVER_HOST_SERVICE + "agreeRefund";
         //十一、[服务]-服务方不同意退款并申请平台介入
-        public static final String SERVICE_FLOW_INTERVENTION=SERVER_HOST_SERVICE+"intervention";
+        public static final String SERVICE_FLOW_INTERVENTION = SERVER_HOST_SERVICE + "intervention";
         //十二、[服务]-查看分期完成情况列表
         public static final String GET_SETVICE_INSTALMENT_LIST = SERVER_HOST_SERVICE + "instalmentlist";
         //十三、[服务]-查看服务订单状态
         public static final String GET_SERVICE_ORDER_STATUS = SERVER_HOST_SERVICE + "status";
-        //获取服务订单信息
+        //十三、[服务]-查看服务订单信息和状态
         public static final String GET_SERVICE_ORDER_INFO = SERVER_HOST_SERVICE + "orderinfo";
+        //十六、[需求]-服务方淘汰某需求方
+        public static final String SERVICE_FLOW_NO_ACCEPT = SERVER_HOST_SERVICE + "eliminate";
         //预约服务者 延期支付
         public static final String SERVICE_DELAY_PAY = SERVER_HOST_SERVICE + "rollback";
 

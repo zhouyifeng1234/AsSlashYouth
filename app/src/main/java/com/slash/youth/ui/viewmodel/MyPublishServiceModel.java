@@ -5,10 +5,12 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyPublishServiceBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.ServiceDetailBean;
@@ -38,7 +40,9 @@ public class MyPublishServiceModel extends BaseObservable {
     private int fid;//当前是第几期
     private double orderQuote = -1;//必须是服务订单信息接口返回的报价才是准确的
     private int quoteunit = -1;
+    private long duid;//服务订单中的需求方ID
     String[] optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
+    private boolean isUpdateInstalment = true;//修改条件按钮中的分期是否开启，默认为true开启
 
     public MyPublishServiceModel(ActivityMyPublishServiceBinding activityMyPublishServiceBinding, Activity activity) {
         this.mActivity = activity;
@@ -90,12 +94,12 @@ public class MyPublishServiceModel extends BaseObservable {
         ServiceEngine.serviceComplain(new BaseProtocol.IResultExecutor<ServiceFlowComplainResultBean>() {
             @Override
             public void execute(ServiceFlowComplainResultBean dataBean) {
-
+                ToastUtils.shortToast("申诉完成");
             }
 
             @Override
             public void executeResultError(String result) {
-
+                ToastUtils.shortToast("申诉失败：" + result);
             }
         }, soid + "", "");
     }
@@ -106,7 +110,17 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void agreeRefund(View v) {
+        ServiceEngine.serviceAgreeRefund(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("同意退款成功");
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("同意退款失败：" + result);
+            }
+        }, soid + "");
     }
 
     /**
@@ -115,7 +129,17 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void complete(View v) {
+        ServiceEngine.complete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("完成任务成功");
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("完成任务失败:" + result);
+            }
+        }, soid + "", fid + "");
     }
 
     /**
@@ -124,7 +148,17 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void noAccept(View v) {
+        ServiceEngine.noAccept(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("拒绝成功");
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("拒绝失败:" + result);
+            }
+        }, soid + "", duid + "");
     }
 
     /**
@@ -133,7 +167,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void accept(View v) {
-
+//ServiceEngine.
     }
 
     /**
@@ -146,6 +180,58 @@ public class MyPublishServiceModel extends BaseObservable {
     }
 
     /**
+     * 修改挑中 按钮中的 开启或者关闭分期
+     *
+     * @param v
+     */
+    public void toggleInstalment(View v) {
+        RelativeLayout.LayoutParams layoutParams
+                = (RelativeLayout.LayoutParams) mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.getLayoutParams();
+        if (isUpdateInstalment) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+        } else {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+        }
+        mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.setLayoutParams(layoutParams);
+        isUpdateInstalment = !isUpdateInstalment;
+    }
+
+    /**
+     * 删除分期
+     *
+     * @param v
+     */
+    public void deleteInstalment(View v) {
+
+    }
+
+    /**
+     * 添加分期
+     *
+     * @param v
+     */
+    public void addInstalment(View v) {
+
+    }
+
+    /**
+     * 初始化修改条件 蒙层中的分期列表信息（根据myTaskBean任务条目中的分期信息来初始化）
+     */
+    private void initUpdateInstalmentList(String taskItemInstalmentRatio) {
+
+    }
+
+    /**
+     * @param v
+     */
+    public void openUpdateTaskTimeLayer(View v) {
+
+    }
+
+
+    /**
      * 获取对应的单个任务条目信息（从任务列表穿过的myTaskBean可能不是最新的数据）
      */
     private void getTaskItemData() {
@@ -156,6 +242,7 @@ public class MyPublishServiceModel extends BaseObservable {
                 tid = myTaskBean.tid;//tid就是soid
                 soid = tid;//tid（任务id）就是soid(服务订单id)
                 fid = myTaskBean.instalmentcurr;//通过调试接口发现，这个字段当type=2为服务的时候，好像不准，一直都是0
+                initUpdateInstalmentList(myTaskBean.instalmentratio);
             }
 
             @Override
@@ -259,6 +346,7 @@ public class MyPublishServiceModel extends BaseObservable {
                 displayStatusCycle(status);
                 displayStatusButton(dataBean);//显示对应不同状态的操作按钮
                 suid = dataBean.data.order.suid;
+                duid = dataBean.data.order.uid;
             }
 
             @Override
@@ -377,6 +465,93 @@ public class MyPublishServiceModel extends BaseObservable {
     private int refundItemVisibility = View.GONE;//申诉、同意退款 条目是否可见
     private int finishItemVisibility = View.GONE;//完成 条目是否可见
     private int acceptItemVisibility = View.GONE;//不接受、接受、修改条件 条目是否可见
+
+    private int updateLayerVisibility = View.GONE;//修改服务订单信息蒙层是否可见
+    private int updateInstalmentLine1Visibility = View.GONE;
+    private int updateInstalmentLine2Visibility = View.GONE;
+    private int updateInstalmentLine3Visibility = View.GONE;
+    private int updateInstalmentLine4Visibility = View.GONE;
+
+    private int setStartTimeAndEndTimeLayerVisibility = View.GONE;
+    private int chooseDateTimeLayerVisibility = View.GONE;
+
+    @Bindable
+    public ActivityMyPublishServiceBinding getActivityMyPublishServiceBinding() {
+        return mActivityMyPublishServiceBinding;
+    }
+
+    public void setActivityMyPublishServiceBinding(ActivityMyPublishServiceBinding activityMyPublishServiceBinding) {
+        mActivityMyPublishServiceBinding = activityMyPublishServiceBinding;
+        notifyPropertyChanged(BR.mActivityMyPublishServiceBinding);
+    }
+
+    @Bindable
+    public int getSetStartTimeAndEndTimeLayerVisibility() {
+        return setStartTimeAndEndTimeLayerVisibility;
+    }
+
+    public void setSetStartTimeAndEndTimeLayerVisibility(int setStartTimeAndEndTimeLayerVisibility) {
+        this.setStartTimeAndEndTimeLayerVisibility = setStartTimeAndEndTimeLayerVisibility;
+        notifyPropertyChanged(BR.setStartTimeAndEndTimeLayerVisibility);
+    }
+
+    public int getChooseDateTimeLayerVisibility() {
+        return chooseDateTimeLayerVisibility;
+    }
+
+    public void setChooseDateTimeLayerVisibility(int chooseDateTimeLayerVisibility) {
+        this.chooseDateTimeLayerVisibility = chooseDateTimeLayerVisibility;
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine1Visibility() {
+        return updateInstalmentLine1Visibility;
+    }
+
+    public void setUpdateInstalmentLine1Visibility(int updateInstalmentLine1Visibility) {
+        this.updateInstalmentLine1Visibility = updateInstalmentLine1Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine1Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine2Visibility() {
+        return updateInstalmentLine2Visibility;
+    }
+
+    public void setUpdateInstalmentLine2Visibility(int updateInstalmentLine2Visibility) {
+        this.updateInstalmentLine2Visibility = updateInstalmentLine2Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine2Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine3Visibility() {
+        return updateInstalmentLine3Visibility;
+    }
+
+    public void setUpdateInstalmentLine3Visibility(int updateInstalmentLine3Visibility) {
+        this.updateInstalmentLine3Visibility = updateInstalmentLine3Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine3Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine4Visibility() {
+        return updateInstalmentLine4Visibility;
+    }
+
+    public void setUpdateInstalmentLine4Visibility(int updateInstalmentLine4Visibility) {
+        this.updateInstalmentLine4Visibility = updateInstalmentLine4Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine4Visibility);
+    }
+
+    @Bindable
+    public int getUpdateLayerVisibility() {
+        return updateLayerVisibility;
+    }
+
+    public void setUpdateLayerVisibility(int updateLayerVisibility) {
+        this.updateLayerVisibility = updateLayerVisibility;
+        notifyPropertyChanged(BR.updateLayerVisibility);
+    }
 
     @Bindable
     public int getAcceptItemVisibility() {
