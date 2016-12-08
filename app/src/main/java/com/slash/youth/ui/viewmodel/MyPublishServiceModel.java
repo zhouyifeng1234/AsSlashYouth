@@ -171,7 +171,25 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void accept(View v) {
-//ServiceEngine.
+        //分期 比例暂时先用假数据
+        starttime = 1579683600000l;
+        endtime = 1679699600000l;
+        instalmentRatioList.clear();
+        instalmentRatioList.add(0.1);
+        instalmentRatioList.add(0.9);
+        //分期比例只是测试数据
+
+        ServiceEngine.selected(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("服务方选定成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("服务方选定失败:" + result);
+            }
+        }, soid + "", duid + "", orderQuote + "", starttime + "", endtime + "", instalmentRatioList, bp + "");
     }
 
     /**
@@ -202,6 +220,14 @@ public class MyPublishServiceModel extends BaseObservable {
         isUpdateInstalment = !isUpdateInstalment;
     }
 
+    int instalmentCount = 2;
+    //    double instalmentRatio1 = 0.1;
+//    double instalmentRatio2 = 0.9;
+//    double instalmentRatio3 = 0;
+//    double instalmentRatio4 = 0;
+    ArrayList<Double> instalmentRatioList = new ArrayList<Double>();
+    int bp = 1;
+
     /**
      * 删除分期
      *
@@ -224,7 +250,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * 初始化修改条件 蒙层中的分期列表信息（根据myTaskBean任务条目中的分期信息来初始化）
      */
     private void initUpdateInstalmentList(String taskItemInstalmentRatio) {
-
+//一开始应该没有分期比例数据
     }
 
     private boolean mIsChooseStartTime;
