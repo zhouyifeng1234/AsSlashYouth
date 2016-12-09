@@ -40,7 +40,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="做一个公aaa司aaaaaaaaaaaaaaaaa"
+                    android:text="@{myBidDemandModel.demandTitle}"
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>
                 <TextView
@@ -178,7 +178,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="做一个互联网公司企业宣传策划案"
+                                    android:text="@{myBidDemandModel.demandTitle}"
                                     android:textColor="#666666"
                                     android:textSize="13sp"
                                     android:textStyle="bold"/>
@@ -187,9 +187,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="14dp"
-                                    android:text="开始时间:2016年9月18日 8:00"
+                                    android:text="@{myBidDemandModel.starttime}"
                                     android:textColor="#999999"
                                     android:textSize="13sp"/>
+                                <!--开始时间:2016年9月18日 8:00-->
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -201,9 +202,10 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:text="300元"
+                                        android:text="@{myBidDemandModel.quote}"
                                         android:textColor="#FF7333"
                                         android:textSize="13sp"/>
+                                    <!--300元-->
                                     <TextView
                                         android:layout_width="26dp"
                                         android:layout_height="15dp"
@@ -213,15 +215,18 @@
                                         android:gravity="center"
                                         android:text="分期"
                                         android:textColor="#31C5E4"
-                                        android:textSize="11sp"/>
+                                        android:textSize="11sp"
+                                        android:visibility="@{myBidDemandModel.instalmentVisibility}"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="6dp"
-                                        android:text="30%/40%/40%/50%"
+                                        android:text="@{myBidDemandModel.instalmentRatio}"
                                         android:textColor="#999999"
-                                        android:textSize="13sp"/>
+                                        android:textSize="13sp"
+                                        android:visibility="@{myBidDemandModel.instalmentVisibility}"/>
+                                    <!--30%/40%/40%/50%-->
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -232,7 +237,8 @@
                                 android:layout_gravity="right|bottom"
                                 android:layout_marginBottom="16dp"
                                 android:layout_marginRight="10dp"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:visibility="@{myBidDemandModel.bpConsultVisibility}">
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -263,28 +269,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="18dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:src="@mipmap/iphone_icon"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="聊一聊"
-                                    android:textColor="#31C5E4"
-                                    android:textSize="14sp"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="24dp"
+                                android:onClick="@{myBidDemandModel.havaAChat}"
                                 android:orientation="horizontal">
                                 <ImageView
                                     android:layout_width="20dp"

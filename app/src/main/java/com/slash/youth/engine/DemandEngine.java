@@ -96,10 +96,9 @@ public class DemandEngine {
      *
      * @param onConfirmServantFinished
      * @param id                       需求ID
-     * @param uid                      服务方UID
      */
-    public static void servicePartyConfirmServant(BaseProtocol.IResultExecutor onConfirmServantFinished, String id, String uid) {
-        ServicePartyConfirmServantProtocol servicePartyConfirmServantProtocol = new ServicePartyConfirmServantProtocol(id, uid);
+    public static void servicePartyConfirmServant(BaseProtocol.IResultExecutor onConfirmServantFinished, String id) {
+        ServicePartyConfirmServantProtocol servicePartyConfirmServantProtocol = new ServicePartyConfirmServantProtocol(id);
         servicePartyConfirmServantProtocol.getDataFromServer(onConfirmServantFinished);
     }
 
@@ -158,8 +157,8 @@ public class DemandEngine {
      * @param onServicePartyCompleteFinished
      * @param id                             需求ID
      */
-    public static void servicePartyComplete(BaseProtocol.IResultExecutor onServicePartyCompleteFinished, String id) {
-        ServicePartyCompleteProtocol servicePartyCompleteProtocol = new ServicePartyCompleteProtocol(id);
+    public static void servicePartyComplete(BaseProtocol.IResultExecutor onServicePartyCompleteFinished, String id, String fid) {
+        ServicePartyCompleteProtocol servicePartyCompleteProtocol = new ServicePartyCompleteProtocol(id, fid);
         servicePartyCompleteProtocol.getDataFromServer(onServicePartyCompleteFinished);
     }
 
@@ -224,7 +223,7 @@ public class DemandEngine {
      * 十八、[需求]-服务方确认同意退款
      *
      * @param onAgreeRefundFinished
-     * @param id
+     * @param id                    需求ID
      */
     public static void servicePartyAgreeRefund(BaseProtocol.IResultExecutor onAgreeRefundFinished, String id) {
         AgreeRefundProtocol agreeRefundProtocol = new AgreeRefundProtocol(id);
@@ -236,9 +235,10 @@ public class DemandEngine {
      *
      * @param onInterventionFinished
      * @param id                     需求ID
+     * @param remark                 申请平台介入原因 这个字段好像不用填，暂时先留着
      */
-    public static void servicePartyIntervention(BaseProtocol.IResultExecutor onInterventionFinished, String id) {
-        InterventionProtocol interventionProtocol = new InterventionProtocol(id);
+    public static void servicePartyIntervention(BaseProtocol.IResultExecutor onInterventionFinished, String id, String remark) {
+        InterventionProtocol interventionProtocol = new InterventionProtocol(id, remark);
         interventionProtocol.getDataFromServer(onInterventionFinished);
     }
 

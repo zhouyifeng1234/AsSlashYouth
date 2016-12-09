@@ -13,9 +13,11 @@ import org.xutils.http.RequestParams;
 public class InterventionProtocol extends BaseProtocol<InterventionBean> {
 
     String id;//需求ID
+    String remark;//申请平台介入原因 这个字段好像不用填，暂时先留着
 
-    public InterventionProtocol(String id) {
+    public InterventionProtocol(String id, String remark) {
         this.id = id;
+        this.remark = remark;
     }
 
     @Override
@@ -26,17 +28,25 @@ public class InterventionProtocol extends BaseProtocol<InterventionBean> {
     @Override
     public void addRequestParams(RequestParams params) {
         params.addBodyParameter("id", id);
+        params.addBodyParameter("remark", remark);
     }
 
     @Override
     public InterventionBean parseData(String result) {
-        Gson gson = new Gson();
-        InterventionBean interventionBean = gson.fromJson(result, InterventionBean.class);
         return interventionBean;
     }
 
+    InterventionBean interventionBean;
+
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        interventionBean = gson.fromJson(result, InterventionBean.class);
+        if (interventionBean.rescode == 0) {
+            if (interventionBean.data.status == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

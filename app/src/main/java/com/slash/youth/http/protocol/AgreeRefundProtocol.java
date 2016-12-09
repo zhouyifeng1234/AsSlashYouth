@@ -1,7 +1,7 @@
 package com.slash.youth.http.protocol;
 
 import com.google.gson.Gson;
-import com.slash.youth.domain.AgreeRefundBean;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -10,7 +10,7 @@ import org.xutils.http.RequestParams;
  * 十八、[需求]-服务方确认同意退款
  * Created by zhouyifeng on 2016/11/3.
  */
-public class AgreeRefundProtocol extends BaseProtocol<AgreeRefundBean> {
+public class AgreeRefundProtocol extends BaseProtocol<CommonResultBean> {
 
     String id;//需求ID
 
@@ -28,15 +28,23 @@ public class AgreeRefundProtocol extends BaseProtocol<AgreeRefundBean> {
         params.addBodyParameter("id", id);
     }
 
+
     @Override
-    public AgreeRefundBean parseData(String result) {
-        Gson gson = new Gson();
-        AgreeRefundBean agreeRefundBean = gson.fromJson(result, AgreeRefundBean.class);
-        return agreeRefundBean;
+    public CommonResultBean parseData(String result) {
+        return commonResultBean;
     }
+
+    CommonResultBean commonResultBean;
 
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        commonResultBean = gson.fromJson(result, CommonResultBean.class);
+        if (commonResultBean.rescode == 0) {
+            if (commonResultBean.data.status == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }
