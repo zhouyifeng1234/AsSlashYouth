@@ -57,8 +57,11 @@ public class MyPublishDemandModel extends BaseObservable {
         type = taskInfo.getInt("type");
         roleid = taskInfo.getInt("roleid");
 
-        getTaskItemData();
+        getDataFromServer();
+    }
 
+    private void getDataFromServer() {
+        getTaskItemData();
         getDemandFlowLogData();
     }
 
@@ -126,7 +129,7 @@ public class MyPublishDemandModel extends BaseObservable {
     public void confirmFinish(View v) {
         int fid = innerDemandCardInfo.instalmentcurr;
         DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                @Override
+            @Override
             public void execute(CommonResultBean dataBean) {
                 //确认完成成功
                 ToastUtils.shortToast("确认完成成功");
