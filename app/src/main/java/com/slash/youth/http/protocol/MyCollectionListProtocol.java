@@ -13,17 +13,15 @@ import org.xutils.http.RequestParams;
 public class MyCollectionListProtocol extends BaseProtocol<MyCollectionBean> {
     private int offset;
     private int limit;
-    private String url;
 
-    public MyCollectionListProtocol(int offset, int limit,String url) {
+    public MyCollectionListProtocol(int offset, int limit) {
         this.offset = offset;
         this.limit = limit;
-        this.url = url;
     }
 
     @Override
     public String getUrlString() {
-        return url;
+        return GlobalConstants.HttpUrl.MY_COLLECTION_LIST;
     }
 
     @Override

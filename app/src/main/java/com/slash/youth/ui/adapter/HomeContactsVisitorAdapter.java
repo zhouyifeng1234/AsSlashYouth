@@ -9,13 +9,13 @@ import java.util.ArrayList;
 /**
  * Created by zhouyifeng on 2016/10/12.
  */
-public class HomeContactsVisitorAdapter extends SlashBaseAdapter<HomeContactsVisitorBean> {
-    public HomeContactsVisitorAdapter(ArrayList<HomeContactsVisitorBean> listData) {
+public class HomeContactsVisitorAdapter extends SlashBaseAdapter<HomeContactsVisitorBean.DataBean.ListBean> {
+    public HomeContactsVisitorAdapter(ArrayList<HomeContactsVisitorBean.DataBean.ListBean> listData) {
         super(listData);
     }
 
     @Override
-    public ArrayList<HomeContactsVisitorBean> onLoadMore() {
+    public ArrayList<HomeContactsVisitorBean.DataBean.ListBean> onLoadMore() {
         return null;
     }
 

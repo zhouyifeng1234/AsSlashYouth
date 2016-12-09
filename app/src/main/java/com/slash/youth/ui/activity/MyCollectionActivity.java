@@ -25,7 +25,7 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMyCollectionBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_collection);
-        MyCollectionModel myCollectionModel = new MyCollectionModel(activityMyCollectionBinding);
+        MyCollectionModel myCollectionModel = new MyCollectionModel(activityMyCollectionBinding,this);
         activityMyCollectionBinding.setMyCollectionModel(myCollectionModel);
         listener();
     }

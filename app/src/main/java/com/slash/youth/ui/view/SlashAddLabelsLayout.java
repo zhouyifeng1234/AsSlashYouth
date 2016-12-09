@@ -39,7 +39,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
 
     Activity mActivity;
 
-    ArrayList<String> listTotalAddedLabels = new ArrayList<String>();
+    public ArrayList<String> listTotalAddedLabels = new ArrayList<String>();
 
     public void addSkillLabels() {
         removeAllViews();
@@ -215,5 +215,16 @@ public class SlashAddLabelsLayout extends LinearLayout {
     public ArrayList<String> getAddedSkillLabels() {
         return listTotalAddedLabels;
     }
+
+
+
+    //zss
+    public void setTag( ArrayList<String> tagArrayList){
+        listTotalAddedLabels.addAll(tagArrayList);
+        addSkillLabels();
+    }
+
+
+
 
 }

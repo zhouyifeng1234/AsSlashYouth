@@ -90,10 +90,11 @@
                         android:text="关注我的"
                         android:textColor="#CCCCCC"
                         android:textSize="14sp"/>
-
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/view_red_spot1"
+                    android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_gravity="right"
@@ -137,6 +138,7 @@
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_gravity="right"
@@ -180,6 +182,8 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/view_red_spot2"
+                    android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_gravity="right"
@@ -219,17 +223,16 @@
                         android:text="我加的"
                         android:textColor="#CCCCCC"
                         android:textSize="14sp"/>
-
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_gravity="right"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/shape_circle_news_count"/>
-
             </android.support.v7.widget.CardView>
 
         </LinearLayout>

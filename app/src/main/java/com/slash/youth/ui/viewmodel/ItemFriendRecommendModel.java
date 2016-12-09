@@ -9,6 +9,8 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemHscFriendRecommendBinding;
 import com.slash.youth.domain.FriendRecommendBean;
 import com.slash.youth.domain.RecommendFriendBean;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
@@ -64,7 +66,7 @@ public class ItemFriendRecommendModel extends BaseObservable {
 
     private void initView() {
         if(avatar!=null){
-            x.image().bind(mItemHscFriendRecommendBinding.ivRecommendIcon,avatar);
+            BitmapKit.bindImage(mItemHscFriendRecommendBinding.ivRecommendIcon,GlobalConstants.HttpUrl.SERVER_HOST_IMG_UPLOAD_DOWNLOAD+"?findId="+avatar);
         }
         mItemHscFriendRecommendBinding.tvRecommendCommpany.setText(company);
 

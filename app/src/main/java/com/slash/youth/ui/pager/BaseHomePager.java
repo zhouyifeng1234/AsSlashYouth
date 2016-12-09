@@ -13,6 +13,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
 import com.slash.youth.domain.DemandBean;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
+import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
 import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.ui.viewmodel.PagerHomeBaseModel;
 import com.slash.youth.utils.CommonUtils;
@@ -179,6 +180,8 @@ abstract public class BaseHomePager {
         if (isRefresh) {
             listDemand.clear();
         }
+        listDemand.add(new DemandBean());
+        listDemand.add(new DemandBean());
         listDemand.add(new DemandBean());
         listDemand.add(new DemandBean());
         listDemand.add(new DemandBean());

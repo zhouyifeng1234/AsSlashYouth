@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
@@ -17,6 +20,7 @@ import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.ui.activity.MySettingActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -30,13 +34,17 @@ import java.util.List;
 public class PagerHomeContactsModel extends BaseObservable {
     PagerHomeContactsBinding mPagerHomeContactsBinding;
     Activity mActivity;
-    private  ArrayList<HomeContactsVisitorBean> listHomeContactsVisitorBean = new ArrayList<HomeContactsVisitorBean>();
+    private int offset = 0;
+    private int limit = 20;
+    private int visibleLastIndex = 0;   //最后的可视项索引
+    private  ArrayList<HomeContactsVisitorBean.DataBean.ListBean> listHomeContactsVisitorBean = new ArrayList<>();
 
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
         this.mActivity = activity;
         initView();
         initData();
+        listener();
     }
 
     private void initView() {
@@ -49,29 +57,43 @@ public class PagerHomeContactsModel extends BaseObservable {
 
     private void initData() {
         getDataFromServer();
-        //设置访客列表数据
-        mPagerHomeContactsBinding.lvHomeContactsVisitor.setAdapter(new HomeContactsVisitorAdapter(listHomeContactsVisitorBean));
     }
 
     public void getDataFromServer() {
-        int offset = 0;
-        int limit = 20;
-        //ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
-        offset = offset+limit;
+        ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
+    }
 
-        //模拟数据 访客列表数据
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
-        listHomeContactsVisitorBean.add(new HomeContactsVisitorBean());
+    private void listener() {
+        //条目点击事件
+        mPagerHomeContactsBinding.lvHomeContactsVisitor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position!=0) {
+                    HomeContactsVisitorBean.DataBean.ListBean listBean = listHomeContactsVisitorBean.get(position-1);
+                    String name = listBean.getName();
+                    int uid = listBean.getUid();
+                    Long mId = new Long((long) uid);
+                Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                intentUserInfoActivity.putExtra("Uid",mId);
+                mActivity.startActivity(intentUserInfoActivity);
+                }
+            }
+        });
+
+        mPagerHomeContactsBinding.lvHomeContactsVisitor.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
+                if(visibleLastIndex == listHomeContactsVisitorBean.size()&&listHomeContactsVisitorBean.size()!=0){
+                    offset = visibleLastIndex;
+                  //  ContactsManager.getMyFriendList(new onGetMyVisitorList(),offset,limit);
+                }
+            }
+        });
     }
 
     //获取我的访客的列表
@@ -82,25 +104,15 @@ public class PagerHomeContactsModel extends BaseObservable {
             if(rescode == 0){
                 HomeContactsVisitorBean.DataBean data = dataBean.getData();
                 List<HomeContactsVisitorBean.DataBean.ListBean> list = data.getList();
-                for (HomeContactsVisitorBean.DataBean.ListBean listBean : list) {
-                    String avatar = listBean.getAvatar();
-                    String company = listBean.getCompany();
-                    String direction = listBean.getDirection();
-                    String industry = listBean.getIndustry();
-                    int isauth = listBean.getIsauth();
-                    String name = listBean.getName();
-                    String position = listBean.getPosition();
-                    int uid = listBean.getUid();
-                    long uts = listBean.getUts();
-                }
+                listHomeContactsVisitorBean.addAll(list);
             }
+            //设置访客列表数据
+            mPagerHomeContactsBinding.lvHomeContactsVisitor.setAdapter(new HomeContactsVisitorAdapter(listHomeContactsVisitorBean));
         }
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
     }
-
-
 
 }

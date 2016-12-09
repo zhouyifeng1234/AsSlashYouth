@@ -1,7 +1,8 @@
-package com.slash.youth.global;
+package com.slash.youth.http.protocol;
 
 import com.google.gson.Gson;
 import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 
 import org.xutils.http.RequestParams;

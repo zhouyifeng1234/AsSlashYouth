@@ -61,6 +61,7 @@
                />
 
             <TextView
+                android:onClick="@{activitySearchModel.searchBtn}"
                 android:id="@+id/tv_search_result"
                 android:layout_width="40dp"
                 android:layout_height="30dp"

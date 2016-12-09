@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.view.View;
 
 import com.slash.youth.databinding.ItemListviewHomeContactsVisitorBinding;
 
@@ -18,4 +19,8 @@ public class HomeContactsVisitorModel extends BaseObservable {
     private void initView() {
 
     }
+
+
+
+
 }

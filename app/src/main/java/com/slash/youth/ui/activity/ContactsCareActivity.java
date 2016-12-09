@@ -30,7 +30,6 @@ public class ContactsCareActivity extends Activity {
         activityContactsCareBinding = DataBindingUtil.setContentView(this, R.layout.activity_contacts_care);
         ActivityContactsCareModel activityContactsCareModel = new ActivityContactsCareModel(activityContactsCareBinding,title);
         activityContactsCareBinding.setActivityContactsCareModel(activityContactsCareModel);
-
         initView();
     }
 

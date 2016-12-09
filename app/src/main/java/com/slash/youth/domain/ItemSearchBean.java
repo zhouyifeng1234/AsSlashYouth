@@ -1,10 +1,30 @@
 package com.slash.youth.domain;
 /**
  * Created by ZSS on 2016/9/19.
- * 需求列表想信息
  */
 
 public class ItemSearchBean {
- public String item;
- public boolean isShowRemoveBtn;
+ private String item;
+ private boolean isShowRemoveBtn;
+
+ public ItemSearchBean(String item, boolean isShowRemoveBtn) {
+  this.item = item;
+  this.isShowRemoveBtn = isShowRemoveBtn;
+ }
+
+ public String getItem() {
+  return item;
+ }
+
+ public void setItem(String item) {
+  this.item = item;
+ }
+
+ public boolean isShowRemoveBtn() {
+  return isShowRemoveBtn;
+ }
+
+ public void setShowRemoveBtn(boolean showRemoveBtn) {
+  isShowRemoveBtn = showRemoveBtn;
+ }
 }

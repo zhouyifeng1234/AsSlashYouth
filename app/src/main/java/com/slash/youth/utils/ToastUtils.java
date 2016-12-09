@@ -61,12 +61,6 @@ public class ToastUtils {
 
     }
 
-
-
-
-
-
-
     //可以避免出现toast叠加
     private Context context;
     private Toast toast = null;

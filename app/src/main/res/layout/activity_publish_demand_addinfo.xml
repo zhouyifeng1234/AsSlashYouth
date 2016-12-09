@@ -208,8 +208,6 @@
 
                     </com.slash.youth.ui.view.SlashAddLabelsLayout>
                 </ScrollView>
-
-
             </FrameLayout>
 
             <LinearLayout

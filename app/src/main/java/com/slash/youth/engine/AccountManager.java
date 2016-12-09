@@ -1,6 +1,6 @@
 package com.slash.youth.engine;
 
-import com.slash.youth.global.TradePasswordStatusProtocol;
+import com.slash.youth.http.protocol.TradePasswordStatusProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 
 /**

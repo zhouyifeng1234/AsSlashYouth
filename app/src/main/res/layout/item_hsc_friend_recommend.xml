@@ -7,6 +7,7 @@
                   type="com.slash.youth.ui.viewmodel.ItemFriendRecommendModel"/>
     </data>
     <android.support.v7.widget.CardView
+        android:visibility="gone"
         android:layout_width="137dp"
         android:layout_height="193dp"
         app:cardBackgroundColor="#ffffff"

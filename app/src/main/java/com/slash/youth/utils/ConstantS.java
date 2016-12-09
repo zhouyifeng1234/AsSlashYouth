@@ -16,14 +16,24 @@ public class Constants {
     public static final int  USERINFO_PHOTOALBUM =7 ;//认证相册照片
     //我的  设置
     public static final int  MYSETTING_SETPASSWORD =1 ;//设置密码
-
-
     //人脉 添加技能
-    public static final int  CONTACTS_ADD_SKILL_LABELS =8 ;//设置密码
-
+    public static final int  CONTACTS_ADD_SKILL_LABELS =8;
     //地区页面的最经访问的城市
-    public static final int  CURRENT_ACCESS_CITY =10 ;
-
+    public static final int  CURRENT_ACCESS_CITY =10;
+    //技能管理—添加技能标签
+    public static final int  SKILL_MANAGER_ADD_LABEL =11;
+    //技能管理-发布服务
+    public static final int  SKILL_MANAGER_PUBLISH_SERVICE =12;
+    //技能管理-获取一个技能模板
+    public static final int  SKILL_MANAGER_ONE =13;
+    //技能管理-提交添加一个技能模板
+    public static final int  SUMBIT_ONE_SKILL_MANAGER =14;
+    //我的-技能管理
+    public static final String  MY_TITLE_SKILL_MANAGER ="技能管理";
+    //我的-管理我发布的任务
+    public static final String  MY_TITLE_MANAGER_MY_PUBLISH ="管理我发布的任务";
+    //技能管理—添加技能
+    public static final String  SKILL_MANAGER_TITLE_RIGHT="添加技能";
 
 
 

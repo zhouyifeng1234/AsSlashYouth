@@ -60,10 +60,14 @@ private ActivityUserinfoBinding activityUserinfoBinding;
 
     //空间
     public void qqSpace(View view){
-        share_media = platforms.get(4).mPlatform;
+        //好友列表
+
+
+
+       /* share_media = platforms.get(4).mPlatform;
         ShareAction shareAction = new ShareAction(userInfoActivity);
         shareAction.setPlatform(share_media).setCallback(umShareListener).share();
-
+*/
     }
 
     //取消

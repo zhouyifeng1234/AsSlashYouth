@@ -7,7 +7,10 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.domain.MyFriendListBean;
 import com.slash.youth.domain.SlashFriendBean;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
 
@@ -18,7 +21,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
 
     private TextView friendName;
     private ImageView friendV;
-    private TextView tvposition;
+    private TextView tvdirection;
     private ImageView ivavatar;
 
     @Override
@@ -26,7 +29,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
         View view = View.inflate(CommonUtils.getContext(), R.layout.item_choose_slash_friend, null);
         friendName = (TextView) view.findViewById(R.id.tv_friend_name);
         friendV = (ImageView) view.findViewById(R.id.iv_friend_v);
-        tvposition = (TextView) view.findViewById(R.id.tv_friend_position);
+        tvdirection = (TextView) view.findViewById(R.id.tv_direction);
         ivavatar = (ImageView) view.findViewById(R.id.iv_friend_icon);
         return view;
     }
@@ -34,11 +37,12 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
     @Override
     public void refreshView(MyFriendListBean.DataBean.ListBean data) {
         friendName.setText(data.getName());
-        tvposition.setText(data.getPosition());
+
         String avatar = data.getAvatar();
         if(avatar!=null){
-            x.image().bind(ivavatar,avatar);
+            BitmapKit.bindImage(ivavatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
+
         int isauth = data.getIsauth();
         switch (isauth){
             case 1:
@@ -48,5 +52,16 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
                 friendV.setVisibility(View.GONE);
                 break;
         }
+
+        String company = data.getCompany();
+        String position = data.getPosition();
+        tvdirection.setText(company+""+position);
+
+        String direction = data.getDirection();
+        String industry = data.getIndustry();
+        int status = data.getStatus();
+        int uid = data.getUid();
+        long uts = data.getUts();
+
     }
 }

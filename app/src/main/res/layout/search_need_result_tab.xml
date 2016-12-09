@@ -9,10 +9,61 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <!--页签标题-->
+
+   <!-- <RadioGroup
+        android:visibility="gone"
+        android:id="@+id/search_group"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:orientation="horizontal">
+
+     <RadioButton
+         android:id="@+id/rb_tab1"
+         android:button="@null"
+         android:layout_width="0dp"
+         android:layout_weight="1"
+         android:text="需求类型"
+         android:textSize="15dp"
+         android:textColor="#333333"
+         android:layout_height="match_parent" />
+
+     <RadioButton
+         android:id="@+id/rb_tab2"
+         android:button="@null"
+         android:layout_width="0dp"
+         android:layout_weight="1"
+         android:text="用户类型"
+         android:textSize="15dp"
+         android:textColor="#333333"
+         android:layout_height="match_parent" />
+
+        <RadioButton
+         android:id="@+id/rb_tab3"
+         android:button="@null"
+         android:layout_width="0dp"
+         android:layout_weight="1"
+        android:text="苏州"
+        android:textSize="15dp"
+        android:textColor="#333333"
+         android:layout_height="match_parent" />
+
+     <RadioButton
+         android:id="@+id/rb_tab4"
+         android:button="@null"
+         android:layout_width="0dp"
+         android:text="排序"
+         android:textSize="15dp"
+         android:textColor="#333333"
+         android:layout_weight="1"
+         android:layout_height="match_parent" />
+
+    </RadioGroup>-->
+
      <FrameLayout
          android:id="@+id/Fl_tab"
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
+
 
      </FrameLayout>
         <FrameLayout

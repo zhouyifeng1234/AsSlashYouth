@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -93,8 +94,6 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
         }
     }
 
-
-
     boolean isLoadingMore = false;
 
     public void loadMore(final AddMoreHolder addMoreHolder, final int position) {
@@ -165,5 +164,11 @@ public abstract class SlashBaseAdapter<T> extends BaseAdapter {
     public  ArrayList<T>  getData(){
         return this.mListData;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
 
 }

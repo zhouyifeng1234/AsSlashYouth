@@ -2,16 +2,19 @@ package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.net.sip.SipSession;
+import android.view.View;
 import android.widget.AbsListView;
 
 import com.slash.youth.databinding.ActivityContactsCareBinding;
 import com.slash.youth.domain.ContactsBean;
 import com.slash.youth.domain.RecommendFriendBean;
+import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.adapter.ContactsCareAdapter;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,8 @@ public class ActivityContactsCareModel extends BaseObservable {
     private int limit  = 20;
     private int visibleLastIndex;
     private int type =-1;
-
+    private boolean isAgree;
+    private int i = -1;
 
 
     public ActivityContactsCareModel(ActivityContactsCareBinding activityContactsCareBinding,String title) {
@@ -43,19 +47,20 @@ public class ActivityContactsCareModel extends BaseObservable {
         contactsLists.clear();
         switch (title){
             case "关注我的":
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.CARE_ME_PERSON);
                 type=1;
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.CARE_ME_PERSON);
                  break;
             case "我关注":
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_CARE_PERSON);
                 type=2;
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_CARE_PERSON);
                 break;
             case "加我的":
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/addmelist");
                 type = 3;
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/addmelist");
+                break;
             case "我加的":
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/myaddlist");
                 type = 4;
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/myaddlist");
                 break;
         }
     }
@@ -66,6 +71,10 @@ public class ActivityContactsCareModel extends BaseObservable {
 
     private void listener() {
         loadMoreListData();
+
+
+
+
 
     }
 
@@ -78,7 +87,7 @@ public class ActivityContactsCareModel extends BaseObservable {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-                if(visibleLastIndex == contactsLists.size()){
+                if(visibleLastIndex == contactsLists.size()&&contactsLists.size()!=0){
                     offset = visibleLastIndex;
                     switch (type){
                         case 1:
@@ -108,8 +117,10 @@ public class ActivityContactsCareModel extends BaseObservable {
                 List<ContactsBean.DataBean.ListBean> list = data.getList();
                 contactsLists.addAll(list);
             }
-            contactsCareAdapter = new ContactsCareAdapter(contactsLists);
+            contactsCareAdapter = new ContactsCareAdapter(contactsLists,type);
             activityContactsCareBinding.lv.setAdapter(contactsCareAdapter);
+
+           // agreeFriend();
         }
         @Override
         public void executeResultError(String result) {
@@ -117,4 +128,46 @@ public class ActivityContactsCareModel extends BaseObservable {
         }
     }
 
+    //点击按钮同意添加好友
+   /* private void agreeFriend() {
+        contactsCareAdapter.setItemRemoveListener(new ContactsCareAdapter.onItemRemoveListener() {
+            @Override
+            public void onItemRemove(int index) {
+                ContactsBean.DataBean.ListBean listBean = contactsLists.get(index);
+                int id = listBean.getUid();
+                Long uid = new Long(id);
+               // ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),uid,"contacts");
+                if(isAgree){
+                   //contactsLists.remove(index);
+                    //contactsCareAdapter.notifyDataSetChanged();
+
+                }
+            }
+        });
+    }*/
+
+    public class onAgreeFriendProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        ToastUtils.shortCenterToast("已是好友");
+                        isAgree = true;
+                        break;
+                    case 0:
+                        ToastUtils.shortCenterToast("添加好友未成功");
+                        isAgree = false;
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
 }

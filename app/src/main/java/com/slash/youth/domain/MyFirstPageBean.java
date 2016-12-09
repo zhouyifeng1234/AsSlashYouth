@@ -1,12 +1,12 @@
 package com.slash.youth.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by zss on 2016/11/9. //我的模块首页Bean
  */
 public class MyFirstPageBean {
+
     private DataBean data;
     private int rescode;
 
@@ -37,7 +37,7 @@ public class MyFirstPageBean {
             this.myinfo = myinfo;
         }
 
-        public static class MyinfoBean implements Serializable {
+        public static class MyinfoBean {
             private int achievetaskcount;
             private double amount;
             private String avatar;
@@ -61,7 +61,7 @@ public class MyFirstPageBean {
             private String province;
             private String tag;
             private int totoltaskcount;
-            private int userservicepoint;
+            private double userservicepoint;
             private List<Integer> expertlevels;
 
             public int getAchievetaskcount() {
@@ -248,11 +248,11 @@ public class MyFirstPageBean {
                 this.totoltaskcount = totoltaskcount;
             }
 
-            public int getUserservicepoint() {
+            public double getUserservicepoint() {
                 return userservicepoint;
             }
 
-            public void setUserservicepoint(int userservicepoint) {
+            public void setUserservicepoint(double userservicepoint) {
                 this.userservicepoint = userservicepoint;
             }
 

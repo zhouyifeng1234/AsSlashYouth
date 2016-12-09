@@ -11,7 +11,11 @@ import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.MyCollectionActivity;
+import com.slash.youth.ui.adapter.ManagePublishAdapter;
 import com.slash.youth.ui.adapter.MyCollectionAdapter;
+import com.slash.youth.ui.view.NewRefreshListView;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -23,87 +27,103 @@ import java.util.List;
 public class MyCollectionModel extends BaseObservable  {
 
     private ActivityMyCollectionBinding activityMyCollectionBinding;
-    private   ArrayList<MyCollectionBean> collectionList = new ArrayList<>();
+    private   ArrayList<MyCollectionBean.DataBean.ListBean> collectionList = new ArrayList<>();
     private MyCollectionAdapter myCollectionAdapter;
+    private MyCollectionActivity myCollectionActivity;
+    private  int offset = 0;
+    private int limit = 20;
 
-    public MyCollectionModel(ActivityMyCollectionBinding activityMyCollectionBinding) {
+    public MyCollectionModel(ActivityMyCollectionBinding activityMyCollectionBinding, MyCollectionActivity myCollectionActivity) {
         this.activityMyCollectionBinding = activityMyCollectionBinding;
+        this.myCollectionActivity = myCollectionActivity;
         initData();
-        initView();
 
     }
 
     //加载数据
     private void initData() {
-        int offset = 0;
-      //  MyManager.getMyCollectionList(new onGetMyCollectionList(),offset,20, GlobalConstants.HttpUrl.MY_COLLECTION_LIST);
-
-        collectionList.add(new MyCollectionBean());
-        collectionList.add(new MyCollectionBean());
-        collectionList.add(new MyCollectionBean());
-        collectionList.add(new MyCollectionBean());
-        collectionList.add(new MyCollectionBean());
-        collectionList.add(new MyCollectionBean());
-
-
+        getManagerPublishDataFromServer(true);
+        activityMyCollectionBinding.lvCollection.setNewRefreshDataTask(new RefreshDataTask());
+        activityMyCollectionBinding.lvCollection.setNewLoadMoreNewsTast(new LoadMoreNewsTask());
     }
 
-    //加载视图
-    private void initView() {
-        myCollectionAdapter = new MyCollectionAdapter(collectionList);
-         activityMyCollectionBinding.lvCollection.setAdapter(myCollectionAdapter);
-        myCollectionAdapter.setItemRemoveListener(new MyCollectionAdapter.onItemRemoveListener() {
-            @Override
-            public void onItemRemove(int index) {
-                collectionList.remove(index);
-                myCollectionAdapter.notifyDataSetChanged();
-
-            }
-        });
+    /**
+     * @param isRefresh true表示为下拉刷新或者第一次初始化加载数据操作，false表示加载更多数据
+     */
+    public void getManagerPublishDataFromServer(boolean isRefresh) {
+        if (isRefresh) {
+            collectionList.clear();
+            offset = 0;
+        }
+        MyManager.getMyCollectionList(new onGetMyCollectionList(),offset,limit);
     }
 
 
+    /**
+     * 下拉刷新执行的回调，执行结束后需要调用refreshDataFinish()方法，用来更新状态
+     */
+    public class RefreshDataTask implements NewRefreshListView.NewIRefreshDataTask {
+        @Override
+        public void refresh() {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getManagerPublishDataFromServer(true);
+                    myCollectionAdapter.notifyDataSetChanged();
+                    activityMyCollectionBinding.lvCollection.refreshDataFinish();
+                }
+            }, 2000);
+        }
+    }
 
+    /**
+     * 上拉加载更多执行的回调，执行完毕后需要调用loadMoreNewsFinished()方法，用来更新状态,如果加载到最后一页，则需要调用setLoadToLast()方法
+     */
+    public class LoadMoreNewsTask implements NewRefreshListView.NewILoadMoreNewsTask {
+        @Override
+        public void loadMore() {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getManagerPublishDataFromServer(false);
+                    myCollectionAdapter.notifyDataSetChanged();
+                    activityMyCollectionBinding.lvCollection.loadMoreNewsFinished();
+                }
+            }, 2000);
+        }
+    }
+
+    //获取我的收藏的列表
     public class onGetMyCollectionList implements BaseProtocol.IResultExecutor<MyCollectionBean> {
         @Override
         public void execute(MyCollectionBean dataBean) {
             int rescode = dataBean.getRescode();
-            MyCollectionBean.DataBean data = dataBean.getData();
-            List<MyCollectionBean.DataBean.ListBean> list = data.getList();
-            for (MyCollectionBean.DataBean.ListBean listBean : list) {
-                String avatar = listBean.getAvatar();
-                long cts = listBean.getCts();//收藏时间
-                int instalment = listBean.getInstalment();//1表示支持分期 0表示不支持分期
-                int isAuth = listBean.getIsAuth();//0表示未认证，1表示已经认证
-                String name = listBean.getName();
-                int quote = listBean.getQuote();//0表示对方报价
-                long starttime = listBean.getStarttime();//任务开始时间 0表示未设置
-                int status = listBean.getStatus();  //1表示可以预约，0表示不可以
-                int tid = listBean.getTid(); //需求或者服务ID
-                String title = listBean.getTitle();//需求或者服务标题
-                int type = listBean.getType();//1需求 2服务
-                int uid = listBean.getUid();
+            if(rescode == 0){
+                MyCollectionBean.DataBean data = dataBean.getData();
+                List<MyCollectionBean.DataBean.ListBean> list = data.getList();
+                int size = list.size();
+
+                collectionList.addAll(list);
+                myCollectionAdapter = new MyCollectionAdapter(collectionList,myCollectionActivity);
+                activityMyCollectionBinding.lvCollection.setAdapter(myCollectionAdapter);
+
+                //如果加载到最后一页，需要调用setLoadToLast()方法
+                if(size < limit){//说明到最后一页啦
+                    activityMyCollectionBinding.lvCollection.setLoadToLast();
+                }else {//不是最后一页
+                    offset += limit;
+                }
             }
         }
-
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
         }
     }
-
 
     //添加标签
     public  void addMyCollection(int type,int tid){
-        MyManager.addMyCollectionList(new onAddMyCollectionList(),type,tid,GlobalConstants.HttpUrl.MY_ADD_COLLECTION_ITEM);
+        MyManager.addMyCollectionList(new onAddMyCollectionList(),type,tid);
     }
-
-
-    //删除标签
-    public  void deleteMyCollection(int type,int tid){
-        MyManager.addMyCollectionList(new onAddMyCollectionList(),type,tid,GlobalConstants.HttpUrl.MY_DELETE_COLLECTION_ITEM);
-    }
-
 
     public class onAddMyCollectionList implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
@@ -119,8 +139,4 @@ public class MyCollectionModel extends BaseObservable  {
             LogKit.d("result:"+result);
         }
     }
-
-
-
-
 }

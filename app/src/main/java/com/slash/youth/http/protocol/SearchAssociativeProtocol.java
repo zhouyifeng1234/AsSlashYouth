@@ -14,9 +14,13 @@ import org.xutils.http.RequestParams;
 public class SearchAssociativeProtocol extends BaseProtocol<SearchAssociativeBean> {
     String tag;
     public SearchAssociativeBean searchAssociativeBean;
+    private int offset;
+    private int limit;
 
-    public SearchAssociativeProtocol(String tag) {
+    public SearchAssociativeProtocol(String tag,int offset,int limit) {
         this.tag = tag;
+        this.offset = offset;
+        this.limit = limit;
     }
 
     @Override
@@ -26,7 +30,9 @@ public class SearchAssociativeProtocol extends BaseProtocol<SearchAssociativeBea
 
     @Override
     public void addRequestParams(RequestParams params) {
-      params.addBodyParameter("tag",tag );
+      params.addBodyParameter("tag",tag);
+      params.addBodyParameter("offset", String.valueOf(offset));
+      params.addBodyParameter("limit", String.valueOf(limit));
     }
 
     @Override

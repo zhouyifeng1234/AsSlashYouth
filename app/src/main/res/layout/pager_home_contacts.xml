@@ -7,7 +7,7 @@
     </data>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -36,7 +36,7 @@
         <ListView
             android:id="@+id/lv_home_contacts_visitor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:divider="#E5E5E5"
             android:dividerHeight="1dp"
         >

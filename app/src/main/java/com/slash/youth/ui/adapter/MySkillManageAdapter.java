@@ -5,97 +5,100 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.slash.youth.domain.ManagerMyPublishTaskBean;
 import com.slash.youth.domain.MyCollectionBean;
+import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillManageBean;
+import com.slash.youth.domain.SkillManagerBean;
+import com.slash.youth.engine.MyManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.BaseHolder;
+import com.slash.youth.ui.holder.ManagePublishHolder;
 import com.slash.youth.ui.holder.MySkillManageHolder;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
 /**
  * Created by acer on 2016/11/3.
  */
-public class MySkillManageAdapter extends SlashBaseAdapter<SkillManageBean> {
+public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.DataBean.ListBean> {
 
     private MySkillManageActivity mySkillManageActivity;
-    private ArrayList<SkillManageBean> skillManageList;
+    private ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList;
     private MySkillManageHolder mySkillManageHolder;
+    private int index = -1;
 
-    public MySkillManageAdapter(ArrayList<SkillManageBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<SkillManageBean> skillManageList) {
+    public MySkillManageAdapter(ArrayList<SkillManagerBean.DataBean.ListBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList) {
         super(listData);
         this.mySkillManageActivity = mySkillManageActivity;
         this.skillManageList = skillManageList;
     }
 
     @Override
-    public ArrayList<SkillManageBean> onLoadMore() {
+    public ArrayList<SkillManagerBean.DataBean.ListBean> onLoadMore() {
         return null;
     }
 
     @Override
     public BaseHolder getHolder(int position) {
-        mySkillManageHolder = new MySkillManageHolder(position, mySkillManageActivity, skillManageList);
+        mySkillManageHolder = new MySkillManageHolder( mySkillManageActivity, skillManageList);
+        deleteItem();
         return mySkillManageHolder;
     }
 
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        BaseHolder holder;
-        if (convertView == null) {
-            if (getItemViewType(position) == HOLDER_TYPE_MORE) {
-                holder = getAddMoreHolder(position);
-            } else {
-                holder = getHolder(position);
+    //删除条目
+    public void deleteItem() {
+        mySkillManageHolder.setOnDeleteCklickListener(new MySkillManageHolder.OnDeleteClickListener() {
+            @Override
+            public void OnDeleteClick(int position) {
+                index = position;
+                showDialog();
             }
-        } else {
-            holder = (BaseHolder) convertView.getTag();
-        }
-        if (getItemViewType(position) != HOLDER_TYPE_MORE) {
-            holder.setData(getItem(position), position);
-        } else {
-            // holder.setData(AddMoreHolder.STATE_MORE_EMPTY);
-            AddMoreHolder addMoreHolder = (AddMoreHolder) holder;
-            if (addMoreHolder.getData() == AddMoreHolder.STATE_MORE_MORE) {
-                loadMore(addMoreHolder, position);
-            }
-        }
-        View rootView = holder.getRootView();
-        if (rootView != null) {
-            ImageView ivDeleteSkill = mySkillManageHolder.itemMySkillManageBinding.ivDeleteSkill;
-            ivDeleteSkill.setOnClickListener(new lvButtonListener(position));
-
-            return rootView;
-        } else {
-            TextView textViewNull = new TextView(CommonUtils.getContext());
-            textViewNull.setText("Null");
-            return textViewNull;
-        }
+        });
     }
 
+    private void showDialog() {
+        DialogUtils.showDialogFive(mySkillManageActivity, "是否删除该技能", "", new DialogUtils.DialogCallBack() {
+            @Override
+            public void OkDown() {
+                if(index!=-1){
+                SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(index);
+                int id = listBean.getId();
+                skillManageList.remove(index);
+                notifyDataSetChanged();
+                MyManager.onDeteleSkillManagerItem(new onAddMyCollectionList(),id);
+                }
+            }
 
-    class lvButtonListener implements View.OnClickListener {
-        private int position;
-        lvButtonListener(int pos) {
-            position = pos;
+            @Override
+            public void CancleDown() {
+                LogKit.d("取消删除");
+            }
+        });
+    }
+
+    public class onAddMyCollectionList implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                LogKit.d("status:"+status);
+            }
         }
 
         @Override
-        public void onClick(View v) {
-            listener.onItemRemove(position);
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
         }
     }
 
-    public interface onItemRemoveListener{
-        void onItemRemove( int index);
-    }
 
-    private onItemRemoveListener listener;
-    public void setItemRemoveListener ( onItemRemoveListener listener ) {
-        this.listener = listener;
-    }
 
 }

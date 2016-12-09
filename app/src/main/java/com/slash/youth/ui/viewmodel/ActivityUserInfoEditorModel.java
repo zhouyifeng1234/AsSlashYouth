@@ -2,18 +2,13 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.net.sip.SipAudioCall;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
-import com.slash.youth.domain.Bean;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UserInfoItemBean;
@@ -21,9 +16,7 @@ import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SetBaseProtocol;
-import com.slash.youth.http.protocol.SetJsonArrayBaseProtocol;
 import com.slash.youth.http.protocol.SetSaveUserInfoProtocol;
-import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.ui.activity.EditorIdentityActivity;
 import com.slash.youth.ui.activity.ReplacePhoneActivity;
@@ -32,19 +25,15 @@ import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.ToastUtil;
 import com.slash.youth.utils.ToastUtils;
 
 import org.xutils.x;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Created by zss on 2016/10/31.

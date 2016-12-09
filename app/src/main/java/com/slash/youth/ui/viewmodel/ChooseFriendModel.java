@@ -46,14 +46,7 @@ public class ChooseFriendModel  extends BaseObservable{
     }
 
     private void initData() {
-      /*  for (int i = 0; i < 10; i++) {
-            MyFriendListBean.DataBean.ListBean listBean = new MyFriendListBean.DataBean.ListBean();
-            listBean.setName("name"+i);
-            friendArrayList.add(listBean);
-        }*/
-
         ContactsManager.getMyFriendList(new onMyFriendList(),offset,limit);
-
         for (char cha = 'A'; cha <= 'Z'; cha++) {
             letterList.add(cha);
         }
@@ -61,8 +54,6 @@ public class ChooseFriendModel  extends BaseObservable{
     }
 
     private void initView() {
-        chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
-        activityChooseFriendBinding.lvFriend.setAdapter(chooseFriendAdapter);
         locationCityFirstLetterAdapter = new LocationCityFirstLetterAdapter(letterList);
         activityChooseFriendBinding.lvLetter.setAdapter(locationCityFirstLetterAdapter);
     }
@@ -93,10 +84,16 @@ public class ChooseFriendModel  extends BaseObservable{
     }
 
     private void showSendDialog(int position) {
-        DialogUtils.showDialogFive(chooseFriendActivtiy, "发给王鹏", "", new DialogUtils.DialogCallBack() {
+        MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
+        String name = listBean.getName();
+        DialogUtils.showDialogFive(chooseFriendActivtiy, "发给"+name, "", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 LogKit.d("OK");
+
+
+
+
             }
 
             @Override
@@ -115,6 +112,8 @@ public class ChooseFriendModel  extends BaseObservable{
                 List<MyFriendListBean.DataBean.ListBean> list = data.getList();
                 friendArrayList.addAll(list);
             }
+            chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
+            activityChooseFriendBinding.lvFriend.setAdapter(chooseFriendAdapter);
         }
         @Override
         public void executeResultError(String result) {
