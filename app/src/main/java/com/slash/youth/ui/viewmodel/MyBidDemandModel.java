@@ -186,7 +186,7 @@ public class MyBidDemandModel extends BaseObservable {
                 MyTaskBean taskinfo = myTaskItemBean.data.taskinfo;
                 innerDemandCardInfo = new InnerDemandCardInfo();
 
-                innerDemandCardInfo.uid = taskinfo.uid;
+                //innerDemandCardInfo.uid = taskinfo.uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
                 innerDemandCardInfo.avatar = taskinfo.avatar;
                 innerDemandCardInfo.username = taskinfo.name;
                 innerDemandCardInfo.isAuth = taskinfo.isauth;
@@ -217,6 +217,7 @@ public class MyBidDemandModel extends BaseObservable {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
+                innerDemandCardInfo.uid = dataBean.data.demand.uid;//使用需求详情接口种的uid
                 innerDemandCardInfo.suid = dataBean.data.demand.suid;
                 innerDemandCardInfo.bp = dataBean.data.demand.bp;
                 innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
@@ -233,6 +234,8 @@ public class MyBidDemandModel extends BaseObservable {
 
     private void setMyPublishDemandInfo() {
         //设置详细信息
+        getDemandUserInfo();//获取需求方的个人信息
+        getServiceUserInfo();//获取服务方的个人信息
         setDemandTitle(innerDemandCardInfo.title);
         SimpleDateFormat sdfStarttime = new SimpleDateFormat("开始时间:yyyy年MM月dd日 hh:mm");
         setStarttime(sdfStarttime.format(innerDemandCardInfo.starttime));

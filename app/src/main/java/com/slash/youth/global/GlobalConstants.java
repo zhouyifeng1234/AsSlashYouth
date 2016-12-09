@@ -321,8 +321,6 @@ public class GlobalConstants {
         public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
-        //登出
-        public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
         //十四，[我的]-[用户中心]-认证
         public static final String MY_CHECKOUT_AUTH = SERVER_HOST + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态
@@ -400,7 +398,6 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/del";
 
-        public static final String MY_FRIEND_LIST_ADD_ME_LIST = MY_FRIEND_LIST_HOST + "/addmelist";
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
         public static final String MY_CARE_PERSON = RELATION_HOST + "/myfollow";
@@ -413,7 +410,6 @@ public class GlobalConstants {
         //[关注]-取消关注动作
         public static final String CANNEL_CARE = RELATION_HOST+"/cancel";
 
-        public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
 
 
         //[推荐]-推荐好友
