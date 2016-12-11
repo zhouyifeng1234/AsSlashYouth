@@ -29,6 +29,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
+import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -51,9 +52,10 @@ public class MyPublishDemandModel extends BaseObservable {
     public MyPublishDemandModel(ActivityMyPublishDemandBinding activityMyPublishDemandBinding, Activity activity) {
         this.mActivityMyPublishDemandBinding = activityMyPublishDemandBinding;
         this.mActivity = activity;
-
+        displayLoadLayer();
         initData();
         initView();
+        initListener();
     }
 
     ArrayList<DemandFlowLogList.LogInfo> listLogInfo = new ArrayList<DemandFlowLogList.LogInfo>();
@@ -74,6 +76,30 @@ public class MyPublishDemandModel extends BaseObservable {
 
     private void initView() {
 
+    }
+
+    private void initListener() {
+        mActivityMyPublishDemandBinding.scRefresh.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                displayLoadLayer();
+                getDataFromServer();
+            }
+        });
+    }
+
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
     }
 
     public void goBack(View v) {
@@ -292,6 +318,8 @@ public class MyPublishDemandModel extends BaseObservable {
 
         displayStatusButton();
         displayStatusProgressCycle();
+
+        hideLoadLayer();
     }
 
     /**
@@ -486,6 +514,18 @@ public class MyPublishDemandModel extends BaseObservable {
     private int demandUserIsAuthVisibility = View.GONE;
     private String demandUsername;
     private String serviceUsername;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public String getServiceUsername() {

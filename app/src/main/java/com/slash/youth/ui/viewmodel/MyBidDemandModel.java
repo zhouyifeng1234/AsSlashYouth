@@ -21,6 +21,7 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -45,6 +46,7 @@ public class MyBidDemandModel extends BaseObservable {
         displayLoadLayer();
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
@@ -63,6 +65,16 @@ public class MyBidDemandModel extends BaseObservable {
 
     private void initView() {
 
+    }
+
+    private void initListener() {
+        mActivityMyBidDemandBinding.scRefresh.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                displayLoadLayer();
+                getDataFromServer();
+            }
+        });
     }
 
     /**

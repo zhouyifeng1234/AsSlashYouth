@@ -23,6 +23,7 @@ import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -56,8 +57,10 @@ public class MyPublishServiceModel extends BaseObservable {
     public MyPublishServiceModel(ActivityMyPublishServiceBinding activityMyPublishServiceBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityMyPublishServiceBinding = activityMyPublishServiceBinding;
+        displayLoadLayer();
         initData();
         initView();
+        initListener();
     }
 
     MyTaskBean myTaskBean;
@@ -71,6 +74,8 @@ public class MyPublishServiceModel extends BaseObservable {
         getDataFromServer();
     }
 
+    private int loadDataTimes = 0;//getTaskItemData、getServiceDetailFromServer、getServiceOrderInfoData、getDemandUserInfo、getServiceUserInfo五次都加载完毕，则数据加载完毕
+
     private void getDataFromServer() {
         getTaskItemData();
         getServiceDetailFromServer();//通过tid获取服务详情信息
@@ -79,6 +84,30 @@ public class MyPublishServiceModel extends BaseObservable {
 
     private void initView() {
         mChooseDateTimePicker = mActivityMyPublishServiceBinding.sdtpPublishServiceChooseDatetime;
+    }
+
+    private void initListener() {
+        mActivityMyPublishServiceBinding.scRefresh.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                displayLoadLayer();
+                getDataFromServer();
+            }
+        });
+    }
+
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
     }
 
     public void goBack(View v) {
@@ -341,6 +370,11 @@ public class MyPublishServiceModel extends BaseObservable {
                 soid = tid;//tid（任务id）就是soid(服务订单id)
                 fid = myTaskBean.instalmentcurr;//通过调试接口发现，这个字段当type=2为服务的时候，好像不准，一直都是0
                 initUpdateInstalmentList(myTaskBean.instalmentratio);
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -367,18 +401,18 @@ public class MyPublishServiceModel extends BaseObservable {
                 setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
                 //报价 这里不能使用服务详情接口返回的报价
                 quoteunit = service.quoteunit;
-                CommonUtils.getHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (orderQuote != -1) {
-                            if (quoteunit == 9) {
-                                setQuote(orderQuote + "元");
-                            } else if (quoteunit > 0 && quoteunit < 9) {
-                                setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
-                            }
-                        }
+//                CommonUtils.getHandler().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+                if (orderQuote != -1) {
+                    if (quoteunit == 9) {
+                        setQuote(orderQuote + "元");
+                    } else if (quoteunit > 0 && quoteunit < 9) {
+                        setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
                     }
-                });
+                }
+//                    }
+//                });
                 //分期
                 //这里不能用service详情的instalment，要用任务列表item的instalment
                 //但是 目前任务列表item中的分期信息（分期比例）也不对，"instalmentcurr": 0, "instalmentcurrfinish": 0, "instalmentratio": "",
@@ -408,6 +442,10 @@ public class MyPublishServiceModel extends BaseObservable {
                     setBpConsultVisibility(View.INVISIBLE);
                 }
 
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -427,18 +465,18 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceOrderInfoBean dataBean) {
                 orderQuote = dataBean.data.order.quote;
-                CommonUtils.getHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (quoteunit != -1) {
-                            if (quoteunit == 9) {
-                                setQuote(orderQuote + "元");
-                            } else if (quoteunit > 0 && quoteunit < 9) {
-                                setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
-                            }
-                        }
+//                CommonUtils.getHandler().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+                if (quoteunit != -1) {
+                    if (quoteunit == 9) {
+                        setQuote(orderQuote + "元");
+                    } else if (quoteunit > 0 && quoteunit < 9) {
+                        setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
                     }
-                });
+                }
+//                    }
+//                });
 
                 int status = dataBean.data.order.status;
                 displayStatusCycle(status);
@@ -447,6 +485,11 @@ public class MyPublishServiceModel extends BaseObservable {
                 duid = dataBean.data.order.uid;
                 getDemandUserInfo();
                 getServiceUserInfo();
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -473,6 +516,11 @@ public class MyPublishServiceModel extends BaseObservable {
                 setDemandUsername("需求方:" + uinfo.name);
 
                 LogKit.v("需求方信息 uinfo.id:" + uinfo.id);
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -499,6 +547,11 @@ public class MyPublishServiceModel extends BaseObservable {
                 setServiceUsername("服务方:" + uinfo.name);
 
                 LogKit.v("服务方信息 uinfo.id:" + uinfo.id);
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -631,6 +684,18 @@ public class MyPublishServiceModel extends BaseObservable {
     private String demandUsername;
     private int serviceUserIsAuthVisibility = View.GONE;
     private String serviceUsername;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public int getDemandUserIsAuthVisibility() {

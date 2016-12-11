@@ -56,7 +56,8 @@
 
             </RelativeLayout>
 
-            <ScrollView
+            <com.slash.youth.ui.view.RefreshScrollView
+                android:id="@+id/sc_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
@@ -794,7 +795,7 @@
 
 
                 </LinearLayout>
-            </ScrollView>
+            </com.slash.youth.ui.view.RefreshScrollView>
 
 
         </LinearLayout>
@@ -874,6 +875,35 @@
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="@{myBidServiceModel.loadLayerVisibility}">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
             </LinearLayout>
 
         </FrameLayout>
