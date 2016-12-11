@@ -127,7 +127,6 @@ public class ActivityLoginModel extends BaseObservable {
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
         mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.QQ, umAuthListener);
 
-
     }
 
     public void weiboLogin(View v) {
@@ -172,18 +171,36 @@ public class ActivityLoginModel extends BaseObservable {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             ToastUtils.shortToast("Authorize succeed");
+            UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
             switch (platform) {
                 case QQ:
                     String QQ_access_token = data.get("access_token");
                     String uid = data.get("uid");
                     SpUtils.setString("QQ_token", QQ_access_token);
                     SpUtils.setString("QQ_uid", uid);
+
+                    LogKit.v("QQ_access_token:" + QQ_access_token + " uid:" + uid);
+
+
+//                    mShareAPI.getPlatformInfo(loginActivity, SHARE_MEDIA.QQ, umAuthListenerForUserInfo);
                     break;
                 case WEIXIN:
+                    LogKit.v("weixin data size:" + data.size());
+                    for (String key : data.keySet()) {
+                        LogKit.v(key + ":" + data.get(key));
+                    }
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
                     SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
                     SpUtils.setString("WEIXIN_uid", openid);
+
+                    LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + " openid:" + openid);
+
+//                    mShareAPI.getPlatformInfo(loginActivity, SHARE_MEDIA.WEIXIN, umAuthListenerForUserInfo);
+//                    if (Build.VERSION.SDK_INT >= 23) {
+//                        String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+//                        ActivityCompat.requestPermissions(loginActivity, mPermissionList, 123);
+//                    }
                     break;
             }
         }
@@ -196,6 +213,40 @@ public class ActivityLoginModel extends BaseObservable {
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
             ToastUtils.shortToast("Authorize cancel");
+        }
+    };
+
+    private UMAuthListener umAuthListenerForUserInfo = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            ToastUtils.shortToast("GetUserInfo succeed");
+            String name;
+            String gender;
+            String city;
+            switch (platform) {
+                case QQ:
+                    name = data.get("screen_name");
+                    gender = data.get("gender");
+                    city = data.get("city");
+                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
+                    break;
+                case WEIXIN:
+                    name = data.get("screen_name");
+                    gender = data.get("gender");
+                    city = data.get("city");
+                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
+                    break;
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            ToastUtils.shortToast("GetUserInfo fail");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            ToastUtils.shortToast("GetUserInfo cancel");
         }
     };
 
