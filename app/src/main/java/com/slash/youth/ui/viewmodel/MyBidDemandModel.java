@@ -42,6 +42,7 @@ public class MyBidDemandModel extends BaseObservable {
     public MyBidDemandModel(ActivityMyBidDemandBinding activityMyBidDemandBinding, Activity activity) {
         this.mActivityMyBidDemandBinding = activityMyBidDemandBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initData();
         initView();
     }
@@ -62,6 +63,20 @@ public class MyBidDemandModel extends BaseObservable {
 
     private void initView() {
 
+    }
+
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
     }
 
     public void goBack(View v) {
@@ -270,6 +285,8 @@ public class MyBidDemandModel extends BaseObservable {
 
         displayStatusButton();
         displayStatusProgressCycle();
+
+        hideLoadLayer();
     }
 
 
@@ -456,6 +473,18 @@ public class MyBidDemandModel extends BaseObservable {
     private int demandUserIsAuthVisibility = View.GONE;
     private String demandUsername;
     private String serviceUsername;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public String getServiceUsername() {

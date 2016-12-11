@@ -84,14 +84,15 @@
 
                     </LinearLayout>
 
-                    <ListView
+                    <com.slash.youth.ui.view.RefreshListView
                         android:id="@+id/lv_my_task_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:divider="@android:color/transparent"
+                    android:listSelector="@android:color/transparent"
                     >
 
-                    </ListView>
+                    </com.slash.youth.ui.view.RefreshListView>
                 </LinearLayout>
 
                 <LinearLayout
