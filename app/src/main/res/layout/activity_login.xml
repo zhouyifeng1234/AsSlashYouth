@@ -6,26 +6,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/logiin_bg"
+        android:background="@mipmap/bg_Login"
     >
-
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="130dp"
-            android:text="斜杠青年"
-            android:textColor="#ffffff"
-            android:textSize="52sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="192dp"
-            android:text="开启你的斜杠之旅  创造你的碎片价值"
-            android:textColor="#ffffff"
-            android:textSize="13sp"/>
+            android:layout_marginTop="145dp"
+            android:src="@mipmap/written_logo"/>
 
         <LinearLayout
             android:layout_width="265dp"
@@ -74,85 +62,128 @@
                     android:textColorHint="#ffffff"
                     android:textSize="11.5sp"/>
             </RelativeLayout>
-
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="17dp"
                 android:background="@mipmap/login_button"
                 android:onClick="@{activityLoginModel.login}"
-                android:text="登录"
+                android:text="进入"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:textSize="14.5sp"
             />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="19dp"
-                android:orientation="horizontal">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="60dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{activityLoginModel.qqLogin}"
-                    android:src="@mipmap/login_qq"
-                />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{activityLoginModel.wechatLogin}"
-                    android:src="@mipmap/login_weixin"
-                />
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{activityLoginModel.weiboLogin}"
-                    android:src="@mipmap/login_weibo"
-                />
-            </LinearLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
-        >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="17dp"
                 android:text="遇到问题?"
                 android:textColor="#ffffff"
                 android:textSize="15sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:onClick="@{activityLoginModel.register}"
-                android:text="新手注册"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
-                android:visibility="@{activityLoginModel.registerVisibility}"/>
+        </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:onClick="@{activityLoginModel.gotoLogin}"
-                android:text="我有账号,去登录"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
-                android:visibility="@{activityLoginModel.gotoLoginVisibility}"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            android:orientation="vertical">
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:background="#33ffffff"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第三方登录"
+                    android:textColor="#a1b2c1"
+                    android:textSize="12sp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="1"
+                    android:background="#33ffffff"/>
+
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="19dp"
+                android:layout_marginTop="13dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:onClick="@{activityLoginModel.wechatLogin}"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/login_weixin"
+                    />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="9dp"
+                        android:text="微信登录"
+                        android:textColor="#a1b2c1"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:onClick="@{activityLoginModel.qqLogin}"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/login_qq"
+                    />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="9dp"
+                        android:text="QQ登录"
+                        android:textColor="#a1b2c1"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 </layout>
