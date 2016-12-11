@@ -15,9 +15,13 @@ import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -217,7 +221,7 @@ public class MyBidDemandModel extends BaseObservable {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
-                innerDemandCardInfo.uid = dataBean.data.demand.uid;//使用需求详情接口种的uid
+                innerDemandCardInfo.uid = dataBean.data.demand.uid;//使用需求详情接口中的uid
                 innerDemandCardInfo.suid = dataBean.data.demand.suid;
                 innerDemandCardInfo.bp = dataBean.data.demand.bp;
                 innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
@@ -267,6 +271,60 @@ public class MyBidDemandModel extends BaseObservable {
         displayStatusButton();
         displayStatusProgressCycle();
     }
+
+
+    /**
+     * 获取需求方方用户信息
+     */
+    private void getDemandUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setDemandUserIsAuthVisibility(View.GONE);
+                } else {
+                    setDemandUserIsAuthVisibility(View.VISIBLE);
+                }
+                setDemandUsername("需求方:" + uinfo.name);
+
+                LogKit.v("需求方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取需求方用户信息失败");
+            }
+        }, innerDemandCardInfo.uid + "", "0");
+    }
+
+    /**
+     * 获取服务方用户信息
+     */
+    private void getServiceUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setServiceUserIsAuthVisibility(View.GONE);
+                } else {
+                    setServiceUserIsAuthVisibility(View.VISIBLE);
+                }
+                setServiceUsername("服务方:" + uinfo.name);
+
+                LogKit.v("服务方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取服务方用户信息失败");
+            }
+        }, innerDemandCardInfo.suid + "", "0");
+    }
+
 
     private void displayStatusButton() {
         int status = innerDemandCardInfo.status;
@@ -393,6 +451,52 @@ public class MyBidDemandModel extends BaseObservable {
     private int instalmentVisibility;
     private String instalmentRatio;//30%/40%/40%/50%
     private int bpConsultVisibility;
+
+    private int serviceUserIsAuthVisibility = View.GONE;
+    private int demandUserIsAuthVisibility = View.GONE;
+    private String demandUsername;
+    private String serviceUsername;
+
+    @Bindable
+    public String getServiceUsername() {
+        return serviceUsername;
+    }
+
+    public void setServiceUsername(String serviceUsername) {
+        this.serviceUsername = serviceUsername;
+        notifyPropertyChanged(BR.serviceUsername);
+    }
+
+    @Bindable
+    public String getDemandUsername() {
+        return demandUsername;
+    }
+
+    public void setDemandUsername(String demandUsername) {
+        this.demandUsername = demandUsername;
+        notifyPropertyChanged(BR.demandUsername);
+    }
+
+
+    @Bindable
+    public int getServiceUserIsAuthVisibility() {
+        return serviceUserIsAuthVisibility;
+    }
+
+    public void setServiceUserIsAuthVisibility(int serviceUserIsAuthVisibility) {
+        this.serviceUserIsAuthVisibility = serviceUserIsAuthVisibility;
+        notifyPropertyChanged(BR.serviceUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public int getDemandUserIsAuthVisibility() {
+        return demandUserIsAuthVisibility;
+    }
+
+    public void setDemandUserIsAuthVisibility(int demandUserIsAuthVisibility) {
+        this.demandUserIsAuthVisibility = demandUserIsAuthVisibility;
+        notifyPropertyChanged(BR.demandUserIsAuthVisibility);
+    }
 
     @Bindable
     public int getBpConsultVisibility() {

@@ -98,6 +98,7 @@
                                         android:layout_height="40dp"
                                         android:layout_gravity="center_horizontal">
                                         <ImageView
+                                            android:id="@+id/iv_demand_user_avatar"
                                             android:layout_width="39dp"
                                             android:layout_height="39dp"
                                             android:src="@mipmap/assistant_icon"/>
@@ -105,14 +106,15 @@
                                             android:layout_width="9dp"
                                             android:layout_height="9dp"
                                             android:layout_gravity="right|bottom"
-                                            android:src="@mipmap/small_v_icon"/>
+                                            android:src="@mipmap/small_v_icon"
+                                            android:visibility="@{myPublishDemandModel.demandUserIsAuthVisibility}"/>
                                     </FrameLayout>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="6dp"
-                                        android:text="需求方:曹文成"
+                                        android:text="@{myPublishDemandModel.demandUsername}"
                                         android:textColor="#CCCCCC"
                                         android:textSize="11sp"/>
 
@@ -137,6 +139,7 @@
                                         android:layout_height="40dp"
                                         android:layout_gravity="center_horizontal">
                                         <ImageView
+                                            android:id="@+id/iv_service_user_avatar"
                                             android:layout_width="39dp"
                                             android:layout_height="39dp"
                                             android:src="@mipmap/assistant_icon"/>
@@ -144,14 +147,15 @@
                                             android:layout_width="9dp"
                                             android:layout_height="9dp"
                                             android:layout_gravity="right|bottom"
-                                            android:src="@mipmap/small_v_icon"/>
+                                            android:src="@mipmap/small_v_icon"
+                                            android:visibility="@{myPublishDemandModel.serviceUserIsAuthVisibility}"/>
                                     </FrameLayout>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="6dp"
-                                        android:text="服务方:曹晓琳"
+                                        android:text="@{myPublishDemandModel.serviceUsername}"
                                         android:textColor="#CCCCCC"
                                         android:textSize="11sp"/>
 
@@ -182,7 +186,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="做一个互联网公司企业宣传策划案"
+                                        android:text="@{myPublishDemandModel.demandTitle}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"
                                         android:textStyle="bold"/>
@@ -191,9 +195,10 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="14dp"
-                                        android:text="开始时间:2016年9月18日 8:00"
+                                        android:text="@{myPublishDemandModel.starttime}"
                                         android:textColor="#999999"
                                         android:textSize="13sp"/>
+                                    <!--开始时间:2016年9月18日 8:00-->
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -205,9 +210,10 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
-                                            android:text="300元"
+                                            android:text="@{myPublishDemandModel.quote}"
                                             android:textColor="#FF7333"
                                             android:textSize="13sp"/>
+                                        <!--300元-->
                                         <TextView
                                             android:layout_width="26dp"
                                             android:layout_height="15dp"
@@ -217,15 +223,18 @@
                                             android:gravity="center"
                                             android:text="分期"
                                             android:textColor="#31C5E4"
-                                            android:textSize="11sp"/>
+                                            android:textSize="11sp"
+                                            android:visibility="@{myPublishDemandModel.instalmentVisibility}"/>
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
                                             android:layout_marginLeft="6dp"
-                                            android:text="30%/40%/40%/50%"
+                                            android:text="@{myPublishDemandModel.instalmentRatio}"
                                             android:textColor="#999999"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp"
+                                            android:visibility="@{myPublishDemandModel.instalmentVisibility}"/>
+                                        <!--30%/40%/40%/50%-->
                                     </LinearLayout>
 
                                 </LinearLayout>
@@ -236,7 +245,8 @@
                                     android:layout_gravity="right|bottom"
                                     android:layout_marginBottom="16dp"
                                     android:layout_marginRight="10dp"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="@{myPublishDemandModel.bpConsultVisibility}">
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"

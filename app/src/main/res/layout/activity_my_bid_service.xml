@@ -97,6 +97,7 @@
                                         android:layout_height="40dp"
                                         android:layout_gravity="center_horizontal">
                                         <ImageView
+                                            android:id="@+id/iv_demand_user_avatar"
                                             android:layout_width="39dp"
                                             android:layout_height="39dp"
                                             android:src="@mipmap/assistant_icon"/>
@@ -104,14 +105,15 @@
                                             android:layout_width="9dp"
                                             android:layout_height="9dp"
                                             android:layout_gravity="right|bottom"
-                                            android:src="@mipmap/small_v_icon"/>
+                                            android:src="@mipmap/small_v_icon"
+                                            android:visibility="@{myBidServiceModel.demandUserIsAuthVisibility}"/>
                                     </FrameLayout>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="6dp"
-                                        android:text="需求方:曹文成"
+                                        android:text="@{myBidServiceModel.demandUsername}"
                                         android:textColor="#CCCCCC"
                                         android:textSize="11sp"/>
 
@@ -136,6 +138,7 @@
                                         android:layout_height="40dp"
                                         android:layout_gravity="center_horizontal">
                                         <ImageView
+                                            android:id="@+id/iv_service_user_avatar"
                                             android:layout_width="39dp"
                                             android:layout_height="39dp"
                                             android:src="@mipmap/assistant_icon"/>
@@ -143,14 +146,15 @@
                                             android:layout_width="9dp"
                                             android:layout_height="9dp"
                                             android:layout_gravity="right|bottom"
-                                            android:src="@mipmap/small_v_icon"/>
+                                            android:src="@mipmap/small_v_icon"
+                                            android:visibility="@{myBidServiceModel.serviceUserIsAuthVisibility}"/>
                                     </FrameLayout>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="6dp"
-                                        android:text="服务方:曹晓琳"
+                                        android:text="@{myBidServiceModel.serviceUsername}"
                                         android:textColor="#CCCCCC"
                                         android:textSize="11sp"/>
 

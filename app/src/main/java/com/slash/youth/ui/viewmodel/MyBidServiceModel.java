@@ -17,13 +17,18 @@ import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.ServiceInstalmentListBean;
 import com.slash.youth.domain.ServiceOrderInfoBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.ServiceEngine;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +48,7 @@ public class MyBidServiceModel extends BaseObservable {
     private int fid;//当前是第几期
     private double orderQuote = -1;//必须是服务订单信息接口返回的报价才是准确的
     private int quoteunit = -1;
+    private long duid;//服务订单中的需求方ID
     String[] optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
 
     public MyBidServiceModel(ActivityMyBidServiceBinding activityMyBidServiceBinding, Activity activity) {
@@ -336,6 +342,9 @@ public class MyBidServiceModel extends BaseObservable {
                 displayStatusCycle(status);
                 displayStatusButton(dataBean);//显示对应不同状态的操作按钮
                 suid = dataBean.data.order.suid;
+                duid = dataBean.data.order.uid;
+                getDemandUserInfo();
+                getServiceUserInfo();
             }
 
             @Override
@@ -343,6 +352,58 @@ public class MyBidServiceModel extends BaseObservable {
 
             }
         }, soid + "");
+    }
+
+    /**
+     * 获取需求者信息
+     */
+    private void getDemandUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setDemandUserIsAuthVisibility(View.GONE);
+                } else {
+                    setDemandUserIsAuthVisibility(View.VISIBLE);
+                }
+                setDemandUsername("需求方:" + uinfo.name);
+
+                LogKit.v("需求方信息 uinfo.id:" + uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取需求方信息失败:" + result);
+            }
+        }, duid + "", "0");
+    }
+
+    /**
+     * 获取服务者信息
+     */
+    private void getServiceUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setServiceUserIsAuthVisibility(View.GONE);
+                } else {
+                    setServiceUserIsAuthVisibility(View.VISIBLE);
+                }
+                setServiceUsername("服务方:" + uinfo.name);
+
+                LogKit.v("服务方信息 uinfo.id:" + uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取服务方信息失败:" + result);
+            }
+        }, suid + "", "0");
     }
 
     ArrayList<ServiceInstalmentListBean.InstalmentInfo> instalmentInfoList;
@@ -474,6 +535,51 @@ public class MyBidServiceModel extends BaseObservable {
     private int confirmFinishVisibility = View.GONE;
     private int paymentVisibility = View.GONE;
     private int rectifyLayerVisibility = View.GONE;//延期支付的浮层是否可见，默认为不可见
+
+    private int demandUserIsAuthVisibility = View.GONE;
+    private String demandUsername;
+    private int serviceUserIsAuthVisibility = View.GONE;
+    private String serviceUsername;
+
+    @Bindable
+    public int getDemandUserIsAuthVisibility() {
+        return demandUserIsAuthVisibility;
+    }
+
+    public void setDemandUserIsAuthVisibility(int demandUserIsAuthVisibility) {
+        this.demandUserIsAuthVisibility = demandUserIsAuthVisibility;
+        notifyPropertyChanged(BR.demandUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public String getDemandUsername() {
+        return demandUsername;
+    }
+
+    public void setDemandUsername(String demandUsername) {
+        this.demandUsername = demandUsername;
+        notifyPropertyChanged(BR.demandUsername);
+    }
+
+    @Bindable
+    public int getServiceUserIsAuthVisibility() {
+        return serviceUserIsAuthVisibility;
+    }
+
+    public void setServiceUserIsAuthVisibility(int serviceUserIsAuthVisibility) {
+        this.serviceUserIsAuthVisibility = serviceUserIsAuthVisibility;
+        notifyPropertyChanged(BR.serviceUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public String getServiceUsername() {
+        return serviceUsername;
+    }
+
+    public void setServiceUsername(String serviceUsername) {
+        this.serviceUsername = serviceUsername;
+        notifyPropertyChanged(BR.serviceUsername);
+    }
 
     @Bindable
     public int getRectifyLayerVisibility() {

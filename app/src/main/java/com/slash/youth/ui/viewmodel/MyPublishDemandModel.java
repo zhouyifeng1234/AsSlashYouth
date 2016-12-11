@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -19,15 +20,21 @@ import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -205,7 +212,7 @@ public class MyPublishDemandModel extends BaseObservable {
                 MyTaskBean taskinfo = myTaskItemBean.data.taskinfo;
                 innerDemandCardInfo = new InnerDemandCardInfo();
 
-                innerDemandCardInfo.uid = taskinfo.uid;
+                //innerDemandCardInfo.uid = taskinfo.uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
                 innerDemandCardInfo.avatar = taskinfo.avatar;
                 innerDemandCardInfo.username = taskinfo.name;
                 innerDemandCardInfo.isAuth = taskinfo.isauth;
@@ -235,6 +242,7 @@ public class MyPublishDemandModel extends BaseObservable {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
+                innerDemandCardInfo.uid = dataBean.data.demand.uid;//使用需求详情接口中的uid
                 innerDemandCardInfo.suid = dataBean.data.demand.suid;
                 innerDemandCardInfo.bp = dataBean.data.demand.bp;
                 innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
@@ -251,10 +259,91 @@ public class MyPublishDemandModel extends BaseObservable {
 
     private void setMyPublishDemandInfo() {
         //设置详细信息
+        getDemandUserInfo();//获取需求方的个人信息
+        getServiceUserInfo();//获取服务方的个人信息
+        setDemandTitle(innerDemandCardInfo.title);
+        SimpleDateFormat sdfStarttime = new SimpleDateFormat("开始时间:yyyy年MM月dd日 hh:mm");
+        setStarttime(sdfStarttime.format(innerDemandCardInfo.starttime));
+        setQuote(innerDemandCardInfo.quote + "元");
+        if (innerDemandCardInfo.instalment == 1) {//分期
+            setInstalmentVisibility(View.VISIBLE);
+            String[] ratios = innerDemandCardInfo.instalmentratio.split(",");
+            String ratioStr = "";
+            for (int i = 0; i < ratios.length; i++) {
+                String ratio = ratios[i];
+                if (TextUtils.isEmpty(ratio)) {
+                    continue;
+                }
+                if (i == ratios.length - 1) {
+                    ratioStr += ratio + "%";
+                } else {
+                    ratioStr += ratio + "%/";
+                }
+            }
+        } else {//不分期
+            setInstalmentVisibility(View.GONE);
+        }
+        if (innerDemandCardInfo.bp == 2) {//协商
+            setBpConsultVisibility(View.VISIBLE);
+        } else { //1 平台
+            setBpConsultVisibility(View.GONE);
+        }
 
 
         displayStatusButton();
         displayStatusProgressCycle();
+    }
+
+    /**
+     * 获取需求方方用户信息
+     */
+    private void getDemandUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyPublishDemandBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setDemandUserIsAuthVisibility(View.GONE);
+                } else {
+                    setDemandUserIsAuthVisibility(View.VISIBLE);
+                }
+                setDemandUsername("需求方:" + uinfo.name);
+
+                LogKit.v("需求方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取需求方用户信息失败");
+            }
+        }, innerDemandCardInfo.uid + "", "0");
+    }
+
+    /**
+     * 获取服务方用户信息
+     */
+    private void getServiceUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyPublishDemandBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setServiceUserIsAuthVisibility(View.GONE);
+                } else {
+                    setServiceUserIsAuthVisibility(View.VISIBLE);
+                }
+                setServiceUsername("服务方:" + uinfo.name);
+
+                LogKit.v("服务方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取服务方用户信息失败");
+            }
+        }, innerDemandCardInfo.suid + "", "0");
     }
 
     private void displayStatusButton() {
@@ -385,6 +474,119 @@ public class MyPublishDemandModel extends BaseObservable {
     private int commentVisibility = View.GONE;
     private int rectifyVisibility = View.GONE;
     private int rectifyLayerVisibility = View.GONE;
+
+    private String demandTitle;
+    private String starttime; //开始时间:2016年9月18日 8:00
+    private String quote;   //300元
+    private int instalmentVisibility;
+    private String instalmentRatio;//30%/40%/40%/50%
+    private int bpConsultVisibility;
+
+    private int serviceUserIsAuthVisibility = View.GONE;
+    private int demandUserIsAuthVisibility = View.GONE;
+    private String demandUsername;
+    private String serviceUsername;
+
+    @Bindable
+    public String getServiceUsername() {
+        return serviceUsername;
+    }
+
+    public void setServiceUsername(String serviceUsername) {
+        this.serviceUsername = serviceUsername;
+        notifyPropertyChanged(BR.serviceUsername);
+    }
+
+    @Bindable
+    public String getDemandUsername() {
+        return demandUsername;
+    }
+
+    public void setDemandUsername(String demandUsername) {
+        this.demandUsername = demandUsername;
+        notifyPropertyChanged(BR.demandUsername);
+    }
+
+
+    @Bindable
+    public int getServiceUserIsAuthVisibility() {
+        return serviceUserIsAuthVisibility;
+    }
+
+    public void setServiceUserIsAuthVisibility(int serviceUserIsAuthVisibility) {
+        this.serviceUserIsAuthVisibility = serviceUserIsAuthVisibility;
+        notifyPropertyChanged(BR.serviceUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public int getDemandUserIsAuthVisibility() {
+        return demandUserIsAuthVisibility;
+    }
+
+    public void setDemandUserIsAuthVisibility(int demandUserIsAuthVisibility) {
+        this.demandUserIsAuthVisibility = demandUserIsAuthVisibility;
+        notifyPropertyChanged(BR.demandUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public int getBpConsultVisibility() {
+        return bpConsultVisibility;
+    }
+
+    public void setBpConsultVisibility(int bpConsultVisibility) {
+        this.bpConsultVisibility = bpConsultVisibility;
+        notifyPropertyChanged(BR.bpConsultVisibility);
+    }
+
+    @Bindable
+    public String getQuote() {
+        return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
+        notifyPropertyChanged(BR.quote);
+    }
+
+    @Bindable
+    public int getInstalmentVisibility() {
+        return instalmentVisibility;
+    }
+
+    public void setInstalmentVisibility(int instalmentVisibility) {
+        this.instalmentVisibility = instalmentVisibility;
+        notifyPropertyChanged(BR.instalmentVisibility);
+    }
+
+    @Bindable
+    public String getInstalmentRatio() {
+        return instalmentRatio;
+    }
+
+    public void setInstalmentRatio(String instalmentRatio) {
+        this.instalmentRatio = instalmentRatio;
+        notifyPropertyChanged(BR.instalmentRatio);
+    }
+
+    @Bindable
+    public String getDemandTitle() {
+        return demandTitle;
+    }
+
+    public void setDemandTitle(String demandTitle) {
+        this.demandTitle = demandTitle;
+        notifyPropertyChanged(BR.demandTitle);
+    }
+
+    @Bindable
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(String starttime) {
+        this.starttime = starttime;
+        notifyPropertyChanged(BR.starttime);
+    }
 
     @Bindable
     public int getCommentVisibility() {
