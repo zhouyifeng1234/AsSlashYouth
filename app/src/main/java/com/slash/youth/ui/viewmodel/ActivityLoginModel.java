@@ -4,7 +4,6 @@ package com.slash.youth.ui.viewmodel;
 import android.Manifest;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -14,11 +13,8 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
-import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.engine.LoginManager;
-import com.slash.youth.ui.activity.HomeActivity;
-import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -55,7 +51,7 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     private void initView() {
-        setRegisterAndLoginTextVisibility();
+//        setRegisterAndLoginTextVisibility();
     }
 
 
@@ -86,7 +82,7 @@ public class ActivityLoginModel extends BaseObservable {
         CommonUtils.getContext().startActivity(intentChatActivity);
 */
 
-       // Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        // Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
 ////        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
 //
 //        Bundle taskInfoBundle = new Bundle();
@@ -97,7 +93,6 @@ public class ActivityLoginModel extends BaseObservable {
 //
 //        intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentChatActivity);
-
 
 
     }
@@ -111,7 +106,7 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     public void wechatLogin(View v) {
-      //  LoginManager.loginWeChat();
+        //  LoginManager.loginWeChat();
 
 
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
@@ -177,18 +172,18 @@ public class ActivityLoginModel extends BaseObservable {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             ToastUtils.shortToast("Authorize succeed");
-            switch (platform){
+            switch (platform) {
                 case QQ:
                     String QQ_access_token = data.get("access_token");
                     String uid = data.get("uid");
-                    SpUtils.setString("QQ_token",QQ_access_token);
-                    SpUtils.setString("QQ_uid",uid);
+                    SpUtils.setString("QQ_token", QQ_access_token);
+                    SpUtils.setString("QQ_uid", uid);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
-                    SpUtils.setString("WEIXIN_token",WEIXIN_access_token);
-                    SpUtils.setString("WEIXIN_uid",openid);
+                    SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
+                    SpUtils.setString("WEIXIN_uid", openid);
                     break;
             }
         }
@@ -204,48 +199,4 @@ public class ActivityLoginModel extends BaseObservable {
         }
     };
 
-    private int registerVisibility;
-    private int gotoLoginVisibility;
-
-    @Bindable
-    public int getGotoLoginVisibility() {
-        return gotoLoginVisibility;
-    }
-
-    public void setGotoLoginVisibility(int gotoLoginVisibility) {
-        this.gotoLoginVisibility = gotoLoginVisibility;
-        notifyPropertyChanged(BR.gotoLoginVisibility);
-    }
-
-    @Bindable
-    public int getRegisterVisibility() {
-        return registerVisibility;
-    }
-
-    public void setRegisterVisibility(int registerVisibility) {
-        this.registerVisibility = registerVisibility;
-        notifyPropertyChanged(BR.registerVisibility);
-    }
-
-    //跳转到“新手注册”状态
-    public void register(View v) {
-        currentPageState = PAGE_STATE_REGISTER;
-        setRegisterAndLoginTextVisibility();
-    }
-
-    //跳转到“我有账号,去登录”状态
-    public void gotoLogin(View v) {
-        currentPageState = PAGE_STATE_GOTOLOGIN;
-        setRegisterAndLoginTextVisibility();
-    }
-
-    public void setRegisterAndLoginTextVisibility() {
-        if (currentPageState == PAGE_STATE_GOTOLOGIN) {
-            setRegisterVisibility(View.VISIBLE);
-            setGotoLoginVisibility(View.INVISIBLE);
-        } else if (currentPageState == PAGE_STATE_REGISTER) {
-            setRegisterVisibility(View.INVISIBLE);
-            setGotoLoginVisibility(View.VISIBLE);
-        }
-    }
 }

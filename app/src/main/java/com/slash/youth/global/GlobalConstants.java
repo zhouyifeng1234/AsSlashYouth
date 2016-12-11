@@ -27,8 +27,12 @@ public class GlobalConstants {
      * 项目中所用到的第三方API的APPID
      */
     public static class ThirdAppId {
-        public static final String APPID_WECHAT = "wx34aecd5b12c34dcb";
+        public static final String APPID_WECHAT = "wxd887a217ea83d9c1";
+        public static final String AppSecret_WECHAT = "a5337049e79454c5aaa8ee94e58148d";
+
         public static final String APPID_QQ = "1105561277";
+        public static final String APPKEY_QQ = "KEYdTjSTFTETKfrFEtl";
+
         public static final String APPID_WEIBO = "2605297956";
         public static final String APPID_ALIPAY = "";
         public static final String APPID_RONG_CLOUD = "";
@@ -364,17 +368,17 @@ public class GlobalConstants {
         public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST + "/del";
 
         //管理我发布的
-        public static final String MANAGE_PUBLISH_HOST ="http://121.42.145.178/feed/v1/api/mytaskmanagement";
-        public static final String MANAGE_PUBLISH_LIST =MANAGE_PUBLISH_HOST+"/list";
-        public static final String MANAGE_PUBLISH_DELETE =MANAGE_PUBLISH_HOST+"/del";
-        public static final String MANAGE_PUBLISH_UP_AND_DOWN =MANAGE_PUBLISH_HOST+"/manage";
+        public static final String MANAGE_PUBLISH_HOST = "http://121.42.145.178/feed/v1/api/mytaskmanagement";
+        public static final String MANAGE_PUBLISH_LIST = MANAGE_PUBLISH_HOST + "/list";
+        public static final String MANAGE_PUBLISH_DELETE = MANAGE_PUBLISH_HOST + "/del";
+        public static final String MANAGE_PUBLISH_UP_AND_DOWN = MANAGE_PUBLISH_HOST + "/manage";
 
         //技能管理
-        public static final String SKILL_MANAGE_HOST ="http://121.42.145.178/feed/v1/api/myservicemanagement";
-        public static final String SKILL_MANAGE_LIST =SKILL_MANAGE_HOST+"/list";
-        public static final String SKILL_MANAGE_DELETE =SKILL_MANAGE_HOST+"/del";
-        public static final String ADD_SKILL_TEMPLET =SKILL_MANAGE_HOST+"/add";
-        public static final String GET_SKILL_TEMPLET =SKILL_MANAGE_HOST+"/one";
+        public static final String SKILL_MANAGE_HOST = "http://121.42.145.178/feed/v1/api/myservicemanagement";
+        public static final String SKILL_MANAGE_LIST = SKILL_MANAGE_HOST + "/list";
+        public static final String SKILL_MANAGE_DELETE = SKILL_MANAGE_HOST + "/del";
+        public static final String ADD_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/add";
+        public static final String GET_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/one";
 
         //[我的人脉]-人脉首页
         public static final String PERSON_RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation";
@@ -388,36 +392,31 @@ public class GlobalConstants {
         public static final String MY_FRIEND_LIST_HOST = "http://121.42.145.178/uinfo/v1/api/relation/friend";
         public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST + "/list";
         //[好友]-查看加我的列表
-        public static final String MY_FRIEND_LIST_ADD_ME_LIST =MY_FRIEND_LIST_HOST+"/addmelist";
+        public static final String MY_FRIEND_LIST_ADD_ME_LIST = MY_FRIEND_LIST_HOST + "/addmelist";
         //同意添加为好友
-        public static final String  AGREE_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/approval";
+        public static final String AGREE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/approval";
         //[好友]-发起好友申请
-        public static final String  ADD_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/add";
+        public static final String ADD_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/add";
         //[好友]-验证好友状态
-        public static final String  TEST_FRIEND_STATUE = MY_FRIEND_LIST_HOST+"/isfriend";
+        public static final String TEST_FRIEND_STATUE = MY_FRIEND_LIST_HOST + "/isfriend";
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
-        public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST+"/del";
+        public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
 
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
         public static final String MY_CARE_PERSON = RELATION_HOST + "/myfollow";
         //[关注]-查询我的粉丝
-        public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
-       //[关注]-关注动作
-       public static final String  CARE_TA = RELATION_HOST+"/add";
+        public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
+        //[关注]-关注动作
+        public static final String CARE_TA = RELATION_HOST + "/add";
         //[关注]-我和某用户的关系
-        public static final String IS_FOLLOW = RELATION_HOST+"/isfollow";
+        public static final String IS_FOLLOW = RELATION_HOST + "/isfollow";
         //[关注]-取消关注动作
-        public static final String CANNEL_CARE = RELATION_HOST+"/cancel";
-
+        public static final String CANNEL_CARE = RELATION_HOST + "/cancel";
 
 
         //[推荐]-推荐好友
         public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
-
-
-
-
 
 
     }

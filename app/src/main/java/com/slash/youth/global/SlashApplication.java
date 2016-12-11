@@ -31,9 +31,9 @@ public class SlashApplication extends Application {
 
     static {
         //友盟社会化组件三方平台相关AppKey
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setWeixin(GlobalConstants.ThirdAppId.APPID_WECHAT, GlobalConstants.ThirdAppId.AppSecret_WECHAT);
+//        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
+        PlatformConfig.setQQZone(GlobalConstants.ThirdAppId.APPID_QQ, GlobalConstants.ThirdAppId.APPKEY_QQ);
     }
 
     @Override

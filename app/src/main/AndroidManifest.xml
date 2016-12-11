@@ -111,18 +111,18 @@
         android:theme="@style/AppTheme">
 
         <!--高德地图 APPID-->
-        <!--<meta-data-->
-        <!--android:name="com.amap.api.v2.apikey"-->
-        <!--android:value="77a14ed1eb67c6b660c7cd7819d1dd1c"/>-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>
+            android:value="77a14ed1eb67c6b660c7cd7819d1dd1c"/>
+        <!--<meta-data-->
+            <!--android:name="com.amap.api.v2.apikey"-->
+            <!--android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>-->
         <!--高德地图 APPID-->
 
         <!--友盟appkey-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="561cae6ae0f55abd990035bf">
+            android:value="5815ad80f43e486e03002540">
         </meta-data>
 
         <!--友盟统计-->
