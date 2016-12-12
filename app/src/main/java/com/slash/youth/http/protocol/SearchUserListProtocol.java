@@ -37,7 +37,7 @@ public class SearchUserListProtocol extends BaseProtocol<SearchUserItemBean> {
         if(isauth ==1||isauth ==0){
             params.addBodyParameter("isauth", String.valueOf(isauth));
         }
-        if (offset>0&&offset==0) {
+        if (offset>0||offset==0) {
             params.addBodyParameter("offset", String.valueOf(offset));
         }
         if (limit>0&&limit<=20) {

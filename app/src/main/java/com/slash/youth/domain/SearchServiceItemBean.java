@@ -40,8 +40,8 @@ public class SearchServiceItemBean {
         public static class ListBean {
             private String avatar;
             private String city;
-            private int cts;
-            private int endtime;
+            private long cts;
+            private long endtime;
             private int id;
             private int instalment;
             private int isauth;
@@ -52,12 +52,12 @@ public class SearchServiceItemBean {
             private int pattern;
             private int quote;
             private int quoteunit;
-            private int starttime;
+            private long starttime;
             private int timetype;
             private String title;
             private int uid;
             private double userservicepoint;
-            private int uts;
+            private long uts;
 
             public String getAvatar() {
                 return avatar;
@@ -75,19 +75,19 @@ public class SearchServiceItemBean {
                 this.city = city;
             }
 
-            public int getCts() {
+            public long getCts() {
                 return cts;
             }
 
-            public void setCts(int cts) {
+            public void setCts(long cts) {
                 this.cts = cts;
             }
 
-            public int getEndtime() {
+            public long getEndtime() {
                 return endtime;
             }
 
-            public void setEndtime(int endtime) {
+            public void setEndtime(long endtime) {
                 this.endtime = endtime;
             }
 
@@ -171,11 +171,11 @@ public class SearchServiceItemBean {
                 this.quoteunit = quoteunit;
             }
 
-            public int getStarttime() {
+            public long getStarttime() {
                 return starttime;
             }
 
-            public void setStarttime(int starttime) {
+            public void setStarttime(long starttime) {
                 this.starttime = starttime;
             }
 
@@ -211,11 +211,11 @@ public class SearchServiceItemBean {
                 this.userservicepoint = userservicepoint;
             }
 
-            public int getUts() {
+            public long getUts() {
                 return uts;
             }
 
-            public void setUts(int uts) {
+            public void setUts(long uts) {
                 this.uts = uts;
             }
         }

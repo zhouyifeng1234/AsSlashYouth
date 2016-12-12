@@ -14,9 +14,11 @@ import com.slash.youth.utils.CommonUtils;
  * Created by zhouyifeng on 2016/9/6.
  */
 public class HomeFreeTimePager extends BaseHomePager {
+    private Activity mActivity;
 
     public HomeFreeTimePager(Activity activity) {
         super(activity);
+        this.mActivity = activity;
     }
 
     @Override

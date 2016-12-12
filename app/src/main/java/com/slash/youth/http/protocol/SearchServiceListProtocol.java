@@ -61,7 +61,7 @@ public class SearchServiceListProtocol extends BaseProtocol<SearchServiceItemBea
         if(lat>-99&&lat<90){
             params.addBodyParameter("lat", String.valueOf(lat));
         }
-        if (offset>0&&offset==0) {
+        if (offset>0||offset==0) {
             params.addBodyParameter("offset", String.valueOf(offset));
         }
         if (limit>0&&limit<=20) {

@@ -6,14 +6,14 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
-import com.slash.youth.domain.HomeDemandAndServiceBean;
+import com.slash.youth.domain.FreeTimeMoreServiceBean;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
  */
-public class HomeDemandAndServiceHolder extends BaseHolder<HomeDemandAndServiceBean> {
+public class HomeDemandAndServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.DataBean.ListBean> {
 
     private ItemHomeDemandServiceModel mItemHomeDemandServiceModel;
 
@@ -26,13 +26,13 @@ public class HomeDemandAndServiceHolder extends BaseHolder<HomeDemandAndServiceB
     }
 
     @Override
-    public void refreshView(HomeDemandAndServiceBean data) {
-        if (data.isDemand) {
+    public void refreshView(FreeTimeMoreServiceBean.DataBean.ListBean data) {
+       /* if (data.isDemand) {
             mItemHomeDemandServiceModel.setDemandOrServiceTime("任务时间:9月18日 8:30");
             mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
         } else {
             mItemHomeDemandServiceModel.setDemandOrServiceTime("任务时间:每周(一 二 三 四 五 六 日) 8:30");
             mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.INVISIBLE);
-        }
+        }*/
     }
 }
