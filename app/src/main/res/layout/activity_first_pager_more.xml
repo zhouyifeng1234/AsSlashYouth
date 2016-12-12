@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<data>
+    <variable name="firstPagerDemandModel"
+        type="com.slash.youth.ui.viewmodel.FirstPagerDemandModel"/>
+</data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+ <RelativeLayout
+     android:layout_width="match_parent"
+     android:layout_height="46dp"
+     android:background="#31C5E4"
+     >
+
+     <RelativeLayout
+         android:onClick="@{firstPagerDemandModel.back}"
+         android:id="@+id/iv_userinfo_back"
+         android:layout_width="40dp"
+         android:layout_height="40dp"
+         android:layout_centerVertical="true">
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@mipmap/nav_back"
+             android:layout_centerInParent="true"
+             />
+     </RelativeLayout>
+
+     <TextView
+         android:id="@+id/tv_first_pager_title"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="更多需求"
+         android:layout_gravity="center"
+         android:textColor="#FFFFFF"
+         android:layout_centerInParent="true"
+         android:textSize="17sp" />
+ </RelativeLayout>
+
+
+    <com.slash.youth.ui.view.DropDownMenu
+        android:id="@+id/dropDownMenu"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ddmenuTextSize="15sp"
+        app:ddtextUnselectedColor="@color/drop_down_unselected"
+        app:ddtextSelectedColor="@color/drop_down_selected"
+        app:dddividerColor="@color/gray"
+        app:ddunderlineColor="@color/gray"
+        app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
+        app:ddmaskColor="@color/mask_color"
+        app:ddmenuBackgroundColor="@color/white"
+        app:ddmenuUnselectedIcon="@mipmap/free_play">
+
+    </com.slash.youth.ui.view.DropDownMenu>
+
+
+
+
+
+
+    <!--<ListView
+        android:id="@+id/lv_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#00000000"
+        android:scrollbars="none"
+        android:dividerHeight="0dip" >
+
+    </ListView>-->
+</LinearLayout>
+</layout>
