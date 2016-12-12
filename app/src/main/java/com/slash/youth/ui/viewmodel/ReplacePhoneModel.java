@@ -1,17 +1,11 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
-import android.net.sip.SipSession;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityReplacePhoneBinding;
 import com.slash.youth.engine.LoginManager;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
-
-import java.util.HashMap;
 
 /**
  * Created by acer on 2016/11/2.
@@ -30,11 +24,11 @@ public class ReplacePhoneModel extends BaseObservable {
     }
 
     //点击验证
-    public void validate(View view){
+    public void validate(View view) {
         String phoneNumber = activityReplacePhoneBinding.etActivityLoginVerificationPhone.getText().toString();
-        if(!phoneNumber.isEmpty()){
+        if (!phoneNumber.isEmpty()) {
             LoginManager.getPhoneVerificationCode(phoneNumber);
-        }else{
+        } else {
             ToastUtils.shortCenterToast("未填写手机号码");
         }
     }

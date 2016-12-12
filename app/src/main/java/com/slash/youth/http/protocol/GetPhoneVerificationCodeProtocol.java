@@ -1,5 +1,7 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.Gson;
+import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.LogKit;
 
@@ -8,7 +10,7 @@ import org.xutils.http.RequestParams;
 /**
  * Created by zhouyifeng on 2016/9/10.
  */
-public class GetPhoneVerificationCodeProtocol extends BaseProtocol<String> {
+public class GetPhoneVerificationCodeProtocol extends BaseProtocol<SendPinResultBean> {
     String mPhoneNum;
 
     public GetPhoneVerificationCodeProtocol(String phoneNum) {
@@ -27,13 +29,20 @@ public class GetPhoneVerificationCodeProtocol extends BaseProtocol<String> {
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public SendPinResultBean parseData(String result) {
+        return sendPinResultBean;
     }
 
+    SendPinResultBean sendPinResultBean;
 
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        sendPinResultBean = gson.fromJson(result, SendPinResultBean.class);
+        if (sendPinResultBean.rescode == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

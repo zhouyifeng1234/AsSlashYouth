@@ -1,12 +1,12 @@
 package com.slash.youth.ui.viewmodel;
 
-
 import android.Manifest;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -14,7 +14,11 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.slash.youth.databinding.ActivityLoginBinding;
+import com.slash.youth.domain.PhoneLoginResultBean;
+import com.slash.youth.domain.SendPinResultBean;
+import com.slash.youth.domain.TokenLoginResultBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -47,11 +51,49 @@ public class ActivityLoginModel extends BaseObservable {
         this.qqLoginUiListener = qqLoginUiListener;
         this.loginActivity = loginActivity;
         this.mSsoHandler = ssoHandler;
+        initData();
         initView();
+    }
+
+    private void initData() {
+        //检测本地是否保存有token，如果有，尝试用token自动登录
+        tokenLogin();
     }
 
     private void initView() {
 //        setRegisterAndLoginTextVisibility();
+    }
+
+    /**
+     * token自动登录，可以尝试在闪屏页进行
+     */
+    private void tokenLogin() {
+        //如果token登录可以返回uid和rongToken，那就直接使用最新返回的，不需要用自己本地保存的
+        String rongToken = SpUtils.getString("rongToken", "");
+        long uid = SpUtils.getLong("uid", -1);
+
+        String token = SpUtils.getString("token", "");
+        if (!TextUtils.isEmpty(token)) {
+            //如果本地保存的token不为空，尝试用token自动登录
+            LoginManager.token = token;
+            LoginManager.tokenLogin(new BaseProtocol.IResultExecutor<TokenLoginResultBean>() {
+                @Override
+                public void execute(TokenLoginResultBean dataBean) {
+                    if (dataBean.data.uid > 0) {
+                        //进行保存
+                    }
+                    if (!TextUtils.isEmpty(dataBean.data.rongToken)) {
+                        //进行保存
+                    }
+                    //页面跳转
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.v("token登录失败");
+                }
+            });
+        }
     }
 
 
@@ -61,14 +103,52 @@ public class ActivityLoginModel extends BaseObservable {
      * @param v
      */
     public void login(View v) {
+        String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
+        String pin = mActivityLoginBinding.etActivityLoginVerificationCode.getText().toString();
+        if (TextUtils.isEmpty(phoenNum) || TextUtils.isEmpty(pin)) {
+            ToastUtils.shortToast("手机号或者验证码不能为空");
+            return;
+        }
+        LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
+            @Override
+            public void execute(PhoneLoginResultBean dataBean) {
+                //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
+
+                String rongToken = dataBean.data.rongToken;//融云token
+                String token = dataBean.data.token;
+                long uid = dataBean.data.uid;
+
+
+                if (dataBean.rescode == 0) {
+                    //登陆成功，老用户
+                    LoginManager.currentLoginUserId = uid;
+                    LoginManager.token = token;
+
+                    Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+                    intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    CommonUtils.getContext().startActivity(intentHomeActivity);
+                } else if (dataBean.rescode == 11) {
+                    //登陆成功，新用户
+
+                } else {
+                    ToastUtils.shortToast("dataBean.rescode" + dataBean.rescode);
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, phoenNum, pin, "", "");
+
         //TODO 具体的登录逻辑，等服务端相关接口完成以后再实现
 //                Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
 //        intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
 
-        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentHomeActivity);
+//        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentHomeActivity);
 
 //        String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
 //        String pin = mActivityLoginBinding.etActivityLoginVerificationCode.getText().toString();
@@ -108,14 +188,27 @@ public class ActivityLoginModel extends BaseObservable {
 //        CommonUtils.getContext().startActivity(intentChatActivity);
 
 
-
     }
 
     public void sendPhoneVerificationCode(View v) {
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
+        if (TextUtils.isEmpty(phoenNum)) {
+            ToastUtils.shortToast("手机号不能为空");
+            return;
+        }
         LogKit.v(phoenNum);
         //调用发送手机验证码接口，将验证码发送到手机上
-        LoginManager.getPhoneVerificationCode(phoenNum);
+        LoginManager.getPhoneVerificationCode(new BaseProtocol.IResultExecutor<SendPinResultBean>() {
+            @Override
+            public void execute(SendPinResultBean dataBean) {
+                ToastUtils.shortToast("获取验证码成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取验证码失败");
+            }
+        }, phoenNum);
 
     }
 

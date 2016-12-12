@@ -160,7 +160,9 @@
             android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.LoginActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.LoginActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -168,7 +170,9 @@
 
             </intent-filter>
         </activity>
-        <activity android:name="com.slash.youth.ui.activity.SplashActivity">
+        <activity
+            android:name="com.slash.youth.ui.activity.SplashActivity"
+           >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

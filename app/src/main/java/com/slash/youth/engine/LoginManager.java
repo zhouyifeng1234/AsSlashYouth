@@ -1,27 +1,19 @@
 package com.slash.youth.engine;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
+import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
-import com.slash.youth.http.protocol.PhoneLogin;
-import com.slash.youth.ui.activity.LoginActivity;
+import com.slash.youth.http.protocol.PhoneLoginpProtocol;
+import com.slash.youth.http.protocol.TokenLoginProtocol;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.tencent.tauth.AuthActivity;
 import com.tencent.tauth.Tencent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -36,7 +28,7 @@ public class LoginManager {
     public static long currentLoginUserId = 10000;//实际应该在登录状态中获取
     public static String currentLoginUserName = "风";
     public static String currentLoginUserAvatar = "group1/M00/00/02/eBtfY1g68l2AYPzzAACY_JV8bdw.7ad5ad";
-//        public static long currentLoginUserId = 10002;//实际应该在登录状态中获取
+    //        public static long currentLoginUserId = 10002;//实际应该在登录状态中获取
 //    public static String currentLoginUserName = "jim";
 //    public static String currentLoginUserAvatar = "group1/M00/00/02/eBtfY1g68kiAfiCNAABuHg0Rbxs.0a9ae1";
     public static String token = "";//我们自己服务器登录后的toekn
@@ -54,17 +46,29 @@ public class LoginManager {
         mTencent = Tencent.createInstance(GlobalConstants.ThirdAppId.APPID_QQ, CommonUtils.getContext());
     }
 
-    //调用发送手机验证码接口，将验证码发送到手机上
+
+    /**
+     * 调用发送手机验证码接口，将验证码发送到手机上
+     *
+     * @param onSendPinFinished
+     * @param phoneNum
+     */
+    public static void getPhoneVerificationCode(BaseProtocol.IResultExecutor onSendPinFinished, String phoneNum) {
+        GetPhoneVerificationCodeProtocol getPhoneVerificationCodeProtocol = new GetPhoneVerificationCodeProtocol(phoneNum);
+        getPhoneVerificationCodeProtocol.getDataFromServer(onSendPinFinished);
+    }
+
     public static void getPhoneVerificationCode(String phoneNum) {
         GetPhoneVerificationCodeProtocol getPhoneVerificationCodeProtocol = new GetPhoneVerificationCodeProtocol(phoneNum);
-        getPhoneVerificationCodeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<String>() {
+        getPhoneVerificationCodeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SendPinResultBean>() {
             @Override
-            public void execute(String dataBean) {
-                ToastUtils.shortToast(dataBean);
+            public void execute(SendPinResultBean dataBean) {
+
             }
 
             @Override
             public void executeResultError(String result) {
+
             }
         });
     }
@@ -85,68 +89,73 @@ public class LoginManager {
         });
     }
 
-    public static void loginPhoneNum(String phone, String pin, String _3pToken, String userInfo) {
-        PhoneLogin phoneLogin = new PhoneLogin(phone, pin, _3pToken, userInfo);
-        phoneLogin.getDataFromServer(new BaseProtocol.IResultExecutor<String>() {
-
-            @Override
-            public void execute(String dataBean) {
-              //  LogKit.v(dataBean);
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        });
-    }
-
-    public boolean Login() {
-        //TODO 具体的登录逻辑，判断是否登录成功
-
-
-        return true;
-    }
-
-
     /**
-     * 第三方 微信登录
+     * 手机号登录
+     *
+     * @param phone
+     * @param pin
+     * @param _3pToken
+     * @param userInfo
      */
-    public static void loginWeChat() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "slash_youth_login";
-        iwxApi.sendReq(req);
-
+    public static void phoneLogin(BaseProtocol.IResultExecutor onPhoneLoginFinished, String phone, String pin, String _3pToken, String userInfo) {
+        PhoneLoginpProtocol phoneLoginpProtocol = new PhoneLoginpProtocol(phone, pin, _3pToken, userInfo);
+        phoneLoginpProtocol.getDataFromServer(onPhoneLoginFinished);
     }
 
     /**
-     * 第三方 QQ登录
+     * token登录
      */
-    public static void loginQQ(LoginActivity.QQLoginUiListener qqLoginUiListener, LoginActivity loginActivity) {
-//        if (!mTencent.isSessionValid())
-//        {
-//            mTencent.login(this, Scope, listener);
-//        }
-        mTencent.login(loginActivity, "all", qqLoginUiListener);
+    public static void tokenLogin(BaseProtocol.IResultExecutor onTokenLoginFinished) {
+        TokenLoginProtocol tokenLoginProtocol = new TokenLoginProtocol();
+        tokenLoginProtocol.getDataFromServer(onTokenLoginFinished);
     }
 
-    /**
-     * 第三方 新浪微博登录
-     */
-    public static void loginWeiBo() {
+//    public boolean Login() {
+//        //TODO 具体的登录逻辑，判断是否登录成功
+//
+//
+//        return true;
+//    }
 
-    }
+
+//    /**
+//     * 第三方 微信登录
+//     */
+//    public static void loginWeChat() {
+//        SendAuth.Req req = new SendAuth.Req();
+//        req.scope = "snsapi_userinfo";
+//        req.state = "slash_youth_login";
+//        iwxApi.sendReq(req);
+//
+//    }
+
+//    /**
+//     * 第三方 QQ登录
+//     */
+//    public static void loginQQ(LoginActivity.QQLoginUiListener qqLoginUiListener, LoginActivity loginActivity) {
+////        if (!mTencent.isSessionValid())
+////        {
+////            mTencent.login(this, Scope, listener);
+////        }
+//        mTencent.login(loginActivity, "all", qqLoginUiListener);
+//    }
+
+//    /**
+//     * 第三方 新浪微博登录
+//     */
+//    public static void loginWeiBo() {
+//
+//    }
 
 
     //第三方QQ授权
-    public  void authorizateQQ( Activity activity) {
+    public void authorizateQQ(Activity activity) {
         UMShareAPI mShareAPI = UMShareAPI.get(activity);
         mShareAPI.doOauthVerify(activity, SHARE_MEDIA.QQ, umAuthListener);
     }
 
     //微信授权
-    public  void authorizateWEIXIN( Activity activity) {
+    public void authorizateWEIXIN(Activity activity) {
         UMShareAPI mShareAPI = UMShareAPI.get(activity);
         mShareAPI.doOauthVerify(activity, SHARE_MEDIA.WEIXIN, umAuthListener);
     }
@@ -162,18 +171,18 @@ public class LoginManager {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             ToastUtils.shortToast("Authorize succeed");
-            switch (platform){
+            switch (platform) {
                 case QQ:
                     String QQ_access_token = data.get("access_token");
                     String uid = data.get("uid");
-                    SpUtils.setString("QQ_token",QQ_access_token);
-                    SpUtils.setString("QQ_uid",uid);
+                    SpUtils.setString("QQ_token", QQ_access_token);
+                    SpUtils.setString("QQ_uid", uid);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
-                    SpUtils.setString("WEIXIN_token",WEIXIN_access_token);
-                    SpUtils.setString("WEIXIN_uid",openid);
+                    SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
+                    SpUtils.setString("WEIXIN_uid", openid);
                     break;
             }
         }
@@ -188,9 +197,6 @@ public class LoginManager {
             ToastUtils.shortToast("Authorize cancel");
         }
     };
-
-
-
 
 
 }
