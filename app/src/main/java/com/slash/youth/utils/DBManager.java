@@ -36,8 +36,9 @@ public class DBManager {
     }
 
     private SQLiteDatabase openDatabase(String dbfile) {
+        File file = new File(dbfile);
         try {
-            if (!(new File(dbfile).exists())) {
+            if (!(file.exists())) {
                 InputStream isr = this.context.getResources().openRawResource(
                         R.raw.province_city_zone);
                 FileOutputStream fos = new FileOutputStream(dbfile);
@@ -50,8 +51,7 @@ public class DBManager {
                 isr.close();
             }
 
-            database = SQLiteDatabase.openOrCreateDatabase(dbfile,
-                    null);
+            database = SQLiteDatabase.openOrCreateDatabase(dbfile,null);
             return database;
         } catch (FileNotFoundException e) {
             Log.e("Database", "File not found");
@@ -60,9 +60,11 @@ public class DBManager {
             Log.e("Database", "IO exception");
             e.printStackTrace();
         }
-        return null;
+        return database;
     }
     public void closeDatabase() {
-        this.database.close();
+        if(database != null){
+            this.database.close();
+        }
     }
 }

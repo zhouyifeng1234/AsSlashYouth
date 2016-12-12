@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
@@ -20,11 +21,13 @@ import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.ListProvinceBean;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DBManager;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.Pinyin4JUtils;
 import com.slash.youth.utils.ToastUtils;
 
@@ -41,13 +44,13 @@ public class SearchActivityCityLocationModel extends BaseObservable {
     private ArrayList<Character> listCityNameFirstLetter;
     private ArrayList<ListCityBean> listCity = new ArrayList();
     private ArrayList<LocationCityInfo> listCityInfo = new ArrayList<>();
-    private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     private String cityName;
+    private Activity mActivity;
     private View searchTabView;
 
-    public SearchActivityCityLocationModel(SearchActivityCityLocationBinding searchActivityCityLocationBinding,View searchTabView) {
+    public SearchActivityCityLocationModel(SearchActivityCityLocationBinding searchActivityCityLocationBinding,Activity mActivity) {
         this.searchActivityCityLocationBinding = searchActivityCityLocationBinding;
-        this.searchTabView = searchTabView;
+        this.mActivity = mActivity;
         initData();
         initView();
         listener();
@@ -75,15 +78,9 @@ public class SearchActivityCityLocationModel extends BaseObservable {
     }
 
     private void initData() {
-        //打开数据库管理
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                dbHelper = new DBManager(currentActivity);
-                dbHelper.openDatabase();
-                dbHelper.closeDatabase();
-            }
-        });
+        dbHelper = new DBManager(mActivity);
+        dbHelper.openDatabase();
+        dbHelper.closeDatabase();
         setCityAndFirstLetterData();
     }
 
@@ -131,8 +128,10 @@ public class SearchActivityCityLocationModel extends BaseObservable {
 
     //获取城市
     private ArrayList<CityClassBean> getCity() {
-        Cursor cur = database.rawQuery("SELECT * FROM T_City", null);
-        if (cur != null) {
+      //  Cursor cur = database.rawQuery("SELECT * FROM T_City", null);
+        Cursor cur = database.rawQuery(
+                "SELECT * FROM T_City ORDER BY CitySort", null);
+       if (cur != null) {
             int NUM_CITY = cur.getCount();
             ArrayList<CityClassBean> taxicity = new ArrayList<CityClassBean>(NUM_CITY);
             if (cur.moveToFirst()) {
