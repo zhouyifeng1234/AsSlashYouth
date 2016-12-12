@@ -95,7 +95,7 @@ public class ItemMyTaskModel extends BaseObservable {
             public void executeResultError(String result) {
 
             }
-        }, tid + "", loginUserId + "");
+        }, tid + "");
     }
 
     //服务方每完成一期，可以点击完成
@@ -110,7 +110,7 @@ public class ItemMyTaskModel extends BaseObservable {
             public void executeResultError(String result) {
 
             }
-        }, tid + "");
+        }, tid + "", "1");
     }
 
     //服务方申诉，当需求方申请退款，服务方如果不同意，可以申诉
@@ -125,7 +125,7 @@ public class ItemMyTaskModel extends BaseObservable {
             public void executeResultError(String result) {
 
             }
-        }, tid + "");
+        }, tid + "", "");
     }
 
     //服务方同意退款

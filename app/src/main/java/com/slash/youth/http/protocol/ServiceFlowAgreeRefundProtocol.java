@@ -7,27 +7,27 @@ import com.slash.youth.global.GlobalConstants;
 import org.xutils.http.RequestParams;
 
 /**
- * 十八、[需求]-服务方确认同意退款
- * Created by zhouyifeng on 2016/11/3.
+ * 十、[服务]-服务方同意退款
+ * <p/>
+ * Created by zhouyifeng on 2016/12/8.
  */
-public class AgreeRefundProtocol extends BaseProtocol<CommonResultBean> {
+public class ServiceFlowAgreeRefundProtocol extends BaseProtocol<CommonResultBean> {
 
-    String id;//需求ID
+    private String soid;
 
-    public AgreeRefundProtocol(String id) {
-        this.id = id;
+    public ServiceFlowAgreeRefundProtocol(String soid) {
+        this.soid = soid;
     }
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.SERVICE_PARTY_AGREE_REFUND;
+        return GlobalConstants.HttpUrl.SERVICE_FLOW_AGREE_REFUND;
     }
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("id", id);
+        params.addBodyParameter("soid", soid);
     }
-
 
     @Override
     public CommonResultBean parseData(String result) {
@@ -40,11 +40,10 @@ public class AgreeRefundProtocol extends BaseProtocol<CommonResultBean> {
     public boolean checkJsonResult(String result) {
         Gson gson = new Gson();
         commonResultBean = gson.fromJson(result, CommonResultBean.class);
-        if (commonResultBean.rescode == 0) {
-            if (commonResultBean.data.status == 1) {
-                return true;
-            }
+        if (commonResultBean.rescode == 0 && commonResultBean.data.status == 1) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 }

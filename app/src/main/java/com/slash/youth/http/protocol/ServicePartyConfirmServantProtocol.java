@@ -1,5 +1,7 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.Gson;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -7,14 +9,12 @@ import org.xutils.http.RequestParams;
 /**
  * Created by zhouyifeng on 2016/10/8.
  */
-public class ServicePartyConfirmServantProtocol extends BaseProtocol<String> {
+public class ServicePartyConfirmServantProtocol extends BaseProtocol<CommonResultBean> {
 
     private String id;// 需求ID
-    private String uid;//服务方UID
 
-    public ServicePartyConfirmServantProtocol(String id, String uid) {
+    public ServicePartyConfirmServantProtocol(String id) {
         this.id = id;
-        this.uid = uid;
     }
 
     @Override
@@ -25,16 +25,24 @@ public class ServicePartyConfirmServantProtocol extends BaseProtocol<String> {
     @Override
     public void addRequestParams(RequestParams params) {
         params.addBodyParameter("id", id);
-        params.addBodyParameter("uid", uid);
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public CommonResultBean parseData(String result) {
+        return commonResultBean;
     }
+
+    CommonResultBean commonResultBean;
 
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        commonResultBean = gson.fromJson(result, CommonResultBean.class);
+        if (commonResultBean.rescode == 0) {
+            if (commonResultBean.data.status == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

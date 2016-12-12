@@ -132,7 +132,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22", "10001");
+        }, "22");
     }
 
     //七、[需求]-查看需求流程日志
@@ -208,7 +208,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22");
+        }, "22","1");
     }
 
     //十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)

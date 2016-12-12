@@ -57,8 +57,11 @@ public class MyPublishDemandModel extends BaseObservable {
         type = taskInfo.getInt("type");
         roleid = taskInfo.getInt("roleid");
 
-        getTaskItemData();
+        getDataFromServer();
+    }
 
+    private void getDataFromServer() {
+        getTaskItemData();
         getDemandFlowLogData();
     }
 
@@ -68,6 +71,15 @@ public class MyPublishDemandModel extends BaseObservable {
 
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    /**
+     * 打开聊天界面聊一聊
+     *
+     * @param v
+     */
+    public void havaAChat(View v) {
+
     }
 
     //需求方评论
@@ -126,7 +138,7 @@ public class MyPublishDemandModel extends BaseObservable {
     public void confirmFinish(View v) {
         int fid = innerDemandCardInfo.instalmentcurr;
         DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                @Override
+            @Override
             public void execute(CommonResultBean dataBean) {
                 //确认完成成功
                 ToastUtils.shortToast("确认完成成功");
@@ -238,9 +250,11 @@ public class MyPublishDemandModel extends BaseObservable {
     }
 
     private void setMyPublishDemandInfo() {
+        //设置详细信息
 
 
         displayStatusButton();
+        displayStatusProgressCycle();
     }
 
     private void displayStatusButton() {
@@ -249,17 +263,12 @@ public class MyPublishDemandModel extends BaseObservable {
             case 1:
             case 4:
             case 5:
-                setStatusProgress(R.mipmap.flowpoint_act, R.mipmap.flowpoint_nor, R.mipmap.flowpoint_nor, R.mipmap.flowpoint_nor);
                 setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
             case 6://待支付
-                setStatusProgress(R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_nor, R.mipmap.flowpoint_nor);
-
                 setStatusButtonsVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
                 break;
             case 7:
-                setStatusProgress(R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_nor);
-
                 int totalInstalmentCount = innerDemandCardInfo.instalmentratio.split(",").length;//总的分期数
                 int instalmentcurr = innerDemandCardInfo.instalmentcurr;
                 if (instalmentcurr == 0) {
@@ -282,25 +291,49 @@ public class MyPublishDemandModel extends BaseObservable {
                         setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                     }
                 }
-
                 break;
             case 8:
-                setStatusProgress(R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_act);
-
                 if (innerDemandCardInfo.isComment == 0) {
                     setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);
                 } else {
                     setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                 }
                 break;
-
             case 9:
-                setStatusProgress(R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_act, R.mipmap.flowpoint_nor);
                 setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
-
             default:
                 setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                break;
+        }
+    }
+
+    private void displayStatusProgressCycle() {
+        int status = innerDemandCardInfo.status;
+        switch (status) {
+            case 1:/*已发布*/
+            case 4:/*待选择*/
+            case 5:/*待确认*/
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+            case 6://待支付
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+            case 7:/*进行中*/
+            case 9:/*申请退款*/
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC);
+                break;
+            case 8:/*已完成*/
+                setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4);
+                break;
+            case 2:/*已取消*/
+            case 3:/*被拒绝*/
+            case 10:/*已退款*/
+            case 11:/*已淘汰*/
+
+            default:
+                //失效 过期 状态 四个圈全都是灰色
+                setStatusProgress(R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
                 break;
         }
     }
@@ -313,11 +346,15 @@ public class MyPublishDemandModel extends BaseObservable {
         setRectifyVisibility(rectifyVisibility);
     }
 
-    private void setStatusProgress(int bigStateReservationBg, int bigStatePaymentBg, int bigStateServiceBg, int bigStateCommentBg) {
+    private void setStatusProgress(int bigStateReservationBg, int bigStateReservationTextColor, int bigStatePaymentBg, int bigStatePaymentTextColor, int bigStateServiceBg, int bigStateServiceTextColor, int bigStateCommentBg, int bigStateCommentTextColor) {
         mActivityMyPublishDemandBinding.tvDemandReservationing.setBackgroundResource(bigStateReservationBg);
+        mActivityMyPublishDemandBinding.tvDemandReservationing.setTextColor(bigStateReservationTextColor);
         mActivityMyPublishDemandBinding.tvDemandPayment.setBackgroundResource(bigStatePaymentBg);
+        mActivityMyPublishDemandBinding.tvDemandPayment.setTextColor(bigStatePaymentTextColor);
         mActivityMyPublishDemandBinding.tvDemandServiceing.setBackgroundResource(bigStateServiceBg);
+        mActivityMyPublishDemandBinding.tvDemandServiceing.setTextColor(bigStateServiceTextColor);
         mActivityMyPublishDemandBinding.tvDemandComment.setBackgroundResource(bigStateCommentBg);
+        mActivityMyPublishDemandBinding.tvDemandComment.setTextColor(bigStateCommentTextColor);
     }
 
     public class InnerDemandCardInfo {

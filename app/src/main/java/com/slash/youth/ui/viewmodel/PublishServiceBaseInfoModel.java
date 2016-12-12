@@ -311,7 +311,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
         timetype = SERVICE_TIMETYPE_USER_DEFINED;
         mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
-        mActivityPublishServiceBaseinfoBinding.tvEndTime.setText(endtimeStr);
+        mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
     }
 
     public void closeStartTimeAndEndTimeLayer(View v) {

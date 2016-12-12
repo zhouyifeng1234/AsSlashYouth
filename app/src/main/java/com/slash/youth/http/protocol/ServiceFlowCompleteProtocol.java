@@ -7,27 +7,30 @@ import com.slash.youth.global.GlobalConstants;
 import org.xutils.http.RequestParams;
 
 /**
- * 十八、[需求]-服务方确认同意退款
- * Created by zhouyifeng on 2016/11/3.
+ * 七、[需求]-服务方完成任务
+ * <p/>
+ * Created by zhouyifeng on 2016/12/8.
  */
-public class AgreeRefundProtocol extends BaseProtocol<CommonResultBean> {
+public class ServiceFlowCompleteProtocol extends BaseProtocol<CommonResultBean> {
 
-    String id;//需求ID
+    private String soid;//需求ID
+    private String fid;//表示完成第几个分期
 
-    public AgreeRefundProtocol(String id) {
-        this.id = id;
+    public ServiceFlowCompleteProtocol(String soid, String fid) {
+        this.soid = soid;
+        this.fid = fid;
     }
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.SERVICE_PARTY_AGREE_REFUND;
+        return GlobalConstants.HttpUrl.SERVICE_FLOW_COMPLETE;
     }
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("id", id);
+        params.addBodyParameter("soid", soid);
+        params.addBodyParameter("fid", fid);
     }
-
 
     @Override
     public CommonResultBean parseData(String result) {
@@ -40,11 +43,10 @@ public class AgreeRefundProtocol extends BaseProtocol<CommonResultBean> {
     public boolean checkJsonResult(String result) {
         Gson gson = new Gson();
         commonResultBean = gson.fromJson(result, CommonResultBean.class);
-        if (commonResultBean.rescode == 0) {
-            if (commonResultBean.data.status == 1) {
-                return true;
-            }
+        if (commonResultBean.rescode == 0 && commonResultBean.data.status == 1) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 }
