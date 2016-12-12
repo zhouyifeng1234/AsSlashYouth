@@ -209,18 +209,22 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mIsDisplayDemandList) {
                     //需求
-                    FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
-                    long demandId = listBean.getId();
-                    Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                    intentDemandDetailActivity.putExtra("demandId", demandId);
-                    mActivity.startActivity(intentDemandDetailActivity);
+                    if (position <= listDemandBean.size() - 1) {
+                        FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
+                        long demandId = listBean.getId();
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", demandId);
+                        mActivity.startActivity(intentDemandDetailActivity);
+                    }
                 } else {
                     //服务
-                    FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
-                    long serviceId = listBean.getId();
-                    Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                    intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                    mActivity.startActivity(intentServiceDetailActivity);
+                    if (position <= listServiceBean.size() - 1) {
+                        FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
+                        long serviceId = listBean.getId();
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                        mActivity.startActivity(intentServiceDetailActivity);
+                    }
                 }
             }
         });

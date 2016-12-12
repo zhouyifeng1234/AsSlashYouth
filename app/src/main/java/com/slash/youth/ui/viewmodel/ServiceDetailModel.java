@@ -404,7 +404,7 @@ public class ServiceDetailModel extends BaseObservable {
     private int topServiceBtnVisibility;
     private int bottomBtnDemandVisibility;//底部需求者视角可以看到的按钮
     private int bottomBtnServiceVisibility;//底部服务者视角可以看到的按钮
-    private int offShelfLogoVisibility;
+    private int offShelfLogoVisibility = View.GONE;
 
     private String title;
     private String serviceTime;//时间:9月18日 8:30-9月19日 8:30
