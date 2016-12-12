@@ -358,7 +358,10 @@ public class GlobalConstants {
         //十三、[我的]-[用户中心]-我的首页数据
       //  public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //登出
+
+
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
+        public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" +"/list";
         //十四，[我的]-[用户中心]-认证
         public static final String MY_CHECKOUT_AUTH = SERVER_HOST + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态

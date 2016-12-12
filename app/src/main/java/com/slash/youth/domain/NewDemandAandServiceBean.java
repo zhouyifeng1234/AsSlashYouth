@@ -3,9 +3,9 @@ package com.slash.youth.domain;
 import java.util.List;
 
 /**
- * Created by zss on 2016/12/8.
+ * Created by zss on 2016/12/12.
  */
-public class FreeTimeServiceBean {
+public class NewDemandAandServiceBean {
 
 
     private DataBean data;
@@ -40,8 +40,8 @@ public class FreeTimeServiceBean {
 
         public static class ListBean {
             private String avatar;
-            private long endtime;
-            private long id;
+            private long  endtime;
+            private long  id;
             private int instalment;
             private int isauth;
             private double lat;
@@ -54,7 +54,8 @@ public class FreeTimeServiceBean {
             private long starttime;
             private int timetype;
             private String title;
-            private long uid;
+            private int type;
+            private long  uid;
 
             public String getAvatar() {
                 return avatar;
@@ -174,6 +175,14 @@ public class FreeTimeServiceBean {
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
             }
 
             public long getUid() {

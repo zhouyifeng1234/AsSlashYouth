@@ -59,7 +59,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid,this,skillTag);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
-        testIsFriend(uid);
+        //testIsFriend(uid);
         testisfollow(uid);
         back();
         title();

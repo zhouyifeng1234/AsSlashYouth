@@ -9,16 +9,15 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeFreetimeBinding;
 import com.slash.youth.ui.viewmodel.PagerHomeFreeTimeModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zhouyifeng on 2016/9/6.
  */
 public class HomeFreeTimePager extends BaseHomePager {
-    private Activity mActivity;
 
     public HomeFreeTimePager(Activity activity) {
         super(activity);
-        this.mActivity = activity;
     }
 
     @Override

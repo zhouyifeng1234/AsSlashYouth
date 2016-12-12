@@ -75,7 +75,7 @@ public class DistanceUtils {
 //                        mLocationClient.setLocationOption(mLocationOption);
                     double currentLatitude = aMapLocation.getLatitude();//获取纬度
                     double currentLongitude = aMapLocation.getLongitude();//获取经度
-                    LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
+                    LogKit.v("是打发滑动时==currentLatitude:" + currentLatitude + " 发的是无法开机啊== currentLongitude:" + currentLongitude);
                    // LatLng latLng = new LatLng(currentLatitude, currentLongitude);
                   //  mCurrentLatlng = latLng;
 //                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));

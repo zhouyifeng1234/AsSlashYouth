@@ -40,7 +40,7 @@ public class FreeTimeDemandBean {
 
         public static class ListBean {
             private String avatar;
-            private int id;
+            private long id;
             private int instalment;
             private int isauth;
             private double lat;
@@ -51,7 +51,7 @@ public class FreeTimeDemandBean {
             private long quote;
             private long starttime;
             private String title;
-            private int uid;
+            private long uid;
 
             public String getAvatar() {
                 return avatar;
@@ -61,11 +61,11 @@ public class FreeTimeDemandBean {
                 this.avatar = avatar;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -149,11 +149,11 @@ public class FreeTimeDemandBean {
                 this.title = title;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
         }

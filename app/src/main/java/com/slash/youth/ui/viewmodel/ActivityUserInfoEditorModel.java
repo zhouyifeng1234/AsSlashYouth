@@ -103,7 +103,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void getMyData() {
-        avatar = myinfo.getAvatar();
+        if(avatar!=null&&avatar!=""&&!avatar.isEmpty()){
+            avatar = myinfo.getAvatar();
+        }
         name = myinfo.getName();
         phone = myinfo.getPhone();
         province =  myinfo.getProvince();
@@ -119,7 +121,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     private void getPersonData() {
         //头像的路径
-        avatar = uifo.getAvatar();
+        if(avatar!=null&&avatar!=""&&!avatar.isEmpty()){
+            avatar = uifo.getAvatar();
+        }
+
         name = uifo.getName();
         //所在地
         province =  uifo.getProvince();

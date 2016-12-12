@@ -30,7 +30,6 @@ public class UserinfoEditorActivity extends Activity {
     private ActivityUserInfoEditorModel activityUserInfoEditorModel;
     private StringBuffer sb = new StringBuffer();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +46,7 @@ public class UserinfoEditorActivity extends Activity {
         }
         activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);
         back();
-
     }
-
 
     private void back() {
         activityUserinfoEditorBinding.ivUserinfoBack.setOnClickListener(new View.OnClickListener() {
