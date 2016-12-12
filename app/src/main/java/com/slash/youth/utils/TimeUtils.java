@@ -44,7 +44,7 @@ public class TimeUtils {
 
 
     private static String getString(long uts,String pattern) {
-        SimpleDateFormat sdf= new SimpleDateFormat(pattern1);
+        SimpleDateFormat sdf= new SimpleDateFormat(pattern);
         Date date= new Date(uts);
         return sdf.format(date);
     }

@@ -99,6 +99,19 @@ public class ActivityLoginModel extends BaseObservable {
 //        CommonUtils.getContext().startActivity(intentChatActivity);
 
 
+//        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+////        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
+//
+//        Bundle taskInfoBundle = new Bundle();
+//        taskInfoBundle.putLong("tid", 111);
+//        taskInfoBundle.putInt("type", 1);
+//        taskInfoBundle.putString("title", "APP开发");
+//        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
+//
+//        intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        CommonUtils.getContext().startActivity(intentChatActivity);
+
+
 
     }
 

@@ -8,84 +8,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!--页签标题-->
 
-   <!-- <RadioGroup
-        android:visibility="gone"
-        android:id="@+id/search_group"
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:orientation="horizontal">
-
-     <RadioButton
-         android:id="@+id/rb_tab1"
-         android:button="@null"
-         android:layout_width="0dp"
-         android:layout_weight="1"
-         android:text="需求类型"
-         android:textSize="15dp"
-         android:textColor="#333333"
-         android:layout_height="match_parent" />
-
-     <RadioButton
-         android:id="@+id/rb_tab2"
-         android:button="@null"
-         android:layout_width="0dp"
-         android:layout_weight="1"
-         android:text="用户类型"
-         android:textSize="15dp"
-         android:textColor="#333333"
-         android:layout_height="match_parent" />
-
-        <RadioButton
-         android:id="@+id/rb_tab3"
-         android:button="@null"
-         android:layout_width="0dp"
-         android:layout_weight="1"
-        android:text="苏州"
-        android:textSize="15dp"
-        android:textColor="#333333"
-         android:layout_height="match_parent" />
-
-     <RadioButton
-         android:id="@+id/rb_tab4"
-         android:button="@null"
-         android:layout_width="0dp"
-         android:text="排序"
-         android:textSize="15dp"
-         android:textColor="#333333"
-         android:layout_weight="1"
-         android:layout_height="match_parent" />
-
-    </RadioGroup>-->
+        <com.slash.youth.ui.view.DropDownMenu
+            android:visibility="gone"
+            android:id="@+id/dropDownMenu"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ddmenuTextSize="15sp"
+            app:ddtextUnselectedColor="@color/drop_down_unselected"
+            app:ddtextSelectedColor="@color/drop_down_selected"
+            app:dddividerColor="@color/gray"
+            app:ddunderlineColor="@color/gray"
+            app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
+            app:ddmaskColor="@color/mask_color"
+            app:ddmenuBackgroundColor="@color/white"
+            app:ddmenuUnselectedIcon="@mipmap/free_play">
+        </com.slash.youth.ui.view.DropDownMenu>
 
      <FrameLayout
          android:id="@+id/Fl_tab"
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
-
-
      </FrameLayout>
-        <FrameLayout
+     <FrameLayout
             android:id="@+id/fl_showSearchResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!--<com.slash.youth.ui.view.RefreshListView
-                android:id="@+id/lv_searchTab"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#f1f1f1"
-               >
-            </com.slash.youth.ui.view.RefreshListView>-->
-            <ListView
+
+           <ListView
                android:id="@+id/lv_searchTab"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:background="#f1f1f1"
-              >
+                android:divider="#00000000"
+                android:dividerHeight="0dip"
+                >
            </ListView>
-
-
         </FrameLayout>
 
     </LinearLayout>

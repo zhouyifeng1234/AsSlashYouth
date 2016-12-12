@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data>
-    <variable name="searchDemandTabModel"
-        type="com.slash.youth.ui.viewmodel.SearchDemandTabModel"/>
-</data>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="43dp"
@@ -19,10 +9,8 @@
         android:background="#ffffff"
         >
 
-
         <RelativeLayout
-            android:onClick="@{searchDemandTabModel.demandType}"
-            android:id="@+id/rl_tab_line"
+            android:id="@+id/rl_tab_demand"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:clickable="true"
@@ -35,7 +23,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/tv_line"
+                    android:id="@+id/tv_demand"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -62,7 +50,6 @@
             android:layout_gravity="center"/>
 
         <RelativeLayout
-            android:onClick="@{searchDemandTabModel.userType}"
             android:id="@+id/rl_tab_user"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -102,8 +89,7 @@
             android:layout_gravity="center"/>
 
         <RelativeLayout
-            android:onClick="@{searchDemandTabModel.area}"
-            android:id="@+id/rl_tab_area"
+            android:id="@+id/rl_tab_location"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:clickable="true"
@@ -142,7 +128,6 @@
             android:layout_gravity="center"/>
 
         <RelativeLayout
-            android:onClick="@{searchDemandTabModel.sort}"
             android:id="@+id/rl_tab_sort"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -165,7 +150,7 @@
                     android:textColor="#333333" />
 
                 <ImageView
-                    android:id="@+id/iv_time_icon"
+                    android:id="@+id/iv_sort_icon"
                     android:layout_marginLeft="6dp"
                     android:layout_width="10dp"
                     android:src="@mipmap/free_play"
@@ -178,5 +163,10 @@
         android:layout_height="1dp"
         android:background="#d1cece"
         />
+    <FrameLayout
+        android:id="@+id/fl_tab_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
 </LinearLayout>
-</layout>

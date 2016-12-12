@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.opengl.Visibility;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
@@ -17,6 +18,7 @@ public class ItemHomeDemandServiceModel extends BaseObservable {
         this.mItemHomeDemandServiceBinding = itemHomeDemandServiceBinding;
         initView();
         initData();
+
     }
 
     private void initView() {
