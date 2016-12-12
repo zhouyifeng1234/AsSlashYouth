@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -20,7 +21,9 @@ import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.activity.MyPublishServiceActivity;
 import com.slash.youth.ui.adapter.MyTaskAdapter;
+import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -30,8 +33,19 @@ import java.util.ArrayList;
  */
 public class MyTaskModel extends BaseObservable {
 
+    private static final int LOAD_DATA_TYPE_LOAD = 0;//首次加载数据
+    private static final int LOAD_DATA_TYPE_REFRESH = 1;//刷新数据
+    private static final int LOAD_DATA_TYPE_MORE = 2;//加载更多数据
+
     ActivityMyTaskBinding mActivityMyTaskBinding;
     Activity mActivity;
+
+    private int offset = 0;
+    private int pageSize = 20;
+
+
+    private int currentFilterTaskType = MyTaskEngine.USER_TASK_ALL_TYPE;//当前过滤展示的任务类型，默认为全部，type=0
+    private int currentLoadDataType = LOAD_DATA_TYPE_LOAD;
 
     public MyTaskModel(ActivityMyTaskBinding activityMyTaskBinding, Activity activity) {
         this.mActivityMyTaskBinding = activityMyTaskBinding;
@@ -44,16 +58,22 @@ public class MyTaskModel extends BaseObservable {
     ArrayList<MyTaskBean> listMyTask = null;
 
     private void initData() {
-        //首次进入页面，加载我的全部任务（进行中任务，发的和抢的，不包括历史任务）
-        getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, 0, 20);
+        //首次进入页面，加载我的全部任务（进行中任务，发的和抢的，不包括任务）
+        currentFilterTaskType = MyTaskEngine.USER_TASK_ALL_TYPE;
+        currentLoadDataType = LOAD_DATA_TYPE_LOAD;
+        offset = 0;
+        getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, offset, pageSize);
     }
+
+    MyTaskAdapter myTaskAdapter;
 
     private void setTotalTaskData() {
         if (listMyTask != null && listMyTask.size() > 0) {
             setMyTaskTypeText("进行中任务");
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+            myTaskAdapter = new MyTaskAdapter(listMyTask);
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
         } else {
             setMyTaskListVisibility(View.GONE);
             setNoTaskVisibility(View.VISIBLE);
@@ -63,29 +83,39 @@ public class MyTaskModel extends BaseObservable {
     private void setMyPublishTaskData() {
         setMyTaskTypeText("发布的任务");
         if (listMyTask != null && listMyTask.size() > 0) {
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+            myTaskAdapter = new MyTaskAdapter(listMyTask);
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
         }
     }
 
     private void setMyBidTaskData() {
         setMyTaskTypeText("抢到的任务");
         if (listMyTask != null && listMyTask.size() > 0) {
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+            myTaskAdapter = new MyTaskAdapter(listMyTask);
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
         }
     }
 
     private void setMyHistoryTaskData() {
-        setMyTaskTypeText("历史任务");
+        setMyTaskTypeText("任务");
         if (listMyTask != null && listMyTask.size() > 0) {
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(new MyTaskAdapter(listMyTask));
+            myTaskAdapter = new MyTaskAdapter(listMyTask);
+            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
         }
     }
 
+    private boolean isMoveListView = false;
+
     private void initListener() {
+
         //为了方便测试，设置Item的点击事件，实际需要做各种判断
         mActivityMyTaskBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (isMoveListView) {
+                    isMoveListView = false;
+                    return;
+                }
                 MyTaskBean myTaskBean = listMyTask.get(position);
 
                 Bundle taskInfo = new Bundle();
@@ -147,6 +177,41 @@ public class MyTaskModel extends BaseObservable {
                 }
             }
         });
+
+        mActivityMyTaskBinding.lvMyTaskList.setOnTouchListener(new View.OnTouchListener() {
+            int startY = -1;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startY = (int) event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (startY != -1) {
+                            int endY = (int) event.getRawY();
+                            if (Math.abs(endY - startY) > 10) {
+                                isMoveListView = true;
+                                CommonUtils.getHandler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        isMoveListView = false;
+                                    }
+                                }, 100);
+                            }
+                            startY = -1;
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+
+        mActivityMyTaskBinding.lvMyTaskList.setRefreshDataTask(new RefreshDataTask());
+        mActivityMyTaskBinding.lvMyTaskList.setLoadMoreNewsTast(new LoadMoreNewsTask());
     }
 
     private void initView() {
@@ -155,9 +220,9 @@ public class MyTaskModel extends BaseObservable {
 
 
     /**
-     * 获取我全部任务（进行中任务，发的和抢的，不包括历史任务）
+     * 获取我全部任务（进行中任务，发的和抢的，不包括任务）
      */
-    public void getMyTotalTaskList(int type, int offset, int limit) {
+    public void getMyTotalTaskList(int type, int offset, final int limit) {
         //模拟数据，实际由服务端 返回
 //        listMyTask.clear();
 //        listMyTask.add(new MyTaskBean());
@@ -174,9 +239,42 @@ public class MyTaskModel extends BaseObservable {
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
-                listMyTask = dataBean.data.list;
+                LogKit.v("currentLoadDataType:" + currentLoadDataType);
+
+                ArrayList<MyTaskBean> loadData = dataBean.data.list;
+                if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
+                    listMyTask = loadData;
+                    MyTaskModel.this.offset = listMyTask.size();
+                    setTotalTaskData();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
+                    listMyTask.clear();
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setTotalTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else {
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setTotalTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    if (loadData.size() < limit) {
+                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                        ToastUtils.shortToast("已经是最后一条了");
+                    }
+                }
+
                 ToastUtils.shortToast(listMyTask.size() + "");
-                setTotalTaskData();
             }
 
             @Override
@@ -189,7 +287,7 @@ public class MyTaskModel extends BaseObservable {
     /**
      * 获取我发布的任务
      */
-    public void getMyPublishTaskList(int type, int offset, int limit) {
+    public void getMyPublishTaskList(int type, int offset, final int limit) {
         //模拟数据，实际由服务端 返回
 //        listMyTask.clear();
 //        listMyTask.add(new MyTaskBean());
@@ -199,9 +297,41 @@ public class MyTaskModel extends BaseObservable {
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
-                listMyTask = dataBean.data.list;
+                LogKit.v("currentLoadDataType:" + currentLoadDataType);
+
+                ArrayList<MyTaskBean> loadData = dataBean.data.list;
+                if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
+                    listMyTask = loadData;
+                    MyTaskModel.this.offset = listMyTask.size();
+                    setMyPublishTaskData();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
+                    listMyTask.clear();
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setMyPublishTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else {
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setMyPublishTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    if (loadData.size() < limit) {
+                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                    }
+                }
+
                 ToastUtils.shortToast(listMyTask.size() + "");
-                setMyPublishTaskData();
             }
 
             @Override
@@ -214,7 +344,7 @@ public class MyTaskModel extends BaseObservable {
     /**
      * 获取我抢的任务
      */
-    public void getMyBidTaskList(int type, int offset, int limit) {
+    public void getMyBidTaskList(int type, final int offset, final int limit) {
         //模拟数据，实际由服务端 返回
 //        listMyTask.clear();
 //        listMyTask.add(new MyTaskBean());
@@ -223,9 +353,42 @@ public class MyTaskModel extends BaseObservable {
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
-                listMyTask = dataBean.data.list;
+                LogKit.v("currentLoadDataType:" + currentLoadDataType);
+
+                ArrayList<MyTaskBean> loadData = dataBean.data.list;
+                if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
+                    listMyTask = loadData;
+                    MyTaskModel.this.offset = listMyTask.size();
+                    setMyBidTaskData();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
+                    listMyTask.clear();
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setMyBidTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else {
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setMyBidTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    if (loadData.size() < limit) {
+                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                    }
+                }
+
                 ToastUtils.shortToast(listMyTask.size() + "");
-                setMyBidTaskData();
+
             }
 
             @Override
@@ -236,9 +399,9 @@ public class MyTaskModel extends BaseObservable {
     }
 
     /**
-     * 获取我的历史任务
+     * 获取我的任务
      */
-    public void getMyHistoryTaskList(int type, int offset, int limit) {
+    public void getMyHistoryTaskList(int type, int offset, final int limit) {
         //模拟数据，实际由服务端 返回
 //        listMyTask.clear();
 //        listMyTask.add(new MyTaskBean());
@@ -250,9 +413,41 @@ public class MyTaskModel extends BaseObservable {
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
-                listMyTask = dataBean.data.list;
+                LogKit.v("currentLoadDataType:" + currentLoadDataType);
+
+                ArrayList<MyTaskBean> loadData = dataBean.data.list;
+                if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
+                    listMyTask = loadData;
+                    MyTaskModel.this.offset = listMyTask.size();
+                    setMyHistoryTaskData();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
+                    listMyTask.clear();
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setMyHistoryTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
+                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                } else {
+                    listMyTask.addAll(loadData);
+                    MyTaskModel.this.offset = listMyTask.size();
+                    LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
+                    if (myTaskAdapter != null) {
+                        myTaskAdapter.notifyDataSetChanged();
+                    } else {
+                        setMyHistoryTaskData();
+                    }
+                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    if (loadData.size() < limit) {
+                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                    }
+                }
+
                 ToastUtils.shortToast(listMyTask.size() + "");
-                setMyHistoryTaskData();
             }
 
             @Override
@@ -260,6 +455,47 @@ public class MyTaskModel extends BaseObservable {
                 ToastUtils.shortToast("get my total task error\r\n" + result);
             }
         }, type, offset, limit);
+    }
+
+    /**
+     * 下拉刷新执行的回调，执行结束后需要调用refreshDataFinish()方法，用来更新状态
+     */
+    public class RefreshDataTask implements RefreshListView.IRefreshDataTask {
+
+        @Override
+        public void refresh() {
+            offset = 0;
+            currentLoadDataType = LOAD_DATA_TYPE_REFRESH;
+            if (currentFilterTaskType == MyTaskEngine.USER_TASK_ALL_TYPE) {
+                getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, offset, pageSize);
+            } else if (currentFilterTaskType == MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE) {
+                getMyPublishTaskList(MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE, offset, pageSize);
+            } else if (currentFilterTaskType == MyTaskEngine.USER_TASK_MY_BID_TYPE) {
+                getMyBidTaskList(MyTaskEngine.USER_TASK_MY_BID_TYPE, offset, pageSize);
+            } else {
+                getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, offset, pageSize);
+            }
+        }
+    }
+
+    /**
+     * 上拉加载更多执行的回调，执行完毕后需要调用loadMoreNewsFinished()方法，用来更新状态,如果加载到最后一页，则需要调用setLoadToLast()方法
+     */
+    public class LoadMoreNewsTask implements RefreshListView.ILoadMoreNewsTask {
+
+        @Override
+        public void loadMore() {
+            currentLoadDataType = LOAD_DATA_TYPE_MORE;
+            if (currentFilterTaskType == MyTaskEngine.USER_TASK_ALL_TYPE) {
+                getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, offset, pageSize);
+            } else if (currentFilterTaskType == MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE) {
+                getMyPublishTaskList(MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE, offset, pageSize);
+            } else if (currentFilterTaskType == MyTaskEngine.USER_TASK_MY_BID_TYPE) {
+                getMyBidTaskList(MyTaskEngine.USER_TASK_MY_BID_TYPE, offset, pageSize);
+            } else {
+                getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, offset, pageSize);
+            }
+        }
     }
 
     public void goBack(View v) {
@@ -301,27 +537,39 @@ public class MyTaskModel extends BaseObservable {
         ToastUtils.shortToast("发布服务");
     }
 
-    //筛选全部任务（进行中任务，发的和抢的，不包括历史任务）
+    //筛选全部任务（进行中任务，发的和抢的，不包括任务）
     public void filterMyTotalTask(View v) {
-        getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, 0, 20);
+        offset = 0;
+        currentFilterTaskType = MyTaskEngine.USER_TASK_ALL_TYPE;
+        currentLoadDataType = LOAD_DATA_TYPE_LOAD;
+        getMyTotalTaskList(MyTaskEngine.USER_TASK_ALL_TYPE, offset, pageSize);
         setOpenTaskVisibility(View.GONE);
     }
 
     //筛选我发布的任务
     public void filterMyPublishTask(View v) {
-        getMyPublishTaskList(MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE, 0, 20);
+        offset = 0;
+        currentFilterTaskType = MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE;
+        currentLoadDataType = LOAD_DATA_TYPE_LOAD;
+        getMyPublishTaskList(MyTaskEngine.USER_TASK_MY_PUBLISH_TYPE, offset, pageSize);
         setOpenTaskVisibility(View.GONE);
     }
 
     //筛选我抢的任务
     public void filterMyBidTask(View v) {
-        getMyBidTaskList(MyTaskEngine.USER_TASK_MY_BID_TYPE, 0, 20);
+        offset = 0;
+        currentFilterTaskType = MyTaskEngine.USER_TASK_MY_BID_TYPE;
+        currentLoadDataType = LOAD_DATA_TYPE_LOAD;
+        getMyBidTaskList(MyTaskEngine.USER_TASK_MY_BID_TYPE, offset, pageSize);
         setOpenTaskVisibility(View.GONE);
     }
 
-    //筛选我的历史任务（下架的或者过期的）
+    //筛选我的任务（下架的或者过期的）
     public void filterMyHistoryTask(View v) {
-        getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, 0, 20);
+        offset = 0;
+        currentFilterTaskType = MyTaskEngine.USER_TASK_MY_HIS_TYPE;
+        currentLoadDataType = LOAD_DATA_TYPE_LOAD;
+        getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, offset, pageSize);
         setOpenTaskVisibility(View.GONE);
     }
 

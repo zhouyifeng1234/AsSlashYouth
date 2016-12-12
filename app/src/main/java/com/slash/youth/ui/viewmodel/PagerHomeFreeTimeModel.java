@@ -24,13 +24,13 @@ import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
-import com.slash.youth.ui.adapter.HomeDemandAndServiceAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -51,10 +51,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     public Activity mActivity;
     PagerHomeFreetimeBinding mPagerHomeFreetimeBinding;
-    private  ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
-    private  ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
+    private ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
+    private ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
     private boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
-    private int limit=5;
+    private int limit = 5;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
 
@@ -206,27 +206,31 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             }
         });
 
-        //条目点击
         mPagerHomeFreetimeBinding.lvHomeDemandAndService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mIsDisplayDemandList) {
                     //需求
-                    FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
-                    long demandId = listBean.getId();
-                   Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                    intentDemandDetailActivity.putExtra("demandId", demandId);
-                    mActivity.startActivity(intentDemandDetailActivity);
+                    if (position <= listDemandBean.size() - 1) {
+                        FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
+                        long demandId = listBean.getId();
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", demandId);
+                        mActivity.startActivity(intentDemandDetailActivity);
+                    }
                 } else {
                     //服务
-                    FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
-                    long serviceId = listBean.getId();
-                    Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                    intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                    mActivity.startActivity(intentServiceDetailActivity);
+                    if (position <= listServiceBean.size() - 1) {
+                        FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
+                        long serviceId = listBean.getId();
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                        mActivity.startActivity(intentServiceDetailActivity);
+                    }
                 }
             }
         });
+
     }
 
     public class HomeVpAdvChange implements Runnable {
@@ -384,8 +388,5 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         intentFirstPagerMoreActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentFirstPagerMoreActivity);
     }
-
-
-
 
 }

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
@@ -15,9 +16,16 @@ import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.UserInfoActivity;
+import com.slash.youth.ui.view.RefreshScrollView;
+import com.slash.youth.utils.BitmapKit;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -38,8 +46,10 @@ public class MyBidDemandModel extends BaseObservable {
     public MyBidDemandModel(ActivityMyBidDemandBinding activityMyBidDemandBinding, Activity activity) {
         this.mActivityMyBidDemandBinding = activityMyBidDemandBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
@@ -60,8 +70,46 @@ public class MyBidDemandModel extends BaseObservable {
 
     }
 
+    private void initListener() {
+        mActivityMyBidDemandBinding.scRefresh.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                displayLoadLayer();
+                getDataFromServer();
+            }
+        });
+    }
+
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
+    }
+
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    public void gotoUserInfoPage(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        switch (v.getId()) {
+            case R.id.ll_demand_userinfo:
+                //获取需求方uid
+                intentUserInfoActivity.putExtra("Uid", innerDemandCardInfo.uid);
+                break;
+            case R.id.ll_service_userinfo:
+                //我抢的需求，我就是服务方，所以这里不需要传uid
+                break;
+        }
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     /**
@@ -186,7 +234,7 @@ public class MyBidDemandModel extends BaseObservable {
                 MyTaskBean taskinfo = myTaskItemBean.data.taskinfo;
                 innerDemandCardInfo = new InnerDemandCardInfo();
 
-                innerDemandCardInfo.uid = taskinfo.uid;
+                //innerDemandCardInfo.uid = taskinfo.uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
                 innerDemandCardInfo.avatar = taskinfo.avatar;
                 innerDemandCardInfo.username = taskinfo.name;
                 innerDemandCardInfo.isAuth = taskinfo.isauth;
@@ -217,6 +265,7 @@ public class MyBidDemandModel extends BaseObservable {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
+                innerDemandCardInfo.uid = dataBean.data.demand.uid;//使用需求详情接口中的uid
                 innerDemandCardInfo.suid = dataBean.data.demand.suid;
                 innerDemandCardInfo.bp = dataBean.data.demand.bp;
                 innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
@@ -233,6 +282,8 @@ public class MyBidDemandModel extends BaseObservable {
 
     private void setMyPublishDemandInfo() {
         //设置详细信息
+        getDemandUserInfo();//获取需求方的个人信息
+        getServiceUserInfo();//获取服务方的个人信息
         setDemandTitle(innerDemandCardInfo.title);
         SimpleDateFormat sdfStarttime = new SimpleDateFormat("开始时间:yyyy年MM月dd日 hh:mm");
         setStarttime(sdfStarttime.format(innerDemandCardInfo.starttime));
@@ -263,7 +314,63 @@ public class MyBidDemandModel extends BaseObservable {
 
         displayStatusButton();
         displayStatusProgressCycle();
+
+        hideLoadLayer();
     }
+
+
+    /**
+     * 获取需求方方用户信息
+     */
+    private void getDemandUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setDemandUserIsAuthVisibility(View.GONE);
+                } else {
+                    setDemandUserIsAuthVisibility(View.VISIBLE);
+                }
+                setDemandUsername("需求方:" + uinfo.name);
+
+                LogKit.v("需求方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取需求方用户信息失败");
+            }
+        }, innerDemandCardInfo.uid + "", "0");
+    }
+
+    /**
+     * 获取服务方用户信息
+     */
+    private void getServiceUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setServiceUserIsAuthVisibility(View.GONE);
+                } else {
+                    setServiceUserIsAuthVisibility(View.VISIBLE);
+                }
+                setServiceUsername("服务方:" + uinfo.name);
+
+                LogKit.v("服务方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取服务方用户信息失败");
+            }
+        }, innerDemandCardInfo.suid + "", "0");
+    }
+
 
     private void displayStatusButton() {
         int status = innerDemandCardInfo.status;
@@ -390,6 +497,64 @@ public class MyBidDemandModel extends BaseObservable {
     private int instalmentVisibility;
     private String instalmentRatio;//30%/40%/40%/50%
     private int bpConsultVisibility;
+
+    private int serviceUserIsAuthVisibility = View.GONE;
+    private int demandUserIsAuthVisibility = View.GONE;
+    private String demandUsername;
+    private String serviceUsername;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
+
+    @Bindable
+    public String getServiceUsername() {
+        return serviceUsername;
+    }
+
+    public void setServiceUsername(String serviceUsername) {
+        this.serviceUsername = serviceUsername;
+        notifyPropertyChanged(BR.serviceUsername);
+    }
+
+    @Bindable
+    public String getDemandUsername() {
+        return demandUsername;
+    }
+
+    public void setDemandUsername(String demandUsername) {
+        this.demandUsername = demandUsername;
+        notifyPropertyChanged(BR.demandUsername);
+    }
+
+
+    @Bindable
+    public int getServiceUserIsAuthVisibility() {
+        return serviceUserIsAuthVisibility;
+    }
+
+    public void setServiceUserIsAuthVisibility(int serviceUserIsAuthVisibility) {
+        this.serviceUserIsAuthVisibility = serviceUserIsAuthVisibility;
+        notifyPropertyChanged(BR.serviceUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public int getDemandUserIsAuthVisibility() {
+        return demandUserIsAuthVisibility;
+    }
+
+    public void setDemandUserIsAuthVisibility(int demandUserIsAuthVisibility) {
+        this.demandUserIsAuthVisibility = demandUserIsAuthVisibility;
+        notifyPropertyChanged(BR.demandUserIsAuthVisibility);
+    }
 
     @Bindable
     public int getBpConsultVisibility() {

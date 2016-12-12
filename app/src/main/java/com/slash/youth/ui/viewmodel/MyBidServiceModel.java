@@ -17,13 +17,20 @@ import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.ServiceInstalmentListBean;
 import com.slash.youth.domain.ServiceOrderInfoBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.ServiceEngine;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
+import com.slash.youth.ui.view.RefreshScrollView;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
@@ -43,13 +50,16 @@ public class MyBidServiceModel extends BaseObservable {
     private int fid;//当前是第几期
     private double orderQuote = -1;//必须是服务订单信息接口返回的报价才是准确的
     private int quoteunit = -1;
+    private long duid;//服务订单中的需求方ID
     String[] optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
 
     public MyBidServiceModel(ActivityMyBidServiceBinding activityMyBidServiceBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityMyBidServiceBinding = activityMyBidServiceBinding;
+        displayLoadLayer();
         initData();
         initView();
+        initListener();
     }
 
     MyTaskBean myTaskBean;
@@ -64,6 +74,8 @@ public class MyBidServiceModel extends BaseObservable {
         getDataFromServer();
     }
 
+    private int loadDataTimes = 0;//getTaskItemData、getServiceDetailFromServer、getServiceOrderInfoData、getDemandUserInfo、getServiceUserInfo五次都加载完毕，则数据加载完毕
+
     private void getDataFromServer() {
         getTaskItemData();
         getServiceDetailFromServer();//通过tid获取服务详情信息
@@ -74,8 +86,46 @@ public class MyBidServiceModel extends BaseObservable {
 
     }
 
+    private void initListener() {
+        mActivityMyBidServiceBinding.scRefresh.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                displayLoadLayer();
+                getDataFromServer();
+            }
+        });
+    }
+
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
+    }
+
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    public void gotoUserInfoPage(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        switch (v.getId()) {
+            case R.id.ll_demand_userinfo:
+                //我抢的服务，我就是需求方，所以这里不需要uid
+                break;
+            case R.id.ll_service_userinfo:
+                //获取服务方uid
+                intentUserInfoActivity.putExtra("Uid", suid);
+                break;
+        }
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     /**
@@ -220,6 +270,11 @@ public class MyBidServiceModel extends BaseObservable {
                 tid = myTaskBean.tid;//tid就是soid
                 soid = tid;//tid（任务id）就是soid(服务订单id)
                 fid = myTaskBean.instalmentcurr;//通过调试接口发现，这个字段当type=2为服务的时候，好像不准，一直都是0
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -247,18 +302,18 @@ public class MyBidServiceModel extends BaseObservable {
                 setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
                 //报价 这里不能使用服务详情接口返回的报价
                 quoteunit = service.quoteunit;
-                CommonUtils.getHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (orderQuote != -1) {
-                            if (quoteunit == 9) {
-                                setQuote(orderQuote + "元");
-                            } else if (quoteunit > 0 && quoteunit < 9) {
-                                setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
-                            }
-                        }
+//                CommonUtils.getHandler().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+                if (orderQuote != -1) {
+                    if (quoteunit == 9) {
+                        setQuote(orderQuote + "元");
+                    } else if (quoteunit > 0 && quoteunit < 9) {
+                        setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
                     }
-                });
+                }
+//                    }
+//                });
                 //分期
                 //这里不能用service详情的instalment，要用任务列表item的instalment
                 //但是 目前任务列表item中的分期信息（分期比例）也不对，"instalmentcurr": 0, "instalmentcurrfinish": 0, "instalmentratio": "",
@@ -288,6 +343,10 @@ public class MyBidServiceModel extends BaseObservable {
                     setBpConsultVisibility(View.INVISIBLE);
                 }
 
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -300,6 +359,7 @@ public class MyBidServiceModel extends BaseObservable {
     /**
      * 根据soid(即tid)获取服务订单状态信息
      */
+
     private void getServiceOrderInfoData() {
         //这个接口好像不能使用，可以使用“v1/api/service/orderinfo”接口获取订单信息，里面有status
 //        ServiceEngine.getServiceOrderStatus(new BaseProtocol.IResultExecutor<ServiceOrderStatusBean>() {
@@ -319,23 +379,31 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceOrderInfoBean dataBean) {
                 orderQuote = dataBean.data.order.quote;
-                CommonUtils.getHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (quoteunit != -1) {
-                            if (quoteunit == 9) {
-                                setQuote(orderQuote + "元");
-                            } else if (quoteunit > 0 && quoteunit < 9) {
-                                setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
-                            }
-                        }
+//                CommonUtils.getHandler().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+                if (quoteunit != -1) {
+                    if (quoteunit == 9) {
+                        setQuote(orderQuote + "元");
+                    } else if (quoteunit > 0 && quoteunit < 9) {
+                        setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
                     }
-                });
+                }
+//                    }
+//                });
 
                 int status = dataBean.data.order.status;
                 displayStatusCycle(status);
                 displayStatusButton(dataBean);//显示对应不同状态的操作按钮
                 suid = dataBean.data.order.suid;
+                duid = dataBean.data.order.uid;
+                getDemandUserInfo();
+                getServiceUserInfo();
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
 
             @Override
@@ -343,6 +411,68 @@ public class MyBidServiceModel extends BaseObservable {
 
             }
         }, soid + "");
+    }
+
+    /**
+     * 获取需求者信息
+     */
+    private void getDemandUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setDemandUserIsAuthVisibility(View.GONE);
+                } else {
+                    setDemandUserIsAuthVisibility(View.VISIBLE);
+                }
+                setDemandUsername("需求方:" + uinfo.name);
+
+                LogKit.v("需求方信息 uinfo.id:" + uinfo.id);
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取需求方信息失败:" + result);
+            }
+        }, duid + "", "0");
+    }
+
+    /**
+     * 获取服务者信息
+     */
+    private void getServiceUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                if (uinfo.isauth == 0) {//未认证
+                    setServiceUserIsAuthVisibility(View.GONE);
+                } else {
+                    setServiceUserIsAuthVisibility(View.VISIBLE);
+                }
+                setServiceUsername("服务方:" + uinfo.name);
+
+                LogKit.v("服务方信息 uinfo.id:" + uinfo.id);
+
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取服务方信息失败:" + result);
+            }
+        }, suid + "", "0");
     }
 
     ArrayList<ServiceInstalmentListBean.InstalmentInfo> instalmentInfoList;
@@ -474,6 +604,63 @@ public class MyBidServiceModel extends BaseObservable {
     private int confirmFinishVisibility = View.GONE;
     private int paymentVisibility = View.GONE;
     private int rectifyLayerVisibility = View.GONE;//延期支付的浮层是否可见，默认为不可见
+
+    private int demandUserIsAuthVisibility = View.GONE;
+    private String demandUsername;
+    private int serviceUserIsAuthVisibility = View.GONE;
+    private String serviceUsername;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
+
+    @Bindable
+    public int getDemandUserIsAuthVisibility() {
+        return demandUserIsAuthVisibility;
+    }
+
+    public void setDemandUserIsAuthVisibility(int demandUserIsAuthVisibility) {
+        this.demandUserIsAuthVisibility = demandUserIsAuthVisibility;
+        notifyPropertyChanged(BR.demandUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public String getDemandUsername() {
+        return demandUsername;
+    }
+
+    public void setDemandUsername(String demandUsername) {
+        this.demandUsername = demandUsername;
+        notifyPropertyChanged(BR.demandUsername);
+    }
+
+    @Bindable
+    public int getServiceUserIsAuthVisibility() {
+        return serviceUserIsAuthVisibility;
+    }
+
+    public void setServiceUserIsAuthVisibility(int serviceUserIsAuthVisibility) {
+        this.serviceUserIsAuthVisibility = serviceUserIsAuthVisibility;
+        notifyPropertyChanged(BR.serviceUserIsAuthVisibility);
+    }
+
+    @Bindable
+    public String getServiceUsername() {
+        return serviceUsername;
+    }
+
+    public void setServiceUsername(String serviceUsername) {
+        this.serviceUsername = serviceUsername;
+        notifyPropertyChanged(BR.serviceUsername);
+    }
 
     @Bindable
     public int getRectifyLayerVisibility() {

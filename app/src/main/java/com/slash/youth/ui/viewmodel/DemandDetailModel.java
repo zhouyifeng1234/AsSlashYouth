@@ -365,7 +365,7 @@ public class DemandDetailModel extends BaseObservable {
     private int bottomBtnDemandVisibility;//需求者视角的底部按钮是否显示隐藏
     private int topShareBtnVisibility;//服务者视角的顶部分享按钮是否可见
     private int topDemandBtnVisibility;//需求者视角的顶部修改和下架按钮是否可见
-    private int offShelfLogoVisibility;//已经下架的需求需要显示下架Logo
+    private int offShelfLogoVisibility = View.GONE;//已经下架的需求需要显示下架Logo
 
     private String demandTitle;//需求标题
     private String demandStartTime;//需求开始时间 开始:9月18日 8:30

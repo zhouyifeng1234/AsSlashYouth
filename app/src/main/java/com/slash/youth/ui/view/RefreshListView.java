@@ -59,7 +59,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
         addMoreFooter = View.inflate(context, R.layout.footer_listview_addmore,
                 null);
         this.addHeaderView(refreshHeader);
-        this.addFooterView(addMoreFooter);
+//        this.addFooterView(addMoreFooter);
         ivRefreshPic = (ImageView) refreshHeader
                 .findViewById(R.id.iv_header_listview_refresh_pic);
         tvRefreshState = (TextView) refreshHeader
@@ -74,10 +74,11 @@ public class RefreshListView extends ListView implements OnScrollListener {
         // int measuredWidth = refreshHeader.getMeasuredWidth();
         // System.out.println(measuredWidth);
         refreshHeader.setPadding(0, -headerHeight, 0, 0);
-        addMoreFooter.measure(LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT);
-        footerHeight = addMoreFooter.getMeasuredHeight();
-        addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+//        addMoreFooter.measure(LayoutParams.MATCH_PARENT,
+//                LayoutParams.WRAP_CONTENT);
+//        footerHeight = addMoreFooter.getMeasuredHeight();
+//        addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+//        addMoreFooter.setVisibility(View.GONE);
         initData();
         initAnimation();
         initListener();
@@ -232,7 +233,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
     private RotateAnimation raRelease2Pull;
     private ProgressBar pbRefreshProgress;
     private View addMoreFooter;
-    private int footerHeight;
+//    private int footerHeight;
 
 
     /**
@@ -285,12 +286,16 @@ public class RefreshListView extends ListView implements OnScrollListener {
             // ToastUtils.shortToast(context, "the last");
             System.out.println("load more");
             isLoadingMore = true;
-            addMoreFooter.setPadding(0, 0, 0, 0);
+//            addMoreFooter.setPadding(0, 0, 0, 0);
+//            addMoreFooter.setVisibility(View.VISIBLE);
+            this.addFooterView(addMoreFooter);
             if (loadMoreNewsTask != null) {
                 loadMoreNewsTask.loadMore();
             } else {
                 ToastUtils.shortToast("加载更多失败~~~~(>_<);~~~~");
-                addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+//                addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+//                addMoreFooter.setVisibility(View.GONE);
+                this.removeFooterView(addMoreFooter);
                 isLoadingMore = false;
             }
         }
@@ -301,12 +306,22 @@ public class RefreshListView extends ListView implements OnScrollListener {
     }
 
     public void loadMoreNewsFinished() {
-        addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+//        addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+//        LogKit.v("-footerHeight:" + (-footerHeight));
+//        addMoreFooter.setVisibility(View.GONE);
+        this.removeFooterView(addMoreFooter);
         isLoadingMore = false;
     }
 
     public void setLoadToLast() {
         isLoadToLast = true;
+    }
+
+    /**
+     * 在listView重新刷新以后，或者页面上listView的数据重新加载后，需要调用这个方法，否则无法加载更多
+     */
+    public void setNotLoadToLast() {
+        isLoadToLast = false;
     }
 
 }

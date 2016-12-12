@@ -4,7 +4,6 @@ package com.slash.youth.ui.viewmodel;
 import android.Manifest;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -14,11 +13,8 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
-import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.engine.LoginManager;
-import com.slash.youth.ui.activity.HomeActivity;
-import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -55,7 +51,7 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     private void initView() {
-        setRegisterAndLoginTextVisibility();
+//        setRegisterAndLoginTextVisibility();
     }
 
 
@@ -86,7 +82,7 @@ public class ActivityLoginModel extends BaseObservable {
         CommonUtils.getContext().startActivity(intentChatActivity);
 */
 
-       // Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        // Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
 ////        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
 //
 //        Bundle taskInfoBundle = new Bundle();
@@ -124,7 +120,7 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     public void wechatLogin(View v) {
-      //  LoginManager.loginWeChat();
+        //  LoginManager.loginWeChat();
 
 
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
@@ -144,7 +140,6 @@ public class ActivityLoginModel extends BaseObservable {
 
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
         mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.QQ, umAuthListener);
-
 
     }
 
@@ -190,18 +185,36 @@ public class ActivityLoginModel extends BaseObservable {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             ToastUtils.shortToast("Authorize succeed");
-            switch (platform){
+            UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
+            switch (platform) {
                 case QQ:
                     String QQ_access_token = data.get("access_token");
                     String uid = data.get("uid");
-                    SpUtils.setString("QQ_token",QQ_access_token);
-                    SpUtils.setString("QQ_uid",uid);
+                    SpUtils.setString("QQ_token", QQ_access_token);
+                    SpUtils.setString("QQ_uid", uid);
+
+                    LogKit.v("QQ_access_token:" + QQ_access_token + " uid:" + uid);
+
+
+//                    mShareAPI.getPlatformInfo(loginActivity, SHARE_MEDIA.QQ, umAuthListenerForUserInfo);
                     break;
                 case WEIXIN:
+                    LogKit.v("weixin data size:" + data.size());
+                    for (String key : data.keySet()) {
+                        LogKit.v(key + ":" + data.get(key));
+                    }
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
-                    SpUtils.setString("WEIXIN_token",WEIXIN_access_token);
-                    SpUtils.setString("WEIXIN_uid",openid);
+                    SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
+                    SpUtils.setString("WEIXIN_uid", openid);
+
+                    LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + " openid:" + openid);
+
+//                    mShareAPI.getPlatformInfo(loginActivity, SHARE_MEDIA.WEIXIN, umAuthListenerForUserInfo);
+//                    if (Build.VERSION.SDK_INT >= 23) {
+//                        String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+//                        ActivityCompat.requestPermissions(loginActivity, mPermissionList, 123);
+//                    }
                     break;
             }
         }
@@ -217,48 +230,38 @@ public class ActivityLoginModel extends BaseObservable {
         }
     };
 
-    private int registerVisibility;
-    private int gotoLoginVisibility;
-
-    @Bindable
-    public int getGotoLoginVisibility() {
-        return gotoLoginVisibility;
-    }
-
-    public void setGotoLoginVisibility(int gotoLoginVisibility) {
-        this.gotoLoginVisibility = gotoLoginVisibility;
-        notifyPropertyChanged(BR.gotoLoginVisibility);
-    }
-
-    @Bindable
-    public int getRegisterVisibility() {
-        return registerVisibility;
-    }
-
-    public void setRegisterVisibility(int registerVisibility) {
-        this.registerVisibility = registerVisibility;
-        notifyPropertyChanged(BR.registerVisibility);
-    }
-
-    //跳转到“新手注册”状态
-    public void register(View v) {
-        currentPageState = PAGE_STATE_REGISTER;
-        setRegisterAndLoginTextVisibility();
-    }
-
-    //跳转到“我有账号,去登录”状态
-    public void gotoLogin(View v) {
-        currentPageState = PAGE_STATE_GOTOLOGIN;
-        setRegisterAndLoginTextVisibility();
-    }
-
-    public void setRegisterAndLoginTextVisibility() {
-        if (currentPageState == PAGE_STATE_GOTOLOGIN) {
-            setRegisterVisibility(View.VISIBLE);
-            setGotoLoginVisibility(View.INVISIBLE);
-        } else if (currentPageState == PAGE_STATE_REGISTER) {
-            setRegisterVisibility(View.INVISIBLE);
-            setGotoLoginVisibility(View.VISIBLE);
+    private UMAuthListener umAuthListenerForUserInfo = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            ToastUtils.shortToast("GetUserInfo succeed");
+            String name;
+            String gender;
+            String city;
+            switch (platform) {
+                case QQ:
+                    name = data.get("screen_name");
+                    gender = data.get("gender");
+                    city = data.get("city");
+                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
+                    break;
+                case WEIXIN:
+                    name = data.get("screen_name");
+                    gender = data.get("gender");
+                    city = data.get("city");
+                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
+                    break;
+            }
         }
-    }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            ToastUtils.shortToast("GetUserInfo fail");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            ToastUtils.shortToast("GetUserInfo cancel");
+        }
+    };
+
 }
