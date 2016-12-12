@@ -90,6 +90,8 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
+                                    android:id="@+id/ll_demand_userinfo"
+                                    android:onClick="@{myPublishServiceModel.gotoUserInfoPage}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
@@ -131,6 +133,8 @@
                                 />
 
                                 <LinearLayout
+                                    android:id="@+id/ll_service_userinfo"
+                                    android:onClick="@{myPublishServiceModel.gotoUserInfoPage}"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">

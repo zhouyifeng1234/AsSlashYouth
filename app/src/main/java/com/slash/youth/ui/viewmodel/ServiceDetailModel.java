@@ -103,7 +103,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     //立即抢单（抢服务）
     public void grabService(View v) {
-
+        ToastUtils.shortToast("立即预约服务");
     }
 
     //底部服务者视角看到的分享按钮

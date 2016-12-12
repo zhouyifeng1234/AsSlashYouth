@@ -93,15 +93,15 @@ public class GlobalConstants {
         public static final String SERVER_HOST_MY_ACCOUNT = "http://121.42.145.178/uinfo/v1/api/wallet";
 
         //[推荐]-首页上部活动广告
-        public static final String FIRST_PAHER_ADVERTISEMENT_ONE="http://121.42.145.178/static/ad"+"/1";
-        public static final String FIRST_PAHER_ADVERTISEMENT_TWO="http://121.42.145.178/static/ad"+"/2";
-        public static final String FIRST_PAHER_ADVERTISEMENT_THREE="http://121.42.145.178/static/ad"+"/3";
+        public static final String FIRST_PAHER_ADVERTISEMENT_ONE = "http://121.42.145.178/static/ad" + "/1";
+        public static final String FIRST_PAHER_ADVERTISEMENT_TWO = "http://121.42.145.178/static/ad" + "/2";
+        public static final String FIRST_PAHER_ADVERTISEMENT_THREE = "http://121.42.145.178/static/ad" + "/3";
         //[闲时]-更多服务列表查询
-        public static final String FREE_TIME_MORE_HOST ="http://121.42.145.178/leisure/v1/api";
-        public static final String MORE_SERVICE_LIST = FREE_TIME_MORE_HOST+"/service";
-        public static final String MORE_DEMAND_LIST = FREE_TIME_MORE_HOST+"/demand";
+        public static final String FREE_TIME_MORE_HOST = "http://121.42.145.178/leisure/v1/api";
+        public static final String MORE_SERVICE_LIST = FREE_TIME_MORE_HOST + "/service";
+        public static final String MORE_DEMAND_LIST = FREE_TIME_MORE_HOST + "/demand";
         //[推荐]-首页需求推荐列表
-        public static final String FIRST_PAGER_DEMAND_LIST = "http://121.42.145.178/feed/v1/api/demand/recommend"+"/list";
+        public static final String FIRST_PAGER_DEMAND_LIST = "http://121.42.145.178/feed/v1/api/demand/recommend" + "/list";
         public static final String FIRST_PAGER_SERVICE_LIST = "http://121.42.145.178/feed/v1/api/service/recommend/list";
 
 
@@ -445,12 +445,10 @@ public class GlobalConstants {
         public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
         //[关注]-关注动作
         public static final String CARE_TA = RELATION_HOST + "/add";
-       // public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
+        // public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
 
 
-       // public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
-       //[关注]-关注动作
-       public static final String  CARE_TA = RELATION_HOST+"/add";
+        // public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
         //[关注]-我和某用户的关系
         public static final String IS_FOLLOW = RELATION_HOST + "/isfollow";
         //[关注]-取消关注动作
@@ -460,11 +458,6 @@ public class GlobalConstants {
         //[推荐]-推荐好友
         public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
 
-
-        public static final String CANNEL_CARE = RELATION_HOST+"/cancel";
-        public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
-        //[推荐]-推荐好友
-        public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
 
     }
 

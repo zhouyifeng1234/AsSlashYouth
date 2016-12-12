@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="D:\AndroidStudioProjects\SlashYouth\ViewPagerIndicatorLibrary\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="D:\AndroidStudioProjects\SlashYouth\ViewPagerIndicatorLibrary\src\release\jniLibs"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="E:\sss\SlashYouth\ViewPagerIndicatorLibrary\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="E:\sss\SlashYouth\ViewPagerIndicatorLibrary\src\release\jniLibs"/></dataSet></merger>
->>>>>>> 1a0fc82e24530c0328211b6da705db573275c50e
+<merger version="3"><dataSet config="main"><source path="C:\Users\acer\Desktop\AsSlashYouth\ViewPagerIndicatorLibrary\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\acer\Desktop\AsSlashYouth\ViewPagerIndicatorLibrary\src\release\jniLibs"/></dataSet></merger>

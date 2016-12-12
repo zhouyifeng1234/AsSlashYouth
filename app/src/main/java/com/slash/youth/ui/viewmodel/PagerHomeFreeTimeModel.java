@@ -14,6 +14,7 @@ import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.slash.youth.BR;
@@ -23,11 +24,11 @@ import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.ApprovalActivity;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.activity.SearchActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
-import com.slash.youth.ui.adapter.HomeDemandAndServiceAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -48,10 +49,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     public Activity mActivity;
     PagerHomeFreetimeBinding mPagerHomeFreetimeBinding;
-    private  ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
-    private  ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
+    private ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
+    private ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
     private boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
-    private int limit=5;
+    private int limit = 5;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
 
@@ -202,6 +203,28 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 return false;
             }
         });
+
+        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mIsDisplayDemandList) {
+                    //需求
+                    FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
+                    long demandId = listBean.getId();
+                    Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                    intentDemandDetailActivity.putExtra("demandId", demandId);
+                    mActivity.startActivity(intentDemandDetailActivity);
+                } else {
+                    //服务
+                    FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
+                    long serviceId = listBean.getId();
+                    Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                    intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                    mActivity.startActivity(intentServiceDetailActivity);
+                }
+            }
+        });
+
     }
 
     public class HomeVpAdvChange implements Runnable {
@@ -263,7 +286,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.VISIBLE);
         setServiceButtonVisibility(View.INVISIBLE);
         getDemandOrServiceListData();
-}
+    }
 
     //服务需求
     public void displayServiceList() {
@@ -286,17 +309,17 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         listAdvImageUrl.add("http://img1.imgtn.bdimg.com/it/u=1794894692,1423685501&fm=21&gp=0.jpg");
 
         //FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_ONE);
-       // FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_THREE);
+        // FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_THREE);
         //FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_TWO);
     }
 
     public void getDemandOrServiceListData() {
         if (mIsDisplayDemandList) {
             listDemandBean.clear();
-            FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(),limit);
+            FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(), limit);
         } else {
             listServiceBean.clear();
-            FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(),limit);
+            FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(), limit);
         }
     }
 
@@ -308,9 +331,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             listAdvImageUrl.add(data);
 
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
@@ -319,17 +343,18 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         @Override
         public void execute(FreeTimeDemandBean data) {
             int rescode = data.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
                 listDemandBean.addAll(list);
-                homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean,mActivity);
+                homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                 mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeDemandAndDemandAdapter);
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
@@ -338,24 +363,25 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         @Override
         public void execute(FreeTimeServiceBean data) {
             int rescode = data.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listServiceBean.addAll(list);
-                homeServiceAdapter = new HomeServiceAdapter(listServiceBean,mActivity);
+                homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                 mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeServiceAdapter);
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
     //点击添加更多
-    public void more(View view){
+    public void more(View view) {
         Intent intentFirstPagerMoreActivity = new Intent(CommonUtils.getContext(), FirstPagerMoreActivity.class);
-        intentFirstPagerMoreActivity.putExtra("isDemand",mIsDisplayDemandList);
+        intentFirstPagerMoreActivity.putExtra("isDemand", mIsDisplayDemandList);
         intentFirstPagerMoreActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentFirstPagerMoreActivity);
     }

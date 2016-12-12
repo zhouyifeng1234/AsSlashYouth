@@ -3,38 +3,23 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.net.sip.SipAudioCall;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
-import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
-import com.slash.youth.databinding.FloatViewBinding;
 import com.slash.youth.domain.FansBean;
 import com.slash.youth.domain.SetBean;
-import com.slash.youth.domain.TransactionRecoreBean;
-import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
-import com.slash.youth.ui.viewmodel.FloatViewModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.shareboard.SnsPlatform;
-
-import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/10/31.
@@ -43,7 +28,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private ActivityUserinfoBinding activityUserinfoBinding;
     private PopupWindow popupWindow;
     private ActivityUserInfoModel userInfoModel;
-    private  long myId;
+    private long myId;
     private String phone;
     private boolean isfriend;
     private boolean isCare;
@@ -57,7 +42,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         long uid = intent.getLongExtra("Uid", -1);
         String skillTag = intent.getStringExtra("skillTag");
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding,uid,this,skillTag);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
         testIsFriend(uid);
         testisfollow(uid);
@@ -69,21 +54,21 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private void title() {
         userInfoModel.setOnNameListener(new ActivityUserInfoModel.OnNameListener() {
             @Override
-            public void OnNameListener(String name ,long myUid) {
-                setTitle(userInfoModel.isOther,name);
+            public void OnNameListener(String name, long myUid) {
+                setTitle(userInfoModel.isOther, name);
                 myId = myUid;
             }
         });
     }
 
-    private void setTitle(boolean isOther,String name) {
-        if(isOther){
+    private void setTitle(boolean isOther, String name) {
+        if (isOther) {
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
 
-        }else  {
+        } else {
             activityUserinfoBinding.tvUserinfoTitle.setText("个人信息");
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
@@ -98,7 +83,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 finish();
             }
         });
-}
+    }
 
     private void listener() {
         activityUserinfoBinding.ivUserinfoMenu.setOnClickListener(this);
@@ -108,13 +93,13 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_userinfo_save:
-              //  UserInfoItemBean.DataBean.UinfoBean uinfo = userInfoModel.uinfo;
+                //  UserInfoItemBean.DataBean.UinfoBean uinfo = userInfoModel.uinfo;
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
-                intentUserinfoEditorActivity.putExtra("phone",phone);
-                intentUserinfoEditorActivity.putExtra("myId",myId);
-               // intentUserinfoEditorActivity.putExtra("uifo",uinfo);
+                intentUserinfoEditorActivity.putExtra("phone", phone);
+                intentUserinfoEditorActivity.putExtra("myId", myId);
+                // intentUserinfoEditorActivity.putExtra("uifo",uinfo);
                 UserInfoActivity.this.startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
@@ -173,11 +158,11 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
 
     //先验证一下好友关系
-    public void testIsFriend(long uid){
-        ContactsManager.onTestFriendStatueProtocol(new onTestFriendStatue(),uid);
-        if(isfriend){
+    public void testIsFriend(long uid) {
+        ContactsManager.onTestFriendStatueProtocol(new onTestFriendStatue(), uid);
+        if (isfriend) {
             activityUserinfoBinding.tvAddFriend.setText("解除好友");
-        }else {
+        } else {
             activityUserinfoBinding.tvAddFriend.setText("申请加好友");
         }
     }
@@ -187,10 +172,10 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         @Override
         public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
-            if(rescode == 0){
+            if (rescode == 0) {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                switch (status){
+                switch (status) {
                     case 1:
                         isfriend = true;
                         break;
@@ -200,18 +185,19 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
     //先验证我和某用户的关系
-    public void testisfollow(long uid){
-        ContactsManager.onTestIsFollow(new onTestIsFollow(),uid);
+    public void testisfollow(long uid) {
+        ContactsManager.onTestIsFollow(new onTestIsFollow(), uid);
         if (isCare) {
             activityUserinfoBinding.tvAttentionTA.setText("取消关注TA");
-        }else {
+        } else {
             activityUserinfoBinding.tvAttentionTA.setText("关注TA");
         }
     }
@@ -220,19 +206,19 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         @Override
         public void execute(FansBean dataBean) {
             int rescode = dataBean.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 FansBean.DataBean data = dataBean.getData();
                 int fans = data.getFans();
-                switch (fans){
+                switch (fans) {
                     case 1://我是他的粉丝
-                    isCare = true;
+                        isCare = true;
                         break;
                     case 0://无关系
-                    isCare = false;
+                        isCare = false;
                         break;
                 }
                 int follow = data.getFollow();
-                switch (follow){
+                switch (follow) {
                     case 1://他是我的粉丝
                         break;
                     case 0://无关系
@@ -240,9 +226,10 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 

@@ -26,6 +26,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -111,6 +112,20 @@ public class MyBidServiceModel extends BaseObservable {
 
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    public void gotoUserInfoPage(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        switch (v.getId()) {
+            case R.id.ll_demand_userinfo:
+                //我抢的服务，我就是需求方，所以这里不需要uid
+                break;
+            case R.id.ll_service_userinfo:
+                //获取服务方uid
+                intentUserInfoActivity.putExtra("Uid", suid);
+                break;
+        }
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     /**

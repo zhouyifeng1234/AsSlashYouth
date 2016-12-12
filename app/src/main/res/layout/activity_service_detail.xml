@@ -958,7 +958,7 @@
                     android:background="#31C5E4"
                     android:gravity="center"
                     android:onClick="@{serviceDetailModel.grabService}"
-                    android:text="立即抢单"
+                    android:text="立即预约"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
                 />

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
@@ -23,6 +24,7 @@ import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
@@ -112,6 +114,20 @@ public class MyPublishServiceModel extends BaseObservable {
 
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    public void gotoUserInfoPage(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        switch (v.getId()) {
+            case R.id.ll_demand_userinfo:
+                //获取需求方uid
+                intentUserInfoActivity.putExtra("Uid", duid);
+                break;
+            case R.id.ll_service_userinfo:
+                //我发的服务，我就是服务方，所以这里不需要传uid
+                break;
+        }
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     /**
