@@ -4,21 +4,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
+import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.PhoneLoginResultBean;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.ui.activity.test.RichTextTestActivity;
 import com.slash.youth.ui.activity.test.RoundedImageTestActivity;
 import com.slash.youth.ui.activity.test.ScaleViewPagerTestActivity;
 import com.slash.youth.ui.activity.test.TestActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -28,6 +33,10 @@ public class PerfectInfoModel extends BaseObservable {
 
     ActivityPerfectInfoBinding mActivityPerfectInfoBinding;
     Activity mActivity;
+    Bundle thirdPlatformBundle;
+    private String _3ptoken;
+    private String userInfo;
+    boolean isThirdLogin;
 
     public PerfectInfoModel(ActivityPerfectInfoBinding activityPerfectInfoBinding, Activity activity) {
         this.mActivityPerfectInfoBinding = activityPerfectInfoBinding;
@@ -37,7 +46,16 @@ public class PerfectInfoModel extends BaseObservable {
     }
 
     private void initData() {
-
+        thirdPlatformBundle = mActivity.getIntent().getExtras();
+        if (thirdPlatformBundle == null) {
+            //表示是由手机号登录进入的，所以不再需要输入手机号，隐藏手机号输入框
+            setPhonenumLoginInfoVisibility(View.GONE);
+            isThirdLogin = false;
+        } else {
+            isThirdLogin = true;
+            _3ptoken = thirdPlatformBundle.getString("_3ptoken");
+            userInfo = thirdPlatformBundle.getString("userInfo");
+        }
     }
 
     private void initView() {
@@ -75,16 +93,97 @@ public class PerfectInfoModel extends BaseObservable {
         mActivity.startActivityForResult(intentCamera, 0);
     }
 
+    String phonenum;
+    String pin;
+    String realname;
 
     public void okPerfectInfo(View v) {
-        //再次调用手机号登录接口
+        phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
+        pin = mActivityPerfectInfoBinding.etActivityPerfectInfoVerificationCode.getText().toString();
+        realname = mActivityPerfectInfoBinding.etActivityPerfectInfoRealname.getText().toString();
 
-        //设置真实姓名
+        if (isThirdLogin) {//三方登录
+            //再次调用手机号登录接口
+            if (TextUtils.isEmpty(phonenum)) {
+                ToastUtils.shortToast("手机号不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(pin) || TextUtils.isEmpty(realname)) {
+                ToastUtils.shortToast("验证码不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(realname)) {
+                ToastUtils.shortToast("真实姓名不能为空");
+                return;
+            }
 
-//        Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
-//        intentChooseSkillActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        CommonUtils.getContext().startActivity(intentChooseSkillActivity);
+            LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
+                @Override
+                public void execute(PhoneLoginResultBean dataBean) {
+                    //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
+                    if (dataBean.data == null) {
+                        ToastUtils.shortToast("登录失败:" + dataBean.rescode);
+                        return;
+                    }
+                    String rongToken = dataBean.data.rongToken;//融云token
+                    String token = dataBean.data.token;
+                    long uid = dataBean.data.uid;
+                    if (dataBean.rescode == 0) {
+                        //登陆成功，老用户,这里rescode肯定不会11
+                        savaLoginState(uid, token, rongToken);
+                        setRealname();
+                    } else {
+                        ToastUtils.shortToast("登录失败:" + dataBean.rescode);
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    //这里不会执行
+                }
+            }, phonenum, pin, _3ptoken, userInfo);
+
+        } else {//手机号登录
+            //设置真实姓名
+            if (TextUtils.isEmpty(realname)) {
+                ToastUtils.shortToast("真实姓名不能为空");
+                return;
+            }
+            setRealname();
+        }
     }
+
+    private void setRealname() {
+        LoginManager.loginSetRealname(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
+                mActivity.startActivity(intentChooseSkillActivity);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("设置真实姓名失败:" + result);
+                ToastUtils.shortToast("设置真实姓名失败:" + result);
+            }
+        }, realname);
+    }
+
+    /**
+     * @param uid
+     * @param token
+     * @param rongToken
+     */
+    private void savaLoginState(long uid, String token, String rongToken) {
+        LoginManager.currentLoginUserId = uid;
+        LoginManager.token = token;
+        LoginManager.rongToken = rongToken;
+
+        SpUtils.setLong("uid", uid);
+        SpUtils.setString("token", token);
+        SpUtils.setString("rongToken", rongToken);
+    }
+
 
     public void openTestActivity(View v) {
         Intent intentTestActivity = new Intent(CommonUtils.getContext(), TestActivity.class);
@@ -110,7 +209,18 @@ public class PerfectInfoModel extends BaseObservable {
         CommonUtils.getContext().startActivity(intentRichTextTestActivity);
     }
 
-    private int cameraIconVisibility;
+    private int cameraIconVisibility = View.VISIBLE;
+    private int phonenumLoginInfoVisibility = View.VISIBLE;
+
+    @Bindable
+    public int getPhonenumLoginInfoVisibility() {
+        return phonenumLoginInfoVisibility;
+    }
+
+    public void setPhonenumLoginInfoVisibility(int phonenumLoginInfoVisibility) {
+        this.phonenumLoginInfoVisibility = phonenumLoginInfoVisibility;
+        notifyPropertyChanged(BR.phonenumLoginInfoVisibility);
+    }
 
     @Bindable
     public int getCameraIconVisibility() {

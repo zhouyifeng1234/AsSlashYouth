@@ -124,6 +124,10 @@ public class GlobalConstants {
         public static final String TOKEN_LOGIN = SERVER_HOST + "auth/v1/login/token";
         //第三方登录
         public static final String THIRD_PARTY_LOGIN = SERVER_HOST + "auth/v1/login/thirdParty";
+        //登录后完善信息 设置头像
+        public static final String LOGIN_SET_AVATAR = SERVER_HOST_MY_USERINFO + "/" + "vcard/avatar/set";
+        //登录后完善信息 设置真实姓名
+        public static final String LOGIN_SET_REAL_NAME = SERVER_HOST_MY_USERINFO + "/" + "/vcard/name/set";
 
 
         //一、[需求]-我的任务列表

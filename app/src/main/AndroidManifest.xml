@@ -162,7 +162,7 @@
         </activity>
         <activity
             android:name="com.slash.youth.ui.activity.LoginActivity"
-            >
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -172,7 +172,7 @@
         </activity>
         <activity
             android:name="com.slash.youth.ui.activity.SplashActivity"
-           >
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -183,7 +183,14 @@
         <activity android:name=".ui.activity.SubscribeActivity"></activity>
         <activity
             android:name=".ui.activity.PerfectInfoActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:label="用户首次登录后完善信息页面"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activity.ChooseSkillActivity"
             android:windowSoftInputMode="adjustPan"></activity>

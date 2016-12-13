@@ -10,6 +10,8 @@ import android.graphics.RectF;
 import android.widget.ImageView;
 
 import com.slash.youth.R;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.common.util.DensityUtil;
 import org.xutils.http.RequestParams;
@@ -19,6 +21,7 @@ import org.xutils.x;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by zhouyifeng on 2016/10/15.
@@ -52,8 +55,16 @@ public class BitmapKit {
         builder.setParamsBuilder(new ImageOptions.ParamsBuilder() {
             @Override
             public RequestParams buildParams(RequestParams params, ImageOptions options) {
-                params.addHeader("uid", "10000");
-                params.addHeader("pass", "1");
+                params.addHeader("uid", LoginManager.currentLoginUserId + "");
+//                params.addHeader("pass", "1");
+
+                params.addHeader("token", LoginManager.token);
+                String url = GlobalConstants.HttpUrl.IMG_DOWNLOAD;
+                Map headerMap = AuthHeaderUtils.getBasicAuthHeader("POST", url);
+                String date = (String) headerMap.get("Date");
+                String authorizationStr = (String) headerMap.get("Authorization");
+                params.addHeader("Date", date);
+                params.addHeader("Authorization", authorizationStr);
                 return params;
             }
         });

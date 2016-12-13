@@ -7,6 +7,8 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
+import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
+import com.slash.youth.http.protocol.LoginSetRealnameProtocol;
 import com.slash.youth.http.protocol.PhoneLoginpProtocol;
 import com.slash.youth.http.protocol.ThirdPartyLoginProtocol;
 import com.slash.youth.http.protocol.TokenLoginProtocol;
@@ -122,6 +124,22 @@ public class LoginManager {
     public static void serverThirdPartyLogin(BaseProtocol.IResultExecutor onThirdPartyLoginFinished, String _3pToken, String _3pUid, String loginPlatform) {
         ThirdPartyLoginProtocol thirdPartyLoginProtocol = new ThirdPartyLoginProtocol(_3pToken, _3pUid, loginPlatform);
         thirdPartyLoginProtocol.getDataFromServer(onThirdPartyLoginFinished);
+    }
+
+    /**
+     * 登录后完善信息 设置头像
+     */
+    public static void loginSetAvatar(BaseProtocol.IResultExecutor onSetAvatarFinished, String url) {
+        LoginSetAvatarProtocol loginSetAvatarProtocol = new LoginSetAvatarProtocol(url);
+        loginSetAvatarProtocol.getDataFromServer(onSetAvatarFinished);
+    }
+
+    /**
+     * 登录后完善信息 设置真实姓名
+     */
+    public static void loginSetRealname(BaseProtocol.IResultExecutor onSetRealnameFinished, String name) {
+        LoginSetRealnameProtocol loginSetRealnameProtocol = new LoginSetRealnameProtocol(name);
+        loginSetRealnameProtocol.getDataFromServer(onSetRealnameFinished);
     }
 
 //    public boolean Login() {

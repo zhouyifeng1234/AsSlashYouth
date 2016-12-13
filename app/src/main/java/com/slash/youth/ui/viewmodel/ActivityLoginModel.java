@@ -327,7 +327,6 @@ public class ActivityLoginModel extends BaseObservable {
     String WEIXIN_province;
     String WEIXIN_city;
 
-
     private UMAuthListener umAuthListenerForUserInfo = new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
@@ -353,7 +352,8 @@ public class ActivityLoginModel extends BaseObservable {
 //                    city = data.get("city");
 //                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
                     LogKit.v("QQ_access_token:" + QQ_access_token + "  QQ_uid:" + QQ_uid);
-                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, QQ_access_token, QQ_uid, "2");
+                    thirdLoginPlatformType = 2;
+                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, QQ_access_token, QQ_uid, thirdLoginPlatformType + "");
                     break;
                 case WEIXIN:
                     LogKit.v("weixin data size:" + data.size());
@@ -371,7 +371,8 @@ public class ActivityLoginModel extends BaseObservable {
 //                    city = data.get("city");
 //                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
                     LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + "  WEIXIN_unionid:" + WEIXIN_unionid);
-                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, WEIXIN_access_token, WEIXIN_unionid, "1");
+                    thirdLoginPlatformType = 1;
+                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, WEIXIN_access_token, WEIXIN_unionid, thirdLoginPlatformType + "");
                     break;
             }
         }
@@ -387,6 +388,8 @@ public class ActivityLoginModel extends BaseObservable {
         }
     };
 
+    private int thirdLoginPlatformType = -1;//WECHAT = 1    QQ = 2    WEIBO = 3
+
     public BaseProtocol.IResultExecutor onThirdPartyLoginFinished = new BaseProtocol.IResultExecutor<ThirdPartyLoginResultBean>() {
         @Override
         public void execute(ThirdPartyLoginResultBean dataBean) {
@@ -394,8 +397,24 @@ public class ActivityLoginModel extends BaseObservable {
                 LogKit.v("新用户，需要绑定手机号");
                 String _3ptoken = dataBean.data.token;
 
+                Bundle thirdPlatformBundle = new Bundle();
+                thirdPlatformBundle.putString("_3ptoken", _3ptoken);
+                String userInfo = "";
+                if (thirdLoginPlatformType == 1) {
+                    //微信登录
+                    userInfo = WEIXIN_nickname + "&" + WEIXIN_gender + "&" + WEIXIN_avatar + "&" + WEIXIN_province + "&" + WEIXIN_city;
+                } else if (thirdLoginPlatformType == 2) {
+                    //QQ登录
+                    userInfo = QQ_nickname + "&" + QQ_gender + "&" + QQ_avatar + "&" + QQ_province + "&" + QQ_city;
+                } else {
+                    LogKit.v("第三方平台 type 编号错误");
+                    ToastUtils.shortToast("第三方平台 type 编号错误");
+                }
+                thirdPlatformBundle.putString("userInfo", userInfo);
+
                 Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
                 intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intentPerfectInfoActivity.putExtras(thirdPlatformBundle);
                 CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
             } else if (dataBean.rescode == 0) {//已经登录过的用户
                 LogKit.v("已经登录过的用户");
