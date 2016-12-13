@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.slash.youth.BuildConfig;
 import com.slash.youth.engine.MsgManager;
@@ -45,7 +47,9 @@ public class SlashApplication extends Application {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 LogKit.v("onActivityCreated");
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//禁止Activity横屏
+                activity.requestWindowFeature(Window.FEATURE_NO_TITLE);//无标题
+                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
 
             @Override

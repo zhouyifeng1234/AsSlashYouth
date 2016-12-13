@@ -181,7 +181,7 @@ public class ActivityLoginModel extends BaseObservable {
     public void sendPhoneVerificationCode(View v) {
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
-            ToastUtils.shortToast("手机号不能为空");
+            ToastUtils.shortToast("请输入手机号");
             return;
         }
         LogKit.v(phoenNum);
@@ -197,7 +197,6 @@ public class ActivityLoginModel extends BaseObservable {
                 ToastUtils.shortToast("获取验证码失败");
             }
         }, phoenNum);
-
     }
 
     public void wechatLogin(View v) {
