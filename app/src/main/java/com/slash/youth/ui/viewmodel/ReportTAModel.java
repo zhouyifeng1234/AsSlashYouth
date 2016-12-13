@@ -96,7 +96,7 @@ public class ReportTAModel extends BaseObservable {
     //想服务器传递数据
     public  void  sendData() {
         String reason = list.toString();
-        paramMap.put("uid",String.valueOf(uid));
+        paramMap.put("QQ_uid",String.valueOf(uid));
         paramMap.put("reason",reason);
         SetDataUtils.setProtocol(GlobalConstants.HttpUrl.CLAIMS,paramMap);
         paramMap.clear();

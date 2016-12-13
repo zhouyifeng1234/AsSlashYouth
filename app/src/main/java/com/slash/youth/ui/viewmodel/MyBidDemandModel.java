@@ -234,7 +234,7 @@ public class MyBidDemandModel extends BaseObservable {
                 MyTaskBean taskinfo = myTaskItemBean.data.taskinfo;
                 innerDemandCardInfo = new InnerDemandCardInfo();
 
-                //innerDemandCardInfo.uid = taskinfo.uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
+                //innerDemandCardInfo.QQ_uid = taskinfo.QQ_uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
                 innerDemandCardInfo.avatar = taskinfo.avatar;
                 innerDemandCardInfo.username = taskinfo.name;
                 innerDemandCardInfo.isAuth = taskinfo.isauth;

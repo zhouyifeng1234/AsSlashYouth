@@ -121,7 +121,9 @@ public class GlobalConstants {
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
         //token登录
-        public static final String TOKEN_LOGIN=SERVER_HOST+"auth/v1/login/token";
+        public static final String TOKEN_LOGIN = SERVER_HOST + "auth/v1/login/token";
+        //第三方登录
+        public static final String THIRD_PARTY_LOGIN = SERVER_HOST + "auth/v1/login/thirdParty";
 
 
         //一、[需求]-我的任务列表

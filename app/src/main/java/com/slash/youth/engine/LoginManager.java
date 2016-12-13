@@ -8,6 +8,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.PhoneLoginpProtocol;
+import com.slash.youth.http.protocol.ThirdPartyLoginProtocol;
 import com.slash.youth.http.protocol.TokenLoginProtocol;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.SpUtils;
@@ -32,6 +33,8 @@ public class LoginManager {
 //    public static String currentLoginUserName = "jim";
 //    public static String currentLoginUserAvatar = "group1/M00/00/02/eBtfY1g68kiAfiCNAABuHg0Rbxs.0a9ae1";
     public static String token = "";//我们自己服务器登录后的toekn
+    public static String rongToken = "";//融云的token
+
 
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
@@ -108,6 +111,17 @@ public class LoginManager {
     public static void tokenLogin(BaseProtocol.IResultExecutor onTokenLoginFinished) {
         TokenLoginProtocol tokenLoginProtocol = new TokenLoginProtocol();
         tokenLoginProtocol.getDataFromServer(onTokenLoginFinished);
+    }
+
+    /**
+     * @param onThirdPartyLoginFinished
+     * @param _3pToken                  第三方平台返回的token
+     * @param _3pUid                    第三方平台返回的uid
+     * @param loginPlatform             第三方平台类型     WECHAT = 1    QQ = 2    WEIBO = 3
+     */
+    public static void serverThirdPartyLogin(BaseProtocol.IResultExecutor onThirdPartyLoginFinished, String _3pToken, String _3pUid, String loginPlatform) {
+        ThirdPartyLoginProtocol thirdPartyLoginProtocol = new ThirdPartyLoginProtocol(_3pToken, _3pUid, loginPlatform);
+        thirdPartyLoginProtocol.getDataFromServer(onThirdPartyLoginFinished);
     }
 
 //    public boolean Login() {

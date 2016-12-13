@@ -30,6 +30,7 @@
                 android:background="@mipmap/edit_shoujihao"
                 android:gravity="center"
                 android:hint="输入您的手机号"
+                android:inputType="phone"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:textSize="14.5sp"
@@ -45,6 +46,7 @@
                     android:background="@mipmap/login_edit_bg"
                     android:gravity="center"
                     android:hint="输入验证码"
+                    android:inputType="phone"
                     android:textColor="#ffffff"
                     android:textColorHint="#ffffff"
                     android:textSize="14.5sp"/>

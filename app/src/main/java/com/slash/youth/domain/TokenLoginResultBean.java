@@ -10,9 +10,6 @@ public class TokenLoginResultBean {
 
     public class Data {
         public String token;
-        //rongToken和uid不确定服务端是否会提供
-        public String rongToken;
-        public long uid;
     }
 
 }

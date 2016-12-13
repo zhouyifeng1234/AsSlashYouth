@@ -135,8 +135,8 @@ public class ActivityContactsCareModel extends BaseObservable {
             public void onItemRemove(int index) {
                 ContactsBean.DataBean.ListBean listBean = contactsLists.get(index);
                 int id = listBean.getUid();
-                Long uid = new Long(id);
-               // ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),uid,"contacts");
+                Long QQ_uid = new Long(id);
+               // ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),QQ_uid,"contacts");
                 if(isAgree){
                    //contactsLists.remove(index);
                     //contactsCareAdapter.notifyDataSetChanged();
