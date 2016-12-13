@@ -8,6 +8,7 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMySkillManageBinding;
 import com.slash.youth.domain.SkillManagerBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
@@ -61,7 +62,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         itemMySkillManageBinding.tvSkillManagerTitle.setText(title);
 
         double quote = data.getQuote();
-        itemMySkillManageBinding.tvSkillManagerQuote.setText("报价:¥"+quote);
+        itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote);
 
         int timetype = data.getTimetype();//闲时类型
         switch (timetype){
@@ -72,7 +73,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
                 if (starttime >timeMillis&&endtime>starttime) {
                     String startData = TimeUtils.getData(starttime);
                     String endData = TimeUtils.getData(endtime);
-                    itemMySkillManageBinding.tvSkillMamagerTime.setText("任务时间:"+startData+"-"+endData);
+                    itemMySkillManageBinding.tvSkillMamagerTime.setText(MyManager.TASK_TIME+startData+"-"+endData);
                 }
                 break;
         }
@@ -109,8 +110,8 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
     //设置界面
     private void setView(String myActivityTitle) {
            switch (myActivityTitle){
-            case "技能管理":
-                itemMySkillManageBinding.tvMyBtn.setText("发布");
+            case MyManager.SKILL_MANAGER:
+                itemMySkillManageBinding.tvMyBtn.setText(MyManager.PUBLISH);
               break;
         }
     }

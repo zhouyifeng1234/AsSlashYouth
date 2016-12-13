@@ -62,7 +62,7 @@ public class SearchActivity extends Activity {
         CommonUtils.setCurrentActivity(this);
         //加载搜索框页面
         activitySearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_search);
-        ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding);
+        ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding,this);
         activitySearchBinding.setActivitySearchModel(activitySearchModel);
         CommonUtils.setCurrentActivity(SearchActivity.this);
 

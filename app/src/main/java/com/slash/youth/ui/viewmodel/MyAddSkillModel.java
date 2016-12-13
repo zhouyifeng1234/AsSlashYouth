@@ -68,6 +68,7 @@ public class MyAddSkillModel extends BaseObservable {
     private long endtime;
     private String place;
     private boolean isSucceful;
+    private String toastText ="请把信息填写完整";
 
     public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, int id) {
         this.activityMyAddSkillBinding = activityMyAddSkillBinding;
@@ -166,6 +167,7 @@ public class MyAddSkillModel extends BaseObservable {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         ArrayList<String> addedSkillLabels = sallAddedSkilllabels.getAddedSkillLabels();
         intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", addedSkillLabels);
+        intentSubscribeActivity.putExtra("addSkillTemplte",0);
         myAddSkillActivity.startActivityForResult(intentSubscribeActivity, Constants.SKILL_MANAGER_ADD_LABEL);
     }
 
@@ -208,7 +210,7 @@ public class MyAddSkillModel extends BaseObservable {
         desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
         String  quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
         if(quoteString!=""&&quoteString!=null){
-          //  quote=Double.parseDouble(quoteString);
+            quote=Double.parseDouble(quoteString);
         }
         quoteunit = value+1;
         anonymity = 1;
@@ -254,7 +256,7 @@ public class MyAddSkillModel extends BaseObservable {
                         break;
                     case 0:
                         isSucceful = false;
-                        ToastUtils.shortToast("请把信息填写完整");
+                        ToastUtils.shortToast(toastText);
                         break;
                 }
             }

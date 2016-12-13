@@ -40,6 +40,7 @@
                         android:layout_height="58dp"
                         android:src="@mipmap/assistant_icon"/>
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/iv_skill_manager_v"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -64,8 +65,10 @@
                         android:id="@+id/tv_skill_manager_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="做一个互联网公司企业宣传策划案"
                         android:textColor="#333333"
+                        android:maxEms="10"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:textSize="15sp"/>
 
                     <TextView
@@ -73,7 +76,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="任务时间:9月18日 8:30"
                         android:textColor="#333333"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -102,8 +104,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="18dp"
-                    android:text="曹文成"
-                    android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
 
                 <TextView
@@ -112,7 +112,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="21dp"
-                    android:text="报价:¥300"
                     android:textColor="#FF7333"
                     android:textSize="13sp"/>
 

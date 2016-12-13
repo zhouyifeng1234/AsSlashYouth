@@ -129,7 +129,7 @@ public  class PagerSearchItemAdapter<T> extends BaseAdapter {
                 case personResult:
                     convertView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
                     holder.tv_search_person_name = (TextView) convertView.findViewById(R.id.tv_search_person_name);
-                    holder.iv_search_person = (ImageView) convertView.findViewById(R.id.iv_search_person);
+                  //  holder.iv_search_person = (ImageView) convertView.findViewById(R.id.iv_search_person);
                    // holder.tv_search_person_zhiye = (TextView) convertView.findViewById(R.id.tv_search_person_);
                     holder.iv_search_v = (ImageView) convertView.findViewById(R.id.iv_search_v);
                     holder.iv_jiahao = (TextView) convertView.findViewById(R.id.tv_contacts_visitor_addfriend);

@@ -190,26 +190,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         List<String> lists = Arrays.asList(skillLabels);
         skillLabelList = new ArrayList<>(lists);
         int length = skillLabels.length;
-        switch (length){
-            case 1:
-                activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
-                activityUserinfoEditorBinding.tvLine.setText(skillLabels[0]);
-                break;
-            case 2:
-                activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
-                activityUserinfoEditorBinding.tvLine.setText(skillLabels[0]);
-                activityUserinfoEditorBinding.tvLine2.setVisibility(View.VISIBLE);
-                activityUserinfoEditorBinding.tvLine2.setText(skillLabels[1]);
-                break;
-            case 3:
-                activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
-                activityUserinfoEditorBinding.tvLine.setText(skillLabels[0]);
-                activityUserinfoEditorBinding.tvLine2.setVisibility(View.VISIBLE);
-                activityUserinfoEditorBinding.tvLine2.setText(skillLabels[1]);
-                activityUserinfoEditorBinding.tvLine3.setVisibility(View.VISIBLE);
-                activityUserinfoEditorBinding.tvLine3.setText(skillLabels[2]);
-                break;
-        }
+        /////////////////////
     }
 
     //点击头像
@@ -420,7 +401,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         return textView;
     }
 
-
     //设置协议 参数String
     private void SetProtocol(String url,Map<String,String> paramsMap) {
         SetBaseProtocol setBaseProtocol = new SetBaseProtocol(url,paramsMap);
@@ -459,7 +439,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 LogKit.d("rescode="+rescode);
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:"+result);

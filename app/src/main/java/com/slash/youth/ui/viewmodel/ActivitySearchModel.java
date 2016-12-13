@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -44,23 +45,22 @@ import java.util.Collections;
 public class ActivitySearchModel extends BaseObservable {
     private ActivitySearchBinding mActivitySearchBinding;
     private SearchHistoryListAdapter adapter;
-    private PagerSearchItemAdapter pagerSearchItemAdapter;
     private String searchText = "";
-    private ArrayList<String> list ;
     private ArrayList<ItemSearchBean> search_contentlist = new ArrayList<>();
-    private File externalCacheDir = CommonUtils.getApplication().getExternalCacheDir();
-    private String fileName = externalCacheDir.getAbsolutePath() + "/searchCacheDir";
-    private File file = new File(fileName, "history.text");
-    private  SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
-    private ListView listView;
+    private ArrayList<String> list = new ArrayList<>();
+    private String fileName ="data/data/com.slash.youth";
+    private File file = new File(fileName, "SearchHistory.text");
+    private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     private int offset = 0;
-    private  int limit = 5;
+    private int limit = 5;
+    private SearchActivity searchActivity;
 
-    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding) {
+    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding,SearchActivity searchActivity) {
         this.mActivitySearchBinding = activitySearchBinding;
+        this.searchActivity = searchActivity;
 
         etSearchListener();
-        getSearchContentData(searchText,offset,limit);
+        getSearchContentData(searchText, offset, limit);
     }
 
     //点击直接搜索框,搜索历史
@@ -73,9 +73,9 @@ public class ActivitySearchModel extends BaseObservable {
     }
 
     //点击搜索
-    public void searchBtn(View view){
+    public void searchBtn(View view) {
         int searchTextlength = searchText.length();
-        switch (searchTextlength){
+        switch (searchTextlength) {
             case 0:
                 ToastUtils.shortToast("请您输入搜索内容");
                 mActivitySearchBinding.etActivitySearchAssociation.setFocusable(true);
@@ -85,18 +85,18 @@ public class ActivitySearchModel extends BaseObservable {
                 inputManager.showSoftInput(mActivitySearchBinding.etActivitySearchAssociation, 0);
                 break;
             case 1:
-                if(RegexUtils.isChz(searchText)){
+                if (RegexUtils.isChz(searchText)) {
                     showSearchAllReasultView(searchText);
-                }else {
+                } else {
                     ToastUtils.shortToast("输入信息太少，请重新输入");
                 }
                 break;
             default:
-                if(StringUtils.isSearchContent(searchText)) {
+                if (StringUtils.isSearchContent(searchText)) {
                     //联网搜索,并且根据字符搜索
                     saveHistory(searchText);
-                     showSearchAllReasultView(searchText);
-                }else{
+                    showSearchAllReasultView(searchText);
+                } else {
                     ToastUtils.shortToast("输入有效字符");
                 }
                 break;
@@ -108,6 +108,7 @@ public class ActivitySearchModel extends BaseObservable {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -123,19 +124,19 @@ public class ActivitySearchModel extends BaseObservable {
     //显示搜索的历史记录
     private void showSearchHistroy(String searchText) {
         int textLength = searchText.length();
-        switch (textLength){
+        switch (textLength) {
             case 0:
                 showHistory();
                 break;
             case 1:
-                if(RegexUtils.isChz(searchText)){
-                    getSearchContentData(searchText,offset,limit);
-                }else {
+                if (RegexUtils.isChz(searchText)) {
+                    getSearchContentData(searchText, offset, limit);
+                } else {
                     ToastUtils.shortToast("输入信息太少，请重新输入");
                 }
                 break;
             default:
-                getSearchContentData(searchText,offset,limit);
+                getSearchContentData(searchText, offset, limit);
                 break;
         }
         setDeleteDrawable(searchText);
@@ -145,7 +146,7 @@ public class ActivitySearchModel extends BaseObservable {
     private void setDeleteDrawable(String text) {
         if (text.length() < 1) {
             mActivitySearchBinding.searchIvDelete.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             mActivitySearchBinding.searchIvDelete.setVisibility(View.VISIBLE);
         }
 
@@ -158,9 +159,11 @@ public class ActivitySearchModel extends BaseObservable {
         });
     }
 
+    //保存搜索的记录
     private void saveHistory(String text) {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
+            //BufferedWriter  bw = new BufferedWriter(new FileWriter(file));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.write(text);
             bw.newLine();
             bw.close();
@@ -172,6 +175,7 @@ public class ActivitySearchModel extends BaseObservable {
     private void showHistory() {
         initSearchHistoryData();
     }
+
     //直接搜索结果
     private void showSearchAllReasultView(String text) {
         currentActivity.changeView(3);
@@ -181,7 +185,6 @@ public class ActivitySearchModel extends BaseObservable {
 
     private void initSearchHistoryData() {
         //存储集合
-       /* list = new ArrayList<String>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
@@ -197,30 +200,30 @@ public class ActivitySearchModel extends BaseObservable {
         }
         //倒序，最多取5个
         Collections.reverse(list);
-        searchHistoryList.clear();
+        search_contentlist.clear();
         if(list.size()!=0){
-            for (int i = 0; i < 5; i++) {
-                String tag = list.get(i);
-                searchHistoryList.add(new ItemSearchBean(tag,true));
+            if(list.size()<5&&list.size()>=0){
+                for (String text : list) {
+                    search_contentlist.add(new ItemSearchBean(text,true));
+                }
+            }else {
+                for (int i = 0; i < 5; i++) {
+                    String text = list.get(i);
+                    search_contentlist.add(new ItemSearchBean(text,true));
+                }
             }
         }else {
             LogKit.d("没有搜索历史记录");
         }
-*/
-        search_contentlist.clear();
-        search_contentlist.add(new ItemSearchBean("搜索历史1",true));
-        search_contentlist.add(new ItemSearchBean("搜索历史2",true));
-        search_contentlist.add(new ItemSearchBean("搜索历史3",true));
-        search_contentlist.add(new ItemSearchBean("搜索历史4",true));
-        search_contentlist.add(new ItemSearchBean("搜索历史5",true));
-        adapter= new SearchHistoryListAdapter(search_contentlist);
+
+        adapter = new SearchHistoryListAdapter(search_contentlist);
         currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
 
     }
 
     //获取搜索联想词
-    private void getSearchContentData(String searchText,int offset,int limit) {
-        SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(),searchText,offset,limit);
+    private void getSearchContentData(String searchText, int offset, int limit) {
+        SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(), searchText, offset, limit);
     }
 
     //获取搜索联想词
@@ -231,17 +234,18 @@ public class ActivitySearchModel extends BaseObservable {
             ArrayList<SearchAssociativeBean.TagBean> list = dataBean.data.list;
             for (SearchAssociativeBean.TagBean tagBean : list) {
                 //遍历去重复
-                if(!search_contentlist.contains(tagBean.tag)){
-                    search_contentlist.add(new ItemSearchBean(tagBean.tag,false));
+                if (!search_contentlist.contains(tagBean.tag)) {
+                    search_contentlist.add(new ItemSearchBean(tagBean.tag, false));
                 }
             }
-            adapter= new SearchHistoryListAdapter(search_contentlist);
+            adapter = new SearchHistoryListAdapter(search_contentlist);
             currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
             onItemClick();
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
@@ -256,4 +260,5 @@ public class ActivitySearchModel extends BaseObservable {
             }
         });
     }
+
 }

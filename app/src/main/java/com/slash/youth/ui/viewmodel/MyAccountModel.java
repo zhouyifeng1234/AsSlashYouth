@@ -11,6 +11,7 @@ import com.slash.youth.http.protocol.MyAccountProtocol;
 import com.slash.youth.ui.activity.TransactionRecordActivity;
 import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SetDataUtils;
 
@@ -19,6 +20,7 @@ import com.slash.youth.utils.SetDataUtils;
  */
 public class MyAccountModel extends BaseObservable {
     private ActivityMyAccountBinding activityMyAccountBinding;
+    private String unit = "元";
 
     public MyAccountModel(ActivityMyAccountBinding activityMyAccountBinding) {
         this.activityMyAccountBinding = activityMyAccountBinding;
@@ -36,24 +38,29 @@ public class MyAccountModel extends BaseObservable {
                     MyAccountBean.DataBean.DataBean1 data1 = data.getData();
                     //总的余额
                     double totalmoney = data1.getTotalmoney();
-                    activityMyAccountBinding.totalMoney.setText(String.valueOf(totalmoney)+"元");
+                    String totalMoney = CountUtils.DecimalFormat(totalmoney);
+                    activityMyAccountBinding.totalMoney.setText(totalMoney+unit);
 
                     //提现金额
                     double currentmoney = data1.getCurrentmoney();
-                    activityMyAccountBinding.currentMoney.setText(currentmoney+"元");
-                    activityMyAccountBinding.tvWithdrawals.setText(currentmoney+"元");
+                    String currentMoney = CountUtils.DecimalFormat(currentmoney);
+                    activityMyAccountBinding.currentMoney.setText(currentMoney+unit);
+                    activityMyAccountBinding.tvWithdrawals.setText(currentMoney+unit);
 
                     //冻结金额
                     double freezemoney = data1.getFreezemoney();
-                    activityMyAccountBinding.freezeMoney.setText(freezemoney+"元");
+                    String freezeMoney= CountUtils.DecimalFormat(freezemoney);
+                    activityMyAccountBinding.freezeMoney.setText(freezeMoney+unit);
 
                     //总的收入
                     double totalincome = data1.getTotalincome();
-                    activityMyAccountBinding.totalincome.setText(totalincome+"元");
+                    String totaLincome= CountUtils.DecimalFormat(totalincome);
+                    activityMyAccountBinding.totalincome.setText(totaLincome+unit);
 
                     //总支出金额
                     double totaloutlay = data1.getTotaloutlay();
-                    activityMyAccountBinding.totaloutlay.setText(totaloutlay+"元");
+                    String totalOutLay= CountUtils.DecimalFormat(totaloutlay);
+                    activityMyAccountBinding.totaloutlay.setText(totalOutLay+unit);
 
                 }else {
                     LogKit.d("rescode ="+rescode);

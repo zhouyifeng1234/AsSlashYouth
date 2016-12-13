@@ -360,11 +360,6 @@ public class GlobalConstants {
         //十二、[我的]-[用户中心]-举报用户
         public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
-      //  public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
-        //登出
-
-
-        public static final String MY_INFO = SERVER_HOST_MY_USERINFO +"/my/info/get";
         public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" +"/list";
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //十四，[我的]-[用户中心]-认证
@@ -452,8 +447,6 @@ public class GlobalConstants {
         //[关注]-关注动作
         public static final String CARE_TA = RELATION_HOST + "/add";
         // public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
-
-
         // public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
         //[关注]-我和某用户的关系
         public static final String IS_FOLLOW = RELATION_HOST + "/isfollow";

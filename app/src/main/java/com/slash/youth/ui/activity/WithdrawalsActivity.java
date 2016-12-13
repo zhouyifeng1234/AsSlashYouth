@@ -18,6 +18,7 @@ import com.slash.youth.ui.viewmodel.WithdrawalsModel;
 public class WithdrawalsActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private LayoutWithdrawalsBinding layoutWithdrawalsBinding;
+    private String titleText ="提现";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class WithdrawalsActivity extends Activity implements View.OnClickListene
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("提现");
+        title.setText(titleText);
         findViewById(R.id.fl_title_right).setVisibility(View.GONE);
     }
 

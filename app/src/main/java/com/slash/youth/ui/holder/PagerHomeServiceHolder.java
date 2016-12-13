@@ -1,16 +1,17 @@
 package com.slash.youth.ui.holder;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
-import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeMoreDemandBean;
+import com.slash.youth.databinding.ItemListviewHomeDemandBinding;
+import com.slash.youth.domain.SearchItemDemandBean;
+import com.slash.youth.domain.SearchServiceItemBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -18,16 +19,13 @@ import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.TimeUtils;
 
 /**
- * Created by zhouyifeng on 2016/10/12.
+ * Created by zhouyifeng on 2016/9/6.
  */
-public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.ListBean> {
+public class PagerHomeServiceHolder extends BaseHolder<SearchServiceItemBean.DataBean.ListBean> {
+
     private ItemHomeDemandServiceModel mItemHomeDemandServiceModel;
     private ItemHomeDemandServiceBinding itemHomeDemandServiceBinding;
-    private Activity mActivity;
-
-    public HomeDemandHolder(Activity mActivity) {
-        this.mActivity = mActivity;
-    }
+    private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
 
     @Override
     public View initView() {
@@ -38,10 +36,12 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
     }
 
     @Override
-    public void refreshView(FreeTimeDemandBean.DataBean.ListBean data) {
+    public void refreshView(SearchServiceItemBean.DataBean.ListBean data) {
         long starttime = data.getStarttime();
+        long endtime = data.getEndtime();
         String startData = TimeUtils.getData(starttime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(startData);
+        String endData = TimeUtils.getData(endtime);
+        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.FREE_TIME+""+startData+"-"+endData);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
 
         String avatar = data.getAvatar();
@@ -65,10 +65,11 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         String name = data.getName();
         itemHomeDemandServiceBinding.tvName.setText(name);
 
-        long quote = data.getQuote();
-        String quoteString = FirstPagerManager.QUOTE + quote + "元";
+    /*    long quote = data.getQuote();
+        int quoteunit = data.getQuoteunit();
+        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit + 1];
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
-
+*/
         int pattern = data.getPattern();
         switch (pattern){
             case 0:
@@ -89,16 +90,19 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
                 break;
         }
 
-        String place = data.getPlace();
+        String place = data.getCity();
         itemHomeDemandServiceBinding.tvLocation.setText(place);
 
+        //目标经纬度
         double lat = data.getLat();
         double lng = data.getLng();
+        //用户的经纬度
         DistanceUtils distanceUtils = new DistanceUtils();
-        distanceUtils.getLatAndLng(mActivity);
+        distanceUtils.getLatAndLng(currentActivity);
         double currentLatitude = distanceUtils.currentLatitude;
         double currentLongitude = distanceUtils.currentLongitude;
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
         itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
     }
+
 }

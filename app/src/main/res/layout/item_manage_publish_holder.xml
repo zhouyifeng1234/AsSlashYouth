@@ -67,7 +67,9 @@
                         android:id="@+id/tv_manage_my_publish_task_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="做一个互联网公司企业宣传策划案"
+                        android:maxEms="8"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColor="#333333"
                         android:textSize="15sp"/>
 
@@ -76,7 +78,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="任务时间:9月18日 8:30"
                         android:textColor="#333333"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -105,7 +106,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="18dp"
-                    android:text="曹文成"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
 
@@ -115,7 +115,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="21dp"
-                    android:text="报价:¥300"
                     android:textColor="#FF7333"
                     android:textSize="13sp"/>
 

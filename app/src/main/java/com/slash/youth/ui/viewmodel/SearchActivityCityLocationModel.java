@@ -128,16 +128,15 @@ public class SearchActivityCityLocationModel extends BaseObservable {
 
     //获取城市
     private ArrayList<CityClassBean> getCity() {
-      //  Cursor cur = database.rawQuery("SELECT * FROM T_City", null);
-        Cursor cur = database.rawQuery(
-                "SELECT * FROM T_City ORDER BY CitySort", null);
+        Cursor cur = database.rawQuery("SELECT * FROM T_City", null);
+
        if (cur != null) {
             int NUM_CITY = cur.getCount();
             ArrayList<CityClassBean> taxicity = new ArrayList<CityClassBean>(NUM_CITY);
             if (cur.moveToFirst()) {
                 do {
                     String name = cur.getString(cur.getColumnIndex("CityName"));
-                    int id = cur.getInt(cur.getColumnIndex("ProID"));
+                    int id = cur.getInt(cur.getColumnIndex("ProId"));
                     CityClassBean city = new CityClassBean("", 0);
                     city.city_name = name;
                     city.city_id = id;

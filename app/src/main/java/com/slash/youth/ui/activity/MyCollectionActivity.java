@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyCollectionBinding;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.ui.viewmodel.MyCollectionModel;
 import com.slash.youth.ui.viewmodel.ReportTAModel;
 
@@ -33,7 +34,7 @@ public class MyCollectionActivity extends Activity implements View.OnClickListen
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("我的收藏");
+        title.setText(MyManager.MY_COLLECTION);
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
     }

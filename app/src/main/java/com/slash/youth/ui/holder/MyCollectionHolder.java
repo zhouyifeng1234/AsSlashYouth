@@ -6,6 +6,7 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMyCollectionBinding;
 import com.slash.youth.domain.MyCollectionBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemMyCollectionModel;
 import com.slash.youth.utils.BitmapKit;
@@ -44,7 +45,7 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
 
         long cts = data.getCts();//收藏时间
         String time = TimeUtils.getTime(cts);
-        itemMyCollectionBinding.tvTime.setText("任务时间:"+time);
+        itemMyCollectionBinding.tvTime.setText(MyManager.TASK_TIME+time);
 
         int instalment = data.getInstalment();//1表示支持分期 0表示不支持分期
         switch (instalment){
@@ -70,7 +71,7 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
         itemMyCollectionBinding.tvName.setText(name);
 
         int quote = data.getQuote();//0表示对方报价
-        itemMyCollectionBinding.tvMyCollectionQuote.setText("报价:¥"+quote);
+        itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote);
 
 
         long starttime = data.getStarttime();//任务开始时间 0表示未设置

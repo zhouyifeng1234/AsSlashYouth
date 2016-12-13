@@ -26,6 +26,7 @@ import com.slash.youth.databinding.DialogCustomSkilllabelBinding;
 import com.slash.youth.domain.SkillLabelAllBean;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.domain.SkillLabelGetBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.CreateSkillLabelProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -61,6 +62,8 @@ public class SubscribeActivity extends Activity {
     private LinearLayout mLlCheckedLabels;
     public String checkedFirstLabel = "未选择";
     public String checkedSecondLabel = "未选择";
+    private String titleText = "请选择";
+    private String tabTitle = "已选项";
     private ArrayList<SkillLabelBean> listThirdSkilllabelName = new ArrayList();
     private ArrayList<SkillLabelBean> listFirstSkilllabelName = new ArrayList();
     private ArrayList<SkillLabelBean> listThirdUserCustomSkilllabelName = new ArrayList();
@@ -99,8 +102,8 @@ public class SubscribeActivity extends Activity {
         intent = getIntent();
         isEditor = intent.getBooleanExtra("isEditor", false);
         if(isEditor){
-            mActivitySubscribeBinding.tvSubscribeTitle.setText("请选择");
-            mActivitySubscribeBinding.tvTitleTwo.setText("已选项");
+            mActivitySubscribeBinding.tvSubscribeTitle.setText(titleText);
+            mActivitySubscribeBinding.tvTitleTwo.setText(tabTitle);
         }
         activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this,isEditor);
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
@@ -109,6 +112,11 @@ public class SubscribeActivity extends Activity {
         mActivitySubscribeBinding.svActivitySubscribeThirdSkilllabel.setVerticalScrollBarEnabled(false);
         mLlCheckedLabels = mActivitySubscribeBinding.llActivitySubscribeCheckedLabels;
         mLlCheckedLabels.removeAllViews();
+
+        int addSkillTemplte = intent.getIntExtra("addSkillTemplte", -1);
+        if(addSkillTemplte ==0){
+            mActivitySubscribeBinding.tvSubscribeTitle.setText(titleText);
+        }
 
         initData();
         initListener();
@@ -540,7 +548,7 @@ public class SubscribeActivity extends Activity {
                 int rescode = dataBean.getRescode();
                 switch (rescode) {
                     case GlobalConstants.Rescode.RES_SUCCESS:
-                        LogKit.d("返回成功");
+                        LogKit.d(MyManager.BACK_SUCCESS);
                         break;
                     case GlobalConstants.Rescode.RES_FAIL:
                         LogKit.d("返回失败");

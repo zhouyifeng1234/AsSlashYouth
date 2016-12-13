@@ -576,65 +576,18 @@
                                     android:textColor="#333333"
                                     android:text="技能标签"/>
 
-                                <LinearLayout
-                                    android:id="@+id/ll_editor_skill_container"
-                                    android:layout_width="wrap_content"
+                                <com.slash.youth.ui.view.WarpLinearLayout
+                                    android:id="@+id/ll_skilllabel_container"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="28dp"
-                                    android:orientation="horizontal"
-                                    >
-                                        <TextView
-                                            android:visibility="gone"
-                                            android:id="@+id/tv_line"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-                                            android:paddingLeft="5dp"
-                                            android:paddingRight="5dp"
-                                            android:paddingTop="5dp"
-                                            android:paddingBottom="5dp"
-                                            android:text="ios开发"
-                                            android:textColor="#31C5E4"
-                                            android:textSize="12sp"
-                                            android:background="@drawable/shape_search_item_bg"
-                                            />
+                                    app:grivate="left"
+                                    android:layout_marginLeft="100dp"
+                                    app:horizontal_Space="10dp"
+                                    app:isFull="false"
+                                    app:vertical_Space="10dp" >
 
-                                    <TextView
-                                        android:visibility="gone"
-                                        android:id="@+id/tv_line2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:paddingLeft="5dp"
-                                        android:paddingRight="5dp"
-                                        android:paddingTop="5dp"
-                                        android:paddingBottom="5dp"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="UI设计"
-                                        android:textColor="#31C5E4"
-                                        android:textSize="12sp"
-                                        android:background="@drawable/shape_search_item_bg"
-                                        />
+                                </com.slash.youth.ui.view.WarpLinearLayout>
 
-                                    <TextView
-                                        android:visibility="gone"
-                                        android:id="@+id/tv_line3"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:paddingLeft="2dp"
-                                        android:paddingRight="2dp"
-                                        android:paddingTop="5dp"
-                                        android:paddingBottom="5dp"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="品牌宣传"
-                                        android:textColor="#31C5E4"
-                                        android:textSize="12sp"
-                                        android:background="@drawable/shape_search_item_bg"
-                                        />
-
-                                </LinearLayout>
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

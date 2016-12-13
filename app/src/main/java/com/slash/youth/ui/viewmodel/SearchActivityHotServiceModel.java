@@ -51,6 +51,13 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         initData();
         initView();
         initListener();
+
+        searchActivityHotServiceBinding.tvSearchTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSearchResult(thridId);
+            }
+        });
     }
 
     //加载布局
@@ -235,7 +242,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                         @Override
                         public void onClick(View v) {
                             showSearchResult(thridId);
-
                         }
                     });
                 }

@@ -26,6 +26,18 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/17.
  */
 public class MyManager {
+    public static final String  UP ="上架";
+    public static final String  DOWN ="下架";
+    public static final String  PUBLISH ="发布";
+    public static final String  SKILL_MANAGER ="技能管理";
+    public static final String  MAANAGER_MY_PUBLISH_TASK ="管理我发布的任务";
+    public static final String   INSTALMENT="分期到账";
+    public static final String   QOUNT ="报价:¥";
+    public static final String   TASK_TIME ="任务时间:";
+    public static final String   MY_COLLECTION ="我的收藏";
+    public static final String   BACK_SUCCESS ="返回成功";
+
+
 
     //我的模块,首页获取我的个人信息
     public static void getMyUserinfo(BaseProtocol.IResultExecutor onGetMyUserinfo) {

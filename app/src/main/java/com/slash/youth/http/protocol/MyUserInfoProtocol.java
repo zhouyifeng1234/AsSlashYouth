@@ -5,6 +5,7 @@ import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.SkillLabelGetBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 

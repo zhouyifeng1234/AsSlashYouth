@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:text="1200.00元"
             android:textSize="24dp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center_horizontal"/>
@@ -65,9 +64,9 @@
                 android:textColor="#FFE083"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10,800元"/>
+                />
 
-         <View
+       <View
              android:layout_weight="1"
              android:layout_width="0dp"
              android:layout_height="0dp"/>
@@ -82,9 +81,10 @@
             <TextView
                 android:id="@+id/freeze_money"
                 android:textColor="#FFE083"
+                android:text="                 "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1800元"/>
+                />
 
             <ImageView
                 android:layout_marginLeft="5dp"
@@ -127,7 +127,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="17dp"
-               android:text="1088"/>
+               />
 
        </LinearLayout>
 
@@ -158,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
-                    android:text="1088"/>
+                   />
 
             </LinearLayout>
 
@@ -216,7 +216,7 @@
                     android:layout_marginRight="10dp"
                     android:textSize="13dp"
                     android:textColor="#31C5E4"
-                    android:text="1088"/>
+                 />
 
                 <ImageView
                     android:layout_width="wrap_content"

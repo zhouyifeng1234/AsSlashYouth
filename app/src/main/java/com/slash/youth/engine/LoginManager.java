@@ -33,7 +33,7 @@ import java.util.Map;
  * Created by Administrator on 2016/8/31.
  */
 public class LoginManager {
-    public static long currentLoginUserId = 10000;//实际应该在登录状态中获取
+    public static long currentLoginUserId = 10002;//实际应该在登录状态中获取
     public static String currentLoginUserName = "风";
     public static String currentLoginUserAvatar = "group1/M00/00/02/eBtfY1g68l2AYPzzAACY_JV8bdw.7ad5ad";
 //        public static long currentLoginUserId = 10002;//实际应该在登录状态中获取
@@ -43,7 +43,6 @@ public class LoginManager {
 
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
-
 
     static {
         //微信初始化

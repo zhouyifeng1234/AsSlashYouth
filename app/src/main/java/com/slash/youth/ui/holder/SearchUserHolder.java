@@ -39,7 +39,7 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
     public View initView() {
         mRootView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
         tv_search_person_name = (TextView) mRootView.findViewById(R.id.tv_search_person_name);
-        iv_search_person = (ImageView) mRootView.findViewById(R.id.iv_search_person);
+        iv_search_person = (ImageView) mRootView.findViewById(R.id.iv_avater);
         tv_search_person_position = (TextView) mRootView.findViewById(R.id.tv_search_person_position);
         iv_search_v = (ImageView) mRootView.findViewById(R.id.iv_search_v);
         iv_jiahao = (TextView) mRootView.findViewById(R.id.tv_contacts_visitor_addfriend);

@@ -3,6 +3,8 @@ package com.slash.youth.ui.adapter;
 import com.slash.youth.domain.SearchServiceItemBean;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.holder.BaseHolder;
+import com.slash.youth.ui.holder.PagerHomeDemandHolder;
+import com.slash.youth.ui.holder.PagerHomeServiceHolder;
 import com.slash.youth.ui.holder.PagerMorwServiceHolder;
 import com.slash.youth.utils.CommonUtils;
 
@@ -25,6 +27,6 @@ public class PagerHomeServiceAdapter extends SlashBaseAdapter<SearchServiceItemB
 
     @Override
     public BaseHolder getHolder(int position) {
-        return new PagerMorwServiceHolder(currentActivity);
+        return new PagerHomeServiceHolder();
     }
 }

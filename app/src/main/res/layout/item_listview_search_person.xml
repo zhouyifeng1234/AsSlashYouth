@@ -14,7 +14,7 @@
        android:background="#ffffff">
 
         <ImageView
-            android:id="@+id/iv_search_person"
+            android:id="@+id/iv_avater"
             android:layout_width="53dp"
             android:layout_height="54dp"
             android:layout_centerVertical="true"
@@ -23,8 +23,8 @@
 
         <LinearLayout
             android:id="@+id/ll_middle"
-            android:layout_alignTop="@id/iv_search_person"
-            android:layout_toRightOf="@id/iv_search_person"
+            android:layout_alignTop="@id/iv_avater"
+            android:layout_toRightOf="@id/iv_avater"
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="54dp"
@@ -123,7 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_alignTop="@id/iv_search_person"
+            android:layout_alignTop="@id/iv_avater"
            android:layout_alignParentRight="true"
             android:layout_marginRight="11dp"
             android:orientation="vertical"
@@ -137,7 +137,7 @@
                 android:text="2小时前在线"
                 android:textColor="#cccccc"
                 android:textSize="10dp"/>
-           <!-- <ImageView
+          <!-- <ImageView
                 android:id="@+id/iv_jiahao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

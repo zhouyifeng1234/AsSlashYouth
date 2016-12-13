@@ -109,29 +109,7 @@ public class UserinfoEditorActivity extends Activity {
                             activityUserInfoEditorModel.skillLabelList.clear();
                             activityUserInfoEditorModel.skillLabelList.addAll(listCheckedLabelName);
                             int size = listCheckedLabelName.size();
-                            switch (size) {
-                                case 1:
-                                    activityUserinfoEditorBinding.tvLine.setText(listCheckedLabelName.get(0));
-                                    activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
-                                    break;
-                                case 2:
-                                    activityUserinfoEditorBinding.tvLine.setText(listCheckedLabelName.get(0));
-                                    activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
-                                    activityUserinfoEditorBinding.tvLine2.setText(listCheckedLabelName.get(1));
-                                    activityUserinfoEditorBinding.tvLine2.setVisibility(View.VISIBLE);
-                                    break;
-                                case 3:
-                                    activityUserinfoEditorBinding.tvLine.setText(listCheckedLabelName.get(0));
-                                    activityUserinfoEditorBinding.tvLine.setVisibility(View.VISIBLE);
-                                    activityUserinfoEditorBinding.tvLine2.setText(listCheckedLabelName.get(1));
-                                    activityUserinfoEditorBinding.tvLine2.setVisibility(View.VISIBLE);
-                                    activityUserinfoEditorBinding.tvLine3.setText(listCheckedLabelName.get(2));
-                                    activityUserinfoEditorBinding.tvLine3.setVisibility(View.VISIBLE);
-                                    break;
-                                default:
-                                    activityUserinfoEditorBinding.llEditorSkillContainer.removeAllViews();
-                                    break;
-                            }
+
                         }
                         //第一级技能标签 //第二级技能标签
                         String checkFirstLabel = bundleCheckedLabelsData.getString("checkedFirstLabel", "未选择");

@@ -8,6 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -270,7 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/dea_iconl"
+                        android:src="@mipmap/deal_icon"
                         />
                     <TextView
                         android:id="@+id/tv_user_info_achieve_task_count"
@@ -287,7 +288,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/service_orce_icon"
+                        android:src="@mipmap/service_icon"
                         />
                     <TextView
                         android:id="@+id/tv_user_info_service_point"
@@ -342,7 +343,7 @@
                             <View
                                 android:layout_width="57dp"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/shape_home_my_info_trade_ticket_bg"/>
+                                android:background="@drawable/shape_home_my_info_fanscount_bg"/>
                             <TextView
                                 android:id="@+id/tv_Achieve_Task_Count"
                                 android:layout_width="wrap_content"
@@ -367,7 +368,7 @@
                             <View
                                 android:layout_width="68dp"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/shape_home_my_info_service_star_bg"/>
+                                android:background="@drawable/shape_home_my_info_fanscount_bg"/>
                             <TextView
                                 android:id="@+id/tv_Average_Service_Point"
                                 android:layout_width="wrap_content"
@@ -511,6 +512,7 @@
                                 android:layout_marginTop="15dp" />
                             <!--行业方向-->
                             <RelativeLayout
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp">
@@ -543,69 +545,26 @@
                                 android:layout_marginBottom="15dp">
 
                                 <TextView
+                                    android:layout_alignParentLeft="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:textSize="15dp"
-                                    android:textColor="#333333"
+                                    android:textColor="#31c5e4"
                                     android:text="技能标签" />
 
-                                <LinearLayout
+                                <com.slash.youth.ui.view.WarpLinearLayout
                                     android:id="@+id/ll_skilllabel_container"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="28dp"
-                                    android:orientation="horizontal">
+                                    app:grivate="left"
+                                    android:layout_marginLeft="100dp"
+                                    app:horizontal_Space="10dp"
+                                    app:isFull="false"
+                                    app:vertical_Space="10dp"
+                                    >
 
-                                    <TextView
-                                        android:id="@+id/tv_skilllabel3"
-                                        android:visibility="gone"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:paddingLeft="5dp"
-                                        android:paddingRight="5dp"
-                                        android:paddingTop="5dp"
-                                        android:paddingBottom="5dp"
-                                        android:text="技能标签3"
-                                        android:textColor="#31C5E4"
-                                        android:textSize="13sp"
-                                        android:background="@drawable/shape_search_item_bg" />
-
-                                    <TextView
-                                        android:id="@+id/tv_skilllabel2"
-                                        android:visibility="gone"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:paddingLeft="5dp"
-                                        android:paddingRight="5dp"
-                                        android:paddingTop="5dp"
-                                        android:paddingBottom="5dp"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="技能标签2"
-                                        android:textColor="#31C5E4"
-                                        android:textSize="13sp"
-                                        android:background="@drawable/shape_search_item_bg" />
-
-                                    <TextView
-                                        android:id="@+id/tv_skilllabel1"
-                                        android:visibility="gone"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:paddingLeft="5dp"
-                                        android:paddingRight="5dp"
-                                        android:paddingTop="5dp"
-                                        android:paddingBottom="5dp"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="技能标签1"
-                                        android:textColor="#31C5E4"
-                                        android:textSize="13sp"
-                                        android:background="@drawable/shape_search_item_bg" />
-
-                                </LinearLayout>
+                                </com.slash.youth.ui.view.WarpLinearLayout>
 
                                 <ImageView
                                     android:layout_width="wrap_content"
