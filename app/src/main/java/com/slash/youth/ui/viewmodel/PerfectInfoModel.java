@@ -49,12 +49,14 @@ public class PerfectInfoModel extends BaseObservable {
         thirdPlatformBundle = mActivity.getIntent().getExtras();
         if (thirdPlatformBundle == null) {
             //表示是由手机号登录进入的，所以不再需要输入手机号，隐藏手机号输入框
+            LogKit.v("phonenum login 表示是由手机号登录进入的，所以不再需要输入手机号，隐藏手机号输入框");
             setPhonenumLoginInfoVisibility(View.GONE);
             isThirdLogin = false;
         } else {
             isThirdLogin = true;
             _3ptoken = thirdPlatformBundle.getString("_3ptoken");
             userInfo = thirdPlatformBundle.getString("userInfo");
+            LogKit.v("third login");
         }
     }
 
@@ -108,7 +110,7 @@ public class PerfectInfoModel extends BaseObservable {
                 ToastUtils.shortToast("手机号不能为空");
                 return;
             }
-            if (TextUtils.isEmpty(pin) || TextUtils.isEmpty(realname)) {
+            if (TextUtils.isEmpty(pin)) {
                 ToastUtils.shortToast("验证码不能为空");
                 return;
             }
@@ -128,8 +130,7 @@ public class PerfectInfoModel extends BaseObservable {
                     String rongToken = dataBean.data.rongToken;//融云token
                     String token = dataBean.data.token;
                     long uid = dataBean.data.uid;
-                    if (dataBean.rescode == 0) {
-                        //登陆成功，老用户,这里rescode肯定不会11
+                    if (dataBean.rescode == 0 || dataBean.rescode == 11) {
                         savaLoginState(uid, token, rongToken);
                         setRealname();
                     } else {
@@ -154,6 +155,8 @@ public class PerfectInfoModel extends BaseObservable {
     }
 
     private void setRealname() {
+        LogKit.v("LoginManager.currentLoginUserId:" + LoginManager.currentLoginUserId);
+
         LoginManager.loginSetRealname(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {

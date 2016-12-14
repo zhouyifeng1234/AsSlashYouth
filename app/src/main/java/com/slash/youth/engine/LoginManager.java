@@ -9,6 +9,7 @@ import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
 import com.slash.youth.http.protocol.LoginSetRealnameProtocol;
+import com.slash.youth.http.protocol.LoginSetTagProtocol;
 import com.slash.youth.http.protocol.PhoneLoginpProtocol;
 import com.slash.youth.http.protocol.ThirdPartyLoginProtocol;
 import com.slash.youth.http.protocol.TokenLoginProtocol;
@@ -40,7 +41,6 @@ public class LoginManager {
 
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
-
 
     static {
         //微信初始化
@@ -140,6 +140,14 @@ public class LoginManager {
     public static void loginSetRealname(BaseProtocol.IResultExecutor onSetRealnameFinished, String name) {
         LoginSetRealnameProtocol loginSetRealnameProtocol = new LoginSetRealnameProtocol(name);
         loginSetRealnameProtocol.getDataFromServer(onSetRealnameFinished);
+    }
+
+    /**
+     * 登录后 完善技能标签,从服务端接口获取技能标签
+     */
+    public static void loginSetTag(BaseProtocol.IResultExecutor onGetTagFinished) {
+        LoginSetTagProtocol loginSetTagProtocol = new LoginSetTagProtocol();
+        loginSetTagProtocol.getDataFromServer(onGetTagFinished);
     }
 
 //    public boolean Login() {

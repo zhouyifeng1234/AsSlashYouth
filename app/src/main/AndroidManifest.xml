@@ -193,7 +193,15 @@
         </activity>
         <activity
             android:name=".ui.activity.ChooseSkillActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:label="登录后完善技能标签页面"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+
+
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.MapActivity"></activity>
         <activity android:name=".ui.activity.PublishDemandActivity"></activity>
         <activity android:name=".ui.activity.SearchActivity"></activity>

@@ -1,7 +1,6 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -18,7 +17,7 @@ public class ChooseSkillActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityChooseSkillBinding activityChooseSkillBinding = DataBindingUtil.setContentView(this, R.layout.activity_choose_skill);
-        ActivityChooseSkillModel activityChooseSkillModel = new ActivityChooseSkillModel(activityChooseSkillBinding);
+        ActivityChooseSkillModel activityChooseSkillModel = new ActivityChooseSkillModel(activityChooseSkillBinding, this);
         activityChooseSkillBinding.setActivityChooseSkillModel(activityChooseSkillModel);
     }
 }
