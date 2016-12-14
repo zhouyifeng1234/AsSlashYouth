@@ -35,6 +35,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by zhouyifeng on 2016/9/12.
@@ -43,13 +44,10 @@ public class ActivityChooseSkillModel extends BaseObservable {
 
     ActivityChooseSkillBinding mActivityChooseSkillBinding;
     Activity mActivity;
-    private int chooseSkillLayerVisibility = View.INVISIBLE;//选择行业（一级标签）或岗位（二级标签）的浮层是否显示，默认为隐藏
     boolean isChooseMainLabel;//true为选择添加一级标签，false为选择添加二级标签
     String[] optionalMainLabels;
     String[] optionalSecondLabels;
     private NumberPicker mNpChooseSkillLabel;
-    private String choosedMainLabel;
-    private String choosedSecondLabel;
     ArrayList<String> choosedThirdLabels = new ArrayList<String>();
 
     public ActivityChooseSkillModel(ActivityChooseSkillBinding activityChooseSkillBinding, Activity activity) {
@@ -146,7 +144,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
 
             AllSkillLablesBean allSkillLablesBean = new AllSkillLablesBean();
             allSkillLablesBean.addListTags(listTags);
-            oosTagJson.writeObject(oosTagJson);
+            oosTagJson.writeObject(allSkillLablesBean);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -289,6 +287,9 @@ public class ActivityChooseSkillModel extends BaseObservable {
         CommonUtils.getContext().startActivity(intentHomeActivity);
     }
 
+    private AllSkillLablesBean.Tag_1[] tag1Arr;
+    private int chooseTag1Index = -1;
+
     /**
      * 选择一级标签（选择行业）
      *
@@ -298,18 +299,22 @@ public class ActivityChooseSkillModel extends BaseObservable {
         isChooseMainLabel = true;
         setChooseSkillLayerVisibility(View.VISIBLE);
 
-        AllSkillLablesBean.Tag_1[] tag1Arr = (AllSkillLablesBean.Tag_1[]) allSkillLablesBean.mapTag_1.values().toArray();
+        Collection<AllSkillLablesBean.Tag_1> tag1Coll = allSkillLablesBean.mapTag_1.values();
+        tag1Arr = new AllSkillLablesBean.Tag_1[tag1Coll.size()];
+        tag1Coll.toArray(tag1Arr);
         optionalMainLabels = new String[tag1Arr.length];
         for (int i = 0; i < tag1Arr.length; i++) {
             optionalMainLabels[i] = tag1Arr[i].tag;
         }
 
-        mNpChooseSkillLabel.setDisplayedValues(optionalMainLabels);
+        mNpChooseSkillLabel.setDisplayedalues(optionalMainLabels);
         mNpChooseSkillLabel.setMaxValue(optionalMainLabels.length - 1);
         mNpChooseSkillLabel.setMinValue(0);
-        mNpChooseSkillLabel.setValue(1);
+        mNpChooseSkillLabel.setValue(0);
     }
 
+    AllSkillLablesBean.Tag_2[] tag2Arr;
+    private int chooseTag2Index = -1;
 
     /**
      * 选择二级标签（选择岗位）
@@ -320,13 +325,22 @@ public class ActivityChooseSkillModel extends BaseObservable {
         if (TextUtils.isEmpty(choosedMainLabel)) {
             return;
         }
-        optionalSecondLabels = new String[]{"研发", "设计", "开发", "装修", "运营"};//加载可选的二级标签（岗位），实际应该从服务端接口获取
+
+        AllSkillLablesBean.Tag_1 tag_1 = tag1Arr[chooseTag1Index];
+        Collection<AllSkillLablesBean.Tag_2> tag2Coll = tag_1.mapTag_2.values();
+        tag2Arr = new AllSkillLablesBean.Tag_2[tag2Coll.size()];
+        tag2Coll.toArray(tag2Arr);
+        optionalSecondLabels = new String[tag2Arr.length];
+        for (int i = 0; i < tag2Arr.length; i++) {
+            optionalSecondLabels[i] = tag2Arr[i].tag;
+        }
+
         isChooseMainLabel = false;
         setChooseSkillLayerVisibility(View.VISIBLE);
         mNpChooseSkillLabel.setDisplayedValues(optionalSecondLabels);
         mNpChooseSkillLabel.setMaxValue(optionalSecondLabels.length - 1);
         mNpChooseSkillLabel.setMinValue(0);
-        mNpChooseSkillLabel.setValue(1);
+        mNpChooseSkillLabel.setValue(0);
         setThirdSkillLabels();
     }
 
@@ -339,18 +353,25 @@ public class ActivityChooseSkillModel extends BaseObservable {
         setChooseSkillLayerVisibility(View.INVISIBLE);
         int value = mNpChooseSkillLabel.getValue();
         if (isChooseMainLabel) {
-            if (optionalMainLabels[value] != choosedMainLabel) {
+            if (value != chooseTag1Index) {
+                chooseTag1Index = value;
+                chooseTag2Index = -1;
                 setChoosedMainLabel(optionalMainLabels[value]);
                 setChoosedSecondLabel(null);
                 mActivityChooseSkillBinding.llActivityChooseSkillLabels.removeAllViews();
             }
         } else {
-            if (optionalSecondLabels[value] != choosedSecondLabel) {
+            if (value != chooseTag2Index) {
+                chooseTag2Index = value;
                 setChoosedSecondLabel(optionalSecondLabels[value]);
                 setThirdSkillLabels();
             }
         }
     }
+
+    private int chooseSkillLayerVisibility = View.INVISIBLE;//选择行业（一级标签）或岗位（二级标签）的浮层是否显示，默认为隐藏
+    private String choosedMainLabel;
+    private String choosedSecondLabel;
 
     @Bindable
     public int getChooseSkillLayerVisibility() {
