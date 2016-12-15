@@ -55,7 +55,7 @@ public class MyFriendListBean {
             private String name;
             private String position;
             private int status;
-            private int uid;
+            private long  uid;
             private long uts;
 
             public String getAvatar() {
@@ -122,11 +122,11 @@ public class MyFriendListBean {
                 this.status = status;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 

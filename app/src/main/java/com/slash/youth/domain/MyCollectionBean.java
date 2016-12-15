@@ -47,10 +47,10 @@ public class MyCollectionBean {
             private int quote;
             private long starttime;
             private int status;
-            private int tid;
+            private long tid;
             private String title;
             private int type;
-            private int uid;
+            private long uid;
 
             public String getAvatar() {
                 return avatar;
@@ -116,11 +116,11 @@ public class MyCollectionBean {
                 this.status = status;
             }
 
-            public int getTid() {
+            public long getTid() {
                 return tid;
             }
 
-            public void setTid(int tid) {
+            public void setTid(long tid) {
                 this.tid = tid;
             }
 
@@ -140,13 +140,14 @@ public class MyCollectionBean {
                 this.type = type;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
+
         }
     }
 }

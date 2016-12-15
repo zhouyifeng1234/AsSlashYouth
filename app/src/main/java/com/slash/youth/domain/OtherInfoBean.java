@@ -1,5 +1,7 @@
 package com.slash.youth.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by acer on 2016/11/29.
  */
@@ -36,7 +38,7 @@ public class OtherInfoBean {
             this.uinfo = uinfo;
         }
 
-        public static class UinfoBean {
+        public static class UinfoBean implements Serializable{
             private int achievetaskcount;
             private String avatar;
             private int averageservicepoint;
