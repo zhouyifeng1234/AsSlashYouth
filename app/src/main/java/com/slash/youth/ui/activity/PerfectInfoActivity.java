@@ -36,11 +36,13 @@ public class PerfectInfoActivity extends Activity {
 
     private ActivityPerfectInfoBinding mActivityPerfectInfoBinding;
     private PerfectInfoModel mPerfectInfoModel;
+    public static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.setCurrentActivity(this);
+        activity = this;
         mActivityPerfectInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_perfect_info);
         mPerfectInfoModel = new PerfectInfoModel(mActivityPerfectInfoBinding, this);
         mActivityPerfectInfoBinding.setPerfectInfoModel(mPerfectInfoModel);
@@ -83,6 +85,7 @@ public class PerfectInfoActivity extends Activity {
                             ImageOptions imageOptions = builder.build();
                             builder.setCircular(true);
                             x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, fileThumb.toURI().toString(), imageOptions);
+                            mPerfectInfoModel.setIsUploadAvatar(true);
                         }
 
                         @Override

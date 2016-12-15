@@ -100,6 +100,11 @@ public class PerfectInfoModel extends BaseObservable {
     String realname;
 
     public void okPerfectInfo(View v) {
+        if (!isUploadAvatar) {
+            ToastUtils.shortToast("必须先上传头像");
+            return;
+        }
+
         phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
         pin = mActivityPerfectInfoBinding.etActivityPerfectInfoVerificationCode.getText().toString();
         realname = mActivityPerfectInfoBinding.etActivityPerfectInfoRealname.getText().toString();
@@ -130,9 +135,11 @@ public class PerfectInfoModel extends BaseObservable {
                     String rongToken = dataBean.data.rongToken;//融云token
                     String token = dataBean.data.token;
                     long uid = dataBean.data.uid;
-                    if (dataBean.rescode == 0 || dataBean.rescode == 11) {
+                    if (dataBean.rescode == 11) {
                         savaLoginState(uid, token, rongToken);
                         setRealname();
+                    } else if (dataBean.rescode == 0) {
+                        ToastUtils.shortToast("该手机号已经被注册过");
                     } else {
                         ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                     }
@@ -214,6 +221,18 @@ public class PerfectInfoModel extends BaseObservable {
 
     private int cameraIconVisibility = View.VISIBLE;
     private int phonenumLoginInfoVisibility = View.VISIBLE;
+
+    private boolean isUploadAvatar = false;
+
+    @Bindable
+    public boolean getIsUploadAvatar() {
+        return isUploadAvatar;
+    }
+
+    public void setIsUploadAvatar(boolean isUploadAvatar) {
+        this.isUploadAvatar = isUploadAvatar;
+        notifyPropertyChanged(BR.isUploadAvatar);
+    }
 
     @Bindable
     public int getPhonenumLoginInfoVisibility() {

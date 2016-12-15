@@ -17,10 +17,13 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChooseSkillBinding;
 import com.slash.youth.domain.AllSkillLablesBean;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.LoginTagBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.LoginActivity;
+import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
@@ -48,7 +51,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
     String[] optionalMainLabels;
     String[] optionalSecondLabels;
     private NumberPicker mNpChooseSkillLabel;
-    ArrayList<String> choosedThirdLabels = new ArrayList<String>();
+    ArrayList<AllSkillLablesBean.Tag_3> choosedThirdLabels = new ArrayList<AllSkillLablesBean.Tag_3>();
 
     public ActivityChooseSkillModel(ActivityChooseSkillBinding activityChooseSkillBinding, Activity activity) {
         this.mActivityChooseSkillBinding = activityChooseSkillBinding;
@@ -76,7 +79,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
         if (allSkillLablesBean != null) {
 
         } else {
-            LoginManager.loginSetTag(new BaseProtocol.IResultExecutor<String>() {
+            LoginManager.loginGetTag(new BaseProtocol.IResultExecutor<String>() {
                 @Override
                 public void execute(String dataBean) {
                     LogKit.v("setTagCache 11111");
@@ -160,6 +163,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
     int labelRightMargin = CommonUtils.dip2px(20);
     int currentLabelsWidth = 0;
 
+    AllSkillLablesBean.Tag_3[] tag3Arr;
+
     /**
      * 根据选择一级标签和二级标签，展示对应的三级标签
      */
@@ -168,43 +173,10 @@ public class ActivityChooseSkillModel extends BaseObservable {
             return;
         }
         choosedThirdLabels.clear();
-        //TODO 首先获取技能标签数据的集合，实际应该从服务端接口获取，这里暂时写死
-        final ArrayList<String> listSkillLabels = new ArrayList<String>();
-        listSkillLabels.add("APP开发设计");
-        listSkillLabels.add("APP");
-        listSkillLabels.add("U3D");
-        listSkillLabels.add(".NET");
-        listSkillLabels.add("java");
-        listSkillLabels.add("服务端开发");
-        listSkillLabels.add("前端开发");
-        listSkillLabels.add("APP开发设计");
-        listSkillLabels.add("APP");
-        listSkillLabels.add("U3D");
-        listSkillLabels.add(".NET");
-        listSkillLabels.add("java");
-        listSkillLabels.add("服务端开发");
-        listSkillLabels.add("前端开发");
-        listSkillLabels.add("APP开发设计");
-        listSkillLabels.add("APP");
-        listSkillLabels.add("U3D");
-        listSkillLabels.add(".NET");
-        listSkillLabels.add("java");
-        listSkillLabels.add("服务端开发");
-        listSkillLabels.add("前端开发");
-        listSkillLabels.add("APP开发设计");
-        listSkillLabels.add("APP");
-        listSkillLabels.add("U3D");
-        listSkillLabels.add(".NET");
-        listSkillLabels.add("java");
-        listSkillLabels.add("服务端开发");
-        listSkillLabels.add("前端开发");
-        listSkillLabels.add("APP开发设计");
-        listSkillLabels.add("APP");
-        listSkillLabels.add("U3D");
-        listSkillLabels.add(".NET");
-        listSkillLabels.add("java");
-        listSkillLabels.add("服务端开发");
-        listSkillLabels.add("前端开发");
+        AllSkillLablesBean.Tag_2 tag_2 = tag2Arr[chooseTag2Index];
+        Collection<AllSkillLablesBean.Tag_3> tag3Coll = tag_2.mapTag_3.values();
+        tag3Arr = new AllSkillLablesBean.Tag_3[tag3Coll.size()];
+        tag3Coll.toArray(tag3Arr);
 
         mActivityChooseSkillBinding.llActivityChooseSkillLabels.removeAllViews();
         mActivityChooseSkillBinding.llActivityChooseSkillLabels.post(new Runnable() {
@@ -212,8 +184,9 @@ public class ActivityChooseSkillModel extends BaseObservable {
             public void run() {
                 int labelsTotalWidth = mActivityChooseSkillBinding.llActivityChooseSkillLabels.getMeasuredWidth() - 2 * lineLeftRightMargin;
 //                ToastUtils.shortToast(labelsTotalWidth + "");
-                for (int i = 0; i < listSkillLabels.size(); i++) {
-                    String labelName = listSkillLabels.get(i);
+                for (int i = 0; i < tag3Arr.length; i++) {
+                    AllSkillLablesBean.Tag_3 tag_3 = tag3Arr[i];
+                    String labelName = tag_3.tag;
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, CommonUtils.dip2px(60));
                     params.rightMargin = labelRightMargin;
                     TextView tvSkillLabel = new TextView(CommonUtils.getContext());
@@ -226,7 +199,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
                     tvSkillLabel.setTextSize(13.5f);
                     tvSkillLabel.setLayoutParams(params);
                     tvSkillLabel.measure(0, 0);
-                    setSkillLabelSelectedListener(tvSkillLabel);
+                    setSkillLabelSelectedListener(tvSkillLabel, tag_3);
                     int labelWidth = tvSkillLabel.getMeasuredWidth() + labelRightMargin;
 
                     int newCurrentLablesWidth = currentLabelsWidth + labelWidth;
@@ -251,7 +224,6 @@ public class ActivityChooseSkillModel extends BaseObservable {
                 }
             }
         });
-
     }
 
     private void createSkillLabelsLine() {
@@ -262,7 +234,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
         llSkillLabelsLine.setLayoutParams(params);
     }
 
-    private void setSkillLabelSelectedListener(final TextView tvSkillLabel) {
+    private void setSkillLabelSelectedListener(final TextView tvSkillLabel, final AllSkillLablesBean.Tag_3 tag_3) {
         tvSkillLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,11 +242,11 @@ public class ActivityChooseSkillModel extends BaseObservable {
                 if (isSelected) {
                     tvSkillLabel.setTextColor(0xff31c5e4);
                     tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
-                    choosedThirdLabels.remove(tvSkillLabel.getText().toString());
+                    choosedThirdLabels.remove(tag_3);
                 } else {
                     tvSkillLabel.setTextColor(0xffffffff);
                     tvSkillLabel.setBackgroundResource(R.mipmap.choose_skill_label_bg);
-                    choosedThirdLabels.add(tvSkillLabel.getText().toString());
+                    choosedThirdLabels.add(tag_3);
                 }
                 tvSkillLabel.setTag(!isSelected);
             }
@@ -282,9 +254,50 @@ public class ActivityChooseSkillModel extends BaseObservable {
     }
 
     public void finishChooseSkill(View v) {
-        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-        intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentHomeActivity);
+        if (choosedThirdLabels.size() <= 0) {
+            ToastUtils.shortToast("请选择技能标签");
+            return;
+        }
+
+        ArrayList<String> listTag = new ArrayList<String>();
+
+        AllSkillLablesBean.Tag_1 tag_1 = tag1Arr[chooseTag1Index];
+//        String choosedTag1 = tag_1.f1 + "-" + tag_1.f2 + "-" + tag_1.tag;
+        String choosedTag1 = tag_1.tag;
+        listTag.add(choosedTag1);
+
+        AllSkillLablesBean.Tag_2 tag_2 = tag2Arr[chooseTag2Index];
+//        String choosedTag2 = tag_2.f1 + "-" + tag_2.f2 + "-" + tag_2.tag;
+        String choosedTag2 = tag_2.tag;
+        listTag.add(choosedTag2);
+
+        for (AllSkillLablesBean.Tag_3 tag_3 : choosedThirdLabels) {
+//            String choosedTag3 = tag_3.f1 + "-" + tag_3.f2 + "-" + tag_3.tag;
+            String choosedTag3 = tag_3.tag;
+            listTag.add(choosedTag3);
+        }
+
+        LoginManager.loginSetTag(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+                mActivity.startActivity(intentHomeActivity);
+                if (LoginActivity.activity != null) {
+                    LoginActivity.activity.finish();
+                    LoginActivity.activity = null;
+                }
+                if (PerfectInfoActivity.activity != null) {
+                    PerfectInfoActivity.activity.finish();
+                    PerfectInfoActivity.activity = null;
+                }
+                mActivity.finish();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("设置用户技能标签失败");
+            }
+        }, listTag);
     }
 
     private AllSkillLablesBean.Tag_1[] tag1Arr;
@@ -307,7 +320,9 @@ public class ActivityChooseSkillModel extends BaseObservable {
             optionalMainLabels[i] = tag1Arr[i].tag;
         }
 
-        mNpChooseSkillLabel.setDisplayedalues(optionalMainLabels);
+        mNpChooseSkillLabel.setMaxValue(0);
+        mNpChooseSkillLabel.setMinValue(0);
+        mNpChooseSkillLabel.setDisplayedValues(optionalMainLabels);
         mNpChooseSkillLabel.setMaxValue(optionalMainLabels.length - 1);
         mNpChooseSkillLabel.setMinValue(0);
         mNpChooseSkillLabel.setValue(0);
@@ -337,6 +352,9 @@ public class ActivityChooseSkillModel extends BaseObservable {
 
         isChooseMainLabel = false;
         setChooseSkillLayerVisibility(View.VISIBLE);
+
+        mNpChooseSkillLabel.setMaxValue(0);
+        mNpChooseSkillLabel.setMinValue(0);
         mNpChooseSkillLabel.setDisplayedValues(optionalSecondLabels);
         mNpChooseSkillLabel.setMaxValue(optionalSecondLabels.length - 1);
         mNpChooseSkillLabel.setMinValue(0);
@@ -367,6 +385,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
                 setThirdSkillLabels();
             }
         }
+//        ToastUtils.shortToast("value:" + value);
     }
 
     private int chooseSkillLayerVisibility = View.INVISIBLE;//选择行业（一级标签）或岗位（二级标签）的浮层是否显示，默认为隐藏

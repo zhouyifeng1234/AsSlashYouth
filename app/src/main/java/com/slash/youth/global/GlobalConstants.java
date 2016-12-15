@@ -128,8 +128,10 @@ public class GlobalConstants {
         public static final String LOGIN_SET_AVATAR = SERVER_HOST_MY_USERINFO + "/" + "vcard/avatar/set";
         //登录后完善信息 设置真实姓名
         public static final String LOGIN_SET_REAL_NAME = SERVER_HOST_MY_USERINFO + "/" + "/vcard/name/set";
-        //登录后完善 技能标签
-        public static final String LOGNI_SET_TAG = SERVER_HOST + "static/tag/sys_tag.json";
+        //登录后完善 获取技能标签
+        public static final String LOGNI_GET_TAG = SERVER_HOST + "static/tag/sys_tag.json";
+        //登录后完善 设置技能标签
+        public static final String LOGIN_SET_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
 
 
         //一、[需求]-我的任务列表

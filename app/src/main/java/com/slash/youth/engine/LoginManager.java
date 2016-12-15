@@ -7,6 +7,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
+import com.slash.youth.http.protocol.LoginGetTagProtocol;
 import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
 import com.slash.youth.http.protocol.LoginSetRealnameProtocol;
 import com.slash.youth.http.protocol.LoginSetTagProtocol;
@@ -23,6 +24,7 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -145,10 +147,22 @@ public class LoginManager {
     /**
      * 登录后 完善技能标签,从服务端接口获取技能标签
      */
-    public static void loginSetTag(BaseProtocol.IResultExecutor onGetTagFinished) {
-        LoginSetTagProtocol loginSetTagProtocol = new LoginSetTagProtocol();
+    public static void loginGetTag(BaseProtocol.IResultExecutor onGetTagFinished) {
+        LoginGetTagProtocol loginSetTagProtocol = new LoginGetTagProtocol();
         loginSetTagProtocol.getDataFromServer(onGetTagFinished);
     }
+
+    /**
+     * 登录后 完善技能标签,设置用户的技能标签
+     *
+     * @param onSetTagFinished
+     * @param listTag
+     */
+    public static void loginSetTag(BaseProtocol.IResultExecutor onSetTagFinished, ArrayList<String> listTag) {
+        LoginSetTagProtocol loginSetTagProtocol = new LoginSetTagProtocol(listTag);
+        loginSetTagProtocol.getDataFromServer(onSetTagFinished);
+    }
+
 
 //    public boolean Login() {
 //        //TODO 具体的登录逻辑，判断是否登录成功
