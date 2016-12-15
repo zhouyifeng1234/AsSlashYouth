@@ -94,7 +94,7 @@ public class PublishDemandModeModel extends BaseObservable {
     public void publishDemand(View v) {
         boolean isRealNamePublish = publishDemandDataBundle.getBoolean("isRealNamePublish");
         int choosePublishType = publishDemandDataBundle.getInt("choosePublishType");
-        ArrayList<String> listTotalAddedLabels = publishDemandDataBundle.getStringArrayList("listTotalAddedLabels");
+        ArrayList<String> listTotalAddedLabels = publishDemandDataBundle.getStringArrayList("listTotalAddedTagsNames");
         int mStartDisplayMonth = publishDemandDataBundle.getInt("mStartDisplayMonth");
         int mStartDisplayDay = publishDemandDataBundle.getInt("mStartDisplayDay");
         int mStartDisplayHour = publishDemandDataBundle.getInt("mStartDisplayHour");

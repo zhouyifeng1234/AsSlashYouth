@@ -39,11 +39,12 @@ public class SlashAddLabelsLayout extends LinearLayout {
 
     Activity mActivity;
 
-    public ArrayList<String> listTotalAddedLabels = new ArrayList<String>();
+    public ArrayList<String> listTotalAddedTagsNames = new ArrayList<String>();
+    public ArrayList<String> listTotalAddedTags = new ArrayList<String>();
 
     public void addSkillLabels() {
         removeAllViews();
-        int linesCount = listTotalAddedLabels.size() / 3;//完整的行数
+        int linesCount = listTotalAddedTagsNames.size() / 3;//完整的行数
         for (int i = 0; i < linesCount; i++) {
             LinearLayout skillLabelsLine = createSkillLabelsLine(false, i);
             addView(skillLabelsLine);
@@ -62,10 +63,10 @@ public class SlashAddLabelsLayout extends LinearLayout {
         llSkillLabelsLine.setOrientation(LinearLayout.HORIZONTAL);
         if (isLastLine) {
             //最后一行添加标签处理
-            int lastLineLabelCount = listTotalAddedLabels.size() % 3;
+            int lastLineLabelCount = listTotalAddedTagsNames.size() % 3;
             for (int i = 0; i < lastLineLabelCount; i++) {
                 int labelIndex = lineIndex * 3 + i;
-                String labelText = listTotalAddedLabels.get(labelIndex);
+                String labelText = listTotalAddedTagsNames.get(labelIndex);
                 RelativeLayout skillLabel = createSkillLabel(labelText, View.VISIBLE, View.VISIBLE, View.INVISIBLE, labelIndex);
                 llSkillLabelsLine.addView(skillLabel);
                 if (i < 2) {
@@ -91,7 +92,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
         } else {
             for (int i = 0; i < 3; i++) {
                 int labelIndex = lineIndex * 3 + i;
-                String labelText = listTotalAddedLabels.get(labelIndex);
+                String labelText = listTotalAddedTagsNames.get(labelIndex);
                 RelativeLayout skillLabel = createSkillLabel(labelText, View.VISIBLE, View.VISIBLE, View.INVISIBLE, labelIndex);
                 llSkillLabelsLine.addView(skillLabel);
                 if (i < 2) {
@@ -175,8 +176,8 @@ public class SlashAddLabelsLayout extends LinearLayout {
         @Override
         public void onClick(View v) {
             int labelIndex = (int) v.getTag();
-            if (labelIndex >= 0 && labelIndex < listTotalAddedLabels.size()) {
-                listTotalAddedLabels.remove(labelIndex);
+            if (labelIndex >= 0 && labelIndex < listTotalAddedTagsNames.size()) {
+                listTotalAddedTagsNames.remove(labelIndex);
                 initSkillLabels();
             }
         }
@@ -186,10 +187,13 @@ public class SlashAddLabelsLayout extends LinearLayout {
         Bundle bundleCheckedLabelsData = intentAddLabelsData.getBundleExtra("bundleCheckedLabelsData");
         if (bundleCheckedLabelsData != null) {
             ArrayList<String> listCheckedLabelName = bundleCheckedLabelsData.getStringArrayList("listCheckedLabelName");
-//            listTotalAddedLabels.clear();//添加清空操作
+            ArrayList<String> listCheckedLabelTag = bundleCheckedLabelsData.getStringArrayList("listCheckedLabelTag");
+//            ToastUtils.shortToast("listCheckedLabelName.size()" + listCheckedLabelName.size());
+//            listTotalAddedTagsNames.clear();//添加清空操作
             //限制一共就3个的操作
 //            limitTotalLabelsCount(3);
-            listTotalAddedLabels.addAll(listCheckedLabelName);
+            listTotalAddedTagsNames.addAll(listCheckedLabelName);
+            listTotalAddedTags.addAll(listCheckedLabelTag);
             addSkillLabels();
         }
     }
@@ -197,34 +201,38 @@ public class SlashAddLabelsLayout extends LinearLayout {
     /**
      * 修改需求或者服务时，重新加载技能标签
      *
-     * @param reloadLabels
+     * @param reloadTagsName
+     * @param reloadTags
      */
-    public void reloadSkillLabels(ArrayList<String> reloadLabels) {
-        listTotalAddedLabels.addAll(reloadLabels);
+    public void reloadSkillLabels(ArrayList<String> reloadTagsName, ArrayList<String> reloadTags) {
+        listTotalAddedTagsNames.clear();
+        listTotalAddedTags.clear();
+        listTotalAddedTagsNames.addAll(reloadTagsName);
+        listTotalAddedTags.addAll(reloadTags);
         addSkillLabels();
     }
 
 //    private void limitTotalLabelsCount(int count) {
-//        listTotalAddedLabels.addAll(listTotalAddedLabels.subList(0, 3));
+//        listTotalAddedTagsNames.addAll(listTotalAddedTagsNames.subList(0, 3));
 //    }
 
     public void setActivity(Activity activity) {
         this.mActivity = activity;
     }
 
-    public ArrayList<String> getAddedSkillLabels() {
-        return listTotalAddedLabels;
+    public ArrayList<String> getAddedTagsName() {
+        return listTotalAddedTagsNames;
     }
 
-
+    public ArrayList<String> getAddedTags() {
+        return listTotalAddedTags;
+    }
 
     //zss
-    public void setTag( ArrayList<String> tagArrayList){
-        listTotalAddedLabels.addAll(tagArrayList);
+    public void setTag(ArrayList<String> tagArrayList) {
+        listTotalAddedTagsNames.addAll(tagArrayList);
         addSkillLabels();
     }
-
-
 
 
 }

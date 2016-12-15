@@ -7,6 +7,7 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
+
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.domain.SkillLabelBean;
@@ -30,12 +31,14 @@ public class ActivitySubscribeModel extends BaseObservable {
     private Map.Entry entry;
     private int value;
     private boolean isEditor;
+    private boolean isPublish;
 
     public ActivitySubscribeModel(ActivitySubscribeBinding activitySubscribeBinding, SubscribeActivity activity,
                                   boolean isEditor) {
         this.mActivitySubscribeBinding = activitySubscribeBinding;
         this.isEditor = isEditor;
         this.mActivity = activity;
+        this.isPublish = mActivity.getIntent().getBooleanExtra("isPublish", false);
         initView();
     }
 
@@ -48,12 +51,12 @@ public class ActivitySubscribeModel extends BaseObservable {
         mActivity.setOnListener(new SubscribeActivity.OnListener() {
             @Override
             public void OnListener(ArrayList<SkillLabelBean> firstList) {
-                int i=0;
+                int i = 0;
                 mainLabelsArr = new String[firstList.size()];
                 for (SkillLabelBean skillLabelBean : firstList) {
                     String tag = skillLabelBean.getTag();
                     mainLabelsArr[i] = tag;
-                    i+=1;
+                    i += 1;
                 }
                 mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
                 mNpChooseMainLabels.setMinValue(0);
@@ -94,18 +97,22 @@ public class ActivitySubscribeModel extends BaseObservable {
         bundleCheckedLabelsData.putString("checkedFirstLabel", mActivity.checkedFirstLabel);
         bundleCheckedLabelsData.putString("checkedSecondLabel", mActivity.checkedSecondLabel);
         bundleCheckedLabelsData.putStringArrayList("listCheckedLabelName", mActivity.listCheckedLabelName);
+        bundleCheckedLabelsData.putStringArrayList("listCheckedLabelTag", mActivity.listCheckedLabelTag);
         intentResult.putExtra("bundleCheckedLabelsData", bundleCheckedLabelsData);
-        if(isEditor){
-       mActivity.setResult(Activity.RESULT_OK,intentResult);
-        }else {
-            mActivity.setResult(10, intentResult);
-            mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
+        if (isEditor) {
+            mActivity.setResult(Activity.RESULT_OK, intentResult);
+        } else {
+            if (isPublish) {
+                mActivity.setResult(10, intentResult);
+            } else {
+                mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
+            }
         }
         mActivity.finish();
     }
 
     public void goBack(View v) {
-        if(isEditor){
+        if (isEditor) {
             LogKit.d("是编辑页面返回的");
         }
         mActivity.finish();
@@ -113,12 +120,13 @@ public class ActivitySubscribeModel extends BaseObservable {
 
 
     //接口回调传递数据
-    public interface OnOkChooseMainLabelListener{
+    public interface OnOkChooseMainLabelListener {
         void OnOkChooseMainLabelListener(int tagId);
     }
 
     private OnOkChooseMainLabelListener listener;
-    public void setOnOkChooseMainLabelListener( OnOkChooseMainLabelListener listener) {
+
+    public void setOnOkChooseMainLabelListener(OnOkChooseMainLabelListener listener) {
         this.listener = listener;
     }
 

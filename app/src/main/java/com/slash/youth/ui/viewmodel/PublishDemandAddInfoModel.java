@@ -75,8 +75,11 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         DemandDetailBean.Demand demand = demandDetailBean.data.demand;
         //回填技能标签
         String[] tags = demand.tag.split(",");
-        ArrayList<String> reloadLabels = new ArrayList<String>();
+        ArrayList<String> reloadTagsName = new ArrayList<String>();
+        ArrayList<String> reloadTags = new ArrayList<String>();
         for (String tag : tags) {
+            reloadTags.add(tag);
+
             String[] tagInfo = tag.split("-");
             String tagName;
             if (tagInfo.length == 3) {
@@ -84,9 +87,9 @@ public class PublishDemandAddInfoModel extends BaseObservable {
             } else {
                 tagName = tag;
             }
-            reloadLabels.add(tagName);
+            reloadTagsName.add(tagName);
         }
-        mSallSkillLabels.reloadSkillLabels(reloadLabels);
+        mSallSkillLabels.reloadSkillLabels(reloadTagsName, reloadTags);
         //回填报价
         mActivityPublishDemandAddinfoBinding.etDemandQuote.setText(demand.quote + "");
         //回填分期开关
@@ -132,7 +135,8 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         ArrayList<String> listPic = bundleDemandData.getStringArrayList("pic");
 
 
-        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
+//        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTagsName();
+        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTags();
         double quote;
         int offer;
         try {
@@ -227,9 +231,16 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
     public void openLabelsActivity(View v) {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
-        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
-        intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", addedSkillLabels);
+        ArrayList<String> addedTagsName = mSallSkillLabels.getAddedTagsName();
+        ArrayList<String> addedTags = mSallSkillLabels.getAddedTags();
+        intentSubscribeActivity.putStringArrayListExtra("addedTagsName", addedTagsName);
+        intentSubscribeActivity.putStringArrayListExtra("addedTags", addedTags);
+        intentSubscribeActivity.putExtra("isPublish", true);
         mActivity.startActivityForResult(intentSubscribeActivity, 10);
+
+        mSallSkillLabels.listTotalAddedTagsNames.clear();
+        mSallSkillLabels.listTotalAddedTags.clear();
+        mSallSkillLabels.initSkillLabels();
     }
 
     public void openMapActivity(View v) {

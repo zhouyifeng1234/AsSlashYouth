@@ -155,29 +155,26 @@
             android:name="UMENG_CHANNEL"
             android:value="Umeng"></meta-data>
 
-        <activity
-            android:name="com.slash.youth.ui.activity.HomeActivity"
-            android:windowSoftInputMode="adjustPan">
 
+        <activity
+            android:name="com.slash.youth.ui.activity.SplashActivity"
+            android:label="闪屏页">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="com.slash.youth.ui.activity.LoginActivity"
-        >
+            android:label="登录页">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-
-
             </intent-filter>
         </activity>
         <activity
-            android:name="com.slash.youth.ui.activity.SplashActivity"
-        >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:name="com.slash.youth.ui.activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".ui.activity.CityLocationActivity"></activity>
         <activity android:name=".ui.activity.SubscribeActivity"></activity>
@@ -185,22 +182,11 @@
             android:name=".ui.activity.PerfectInfoActivity"
             android:label="用户首次登录后完善信息页面"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.ChooseSkillActivity"
             android:label="登录后完善技能标签页面"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-
-
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.MapActivity"></activity>
         <activity android:name=".ui.activity.PublishDemandActivity"></activity>
@@ -218,7 +204,9 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.PublishDemandAddInfoActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
         <activity android:name=".ui.activity.PublishDemandSuccessActivity"></activity>
         <activity android:name=".ui.activity.DemandDetailActivity"></activity>
         <activity android:name=".ui.activity.DemandDetailLocationActivity"></activity>

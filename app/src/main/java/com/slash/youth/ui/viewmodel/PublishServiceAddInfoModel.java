@@ -123,8 +123,11 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
         //技能标签
         String[] tags = service.tag.split(",");
-        ArrayList<String> reloadLabels = new ArrayList<String>();
+        ArrayList<String> reloadTagsName = new ArrayList<String>();
+        ArrayList<String> reloadTags = new ArrayList<String>();
         for (String tag : tags) {
+            reloadTags.add(tag);
+
             String[] tagInfo = tag.split("-");
             String tagName;
             if (tagInfo.length == 3) {
@@ -132,9 +135,9 @@ public class PublishServiceAddInfoModel extends BaseObservable {
             } else {
                 tagName = tag;
             }
-            reloadLabels.add(tagName);
+            reloadTagsName.add(tagName);
         }
-        mSallSkillLabels.reloadSkillLabels(reloadLabels);
+        mSallSkillLabels.reloadSkillLabels(reloadTagsName, reloadTags);
     }
 
     public void gotoBack(View v) {
@@ -143,9 +146,16 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
     public void openLabelsActivity(View v) {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
-        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
-        intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", addedSkillLabels);
+        ArrayList<String> addedTagsName = mSallSkillLabels.getAddedTagsName();
+        ArrayList<String> addedTags = mSallSkillLabels.getAddedTags();
+        intentSubscribeActivity.putStringArrayListExtra("addedTagsName", addedTagsName);
+        intentSubscribeActivity.putStringArrayListExtra("addedTags", addedTags);
+        intentSubscribeActivity.putExtra("isPublish", true);
         mActivity.startActivityForResult(intentSubscribeActivity, 10);
+
+        mSallSkillLabels.listTotalAddedTagsNames.clear();
+        mSallSkillLabels.listTotalAddedTags.clear();
+        mSallSkillLabels.initSkillLabels();
     }
 
     //打开或者关闭分期
@@ -212,7 +222,8 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         ArrayList<String> listPic = bundleServiceData.getStringArrayList("pic");
 
 
-        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
+//        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTagsName();
+        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTags();
         double quote;
         try {
             quote = Double.parseDouble(mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString());
