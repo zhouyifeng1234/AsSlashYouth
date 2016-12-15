@@ -22,6 +22,8 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
     private TextView title;
     private TextView save;
     private ActivityMyAccountBinding activityMyAccountBinding;
+    private String titleTextAccount = "我的账户";
+    private String titleTextRecord = "交易记录";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +37,10 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("我的账户");
+        title.setText(titleTextAccount);
         save = (TextView) findViewById(R.id.tv_userinfo_save);
         save.setOnClickListener(this);
-        save.setText("交易记录");
+        save.setText(titleTextRecord);
     }
 
     @Override
@@ -48,7 +50,6 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.tv_userinfo_save:
-                LogKit.d("交易记录");
                 Intent intentTransactionRecordActivity = new Intent(CommonUtils.getContext(), TransactionRecordActivity.class);
                 intentTransactionRecordActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 CommonUtils.getContext().startActivity(intentTransactionRecordActivity);

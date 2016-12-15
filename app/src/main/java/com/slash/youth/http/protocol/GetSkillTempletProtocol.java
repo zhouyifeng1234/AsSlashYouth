@@ -12,9 +12,9 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/12/3.
  */
 public class GetSkillTempletProtocol extends BaseProtocol<SkillMamagerOneTempletBean> {
-    private int id;
+    private long id;
 
-    public GetSkillTempletProtocol(int id) {
+    public GetSkillTempletProtocol(long id) {
         this.id = id;
     }
 

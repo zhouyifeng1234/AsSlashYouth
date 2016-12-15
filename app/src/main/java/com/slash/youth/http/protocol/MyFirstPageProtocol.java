@@ -19,7 +19,6 @@ public class MyFirstPageProtocol extends BaseProtocol<MyFirstPageBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-
     }
 
     @Override

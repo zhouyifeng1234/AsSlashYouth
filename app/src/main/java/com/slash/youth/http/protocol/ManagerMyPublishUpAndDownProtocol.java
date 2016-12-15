@@ -11,10 +11,10 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/12/2.
  */
 public class ManagerMyPublishUpAndDownProtocol extends BaseProtocol<SetBean> {
-    private int id;
+    private long id;
     private int action;
 
-    public ManagerMyPublishUpAndDownProtocol(int id, int action) {
+    public ManagerMyPublishUpAndDownProtocol(long id, int action) {
         this.id = id;
         this.action = action;
     }

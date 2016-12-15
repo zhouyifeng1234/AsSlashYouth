@@ -55,7 +55,7 @@ public class AddSkillTempletProtocol extends BaseProtocol<SetBean> {
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.PUBLISH_SERVICE;
+        return GlobalConstants.HttpUrl.ADD_SKILL_TEMPLET;
     }
 
     @Override
@@ -73,11 +73,13 @@ public class AddSkillTempletProtocol extends BaseProtocol<SetBean> {
             jo.put("anonymity", anonymity);
             jo.put("desc", desc);
             jo.put("timetype", timetype);
-            JSONArray jaPic = new JSONArray();
-            for (String picUrl : listPic) {
-                jaPic.put(picUrl);
+            if(!listPic.isEmpty()){
+                JSONArray jaPic = new JSONArray();
+                for (String picUrl : listPic) {
+                    jaPic.put(picUrl);
+                }
+                jo.put("pic", jaPic);
             }
-            jo.put("pic", jaPic);
             jo.put("instalment", instalment);
             jo.put("bp", bp);
             jo.put("pattern", pattern);

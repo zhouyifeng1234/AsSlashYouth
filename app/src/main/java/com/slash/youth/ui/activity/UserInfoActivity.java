@@ -12,7 +12,9 @@ import android.widget.PopupWindow;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.domain.FansBean;
+import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
@@ -32,20 +34,20 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private String phone;
     private boolean isfriend;
     private boolean isCare;
-
+    private long uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
-        long uid = intent.getLongExtra("Uid", -1);
+        uid = intent.getLongExtra("Uid", -1);
         String skillTag = intent.getStringExtra("skillTag");
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
-        testIsFriend(uid);
-        testisfollow(uid);
+        //testIsFriend(uid);
+       // testisfollow(uid);
         back();
         title();
         listener();
@@ -95,11 +97,11 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.tv_userinfo_save:
-                //  UserInfoItemBean.DataBean.UinfoBean uinfo = userInfoModel.uinfo;
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
                 intentUserinfoEditorActivity.putExtra("phone", phone);
                 intentUserinfoEditorActivity.putExtra("myId", myId);
-                // intentUserinfoEditorActivity.putExtra("uifo",uinfo);
+                UserInfoItemBean.DataBean.UinfoBean myUninfo = userInfoModel.myUninfo;
+                intentUserinfoEditorActivity.putExtra("uifo",myUninfo);
                 UserInfoActivity.this.startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
@@ -133,14 +135,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-              /*  if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                    popupWindow = null;
-                }*/
-
                 return false;
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
             }
         });
         popupWindow.setBackgroundDrawable(getResources().getDrawable(

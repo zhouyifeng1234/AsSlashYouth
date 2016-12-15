@@ -26,6 +26,7 @@ public class ContactUsActivity extends Activity implements View.OnClickListener 
     private TextView title;
     private FrameLayout fl;
     private ActivityContactUsBinding activityContactUsBinding;
+    private String titleText = "联系我们";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class ContactUsActivity extends Activity implements View.OnClickListener 
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("联系我们");
+        title.setText(titleText);
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
     }
