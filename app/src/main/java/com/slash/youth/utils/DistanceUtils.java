@@ -23,6 +23,9 @@ import java.util.ArrayList;
  */
 public class DistanceUtils {
     private static final double EARTH_RADIUS = 6378.137;//地球半径,单位千米
+    public double currentLatitude;
+    public double currentLongitude;
+
     private static double rad(double d) {
         return d * Math.PI / 180.0;
     }
@@ -32,13 +35,11 @@ public class DistanceUtils {
         double radLat2 = rad(lat2);
         double a = radLat1 - radLat2;
         double b = rad(lng1) - rad(lng2);
-
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
                 Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
-
     }
 
     public AMapLocationClient mLocationClient = null;
@@ -46,6 +47,7 @@ public class DistanceUtils {
 
     //GPS获取当前我自己的经纬度
     public  void getLatAndLng(Context context){
+
         //初始化定位
         mLocationClient = new AMapLocationClient(context);
         //初始化AMapLocationClientOption对象
@@ -73,9 +75,11 @@ public class DistanceUtils {
                     //可在其中解析amapLocation获取相应内容。
 //                        mLocationOption.setInterval(60000);
 //                        mLocationClient.setLocationOption(mLocationOption);
-                    double currentLatitude = aMapLocation.getLatitude();//获取纬度
-                    double currentLongitude = aMapLocation.getLongitude();//获取经度
-                    LogKit.v("currentLatitude:" + currentLatitude + "  currentLongitude:" + currentLongitude);
+                    //获取纬度
+                    currentLatitude = aMapLocation.getLatitude();
+                    //获取经度
+                    currentLongitude = aMapLocation.getLongitude();
+                    LogKit.v("currentLatitude:" + currentLatitude + " currentLongitude:" + currentLongitude);
                    // LatLng latLng = new LatLng(currentLatitude, currentLongitude);
                   //  mCurrentLatlng = latLng;
 //                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));

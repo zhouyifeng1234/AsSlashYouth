@@ -59,9 +59,9 @@ public class PagerHomeMyModel extends BaseObservable {
     private int fanscount;
     private int fansratio;
     private int totoltaskcount;
-    private MyFirstPageBean.DataBean.MyinfoBean myinfo;
     private long id;
     public String phone;
+    private MyFirstPageBean.DataBean.MyinfoBean myinfo;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
@@ -121,7 +121,6 @@ public class PagerHomeMyModel extends BaseObservable {
 
     private void initData() {
         setExpertMarks();
-
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
     }
 
@@ -146,7 +145,7 @@ public class PagerHomeMyModel extends BaseObservable {
         }
         //头像
         avatar = myinfo.getAvatar();
-        if(!avatar.isEmpty()){
+        if(!avatar.isEmpty()&&avatar!=""){
             BitmapKit.bindImage(mPagerHomeMyBinding.ivAssistantIcon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
@@ -256,9 +255,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //编辑点击事件
     public void editor(View view){
-        Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+     Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("phone",phone);
-     //   intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
+        intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
         mActivity.startActivity(intentUserinfoEditorActivity);
     }
 

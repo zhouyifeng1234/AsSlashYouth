@@ -68,7 +68,7 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
             public void OkDown() {
                 if(index!=-1){
                 SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(index);
-                int id = listBean.getId();
+                long id = listBean.getId();
                 skillManageList.remove(index);
                 notifyDataSetChanged();
                 MyManager.onDeteleSkillManagerItem(new onAddMyCollectionList(),id);

@@ -40,7 +40,7 @@ public class MyAddSkillModel extends BaseObservable {
     private String[] unitArr = {"次","个","幅","份","单","小时","分钟","天","其他"};
     private int value;
     public SlashAddLabelsLayout sallAddedSkilllabels;
-    private int id;
+    private long id;
     private String title;
     private String desc;
     private double quote = 0;
@@ -66,10 +66,11 @@ public class MyAddSkillModel extends BaseObservable {
     private String pic;
     private long startime;
     private long endtime;
-    private String place;
+    private String place = "";
     private boolean isSucceful;
+    private String toastText ="请把信息填写完整";
 
-    public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, int id) {
+    public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, long id) {
         this.activityMyAddSkillBinding = activityMyAddSkillBinding;
         this.myAddSkillActivity = myAddSkillActivity;
         this.id = id;
@@ -166,12 +167,17 @@ public class MyAddSkillModel extends BaseObservable {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         ArrayList<String> addedSkillLabels = sallAddedSkilllabels.getAddedSkillLabels();
         intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", addedSkillLabels);
+        intentSubscribeActivity.putExtra("addSkillTemplte",0);
         myAddSkillActivity.startActivityForResult(intentSubscribeActivity, Constants.SKILL_MANAGER_ADD_LABEL);
     }
 
     //提交
     public void sumbit(View view){
         getSumbitData();
+       /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
+                +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
+ */
+
        MyManager.onAddSkillTemplet(new onAddSkillTemplet(),title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
 
         if(isSucceful){
@@ -207,8 +213,8 @@ public class MyAddSkillModel extends BaseObservable {
         title = activityMyAddSkillBinding.etTitle.getText().toString();
         desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
         String  quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
-        if(quoteString!=""&&quoteString!=null){
-          //  quote=Double.parseDouble(quoteString);
+        if(quoteString!=""&&!quoteString.isEmpty()&&quoteString!=" "){
+            quote=Double.parseDouble(quoteString);
         }
         quoteunit = value+1;
         anonymity = 1;
@@ -254,7 +260,7 @@ public class MyAddSkillModel extends BaseObservable {
                         break;
                     case 0:
                         isSucceful = false;
-                        ToastUtils.shortToast("请把信息填写完整");
+                        ToastUtils.shortToast(toastText);
                         break;
                 }
             }

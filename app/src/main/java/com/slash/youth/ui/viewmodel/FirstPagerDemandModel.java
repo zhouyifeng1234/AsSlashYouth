@@ -1,10 +1,12 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.sip.SipSession;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -20,14 +22,18 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
+import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeMoreDemandBean;
 import com.slash.youth.domain.FreeTimeMoreServiceBean;
+import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.domain.SearchItemDemandBean;
 import com.slash.youth.domain.SearchServiceItemBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.PagerHomeServiceAdapter;
 import com.slash.youth.ui.adapter.PagerMoreDemandtAdapter;
 import com.slash.youth.ui.adapter.PagerMoreServiceAdapter;
@@ -84,7 +90,10 @@ public class FirstPagerDemandModel extends BaseObservable {
             this.firstPagerMoreActivity = firstPagerMoreActivity;
         initData();
         initView();
+        listener();
     }
+
+
 
     private void initData() {
         if(isDemand){
@@ -119,7 +128,7 @@ public class FirstPagerDemandModel extends BaseObservable {
 
        searchCityLocationBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.search_activity_city_location, null, false);
         constellationView = searchCityLocationBinding.getRoot();
-       // setSearchArea(constellationView);
+        setSearchArea(constellationView);
 
         final ListView sortView = new ListView(firstPagerMoreActivity);
         sortView.setDividerHeight(0);
@@ -252,6 +261,28 @@ public class FirstPagerDemandModel extends BaseObservable {
         });
     }
 
+    //不同的条目点击事件
+    private void listener() {
+        contentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               if(isDemand){
+                   FreeTimeMoreDemandBean.DataBean.ListBean listBean = arrayListDemand.get(position);
+                   long demandId = listBean.getId();
+                   Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                   intentDemandDetailActivity.putExtra("demandId", demandId);
+                   firstPagerMoreActivity.startActivity(intentDemandDetailActivity);
+
+               } else {
+                   FreeTimeMoreServiceBean.DataBean.ListBean listBean = arrayListService.get(position);
+                   long serviceId = listBean.getId();
+                   Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                   intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                   firstPagerMoreActivity.startActivity(intentServiceDetailActivity);
+               }
+            }
+        });
+    }
 
     //返回
     public void back(View view){

@@ -1,12 +1,14 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.os.Build;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChooseFriendBinding;
 import com.slash.youth.domain.MyFriendListBean;
 import com.slash.youth.domain.PersonRelationBean;
@@ -15,8 +17,10 @@ import com.slash.youth.domain.SlashFriendBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.ChooseFriendAdapter;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -63,7 +67,13 @@ public class ChooseFriendModel  extends BaseObservable{
         activityChooseFriendBinding.lvFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showSendDialog(position);
+               // showSendDialog(position);
+
+                MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
+                long uid = listBean.getUid();
+                Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                intentUserInfoActivity.putExtra("Uid", uid);
+                chooseFriendActivtiy.startActivity(intentUserInfoActivity);
             }
         });
 

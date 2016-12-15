@@ -10,6 +10,7 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:orientation="vertical"
+       android:background="#ffffff"
        >
       <include layout="@layout/usertitlebar" />
 
@@ -18,7 +19,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:scrollbars="none"
-            android:divider="#ffffff"
+            android:divider="@android:color/transparent"
             android:dividerHeight="3dp"
             android:layout_height="match_parent">
         </com.slash.youth.ui.view.NewRefreshListView>

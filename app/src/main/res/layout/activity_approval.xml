@@ -114,6 +114,33 @@
                         android:layout_height="35dp"
                         android:orientation="horizontal">
 
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="-2.5dp"
+                                android:src="@mipmap/btn1_lift"/>
+                            <TextView
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:text="拍摄照片"
+                                android:gravity="center"
+                                android:textColor="#ffffff"
+                                android:textSize="12dp"
+                                android:background="@mipmap/btn1_middle"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="-2.5dp"
+                                android:src="@mipmap/btn1_right"
+                                />
+                        </LinearLayout>
+
                         <RelativeLayout
                             android:onClick="@{approvalModel.takePhoto}"
                             android:layout_weight="1"

@@ -2,8 +2,10 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.AlertDialog;
 import android.databinding.BaseObservable;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +13,11 @@ import android.widget.ImageView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.DialogPasswordBinding;
+import com.slash.youth.databinding.LayoutWithdrawalsBinding;
+import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.SkillMamagerOneTempletBean;
+import com.slash.youth.engine.MyManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -24,10 +31,16 @@ public class DialogPassWorsModel extends BaseObservable {
     public AlertDialog currentDialog;//当前对话框
     private ImageView[] imageViews = new ImageView[6];//用来存小圆点的
     private String strPassword;//密码字符串
+    private LayoutWithdrawalsBinding layoutWithdrawalsBinding;
     private int num =0;
+    private double amount;
+    private String number;
 
-    public DialogPassWorsModel(DialogPasswordBinding dialogPasswordBinding) {
+    public DialogPassWorsModel(DialogPasswordBinding dialogPasswordBinding,double amount,String number,LayoutWithdrawalsBinding layoutWithdrawalsBinding) {
         this.dialogPasswordBinding = dialogPasswordBinding;
+        this.layoutWithdrawalsBinding = layoutWithdrawalsBinding;
+        this.amount = amount;
+        this.number = number;
         initData();
         initView();
     }
@@ -92,13 +105,48 @@ public class DialogPassWorsModel extends BaseObservable {
         currentDialog.dismiss();
     }
 
+    private  int  type = 1;//支付宝 ，2微信
+
     //确定
     public void sure(View view){
-
         if(num == 6){
-            LogKit.d("密码是 :"+strPassword);
+            String password = String.valueOf(strPassword);
+            MyManager.enchashmentApplication(new onEnchashmentApplication(),amount,number,1,password);
         }
-
         currentDialog.dismiss();
     }
+
+    public class onEnchashmentApplication implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+                        layoutWithdrawalsBinding.tvHint.setText(MyManager.WITHDRAWALS_SUCCESS);
+                        break;
+                    case 2:
+                        layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+                        layoutWithdrawalsBinding.tvHint.setText(MyManager.WITHDRAWALS_FAIL_BALANCE_LEASE);
+                        break;
+                    case 3:
+                        layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+                        layoutWithdrawalsBinding.tvHint.setText(MyManager.WITHDRAWALS_FAIL_PASSWORD_ERROR);
+                        break;
+                    case 4:
+                        LogKit.d("WITHDRAWALS_SERVICE_ERROR:"+MyManager.WITHDRAWALS_SERVICE_ERROR);
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
 }

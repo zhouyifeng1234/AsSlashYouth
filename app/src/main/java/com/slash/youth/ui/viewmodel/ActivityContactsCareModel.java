@@ -1,10 +1,13 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.net.sip.SipSession;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityContactsCareBinding;
 import com.slash.youth.domain.ContactsBean;
 import com.slash.youth.domain.RecommendFriendBean;
@@ -12,7 +15,10 @@ import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ContactsCareActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.ContactsCareAdapter;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -33,10 +39,11 @@ public class ActivityContactsCareModel extends BaseObservable {
     private int type =-1;
     private boolean isAgree;
     private int i = -1;
+    private  ContactsCareActivity contactsCareActivity;
 
-
-    public ActivityContactsCareModel(ActivityContactsCareBinding activityContactsCareBinding,String title) {
+    public ActivityContactsCareModel(ActivityContactsCareBinding activityContactsCareBinding, String title, ContactsCareActivity contactsCareActivity) {
         this.activityContactsCareBinding = activityContactsCareBinding;
+        this.contactsCareActivity = contactsCareActivity;
         this.title = title;
         initData();
         initView();
@@ -46,19 +53,19 @@ public class ActivityContactsCareModel extends BaseObservable {
     private void initData() {
         contactsLists.clear();
         switch (title){
-            case "关注我的":
+            case ContactsManager.CARE_ME:
                 type=1;
                 ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.CARE_ME_PERSON);
                  break;
-            case "我关注":
+            case ContactsManager.MY_CARE:
                 type=2;
                 ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_CARE_PERSON);
                 break;
-            case "加我的":
+            case ContactsManager.ADD_ME:
                 type = 3;
                 ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/addmelist");
                 break;
-            case "我加的":
+            case ContactsManager.MY_ADD:
                 type = 4;
                 ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/myaddlist");
                 break;
@@ -72,10 +79,17 @@ public class ActivityContactsCareModel extends BaseObservable {
     private void listener() {
         loadMoreListData();
 
-
-
-
-
+        //条目点击
+        activityContactsCareBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ContactsBean.DataBean.ListBean listBean = contactsLists.get(position);
+                long uid = listBean.getUid();
+                Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                intentUserInfoActivity.putExtra("Uid", uid);
+                contactsCareActivity.startActivity(intentUserInfoActivity);
+            }
+        });
     }
 
     private void loadMoreListData() {

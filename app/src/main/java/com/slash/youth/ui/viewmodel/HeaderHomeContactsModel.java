@@ -58,7 +58,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private int limit = 10;
     private int type = -1;
 
-    private  ArrayList<Integer> uidList = new ArrayList<>();
+    private  ArrayList<Long> uidList = new ArrayList<>();
 
 
     public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding) {
@@ -211,7 +211,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 ContactsBean.DataBean data = dataBean.getData();
                 List<ContactsBean.DataBean.ListBean> list = data.getList();
                 for (ContactsBean.DataBean.ListBean listBean : list) {
-                    int uid = listBean.getUid();
+                    long uid = listBean.getUid();
                     switch (type){
                         case 1:
                             uidList.add(uid);
@@ -235,7 +235,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //显示小红点
     public void showRedSpoit( ArrayList<Integer> uidList,String url){
-
 
         ArrayList<Integer> dateFromLocal = IOUtils.getDateFromLocal(IOUtils.UID_PATH+url);
         //1,先读取本地的UID，如果没有，就存，如果有，就遍历一下，看看是否完全一样，一样，就不显示红点

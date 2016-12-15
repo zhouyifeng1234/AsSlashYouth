@@ -34,6 +34,11 @@ public class Constants {
     public static final String  MY_TITLE_MANAGER_MY_PUBLISH ="管理我发布的任务";
     //技能管理—添加技能
     public static final String  SKILL_MANAGER_TITLE_RIGHT="添加技能";
+    //设置-照相
+    public static final int  MY_SETTING_TAKE_PHOTO= 0;
+    //设置-相册
+    public static final int  MY_SETTING_TAKE_ABLEM= 1;
+
 
 
 

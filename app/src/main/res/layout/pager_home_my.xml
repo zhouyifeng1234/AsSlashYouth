@@ -89,7 +89,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:text="李小四"
                                         android:textColor="#333333"
                                         android:textSize="15sp"/>
                                     <ImageView
@@ -122,7 +121,6 @@
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="北京中意之路信息技术有限公司-人事行政总监"
                                     android:textColor="#999999"
                                     android:textSize="12sp"/>
 
@@ -131,7 +129,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
-                                    android:text="IT互联网｜市场商务"
                                     android:textColor="#999999"
                                     android:textSize="12sp"/>
 
@@ -159,7 +156,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:text="粉丝数125"
                                 android:textColor="#999999"
                                 android:textSize="12sp"/>
                             <View android:layout_width="0dp" android:layout_height="0dp"
@@ -176,7 +172,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:text="顺利成交0单"
                                 android:textColor="#999999"
                                 android:textSize="12sp"/>
                             <View android:layout_width="0dp" android:layout_height="0dp"
@@ -193,7 +188,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
-                                android:text="服务力4.2星"
                                 android:textColor="#999999"
                                 android:textSize="12sp"/>
 
@@ -224,7 +218,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:text=" 0%"
                                     android:textColor="#FFFFFF"
                                     android:textSize="8dp"/>
                             </FrameLayout>
@@ -252,7 +245,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:text="0"
                                     android:textColor="#FFFFFF"
                                     android:textSize="8dp"/>
                             </FrameLayout>
@@ -277,7 +269,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:gravity="center"
-                                    android:text="4.2"
                                     android:textColor="#FFFFFF"
                                     android:textSize="8dp"/>
                             </FrameLayout>
@@ -295,7 +286,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="超过平台 0%的用户"
                                 android:textColor="#CCCCCC"
                                 android:textSize="9sp"/>
                             <View android:layout_width="0dp"
@@ -306,7 +296,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="共0单任务"
                                 android:textColor="#CCCCCC"
                                 android:textSize="9sp"/>
                             <View android:layout_width="0dp"
@@ -317,7 +306,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="---平台平均服务力为4.5星"
                                 android:textColor="#CCCCCC"
                                 android:textSize="9sp"/>
 
@@ -400,7 +388,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
-                                android:text="133"
                                 android:textColor="#3CC7E3"
                                 android:textSize="19sp"/>
                             <TextView
@@ -434,7 +421,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
-                                android:text="80%"
+                                android:text="0%"
                                 android:textColor="#3CC7E3"
                                 android:textSize="19sp"/>
                             <TextView
@@ -615,7 +602,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="888.88元"
                             android:textColor="#FF7333"
                             android:textSize="14sp"
                             />

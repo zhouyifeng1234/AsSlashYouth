@@ -130,7 +130,6 @@ public class ApprovalModel extends BaseObservable {
                 LogKit.d("没有获取数据");
                 break;
         }
-
     }
 
     //拍照
@@ -152,7 +151,4 @@ public class ApprovalModel extends BaseObservable {
         intent.putExtra("outputY", 100);
         approvalActivity.startActivityForResult(intent, Constants.USERINFO_PHOTOALBUM);
     }
-
-
-
 }

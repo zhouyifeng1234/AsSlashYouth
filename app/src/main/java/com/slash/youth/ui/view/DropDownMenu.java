@@ -22,6 +22,7 @@ import com.slash.youth.R;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,7 +58,36 @@ public class DropDownMenu extends LinearLayout {
     //tab未选中图标
     private int menuUnselectedIcon;
 
+    public void removeView(){
+        tabMenuView.removeAllViews();
+        containerView.removeAllViews();
+        popupMenuViews.removeAllViews();
+    }
 
+    public void addTabView(String text){
+        //分割线
+       View view = new View(getContext());
+        LayoutParams layoutParams = new LayoutParams(dpTpPx(0.5f), dpTpPx(20));
+        layoutParams.gravity = Gravity.CENTER;
+        view.setLayoutParams(layoutParams);
+        view.setBackgroundColor(dividerColor);
+        tabMenuView.addView(view);
+        //添加tab
+        ImageView imageView = new ImageView(getContext());
+        imageView.setImageResource(R.mipmap.shang_icon);
+        final TextView tab = new TextView(getContext());
+        tab.setSingleLine();
+        tab.setEllipsize(TextUtils.TruncateAt.END);
+        tab.setGravity(Gravity.CENTER);
+        tab.setTextSize(TypedValue.COMPLEX_UNIT_PX,menuTextSize);
+        LayoutParams lp = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
+        tab.setLayoutParams(lp);
+        tab.setTextColor(textUnselectedColor);
+        tab.setCompoundDrawablesWithIntrinsicBounds(null, null, imageView.getDrawable(), null);
+        tab.setText(text);
+        tab.setPadding(dpTpPx(5), dpTpPx(12), dpTpPx(5), dpTpPx(12));
+        tabMenuView.addView(tab);
+    }
 
     public DropDownMenu(Context context) {
         super(context, null);
@@ -145,13 +175,11 @@ public class DropDownMenu extends LinearLayout {
             popupViews.get(i).setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             popupMenuViews.addView(popupViews.get(i), i);
         }
-
     }
 
     private void addTab(@NonNull List<String> tabTexts, int i) {
         ImageView imageView = new ImageView(getContext());
         imageView.setImageResource(menuUnselectedIcon);
-
         final TextView tab = new TextView(getContext());
         tab.setSingleLine();
         tab.setEllipsize(TextUtils.TruncateAt.END);
@@ -241,6 +269,9 @@ public class DropDownMenu extends LinearLayout {
      *
      * @param target
      */
+    public boolean isAdd = false;
+
+
     private void switchMenu(View target) {
         System.out.println(current_tab_position);
         for (int i = 0; i < tabMenuView.getChildCount(); i = i + 2) {
@@ -262,13 +293,20 @@ public class DropDownMenu extends LinearLayout {
 
                     ((TextView) tabMenuView.getChildAt(i)).setCompoundDrawablesWithIntrinsicBounds(null, null,
                             getResources().getDrawable(menuSelectedIcon), null);
-
                 }
             } else {
                 ((TextView) tabMenuView.getChildAt(i)).setTextColor(textUnselectedColor);
+                  if(isAdd){
+                        ((TextView) tabMenuView.getChildAt(i)).setCompoundDrawablesWithIntrinsicBounds(null, null,
+                                getResources().getDrawable(R.mipmap.shang_icon), null);
+                    }else {
                 ((TextView) tabMenuView.getChildAt(i)).setCompoundDrawablesWithIntrinsicBounds(null, null,
                         getResources().getDrawable(menuUnselectedIcon), null);
-                popupMenuViews.getChildAt(i / 2).setVisibility(View.GONE);
+                 }
+                View childAt = popupMenuViews.getChildAt(i / 2);
+                if(childAt !=null){
+                    popupMenuViews.getChildAt(i / 2).setVisibility(View.GONE);
+                }
             }
         }
     }

@@ -3,24 +3,33 @@ package com.slash.youth.ui.viewmodel;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
 import com.slash.youth.databinding.FloatViewBinding;
+import com.slash.youth.domain.NewDemandAandServiceBean;
 import com.slash.youth.domain.NewTaskUserInfoBean;
 import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
 import com.slash.youth.utils.BitmapKit;
@@ -31,13 +40,15 @@ import com.slash.youth.utils.ToastUtils;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UnknownFormatConversionException;
 
 /**
  * Created by acer on 2016/11/1.
  */
 public class ActivityUserInfoModel extends BaseObservable {
     private ActivityUserinfoBinding activityUserinfoBinding;
-    private  ArrayList<NewTaskUserInfoBean> userInfoListView = new ArrayList<>();
+    private  ArrayList<NewDemandAandServiceBean.DataBean.ListBean> userInfoListView = new ArrayList<>();
     private UserInfoAdapter userInfoAdapter;
     private FloatViewBinding floatViewBinding;
     private String slashIdentity = "暂未填写";//默认
@@ -72,6 +83,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     public int otherId;
     private boolean isSuccessful;
     private boolean isDelete;
+    private TextView textViewTag;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag) {
@@ -81,32 +93,65 @@ public class ActivityUserInfoModel extends BaseObservable {
         this.otherUid = otherUid;
         initData();
         initView();
+        listener();
 
     }
+
+    private void listener() {
+        if(isauth == 0){
+            activityUserinfoBinding.tvUserinfoApproval.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
+                    intentApprovalActivity.putExtra("careertype",careertype);
+                    intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    CommonUtils.getContext().startActivity(intentApprovalActivity);
+                }
+            });
+        }
+    }
+
+    private long uid;
+    private int  offset = 0;
+    private  int limit = 20;
     //加载数据
     private void initData() {
         if(otherUid == -1){
             MyManager.getMySelfPersonInfo(new OnGetMyUserinfo());
+            uid =  LoginManager.currentLoginUserId;
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
             isOther = false;
         }else {
             MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
+            uid = otherUid;
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
             isOther = true;
         }
+    }
 
-        //网络获取数据
-        userInfoListView.add(new NewTaskUserInfoBean(true));
-        userInfoListView.add(new NewTaskUserInfoBean(true));
-        userInfoListView.add(new NewTaskUserInfoBean(true));
-        userInfoListView.add(new NewTaskUserInfoBean(true));
-        userInfoListView.add(new NewTaskUserInfoBean(true));
+    //最新任务
+    public class onGetNewDemandAndServiceList implements BaseProtocol.IResultExecutor<NewDemandAandServiceBean> {
+        @Override
+        public void execute(NewDemandAandServiceBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                NewDemandAandServiceBean.DataBean data = dataBean.getData();
+                List<NewDemandAandServiceBean.DataBean.ListBean> list = data.getList();
+                userInfoListView.addAll(list);
+                userInfoAdapter = new UserInfoAdapter(userInfoListView);
+                activityUserinfoBinding.lvUserinfo.setAdapter(userInfoAdapter);
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
     }
 
 
     //加载界面
     private void initView() {
-        //加载Listview布局
-        userInfoAdapter = new UserInfoAdapter(userInfoListView);
-        activityUserinfoBinding.lvUserinfo.setAdapter(userInfoAdapter);
 
         //让listview不获取焦点
         activityUserinfoBinding.lvUserinfo.setFocusable(false);
@@ -124,10 +169,29 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //点击打开技能标签页面
     public void openskilllabel(View view) {
-        LogKit.d("打开技能标签页面，去选择标签");
+        Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
+        intentSubscribeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentSubscribeActivity);
     }
 
+    public UserInfoItemBean.DataBean.UinfoBean myUninfo;
     private void updateUserInfo(UserInfoItemBean.DataBean.UinfoBean uinfo){
+        myUninfo =  uinfo;
+        //   技能标签
+        String tag = uinfo.getTag();
+        if(tag!=""&&tag!=null){
+            String[] split = tag.split(",");
+            for (String textTag : split) {
+                textViewTag = new TextView(CommonUtils.getContext());
+                textViewTag.setText(textTag);
+                textViewTag.setTextColor(Color.parseColor("#31C5E4"));
+                textViewTag.setTextSize(CommonUtils.dip2px(4));
+                textViewTag.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(6),CommonUtils.dip2px(8),CommonUtils.dip2px(6));
+                textViewTag.setBackgroundColor(Color.parseColor("#d6f3fa"));
+                activityUserinfoBinding.llSkilllabelContainer.addView(textViewTag);
+            }
+        }
+
         //用户ID
         myUid = uinfo.getId();
         //用户头像
@@ -218,9 +282,10 @@ public class ActivityUserInfoModel extends BaseObservable {
         activityUserinfoBinding.tvPlace.setText(place);
     }
 
+    public   OtherInfoBean.DataBean.UinfoBean otherUinfo;
     //更新用户信息
     private void updateOtherUserInfo( OtherInfoBean.DataBean.UinfoBean uinfo) {
-
+       otherUinfo = uinfo;
         //用户ID
         myUid = uinfo.getId();
         //用户头像
@@ -332,43 +397,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
         activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
 
-        //   技能标签
-     /*   tag = uinfo.getTag();
-        if(!tag.contains(" ")){
-            activityUserinfoBinding.tvUserInfoTag.setText(tag);
-            activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
-            activityUserinfoBinding.tvSkilllabel1.setText(tag);
-
-        }else {
-            String[] split = tag.split(" ");
-            for (int i = 0; i < split.length; i++) {
-                if(i == split.length-1){
-                    activityUserinfoBinding.tvUserInfoTag.setText(split[i]);
-                }else {
-                    activityUserinfoBinding.tvUserInfoTag.setText(split[i]+"|");
-                }
-         //最多三个，分情况,技能标签
-                switch (split.length){
-                    case 1:
-                        activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
-                        activityUserinfoBinding.tvSkilllabel1.setText(split[0]);
-                        break;
-                    case 2:
-                        activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
-                        activityUserinfoBinding.tvSkilllabel1.setText(split[0]);
-                        activityUserinfoBinding.tvSkilllabel2.setVisibility(View.VISIBLE);
-                        activityUserinfoBinding.tvSkilllabel2.setText(split[1]);
-                        break;
-                    case 3:
-                        activityUserinfoBinding.tvSkilllabel1.setVisibility(View.VISIBLE);
-                        activityUserinfoBinding.tvSkilllabel1.setText(split[0]);
-                        activityUserinfoBinding.tvSkilllabel2.setVisibility(View.VISIBLE);
-                        activityUserinfoBinding.tvSkilllabel2.setText(split[1]);
-                        activityUserinfoBinding.tvSkilllabel3.setVisibility(View.VISIBLE);
-                        activityUserinfoBinding.tvSkilllabel3.setText(split[2]);
-                        break;
-                }
-            }*/
 
 
     }

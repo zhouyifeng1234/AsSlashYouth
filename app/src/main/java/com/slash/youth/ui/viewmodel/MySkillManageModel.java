@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.net.sip.SipSession;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,8 +16,10 @@ import com.slash.youth.domain.SkillManageBean;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.MyAddSkillActivity;
 import com.slash.youth.ui.activity.MySkillManageActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.ManagePublishAdapter;
 import com.slash.youth.ui.adapter.MySkillManageAdapter;
 import com.slash.youth.ui.holder.ManagePublishHolder;
@@ -50,7 +53,33 @@ public class MySkillManageModel extends BaseObservable  {
         this.mySkillManageActivity = mySkillManageActivity;
         this.titleName = titleName;
         initData();
+        listener();
+    }
 
+    private void listener() {
+        if(Constants.MY_TITLE_MANAGER_MY_PUBLISH.equals(titleName)){
+            activityMySkillManageBinding.lvSkillManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ManagerMyPublishTaskBean.DataBean.ListBean publishData = managePublishList.get(position);
+                    int type = publishData.getType();
+                    switch (type){
+                        case 1:
+                            long demandId  = publishData.getTid();
+                            Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                            intentDemandDetailActivity.putExtra("demandId", demandId);
+                            mySkillManageActivity.startActivity(intentDemandDetailActivity);
+                            break;
+                        case 2:
+                            long serviceId = publishData.getTid();
+                            Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                            intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                            mySkillManageActivity.startActivity(intentServiceDetailActivity);
+                            break;
+                    }
+                }
+            });
+        }
     }
 
     private void initData() {
@@ -63,7 +92,7 @@ public class MySkillManageModel extends BaseObservable  {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(position);
-                        int skillListId = listBean.getId();
+                        long skillListId = listBean.getId();
                         mySkillManageActivity.jumpMyAddSkillActivity(mySkillManageActivity,skillListId);
                     }
                 });
