@@ -13,6 +13,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -98,20 +99,19 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         double lat = data.getLat();
         double lng = data.getLng();
         //用户的经纬度
-<<<<<<< HEAD
+
 
 
 //        new DistanceUtils().getLatAndLng(CommonUtils.getApplication());
 
         // System.out.println("====第三方第三方===="+DistanceUtils.getDistance(22.75424,112.76535 , 23.014171, 113.10111));
         itemHomeDemandServiceBinding.tvDistance.setText("<4.2KM");
-=======
         DistanceUtils distanceUtils = new DistanceUtils();
         distanceUtils.getLatAndLng(mActivity);
         double currentLatitude = distanceUtils.currentLatitude;
         double currentLongitude = distanceUtils.currentLongitude;
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
         itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
->>>>>>> 4b394671f2760379b066ccec50ee1ced15c67dd6
+
     }
 }

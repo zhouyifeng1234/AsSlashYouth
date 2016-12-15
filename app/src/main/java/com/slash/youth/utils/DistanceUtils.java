@@ -1,22 +1,12 @@
 package com.slash.youth.utils;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.model.LatLng;
-import com.slash.youth.domain.NearLocationBean;
-
-import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/12/8.
