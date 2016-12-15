@@ -1,25 +1,26 @@
 [
     {
-        "merged": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
-        "source": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_selected_pressed_holo.9.png"
+        "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
+        "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_focused_holo.9.png"
     },
     {
-        "merged": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_selected_holo.9.png",
-        "source": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_selected_holo.9.png"
+        "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_selected_holo.9.png",
+        "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_selected_holo.9.png"
     },
     {
-        "merged": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_holo.9.png",
-        "source": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_holo.9.png"
+        "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
+        "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_selected_pressed_holo.9.png"
     },
     {
-        "merged": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
-        "source": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_pressed_holo.9.png"
+        "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_holo.9.png",
+        "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_holo.9.png"
     },
     {
-        "merged": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
-        "source": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_focused_holo.9.png"
+        "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_selected_focused_holo.9.png",
+        "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_selected_focused_holo.9.png"
     },
     {
+<<<<<<< HEAD
         "merged": "D:\\AndroidStudioProjects\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
         "source": "D:\\AndroidStudioProjects\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_focused_holo.9.png"
     },
@@ -46,5 +47,9 @@
     {
         "merged": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_selected_focused_holo.9.png",
         "source": "C:\\Users\\acer\\Desktop\\AsSlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_selected_focused_holo.9.png"
+=======
+        "merged": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
+        "source": "E:\\sss\\SlashYouth\\ViewPagerIndicatorLibrary\\src\\main\\res\\drawable-hdpi\\vpi__tab_unselected_pressed_holo.9.png"
+>>>>>>> 4b394671f2760379b066ccec50ee1ced15c67dd6
     }
 ]
