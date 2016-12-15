@@ -13,9 +13,9 @@ import org.xutils.http.RequestParams;
  */
 public class AddMyCollectionItemProtocol extends BaseProtocol<SetBean> {
     private int type;
-    private int tid;
+    private long tid;
 
-    public AddMyCollectionItemProtocol(int type, int tid) {
+    public AddMyCollectionItemProtocol(int type, long tid) {
         this.type = type;
         this.tid = tid;
     }

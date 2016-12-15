@@ -28,7 +28,7 @@ public class ContactsCareActivity extends Activity {
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         activityContactsCareBinding = DataBindingUtil.setContentView(this, R.layout.activity_contacts_care);
-        ActivityContactsCareModel activityContactsCareModel = new ActivityContactsCareModel(activityContactsCareBinding,title);
+        ActivityContactsCareModel activityContactsCareModel = new ActivityContactsCareModel(activityContactsCareBinding,title,this);
         activityContactsCareBinding.setActivityContactsCareModel(activityContactsCareModel);
         initView();
     }

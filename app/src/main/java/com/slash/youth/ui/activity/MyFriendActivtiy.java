@@ -17,6 +17,7 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
 
     private TextView title;
     private ActivityChooseFriendBinding activityChooseFriendBinding;
+    private String titleString  = "我的好友";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("我的好友");
+        title.setText(titleString);
         findViewById(R.id.fl_title_right).setVisibility(View.GONE);
     }
 
@@ -41,7 +42,6 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
             case R.id.iv_userinfo_back:
                 finish();
                 break;
-
         }
     }
 }

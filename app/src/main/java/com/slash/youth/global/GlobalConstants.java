@@ -208,7 +208,7 @@ public class GlobalConstants {
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";*/
 
 
-        //一、[服务]-发布服务
+        //一、[服务]-发布服务-
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
         //二、[服务]-查看服务详情
         public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
@@ -452,11 +452,10 @@ public class GlobalConstants {
         public static final String IS_FOLLOW = RELATION_HOST + "/isfollow";
         //[关注]-取消关注动作
         public static final String CANNEL_CARE = RELATION_HOST + "/cancel";
-
-
         //[推荐]-推荐好友
         public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
-
+        //、[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
+        public static final String  ENCHASHMENT_APPlICATION =SERVER_HOST_MY_ACCOUNT+"/withdrawdeposit";
 
     }
 

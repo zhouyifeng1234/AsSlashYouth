@@ -90,9 +90,9 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
                 break;
         }
 
-        int tid = data.getTid(); //需求或者服务ID
+        long tid = data.getTid(); //需求或者服务ID
         int type = data.getType();//1需求 2服务
-        int uid = data.getUid();
+        long uid = data.getUid();
     }
 
     @Override

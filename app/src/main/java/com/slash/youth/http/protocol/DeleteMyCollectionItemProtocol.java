@@ -11,9 +11,9 @@ import org.xutils.http.RequestParams;
  */
 public class DeleteMyCollectionItemProtocol extends BaseProtocol<SetBean> {
     private int type;
-    private int tid;
+    private long tid;
 
-    public DeleteMyCollectionItemProtocol(int type, int tid) {
+    public DeleteMyCollectionItemProtocol(int type, long tid) {
         this.type = type;
         this.tid = tid;
     }

@@ -63,8 +63,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
-                            android:hint="请输入5-20个字"
-                            android:maxLength="20"
+                            android:hint="请输入5个字以内"
+                            android:maxLines="1"
+                            android:maxLength="5"
                             android:textColor="#333333"
                             android:textColorHint="#cccccc"
                             android:textSize="14sp"/>
@@ -302,8 +303,7 @@
                         android:background="@mipmap/demand_layer_3">
 
                         <Button
-                            android:onClick="@{myAddSkillModel.sumbit}"
-                            android:id="@+id/btn_sumbit"
+                           android:visibility="gone"
                             android:layout_width="252dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center"
@@ -313,6 +313,38 @@
                             android:layout_marginBottom="9dp"
                             android:textColor="#FFFFFF"
                             android:textSize="15sp"/>
+
+
+                    <LinearLayout
+                        android:onClick="@{myAddSkillModel.sumbit}"
+                        android:id="@+id/btn_sumbit"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="9dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="-1dp"
+                            android:src="@mipmap/btn2_lift"/>
+                        <TextView
+                            android:layout_width="210dp"
+                            android:layout_height="match_parent"
+                            android:text="提交"
+                            android:textSize="15dp"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="@mipmap/btn2_middle"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="0dp"
+                            android:src="@mipmap/btn2_right"
+                            />
+                    </LinearLayout>
 
                     </FrameLayout>
 
@@ -367,6 +399,7 @@
                 </RelativeLayout>
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/btn_okChooseMainLabel"
                     android:layout_width="333dp"
                     android:layout_height="45dp"
@@ -375,10 +408,40 @@
                     android:layout_marginTop="4dp"
                     android:background="@drawable/dalei_ok_icon"
                     android:text="确定"
-                    android:onClick="@{myAddSkillModel.sure}"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
                     />
+
+                <LinearLayout
+                    android:onClick="@{myAddSkillModel.sure}"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="0dp"
+                        android:src="@mipmap/btn2_lift"/>
+                    <TextView
+                        android:layout_width="250dp"
+                        android:layout_height="match_parent"
+                        android:text="确定"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:background="@mipmap/btn2_middle"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="0dp"
+                        android:src="@mipmap/btn2_right"
+                        />
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </RelativeLayout>

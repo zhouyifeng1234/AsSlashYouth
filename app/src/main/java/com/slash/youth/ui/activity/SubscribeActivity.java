@@ -551,16 +551,16 @@ public class SubscribeActivity extends Activity {
                         LogKit.d(MyManager.BACK_SUCCESS);
                         break;
                     case GlobalConstants.Rescode.RES_FAIL:
-                        LogKit.d("返回失败");
+                        LogKit.d(MyManager.RES_FAIL);
                         break;
                     case GlobalConstants.Rescode.RES_TAG_EXIST:
-                        LogKit.d("标签已存在");
+                        LogKit.d(MyManager.RES_TAG_EXIST);
                         break;
                     case GlobalConstants.Rescode.RES_INVALID_TOKEN:
-                        LogKit.d("用户uid不存在");
+                        LogKit.d(MyManager.RES_INVALID_TOKEN);
                         break;
                     case GlobalConstants.Rescode.RES_INVALID_PARAMS:
-                        LogKit.d("参数错误");
+                        LogKit.d(MyManager.RES_INVALID_PARAMS);
                         break;
                 }
             }
@@ -572,6 +572,8 @@ public class SubscribeActivity extends Activity {
         });
     }
 
+    private String text = "自定义";
+    private String logText = "创建的标签是空白";
     private View getAddLableView() {
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
         TextView textview = new TextView(CommonUtils.getContext());
@@ -580,7 +582,7 @@ public class SubscribeActivity extends Activity {
         textview.setGravity(Gravity.CENTER);
         textview.setTextColor(0xff333333);
         textview.setTextSize(14);
-        textview.setText("自定义");
+        textview.setText(text);
         textview.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(9), CommonUtils.dip2px(11));
         imageViewAdd = new ImageView(CommonUtils.getContext());
         imageViewAdd.setImageResource(R.mipmap.pluse_icon);
@@ -622,7 +624,7 @@ public class SubscribeActivity extends Activity {
                             //增加自定义标签保存在网络
                             saveAddInternet(firstId,secondId,text);
                         }else {
-                             LogKit.d("创建的标签是空白");
+                             LogKit.d(logText);
                         }
                     }
                 });
@@ -640,16 +642,16 @@ public class SubscribeActivity extends Activity {
                 int rescode = dataBean.getRescode();
                 switch (rescode) {
                     case GlobalConstants.Rescode.RES_SUCCESS:
-                        LogKit.d("返回成功");
+                        LogKit.d(MyManager.BACK_SUCCESS);
                         break;
                     case GlobalConstants.Rescode.RES_FAIL:
-                        LogKit.d("返回失败");
+                        LogKit.d(MyManager.RES_FAIL);
                         break;
                     case GlobalConstants.Rescode.RES_TAG_EXIST:
-                        LogKit.d("标签已存在");
+                        LogKit.d(MyManager.RES_TAG_EXIST);
                         break;
                     case GlobalConstants.Rescode.RES_INVALID_TOKEN:
-                        LogKit.d("用户uid不存在");
+                        LogKit.d(MyManager.RES_INVALID_TOKEN);
                         break;
                 }
             }
@@ -684,6 +686,8 @@ public class SubscribeActivity extends Activity {
     }
 
     private String lastLabelName = "";
+    private String toastText = "此标签已被添加";
+    private String toastTextString = "此标签已被添加";
 
     public class CheckThirdLabelListener implements View.OnClickListener {
         @Override
@@ -696,10 +700,10 @@ public class SubscribeActivity extends Activity {
                     clickCount += 1;
                     lastLabelName = labelName;
                 } else {
-                    ToastUtils.shortToast("此标签已被添加");
+                    ToastUtils.shortToast(toastText);
                 }
             } else {
-                ToastUtils.shortToast("最多添加三个标签");
+                ToastUtils.shortToast(toastTextString);
             }
         }
     }
@@ -772,6 +776,7 @@ public class SubscribeActivity extends Activity {
         tvParams.topMargin = CommonUtils.dip2px(5);
         tvLabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_skilllabel_gray);
         tvLabelName.setText(labelName);
+        tvLabelName.setTextColor(Color.parseColor("#333333"));
         tvLabelName.setPadding(CommonUtils.dip2px(15), CommonUtils.dip2px(12), CommonUtils.dip2px(15), CommonUtils.dip2px(12));
         tvLabelName.setLayoutParams(tvParams);
 
@@ -789,7 +794,6 @@ public class SubscribeActivity extends Activity {
         ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
         return llCheckedLabel;
     }
-
 
     public class deleteCheckedLabelListener implements View.OnClickListener {
         LinearLayout mLlCheckedLabel;

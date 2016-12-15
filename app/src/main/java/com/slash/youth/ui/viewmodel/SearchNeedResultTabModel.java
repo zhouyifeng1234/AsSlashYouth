@@ -2,11 +2,13 @@ package com.slash.youth.ui.viewmodel;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.media.MediaCodec;
+import android.net.sip.SipSession;
 import android.os.Build;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -27,13 +29,18 @@ import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.AgreeRefundBean;
 import com.slash.youth.domain.DemandBean;
+import com.slash.youth.domain.FreeTimeDemandBean;
+import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.domain.SearchItemDemandBean;
 import com.slash.youth.domain.SearchServiceItemBean;
 import com.slash.youth.domain.SearchUserItemBean;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.SearchActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.ListViewAdapter;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
@@ -99,8 +106,10 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
         initData();
         addView();
+        listener();
         back();
     }
+
 
     private void initData() {
         searchType = SpUtils.getString("searchType", "");
@@ -233,12 +242,9 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                 }
             });
         }
-
-
             contentView = new ListView(currentActivity);
             contentView.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(10),CommonUtils.dip2px(10),0);
             contentView.setDividerHeight(0);
-
 
         for (String header : headers) {
             headerLists.add(header);
@@ -480,6 +486,39 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
                 }
                 mSearchNeedResultTabBinding.dropDownMenu.removeView();
+            }
+        });
+    }
+
+    //条目监听
+    private void listener() {
+        contentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                searchType = SpUtils.getString("searchType", "");
+                    switch (searchType){
+                        case SearchManager.HOT_SEARCH_DEMEND:
+                            SearchItemDemandBean.DataBean.ListBean demandListBean = arrayListDemand.get(position);
+                            long demandId = demandListBean.getId();
+                            Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                            intentDemandDetailActivity.putExtra("demandId", demandId);
+                            currentActivity.startActivity(intentDemandDetailActivity);
+                            break;
+                        case SearchManager.HOT_SEARCH_SERVICE:
+                            SearchServiceItemBean.DataBean.ListBean serviceListBean = arrayListService.get(position);
+                            long serviceId = serviceListBean.getId();
+                            Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                            intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                            currentActivity.startActivity(intentServiceDetailActivity);
+                            break;
+                        case SearchManager.HOT_SEARCH_PERSON:
+                            Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                            SearchUserItemBean.DataBean.ListBean listBean = arryListUser.get(position);
+                            long uid = listBean.getUid();
+                            intentUserInfoActivity.putExtra("Uid", uid);
+                            currentActivity.startActivity(intentUserInfoActivity);
+                            break;
+                    }
             }
         });
     }

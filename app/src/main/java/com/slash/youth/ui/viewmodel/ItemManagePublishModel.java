@@ -32,7 +32,7 @@ public class ItemManagePublishModel extends BaseObservable {
     }
 
     //上架，下架
-    public void UpAndDown(int id,int action){
+    public void UpAndDown(long id,int action){
         MyManager.onManagerMyPublishTaskItemUpAndDown(new onAddMyCollectionList(),id,action);
     }
 

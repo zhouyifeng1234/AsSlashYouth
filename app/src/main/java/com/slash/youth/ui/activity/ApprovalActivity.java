@@ -100,18 +100,14 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                             approvalCertificatesBinding.flCertificates.addView(imageView);
                             approvalModel.viewpageAdapter.notifyDataSetChanged();//后台
 
-
                           //  setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_IDCARD");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
-
 
                             ImageView imageView1 = new ImageView(CommonUtils.getContext());
                             imageView1.setImageBitmap(photo);
                             approvalCertificatesBinding.flCertificates.addView(imageView1);
                             approvalModel.viewpageAdapter.notifyDataSetChanged();
-
-
 
                             // setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION");
                             break;
@@ -154,7 +150,6 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                     }
                 }
                 break;
-
         }
 
         super.onActivityResult(requestCode, resultCode, data);

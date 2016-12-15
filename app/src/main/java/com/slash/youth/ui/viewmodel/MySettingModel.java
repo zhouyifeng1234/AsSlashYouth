@@ -18,6 +18,7 @@ import com.slash.youth.http.protocol.MySettingProtocol;
 import com.slash.youth.http.protocol.SetMsgProtocol;
 import com.slash.youth.http.protocol.SetTimeProtocol;
 import com.slash.youth.ui.activity.FindPassWordActivity;
+import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -43,6 +44,7 @@ public class MySettingModel extends BaseObservable {
     private MySettingActivity mySettingActivity;
     private boolean isTimeOpen;//时间设置
     private boolean isMsgOpen;//消息设置
+    private String title = "找回交易密码";
 
     public MySettingModel(ActivityMySettingBinding activityMySettingBinding,MySettingActivity mySettingActivity) {
         this.activityMySettingBinding = activityMySettingBinding;
@@ -56,7 +58,7 @@ public class MySettingModel extends BaseObservable {
         if(SpUtils.getBoolean("create_ok",false)){
             activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
             activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
-            activityMySettingBinding.tvSetAndfindPassword.setText("找回交易密码");
+            activityMySettingBinding.tvSetAndfindPassword.setText(title);
         }
     }
 
@@ -196,6 +198,9 @@ public class MySettingModel extends BaseObservable {
     }
 
 
+    private String SET_OK ="设置成功";
+    private String SET_FAIL = "设置失败";
+
     //设置数据
     private int setData(String url,HashMap<String, String> paramsMap) {
         MySettingProtocol mySettingProtocol = new MySettingProtocol(url,paramsMap);
@@ -207,9 +212,9 @@ public class MySettingModel extends BaseObservable {
                 //获取状态
                 status = data.getStatus();
                 if(status==1){
-                    LogKit.d("设置成功");
+                    LogKit.d(SET_OK);
                 }else {
-                    LogKit.d("设置失败");
+                    LogKit.d(SET_FAIL);
                 }
             }
 
@@ -224,9 +229,7 @@ public class MySettingModel extends BaseObservable {
     //修改密码
     public void revisePassWord(View view){
         Intent intentRevisePasswordActivity = new Intent(CommonUtils.getContext(), RevisePasswordActivity.class);
-       // intentRevisePasswordActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mySettingActivity.startActivityForResult(intentRevisePasswordActivity,2);
-       // CommonUtils.getContext().startActivity(intentRevisePasswordActivity);
     }
 
     //设置密码
@@ -238,10 +241,14 @@ public class MySettingModel extends BaseObservable {
     //退出程序
     public void finishApp(View view){
         logout();
-        Intent intent = new Intent();
+        Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
+        mySettingActivity.startActivity(intentLoginActivity);
+        mySettingActivity.finish();
+
+        /*Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
-        mySettingActivity.startActivity(intent);
+        mySettingActivity.startActivity(intent);*/
     }
 
     //登录退出的接口
@@ -261,12 +268,6 @@ public class MySettingModel extends BaseObservable {
     }
 
 
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //以前的代码
     //时间设置
     public void timeSetting(View view){
@@ -348,7 +349,5 @@ public class MySettingModel extends BaseObservable {
                 break;
         }
     }
-
-
 
 }

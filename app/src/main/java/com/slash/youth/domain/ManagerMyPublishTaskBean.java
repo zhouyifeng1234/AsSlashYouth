@@ -42,7 +42,7 @@ public class ManagerMyPublishTaskBean {
             private String avatar;
             private int cts;
             private long endtime;
-            private int id;
+            private long id;
             private int instalment;
             private int isAuth;
             private String name;
@@ -50,11 +50,11 @@ public class ManagerMyPublishTaskBean {
             private int quoteUnit;
             private long starttime;
             private int status;
-            private int tid;
+            private long tid;
             private int timetype;
             private String title;
             private int type;
-            private int uid;
+            private long uid;
 
             public String getAvatar() {
                 return avatar;
@@ -88,11 +88,11 @@ public class ManagerMyPublishTaskBean {
                 this.starttime = starttime;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -146,11 +146,11 @@ public class ManagerMyPublishTaskBean {
                 this.status = status;
             }
 
-            public int getTid() {
+            public long getTid() {
                 return tid;
             }
 
-            public void setTid(int tid) {
+            public void setTid(long tid) {
                 this.tid = tid;
             }
 
@@ -178,11 +178,11 @@ public class ManagerMyPublishTaskBean {
                 this.type = type;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
         }

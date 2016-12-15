@@ -154,7 +154,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 }
 
                 ManagerMyPublishTaskBean.DataBean.ListBean listBean = managePublishList.get(position);
-                int id = listBean.getId();
+                long id = listBean.getId();
                 if (action!=-1) {
                     itemManagePublishModel.UpAndDown(id,action);
                 }

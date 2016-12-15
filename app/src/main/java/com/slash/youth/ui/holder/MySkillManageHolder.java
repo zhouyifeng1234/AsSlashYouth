@@ -93,7 +93,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
 
         String tag = data.getTag();
         int count = data.getCount();
-        int id = data.getId();
+        long id = data.getId();
         int bp = data.getBp();
         long cts = data.getCts();
         double lat = data.getLat();
@@ -103,7 +103,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         String place = data.getPlace();
         int quoteunit = data.getQuoteunit();
         String remark = data.getRemark();
-        int uid = data.getUid();
+        long uid = data.getUid();
         long uts = data.getUts();
     }
 

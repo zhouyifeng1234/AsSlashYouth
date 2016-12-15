@@ -60,7 +60,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
         String direction = data.getDirection();
         String industry = data.getIndustry();
         int status = data.getStatus();
-        int uid = data.getUid();
+        long uid = data.getUid();
         long uts = data.getUts();
 
     }

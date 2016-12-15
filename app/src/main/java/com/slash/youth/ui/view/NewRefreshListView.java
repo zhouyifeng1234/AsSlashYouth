@@ -88,7 +88,7 @@ public class NewRefreshListView extends ListView implements OnScrollListener {
                 null);//头布局
         addMoreFooter =  View.inflate(getContext(), R.layout.footer_listview_addmore, null);
         this.addHeaderView(refreshHeader);
-        this.addFooterView(addMoreFooter);
+        this.addFooterView(addMoreFooter);//添加布局到底部
         ivRefreshPic = (ImageView) refreshHeader
                 .findViewById(R.id.iv_header_listview_refresh_pic);
         tvRefreshState = (TextView) refreshHeader
@@ -110,7 +110,6 @@ public class NewRefreshListView extends ListView implements OnScrollListener {
         addMoreFooter.measure(0,0);
         footerHeight = addMoreFooter.getMeasuredHeight();
         addMoreFooter.setPadding(0, -footerHeight, 0, 0);
-
 
         initData();
         initAnimation();

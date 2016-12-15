@@ -30,6 +30,8 @@ import java.util.Observable;
 public class WithdrawalsModel extends BaseObservable {
     private LayoutWithdrawalsBinding layoutWithdrawalsBinding;
     private WithdrawalsActivity withdrawalsActivity;
+    private double amount;
+    private String number;
 
     public WithdrawalsModel(LayoutWithdrawalsBinding layoutWithdrawalsBinding, WithdrawalsActivity withdrawalsActivity) {
         this.layoutWithdrawalsBinding = layoutWithdrawalsBinding;
@@ -82,9 +84,25 @@ public class WithdrawalsModel extends BaseObservable {
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            amount =Double.parseDouble(s.toString());
         }
     });
+
+        //账号
+        layoutWithdrawalsBinding.etNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                number = s.toString();
+            }
+        });
 
     }
 
@@ -98,7 +116,7 @@ public class WithdrawalsModel extends BaseObservable {
         layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(withdrawalsActivity);
         DialogPasswordBinding dialogPasswordBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_password, null, false);
-        DialogPassWorsModel dialogPassWorsModel = new DialogPassWorsModel(dialogPasswordBinding);
+        DialogPassWorsModel dialogPassWorsModel = new DialogPassWorsModel(dialogPasswordBinding,amount,number,layoutWithdrawalsBinding);
         dialogPasswordBinding.setDialogPasWorsModel(dialogPassWorsModel);
         dialogBuilder.setView(dialogPasswordBinding.getRoot());//getRoot返回根布局
         AlertDialog dialogPassWord = dialogBuilder.create();

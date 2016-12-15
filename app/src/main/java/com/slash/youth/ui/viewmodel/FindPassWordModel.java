@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.ApplicationErrorReport;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.net.Uri;
 import android.net.sip.SipSession;
 import android.os.Environment;
@@ -12,13 +13,17 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.UploadFileResultBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CreatePassWordProtovol;
 import com.slash.youth.http.protocol.SetPassWordProtocol;
 import com.slash.youth.http.protocol.UploadPhotoProtocol;
 import com.slash.youth.ui.activity.FindPassWordActivity;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
 import java.io.File;
@@ -32,7 +37,7 @@ import java.util.Map;
 public class FindPassWordModel extends BaseObservable {
     private ActivityFindPasswordBinding activityFindPasswordBinding;
     private FindPassWordActivity findPassWordActivity;
-    final static int CAMERA_RESULT = 0;//声明一个常量，代表结果码
+    //final static int CAMERA_RESULT = 0;//声明一个常量，代表结果码
     public Map<String, String> createPassWordMap = new HashMap<>();
     public Map<String, String> surePassWordMap = new HashMap<>();
     private String createPassWord;
@@ -91,26 +96,47 @@ public class FindPassWordModel extends BaseObservable {
 
     //点击拍照
     public  void photo(View view) {
-       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        findPassWordActivity.startActivityForResult(intent, CAMERA_RESULT);
+        setUploadPicLayerVisibility(View.VISIBLE);
     }
 
+    //照相
+    public void photoGraph(View view){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_PHOTO);
+    }
+
+    //相册
+    public void getAlbumPic(View view){
+        Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");//相片类型
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+        intent.putExtra("outputX", 250);
+        intent.putExtra("outputY", 100);
+        findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_ABLEM);
+    }
+
+    //关闭弹窗
+    public void closeUploadPic(View v) {
+        setUploadPicLayerVisibility(View.GONE);
+    }
+
+    private int uploadPicLayerVisibility = View.GONE;
+    @Bindable
+    public int getUploadPicLayerVisibility() {
+        return uploadPicLayerVisibility;
+    }
+
+    public void setUploadPicLayerVisibility(int uploadPicLayerVisibility) {
+        this.uploadPicLayerVisibility = uploadPicLayerVisibility;
+        notifyPropertyChanged(BR.uploadPicLayerVisibility);
+    }
 
     //上传图片
     public void uploadPhoto(String filename){
-        UploadPhotoProtocol uploadPhotoProtocol = new UploadPhotoProtocol(filename);
-        uploadPhotoProtocol.getDataFromServer(new BaseProtocol.IResultExecutor() {
-            @Override
-            public void execute(Object dataBean) {
-                LogKit.d("返回值"+dataBean.toString());
-                setPhoto1 = true;
-            }
-
-            @Override
-            public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-            }
-        });
+        MyManager.uploadFile(new onUploadFile(),filename);
     }
 
     //设置密码
@@ -134,7 +160,6 @@ public class FindPassWordModel extends BaseObservable {
                     }
                 }
             }
-
             @Override
             public void executeResultError(String result) {
                  LogKit.d("result:"+result);
@@ -171,6 +196,27 @@ public class FindPassWordModel extends BaseObservable {
         });
     }
 
+
+    private String uploadFail = "上传照片失败";
+    //上传图片
+    public class onUploadFile implements BaseProtocol.IResultExecutor<UploadFileResultBean> {
+        @Override
+        public void execute(UploadFileResultBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                UploadFileResultBean.Data data = dataBean.data;
+                String fileId = data.fileId;
+                LogKit.d("图片路径"+fileId);
+            }else {
+                LogKit.d(uploadFail);
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
 
 
 }

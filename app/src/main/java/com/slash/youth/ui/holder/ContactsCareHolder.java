@@ -36,7 +36,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
     private TextView tvPosition;
     private TextView tvDirection;
     public static CardView btn;
-    private int uid;
+    private long uid;
     private int type;
 
     public ContactsCareHolder(int type) {

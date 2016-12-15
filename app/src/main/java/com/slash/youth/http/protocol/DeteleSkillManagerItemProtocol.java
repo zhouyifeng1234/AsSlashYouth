@@ -11,9 +11,9 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/12/2.
  */
 public class DeteleSkillManagerItemProtocol extends BaseProtocol<SetBean> {
-    private int id;
+    private long id;
 
-    public DeteleSkillManagerItemProtocol(int id) {
+    public DeteleSkillManagerItemProtocol(long id) {
         this.id = id;
     }
 

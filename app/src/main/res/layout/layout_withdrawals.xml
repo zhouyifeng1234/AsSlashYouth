@@ -161,6 +161,7 @@
                         android:layout_height="0dp"/>
 
                     <EditText
+                        android:id="@+id/et_number"
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_marginRight="10dp"
@@ -246,6 +247,7 @@
                     android:textSize="15sp"/>
 
                 <TextView
+                    android:id="@+id/tv_hint"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
                     android:layout_width="wrap_content"
@@ -276,7 +278,7 @@
 
 
                     <LinearLayout
-                        android:onClick="@{withdrawalsModel.next}"
+                        android:onClick="@{withdrawalsModel.hintSure}"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
