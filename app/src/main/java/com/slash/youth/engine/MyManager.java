@@ -9,6 +9,8 @@ import com.slash.youth.http.protocol.CheckoutAuthProtocol;
 import com.slash.youth.http.protocol.DeleteMyCollectionItemProtocol;
 import com.slash.youth.http.protocol.DeleteMyPublishTaskItemProtocol;
 import com.slash.youth.http.protocol.DeteleSkillManagerItemProtocol;
+import com.slash.youth.http.protocol.EnchashmentApplicationProtocol;
+import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetSkillTempletProtocol;
 import com.slash.youth.http.protocol.GetUserInfoProtocol;
 import com.slash.youth.http.protocol.ManagerMyPublishUpAndDownProtocol;
@@ -26,6 +28,21 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/17.
  */
 public class MyManager {
+    public static final String  UP ="上架";
+    public static final String  DOWN ="下架";
+    public static final String  PUBLISH ="发布";
+    public static final String  SKILL_MANAGER ="技能管理";
+    public static final String  MAANAGER_MY_PUBLISH_TASK ="管理我发布的任务";
+    public static final String   INSTALMENT="分期到账";
+    public static final String   QOUNT ="报价:¥";
+    public static final String   TASK_TIME ="任务时间:";
+    public static final String   MY_COLLECTION ="我的收藏";
+    public static final String   BACK_SUCCESS ="返回成功";
+    public static final String   RES_FAIL="返回失败";
+    public static final String   RES_TAG_EXIST="标签已存在";
+    public static final String   RES_INVALID_TOKEN="用户uid不存在";
+    public static final String   RES_INVALID_PARAMS="参数错误";
+
 
     //我的模块,首页获取我的个人信息
     public static void getMyUserinfo(BaseProtocol.IResultExecutor onGetMyUserinfo) {
@@ -59,13 +76,13 @@ public class MyManager {
     }
 
     //添加我的收藏
-    public static void  addMyCollectionList(BaseProtocol.IResultExecutor onAddMyCollectionList,int type,int tid) {
+    public static void  addMyCollectionList(BaseProtocol.IResultExecutor onAddMyCollectionList,int type,long tid) {
         AddMyCollectionItemProtocol addMyCollectionItemProtocol = new AddMyCollectionItemProtocol(type,tid);
         addMyCollectionItemProtocol.getDataFromServer(onAddMyCollectionList);
     }
 
     //删除我的收藏
-    public static void  onDeleteMyCollectionList(BaseProtocol.IResultExecutor onAddMyCollectionList,int type,int tid) {
+    public static void  onDeleteMyCollectionList(BaseProtocol.IResultExecutor onAddMyCollectionList,int type,long tid) {
         DeleteMyCollectionItemProtocol deleteMyCollectionItemProtocol = new DeleteMyCollectionItemProtocol(type,tid);
         deleteMyCollectionItemProtocol.getDataFromServer(onAddMyCollectionList);
     }
@@ -77,13 +94,13 @@ public class MyManager {
     }
 
     //管理我发布的-删除管理项
-    public static void  onDeleteManagerMyPublishTaskItem(BaseProtocol.IResultExecutor onDeleteManagerMyPublishTaskItem,int type,int tid) {
+    public static void  onDeleteManagerMyPublishTaskItem(BaseProtocol.IResultExecutor onDeleteManagerMyPublishTaskItem,int type,long tid) {
         DeleteMyPublishTaskItemProtocol deleteMyPublishTaskItemProtocol = new DeleteMyPublishTaskItemProtocol(type,tid);
         deleteMyPublishTaskItemProtocol.getDataFromServer(onDeleteManagerMyPublishTaskItem);
     }
 
     //管理我发布的-上架和下架
-    public static void  onManagerMyPublishTaskItemUpAndDown(BaseProtocol.IResultExecutor onManagerMyPublishTaskItemUpAndDown,int id,int action) {
+    public static void  onManagerMyPublishTaskItemUpAndDown(BaseProtocol.IResultExecutor onManagerMyPublishTaskItemUpAndDown,long id,int action) {
         ManagerMyPublishUpAndDownProtocol managerMyPublishUpAndDownProtocol = new ManagerMyPublishUpAndDownProtocol(id,action);
         managerMyPublishUpAndDownProtocol.getDataFromServer(onManagerMyPublishTaskItemUpAndDown);
     }
@@ -95,7 +112,7 @@ public class MyManager {
     }
 
     //技能管理-删除一个技能模板
-    public static void  onDeteleSkillManagerItem(BaseProtocol.IResultExecutor onDeteleSkillManagerItem,int id) {
+    public static void  onDeteleSkillManagerItem(BaseProtocol.IResultExecutor onDeteleSkillManagerItem,long id) {
         DeteleSkillManagerItemProtocol deteleSkillManagerItemProtocol = new DeteleSkillManagerItemProtocol(id);
         deteleSkillManagerItemProtocol.getDataFromServer(onDeteleSkillManagerItem);
     }
@@ -107,12 +124,28 @@ public class MyManager {
     }
 
     //技能管理——添加技能模板
-    public static void  onGetOneSkillTemplet(BaseProtocol.IResultExecutor onGetOneSkillTemplet,int id) {
+    public static void  onGetOneSkillTemplet(BaseProtocol.IResultExecutor onGetOneSkillTemplet,long id) {
         GetSkillTempletProtocol getSkillTempletProtocol = new GetSkillTempletProtocol(id);
         getSkillTempletProtocol.getDataFromServer(onGetOneSkillTemplet);
     }
 
 
+    public static final String WITHDRAWALS_SUCCESS="提现申请成功，请以最终银行交易为准";
+    public static final String WITHDRAWALS_FAIL_BALANCE_LEASE="钱包可提现余额不足";
+    public static final String WITHDRAWALS_FAIL_PASSWORD_ERROR="交易密码错误";
+    public static final String WITHDRAWALS_SERVICE_ERROR="服务端未知错误";
+
+    //[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
+    public static void  enchashmentApplication(BaseProtocol.IResultExecutor onEnchashmentApplication,double amount,String address,int type,String password) {
+        EnchashmentApplicationProtocol enchashmentApplicationProtocol = new EnchashmentApplicationProtocol(amount,address,type,password);
+        enchashmentApplicationProtocol.getDataFromServer(onEnchashmentApplication);
+    }
+
+    //一、[文件]-图片上传
+    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished, String filePath) {
+        FileUploadProtocol fileUploadProtocol = new FileUploadProtocol(filePath);
+        fileUploadProtocol.getDataFromServer(onUploadFileFinished);
+    }
 
 
 
