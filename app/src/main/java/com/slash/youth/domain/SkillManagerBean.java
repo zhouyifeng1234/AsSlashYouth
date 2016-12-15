@@ -46,7 +46,7 @@ public class SkillManagerBean {
             private long cts;
             private String desc;
             private long endtime;
-            private int id;
+            private long id;
             private int instalment;
             private int iscomment;
             private double lat;
@@ -62,7 +62,7 @@ public class SkillManagerBean {
             private String tag;
             private int timetype;
             private String title;
-            private int uid;
+            private long uid;
             private long uts;
 
             public int getAnonymity() {
@@ -113,11 +113,11 @@ public class SkillManagerBean {
                 this.endtime = endtime;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -241,11 +241,11 @@ public class SkillManagerBean {
                 this.title = title;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 

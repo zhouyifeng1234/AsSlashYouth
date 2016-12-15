@@ -47,7 +47,7 @@ public class SearchUserItemBean {
             private String namesplit;
             private String position;
             private String tag;
-            private int uid;
+            private long uid;
 
             public String getAvatar() {
                 return avatar;
@@ -113,11 +113,11 @@ public class SearchUserItemBean {
                 this.tag = tag;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
         }

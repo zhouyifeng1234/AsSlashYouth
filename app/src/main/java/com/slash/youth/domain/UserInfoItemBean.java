@@ -1,5 +1,7 @@
 package com.slash.youth.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by zss on 2016/10/12.
  */
@@ -34,7 +36,7 @@ public class UserInfoItemBean  {
             this.uinfo = uinfo;
         }
 
-        public static class UinfoBean {
+        public static class UinfoBean implements Serializable{
             private String avatar;
             private int careertype;
             private String city;
