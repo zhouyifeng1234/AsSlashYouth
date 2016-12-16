@@ -7,6 +7,8 @@ import android.databinding.Bindable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -50,7 +52,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
     int anonymity = PUBLISH_ANONYMITY_REALNAME;//是否匿名发布，默认为实名发布
     String demandTitle = "";
     String demandDesc = "";
-    long startTime = 0;
+    long startTime = -1;
     private int mCurrentChooseMonth;
     private int mCurrentChooseDay;
     private int mCurrentChooseHour;
@@ -63,6 +65,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         this.mActivity = activity;
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
@@ -84,6 +87,26 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
 
         mSaplAddPic.setActivity(mActivity);
         mSaplAddPic.initPic();
+    }
+
+    private void initListener() {
+        mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int textCount = s.length();
+                mActivityPublishDemandBaseinfoBinding.tvDescTextCount.setText(textCount + "/300");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
@@ -202,9 +225,24 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         final Bundle publishDemandData = new Bundle();
         publishDemandData.putInt("anonymity", anonymity);
         demandTitle = mActivityPublishDemandBaseinfoBinding.etPublishDemandTitle.getText().toString();
+        if (demandTitle.length() < 5 || demandTitle.length() > 20) {
+            ToastUtils.shortToast("标题必须为5-20字之间");
+            return;
+        }
         publishDemandData.putString("demandTitle", demandTitle);
         demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.toString();
+        if (demandDesc.length() <= 0) {
+            ToastUtils.shortToast("请输入需求描述");
+            return;
+        } else if (demandDesc.length() > 300) {
+            ToastUtils.shortToast("需求描述不能超过300字");
+            return;
+        }
         publishDemandData.putString("demandDesc", demandDesc);
+        if (startTime == -1) {
+            ToastUtils.shortToast("请选择开始时间");
+            return;
+        }
         publishDemandData.putLong("startTime", startTime);
         //上传选择的图片，并把服务端返回的fileId提交上去
         final ArrayList<String> imgUrl = new ArrayList<String>();

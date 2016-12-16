@@ -173,8 +173,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="首页"
             android:name="com.slash.youth.ui.activity.HomeActivity"
+            android:label="首页"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -209,8 +209,12 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.PublishDemandAddInfoActivity"
+            android:label="Demand"
             android:windowSoftInputMode="adjustPan">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.PublishDemandSuccessActivity"></activity>
         <activity android:name=".ui.activity.DemandDetailActivity"></activity>
@@ -224,7 +228,13 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.PublishServiceAddInfoActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:label="Service"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.PublishServiceSucceddActivity"></activity>
         <activity android:name=".ui.activity.ServiceDetailActivity"></activity>
         <activity
