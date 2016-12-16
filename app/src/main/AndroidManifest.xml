@@ -173,8 +173,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:label="首页"
             android:name="com.slash.youth.ui.activity.HomeActivity"
             android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.CityLocationActivity"></activity>
         <activity android:name=".ui.activity.SubscribeActivity"></activity>
