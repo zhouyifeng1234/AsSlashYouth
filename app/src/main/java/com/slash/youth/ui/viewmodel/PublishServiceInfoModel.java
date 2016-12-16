@@ -58,7 +58,7 @@ public class PublishServiceInfoModel extends BaseObservable {
         mPublishServiceTitle = mActivityPublishServiceInfoBinding.etPublishServiceTitle.getText().toString();
         mPublishServiceDesc = mActivityPublishServiceInfoBinding.etPublishServiceDesc.getText().toString();
         ArrayList<String> listAddedPicTempPath = mSaplAddPic.getAddedPicTempPath();
-        ArrayList<String> listAddedSkillLabels = mSallSkillLabels.getAddedSkillLabels();
+        ArrayList<String> listAddedSkillLabels = mSallSkillLabels.getAddedTagsName();
         mPublishServiceDataBundle.putInt("publishServiceType", publishServiceType);
         mPublishServiceDataBundle.putString("publishServiceTitle", mPublishServiceTitle);
         mPublishServiceDataBundle.putString("publishServiceDesc", mPublishServiceDesc);

@@ -692,7 +692,7 @@ public class ChatModel extends BaseObservable {
         chatCmdAddFriendBean.uid = LoginManager.currentLoginUserId;
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdAddFriendBean);
-//        {"content":"addFriend","extra":"{\"uid\":\"10003\"}"}
+//        {"content":"addFriend","extra":"{\"QQ_uid\":\"10003\"}"}
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND);
         textMessage.setExtra(jsonData);
 //        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);

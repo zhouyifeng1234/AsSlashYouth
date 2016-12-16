@@ -20,7 +20,8 @@ abstract public class BaseProtocol<T> {
 
     public interface IResultExecutor<T> {
         void execute(T dataBean);
-    //        void executeError(ResultErrorBean resultErrorBean);
+
+        //        void executeError(ResultErrorBean resultErrorBean);
         void executeResultError(String result);
     }
 
@@ -96,7 +97,8 @@ abstract public class BaseProtocol<T> {
         //跳过验证
         params.addHeader("uid", LoginManager.currentLoginUserId + "");
         params.addHeader("pass", "1");
-        params.addHeader("Content-Type","application/json");
+        params.addHeader("token", LoginManager.token);
+        params.addHeader("Content-Type", "application/json");
     }
 
     public ResultErrorBean parseErrorResultData(String result) {

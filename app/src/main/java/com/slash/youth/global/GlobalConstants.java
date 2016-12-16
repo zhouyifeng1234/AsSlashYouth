@@ -28,7 +28,8 @@ public class GlobalConstants {
      */
     public static class ThirdAppId {
         public static final String APPID_WECHAT = "wxd887a217ea83d9c1";
-        public static final String AppSecret_WECHAT = "a5337049e79454c5aaa8ee94e58148d";
+        //        public static final String AppSecret_WECHAT = "a5337049e79454c5aaa8ee94e58148d";
+        public static final String AppSecret_WECHAT = "8fb7e038d0d81e3ed72bdf696ae6da0b";
 
         public static final String APPID_QQ = "1105561277";
         public static final String APPKEY_QQ = "KEYdTjSTFTETKfrFEtl";
@@ -119,6 +120,19 @@ public class GlobalConstants {
 
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
+        //token登录
+        public static final String TOKEN_LOGIN = SERVER_HOST + "auth/v1/login/token";
+        //第三方登录
+        public static final String THIRD_PARTY_LOGIN = SERVER_HOST + "auth/v1/login/thirdParty";
+        //登录后完善信息 设置头像
+        public static final String LOGIN_SET_AVATAR = SERVER_HOST_MY_USERINFO + "/" + "vcard/avatar/set";
+        //登录后完善信息 设置真实姓名
+        public static final String LOGIN_SET_REAL_NAME = SERVER_HOST_MY_USERINFO + "/" + "/vcard/name/set";
+        //登录后完善 获取技能标签
+        public static final String LOGNI_GET_TAG = SERVER_HOST + "static/tag/sys_tag.json";
+        //登录后完善 设置技能标签
+        public static final String LOGIN_SET_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
+
 
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";

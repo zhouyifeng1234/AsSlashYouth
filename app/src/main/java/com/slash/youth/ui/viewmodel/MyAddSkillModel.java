@@ -165,7 +165,7 @@ public class MyAddSkillModel extends BaseObservable {
     //跳转到标签页面。关联标签
     public void jumpSkillLabel(View view){
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
-        ArrayList<String> addedSkillLabels = sallAddedSkilllabels.getAddedSkillLabels();
+        ArrayList<String> addedSkillLabels = sallAddedSkilllabels.getAddedTagsName();
         intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", addedSkillLabels);
         intentSubscribeActivity.putExtra("addSkillTemplte",0);
         myAddSkillActivity.startActivityForResult(intentSubscribeActivity, Constants.SKILL_MANAGER_ADD_LABEL);
@@ -225,7 +225,7 @@ public class MyAddSkillModel extends BaseObservable {
         //TODO传递图片
         //获取图片
         //获取标签
-        listTag = sallAddedSkilllabels.getAddedSkillLabels();
+        listTag = sallAddedSkilllabels.getAddedTagsName();
     }
 
     //获取一个技能模板

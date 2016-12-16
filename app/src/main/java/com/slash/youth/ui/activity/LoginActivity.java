@@ -24,14 +24,9 @@ import com.slash.youth.ui.viewmodel.ActivityLoginModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PackageUtil;
-import com.slash.youth.utils.SpUtils;
-import com.tencent.tauth.AuthActivity;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UmengTool;
-import com.umeng.socialize.media.Constant;
 
 import java.io.Closeable;
 import java.io.File;
@@ -48,12 +43,15 @@ public class LoginActivity extends Activity {
     public AuthInfo mAuthInfo;
     public SsoHandler mSsoHandler;
     private ProgressDialog mDialog;
+    public static Activity activity;
     private ActivityLoginBinding activityLoginBinding;
     private Long aLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
+
         qqLoginUiListener = new QQLoginUiListener();
 
         mAuthInfo = new AuthInfo(CommonUtils.getContext(), GlobalConstants.ThirdAppId.APPID_WEIBO, "www.slashyouth.com", "");
@@ -62,45 +60,15 @@ public class LoginActivity extends Activity {
         // zss
         int versionCode = PackageUtil.getVersionCode(this);
         //获取网络的版本号,xUtils异步获取，后端接口
-        int  NetVersionCode = -1;
-        if(NetVersionCode > versionCode){
+        int NetVersionCode = -1;
+        if (NetVersionCode > versionCode) {
             // 检测版本更新
-       //     versionUpdate();
-        }else {
+            //     versionUpdate();
+        } else {
             //不需要版本更新
-            activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+            ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
             ActivityLoginModel activityLoginModel = new ActivityLoginModel(activityLoginBinding, qqLoginUiListener, this, mSsoHandler);
             activityLoginBinding.setActivityLoginModel(activityLoginModel);
-
-           /* //TODO 调试用的
-            activityLoginBinding.etActivityLoginPhonenum.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String s1 = s.toString();
-                    aLong = new Long(s1);
-
-                    activityLoginBinding.btnJingru.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            LoginManager.currentLoginUserId = aLong;
-
-                            LogKit.d(" uid "+LoginManager.currentLoginUserId);
-                        }
-                    });
-                }
-            });*/
-
-
         }
     }
 
@@ -182,34 +150,34 @@ public class LoginActivity extends Activity {
         }
     }
 
-        //检测版本更新
-        private void versionUpdate() {
+    //检测版本更新
+    private void versionUpdate() {
         //弹出对话框
-         showUpdateDialog();
-        }
+        showUpdateDialog();
+    }
 
-        private void showUpdateDialog() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(false);//点击旁边不会消失
-            builder.setTitle("版本更新");
-            builder.setMessage("请判断是否进行版本跟新？");
-            builder.setPositiveButton("稍后再说", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // 去下载APK
-                    downLoadApk();
-                }
-            });
+    private void showUpdateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);//点击旁边不会消失
+        builder.setTitle("版本更新");
+        builder.setMessage("请判断是否进行版本跟新？");
+        builder.setPositiveButton("稍后再说", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 去下载APK
+                downLoadApk();
+            }
+        });
 
-            builder.setNegativeButton("稍后再说", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // 直接进入主页
-                  //  enterHome();
-                }
-            });
-            builder.show();
-        }
+        builder.setNegativeButton("稍后再说", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 直接进入主页
+                //  enterHome();
+            }
+        });
+        builder.show();
+    }
 
 
     // 下载APK方法
@@ -218,9 +186,9 @@ public class LoginActivity extends Activity {
 
         //校验是否有SD卡
         String state = Environment.getExternalStorageState();
-        if(!state.equals(Environment.MEDIA_MOUNTED)){
+        if (!state.equals(Environment.MEDIA_MOUNTED)) {
             Toast.makeText(this, "没有SD卡！", Toast.LENGTH_SHORT).show();
-           // enterHome();
+            // enterHome();
             return;
         }
 
@@ -292,9 +260,9 @@ public class LoginActivity extends Activity {
         intent.addCategory("android.intent.category.DEFAULT");
         Uri data = Uri.fromFile(file);
         //   file:///mnt/sdcard/safe.apk
-      //  Log.d(TAG, "uri:" + data);
+        //  Log.d(TAG, "uri:" + data);
         intent.setDataAndType(data, "application/vnd.android.package-archive");
-       // startActivityForResult(intent, REQUEST_CODE);
+        // startActivityForResult(intent, REQUEST_CODE);
     }
 
     // 关流

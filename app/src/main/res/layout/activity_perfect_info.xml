@@ -16,16 +16,21 @@
             android:src="@mipmap/top_bg"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="91dp"
+            android:layout_height="91dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="105dp"
+            android:onClick="@{perfectInfoModel.openCamera}"
             android:src="@mipmap/head_portrait_bg"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" android:layout_marginTop="130dp"
-            android:src="@mipmap/camera_icon"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="130dp"
+            android:onClick="@{perfectInfoModel.openCamera}"
+            android:src="@mipmap/camera_icon"
+            android:visibility="@{perfectInfoModel.cameraIconVisibility}"/>
 
         <LinearLayout
             android:layout_width="265dp"
@@ -35,45 +40,54 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_activity_perfect_info_phonenum"
+            <LinearLayout
+                android:visibility="@{perfectInfoModel.phonenumLoginInfoVisibility}"
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@drawable/yjjx_bg"
-                android:gravity="center"
-                android:hint="输入手机号"
-                android:textColor="#999999"
-                android:textColorHint="#999999"
-                android:textSize="16.5sp"
-            />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <EditText
-                    android:id="@+id/et_activity_perfect_info_verification_code"
+                    android:id="@+id/et_activity_perfect_info_phonenum"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="43dp"
                     android:background="@drawable/yjjx_bg"
                     android:gravity="center"
-                    android:hint="输入验证码"
+                    android:hint="输入手机号"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
-                    android:textSize="16.5sp"/>
-                <Button
-                    android:layout_width="58dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginRight="9dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@mipmap/default_icon_yanzheng"
-                    android:text="验证码"
-                    android:textColor="#ffffff"
-                    android:textColorHint="#ffffff"
-                    android:textSize="11.5sp"/>
-            </RelativeLayout>
+                    android:textSize="16.5sp"
+                />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="20dp">
+                    <EditText
+                        android:id="@+id/et_activity_perfect_info_verification_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/yjjx_bg"
+                        android:gravity="center"
+                        android:hint="输入验证码"
+                        android:textColor="#999999"
+                        android:textColorHint="#999999"
+                        android:textSize="16.5sp"/>
+                    <Button
+                        android:layout_width="58dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginRight="9dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@mipmap/default_icon_yanzheng"
+                        android:onClick="@{perfectInfoModel.sendPin}"
+                        android:text="验证码"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff"
+                        android:textSize="11.5sp"/>
+                </RelativeLayout>
+            </LinearLayout>
+
             <EditText
+                android:id="@+id/et_activity_perfect_info_realname"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="20dp"
@@ -98,9 +112,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{perfectInfoModel.openTestActivity}"
                     android:text="建议填写真实姓名" android:textColor="#31c5e4"
                     android:textSize="12dp"/>
+                <!--android:onClick="@{perfectInfoModel.openTestActivity}"-->
             </LinearLayout>
 
             <Button

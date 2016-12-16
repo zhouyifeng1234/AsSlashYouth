@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.slash.youth.BuildConfig;
 import com.slash.youth.engine.MsgManager;
@@ -44,6 +47,9 @@ public class SlashApplication extends Application {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 LogKit.v("onActivityCreated");
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//禁止Activity横屏
+                activity.requestWindowFeature(Window.FEATURE_NO_TITLE);//无标题
+                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
 
             @Override
@@ -86,7 +92,7 @@ public class SlashApplication extends Application {
         handler = new Handler();
         application = this;
         x.Ext.init(this);
-      //  x.Ext.setDebug(BuildConfig.DEBUG);
+        x.Ext.setDebug(BuildConfig.DEBUG);
 //        x.image().clearCacheFiles();
 //        x.image().clearMemCache();
         //注册微信的APPID
