@@ -84,7 +84,7 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean.DataB
                     MyCollectionBean.DataBean.ListBean listBean = listData.get(index);
                     int type = listBean.getType();
                     long tid = listBean.getTid();
-                    MyManager.onDeleteMyColl,ectionList(new onAddMyCollectionList(),type,tid);
+                    MyManager.onDeleteMyCollectionList(new onAddMyCollectionList(),type,tid);
                 }
             }
             @Override

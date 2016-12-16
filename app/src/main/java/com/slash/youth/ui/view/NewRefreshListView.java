@@ -2,12 +2,15 @@ package com.slash.youth.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.icu.util.Measure;
 import android.support.v4.view.MotionEventCompat;
 import android.test.TouchUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;

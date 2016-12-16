@@ -16,6 +16,7 @@ import com.slash.youth.databinding.ActivityFindPasswordBinding;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
@@ -83,7 +84,9 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.tv_userinfo_save://提交
-                createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
+                LogKit.d("========"+path.get(0));
+
+               /* createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
                 surePassWord = findPassWordModel.surePassWordMap.get("surePassWord");
                 if(createPassWord!=null&&surePassWord!=null){
                     if(!createPassWord.equals(surePassWord)){
@@ -94,6 +97,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                         ToastUtils.shortToast(toastTextString);
                     }
                     if(createPassWord.equals(surePassWord)&&!(path).isEmpty()){
+
                         //上传照片的地址
                         //findPassWordModel.uploadPhoto(path.get(0));
                         //创建密码
@@ -106,7 +110,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                 }else {
                     ToastUtils.shortToast(toastString);
                 }
-                break;
+                break;*/
         }
     }
 

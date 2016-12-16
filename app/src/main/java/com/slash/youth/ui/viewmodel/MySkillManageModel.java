@@ -191,11 +191,11 @@ public class MySkillManageModel extends BaseObservable  {
                 activityMySkillManageBinding.lvSkillManage.setAdapter(managePublishAdapter);
             }
                 //如果加载到最后一页，需要调用setLoadToLast()方法
-                if(listsize < limit){//说明到最后一页啦
-                    activityMySkillManageBinding.lvSkillManage.setLoadToLast();
-                }else {//不是最后一页
-                    offset += limit;
-                }
+            if(listsize < limit){//说明到最后一页啦
+                activityMySkillManageBinding.lvSkillManage.setLoadToLast();
+            }else {//不是最后一页
+                offset += limit;
+            }
         }
         @Override
         public void executeResultError(String result) {

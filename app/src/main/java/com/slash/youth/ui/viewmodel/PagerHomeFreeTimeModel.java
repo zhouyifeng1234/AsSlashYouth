@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -25,14 +27,13 @@ import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
-import com.slash.youth.ui.activity.ApprovalActivity;
-import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
-import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
+import com.slash.youth.ui.view.PullableListView.MyListener;
+import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -49,23 +50,59 @@ import java.util.List;
  * Created by zhouyifeng on 2016/10/11.
  */
 public class PagerHomeFreeTimeModel extends BaseObservable {
-
     public Activity mActivity;
-    PagerHomeFreetimeBinding mPagerHomeFreetimeBinding;
+    private PagerHomeFreetimeBinding mPagerHomeFreetimeBinding;
     private  ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
     private  ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
     private boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
-    private int limit=5;
+    private int limit=10;
+    private int offset = 0;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
         this.mActivity = activity;
         this.mPagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
+        initListView();
         initView();
         initData();
         initListener();
     }
+
+    //加载listView
+    private void initListView() {
+        PullToRefreshLayout ptrl = mPagerHomeFreetimeBinding.refreshView;
+        ptrl.setOnRefreshListener(new FreeTimeListListener());
+    }
+
+    public class FreeTimeListListener implements PullToRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+            //如果加载到最后一页，需要调用setLoadToLast()方法
+            if(listsize < limit){//说明到最后一页啦
+                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+            }else {//不是最后一页
+                offset += limit;
+                FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(),limit);
+            }
+        }
+
+        @Override
+        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+            // 加载操作
+            new Handler()
+            {
+                @Override
+                public void handleMessage(Message msg)
+                {
+                    // 千万别忘了告诉控件加载完毕了哦！
+                    pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                }
+            }.sendEmptyMessageDelayed(0, 5000);
+        }
+    }
+
 
     ArrayList<String> listAdvImageUrl = new ArrayList<String>();
     int vpAdvStartIndex;
@@ -359,6 +396,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         }
     }
 
+    private int listsize;
     //首页闲时服务
     public class onFreeTimeServiceList implements BaseProtocol.IResultExecutor<FreeTimeServiceBean> {
         @Override
@@ -367,6 +405,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             if(rescode == 0){
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
+                listsize = list.size();
                 listServiceBean.addAll(list);
                 homeServiceAdapter = new HomeServiceAdapter(listServiceBean,mActivity);
                 mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeServiceAdapter);

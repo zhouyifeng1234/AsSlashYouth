@@ -25,6 +25,8 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.databinding.PagerHomeContactsBinding;
+import com.slash.youth.databinding.PullToRefreshListviewBinding;
+import com.slash.youth.databinding.PullToRefreshTabListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.AgreeRefundBean;
@@ -64,11 +66,6 @@ import java.util.List;
 public class SearchNeedResultTabModel extends BaseObservable  {
     public SearchNeedResultTabBinding mSearchNeedResultTabBinding;
     private View areaView;
-    private PagerSearchDemandtAdapter pagerHomeDemandtAdapter;
-    private ArrayList<SearchItemDemandBean.DataBean.ListBean>  arrayListDemand = new ArrayList<>();
-    private ArrayList<SearchServiceItemBean.DataBean.ListBean>  arrayListService = new ArrayList<>();
-    private ArrayList<SearchUserItemBean.DataBean.ListBean> arryListUser  = new ArrayList<>();
-    private PagerSearchPersonAdapter pagerSearchPersonAdapter;
     private String demands[] = {"不限","线上","线下"};
     private String users[] = {"全部用户","认证用户"};
     private String sorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
@@ -89,48 +86,35 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private String[] serviceHeaders ={"需求类型", "苏州", "排序"};
     private String[] personHeaders ={"认证"};
     private String[] headers;
-    private  int offset = 0;
-    private int limit = 20;
-    String tag = "微信";
-    private int  pattern = -1;
-   private  int isauth = -1;
-    String city = null;
-    private int sort = -1;
-    private int hotSort = 0;
-    double lat = 181;//-180 到 180
-    double lng = 91;//-90 到 90
     private ListView demandView;
     private ListView sortListView;
+    private PullToRefreshTabListviewBinding pullToRefreshTabListviewBinding;
+    private PullToRefreshListTabViewModel pullToRefreshListTabViewModel;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
         initData();
         addView();
-        listener();
         back();
     }
-
 
     private void initData() {
         searchType = SpUtils.getString("searchType", "");
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 headers =demadHeaders;
-                SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
                 headers =serviceHeaders;
-                SearchManager.getSearchServiceList(new onGetSearchServiceList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
                 headers =personHeaders;
-                SearchManager.getSearchUserList(new onGetSearchUserList(),tag,isauth,sort, offset,limit);
                 break;
         }
     }
 
     private List<View> popupViews = new ArrayList<>();
-    private ListView contentView;
+    private View contentView;
     private void addView() {
         if (demandView == null) {
             demandView = new ListView(currentActivity);
@@ -175,6 +159,11 @@ public class SearchNeedResultTabModel extends BaseObservable  {
             popupViews.add(sortListView);
         }
 
+        pullToRefreshTabListviewBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pull_to_refresh_tab_listview, null, false);
+        pullToRefreshListTabViewModel = new PullToRefreshListTabViewModel(pullToRefreshTabListviewBinding,searchType,currentActivity);
+        pullToRefreshTabListviewBinding.setPullToRefreshListTabViewModel(pullToRefreshListTabViewModel);
+        contentView = pullToRefreshTabListviewBinding.getRoot();
+        contentView.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(10),CommonUtils.dip2px(10),0);
 
         demandView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -184,16 +173,16 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                 mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
                 switch (position){
                     case 0:
-                        pattern = -1;
+                        pullToRefreshListTabViewModel.pattern = -1;
                         break;
                     case 1:
-                        pattern = 0;
+                        pullToRefreshListTabViewModel.pattern = 0;
                         break;
                     case 2:
-                        pattern = 1;
+                        pullToRefreshListTabViewModel.pattern = 1;
                         break;
                 }
-                getDataFromService();
+                pullToRefreshListTabViewModel.getData(searchType);
             }
         });
 
@@ -206,13 +195,13 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
                     switch (position){
                         case 0:
-                            isauth = -1;
+                            pullToRefreshListTabViewModel.isauth = -1;
                             break;
                         case 1:
-                            isauth = 1;
+                            pullToRefreshListTabViewModel.isauth = 1;
                             break;
                     }
-                    getDataFromService();
+                    pullToRefreshListTabViewModel.getData(searchType);
                 }
             });
         }
@@ -226,25 +215,22 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
                     switch (position){
                         case 0:
-                            sort = -1;
+                            pullToRefreshListTabViewModel.sort = -1;
                             break;
                         case 1:
-                            sort = 2;
+                            pullToRefreshListTabViewModel.sort = 2;
                             break;
                         case 2:
-                            sort = 1;
+                            pullToRefreshListTabViewModel.sort = 1;
                             break;
                         case 3:
-                            sort = 3;
+                            pullToRefreshListTabViewModel.sort = 3;
                             break;
                     }
-                    getDataFromService();
+                    pullToRefreshListTabViewModel.getData(searchType);
                 }
             });
         }
-            contentView = new ListView(currentActivity);
-            contentView.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(10),CommonUtils.dip2px(10),0);
-            contentView.setDividerHeight(0);
 
         for (String header : headers) {
             headerLists.add(header);
@@ -259,80 +245,6 @@ public class SearchNeedResultTabModel extends BaseObservable  {
 
     }
 
-    //请求数据
-    private void getDataFromService(){
-        switch (searchType){
-            case SearchManager.HOT_SEARCH_DEMEND:
-                SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
-                break;
-            case SearchManager.HOT_SEARCH_SERVICE:
-                SearchManager.getSearchServiceList(new onGetSearchServiceList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
-                break;
-            case SearchManager.HOT_SEARCH_PERSON:
-                SearchManager.getSearchUserList(new onGetSearchUserList(),tag,isauth,sort, offset,limit);
-                break;
-        }
-    }
-
-    //需求
-    public class onGetSearchDemandList implements BaseProtocol.IResultExecutor<SearchItemDemandBean> {
-        @Override
-        public void execute(SearchItemDemandBean dataBean) {
-            arrayListDemand.clear();
-            int rescode = dataBean.getRescode();
-            if(rescode == 0){
-                SearchItemDemandBean.DataBean data = dataBean.getData();
-                List<SearchItemDemandBean.DataBean.ListBean> list = data.getList();
-                arrayListDemand.addAll(list);
-                pagerHomeDemandtAdapter = new PagerSearchDemandtAdapter(arrayListDemand);
-                contentView.setAdapter(pagerHomeDemandtAdapter);
-            }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-        }
-    }
-
-    //服务
-    public class onGetSearchServiceList implements BaseProtocol.IResultExecutor<SearchServiceItemBean> {
-        @Override
-        public void execute(SearchServiceItemBean dataBean) {
-            arrayListService.clear();
-            int rescode = dataBean.getRescode();
-            if(rescode == 0){
-                SearchServiceItemBean.DataBean data = dataBean.getData();
-                List<SearchServiceItemBean.DataBean.ListBean> list = data.getList();
-                arrayListService.addAll(list);
-                PagerHomeServiceAdapter pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
-                contentView.setAdapter(pagerHomeServiceAdapter);
-            }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-        }
-    }
-
-    //搜人
-    public class onGetSearchUserList implements BaseProtocol.IResultExecutor<SearchUserItemBean> {
-        @Override
-        public void execute(SearchUserItemBean dataBean) {
-            arryListUser.clear();
-            int rescode = dataBean.getRescode();
-            if(rescode == 0){
-                SearchUserItemBean.DataBean data = dataBean.getData();
-                List<SearchUserItemBean.DataBean.ListBean> list = data.getList();
-                arryListUser.addAll(list);
-                pagerSearchPersonAdapter = new PagerSearchPersonAdapter(arryListUser);
-                contentView.setAdapter(pagerSearchPersonAdapter);
-            }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-        }
-    }
 
     //设置地区
     private void setSearchArea( View view) {
@@ -490,38 +402,6 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         });
     }
 
-    //条目监听
-    private void listener() {
-        contentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchType = SpUtils.getString("searchType", "");
-                    switch (searchType){
-                        case SearchManager.HOT_SEARCH_DEMEND:
-                            SearchItemDemandBean.DataBean.ListBean demandListBean = arrayListDemand.get(position);
-                            long demandId = demandListBean.getId();
-                            Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                            intentDemandDetailActivity.putExtra("demandId", demandId);
-                            currentActivity.startActivity(intentDemandDetailActivity);
-                            break;
-                        case SearchManager.HOT_SEARCH_SERVICE:
-                            SearchServiceItemBean.DataBean.ListBean serviceListBean = arrayListService.get(position);
-                            long serviceId = serviceListBean.getId();
-                            Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                            intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                            currentActivity.startActivity(intentServiceDetailActivity);
-                            break;
-                        case SearchManager.HOT_SEARCH_PERSON:
-                            Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-                            SearchUserItemBean.DataBean.ListBean listBean = arryListUser.get(position);
-                            long uid = listBean.getUid();
-                            intentUserInfoActivity.putExtra("Uid", uid);
-                            currentActivity.startActivity(intentUserInfoActivity);
-                            break;
-                    }
-            }
-        });
-    }
 }
 
 
