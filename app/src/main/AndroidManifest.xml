@@ -211,12 +211,15 @@
             android:name=".ui.activity.PublishDemandAddInfoActivity"
             android:label="Demand"
             android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".ui.activity.PublishDemandSuccessActivity"
+            android:label="需求成功页">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.PublishDemandSuccessActivity"></activity>
         <activity android:name=".ui.activity.DemandDetailActivity"></activity>
         <activity android:name=".ui.activity.DemandDetailLocationActivity"></activity>
         <activity android:name=".ui.activity.MyTaskActivity"></activity>
@@ -230,12 +233,15 @@
             android:name=".ui.activity.PublishServiceAddInfoActivity"
             android:label="Service"
             android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".ui.activity.PublishServiceSucceddActivity"
+            android:label="服务成功页">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.PublishServiceSucceddActivity"></activity>
         <activity android:name=".ui.activity.ServiceDetailActivity"></activity>
         <activity
             android:name=".ui.activity.CommentActivity"

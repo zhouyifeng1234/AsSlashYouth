@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.NewDemandAndServiceProtocol;
 import com.slash.youth.http.protocol.OtherUserInfoProtocol;
+import com.slash.youth.http.protocol.UserAuthStatusProtocol;
 
 /**
  * Created by zhouyifeng on 2016/12/1.
@@ -25,12 +26,18 @@ public class UserInfoEngine {
 
     }
 
-    //[最近列表]-查看用户最近发布的列表
-    public static void getNewDemandAndServiceList(BaseProtocol.IResultExecutor onGetNewDemandAndServiceList, long uid, int  offset,int  limit) {
-        NewDemandAndServiceProtocol newDemandAndServiceProtocol = new NewDemandAndServiceProtocol(uid,offset,limit);
-        newDemandAndServiceProtocol.getDataFromServer(onGetNewDemandAndServiceList);
+    /**
+     * 十一、[用戶信息]-用户认证流程状态
+     */
+    public static void getUserAuthStatus(BaseProtocol.IResultExecutor onGetIsAuthFinished) {
+        UserAuthStatusProtocol userAuthStatusProtocol = new UserAuthStatusProtocol();
+        userAuthStatusProtocol.getDataFromServer(onGetIsAuthFinished);
     }
 
-
+    //[最近列表]-查看用户最近发布的列表
+    public static void getNewDemandAndServiceList(BaseProtocol.IResultExecutor onGetNewDemandAndServiceList, long uid, int offset, int limit) {
+        NewDemandAndServiceProtocol newDemandAndServiceProtocol = new NewDemandAndServiceProtocol(uid, offset, limit);
+        newDemandAndServiceProtocol.getDataFromServer(onGetNewDemandAndServiceList);
+    }
 
 }
