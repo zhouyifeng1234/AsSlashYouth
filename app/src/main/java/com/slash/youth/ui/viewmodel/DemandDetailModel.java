@@ -6,8 +6,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.UserInfoBean;
@@ -19,27 +21,26 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
+import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by zhouyifeng on 2016/10/24.
  */
 public class DemandDetailModel extends BaseObservable {
 
-//    public static final int VISUAL_ANGLE_SERVICE = 10000;//服务者视角
-//    public static final int VISUAL_ANGLE_DAMAND = 10001;//需求者视角
-
     ActivityDemandDetailBinding mActivityDemandDetailBinding;
     Activity mActivity;
-    //    private int current_visual_angle;//当前视角
-//    private boolean isDemandOffShelf;//需求是否下架
-//    private LatLng demandLatLng;//发布需求时获取的经纬度，由服务端返回
     long demandId;
+    SlashDateTimePicker sdtpBidDemandStarttime;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -50,18 +51,13 @@ public class DemandDetailModel extends BaseObservable {
 
     private void initData() {
         demandId = mActivity.getIntent().getLongExtra("demandId", -1);
-//        ToastUtils.shortToast("demandId:" + demandId);
         getDemandDetailDataFromServer();
-
-//        current_visual_angle = VISUAL_ANGLE_DAMAND;//获取当前者视角，应该根据服务端数据来判断，如果是自己发的需求，就是需求者视角，如果不是自己发的，就是服务者视角
-//        isDemandOffShelf = false;//由服务端数据获取当前浏览的需求是否已经下架
-//        demandLatLng = new LatLng(31.317866, 120.71596);//模拟经纬度，实际由服务端返回
     }
 
 
     private void initView() {
+        sdtpBidDemandStarttime = mActivityDemandDetailBinding.sdtpBidDemandChooseDatetime;
         mActivityDemandDetailBinding.svDemandDetailContent.setVerticalScrollBarEnabled(false);
-
     }
 
     private void displayTags(String tag1, String tag2, String tag3) {
@@ -183,10 +179,14 @@ public class DemandDetailModel extends BaseObservable {
                     setBottomBtnDemandVisibility(View.GONE);
                 }
                 setDemandTitle(demand.title);
-                SimpleDateFormat sdf = new SimpleDateFormat("开始:MM月dd日 hh:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
                 String starttimeStr = sdf.format(demand.starttime);
-                setDemandStartTime(starttimeStr);
+                setDemandStartTime("开始:" + starttimeStr);
+                //回填抢单浮层中的开始时间
+                mActivityDemandDetailBinding.tvBidDemandStarttime.setText(starttimeStr);
                 setQuote("¥" + demand.quote + "元");
+                //填写抢单浮层中的报价
+                mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
@@ -196,8 +196,14 @@ public class DemandDetailModel extends BaseObservable {
                 }
                 if (demand.instalment == 0) {//不开启
                     setInstalmentItemVisibility(View.GONE);
+                    //填写抢单浮层中的分期
+                    bidIsInstalment = true;//调用toggleInstalment方法后就变成false了
+                    toggleInstalment(null);
                 } else {//开启分期
                     setInstalmentItemVisibility(View.VISIBLE);
+                    //填写抢单浮层中的分期
+                    bidIsInstalment = false;//调用toggleInstalment方法后就变成true了
+                    toggleInstalment(null);
                 }
                 //技能标签
                 String[] tags = demand.tag.split(",");
@@ -247,8 +253,12 @@ public class DemandDetailModel extends BaseObservable {
                 //纠纷处理方式
                 if (demand.bp == 1) {
                     setDisputeHandingType("平台方式");
+                    //填写抢单浮层中的纠纷处理方式
+                    checkPlatformProcessing(null);
                 } else if (demand.bp == 2) {
                     setDisputeHandingType("协商方式");
+                    //填写抢单浮层中的纠纷处理方式
+                    checkConsultProcessing(null);
                 }
                 //上架、下架显示 用isonline字段判断
 //                    if(demand.isonline)
@@ -348,17 +358,158 @@ public class DemandDetailModel extends BaseObservable {
         ToastUtils.shortToast("收藏需求");
     }
 
-    //立即抢单
-    public void grabDemand(View v) {
-        //调用服务端接口进行抢单操作
-        ToastUtils.shortToast("立即抢单");
-    }
 
     //定位需求详情中的地址
     public void openDemandDetailLocation(View v) {
         Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
 //        intentDemandDetailLocationActivity.putExtra("demandLatLng", demandLatLng);
         mActivity.startActivity(intentDemandDetailLocationActivity);
+    }
+
+    /**
+     * 打开抢单信息浮层
+     *
+     * @param v
+     */
+    public void openBidDemandLayer(View v) {
+        setBidInfoVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 关闭抢单信息浮层
+     *
+     * @param v
+     */
+    public void closeBidDemandLayer(View v) {
+        setBidInfoVisibility(View.GONE);
+    }
+
+    /**
+     * 打开修改抢单时间
+     *
+     * @param v
+     */
+    public void openTimeLayer(View v) {
+        setChooseDateTimeLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消选择时间
+     *
+     * @param v
+     */
+    public void cancelChooseTime(View v) {
+        setChooseDateTimeLayerVisibility(View.GONE);
+    }
+
+    private int mBidCurrentChooseMonth;
+    private int mBidCurrentChooseDay;
+    private int mBidCurrentChooseHour;
+    private int mBidCurrentChooseMinute;
+    private long bidDemandStarttime;
+
+    /**
+     * 确定选择的时间
+     *
+     * @param v
+     */
+    public void okChooseTime(View v) {
+        setChooseDateTimeLayerVisibility(View.GONE);
+        mBidCurrentChooseMonth = sdtpBidDemandStarttime.getCurrentChooseMonth();
+        mBidCurrentChooseDay = sdtpBidDemandStarttime.getCurrentChooseDay();
+        mBidCurrentChooseHour = sdtpBidDemandStarttime.getCurrentChooseHour();
+        mBidCurrentChooseMinute = sdtpBidDemandStarttime.getCurrentChooseMinute();
+        String bidStarttimeStr = mBidCurrentChooseMonth + "月" + mBidCurrentChooseDay + "日" + "-" + mBidCurrentChooseHour + ":" + (mBidCurrentChooseMinute < 10 ? "0" + mBidCurrentChooseMinute : mBidCurrentChooseMinute);
+        mActivityDemandDetailBinding.tvBidDemandStarttime.setText(bidStarttimeStr);
+        convertTimeToMillis();
+    }
+
+    public void convertTimeToMillis() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.MONTH, mBidCurrentChooseMonth - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, mBidCurrentChooseDay);
+        calendar.set(Calendar.HOUR_OF_DAY, mBidCurrentChooseHour);
+        calendar.set(Calendar.MINUTE, mBidCurrentChooseMinute);
+        bidDemandStarttime = calendar.getTimeInMillis();
+    }
+
+    private int bidBp;
+
+    /**
+     * 抢单时 选择平台处理方式
+     *
+     * @param v
+     */
+    public void checkPlatformProcessing(View v) {
+        mActivityDemandDetailBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        mActivityDemandDetailBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.default_btn);
+        bidBp = 1;
+    }
+
+    /**
+     * 抢单时 选择写上方式
+     *
+     * @param v
+     */
+    public void checkConsultProcessing(View v) {
+        mActivityDemandDetailBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.default_btn);
+        mActivityDemandDetailBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        bidBp = 2;
+    }
+
+    private boolean bidIsInstalment;
+
+    /**
+     * 抢单 开启 关闭 分期
+     *
+     * @param v
+     */
+    public void toggleInstalment(View v) {
+        RelativeLayout.LayoutParams layoutParams
+                = (RelativeLayout.LayoutParams) mActivityDemandDetailBinding.ivBidDemandInstalmentHandle.getLayoutParams();
+        if (bidIsInstalment) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            mActivityDemandDetailBinding.ivBidDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+        } else {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mActivityDemandDetailBinding.ivBidDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+        }
+        mActivityDemandDetailBinding.ivBidDemandInstalmentHandle.setLayoutParams(layoutParams);
+        bidIsInstalment = !bidIsInstalment;
+    }
+
+    /**
+     * 删除分期
+     *
+     * @param v
+     */
+    public void deleteInstalment(View v) {
+
+    }
+
+    /**
+     * 添加分期
+     *
+     * @param v
+     */
+    public void addInstalment(View v) {
+
+    }
+
+    ArrayList<Double> bidDemandInstalmentRatioList = new ArrayList<Double>();
+
+    /**
+     * 抢单信息填写完毕后，立即抢单
+     *
+     * @param v
+     */
+    public void bidDemand(View v) {
+        double bidQuote;
+        String bidQuoteStr = mActivityDemandDetailBinding.etBidDemandQuote.getText().toString();
+
+
     }
 
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
@@ -385,6 +536,73 @@ public class DemandDetailModel extends BaseObservable {
     private String demandPublishTime;
     private String demandDesc;
     private String disputeHandingType;
+
+    private int updateInstalmentLine1Visibility = View.GONE;
+    private int updateInstalmentLine2Visibility = View.GONE;
+    private int updateInstalmentLine3Visibility = View.GONE;
+    private int updateInstalmentLine4Visibility = View.GONE;
+    private int chooseDateTimeLayerVisibility = View.GONE;
+    private int bidInfoVisibility = View.GONE;
+
+    @Bindable
+    public int getBidInfoVisibility() {
+        return bidInfoVisibility;
+    }
+
+    public void setBidInfoVisibility(int bidInfoVisibility) {
+        this.bidInfoVisibility = bidInfoVisibility;
+        notifyPropertyChanged(BR.bidInfoVisibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine4Visibility() {
+        return updateInstalmentLine4Visibility;
+    }
+
+    public void setUpdateInstalmentLine4Visibility(int updateInstalmentLine4Visibility) {
+        this.updateInstalmentLine4Visibility = updateInstalmentLine4Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine4Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine3Visibility() {
+        return updateInstalmentLine3Visibility;
+    }
+
+    public void setUpdateInstalmentLine3Visibility(int updateInstalmentLine3Visibility) {
+        this.updateInstalmentLine3Visibility = updateInstalmentLine3Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine3Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine2Visibility() {
+        return updateInstalmentLine2Visibility;
+    }
+
+    public void setUpdateInstalmentLine2Visibility(int updateInstalmentLine2Visibility) {
+        this.updateInstalmentLine2Visibility = updateInstalmentLine2Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine2Visibility);
+    }
+
+    public int getUpdateInstalmentLine1Visibility() {
+        return updateInstalmentLine1Visibility;
+    }
+
+    public void setUpdateInstalmentLine1Visibility(int updateInstalmentLine1Visibility) {
+        this.updateInstalmentLine1Visibility = updateInstalmentLine1Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine1Visibility);
+    }
+
+    @Bindable
+    public int getChooseDateTimeLayerVisibility() {
+        return chooseDateTimeLayerVisibility;
+    }
+
+    public void setChooseDateTimeLayerVisibility(int chooseDateTimeLayerVisibility) {
+        this.chooseDateTimeLayerVisibility = chooseDateTimeLayerVisibility;
+        notifyPropertyChanged(BR.chooseDateTimeLayerVisibility);
+    }
+
 
     @Bindable
     public String getDisputeHandingType() {
