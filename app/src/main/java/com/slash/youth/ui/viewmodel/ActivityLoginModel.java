@@ -96,6 +96,10 @@ public class ActivityLoginModel extends BaseObservable {
                     Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
                     intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     CommonUtils.getContext().startActivity(intentHomeActivity);
+                    if (LoginActivity.activity != null) {
+                        LoginActivity.activity.finish();
+                        LoginActivity.activity = null;
+                    }
                 } else if (dataBean.rescode == 11) {
                     //登陆成功，新用户
                     savaLoginState(uid, token, rongToken);
@@ -103,10 +107,6 @@ public class ActivityLoginModel extends BaseObservable {
                     Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
                     intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
-                    if (LoginActivity.activity != null) {
-                        LoginActivity.activity.finish();
-                        LoginActivity.activity = null;
-                    }
                 } else {
                     ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                 }
@@ -432,6 +432,10 @@ public class ActivityLoginModel extends BaseObservable {
                 Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
                 intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 CommonUtils.getContext().startActivity(intentHomeActivity);
+                if (LoginActivity.activity != null) {
+                    LoginActivity.activity.finish();
+                    LoginActivity.activity = null;
+                }
             } else {
                 LogKit.v("服务端第三方登录失败");
                 ToastUtils.shortToast("服务端第三方登录失败");

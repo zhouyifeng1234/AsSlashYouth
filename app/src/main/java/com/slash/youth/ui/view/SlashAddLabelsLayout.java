@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,6 @@ public class SlashAddLabelsLayout extends LinearLayout {
     public void addSkillLabels() {
         removeAllViews();
         int linesCount = listTotalAddedTagsNames.size() / 3;//完整的行数
-        ToastUtils.shortToast(linesCount + "");
         for (int i = 0; i < linesCount; i++) {
             LinearLayout skillLabelsLine = createSkillLabelsLine(false, i);
             addView(skillLabelsLine);
