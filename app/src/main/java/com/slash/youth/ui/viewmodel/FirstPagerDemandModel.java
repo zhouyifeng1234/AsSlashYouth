@@ -1,21 +1,11 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.sip.SipSession;
-import android.os.Build;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,29 +14,12 @@ import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.databinding.PullToRefreshListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
-import com.slash.youth.domain.AgreeRefundBean;
-import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeMoreDemandBean;
-import com.slash.youth.domain.FreeTimeMoreServiceBean;
-import com.slash.youth.domain.FreeTimeServiceBean;
-import com.slash.youth.domain.SearchItemDemandBean;
-import com.slash.youth.domain.SearchServiceItemBean;
-import com.slash.youth.engine.FirstPagerManager;
-import com.slash.youth.engine.SearchManager;
-import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
-import com.slash.youth.ui.activity.ServiceDetailActivity;
-import com.slash.youth.ui.adapter.PagerHomeServiceAdapter;
-import com.slash.youth.ui.adapter.PagerMoreDemandtAdapter;
-import com.slash.youth.ui.adapter.PagerMoreServiceAdapter;
-import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
-import com.slash.youth.ui.pager.ConstellationAdapter;
-import com.slash.youth.ui.pager.GirdDropDownAdapter;
+import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.pager.ListDropDownAdapter;
-import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,6 +50,7 @@ public class FirstPagerDemandModel extends BaseObservable {
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private PullToRefreshListviewBinding pullToRefreshListviewBinding;
     private PullToRefreshListViewModel pullToRefreshListViewModel;
+    private SearchActivityCityLocationModel searchActivityCityLocationModel;
 
     public FirstPagerDemandModel(ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding, boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity) {
             this.activityFirstPagerMoreBinding = activityFirstPagerMoreBinding;
@@ -84,7 +58,7 @@ public class FirstPagerDemandModel extends BaseObservable {
             this.firstPagerMoreActivity = firstPagerMoreActivity;
         initData();
         initView();
-
+        listener();
     }
 
     private void initData() {
@@ -204,7 +178,7 @@ public class FirstPagerDemandModel extends BaseObservable {
 
     //设置地区
     private void setSearchArea( View view) {
-        SearchActivityCityLocationModel searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
+        searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
@@ -249,10 +223,27 @@ public class FirstPagerDemandModel extends BaseObservable {
     //返回
     public void back(View view){
         //退出activity前关闭菜单
+        close();
+    }
+
+    private void close() {
         if ( activityFirstPagerMoreBinding.dropDownMenu.isShowing()) {
             activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
         }
         firstPagerMoreActivity.finish();
+    }
+
+
+    private void listener() {
+        searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
+            @Override
+            public void OnClick(String cityName) {
+                pullToRefreshListViewModel.city = cityName;
+                pullToRefreshListViewModel.getData(isDemand);
+                activityFirstPagerMoreBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
+                activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
+            }
+        });
     }
 
 }

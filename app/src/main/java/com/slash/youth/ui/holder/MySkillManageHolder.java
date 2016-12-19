@@ -55,7 +55,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
             }
 
             if(pic!=null){
-            BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + split[0]);
+          //  BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + split[0]);
         }
 
         String title = data.getTitle();

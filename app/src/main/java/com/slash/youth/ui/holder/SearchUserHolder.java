@@ -6,7 +6,10 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.domain.SearchAllBean;
+import com.slash.youth.domain.SetBean;
+import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -79,10 +82,34 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
             @Override
             public void onClick(View v) {
                 SearchAllBean.DataBean.UserListBean userBean = userList.get(position);
-                int uid = userBean.getUid();
-                //TODO  根据uid加好友
+                long uid = userBean.getUid();
+                ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),uid,"   ");
 
             }
         });
+    }
+
+    //加好友关系
+    public class onAddFriendRelationProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        iv_jiahao.setVisibility(View.GONE);
+                        break;
+                    case 0:
+                        LogKit.d("status:"+status);
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
     }
 }

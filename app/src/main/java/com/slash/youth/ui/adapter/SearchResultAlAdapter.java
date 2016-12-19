@@ -1,5 +1,7 @@
 package com.slash.youth.ui.adapter;
 
+import android.view.View;
+
 import com.slash.youth.domain.SearchAllBean;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.ui.activity.SearchActivity;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
  */
 public class SearchResultAlAdapter extends  SearchAllAdapter{
     private ArrayList<SearchAllBean.DataBean.UserListBean> userListBeen;
+    private ArrayList<SearchAllBean.DataBean.ServiceListBean> serviceListBeen;
+    private ArrayList<SearchAllBean.DataBean.DemandListBean> demandListBeen;
     private SearchMoreHolder searchMoreHolder;
     private SearchNeedResultTabModel searchNeedResultTabModel;
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
@@ -28,10 +32,13 @@ public class SearchResultAlAdapter extends  SearchAllAdapter{
     public SearchResultAlAdapter(ArrayList<SearchAllBean.DataBean.DemandListBean> demandListBeen, ArrayList<SearchAllBean.DataBean.ServiceListBean> serviceListBeen, ArrayList<SearchAllBean.DataBean.UserListBean> userListBeen) {
         super(demandListBeen, serviceListBeen, userListBeen);
         this.userListBeen = userListBeen;
+        this.demandListBeen = demandListBeen;
+        this.serviceListBeen =serviceListBeen;
     }
 
     @Override
     public SearchViewHolder getTitleHolder(int position, int type) {
+
         return new SearchTitleHolder(type);
     }
 

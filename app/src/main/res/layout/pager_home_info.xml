@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <data>
         <variable name="pagerHomeInfoModel" type="com.slash.youth.ui.viewmodel.PagerHomeInfoModel"/>
@@ -23,7 +23,7 @@
                 android:text="消息"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
-            />
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -74,22 +74,22 @@
                     android:orientation="vertical">
 
                     <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:text="我的任务中心"
-                              android:textColor="#31C5E4"
-                              android:textSize="15sp"/>
+                        android:layout_height="wrap_content"
+                        android:text="我的任务中心"
+                        android:textColor="#31C5E4"
+                        android:textSize="15sp"/>
 
                     <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_marginTop="13dp"
-                              android:text="发布的需求和服务都在这里哦"
-                              android:textColor="#999999"
-                              android:textSize="12dp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:text="发布的需求和服务都在这里哦"
+                        android:textColor="#999999"
+                        android:textSize="12dp"/>
 
                 </LinearLayout>
 
                 <View android:layout_width="0dp" android:layout_height="0dp"
-                      android:layout_weight="1"/>
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:layout_width="20dp"
@@ -128,7 +128,7 @@
             android:layout_height="match_parent"
             android:divider="#e5e5e5"
             android:dividerHeight="1dp"
-        >
+            >
 
         </ListView>
 

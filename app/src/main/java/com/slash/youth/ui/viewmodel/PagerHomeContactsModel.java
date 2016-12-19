@@ -1,10 +1,12 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.net.sip.SipSession;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -32,12 +34,14 @@ import java.util.List;
  * Created by zhouyifeng on 2016/10/11.
  */
 public class PagerHomeContactsModel extends BaseObservable {
-    PagerHomeContactsBinding mPagerHomeContactsBinding;
-    Activity mActivity;
+    private PagerHomeContactsBinding mPagerHomeContactsBinding;
+    private Activity mActivity;
     private int offset = 0;
     private int limit = 20;
     private int visibleLastIndex = 0;   //最后的可视项索引
     private  ArrayList<HomeContactsVisitorBean.DataBean.ListBean> listHomeContactsVisitorBean = new ArrayList<>();
+    private HomeContactsVisitorAdapter homeContactsVisitorAdapter;
+    private View footerView;
 
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
@@ -53,6 +57,12 @@ public class PagerHomeContactsModel extends BaseObservable {
         headerListviewHomeContactsBinding.setHeaderHomeContactsModel(headerHomeContactsModel);
         View vContactsHeader = headerListviewHomeContactsBinding.getRoot();
         mPagerHomeContactsBinding.lvHomeContactsVisitor.addHeaderView(vContactsHeader);
+
+        footerView = View.inflate(mActivity, R.layout.header_listview_refresh, null);
+        footerView.measure(0,0);
+        int footerHeight = footerView.getMeasuredHeight();
+        footerView.setPadding(0, -footerHeight, 0, 0);
+        mPagerHomeContactsBinding.lvHomeContactsVisitor.addFooterView(footerView);
     }
 
     private void initData() {
@@ -63,6 +73,7 @@ public class PagerHomeContactsModel extends BaseObservable {
         ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
         //条目点击事件
         mPagerHomeContactsBinding.lvHomeContactsVisitor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,8 +100,9 @@ public class PagerHomeContactsModel extends BaseObservable {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
                 if(visibleLastIndex == listHomeContactsVisitorBean.size()&&listHomeContactsVisitorBean.size()!=0){
+                    footerView.setPadding(0, 0, 0, 0);
                     offset = visibleLastIndex;
-                  //  ContactsManager.getMyFriendList(new onGetMyVisitorList(),offset,limit);
+                    ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
                 }
             }
         });
@@ -107,7 +119,8 @@ public class PagerHomeContactsModel extends BaseObservable {
                 listHomeContactsVisitorBean.addAll(list);
             }
             //设置访客列表数据
-            mPagerHomeContactsBinding.lvHomeContactsVisitor.setAdapter(new HomeContactsVisitorAdapter(listHomeContactsVisitorBean));
+            homeContactsVisitorAdapter = new HomeContactsVisitorAdapter(listHomeContactsVisitorBean);
+            mPagerHomeContactsBinding.lvHomeContactsVisitor.setAdapter(homeContactsVisitorAdapter);
         }
         @Override
         public void executeResultError(String result) {

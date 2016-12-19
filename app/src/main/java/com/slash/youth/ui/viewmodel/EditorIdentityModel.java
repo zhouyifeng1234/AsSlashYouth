@@ -22,13 +22,14 @@ import com.slash.youth.databinding.DialogCustomSkilllabelBinding;
 import com.slash.youth.ui.activity.EditorIdentityActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PatternUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- * Created by acer on 2016/11/1.
+ * Created by zss on 2016/11/1.
  */
 public class EditorIdentityModel extends BaseObservable {
     private ActivityEditorIdentityBinding activityEditorIdentityBinding;
@@ -102,8 +103,14 @@ public class EditorIdentityModel extends BaseObservable {
                     if(newSkillLabelList.size()>=4){
                         ToastUtils.shortToast("最多创建四个技能");
                     }else {
-                        newSkillLabelList.add(text);
-                        updateLableView(newSkillLabelList);
+                        String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
+                        boolean match = PatternUtils.match(regex, text);
+                        if(match){
+                            newSkillLabelList.add(text);
+                            updateLableView(newSkillLabelList);
+                        }else {
+                            ToastUtils.shortToast("斜杠身份只能包含中文,英文,数字");
+                        }
                     }
                     }
                 });

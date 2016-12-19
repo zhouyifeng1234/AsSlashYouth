@@ -84,9 +84,8 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.tv_userinfo_save://提交
-                LogKit.d("========"+path.get(0));
 
-               /* createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
+                createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
                 surePassWord = findPassWordModel.surePassWordMap.get("surePassWord");
                 if(createPassWord!=null&&surePassWord!=null){
                     if(!createPassWord.equals(surePassWord)){
@@ -99,18 +98,18 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                     if(createPassWord.equals(surePassWord)&&!(path).isEmpty()){
 
                         //上传照片的地址
-                        //findPassWordModel.uploadPhoto(path.get(0));
+                        findPassWordModel.uploadPhoto(path.get(0));
                         //创建密码
                         findPassWordModel.createPassWord(surePassWord);
                         if(findPassWordModel.setPhoto1&&findPassWordModel.createPassWord1){
-                            //FindPassWordActivity.this.setResult(RESULT_OK);
+                            FindPassWordActivity.this.setResult(RESULT_OK);
                         }
-                      //  finish();
+                        finish();
                     }
                 }else {
                     ToastUtils.shortToast(toastString);
                 }
-                break;*/
+                break;
         }
     }
 

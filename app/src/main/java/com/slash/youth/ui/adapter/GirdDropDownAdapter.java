@@ -1,6 +1,7 @@
-package com.slash.youth.ui.pager;
+package com.slash.youth.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import java.util.List;
 
 
 
-public class ConstellationAdapter extends BaseAdapter {
+public class GirdDropDownAdapter extends BaseAdapter {
 
     private Context context;
     private List<String> list;
@@ -24,7 +25,7 @@ public class ConstellationAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public ConstellationAdapter(Context context, List<String> list) {
+    public GirdDropDownAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
     }
@@ -50,7 +51,7 @@ public class ConstellationAdapter extends BaseAdapter {
         if (convertView != null) {
             viewHolder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_constellation_layout, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_list_drop_down, null);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
@@ -63,10 +64,12 @@ public class ConstellationAdapter extends BaseAdapter {
         if (checkItemPosition != -1) {
             if (checkItemPosition == position) {
                 viewHolder.mText.setTextColor(context.getResources().getColor(R.color.drop_down_selected));
-               // viewHolder.mText.setBackgroundResource(R.drawable.check_bg);
+                viewHolder.mText.setBackgroundResource(R.mipmap.select_bg);
+               // viewHolder.mText.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.mipmap.drop_down_checked), null);
             } else {
                 viewHolder.mText.setTextColor(context.getResources().getColor(R.color.drop_down_unselected));
-               // viewHolder.mText.setBackgroundResource(R.drawable.uncheck_bg);
+                viewHolder.mText.setBackgroundColor(Color.WHITE);
+                viewHolder.mText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             }
         }
     }

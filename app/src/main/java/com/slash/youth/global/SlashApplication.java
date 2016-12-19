@@ -92,7 +92,7 @@ public class SlashApplication extends Application {
         handler = new Handler();
         application = this;
         x.Ext.init(this);
-        x.Ext.setDebug(BuildConfig.DEBUG);
+       // x.Ext.setDebug(BuildConfig.DEBUG);
 //        x.image().clearCacheFiles();
 //        x.image().clearMemCache();
         //注册微信的APPID

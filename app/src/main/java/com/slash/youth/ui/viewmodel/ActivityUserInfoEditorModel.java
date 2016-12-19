@@ -2,29 +2,39 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
+import com.slash.youth.databinding.ActivityUserinfoHeardListviewBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.domain.UserInfoItemBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SetBaseProtocol;
+import com.slash.youth.http.protocol.SetJsonArrayBaseProtocol;
 import com.slash.youth.http.protocol.SetSaveUserInfoProtocol;
 import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.ui.activity.EditorIdentityActivity;
 import com.slash.youth.ui.activity.ReplacePhoneActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PatternUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import org.xutils.x;
@@ -34,6 +44,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by zss on 2016/10/31.
@@ -57,132 +68,71 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private  StringBuffer sb = new StringBuffer();
     public String city;
     public String province;
-    private UserInfoItemBean.DataBean.UinfoBean uifo;
     private String phone;
     private String[] skillLabels;
     public ArrayList<String> skillLabelList;
-    private String avatar;
+    public String avatar;
     private   boolean  isSetLocation  =false ;
     private String industry;
     private String identity;
     private int careertype;
     private String tag;
-    private MyFirstPageBean.DataBean.MyinfoBean myinfo;
+    private String slashIdentity;
 
-    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid,
-                                       UserinfoEditorActivity userinfoEditorActivity, MyFirstPageBean.DataBean.MyinfoBean myinfo) {
-        this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
-        this.myUid = myUid;
-        this.myinfo = myinfo;
-        this.userinfoEditorActivity = userinfoEditorActivity;
-        initData();
-        initView();
-        listener();
-    }
-
-    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid,
-                                       UserinfoEditorActivity userinfoEditorActivity,   UserInfoItemBean.DataBean.UinfoBean uifo
-                                        ,String phone) {
+    public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
         this.myUid = myUid;
         this.userinfoEditorActivity = userinfoEditorActivity;
-        this.uifo = uifo;
-        this.phone = phone;
         initData();
-        initView();
         listener();
     }
 
     private void initData() {
-        if(myUid == -1){//我的
-            getMyData();
-            MyManager.getMyUserinfo(new OnGetMyUserinfo());
-        }else {//个人信息
-            getPersonData();
-        }
-    }
-
-    private void getMyData() {
-        if(avatar!=null&&avatar!=""&&!avatar.isEmpty()){
-            avatar = myinfo.getAvatar();
-        }
-        name = myinfo.getName();
-        phone = myinfo.getPhone();
-        province =  myinfo.getProvince();
-        city = myinfo.getCity();
-        identity = myinfo.getIdentity();
-        careertype = myinfo.getCareertype();
-        company = myinfo.getCompany();
-        position = myinfo.getPosition();
-        industry = myinfo.getIndustry();
-        direction = myinfo.getDirection();
-        tag = myinfo.getTag();
-    }
-
-    private void getPersonData() {
-        //头像的路径
-        if(avatar!=null&&avatar!=""&&!avatar.isEmpty()){
-            avatar = uifo.getAvatar();
-        }
-
-        name = uifo.getName();
-        //所在地
-        province =  uifo.getProvince();
-        city = uifo.getCity();
-        //斜杠身份
-        identity = uifo.getIdentity();
-        //职业类型
-        careertype = uifo.getCareertype();
-        //公司
-        company = uifo.getCompany();
-        //职位
-        position = uifo.getPosition();
-        //技能描述
-        skilldescrib = uifo.getDesc();
-        //行业方向
-        industry = uifo.getIndustry();
-        direction = uifo.getDirection();
-        //技能标签
-        tag = uifo.getTag();
+        MyManager.getMyUserinfo(new OnGetMyUserinfo());
+        MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
     }
 
     private void initView() {
         //头像的路径
         if(avatar!=null){
-            x.image().bind(activityUserinfoEditorBinding.ivHead, avatar);
+            BitmapKit.bindImage(activityUserinfoEditorBinding.ivHead, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         //姓名
-        activityUserinfoEditorBinding.etUsername.setText(name);
+        if(name!=null){
+            activityUserinfoEditorBinding.etUsername.setText(name);
+        }
         //手机号码
-        activityUserinfoEditorBinding.tvUserphone.setText(phone);
+        if(phone!=null){
+            activityUserinfoEditorBinding.tvUserphone.setText(phone);
+        }
         //所在地
-        if(province.equals(city)){
+        if(province.equals(city) && city!=null && province!=null){
             activityUserinfoEditorBinding.tvLocation.setText(province);
         }else {
             activityUserinfoEditorBinding.tvLocation.setText(province +""+city);
         }
         //斜杠身份
         String replace = identity.replace(",", "/");
+        slashIdentity = replace;
         activityUserinfoEditorBinding.tvIdentity.setText(replace);
         //职业类型
         switch (careertype){
             case 1://固定职业
                 activityUserinfoEditorBinding.rbOfficeWorker.setChecked(true);
                 activityUserinfoEditorBinding.rbSelfEmployed.setChecked(false);
+                setCompanyAndPosition(false);
                 break;
             case 2://自由职业
                 activityUserinfoEditorBinding.rbOfficeWorker.setChecked(false);
                 activityUserinfoEditorBinding.rbSelfEmployed.setChecked(true);
+                setCompanyAndPosition(true);
                 break;
         }
         //公司
         activityUserinfoEditorBinding.tvCompany.setText(company);
         //职位
         activityUserinfoEditorBinding.tvProfession.setText(position);
-        //技能描述
-       /* if(!skilldescrib.isEmpty()){
-            activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
-        }*/
+
         //行业方向
         activityUserinfoEditorBinding.tvDirection.setText(industry +"|"+direction);
         //技能标签
@@ -190,7 +140,26 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         List<String> lists = Arrays.asList(skillLabels);
         skillLabelList = new ArrayList<>(lists);
         int length = skillLabels.length;
-        /////////////////////
+
+        if(tag!=""&&tag!=null){
+            activityUserinfoEditorBinding.llSkilllabelContainer.removeAllViews();
+            String[] split = tag.split(",");
+            for (String textTag : split) {
+                TextView skillTag = createSkillTag(textTag);
+                activityUserinfoEditorBinding.llSkilllabelContainer.addView(skillTag);
+            }
+        }
+    }
+
+    //生成标签
+    public TextView createSkillTag(String textTag) {
+       TextView  textViewTag = new TextView(CommonUtils.getContext());
+        textViewTag.setText(textTag);
+        textViewTag.setTextColor(Color.parseColor("#31C5E4"));
+        textViewTag.setTextSize(CommonUtils.dip2px(4));
+        textViewTag.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(6),CommonUtils.dip2px(8),CommonUtils.dip2px(6));
+        textViewTag.setBackgroundColor(Color.parseColor("#d6f3fa"));
+        return textViewTag;
     }
 
     //点击头像
@@ -198,7 +167,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         //去相册里面调用图片
         Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");//相片类型
+        intent.setType("image*//*");//相片类型
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX",1);
         intent.putExtra("aspectY",1);
@@ -233,21 +202,51 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         userinfoEditorActivity.startActivityForResult(intentSubscribeActivity, Constants.USERINFO_SKILLLABEL);
     }
 
+    //下载图片信息
+    public void uploadPhoto(String filename){
+        UserInfoEngine.uploadFile(new onUploadFile(),filename);
+    }
+
+    private String uploadFail = "上传照片失败";
+    //上传图片
+    public class onUploadFile implements BaseProtocol.IResultExecutor<UploadFileResultBean> {
+        @Override
+        public void execute(UploadFileResultBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                UploadFileResultBean.Data data = dataBean.data;
+                String fileId = data.fileId;
+                LogKit.d("图片路径"+fileId);
+            }else {
+                LogKit.d(uploadFail);
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+
     //点击保存
     public void save(View view) {
         //保存图片路径
-         paramsMap.put("url",avatar);
-         SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_AVATAR,paramsMap);
+        if(avatar!=""&&avatar!=null){
+            uploadPhoto(avatar);
+        }
+
         //保存姓名，技能描述，职业类型
        name = activityUserinfoEditorBinding.etUsername.getText().toString();
         skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
         checked = activityUserinfoEditorBinding.rbOfficeWorker.isChecked();
         saveUserInfo(name,checked?1:2,skilldescrib);
-
       //保存公司和职位
-        paramsMap.put("company",company);
+       if(checked){
+       paramsMap.put("company",company);
         paramsMap.put("position",position);
         SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_COMPANY_AND_POSITION,paramsMap);
+      }
 
         //保存所在地
         if(isSetLocation){
@@ -259,53 +258,30 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
              paramsMap.put("city",city);
              SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION,paramsMap);
         }
+
         //保存行业方向
         String industryAndDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
-        String[] split = industryAndDirection.split("|");
-        industry =  split[0];
-        direction = split[1];
-        paramsMap.put("industry",industry);
-         paramsMap.put("direction",direction);
-          SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY,paramsMap);
+        String replace = industryAndDirection.replace("|", ",");
+        if(industryAndDirection!=null && industryAndDirection!=""){
+            String[] split = replace.split(",");
+            industry =  split[0];
+            direction = split[1];
+            paramsMap.put("industry",industry);
+            paramsMap.put("direction",direction);
+            SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY,paramsMap);
+        }
 
         //斜杠身份只能包含中文\英文\数字
-   /*     String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
-        Pattern pattern = Pattern.compile(regex);*/
-      /*  ArrayList<String> newSkillLabelList = EditorIdentityModel.newSkillLabelList;
-        for (int i = 0; i < newSkillLabelList.size()-1; i++) {
-            if(i>=0&&i<newSkillLabelList.size()-1){
-                sb.append(newSkillLabelList.get(i));
-                sb.append("/");
-            }else if(i==newSkillLabelList.size()-1){
-                sb.append(newSkillLabelList.get(newSkillLabelList.size()-1));
-            }
+        ArrayList<String> newSkillLabelList = EditorIdentityModel.newSkillLabelList;
+        if(!newSkillLabelList.isEmpty()){
+            UserInfoEngine.onSaveSlathYouth(new onSaveSlathYouth(),newSkillLabelList);
         }
-        paramsMap.put("identity",sb.toString());
-        SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_IDENTITY,paramsMap);*/
 
-
-      /*  String[] s = {"1","2","3"};
-        paramsMaps.put("tag",s);
-        SetJsonArrayBaseProtocol setJsonArrayBaseProtocol =
-                new SetJsonArrayBaseProtocol(GlobalConstants.HttpUrl.SET_SLASH_TAG,paramsMaps);
-
-        setJsonArrayBaseProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetBean>() {
-            @Override
-            public void execute(SetBean dataBean) {
-                int rescode = dataBean.rescode;
-                SetBean.DataBean data = dataBean.getData();
-                int status = data.getStatus();
-                LogKit.d("rescode=="+rescode+"======"+status);
-            }
-
-            @Override
-            public void executeResultError(String result) {
-            
-            }
-        });*/
-        //保存技能标签页面
-       //  paramsMap.put("tag",tag);
-         //  SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_TAG,paramsMap);
+        //技能标签
+        ArrayList<String> listCheckedLabelName = SubscribeActivity.listCheckedLabelName;
+        if(!listCheckedLabelName.isEmpty()){
+            UserInfoEngine.onSaveListTag(new onSaveSlathYouth(),listCheckedLabelName);
+        }
     }
 
     private void saveUserInfo(String name,int careertype,String desc) {
@@ -339,14 +315,15 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         //监听名字和描述信息和职业类型的变化
         name = editxetChangeListener(activityUserinfoEditorBinding.etUsername);
         skilldescrib = editxetChangeListener(activityUserinfoEditorBinding.etSkilldescribe);
-       /* activityUserinfoEditorBinding.rbOfficeWorker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        activityUserinfoEditorBinding.rbOfficeWorker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(buttonView.getId() == R.id.rb_office_worker){
                     checked  =  isChecked;
+                    setCompanyAndPosition(!checked);
                 }
             }
-        });*/
+        });
 
         //监听公司和职位
         company = textChangeListener(activityUserinfoEditorBinding.tvCompany);
@@ -356,7 +333,21 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         //行业 方向
         direction = textChangeListener(activityUserinfoEditorBinding.tvDirection);
         //监听shenf
-        //slashIdentity = textChangeListener(activityUserinfoEditorBinding.tvIdentity);
+        slashIdentity = activityUserinfoEditorBinding.tvIdentity.getText().toString();
+    }
+
+    private void setCompanyAndPosition(boolean isChecked) {
+        if(isChecked){
+            activityUserinfoEditorBinding.rlCompany.setVisibility(View.GONE);
+            activityUserinfoEditorBinding.viewPosition.setVisibility(View.GONE);
+            activityUserinfoEditorBinding.rlPosition.setVisibility(View.GONE);
+            activityUserinfoEditorBinding.viewCompany.setVisibility(View.GONE);
+        }else {
+            activityUserinfoEditorBinding.rlCompany.setVisibility(View.VISIBLE);
+            activityUserinfoEditorBinding.viewPosition.setVisibility(View.VISIBLE);
+            activityUserinfoEditorBinding.rlPosition.setVisibility(View.VISIBLE);
+            activityUserinfoEditorBinding.viewCompany.setVisibility(View.VISIBLE);
+        }
     }
 
     //Editext的监听
@@ -409,6 +400,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             public void execute(SetBean dataBean) {
                 int rescode = dataBean.rescode;
                 if(rescode == 0){
+                    SetBean.DataBean data = dataBean.getData();
+                    int status = data.getStatus();
+                    LogKit.d("status:"+status);
+                }else {
                     LogKit.d("SetBaseProtocol: 有错误");
                 }
             }
@@ -421,20 +416,34 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         paramsMap.clear();
     }
 
-    //获取个人信息的接口
-    public class OnGetMyUserinfo implements BaseProtocol.IResultExecutor<UserInfoItemBean> {
+    //保存斜杠身份
+    public class onSaveSlathYouth implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
-        public void execute(UserInfoItemBean dataBean) {
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+               LogKit.d("status:"+status);
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+
+    //获取个人信息的接口
+    public class OnGetMyUserinfo implements BaseProtocol.IResultExecutor<MyFirstPageBean> {
+        @Override
+        public void execute(MyFirstPageBean dataBean) {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
-                UserInfoItemBean.DataBean data = dataBean.getData();
-                UserInfoItemBean.DataBean.UinfoBean uinfo = data.getUinfo();
-                String desc = uinfo.getDesc();
-                if(!desc.isEmpty()){
-                    //技能描述
-                    activityUserinfoEditorBinding.etSkilldescribe.setText(desc);
-                }
-
+                MyFirstPageBean.DataBean data = dataBean.getData();
+                MyFirstPageBean.DataBean.MyinfoBean myinfo = data.getMyinfo();
+                setUserInfoEditor(myinfo);
+                initView();
             }else {
                 LogKit.d("rescode="+rescode);
             }
@@ -443,5 +452,48 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
+    }
+
+    //获取个人信息的接口
+    public class OnGetSelfPersonInfo implements BaseProtocol.IResultExecutor<UserInfoItemBean> {
+        @Override
+        public void execute(UserInfoItemBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                UserInfoItemBean.DataBean data = dataBean.getData();
+                UserInfoItemBean.DataBean.UinfoBean uinfo = data.getUinfo();
+                //技能描述
+                 skilldescrib = uinfo.getDesc();
+                //技能描述
+            if(!skilldescrib.isEmpty()){
+                activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
+            }
+            }else {
+                LogKit.d("rescode="+rescode);
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    //获取数据
+    private void setUserInfoEditor(MyFirstPageBean.DataBean.MyinfoBean myinfo) {
+        if(avatar!=null&&avatar!=""&&!avatar.isEmpty()){
+            avatar = myinfo.getAvatar();
+        }
+        name = myinfo.getName();
+        phone = myinfo.getPhone();
+        province =  myinfo.getProvince();
+        city = myinfo.getCity();
+        identity = myinfo.getIdentity();
+        careertype = myinfo.getCareertype();
+        company = myinfo.getCompany();
+        position = myinfo.getPosition();
+        industry = myinfo.getIndustry();
+        direction = myinfo.getDirection();
+        tag = myinfo.getTag();
     }
 }

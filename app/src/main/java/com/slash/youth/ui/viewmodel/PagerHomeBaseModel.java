@@ -152,7 +152,6 @@ public class PagerHomeBaseModel extends BaseObservable {
     }
 
     public void openCityLocation(View v) {
-        LogKit.v("openCityLocation");
         Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(), CityLocationActivity.class);
         intentCityLocationActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentCityLocationActivity);

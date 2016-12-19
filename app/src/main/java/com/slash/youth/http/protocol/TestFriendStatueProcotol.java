@@ -11,7 +11,7 @@ import org.xutils.http.RequestParams;
 /**
  * Created by zss on 2016/11/29.
  */
-public class TestFriendStatueProcotol extends BaseProtocol<FansBean> {
+public class TestFriendStatueProcotol extends BaseProtocol<SetBean> {
     private long uid;
 
     public TestFriendStatueProcotol(long uid) {
@@ -30,10 +30,10 @@ public class TestFriendStatueProcotol extends BaseProtocol<FansBean> {
     }
 
     @Override
-    public FansBean parseData(String result) {
+    public SetBean parseData(String result) {
         Gson gson = new Gson();
-        FansBean fansBean= gson.fromJson(result, FansBean.class);
-        return fansBean;
+        SetBean setBean= gson.fromJson(result, SetBean.class);
+        return setBean;
     }
 
     @Override

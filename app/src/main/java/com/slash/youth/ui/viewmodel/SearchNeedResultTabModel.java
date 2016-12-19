@@ -1,54 +1,28 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.media.MediaCodec;
 import android.net.sip.SipSession;
 import android.os.Build;
 import android.os.Handler;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
-import com.slash.youth.databinding.PagerHomeContactsBinding;
-import com.slash.youth.databinding.PullToRefreshListviewBinding;
 import com.slash.youth.databinding.PullToRefreshTabListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
-import com.slash.youth.domain.AgreeRefundBean;
-import com.slash.youth.domain.DemandBean;
-import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeServiceBean;
+import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.LocationCityInfo;
-import com.slash.youth.domain.SearchItemDemandBean;
-import com.slash.youth.domain.SearchServiceItemBean;
-import com.slash.youth.domain.SearchUserItemBean;
 import com.slash.youth.engine.SearchManager;
-import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.SearchActivity;
-import com.slash.youth.ui.activity.ServiceDetailActivity;
-import com.slash.youth.ui.activity.UserInfoActivity;
-import com.slash.youth.ui.adapter.ListViewAdapter;
-import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
-import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
-import com.slash.youth.ui.adapter.PagerHomeServiceAdapter;
-import com.slash.youth.ui.adapter.PagerSearchPersonAdapter;
-import com.slash.youth.ui.pager.GirdDropDownAdapter;
+import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.pager.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -56,7 +30,6 @@ import com.slash.youth.utils.SpUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,10 +49,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private HashMap<String, Integer> mHashFirstLetterIndex;
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private ListDropDownAdapter sexAdapter;
-    private ArrayList<Character> listCityNameFirstLetter;
     private TextView tvFirstLetter;
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
-    private ArrayList<LocationCityInfo> listCityInfo = new ArrayList<>();
     private SearchActivityCityLocationBinding searchCityLocationBinding;
     private  ArrayList<String> headerLists = new ArrayList<>();
     private String[] demadHeaders ={"需求类型", "用户类型", "苏州", "排序"};
@@ -90,12 +61,15 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private ListView sortListView;
     private PullToRefreshTabListviewBinding pullToRefreshTabListviewBinding;
     private PullToRefreshListTabViewModel pullToRefreshListTabViewModel;
+    private SearchActivityCityLocationModel searchActivityCityLocationModel;
+    private boolean isDemand;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
         initData();
         addView();
         back();
+        listener();
     }
 
     private void initData() {
@@ -103,9 +77,11 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 headers =demadHeaders;
+                isDemand = true;
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
                 headers =serviceHeaders;
+                isDemand = false;
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
                 headers =personHeaders;
@@ -237,18 +213,15 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         }
         mSearchNeedResultTabBinding.dropDownMenu.setDropDownMenu(headerLists, popupViews, contentView);
 
-
         if(SpUtils.getString("searchType", "").equals(SearchManager.HOT_SEARCH_PERSON)){
             mSearchNeedResultTabBinding.dropDownMenu.addTabView("影响力");
             mSearchNeedResultTabBinding.dropDownMenu.isAdd = true;
         }
-
     }
-
 
     //设置地区
     private void setSearchArea( View view) {
-        SearchActivityCityLocationModel searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,currentActivity);
+        searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,currentActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
@@ -269,21 +242,17 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private int cityPosition = 0;
     private Handler mHanler = new Handler();
     //设置城市监听事件
-    @TargetApi(Build.VERSION_CODES.M)
     private void setCityLinitListener() {
+        //点击字母定位城市
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TextView tv= (TextView) view;
-//                ToastUtils.shortToast(position + " "+tv.getText());
-//                int clickIndex = position - mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount();
+
                 if (position > 0) {
                     tvFirstLetter = (TextView) view;
-                    //TODO 一点击字就会变成一种颜色，滑动触摸也会变化
-                    // cityPosition = position;
-                    // tvFirstLetter.setTextColor(Color.BLUE);
-                    // tvFirstLetter.setBackgroundResource(R.drawable.shape_home_freetime_searchbox_bg);
                     String firstLetter = tvFirstLetter.getText().toString();
+
+                    LogKit.d("=========="+firstLetter);
                     if (mHashFirstLetterIndex.containsKey(firstLetter)) {
                         Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
 //                    ToastUtils.shortToast(firstLetterIndex + "");
@@ -294,7 +263,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         });
 
         //触摸事件监听
-        searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
+       /* searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
             private String key;
             private float y = 0;
             private int index = -1;
@@ -345,35 +314,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                 }
                 return true;
             }
-        });
-
-        //实现点击当前城市事件
-        headerListviewLocationCityInfoListBinding.tvCurrentCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String curentyCityText = (String) headerListviewLocationCityInfoListBinding.tvCurrentCity.getText();
-               // ((TextView)searchTabView.findViewById(R.id.tv_area)).setText(curentyCityText);
-                //switchSearchTab(R.id.rl_tab_area,false);
-                //  clickSearchTab(R.id.fl_showSearchResult);
-            }
-        });
-        //点击下面的地址，赋值给当前定位，并且保存在最近访问，最多3个
-        searchCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0){
-                    LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
-                    String cityName = locationCityInfo.getCityName();
-                    if(!cityName.isEmpty()){
-                        headerListviewLocationCityInfoListBinding.tvCurrentCity.setText(cityName);
-                        //保存到最近访问
-                        //TODO 可以做,先做技能标签
-
-
-                    }
-                }
-            }
-        });
+        });*/
     }
     //显示中间的字
     private void showTextView(String text ) {
@@ -402,6 +343,18 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         });
     }
 
+    //关闭地点选择
+    private void listener() {
+        searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
+            @Override
+            public void OnClick(String cityName) {
+                pullToRefreshListTabViewModel.city = cityName;
+                pullToRefreshListTabViewModel.getData(searchType);
+                mSearchNeedResultTabBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
+                mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
+            }
+        });
+    }
 }
 
 

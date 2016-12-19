@@ -1,6 +1,7 @@
 package com.slash.youth.ui.holder;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
@@ -17,8 +18,9 @@ import com.slash.youth.utils.SpUtils;
 public class SearchTitleHolder extends SearchViewHolder<String> {
 
     private int type;
-    private View mRootView;
+    public View mRootView;
     private TextView  tv_title;
+    private LinearLayout linearLayout;
 
 
     public SearchTitleHolder(int type) {
@@ -29,6 +31,7 @@ public class SearchTitleHolder extends SearchViewHolder<String> {
     public View initView() {
         mRootView = View.inflate(CommonUtils.getContext(), R.layout.search_result_title, null);
         tv_title = (TextView) mRootView.findViewById(R.id.tv_title);
+        linearLayout = (LinearLayout) mRootView.findViewById(R.id.ll_title_view);
         return mRootView;
     }
 

@@ -1,8 +1,14 @@
 package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.FileUploadProtocol;
+import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
 import com.slash.youth.http.protocol.NewDemandAndServiceProtocol;
 import com.slash.youth.http.protocol.OtherUserInfoProtocol;
+import com.slash.youth.http.protocol.SaveListTagProtocol;
+import com.slash.youth.http.protocol.SaveSlathYouthProtocol;
+
+import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/12/1.
@@ -30,6 +36,26 @@ public class UserInfoEngine {
         NewDemandAndServiceProtocol newDemandAndServiceProtocol = new NewDemandAndServiceProtocol(uid,offset,limit);
         newDemandAndServiceProtocol.getDataFromServer(onGetNewDemandAndServiceList);
     }
+
+    //上传图片
+    //一、[文件]-图片上传
+    public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished, String filePath) {
+        FileUploadProtocol fileUploadProtocol = new FileUploadProtocol(filePath);
+        fileUploadProtocol.getDataFromServer(onUploadFileFinished);
+    }
+
+    //保存斜杠身份
+    public static void onSaveSlathYouth(BaseProtocol.IResultExecutor onSaveSlathYouth, ArrayList<String> list) {
+        SaveSlathYouthProtocol saveSlathYouthProtocol = new SaveSlathYouthProtocol(list);
+        saveSlathYouthProtocol.getDataFromServer(onSaveSlathYouth);
+    }
+
+    //技能标签
+    public static void onSaveListTag(BaseProtocol.IResultExecutor onSaveListTag, ArrayList<String> list) {
+        SaveListTagProtocol saveListTagProtocol = new SaveListTagProtocol(list);
+        saveListTagProtocol.getDataFromServer(onSaveListTag);
+    }
+
 
 
 

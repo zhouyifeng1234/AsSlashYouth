@@ -35,12 +35,13 @@ public class ApprovalModel extends BaseObservable {
     private ApprovalActivity approvalActivity;
     public int cardType;
     public ApprovalCertificatesBinding approvalCertificatesBinding;
+    private long uid;
 
-
-    public ApprovalModel(ActivityApprovalBinding activityApprovalBinding, int careertype , ApprovalActivity approvalActivity) {
+    public ApprovalModel(ActivityApprovalBinding activityApprovalBinding, int careertype , ApprovalActivity approvalActivity,long uid ) {
         this.activityApprovalBinding = activityApprovalBinding;
         this.careertype = careertype;
         this.approvalActivity = approvalActivity;
+        this.uid = uid;
         initData();
         initView();
     }
@@ -48,9 +49,7 @@ public class ApprovalModel extends BaseObservable {
     //点击修改
     public void modify(View view){
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
-       // intentUserinfoEditorActivity.putExtra("phone",phone);
-        //intentUserinfoEditorActivity.putExtra("myId",myId);
-        //intentUserinfoEditorActivity.putExtra("uifo",uinfo);
+        intentUserinfoEditorActivity.putExtra("myId",uid);
        approvalActivity.startActivity(intentUserinfoEditorActivity);
     }
 

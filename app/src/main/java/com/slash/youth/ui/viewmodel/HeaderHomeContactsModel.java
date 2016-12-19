@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
@@ -85,17 +86,17 @@ public class HeaderHomeContactsModel extends BaseObservable {
         ContactsManager.getAddMeList(new onGetAddMeList(),0,20,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/addmelist");
     }
 
-//    private View createRecommendHorizontalSpace() {
-//        HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(CommonUtils.dip2px(9), 0);
-//        View space = new View(CommonUtils.getContext());
-//        space.setLayoutParams(params);
-//        return space;
-//    }
+    private View createRecommendHorizontalSpace() {
+        HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(CommonUtils.dip2px(9), 0);
+        View space = new View(CommonUtils.getContext());
+        space.setLayoutParams(params);
+        return space;
+    }
 
 
     public void getFriendRecommendData() {
         listFriendRecommendBean.clear();
-      //  ContactsManager.getMyRecommendFriendList(new onGetMyRecommendFriendList(),limit);
+       ContactsManager.getMyRecommendFriendList(new onGetMyRecommendFriendList(),limit);
     }
 
     public void displayFriendRecommend() {
@@ -103,11 +104,11 @@ public class HeaderHomeContactsModel extends BaseObservable {
         for (int i = 0; i < listFriendRecommendBean.size(); i++) {
             ItemHscFriendRecommendBinding itemHscFriendRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_hsc_friend_recommend, null, false);
             View itemFriendRecommend = itemHscFriendRecommendBinding.getRoot();
-//            View recommendSpace = createRecommendHorizontalSpace();
+          View recommendSpace = createRecommendHorizontalSpace();
             ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, listFriendRecommendBean, i);
             itemHscFriendRecommendBinding.setItemFriendRecommendModel(itemFriendRecommendModel);
             mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(itemFriendRecommend);
-//            mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(recommendSpace);
+            mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(recommendSpace);
         }
         //设置好友推荐换一批按钮
         setChangeALotFriendRecommendButton();

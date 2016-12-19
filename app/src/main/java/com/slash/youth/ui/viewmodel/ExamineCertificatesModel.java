@@ -39,7 +39,7 @@ public class ExamineCertificatesModel extends BaseObservable {
 
     private void initView() {
         if(bitmap!=null){
-            Bitmap photo = BitmapKit.zoomBitmap(bitmap, 250, 200);
+            Bitmap photo = BitmapKit.zoomBitmap(bitmap, 220, 200);
             activityExamineCertificatesBinding.ivCertificates.setImageBitmap(photo);
         }
 
@@ -48,14 +48,12 @@ public class ExamineCertificatesModel extends BaseObservable {
     //提交审核
     public void examine(View view){
         MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
-
     }
 
     //重新上传
     public void upload(View view){
         examineActivity.finish();
     }
-
 
     //提交认证
     public class onCheckoutAuth implements BaseProtocol.IResultExecutor<SetBean> {
@@ -74,6 +72,4 @@ public class ExamineCertificatesModel extends BaseObservable {
             LogKit.d("result:"+result);
         }
     }
-
-
 }

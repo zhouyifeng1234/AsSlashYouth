@@ -30,9 +30,6 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SpUtils.setBoolean("create_ok",false);
-
-
         activityMySettingBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_setting);
         MySettingModel mySettingModel = new MySettingModel(activityMySettingBinding,this);
         activityMySettingBinding.setMySettingModel(mySettingModel);

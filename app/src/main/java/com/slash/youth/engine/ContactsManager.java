@@ -17,7 +17,8 @@ import com.slash.youth.http.protocol.TestIsFollowProtocol;
  * Created by zss on 2016/11/21.
  */
 public class ContactsManager {
-
+    public static String USER_INFO = "个人信息";
+    public static String ANONVMITY = "匿名";
     public static  final int FOLLOW_USER_NOT_EXIST_ERROR = 0;//用户不存在错误
     public static  final int FOLLOW_STATUS_SUCCESS = 1;//关注or取消关注成功
     public static  final int FOLLOW_STATUS_ALREADY_ERROR = 2;//已经关注过错误
@@ -27,6 +28,12 @@ public class ContactsManager {
     public static  final String MY_CARE = "我关注";
     public static  final String ADD_ME = "加我的";
     public static  final String MY_ADD = "我加的";
+
+    public static String ADD_FRIEND = "加好友";
+    public static String IS_FRIEND = "已是好友";
+    public static String ADD_FRIEND_APPLICATION = "已申请";
+
+
 
     //[我的人脉]-人脉首页
     public static void getPersonRelationFirstPage(BaseProtocol.IResultExecutor onPersonRelationFirstPage) {

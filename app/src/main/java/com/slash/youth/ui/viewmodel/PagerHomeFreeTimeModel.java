@@ -32,6 +32,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
+import com.slash.youth.ui.view.NewRefreshListView;
 import com.slash.youth.ui.view.PullableListView.MyListener;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
@@ -50,59 +51,22 @@ import java.util.List;
  * Created by zhouyifeng on 2016/10/11.
  */
 public class PagerHomeFreeTimeModel extends BaseObservable {
+    private PagerHomeFreetimeBinding pagerHomeFreetimeBinding;
     public Activity mActivity;
-    private PagerHomeFreetimeBinding mPagerHomeFreetimeBinding;
     private  ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
     private  ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
-    private boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
+    public boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
     private int limit=10;
-    private int offset = 0;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
+        this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
-        this.mPagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
-        initListView();
         initView();
         initData();
         initListener();
     }
-
-    //加载listView
-    private void initListView() {
-        PullToRefreshLayout ptrl = mPagerHomeFreetimeBinding.refreshView;
-        ptrl.setOnRefreshListener(new FreeTimeListListener());
-    }
-
-    public class FreeTimeListListener implements PullToRefreshLayout.OnRefreshListener {
-        @Override
-        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-            //如果加载到最后一页，需要调用setLoadToLast()方法
-            if(listsize < limit){//说明到最后一页啦
-                pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-            }else {//不是最后一页
-                offset += limit;
-                FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(),limit);
-            }
-        }
-
-        @Override
-        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-            // 加载操作
-            new Handler()
-            {
-                @Override
-                public void handleMessage(Message msg)
-                {
-                    // 千万别忘了告诉控件加载完毕了哦！
-                    pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-                }
-            }.sendEmptyMessageDelayed(0, 5000);
-        }
-    }
-
 
     ArrayList<String> listAdvImageUrl = new ArrayList<String>();
     int vpAdvStartIndex;
@@ -122,8 +86,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         getDataFromServer();
 //        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
         vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
                 return Integer.MAX_VALUE;
@@ -194,8 +158,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 container.removeView((View) object);
             }
         });
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
 
             private float defaultScale = (float) 8 / (float) 9;
             int translationX = CommonUtils.dip2px(13);
@@ -229,7 +193,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         CommonUtils.getHandler().postDelayed(homeVpAdvChange, 2000);
 
         //当点击的时候停止滚动，松开手指的时候继续滚动
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -245,7 +209,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         });
 
         //条目点击
-        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        pagerHomeFreetimeBinding.lvHomeDemandAndService
+      .setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mIsDisplayDemandList) {
@@ -268,10 +233,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     public class HomeVpAdvChange implements Runnable {
-
         @Override
         public void run() {
-            mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
+            pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
             CommonUtils.getHandler().postDelayed(this, 2000);
         }
     }
@@ -326,6 +290,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.VISIBLE);
         setServiceButtonVisibility(View.INVISIBLE);
         getDemandOrServiceListData();
+        pagerHomeFreetimeBinding.lvHomeDemandAndService
+       .setNewRefreshDataTask(new RefreshDataTask());
     }
 
     //服务需求
@@ -333,6 +299,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.INVISIBLE);
         setServiceButtonVisibility(View.VISIBLE);
         getDemandOrServiceListData();
+        pagerHomeFreetimeBinding.lvHomeDemandAndService
+        .setNewRefreshDataTask(new RefreshDataTask());
     }
 
     public void getDataFromServer() {
@@ -363,6 +331,21 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         }
     }
 
+    public class RefreshDataTask implements NewRefreshListView.NewIRefreshDataTask {
+        @Override
+        public void refresh() {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDemandOrServiceListData();
+
+                    pagerHomeFreetimeBinding.lvHomeDemandAndService
+                    .refreshDataFinish();
+                }
+            }, 2000);
+        }
+    }
+
     //广告
     public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<String> {
         @Override
@@ -387,7 +370,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
                 listDemandBean.addAll(list);
                 homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean,mActivity);
-                mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeDemandAndDemandAdapter);
+                pagerHomeFreetimeBinding.lvHomeDemandAndService
+                .setAdapter(homeDemandAndDemandAdapter);
             }
         }
         @Override
@@ -408,7 +392,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 listsize = list.size();
                 listServiceBean.addAll(list);
                 homeServiceAdapter = new HomeServiceAdapter(listServiceBean,mActivity);
-                mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeServiceAdapter);
+                pagerHomeFreetimeBinding.lvHomeDemandAndService
+                .setAdapter(homeServiceAdapter);
             }
         }
         @Override

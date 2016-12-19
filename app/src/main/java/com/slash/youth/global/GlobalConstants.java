@@ -358,7 +358,7 @@ public class GlobalConstants {
         //四、[我的]-[用户中心]-设置所在地
         public static final String SET_LOCATION = "/vcard/location/set";
         //五、[我的]-[用户中心]-设置斜杠身份
-        public static final String SET_SLASH_IDENTITY = "/vcard/identity/set";
+        public static final String SET_SLASH_IDENTITY = SERVER_HOST_MY_USERINFO+"/vcard/identity/set";
         //六、[我的]-[用户中心]-设置公司和职位
         public static final String SET_SLASH_COMPANY_AND_POSITION = "/vcard/company/set";
         //七、[我的]-[用户中心]-设置设置行业和方向
@@ -366,7 +366,7 @@ public class GlobalConstants {
         //八、[我的]-[用户中心]-设置设置头像
         public static final String SET_SLASH_AVATAR = "/vcard/avatar/set";
         //九、[我的]-[用户中心]-设置用户标签
-        public static final String SET_SLASH_TAG = "/vcard/tag/set";
+        public static final String SET_SLASH_TAG = SERVER_HOST_MY_USERINFO+"/vcard/tag/set";
         //十、[我的]-[用户中心]-设置用户认证
         public static final String SET_SLASH_AUTH = "/real/auth";
         //十一、[我的]-[用户中心]-用户认证流程状态

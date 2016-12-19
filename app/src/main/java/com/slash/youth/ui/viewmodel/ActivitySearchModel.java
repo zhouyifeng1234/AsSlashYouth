@@ -218,7 +218,7 @@ public class ActivitySearchModel extends BaseObservable {
 
         adapter = new SearchHistoryListAdapter(search_contentlist);
         currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
-
+        onItemClick();
     }
 
     //获取搜索联想词
@@ -249,6 +249,7 @@ public class ActivitySearchModel extends BaseObservable {
         }
     }
 
+    //点击条目搜索
     private void onItemClick() {
         currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

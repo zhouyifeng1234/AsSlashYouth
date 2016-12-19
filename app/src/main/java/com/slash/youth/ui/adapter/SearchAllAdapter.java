@@ -138,7 +138,7 @@ public abstract class SearchAllAdapter extends BaseAdapter  {
                 case searchMore://搜索更多
                 case serviceMore:
                 case personMore:
-                    holder=  getMoreHolder(position,type);
+                    holder= getMoreHolder(position,type);
                     break;
             }
         }else {
@@ -150,8 +150,6 @@ public abstract class SearchAllAdapter extends BaseAdapter  {
         return holder.getRootView();
     }
 
-
-
     public abstract  SearchViewHolder getTitleHolder(int position,int type);
 
     public abstract  SearchViewHolder getDemandHolder(int position,int type);
@@ -161,5 +159,4 @@ public abstract class SearchAllAdapter extends BaseAdapter  {
     public abstract  SearchViewHolder getUserHolder(int position,int type);
 
     public abstract  SearchViewHolder getMoreHolder(int position,int type);
-
 }

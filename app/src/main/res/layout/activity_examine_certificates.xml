@@ -52,34 +52,39 @@
                  android:layout_height="220dp"
                  android:background="@mipmap/bg3">
 
-            <RelativeLayout
+
+            <FrameLayout
                 android:id="@+id/fl_certificates"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
-                    android:onClick="@{examineCertificatesModel.upload}"
-                    android:layout_width="80dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/shape_home_freetime_searchbox_bg"
-                    android:textSize="12dp"
-                    android:textColor="#ffffff"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="重新上传"/>
 
                 <ImageView
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:id="@+id/iv_certificates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/id_image"/>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+                   <TextView
+                       android:onClick="@{examineCertificatesModel.upload}"
+                       android:layout_width="80dp"
+                       android:layout_height="20dp"
+                       android:background="@drawable/shape_home_freetime_searchbox_bg"
+                       android:textSize="12dp"
+                     android:layout_alignParentRight="true"
+                       android:textColor="#ffffff"
+                       android:layout_marginRight="10dp"
+                       android:layout_marginTop="10dp"
+                       android:gravity="center"
+                       android:text="重新上传"/>
+               </RelativeLayout>
 
-            </RelativeLayout>
+            </FrameLayout>
              </RelativeLayout>
             </RelativeLayout>
         <View
