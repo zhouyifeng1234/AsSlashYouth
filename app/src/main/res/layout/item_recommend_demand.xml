@@ -25,6 +25,7 @@
                 android:layout_marginLeft="10dp">
 
                 <ImageView
+                    android:id="@+id/iv_demand_user_avatar"
                     android:layout_width="58dp"
                     android:layout_height="58dp"
                     android:src="@mipmap/assistant_icon"
@@ -33,7 +34,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="right|bottom"
-                    android:src="@mipmap/small_v_icon"/>
+                    android:src="@mipmap/small_v_icon"
+                    android:visibility="@{itemRecommendDemandModel.authVisibility}"/>
                 />
 
             </FrameLayout>
@@ -49,18 +51,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="300元"
+                    android:text="@{itemRecommendDemandModel.demandQuote}"
                     android:textColor="#FF7333"
                     android:textSize="13sp"/>
-
+                <!--300元-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="设计全套官方网站和微信端的首页"
+                    android:text="@{itemRecommendDemandModel.demandTitle}"
                     android:textColor="#666666"
                     android:textSize="13sp"/>
-
+                <!--设计全套官方网站和微信端的首页-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:gravity="center_vertical"
-                        android:text="曹文成"
+                        android:text="@{itemRecommendDemandModel.demandUsername}"
                         android:textColor="#666666"
                         android:textSize="12sp"/>
                     <TextView
@@ -97,8 +99,8 @@
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="right|bottom"
-            android:padding="10dp"
             android:onClick="@{itemRecommendDemandModel.checkRecommendDemand}"
+            android:padding="10dp"
             android:src="@mipmap/default_btn"/>
 
     </android.support.v7.widget.CardView>

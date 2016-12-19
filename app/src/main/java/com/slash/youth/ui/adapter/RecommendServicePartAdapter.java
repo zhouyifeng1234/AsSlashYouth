@@ -1,6 +1,6 @@
 package com.slash.youth.ui.adapter;
 
-import com.slash.youth.domain.AutoRecommendServicePartBean;
+import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.RecommendServicePartHoler;
 
@@ -9,16 +9,16 @@ import java.util.ArrayList;
 /**
  * Created by zhouyifeng on 2016/10/18.
  */
-public class RecommendServicePartAdapter extends SlashBaseAdapter<AutoRecommendServicePartBean> {
+public class RecommendServicePartAdapter extends SlashBaseAdapter<RecommendServiceUserBean.ServiceUserInfo> {
 
     public static ArrayList<Integer> listCheckedItemId = new ArrayList<Integer>();
 
-    public RecommendServicePartAdapter(ArrayList<AutoRecommendServicePartBean> listData) {
+    public RecommendServicePartAdapter(ArrayList<RecommendServiceUserBean.ServiceUserInfo> listData) {
         super(listData);
     }
 
     @Override
-    public ArrayList<AutoRecommendServicePartBean> onLoadMore() {
+    public ArrayList<RecommendServiceUserBean.ServiceUserInfo> onLoadMore() {
         return null;
     }
 

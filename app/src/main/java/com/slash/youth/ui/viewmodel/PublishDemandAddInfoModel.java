@@ -1,12 +1,11 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -38,9 +37,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     boolean isOnline = true;//“线上”或者“线下”，默认为线上
     boolean isInstalment = true;//是否开启分期付，默认为true,开启
     public SlashAddLabelsLayout mSallSkillLabels;
-    String[] disputeHandingTypes = new String[]{
-            "平台方式", "协商处理"
-    };//纠纷处理方式
+
     public int checkedDisputeHandingTypeIndex = 0;//选择的纠纷处理方式
     private double lng;
     private double lat;
@@ -116,9 +113,11 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         lng = demand.lng;
         lat = demand.lat;
         //纠纷处理方式
-        checkedDisputeHandingTypeIndex = demand.bp - 1;
-        mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[checkedDisputeHandingTypeIndex]);
-        mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
+        if (demand.bp == 0) {
+            checkPlatformProcessing(null);
+        } else {
+            checkConsultProcessing(null);
+        }
     }
 
     public void gotoBack(View v) {
@@ -137,19 +136,39 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
 //        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTagsName();
         ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTags();
-        double quote;
-        int offer;
-        try {
-            quote = Double.parseDouble(mActivityPublishDemandAddinfoBinding.etDemandQuote.getText().toString());
-            offer = 0;
-        } catch (Exception ex) {
-            quote = 0;
-            offer = 1;
+        if (addedSkillLabels.size() < 1) {
+            ToastUtils.shortToast("请选择技能标签");
+            return;
         }
+        if (addedSkillLabels.size() > 3) {
+            ToastUtils.shortToast("技能标签不能超过3个");
+            return;
+        }
+        double quote = 0;//报价
+        int offer;//报价类型 0 需求方报价    1 服务方报价
+        String quoteStr = mActivityPublishDemandAddinfoBinding.etDemandQuote.getText().toString();
+        if (TextUtils.isEmpty(quoteStr)) {
+            offer = 1;//服务方报价
+        } else {
+            offer = 0;//需求方报价
+            try {
+                quote = Double.parseDouble(quoteStr);
+            } catch (Exception ex) {
+                ToastUtils.shortToast("请正确填写报价");
+                return;
+            }
+        }
+
         int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
         int pattern = isOnline == true ? 0 : 1;//1线下 0线上
         int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
         String place = getLocationAddress();
+        if (pattern == 1) {
+            if (TextUtils.isEmpty(place)) {
+                ToastUtils.shortToast("请输入线下见面地点");
+                return;
+            }
+        }
 
         if (demandDetailBean != null) {//修改需求
             DemandEngine.updateDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
@@ -157,6 +176,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
                 public void execute(CommonResultBean dataBean) {
                     Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
                     intentPublishDemandSuccessActivity.putExtra("demandId", demandDetailBean.data.demand.id);
+                    intentPublishDemandSuccessActivity.putExtra("isUpdate", true);
                     mActivity.startActivity(intentPublishDemandSuccessActivity);
                     mActivity.finish();
                     if (PublishDemandBaseInfoActivity.mActivity != null) {
@@ -249,18 +269,26 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mActivity.startActivityForResult(intentMapActivity, 20);
     }
 
-    public void chooseDisputeHandingType(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setSingleChoiceItems(disputeHandingTypes, checkedDisputeHandingTypeIndex, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                checkedDisputeHandingTypeIndex = which;
-                mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[which]);
-                mActivityPublishDemandAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
-                dialog.dismiss();
-            }
-        });
-        builder.show();
+    /**
+     * 选择平台处理方式
+     *
+     * @param v
+     */
+    public void checkPlatformProcessing(View v) {
+        mActivityPublishDemandAddinfoBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        mActivityPublishDemandAddinfoBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.default_btn);
+        checkedDisputeHandingTypeIndex = 0;
+    }
+
+    /**
+     * 选择协商处理方式
+     *
+     * @param v
+     */
+    public void checkConsultProcessing(View v) {
+        mActivityPublishDemandAddinfoBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.default_btn);
+        mActivityPublishDemandAddinfoBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        checkedDisputeHandingTypeIndex = 1;
     }
 
     private int offlineItemVisibility = View.GONE;

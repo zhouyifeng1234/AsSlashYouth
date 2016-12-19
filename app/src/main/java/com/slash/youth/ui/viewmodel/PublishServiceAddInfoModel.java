@@ -1,12 +1,11 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -41,16 +40,14 @@ public class PublishServiceAddInfoModel extends BaseObservable {
     boolean isOnline = true;//“线上”或者“线下”，默认为线上
     boolean isInstalment = true;//是否开启分期付，默认为true,开启
     public SlashAddLabelsLayout mSallSkillLabels;
-    String[] disputeHandingTypes = new String[]{
-            "平台方式", "协商处理"
-    };//纠纷处理方式
+
     public int checkedDisputeHandingTypeIndex = 0;//选择的纠纷处理方式
     private NumberPicker mNpChoosePriceUnit;
     String[] optionalPriceUnit;
     private String mChoosePriceUnit;
-    private int quoteunit = 9;
-    private double lng;
-    private double lat;
+    private int quoteunit = -1;
+    private double lng = 0;
+    private double lat = 0;
     ServiceDetailBean serviceDetailBean;
 
     public PublishServiceAddInfoModel(ActivityPublishServiceAddinfoBinding activityPublishServiceAddinfoBinding, Activity activity) {
@@ -118,9 +115,11 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         lng = service.lng;
         lat = service.lat;
         //纠纷处理方式
-        checkedDisputeHandingTypeIndex = service.bp - 1;
-        mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[checkedDisputeHandingTypeIndex]);
-        mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
+        if (service.bp == 0) {
+            checkPlatformProcessing(null);
+        } else {
+            checkConsultProcessing(null);
+        }
         //技能标签
         String[] tags = service.tag.split(",");
         ArrayList<String> reloadTagsName = new ArrayList<String>();
@@ -187,18 +186,26 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         mActivityPublishServiceAddinfoBinding.ivPublishServiceOfflineIcon.setImageResource(R.mipmap.pitchon_btn);
     }
 
-    public void chooseDisputeHandingType(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setSingleChoiceItems(disputeHandingTypes, checkedDisputeHandingTypeIndex, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                checkedDisputeHandingTypeIndex = which;
-                mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setText(disputeHandingTypes[which]);
-                mActivityPublishServiceAddinfoBinding.tvDisputeHandingType.setTextColor(0xff333333);
-                dialog.dismiss();
-            }
-        });
-        builder.show();
+    /**
+     * 选择平台处理方式
+     *
+     * @param v
+     */
+    public void checkPlatformProcessing(View v) {
+        mActivityPublishServiceAddinfoBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        mActivityPublishServiceAddinfoBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.default_btn);
+        checkedDisputeHandingTypeIndex = 0;
+    }
+
+    /**
+     * 选择协商处理方式
+     *
+     * @param v
+     */
+    public void checkConsultProcessing(View v) {
+        mActivityPublishServiceAddinfoBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.default_btn);
+        mActivityPublishServiceAddinfoBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        checkedDisputeHandingTypeIndex = 1;
     }
 
     public void publish(View v) {
@@ -224,17 +231,41 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
 //        ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTagsName();
         ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTags();
-        double quote;
-        try {
-            quote = Double.parseDouble(mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString());
-        } catch (Exception ex) {
-            quote = 0;
+        if (addedSkillLabels.size() < 1) {
+            ToastUtils.shortToast("请选择技能标签");
+            return;
+        }
+        if (addedSkillLabels.size() > 3) {
+            ToastUtils.shortToast("技能标签不能超过3个");
+            return;
+        }
+        double quote = 0;
+        String quoteStr = mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString();
+        if (TextUtils.isEmpty(quoteStr)) {
+
+        } else {
+            try {
+                quote = Double.parseDouble(quoteStr);
+            } catch (Exception ex) {
+                ToastUtils.shortToast("请正确填写报价");
+                return;
+            }
+        }
+        if (quoteunit == -1) {
+            ToastUtils.shortToast("请选择价格单位");
+            return;
         }
 
         int instalment = isInstalment == true ? 1 : 0;//1开启，0关闭
         int pattern = isOnline == true ? 0 : 1;//1线下 0线上
         int bp = checkedDisputeHandingTypeIndex + 1;//1平台 2协商
         String place = getLocationAddress();
+        if (pattern == 1) {
+            if (TextUtils.isEmpty(place)) {
+                ToastUtils.shortToast("请输入线下见面地点");
+                return;
+            }
+        }
 
         if (serviceDetailBean != null) {//修改服务
             ServiceEngine.updateService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
@@ -243,6 +274,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
                     //这里是修改服务成功后跳转
                     Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
                     intentPublishServiceSuccessActivity.putExtra("serviceId", serviceDetailBean.data.service.id);
+                    intentPublishServiceSuccessActivity.putExtra("isUpdate", true);
                     mActivity.startActivity(intentPublishServiceSuccessActivity);
                     mActivity.finish();
                     if (PublishServiceBaseInfoActivity.activity != null) {
@@ -314,7 +346,6 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         }
         quoteunit = value + 1;
     }
-
 
     private int offlineItemVisibility = View.GONE;
     private int choosePriceUnitLayerVisibility = View.GONE;

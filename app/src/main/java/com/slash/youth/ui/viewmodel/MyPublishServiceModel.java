@@ -221,14 +221,40 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void accept(View v) {
-        //分期 比例暂时先用假数据
-        starttime = 1579683600000l;
-        endtime = 1679699600000l;
-        instalmentRatioList.clear();
-        instalmentRatioList.add(0.1);
-        instalmentRatioList.add(0.9);
-        //分期比例只是测试数据
+        //一开始没有分期比例，所以修改条件中的分期比例不需要回填
+        double updateQuote;
+        String updateQuoteStr = mActivityMyPublishServiceBinding.etServiceUpdateQuote.getText().toString();
+        try {
+            updateQuote = Double.parseDouble(updateQuoteStr);
+            if (updateQuote <= 0) {
+                ToastUtils.shortToast("报价必须大于0元");
+                return;
+            }
+        } catch (Exception ex) {
+            ToastUtils.shortToast("请正确填写报价");
+            return;
+        }
 
+        if (starttime <= 0 || endtime <= 0) {
+            ToastUtils.shortToast("请先完善开始时间和结束时间");
+            return;
+        }
+        if (isUpdateInstalment == false) {
+            updateInstalmentRatioList.clear();
+            updateInstalmentRatioList.add(1d);
+        } else if (updateInstalmentRatioList.size() <= 0) {
+            ToastUtils.shortToast("请先完善分期比例信息");
+            return;
+        } else {
+            double totalRatio = 0;
+            for (double ratio : updateInstalmentRatioList) {
+                totalRatio += ratio;
+            }
+            if (totalRatio < 1) {
+                ToastUtils.shortToast("分期比例总和必须是100");
+                return;
+            }
+        }
         ServiceEngine.selected(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -239,7 +265,7 @@ public class MyPublishServiceModel extends BaseObservable {
             public void executeResultError(String result) {
                 ToastUtils.shortToast("服务方选定失败:" + result);
             }
-        }, soid + "", duid + "", orderQuote + "", starttime + "", endtime + "", instalmentRatioList, bp + "");
+        }, soid + "", duid + "", updateQuote + "", starttime + "", endtime + "", updateInstalmentRatioList, updateBp + "");
     }
 
     /**
@@ -251,57 +277,7 @@ public class MyPublishServiceModel extends BaseObservable {
         setUpdateLayerVisibility(View.VISIBLE);
     }
 
-    /**
-     * 修改挑中 按钮中的 开启或者关闭分期
-     *
-     * @param v
-     */
-    public void toggleInstalment(View v) {
-        RelativeLayout.LayoutParams layoutParams
-                = (RelativeLayout.LayoutParams) mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.getLayoutParams();
-        if (isUpdateInstalment) {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
-        }
-        mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.setLayoutParams(layoutParams);
-        isUpdateInstalment = !isUpdateInstalment;
-    }
-
-    int instalmentCount = 2;
-    //    double instalmentRatio1 = 0.1;
-//    double instalmentRatio2 = 0.9;
-//    double instalmentRatio3 = 0;
-//    double instalmentRatio4 = 0;
-    ArrayList<Double> instalmentRatioList = new ArrayList<Double>();
-    int bp = 1;
-
-    /**
-     * 删除分期
-     *
-     * @param v
-     */
-    public void deleteInstalment(View v) {
-
-    }
-
-    /**
-     * 添加分期
-     *
-     * @param v
-     */
-    public void addInstalment(View v) {
-
-    }
-
-    /**
-     * 初始化修改条件 蒙层中的分期列表信息（根据myTaskBean任务条目中的分期信息来初始化）
-     */
-    private void initUpdateInstalmentList(String taskItemInstalmentRatio) {
-//一开始应该没有分期比例数据
-    }
+    ArrayList<Double> updateInstalmentRatioList = new ArrayList<Double>();
 
     private boolean mIsChooseStartTime;
 
@@ -312,8 +288,17 @@ public class MyPublishServiceModel extends BaseObservable {
         setSetStartTimeAndEndTimeLayerVisibility(View.VISIBLE);
     }
 
-    public void okChooseIdleStartTimeAndEndTime(View v) {
+    public void closeUpdateTaskTimeLayer(View v) {
         setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
+    }
+
+    public void okChooseIdleStartTimeAndEndTime(View v) {
+        if (TextUtils.isEmpty(starttimeStr) || TextUtils.isEmpty(endtimeStr)) {
+            ToastUtils.shortToast("请填写开始时间和结束时间");
+            return;
+        }
+        setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
+        mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText(starttimeStr + "-" + endtimeStr);
     }
 
     public void closeStartTimeAndEndTimeLayer(View v) {
@@ -349,7 +334,7 @@ public class MyPublishServiceModel extends BaseObservable {
         mCurrentChooseDay = mChooseDateTimePicker.getCurrentChooseDay();
         mCurrentChooseHour = mChooseDateTimePicker.getCurrentChooseHour();
         mCurrentChooseMinute = mChooseDateTimePicker.getCurrentChooseMinute();
-        String dateTimeStr = mCurrentChooseMonth + "月" + mCurrentChooseDay + "日" + "-" + mCurrentChooseHour + ":" + (mCurrentChooseMinute < 10 ? "0" + mCurrentChooseMinute : mCurrentChooseMinute);
+        String dateTimeStr = mCurrentChooseMonth + "月" + mCurrentChooseDay + "日" + " " + mCurrentChooseHour + ":" + (mCurrentChooseMinute < 10 ? "0" + mCurrentChooseMinute : mCurrentChooseMinute);
         if (mIsChooseStartTime) {
             mActivityMyPublishServiceBinding.tvStartTime.setText(dateTimeStr);
             starttime = convertTimeToMillis();
@@ -373,6 +358,66 @@ public class MyPublishServiceModel extends BaseObservable {
         return calendar.getTimeInMillis();
     }
 
+    private int updateBp = 1;
+
+    /**
+     * 选择平台方式
+     *
+     * @param v
+     */
+    public void checkPlatformProcessing(View v) {
+        mActivityMyPublishServiceBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        mActivityMyPublishServiceBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.default_btn);
+        updateBp = 1;
+    }
+
+    /**
+     * 选择协商方式
+     *
+     * @param v
+     */
+    public void checkConsultProcessing(View v) {
+        mActivityMyPublishServiceBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.default_btn);
+        mActivityMyPublishServiceBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        updateBp = 2;
+    }
+
+    /**
+     * 修改条件 按钮中的 开启或者关闭分期
+     *
+     * @param v
+     */
+    public void toggleInstalment(View v) {
+        RelativeLayout.LayoutParams layoutParams
+                = (RelativeLayout.LayoutParams) mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.getLayoutParams();
+        if (isUpdateInstalment) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+        } else {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+        }
+        mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.setLayoutParams(layoutParams);
+        isUpdateInstalment = !isUpdateInstalment;
+    }
+
+    /**
+     * 删除分期
+     *
+     * @param v
+     */
+    public void deleteInstalment(View v) {
+
+    }
+
+    /**
+     * 添加分期
+     *
+     * @param v
+     */
+    public void addInstalment(View v) {
+
+    }
 
     /**
      * 获取对应的单个任务条目信息（从任务列表穿过的myTaskBean可能不是最新的数据）
@@ -385,7 +430,6 @@ public class MyPublishServiceModel extends BaseObservable {
                 tid = myTaskBean.tid;//tid就是soid
                 soid = tid;//tid（任务id）就是soid(服务订单id)
                 fid = myTaskBean.instalmentcurr;//通过调试接口发现，这个字段当type=2为服务的时候，好像不准，一直都是0
-                initUpdateInstalmentList(myTaskBean.instalmentratio);
 
                 loadDataTimes++;
                 if (loadDataTimes >= 5) {
@@ -411,10 +455,38 @@ public class MyPublishServiceModel extends BaseObservable {
                 //服务标题，布局文件中有两个地方需要设置
                 setServiceTitle(service.title);
                 //闲置时间
-                SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 hh:mm");
-                String starttimeStr = sdfIdleTime.format(service.starttime);
-                String endtimeStr = sdfIdleTime.format(service.endtime);
-                setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                int timetype = service.timetype;
+                if (timetype == 0) {
+                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 hh:mm");
+                    String starttimeStr = sdfIdleTime.format(service.starttime);
+                    String endtimeStr = sdfIdleTime.format(service.endtime);
+                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = service.starttime;
+                    endtime = service.endtime;
+                    mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText(starttimeStr + "-" + endtimeStr);
+                } else if (timetype == 1) {
+                    setIdleTime("闲置时间:下班后");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                } else if (timetype == 2) {
+                    setIdleTime("闲置时间:周末");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                } else if (timetype == 3) {
+                    setIdleTime("闲置时间:下班后及周末");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                } else if (timetype == 4) {
+                    setIdleTime("闲置时间:随时");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                }
+
                 //报价 这里不能使用服务详情接口返回的报价
                 quoteunit = service.quoteunit;
 //                CommonUtils.getHandler().post(new Runnable() {
@@ -441,21 +513,33 @@ public class MyPublishServiceModel extends BaseObservable {
                         if (TextUtils.isEmpty(ratio)) {
                             continue;
                         }
+                        double ratioDouble = Double.parseDouble(ratio);
+
                         if (i < ratios.length - 1) {
-                            instalmentRatioStr += ratio + "%/";
+                            instalmentRatioStr += ratioDouble * 100 + "%/";
                         } else {
-                            instalmentRatioStr += ratio + "%";
+                            instalmentRatioStr += ratioDouble * 100 + "%";
                         }
                     }
                     setInstalmentRatio(instalmentRatioStr);
+                    //回填修改条件中是否开始分期
+                    isUpdateInstalment = false;//这里需要设置true，设置为false，调用toggleInstalment方法后就变为true了
+                    toggleInstalment(null);
                 } else {//未开启分期
                     setInstalmentVisibility(View.INVISIBLE);
+                    //回填修改条件中是否开始分期
+                    isUpdateInstalment = true;//这里需要设置false，设置为true，调用toggleInstalment方法后就变为false了
+                    toggleInstalment(null);
                 }
                 //纠纷处理方式（似乎协商处理就显示）
                 if (service.bp == 2) {//协商
                     setBpConsultVisibility(View.VISIBLE);
+                    //回填修改条件中的纠纷处理方式
+                    checkConsultProcessing(null);
                 } else if (service.bp == 1) {//平台
                     setBpConsultVisibility(View.INVISIBLE);
+                    //回填修改条件中的纠纷处理方式
+                    checkPlatformProcessing(null);
                 }
 
                 loadDataTimes++;
@@ -481,6 +565,8 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceOrderInfoBean dataBean) {
                 orderQuote = dataBean.data.order.quote;
+                //回填修改条件中的报价
+                mActivityMyPublishServiceBinding.etServiceUpdateQuote.setText(orderQuote + "");
 //                CommonUtils.getHandler().post(new Runnable() {
 //                    @Override
 //                    public void run() {

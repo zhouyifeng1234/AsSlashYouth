@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
+import com.slash.youth.http.protocol.RecommendDemandUserProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.ServiceDelayPayProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
@@ -197,5 +198,16 @@ public class ServiceEngine {
         serviceDelayPayProtocol.getDataFromServer(onDelayPayFinished);
     }
 
+    /**
+     * 一、[推荐]-发布服务推荐给需求者  发布服务成功页面，推荐需求方
+     *
+     * @param onRecommendDemandUserFinished
+     * @param id                            服务详情ID
+     * @param limit                         一次拉取限制
+     */
+    public static void getRecommendDemandUser(BaseProtocol.IResultExecutor onRecommendDemandUserFinished, String id, String limit) {
+        RecommendDemandUserProtocol recommendDemandUserProtocol = new RecommendDemandUserProtocol(id, limit);
+        recommendDemandUserProtocol.getDataFromServer(onRecommendDemandUserFinished);
+    }
 
 }

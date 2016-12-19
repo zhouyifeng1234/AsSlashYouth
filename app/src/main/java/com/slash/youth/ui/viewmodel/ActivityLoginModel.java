@@ -103,6 +103,10 @@ public class ActivityLoginModel extends BaseObservable {
                     Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
                     intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
+                    if (LoginActivity.activity != null) {
+                        LoginActivity.activity.finish();
+                        LoginActivity.activity = null;
+                    }
                 } else {
                     ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                 }

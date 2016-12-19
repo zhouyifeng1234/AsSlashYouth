@@ -173,8 +173,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="首页"
             android:name="com.slash.youth.ui.activity.HomeActivity"
+            android:label="首页"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -209,10 +209,13 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.PublishDemandAddInfoActivity"
+            android:label="Demand"
             android:windowSoftInputMode="adjustPan">
-
         </activity>
-        <activity android:name=".ui.activity.PublishDemandSuccessActivity"></activity>
+        <activity
+            android:name=".ui.activity.PublishDemandSuccessActivity"
+            android:label="需求成功页">
+        </activity>
         <activity android:name=".ui.activity.DemandDetailActivity"></activity>
         <activity android:name=".ui.activity.DemandDetailLocationActivity"></activity>
         <activity android:name=".ui.activity.MyTaskActivity"></activity>
@@ -224,8 +227,13 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.PublishServiceAddInfoActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.PublishServiceSucceddActivity"></activity>
+            android:label="Service"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".ui.activity.PublishServiceSucceddActivity"
+            android:label="服务成功页">
+        </activity>
         <activity android:name=".ui.activity.ServiceDetailActivity"></activity>
         <activity
             android:name=".ui.activity.CommentActivity"
