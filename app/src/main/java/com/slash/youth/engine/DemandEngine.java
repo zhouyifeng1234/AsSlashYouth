@@ -72,9 +72,12 @@ public class DemandEngine {
      * @param onBidDemandFinished
      * @param id
      * @param quote
+     * @param bidDemandInstalmentRatioList
+     * @param bp
+     * @param starttime
      */
-    public static void servicePartyBidDemand(BaseProtocol.IResultExecutor onBidDemandFinished, String id, String quote) {
-        ServicePartyBidDemandProtocol servicePartyBidDemandProtocol = new ServicePartyBidDemandProtocol(id, quote);
+    public static void servicePartyBidDemand(BaseProtocol.IResultExecutor onBidDemandFinished, String id, String quote, ArrayList<Double> bidDemandInstalmentRatioList, String bp, String starttime) {
+        ServicePartyBidDemandProtocol servicePartyBidDemandProtocol = new ServicePartyBidDemandProtocol(id, quote, bidDemandInstalmentRatioList, bp, starttime);
         servicePartyBidDemandProtocol.getDataFromServer(onBidDemandFinished);
     }
 

@@ -857,6 +857,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="11dp"
                         android:background="@android:color/transparent"
+                        android:inputType="number"
                         android:text=""
                         android:textColor="#CCCCCC"
                         android:textSize="10sp"/>
@@ -1100,7 +1101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="￥30"
+                            android:text=""
                             android:textColor="#999999"
                             android:textSize="12sp"/>
 
@@ -1146,7 +1147,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="￥30"
+                            android:text=""
                             android:textColor="#999999"
                             android:textSize="12sp"/>
 
@@ -1192,7 +1193,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="￥30"
+                            android:text=""
                             android:textColor="#999999"
                             android:textSize="12sp"/>
 
@@ -1238,7 +1239,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="￥30"
+                            android:text=""
                             android:textColor="#999999"
                             android:textSize="12sp"/>
 

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -96,6 +98,96 @@ public class MyPublishServiceModel extends BaseObservable {
                 getDataFromServer();
             }
         });
+        mActivityMyPublishServiceBinding.etUpdateInstalmentRatio1.addTextChangedListener(new InstalmentRatioTextChangeListener(1));
+        mActivityMyPublishServiceBinding.etUpdateInstalmentRatio2.addTextChangedListener(new InstalmentRatioTextChangeListener(2));
+        mActivityMyPublishServiceBinding.etUpdateInstalmentRatio3.addTextChangedListener(new InstalmentRatioTextChangeListener(3));
+        mActivityMyPublishServiceBinding.etUpdateInstalmentRatio4.addTextChangedListener(new InstalmentRatioTextChangeListener(4));
+        mActivityMyPublishServiceBinding.etServiceUpdateQuote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String updateQuoteStr = s.toString();
+                String ratioStr1 = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio1.getText().toString();
+                String ratioStr2 = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio2.getText().toString();
+                String ratioStr3 = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio3.getText().toString();
+                String ratioStr4 = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio4.getText().toString();
+                try {
+                    double updateQuote = Double.parseDouble(updateQuoteStr);
+                    double ratio1 = Double.parseDouble(ratioStr1);
+                    int ratioQuote1 = (int) (updateQuote * ratio1 / 100);
+                    mActivityMyPublishServiceBinding.tvInstalment1Amount.setText("￥" + ratioQuote1);
+                    double ratio2 = Double.parseDouble(ratioStr2);
+                    int ratioQuote2 = (int) (updateQuote * ratio2 / 100);
+                    mActivityMyPublishServiceBinding.tvInstalment2Amount.setText("￥" + ratioQuote2);
+                    double ratio3 = Double.parseDouble(ratioStr3);
+                    int ratioQuote3 = (int) (updateQuote * ratio3 / 100);
+                    mActivityMyPublishServiceBinding.tvInstalment3Amount.setText("￥" + ratioQuote3);
+                    double ratio4 = Double.parseDouble(ratioStr4);
+                    int ratioQuote4 = (int) (updateQuote * ratio4 / 100);
+                    mActivityMyPublishServiceBinding.tvInstalment4Amount.setText("￥" + ratioQuote4);
+                } catch (Exception ex) {
+//                    ToastUtils.shortToast("填写数据有误");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    private class InstalmentRatioTextChangeListener implements TextWatcher {
+
+        private int instalmentNo;
+
+        public InstalmentRatioTextChangeListener(int instalmentNo) {
+            this.instalmentNo = instalmentNo;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String ratioStr = s.toString();
+            String updateQuoteStr = mActivityMyPublishServiceBinding.etServiceUpdateQuote.getText().toString();
+            String ratioQuoteStr = "";
+            try {
+                double ratio = Double.parseDouble(ratioStr);
+                double updateQuote = Double.parseDouble(updateQuoteStr);
+                int ratioQuote = (int) (updateQuote * ratio / 100);
+                ratioQuoteStr = "￥" + ratioQuote;
+            } catch (Exception ex) {
+
+            }
+            switch (instalmentNo) {
+                case 1:
+                    mActivityMyPublishServiceBinding.tvInstalment1Amount.setText(ratioQuoteStr);
+                    break;
+                case 2:
+                    mActivityMyPublishServiceBinding.tvInstalment2Amount.setText(ratioQuoteStr);
+                    break;
+                case 3:
+                    mActivityMyPublishServiceBinding.tvInstalment3Amount.setText(ratioQuoteStr);
+                    break;
+                case 4:
+                    mActivityMyPublishServiceBinding.tvInstalment4Amount.setText(ratioQuoteStr);
+                    break;
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 
     /**

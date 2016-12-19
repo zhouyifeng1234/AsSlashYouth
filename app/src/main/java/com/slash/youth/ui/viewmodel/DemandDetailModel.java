@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
@@ -47,6 +50,7 @@ public class DemandDetailModel extends BaseObservable {
         this.mActivity = activity;
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
@@ -58,6 +62,98 @@ public class DemandDetailModel extends BaseObservable {
     private void initView() {
         sdtpBidDemandStarttime = mActivityDemandDetailBinding.sdtpBidDemandChooseDatetime;
         mActivityDemandDetailBinding.svDemandDetailContent.setVerticalScrollBarEnabled(false);
+    }
+
+    private void initListener() {
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.addTextChangedListener(new InstalmentRatioTextChangeListener(1));
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.addTextChangedListener(new InstalmentRatioTextChangeListener(2));
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.addTextChangedListener(new InstalmentRatioTextChangeListener(3));
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio4.addTextChangedListener(new InstalmentRatioTextChangeListener(4));
+        mActivityDemandDetailBinding.etBidDemandQuote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String bidQuoteStr = s.toString();
+                String ratioStr1 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
+                String ratioStr2 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.getText().toString();
+                String ratioStr3 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.getText().toString();
+                String ratioStr4 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio4.getText().toString();
+                try {
+                    double bidQuote = Double.parseDouble(bidQuoteStr);
+                    double ratio1 = Double.parseDouble(ratioStr1);
+                    int ratioQuote1 = (int) (bidQuote * ratio1 / 100);
+                    mActivityDemandDetailBinding.tvInstalment1Amount.setText("￥" + ratioQuote1);
+                    double ratio2 = Double.parseDouble(ratioStr2);
+                    int ratioQuote2 = (int) (bidQuote * ratio2 / 100);
+                    mActivityDemandDetailBinding.tvInstalment2Amount.setText("￥" + ratioQuote2);
+                    double ratio3 = Double.parseDouble(ratioStr3);
+                    int ratioQuote3 = (int) (bidQuote * ratio3 / 100);
+                    mActivityDemandDetailBinding.tvInstalment3Amount.setText("￥" + ratioQuote3);
+                    double ratio4 = Double.parseDouble(ratioStr4);
+                    int ratioQuote4 = (int) (bidQuote * ratio4 / 100);
+                    mActivityDemandDetailBinding.tvInstalment4Amount.setText("￥" + ratioQuote4);
+                } catch (Exception ex) {
+//                    ToastUtils.shortToast("填写数据有误");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private class InstalmentRatioTextChangeListener implements TextWatcher {
+
+        private int instalmentNo;
+
+        public InstalmentRatioTextChangeListener(int instalmentNo) {
+            this.instalmentNo = instalmentNo;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String ratioStr = s.toString();
+            String bidQuoteStr = mActivityDemandDetailBinding.etBidDemandQuote.getText().toString();
+            String ratioQuoteStr = "";
+            try {
+                double ratio = Double.parseDouble(ratioStr);
+                double bidQuote = Double.parseDouble(bidQuoteStr);
+                int ratioQuote = (int) (bidQuote * ratio / 100);
+                ratioQuoteStr = "￥" + ratioQuote;
+            } catch (Exception ex) {
+
+            }
+            switch (instalmentNo) {
+                case 1:
+                    mActivityDemandDetailBinding.tvInstalment1Amount.setText(ratioQuoteStr);
+                    break;
+                case 2:
+                    mActivityDemandDetailBinding.tvInstalment2Amount.setText(ratioQuoteStr);
+                    break;
+                case 3:
+                    mActivityDemandDetailBinding.tvInstalment3Amount.setText(ratioQuoteStr);
+                    break;
+                case 4:
+                    mActivityDemandDetailBinding.tvInstalment4Amount.setText(ratioQuoteStr);
+                    break;
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 
     private void displayTags(String tag1, String tag2, String tag3) {
@@ -184,6 +280,7 @@ public class DemandDetailModel extends BaseObservable {
                 setDemandStartTime("开始:" + starttimeStr);
                 //回填抢单浮层中的开始时间
                 mActivityDemandDetailBinding.tvBidDemandStarttime.setText(starttimeStr);
+                bidDemandStarttime = demand.starttime;
                 setQuote("¥" + demand.quote + "元");
                 //填写抢单浮层中的报价
                 mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
@@ -612,7 +709,7 @@ public class DemandDetailModel extends BaseObservable {
         getInputInstalmentRatio();
         if (bidIsInstalment == false) {
             bidDemandInstalmentRatioList.clear();
-            bidDemandInstalmentRatioList.add(1d);
+            bidDemandInstalmentRatioList.add(100d);
         } else if (bidDemandInstalmentRatioList.size() <= 0) {
             ToastUtils.shortToast("请先完善分期比例信息");
             return;
@@ -628,6 +725,17 @@ public class DemandDetailModel extends BaseObservable {
         }
 
         //调用抢需求接口
+        DemandEngine.servicePartyBidDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("抢单成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("抢单失败;" + result);
+            }
+        }, demandId + "", bidQuote + "", bidDemandInstalmentRatioList, bidBp + "", bidDemandStarttime + "");
     }
 
     private void getInputInstalmentRatio() {

@@ -216,7 +216,10 @@
             android:name=".ui.activity.PublishDemandSuccessActivity"
             android:label="需求成功页">
         </activity>
-        <activity android:name=".ui.activity.DemandDetailActivity"></activity>
+        <activity android:name=".ui.activity.DemandDetailActivity"
+                  android:windowSoftInputMode="adjustPan">
+
+        </activity>
         <activity android:name=".ui.activity.DemandDetailLocationActivity"></activity>
         <activity android:name=".ui.activity.MyTaskActivity"></activity>
         <activity android:name=".ui.activity.DemandChooseServiceActivity"></activity>
@@ -246,7 +249,10 @@
             android:name=".ui.activity.ChatActivity"
             android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".ui.activity.MyBidServiceActivity"></activity>
-        <activity android:name=".ui.activity.MyPublishServiceActivity"></activity>
+        <activity android:name=".ui.activity.MyPublishServiceActivity"
+                  android:windowSoftInputMode="adjustPan">
+
+        </activity>
         <activity android:name=".ui.activity.ServicePaymentActivity"></activity>
         <activity android:name=".ui.activity.UserInfoActivity"/>
         <activity android:name=".ui.activity.UserinfoEditorActivity"/>
