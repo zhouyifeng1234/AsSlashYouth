@@ -98,6 +98,7 @@ public class ActivitySubscribeModel extends BaseObservable {
         bundleCheckedLabelsData.putString("checkedSecondLabel", mActivity.checkedSecondLabel);
         bundleCheckedLabelsData.putStringArrayList("listCheckedLabelName", mActivity.listCheckedLabelName);
         bundleCheckedLabelsData.putStringArrayList("listCheckedLabelTag", mActivity.listCheckedLabelTag);
+        SubscribeActivity.saveListCheckedLabelName = mActivity.listCheckedLabelName;
         intentResult.putExtra("bundleCheckedLabelsData", bundleCheckedLabelsData);
         if (isEditor) {
             mActivity.setResult(Activity.RESULT_OK, intentResult);

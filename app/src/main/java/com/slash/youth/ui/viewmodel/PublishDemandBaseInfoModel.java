@@ -230,7 +230,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
             return;
         }
         publishDemandData.putString("demandTitle", demandTitle);
-        demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.toString();
+        demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.getText().toString();
         if (demandDesc.length() <= 0) {
             ToastUtils.shortToast("请输入需求描述");
             return;

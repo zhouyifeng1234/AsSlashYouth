@@ -1279,6 +1279,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/btn2"
+                    android:onClick="@{myPublishServiceModel.bidDemand}"
                     android:text="抢单"
                     android:textColor="#ffffff"
                     android:textSize="14sp"/>

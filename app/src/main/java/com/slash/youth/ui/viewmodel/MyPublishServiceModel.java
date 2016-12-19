@@ -216,7 +216,7 @@ public class MyPublishServiceModel extends BaseObservable {
     }
 
     /**
-     * 服务方接受需求方
+     * 服务方接受需求方,效果和修改条件中的抢单按钮是一样样的
      *
      * @param v
      */
@@ -266,6 +266,13 @@ public class MyPublishServiceModel extends BaseObservable {
                 ToastUtils.shortToast("服务方选定失败:" + result);
             }
         }, soid + "", duid + "", updateQuote + "", starttime + "", endtime + "", updateInstalmentRatioList, updateBp + "");
+    }
+
+    /**
+     * 修改条件 中的 抢单按钮， 效果和接受是一样的
+     */
+    public void bidDemand(View v) {
+
     }
 
     /**

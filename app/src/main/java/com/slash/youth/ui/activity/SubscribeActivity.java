@@ -722,7 +722,8 @@ public class SubscribeActivity extends Activity {
     int totalCheckedLabelsWidth = 0;
     int currentLabelsLineWidth = 0;
     public ArrayList<String> listCheckedLabelTag = new ArrayList<String>();
-    public static ArrayList<String> listCheckedLabelName = new ArrayList<String>();
+    public ArrayList<String> listCheckedLabelName = new ArrayList<String>();
+    public static ArrayList<String> saveListCheckedLabelName = new ArrayList<String>();
 
     private void addCheckedLabels(String labelTag, String labelName) {
         if (listCheckedLabelTag.contains(labelTag)) {
