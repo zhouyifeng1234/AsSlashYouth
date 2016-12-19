@@ -43,8 +43,9 @@
         app:cardElevation="@dimen/cardElevation"
         android:background="@mipmap/dialog_search_clean_bg"
         app:cardUseCompatPadding="true"
-        tools:showIn="@layout/activity_userinfo">
-        <ListView
+        tools:showIn="@layout/activity_userinfo">\
+
+      <!--  <ListView
             android:id="@+id/lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +53,28 @@
             android:divider="@drawable/list_contacts_divider"
             android:dividerHeight="1dp"
             >
-        </ListView>
+        </ListView>-->
+
+        <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include layout="@layout/refresh_head" />
+
+            <com.slash.youth.ui.view.PullableListView.PullableListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:divider="@drawable/list_contacts_divider"
+                android:dividerHeight="1dp"
+                android:layout_marginTop="7dp">
+
+            </com.slash.youth.ui.view.PullableListView.PullableListView>
+
+            <include layout="@layout/load_more" />
+        </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
      </android.support.v7.widget.CardView>
 
 </LinearLayout>

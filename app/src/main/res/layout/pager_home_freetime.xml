@@ -111,7 +111,7 @@
                 android:textSize="14dp"/>
         </LinearLayout>
 
-        <com.slash.youth.ui.view.RefreshListView
+        <com.slash.youth.ui.view.NewRefreshListView
             android:id="@+id/lv_home_demand_and_service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -120,7 +120,7 @@
             android:scrollbars="none"
             android:layout_marginTop="7dp">
 
-        </com.slash.youth.ui.view.RefreshListView>
+        </com.slash.youth.ui.view.NewRefreshListView>
 
     </LinearLayout>
 </layout>

@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -25,14 +27,14 @@ import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
-import com.slash.youth.ui.activity.ApprovalActivity;
-import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
-import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
+import com.slash.youth.ui.view.NewRefreshListView;
+import com.slash.youth.ui.view.PullableListView.MyListener;
+import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -49,19 +51,18 @@ import java.util.List;
  * Created by zhouyifeng on 2016/10/11.
  */
 public class PagerHomeFreeTimeModel extends BaseObservable {
-
+    private PagerHomeFreetimeBinding pagerHomeFreetimeBinding;
     public Activity mActivity;
-    PagerHomeFreetimeBinding mPagerHomeFreetimeBinding;
     private  ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
     private  ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
-    private boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
-    private int limit=5;
+    public boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
+    private int limit=10;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
+        this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
-        this.mPagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         initView();
         initData();
         initListener();
@@ -85,8 +86,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         getDataFromServer();
 //        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
         vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
                 return Integer.MAX_VALUE;
@@ -157,8 +158,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 container.removeView((View) object);
             }
         });
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
 
             private float defaultScale = (float) 8 / (float) 9;
             int translationX = CommonUtils.dip2px(13);
@@ -192,7 +193,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         CommonUtils.getHandler().postDelayed(homeVpAdvChange, 2000);
 
         //当点击的时候停止滚动，松开手指的时候继续滚动
-        mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -208,7 +209,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         });
 
         //条目点击
-        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        pagerHomeFreetimeBinding.lvHomeDemandAndService
+      .setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mIsDisplayDemandList) {
@@ -231,10 +233,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     public class HomeVpAdvChange implements Runnable {
-
         @Override
         public void run() {
-            mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(mPagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
+            pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
             CommonUtils.getHandler().postDelayed(this, 2000);
         }
     }
@@ -289,6 +290,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.VISIBLE);
         setServiceButtonVisibility(View.INVISIBLE);
         getDemandOrServiceListData();
+        pagerHomeFreetimeBinding.lvHomeDemandAndService
+       .setNewRefreshDataTask(new RefreshDataTask());
     }
 
     //服务需求
@@ -296,6 +299,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.INVISIBLE);
         setServiceButtonVisibility(View.VISIBLE);
         getDemandOrServiceListData();
+        pagerHomeFreetimeBinding.lvHomeDemandAndService
+        .setNewRefreshDataTask(new RefreshDataTask());
     }
 
     public void getDataFromServer() {
@@ -326,6 +331,21 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         }
     }
 
+    public class RefreshDataTask implements NewRefreshListView.NewIRefreshDataTask {
+        @Override
+        public void refresh() {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDemandOrServiceListData();
+
+                    pagerHomeFreetimeBinding.lvHomeDemandAndService
+                    .refreshDataFinish();
+                }
+            }, 2000);
+        }
+    }
+
     //广告
     public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<String> {
         @Override
@@ -350,7 +370,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
                 listDemandBean.addAll(list);
                 homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean,mActivity);
-                mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeDemandAndDemandAdapter);
+                pagerHomeFreetimeBinding.lvHomeDemandAndService
+                .setAdapter(homeDemandAndDemandAdapter);
             }
         }
         @Override
@@ -359,6 +380,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         }
     }
 
+    private int listsize;
     //首页闲时服务
     public class onFreeTimeServiceList implements BaseProtocol.IResultExecutor<FreeTimeServiceBean> {
         @Override
@@ -367,9 +389,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             if(rescode == 0){
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
+                listsize = list.size();
                 listServiceBean.addAll(list);
                 homeServiceAdapter = new HomeServiceAdapter(listServiceBean,mActivity);
-                mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(homeServiceAdapter);
+                pagerHomeFreetimeBinding.lvHomeDemandAndService
+                .setAdapter(homeServiceAdapter);
             }
         }
         @Override

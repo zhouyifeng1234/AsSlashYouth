@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.net.sip.SipSession;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -10,6 +11,7 @@ import android.view.animation.RotateAnimation;
 
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -24,9 +26,13 @@ import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
+
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/10/11.
@@ -37,7 +43,7 @@ public class PagerHomeMyModel extends BaseObservable {
     //   float totalExpertMarks = 2000;
     float expertⅠMaxMarks = 1000;
     float expertⅡMaxMarks = 4000;
-    float expertⅢMaxMarks = 10000;
+    float expertⅢMaxMarks = 30000;
     float expertⅣMaxMarks = 99999;
     float expertMarks;
     float expertMarksProgress;//0到360
@@ -61,6 +67,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int totoltaskcount;
     private long id;
     public String phone;
+    private String unit = "元";
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
@@ -69,8 +76,8 @@ public class PagerHomeMyModel extends BaseObservable {
         initData();
         initAnimation();
         initView();
+        listener();
     }
-
     RotateAnimation raExpertMarksMaker;
 
     private void initAnimation() {
@@ -124,13 +131,15 @@ public class PagerHomeMyModel extends BaseObservable {
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
     }
 
+
     //设置我的数据
     private void setMyInfoData() {
         //电话号码
         phone = myinfo.getPhone();
         //金额
         double amount = myinfo.getAmount();
-        mPagerHomeMyBinding.tvAmount.setText(amount+"元");
+        String totalMoney = CountUtils.DecimalFormat(amount);
+        mPagerHomeMyBinding.tvAmount.setText(totalMoney+unit);
         //用户的id
         id = myinfo.getId();
         //姓名
@@ -140,8 +149,10 @@ public class PagerHomeMyModel extends BaseObservable {
         isauth = myinfo.getIsauth();
         if(isauth == 1){  //认证过的
             mPagerHomeMyBinding.ivV.setVisibility(View.VISIBLE);
+            mPagerHomeMyBinding.tvMyApproval.setVisibility(View.GONE);
         }else if(isauth == 0){    //非认证
             mPagerHomeMyBinding.ivV.setVisibility(View.GONE);
+            mPagerHomeMyBinding.tvMyApproval.setVisibility(View.VISIBLE);
         }
         //头像
         avatar = myinfo.getAvatar();
@@ -211,7 +222,7 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvOver.setText(v+"%");
 
         int expertlevel = myinfo.getExpertlevel();//对应的等级
-     /*   List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
+        List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
         for (int i = 0; i < expertlevels.size(); i++) {
             if(i==0){
                   expertⅠMaxMarks = (float) expertlevels.get(0);
@@ -227,12 +238,12 @@ public class PagerHomeMyModel extends BaseObservable {
                 expertⅣMaxMarks = (float) expertlevels.get(3);
             }
         }
-         expertMarks = (float) expertlevels.get(expertlevel-1);*/
+         expertMarks = (float) expertlevels.get(expertlevel-1);
 
     }
 
     private void setExpertMarks() {
-        expertMarks = 9999;//这个数据实际应该从服务端获取
+       // expertMarks = 2000;//这个数据实际应该从服务端获取
         //     expertMarksProgress = expertMarks / totalExpertMarks * 360;
         if (expertMarks >= 0 && expertMarks <= expertⅠMaxMarks) {
             expertMarksProgress = expertMarks / expertⅠMaxMarks * 90;
@@ -249,8 +260,21 @@ public class PagerHomeMyModel extends BaseObservable {
     public void identificate(View view){
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.putExtra("careertype",careertype);
-        intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentApprovalActivity);
+        intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
+        mActivity.startActivity(intentApprovalActivity);
+    }
+
+    //去认证
+    private void listener() {
+        mPagerHomeMyBinding.tvMyApproval.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
+                intentApprovalActivity.putExtra("careertype",careertype);
+                intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
+                mActivity.startActivity(intentApprovalActivity);
+            }
+        });
     }
 
     //编辑点击事件
@@ -258,6 +282,7 @@ public class PagerHomeMyModel extends BaseObservable {
      Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("phone",phone);
         intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
+        intentUserinfoEditorActivity.putExtra("myId",LoginManager.currentLoginUserId);
         mActivity.startActivity(intentUserinfoEditorActivity);
     }
 
@@ -279,7 +304,7 @@ public class PagerHomeMyModel extends BaseObservable {
     //技能管理
     public void skillManage(View view){
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
-        intentMySkillManageActivity.putExtra("Title","技能管理");
+        intentMySkillManageActivity.putExtra("Title",Constants.MY_TITLE_SKILL_MANAGER);
         intentMySkillManageActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySkillManageActivity);
     }
@@ -294,14 +319,13 @@ public class PagerHomeMyModel extends BaseObservable {
     //第三方
     public void myThirdParty(View view){
         Intent intentThridPartyActivity = new Intent(CommonUtils.getContext(), BindThridPartyActivity.class);
-        intentThridPartyActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentThridPartyActivity);
+        mActivity.startActivity(intentThridPartyActivity);
     }
 
     //发布 managePublish
     public void managePublish(View view){
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
-        intentMySkillManageActivity.putExtra("Title","管理我发布的任务");
+        intentMySkillManageActivity.putExtra("Title", Constants.MY_TITLE_MANAGER_MY_PUBLISH);
         intentMySkillManageActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySkillManageActivity);
     }

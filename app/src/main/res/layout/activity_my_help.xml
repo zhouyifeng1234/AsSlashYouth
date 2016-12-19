@@ -48,14 +48,17 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_line_text1"
                 android:textColor="#666666"
                 android:textSize="14dp"
                 android:lineSpacingExtra="5dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1. 斜杠青年网络科技有限公司是一家，服务方是否能一次性拿到服务费取决于交易时。"/>
+                android:layout_marginBottom="10dp"
+                android:text=" 在这里，斜杠为金领、白领、自雇者提供知识技能变现、结识人脉、提高自我价值的机会；"/>
             <TextView
+                android:id="@+id/tv_line_text2"
                 android:layout_marginTop="5dp"
                 android:textColor="#666666"
                 android:textSize="14dp"
@@ -63,8 +66,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2.服务方是否能一次性拿到服务费取决于交易时，服务方是否能一次性拿到服务费取决于。"/>
+                android:text="在这里，斜杠为中小互联网企业及个人提供订单式、定制化、全方位的服务，促使降低成本提升核心竞争力。"/>
             <TextView
+                android:id="@+id/tv_line_text3"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:textColor="#666666"
                 android:textSize="14dp"

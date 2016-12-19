@@ -24,6 +24,7 @@ import com.slash.youth.ui.adapter.ManagePublishAdapter;
 import com.slash.youth.ui.adapter.MySkillManageAdapter;
 import com.slash.youth.ui.holder.ManagePublishHolder;
 import com.slash.youth.ui.view.NewRefreshListView;
+import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
@@ -52,43 +53,65 @@ public class MySkillManageModel extends BaseObservable  {
         this.activityMySkillManageBinding = activityMySkillManageBinding;
         this.mySkillManageActivity = mySkillManageActivity;
         this.titleName = titleName;
+        initListView();
         initData();
         listener();
     }
+    //加载listView
+    private void initListView() {
+        PullToRefreshLayout ptrl = activityMySkillManageBinding.refreshView;
+        ptrl.setOnRefreshListener(new MySkillManageListListener());
+    }
 
-    private void listener() {
-        if(Constants.MY_TITLE_MANAGER_MY_PUBLISH.equals(titleName)){
-            activityMySkillManageBinding.lvSkillManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ManagerMyPublishTaskBean.DataBean.ListBean publishData = managePublishList.get(position);
-                    int type = publishData.getType();
-                    switch (type){
-                        case 1:
-                            long demandId  = publishData.getTid();
-                            Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                            intentDemandDetailActivity.putExtra("demandId", demandId);
-                            mySkillManageActivity.startActivity(intentDemandDetailActivity);
-                            break;
-                        case 2:
-                            long serviceId = publishData.getTid();
-                            Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                            intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                            mySkillManageActivity.startActivity(intentServiceDetailActivity);
-                            break;
-                    }
-                }
-            });
+    public void  getdata( String titleName) {
+        switch (titleName){
+            case Constants.MY_TITLE_SKILL_MANAGER:
+                MyManager.onSkillManagerList(new onSkillManagerList(),offset,limit);
+                break;
+            case Constants.MY_TITLE_MANAGER_MY_PUBLISH:
+                MyManager.onManagerMyPublishTaskList(new onManagerMyPublishTaskList(),offset,limit);
+                break;
         }
     }
 
-    private void initData() {
+    public class MySkillManageListListener implements PullToRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    offset = 0;
+                    skillManageList.clear();
+                    managePublishList.clear();
+                    getdata(titleName);
+                    pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                }
+            }, 2000);
+        }
+
+        @Override
+        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //如果加载到最后一页，需要调用setLoadToLast()方法
+                    if(listsize < limit){//说明到最后一页啦
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }else {//不是最后一页
+                        offset += limit;
+                        getdata(titleName);
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                }
+            }, 2000);
+        }
+    }
+
+    private void listener() {
+
         switch (titleName){
             case Constants.MY_TITLE_SKILL_MANAGER:
-                getSkillMananagerDataFromServer(true);
-                activityMySkillManageBinding.lvSkillManage.setNewRefreshDataTask(new RefreshDataTask());
-                activityMySkillManageBinding.lvSkillManage.setNewLoadMoreNewsTast(new LoadMoreNewsTask());
-                activityMySkillManageBinding.lvSkillManage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                activityMySkillManageBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(position);
@@ -97,84 +120,34 @@ public class MySkillManageModel extends BaseObservable  {
                     }
                 });
                 break;
-
             case Constants.MY_TITLE_MANAGER_MY_PUBLISH:
-                getManagerPublishDataFromServer(true);
-                activityMySkillManageBinding.lvSkillManage.setNewRefreshDataTask(new RefreshDataTask());
-                activityMySkillManageBinding.lvSkillManage.setNewLoadMoreNewsTast(new LoadMoreNewsTask());
+                activityMySkillManageBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ManagerMyPublishTaskBean.DataBean.ListBean publishData = managePublishList.get(position);
+                        int type = publishData.getType();
+                        switch (type){
+                            case 1:
+                                long demandId  = publishData.getTid();
+                                Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                                intentDemandDetailActivity.putExtra("demandId", demandId);
+                                mySkillManageActivity.startActivity(intentDemandDetailActivity);
+                                break;
+                            case 2:
+                                long serviceId = publishData.getTid();
+                                Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                                intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                                mySkillManageActivity.startActivity(intentServiceDetailActivity);
+                                break;
+                        }
+                    }
+                });
                 break;
         }
     }
 
-    /**
-     * 下拉刷新执行的回调，执行结束后需要调用refreshDataFinish()方法，用来更新状态
-     */
-    public class RefreshDataTask implements NewRefreshListView.NewIRefreshDataTask {
-        @Override
-        public void refresh() {
-            CommonUtils.getHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    switch (titleName) {
-                        case Constants.MY_TITLE_SKILL_MANAGER:
-                            getSkillMananagerDataFromServer(true);
-                            mySkillManageAdapter.notifyDataSetChanged();
-                           break;
-                        case Constants.MY_TITLE_MANAGER_MY_PUBLISH:
-                            getManagerPublishDataFromServer(true);
-                            managePublishAdapter.notifyDataSetChanged();
-                            break;
-                    }
-                    activityMySkillManageBinding.lvSkillManage.refreshDataFinish();
-                }
-            }, 2000);
-        }
-    }
-
-    /**
-     * 上拉加载更多执行的回调，执行完毕后需要调用loadMoreNewsFinished()方法，用来更新状态,如果加载到最后一页，则需要调用setLoadToLast()方法
-     */
-    public class LoadMoreNewsTask implements NewRefreshListView.NewILoadMoreNewsTask {
-        @Override
-        public void loadMore() {
-            CommonUtils.getHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    switch (titleName) {
-                        case Constants.MY_TITLE_SKILL_MANAGER:
-                            getSkillMananagerDataFromServer(false);
-                            mySkillManageAdapter.notifyDataSetChanged();
-                            break;
-                        case Constants.MY_TITLE_MANAGER_MY_PUBLISH:
-                            getManagerPublishDataFromServer(false);
-                            managePublishAdapter.notifyDataSetChanged();
-                            break;
-                    }
-                    activityMySkillManageBinding.lvSkillManage.loadMoreNewsFinished();
-                }
-            }, 2000);
-        }
-    }
-
-    /**
-     * @param isRefresh true表示为下拉刷新或者第一次初始化加载数据操作，false表示加载更多数据
-     */
-    public void getManagerPublishDataFromServer(boolean isRefresh) {
-        if (isRefresh) {
-            managePublishList.clear();
-            offset = 0;
-        }
-        MyManager.onManagerMyPublishTaskList(new onManagerMyPublishTaskList(),offset,limit);
-    }
-
-    //技能管理
-    public void getSkillMananagerDataFromServer(boolean isRefresh) {
-        if (isRefresh) {
-            skillManageList.clear();
-            offset = 0;
-        }
-        MyManager.onSkillManagerList(new onSkillManagerList(),offset,limit);
+    private void initData() {
+        getdata(titleName);
     }
 
     //管理我发布的任务
@@ -188,14 +161,8 @@ public class MySkillManageModel extends BaseObservable  {
                 listsize = list.size();
                 managePublishList.addAll(list);
                 managePublishAdapter = new ManagePublishAdapter(managePublishList,mySkillManageActivity, managePublishList);
-                activityMySkillManageBinding.lvSkillManage.setAdapter(managePublishAdapter);
+                activityMySkillManageBinding.lv.setAdapter(managePublishAdapter);
             }
-                //如果加载到最后一页，需要调用setLoadToLast()方法
-                if(listsize < limit){//说明到最后一页啦
-                    activityMySkillManageBinding.lvSkillManage.setLoadToLast();
-                }else {//不是最后一页
-                    offset += limit;
-                }
         }
         @Override
         public void executeResultError(String result) {
@@ -214,13 +181,7 @@ public class MySkillManageModel extends BaseObservable  {
                 listsize = list.size();
                 skillManageList.addAll(list);
                 mySkillManageAdapter = new MySkillManageAdapter(skillManageList,mySkillManageActivity,skillManageList);
-                activityMySkillManageBinding.lvSkillManage.setAdapter(mySkillManageAdapter);
-            }
-            //如果加载到最后一页，需要调用setLoadToLast()方法
-            if(listsize < limit){//说明到最后一页啦
-                activityMySkillManageBinding.lvSkillManage.setLoadToLast();
-            }else {//不是最后一页
-                offset += limit;
+                activityMySkillManageBinding.lv.setAdapter(mySkillManageAdapter);
             }
         }
         @Override
@@ -228,5 +189,4 @@ public class MySkillManageModel extends BaseObservable  {
             LogKit.d("result:"+result);
         }
     }
-
 }

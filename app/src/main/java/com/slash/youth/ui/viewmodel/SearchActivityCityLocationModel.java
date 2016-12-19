@@ -16,6 +16,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
+import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.CityClassBean;
 import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.ListProvinceBean;
@@ -41,12 +42,11 @@ public class SearchActivityCityLocationModel extends BaseObservable {
     private SearchActivityCityLocationBinding searchActivityCityLocationBinding;
     public DBManager dbHelper;
     private SQLiteDatabase database;
-    private ArrayList<Character> listCityNameFirstLetter;
-    private ArrayList<ListCityBean> listCity = new ArrayList();
+    public ArrayList<Character> listCityNameFirstLetter;
+    public ArrayList<ListCityBean> listCity = new ArrayList();
     private ArrayList<LocationCityInfo> listCityInfo = new ArrayList<>();
-    private String cityName;
+    public static String cityName;
     private Activity mActivity;
-    private View searchTabView;
 
     public SearchActivityCityLocationModel(SearchActivityCityLocationBinding searchActivityCityLocationBinding,Activity mActivity) {
         this.searchActivityCityLocationBinding = searchActivityCityLocationBinding;
@@ -174,13 +174,14 @@ public class SearchActivityCityLocationModel extends BaseObservable {
     searchActivityCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
-            boolean isFirstLetter = locationCityInfo.isFirstLetter;
-            if(!isFirstLetter){
-            cityName = locationCityInfo.CityName;
-            TextView area = (TextView) searchTabView.findViewById(R.id.tv_area);
-            area.setText(cityName);
+            if(position!=0){
+                LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
+                boolean isFirstLetter = locationCityInfo.isFirstLetter;
+                if(!isFirstLetter){
+                    cityName = locationCityInfo.CityName;
+                    listener.OnClick(cityName);
             }
+        }
         }
     });
     }
@@ -197,6 +198,15 @@ public class SearchActivityCityLocationModel extends BaseObservable {
                 searchActivityCityLocationBinding.tv.setVisibility(View.GONE);
             }
         },1000);
+    }
+
+    public interface onClickCListener{
+        void OnClick(String cityName);
+    }
+
+    private onClickCListener listener;
+    public void setOnClickListener(onClickCListener listener) {
+        this.listener = listener;
     }
 
 }

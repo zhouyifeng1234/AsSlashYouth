@@ -1,49 +1,25 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.sip.SipSession;
-import android.os.Build;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
+import com.slash.youth.databinding.PullToRefreshListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
-import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeMoreDemandBean;
-import com.slash.youth.domain.FreeTimeMoreServiceBean;
-import com.slash.youth.domain.FreeTimeServiceBean;
-import com.slash.youth.domain.SearchItemDemandBean;
-import com.slash.youth.domain.SearchServiceItemBean;
-import com.slash.youth.engine.FirstPagerManager;
-import com.slash.youth.engine.SearchManager;
-import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
-import com.slash.youth.ui.activity.ServiceDetailActivity;
-import com.slash.youth.ui.adapter.PagerHomeServiceAdapter;
-import com.slash.youth.ui.adapter.PagerMoreDemandtAdapter;
-import com.slash.youth.ui.adapter.PagerMoreServiceAdapter;
-import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
-import com.slash.youth.ui.pager.ConstellationAdapter;
-import com.slash.youth.ui.pager.GirdDropDownAdapter;
+import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.pager.ListDropDownAdapter;
-import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,28 +37,20 @@ public class FirstPagerDemandModel extends BaseObservable {
     private String sorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
     private String[] demadHeaders;
     private List<View> popupViews = new ArrayList<>();
-    private ArrayList<FreeTimeMoreDemandBean.DataBean.ListBean>  arrayListDemand = new ArrayList<>();
-    private ArrayList<FreeTimeMoreServiceBean.DataBean.ListBean>  arrayListService = new ArrayList<>();
-    private PagerMoreDemandtAdapter pagerHomeDemandtAdapter;
     private HashMap<String, Integer> mHashFirstLetterIndex;
     private GirdDropDownAdapter demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListDropDownAdapter sexAdapter;
     private ListView userView;
-    private ListView contentView;
-    private  int offset = 0;
-    private int limit = 20;
+    private View contentView;
     private String tag = "";
-    private int  pattern = -1;
-    private  int isauth = -1;
-    String city = null;
-    private int sort = -1;
-    double lat = 181;//-180 到 180
-    double lng = 91;//-90 到 90
     private SearchActivityCityLocationBinding searchCityLocationBinding;
     private int constellationPosition = 0;
     private View constellationView;
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
+    private PullToRefreshListviewBinding pullToRefreshListviewBinding;
+    private PullToRefreshListViewModel pullToRefreshListViewModel;
+    private SearchActivityCityLocationModel searchActivityCityLocationModel;
 
     public FirstPagerDemandModel(ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding, boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity) {
             this.activityFirstPagerMoreBinding = activityFirstPagerMoreBinding;
@@ -93,23 +61,11 @@ public class FirstPagerDemandModel extends BaseObservable {
         listener();
     }
 
-
-
     private void initData() {
         if(isDemand){
             demadHeaders =new String[]{"需求类型", "用户类型", "苏州", "排序"};
-            FirstPagerManager.onFreeTimeMoreDemandList(new onFreeTimeMoreDemandList(),pattern,  isauth,  city,  sort, lng, lat, offset,limit);
         }else {
             demadHeaders =new String[]{"需求类型", "苏州", "排序"};
-            FirstPagerManager.onFreeTimeMoreServiceList(new onFreeTimeMoreServiceList(),tag,  pattern,  isauth,  city,  sort, lng, lat, offset,limit);
-        }
-    }
-
-    private void getData(boolean isDemand) {
-        if(isDemand){
-            FirstPagerManager.onFreeTimeMoreDemandList(new onFreeTimeMoreDemandList(),pattern,  isauth,  city,  sort, lng, lat, offset,limit);
-        }else {
-            FirstPagerManager.onFreeTimeMoreServiceList(new onFreeTimeMoreServiceList(),tag,  pattern,  isauth,  city,  sort, lng, lat, offset,limit);
         }
     }
 
@@ -143,6 +99,13 @@ public class FirstPagerDemandModel extends BaseObservable {
         popupViews.add(constellationView);
         popupViews.add(sortView);
 
+
+        pullToRefreshListviewBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pull_to_refresh_listview, null, false);
+        pullToRefreshListViewModel = new PullToRefreshListViewModel(pullToRefreshListviewBinding ,isDemand,firstPagerMoreActivity);
+        pullToRefreshListviewBinding.setPullToRefreshListViewModel(pullToRefreshListViewModel);
+        contentView = pullToRefreshListviewBinding.getRoot();
+        contentView.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(10),CommonUtils.dip2px(10),0);
+
         //add item click event
         demandView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -152,16 +115,16 @@ public class FirstPagerDemandModel extends BaseObservable {
                 activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
                 switch (position){
                     case 0:
-                        pattern = -1;
+                        pullToRefreshListViewModel.pattern = -1;
                         break;
                     case 1:
-                        pattern = 0;
+                        pullToRefreshListViewModel.pattern = 0;
                         break;
                     case 2:
-                        pattern = 1;
+                        pullToRefreshListViewModel.pattern = 1;
                         break;
                 }
-                getData(isDemand);
+                pullToRefreshListViewModel.getData(isDemand);
             }
         });
 
@@ -174,13 +137,13 @@ public class FirstPagerDemandModel extends BaseObservable {
                     activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
                     switch (position){
                         case 0:
-                            isauth = -1;
+                            pullToRefreshListViewModel.isauth = -1;
                             break;
                         case 1:
-                            isauth = 1;
+                            pullToRefreshListViewModel.isauth = 1;
                             break;
                     }
-                    getData(isDemand);
+                    pullToRefreshListViewModel. getData(isDemand);
                 }
             });
         }
@@ -193,25 +156,21 @@ public class FirstPagerDemandModel extends BaseObservable {
                 activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
                 switch (position){
                     case 0:
-                        sort = -1;
+                        pullToRefreshListViewModel.sort = -1;
                         break;
                     case 1:
-                        sort = 2;
+                        pullToRefreshListViewModel.sort = 2;
                         break;
                     case 2:
-                        sort = 1;
+                        pullToRefreshListViewModel.sort = 1;
                         break;
                     case 3:
-                        sort = 3;
+                        pullToRefreshListViewModel.sort = 3;
                         break;
                 }
-                getData(isDemand);
+                pullToRefreshListViewModel.getData(isDemand);
             }
         });
-
-        contentView = new ListView(firstPagerMoreActivity);
-        contentView.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(10),CommonUtils.dip2px(10),0);
-        contentView.setDividerHeight(0);
 
         //init dropdownview
         activityFirstPagerMoreBinding.dropDownMenu.setDropDownMenu(Arrays.asList(demadHeaders), popupViews, contentView);
@@ -219,7 +178,7 @@ public class FirstPagerDemandModel extends BaseObservable {
 
     //设置地区
     private void setSearchArea( View view) {
-        SearchActivityCityLocationModel searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
+        searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
@@ -261,73 +220,30 @@ public class FirstPagerDemandModel extends BaseObservable {
         });
     }
 
-    //不同的条目点击事件
-    private void listener() {
-        contentView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               if(isDemand){
-                   FreeTimeMoreDemandBean.DataBean.ListBean listBean = arrayListDemand.get(position);
-                   long demandId = listBean.getId();
-                   Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                   intentDemandDetailActivity.putExtra("demandId", demandId);
-                   firstPagerMoreActivity.startActivity(intentDemandDetailActivity);
-
-               } else {
-                   FreeTimeMoreServiceBean.DataBean.ListBean listBean = arrayListService.get(position);
-                   long serviceId = listBean.getId();
-                   Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                   intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                   firstPagerMoreActivity.startActivity(intentServiceDetailActivity);
-               }
-            }
-        });
-    }
-
     //返回
     public void back(View view){
         //退出activity前关闭菜单
+        close();
+    }
+
+    private void close() {
         if ( activityFirstPagerMoreBinding.dropDownMenu.isShowing()) {
             activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
         }
         firstPagerMoreActivity.finish();
     }
 
-    //服务
-    public class onFreeTimeMoreServiceList implements BaseProtocol.IResultExecutor<FreeTimeMoreServiceBean> {
-        @Override
-        public void execute(FreeTimeMoreServiceBean data) {
-            int rescode = data.getRescode();
-            if(rescode == 0){
-                FreeTimeMoreServiceBean.DataBean dataBean  = data.getData();
-                List<FreeTimeMoreServiceBean.DataBean.ListBean> list = dataBean.getList();
-                arrayListService.addAll(list);
-                PagerMoreServiceAdapter pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
-                contentView.setAdapter(pagerHomeServiceAdapter);
+
+    private void listener() {
+        searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
+            @Override
+            public void OnClick(String cityName) {
+                pullToRefreshListViewModel.city = cityName;
+                pullToRefreshListViewModel.getData(isDemand);
+                activityFirstPagerMoreBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
+                activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
             }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-        }
+        });
     }
 
-    //需求
-    public class onFreeTimeMoreDemandList implements BaseProtocol.IResultExecutor<FreeTimeMoreDemandBean> {
-        @Override
-        public void execute(FreeTimeMoreDemandBean data) {
-            int rescode = data.getRescode();
-            if(rescode == 0){
-                FreeTimeMoreDemandBean.DataBean dataBean = data.getData();
-                List<FreeTimeMoreDemandBean.DataBean.ListBean> list = dataBean.getList();
-                arrayListDemand.addAll(list);
-                pagerHomeDemandtAdapter = new PagerMoreDemandtAdapter(arrayListDemand,firstPagerMoreActivity);
-                contentView.setAdapter(pagerHomeDemandtAdapter);
-            }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-        }
-    }
 }

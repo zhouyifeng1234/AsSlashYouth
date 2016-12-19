@@ -275,7 +275,6 @@
                                    android:id="@+id/tv_identity"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
-                                   android:text="互联网金融/UI设计师/系统架构师"
                                    android:maxLength="15"
                                    android:textSize="13dp"
                                    android:textColor="#60A7B6"
@@ -315,6 +314,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:orientation="vertical">
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -363,11 +363,9 @@
                                     android:textSize="15dp"/>
 
                             </RadioGroup>
-
-
-
                         </RelativeLayout>
                         <View
+                            android:id="@+id/view_company"
                             android:layout_width="match_parent"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
@@ -377,6 +375,7 @@
                             />
                         <!--最近公司-->
                         <RelativeLayout
+                            android:id="@+id/rl_company"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp">
@@ -406,6 +405,7 @@
                                 />
                         </RelativeLayout>
                         <View
+                            android:id="@+id/view_position"
                             android:layout_width="match_parent"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
@@ -416,6 +416,7 @@
 
                         <!--公司职位-->
                         <RelativeLayout
+                            android:id="@+id/rl_position"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -445,6 +446,7 @@
                                 android:textColor="#60A7B6"
                                 />
                         </RelativeLayout>
+
                     </LinearLayout>
                     </android.support.v7.widget.CardView>
 
@@ -548,7 +550,7 @@
                                     android:layout_marginLeft="10dp"
                                     android:textColor="#333333"
                                     android:textSize="15dp"
-                                    android:text="行业方向"/>
+                                    android:text="类别方向"/>
 
                                 <TextView
                                     android:id="@+id/tv_direction"
@@ -558,7 +560,7 @@
                                     android:layout_marginRight="15dp"
                                     android:textSize="13dp"
                                     android:textColor="#60A7B6"
-                                    android:text="IT互联网|设计"/>
+                                    />
                             </RelativeLayout>
 
                             <RelativeLayout

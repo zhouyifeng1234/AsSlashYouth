@@ -91,7 +91,6 @@ public class BitmapKit {
 
     /**
      * 保存图片文件
-     *
      * @param bmp
      * @return 返回true如果图片保存失败或图片已存在，否则返回false
      */

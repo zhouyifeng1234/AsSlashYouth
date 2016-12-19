@@ -164,7 +164,8 @@ public class ThirdPartyModel extends BaseObservable {
     public void weibo(View view){
         if(isWinboBing){
             activityMyThridPartyBinding.tvWeiboBinding.setText("去绑定");
-          //  loginBind(" token的值 ",GlobalConstants.ThirdAppId.APPID_WEIBO, GlobalConstants.LoginPlatformType.WEIBO);
+           // LoginManager.serverThirdPartyLogin();
+           loginBind(" token的值 ",GlobalConstants.ThirdAppId.APPID_WEIBO, GlobalConstants.LoginPlatformType.WEIBO);
             SpUtils.setBoolean("isWinbo",false);
         }else {
             activityMyThridPartyBinding.tvWeiboBinding.setText("解绑");

@@ -58,7 +58,7 @@
             android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="可提现金额 "/>
+            android:text="可提现"/>
 
             <TextView
                 android:id="@+id/current_money"
@@ -77,12 +77,12 @@
                 android:textColor="#ffffff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="冻结金额 "/>
+                android:text="冻结"/>
 
             <TextView
                 android:id="@+id/freeze_money"
                 android:textColor="#FFE083"
-                android:text="                 "
+                android:text="                         "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
