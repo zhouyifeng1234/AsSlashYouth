@@ -216,11 +216,25 @@ public class MyPublishServiceModel extends BaseObservable {
     }
 
     /**
-     * 服务方接受需求方,效果和修改条件中的抢单按钮是一样样的
+     * 服务方接受需求方,效果和修改条件中的抢单按钮是一样的
      *
      * @param v
      */
     public void accept(View v) {
+        selectedDemandUser();
+    }
+
+    /**
+     * 修改条件 中的 抢单按钮， 效果和接受是一样的
+     */
+    public void bidDemand(View v) {
+        selectedDemandUser();
+    }
+
+    /**
+     * 服务方选定需求方
+     */
+    private void selectedDemandUser() {
         //一开始没有分期比例，所以修改条件中的分期比例不需要回填
         double updateQuote;
         String updateQuoteStr = mActivityMyPublishServiceBinding.etServiceUpdateQuote.getText().toString();
@@ -239,6 +253,16 @@ public class MyPublishServiceModel extends BaseObservable {
             ToastUtils.shortToast("请先完善开始时间和结束时间");
             return;
         }
+        if (starttime <= System.currentTimeMillis()) {
+            ToastUtils.shortToast("开始时间必须大于当前时间");
+            return;
+        }
+        if (endtime <= starttime) {
+            ToastUtils.shortToast("结束时间必须大于开始时间");
+            return;
+        }
+
+        getInputInstalmentRatio();
         if (isUpdateInstalment == false) {
             updateInstalmentRatioList.clear();
             updateInstalmentRatioList.add(1d);
@@ -250,8 +274,8 @@ public class MyPublishServiceModel extends BaseObservable {
             for (double ratio : updateInstalmentRatioList) {
                 totalRatio += ratio;
             }
-            if (totalRatio < 1) {
-                ToastUtils.shortToast("分期比例总和必须是100");
+            if (totalRatio < 100) {
+                ToastUtils.shortToast("分期比例总和必须是100%");
                 return;
             }
         }
@@ -268,11 +292,64 @@ public class MyPublishServiceModel extends BaseObservable {
         }, soid + "", duid + "", updateQuote + "", starttime + "", endtime + "", updateInstalmentRatioList, updateBp + "");
     }
 
-    /**
-     * 修改条件 中的 抢单按钮， 效果和接受是一样的
-     */
-    public void bidDemand(View v) {
+    private void getInputInstalmentRatio() {
+        String ratioStr;
+        if (instalmentCount >= 1) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio1.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第一期分期比率");
+                return;
+            }
+            updateInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 2) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio2.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第二期分期比率");
+                return;
+            }
+            updateInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 3) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio3.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第三期分期比率");
+                return;
+            }
+            updateInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 4) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio4.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第四期分期比率");
+                return;
+            }
+            updateInstalmentRatioList.add(ratio);
+        }
+    }
 
+    /**
+     * @param ratioStr
+     * @return
+     */
+    private double convertStrToRatio(String ratioStr) {
+        double ratio;
+        if (ratioStr.endsWith("%")) {
+            ratioStr = ratioStr.substring(0, ratioStr.length() - 1);
+        }
+        try {
+            ratio = Double.parseDouble(ratioStr);
+            if (ratio <= 0) {
+                return -1;
+            }
+        } catch (Exception ex) {
+            return -1;
+        }
+        return ratio;
     }
 
     /**
@@ -400,13 +477,33 @@ public class MyPublishServiceModel extends BaseObservable {
         if (isUpdateInstalment) {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
             mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+            //关闭分期 隐藏分期比率
+            hideInstalmentRatio();
         } else {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+            //开启分期 显示已输入的分期比率
+            displayInstalmentRatio();
         }
         mActivityMyPublishServiceBinding.ivMyPublishServiceInstalmentHandle.setLayoutParams(layoutParams);
         isUpdateInstalment = !isUpdateInstalment;
     }
+
+    /**
+     * 关闭分期时，隐藏分期比例
+     */
+    private void hideInstalmentRatio() {
+        setInstalmentRatioVisibility(View.GONE);
+    }
+
+    /**
+     * 开启分期时，显示已填写的分期比例
+     */
+    private void displayInstalmentRatio() {
+        setInstalmentRatioVisibility(View.VISIBLE);
+    }
+
+    private int instalmentCount = 0;
 
     /**
      * 删除分期
@@ -414,7 +511,20 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void deleteInstalment(View v) {
-
+        if (isUpdateInstalment) {
+            if (instalmentCount > 0) {
+                instalmentCount--;
+                if (instalmentCount == 0) {
+                    setUpdateInstalmentLine1Visibility(View.GONE);
+                } else if (instalmentCount == 1) {
+                    setUpdateInstalmentLine2Visibility(View.GONE);
+                } else if (instalmentCount == 2) {
+                    setUpdateInstalmentLine3Visibility(View.GONE);
+                } else {//instalmentCount=3
+                    setUpdateInstalmentLine4Visibility(View.GONE);
+                }
+            }
+        }
     }
 
     /**
@@ -423,7 +533,55 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void addInstalment(View v) {
+        if (isUpdateInstalment) {
+            if (instalmentCount < 4) {
+                boolean isAddable = checkIsAddedable();
+                if (isAddable) {
+                    instalmentCount++;
+                    if (instalmentCount == 1) {
+                        setUpdateInstalmentLine1Visibility(View.VISIBLE);
+                    } else if (instalmentCount == 2) {
+                        setUpdateInstalmentLine2Visibility(View.VISIBLE);
+                    } else if (instalmentCount == 3) {
+                        setUpdateInstalmentLine3Visibility(View.VISIBLE);
+                    } else {//instalmentCount=4
+                        setUpdateInstalmentLine4Visibility(View.VISIBLE);
+                    }
+                } else {
+                    ToastUtils.shortToast("请正确填写分期比率");
+                }
+            }
+        }
+    }
 
+    /**
+     * 判断是否可以添加下一期，如果已经填写了分期比率，就可以添加，如果未填写，或者填写有误，就不能添加下一期
+     */
+    private boolean checkIsAddedable() {
+        String ratioStr;
+        if (instalmentCount == 0) {
+            return true;
+        } else if (instalmentCount == 1) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio1.getText().toString();
+        } else if (instalmentCount == 2) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio2.getText().toString();
+        } else if (instalmentCount == 3) {
+            ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio3.getText().toString();
+        } else {
+            return false;
+        }
+        if (ratioStr.endsWith("%")) {
+            ratioStr = ratioStr.substring(0, ratioStr.length() - 1);
+        }
+        try {
+            double ratio = Double.parseDouble(ratioStr);
+            if (ratio <= 0) {
+                return false;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -785,6 +943,7 @@ public class MyPublishServiceModel extends BaseObservable {
     private int updateInstalmentLine2Visibility = View.GONE;
     private int updateInstalmentLine3Visibility = View.GONE;
     private int updateInstalmentLine4Visibility = View.GONE;
+    private int instalmentRatioVisibility;
 
     private int setStartTimeAndEndTimeLayerVisibility = View.GONE;
     private int chooseDateTimeLayerVisibility = View.GONE;
@@ -795,6 +954,16 @@ public class MyPublishServiceModel extends BaseObservable {
     private String serviceUsername;
 
     private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getInstalmentRatioVisibility() {
+        return instalmentRatioVisibility;
+    }
+
+    public void setInstalmentRatioVisibility(int instalmentRatioVisibility) {
+        this.instalmentRatioVisibility = instalmentRatioVisibility;
+        notifyPropertyChanged(BR.instalmentRatioVisibility);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {

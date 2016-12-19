@@ -472,12 +472,32 @@ public class DemandDetailModel extends BaseObservable {
         if (bidIsInstalment) {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
             mActivityDemandDetailBinding.ivBidDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+            //关闭分期 隐藏分期比率
+            hideInstalmentRatio();
         } else {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             mActivityDemandDetailBinding.ivBidDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+            //开启分期 显示已输入的分期比率
+            displayInstalmentRatio();
         }
         mActivityDemandDetailBinding.ivBidDemandInstalmentHandle.setLayoutParams(layoutParams);
         bidIsInstalment = !bidIsInstalment;
+    }
+
+    private int instalmentCount = 0;
+
+    /**
+     * 关闭分期时，隐藏分期比例
+     */
+    private void hideInstalmentRatio() {
+        setInstalmentRatioVisibility(View.GONE);
+    }
+
+    /**
+     * 开启分期时，显示已填写的分期比例
+     */
+    private void displayInstalmentRatio() {
+        setInstalmentRatioVisibility(View.VISIBLE);
     }
 
     /**
@@ -486,7 +506,20 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void deleteInstalment(View v) {
-
+        if (bidIsInstalment) {
+            if (instalmentCount > 0) {
+                instalmentCount--;
+                if (instalmentCount == 0) {
+                    setUpdateInstalmentLine1Visibility(View.GONE);
+                } else if (instalmentCount == 1) {
+                    setUpdateInstalmentLine2Visibility(View.GONE);
+                } else if (instalmentCount == 2) {
+                    setUpdateInstalmentLine3Visibility(View.GONE);
+                } else {//instalmentCount=3
+                    setUpdateInstalmentLine4Visibility(View.GONE);
+                }
+            }
+        }
     }
 
     /**
@@ -495,7 +528,55 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void addInstalment(View v) {
+        if (bidIsInstalment) {
+            if (instalmentCount < 4) {
+                boolean isAddable = checkIsAddedable();
+                if (isAddable) {
+                    instalmentCount++;
+                    if (instalmentCount == 1) {
+                        setUpdateInstalmentLine1Visibility(View.VISIBLE);
+                    } else if (instalmentCount == 2) {
+                        setUpdateInstalmentLine2Visibility(View.VISIBLE);
+                    } else if (instalmentCount == 3) {
+                        setUpdateInstalmentLine3Visibility(View.VISIBLE);
+                    } else {//instalmentCount=4
+                        setUpdateInstalmentLine4Visibility(View.VISIBLE);
+                    }
+                } else {
+                    ToastUtils.shortToast("请正确填写分期比率");
+                }
+            }
+        }
+    }
 
+    /**
+     * 判断是否可以添加下一期，如果已经填写了分期比率，就可以添加，如果未填写，或者填写有误，就不能添加下一期
+     */
+    private boolean checkIsAddedable() {
+        String ratioStr;
+        if (instalmentCount == 0) {
+            return true;
+        } else if (instalmentCount == 1) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
+        } else if (instalmentCount == 2) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.getText().toString();
+        } else if (instalmentCount == 3) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.getText().toString();
+        } else {
+            return false;
+        }
+        if (ratioStr.endsWith("%")) {
+            ratioStr = ratioStr.substring(0, ratioStr.length() - 1);
+        }
+        try {
+            double ratio = Double.parseDouble(ratioStr);
+            if (ratio <= 0) {
+                return false;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 
     ArrayList<Double> bidDemandInstalmentRatioList = new ArrayList<Double>();
@@ -508,8 +589,105 @@ public class DemandDetailModel extends BaseObservable {
     public void bidDemand(View v) {
         double bidQuote;
         String bidQuoteStr = mActivityDemandDetailBinding.etBidDemandQuote.getText().toString();
+        try {
+            bidQuote = Double.parseDouble(bidQuoteStr);
+            if (bidQuote <= 0) {
+                ToastUtils.shortToast("报价必须大于0元");
+                return;
+            }
+        } catch (Exception ex) {
+            ToastUtils.shortToast("请正确填写报价");
+            return;
+        }
 
+        if (bidDemandStarttime <= 0) {
+            ToastUtils.shortToast("请先完善开始时间和结束时间");
+            return;
+        }
+        if (bidDemandStarttime <= System.currentTimeMillis()) {
+            ToastUtils.shortToast("开始时间必须大于当前时间");
+            return;
+        }
 
+        getInputInstalmentRatio();
+        if (bidIsInstalment == false) {
+            bidDemandInstalmentRatioList.clear();
+            bidDemandInstalmentRatioList.add(1d);
+        } else if (bidDemandInstalmentRatioList.size() <= 0) {
+            ToastUtils.shortToast("请先完善分期比例信息");
+            return;
+        } else {
+            double totalRatio = 0;
+            for (double ratio : bidDemandInstalmentRatioList) {
+                totalRatio += ratio;
+            }
+            if (totalRatio < 100) {
+                ToastUtils.shortToast("分期比例总和必须是100%");
+                return;
+            }
+        }
+
+        //调用抢需求接口
+    }
+
+    private void getInputInstalmentRatio() {
+        String ratioStr;
+        if (instalmentCount >= 1) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第一期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 2) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第二期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 3) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第三期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 4) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio4.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第四期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+    }
+
+    /**
+     * @param ratioStr
+     * @return
+     */
+    private double convertStrToRatio(String ratioStr) {
+        double ratio;
+        if (ratioStr.endsWith("%")) {
+            ratioStr = ratioStr.substring(0, ratioStr.length() - 1);
+        }
+        try {
+            ratio = Double.parseDouble(ratioStr);
+            if (ratio <= 0) {
+                return -1;
+            }
+        } catch (Exception ex) {
+            return -1;
+        }
+        return ratio;
     }
 
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
@@ -543,6 +721,17 @@ public class DemandDetailModel extends BaseObservable {
     private int updateInstalmentLine4Visibility = View.GONE;
     private int chooseDateTimeLayerVisibility = View.GONE;
     private int bidInfoVisibility = View.GONE;
+    private int instalmentRatioVisibility;
+
+    @Bindable
+    public int getInstalmentRatioVisibility() {
+        return instalmentRatioVisibility;
+    }
+
+    public void setInstalmentRatioVisibility(int instalmentRatioVisibility) {
+        this.instalmentRatioVisibility = instalmentRatioVisibility;
+        notifyPropertyChanged(BR.instalmentRatioVisibility);
+    }
 
     @Bindable
     public int getBidInfoVisibility() {
@@ -584,6 +773,7 @@ public class DemandDetailModel extends BaseObservable {
         notifyPropertyChanged(BR.updateInstalmentLine2Visibility);
     }
 
+    @Bindable
     public int getUpdateInstalmentLine1Visibility() {
         return updateInstalmentLine1Visibility;
     }

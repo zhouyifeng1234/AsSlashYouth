@@ -1221,211 +1221,224 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="14dp"
-                    android:orientation="horizontal"
-                    android:visibility="@{demandDetailModel.updateInstalmentLine1Visibility}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{demandDetailModel.instalmentRatioVisibility}">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="第一期"
-                        android:textColor="#333333"
-                        android:textSize="12sp"/>
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal"
+                        android:visibility="@{demandDetailModel.updateInstalmentLine1Visibility}"
+                    >
 
-                    <EditText
-                        android:id="@+id/et_bid_demand_instalment_ratio_1"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/shape_service_order_update_instalment_bg"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:textColor="#333333"
-                        android:textSize="10sp"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="第一期"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/et_bid_demand_instalment_ratio_1"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/shape_service_order_update_instalment_bg"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:textColor="#333333"
+                            android:textSize="10sp"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/tv_instalment_1_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="￥30"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="￥30"
-                        android:textColor="#999999"
-                        android:textSize="12sp"/>
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="9dp"
+                        android:orientation="horizontal"
+                        android:visibility="@{demandDetailModel.updateInstalmentLine2Visibility}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="第二期"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:id="@+id/et_bid_demand_instalment_ratio_2"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/shape_service_order_update_instalment_bg"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:textColor="#333333"
+                            android:textSize="10sp"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/tv_instalment_2_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="￥30"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
 
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="9dp"
+                        android:orientation="horizontal"
+                        android:visibility="@{demandDetailModel.updateInstalmentLine3Visibility}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="第三期"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:id="@+id/et_bid_demand_instalment_ratio_3"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/shape_service_order_update_instalment_bg"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:textColor="#333333"
+                            android:textSize="10sp"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/tv_instalment_3_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="￥30"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="9dp"
+                        android:orientation="horizontal"
+                        android:visibility="@{demandDetailModel.updateInstalmentLine4Visibility}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="第四期"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:id="@+id/et_bid_demand_instalment_ratio_4"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/shape_service_order_update_instalment_bg"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:textColor="#333333"
+                            android:textSize="10sp"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/tv_instalment_4_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="￥30"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="77dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:layout_marginRight="10dp"
+                            android:onClick="@{demandDetailModel.deleteInstalment}"
+                            android:src="@mipmap/jian_icon"/>
+
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="21dp"
+                            android:onClick="@{demandDetailModel.addInstalment}"
+                            android:src="@mipmap/jia_icon"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="9dp"
-                    android:orientation="horizontal"
-                    android:visibility="@{demandDetailModel.updateInstalmentLine2Visibility}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="第二期"
-                        android:textColor="#333333"
-                        android:textSize="12sp"/>
-
-                    <EditText
-                        android:id="@+id/et_bid_demand_instalment_ratio_2"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/shape_service_order_update_instalment_bg"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:textColor="#333333"
-                        android:textSize="10sp"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="￥30"
-                        android:textColor="#999999"
-                        android:textSize="12sp"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="9dp"
-                    android:orientation="horizontal"
-                    android:visibility="@{demandDetailModel.updateInstalmentLine3Visibility}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="第三期"
-                        android:textColor="#333333"
-                        android:textSize="12sp"/>
-
-                    <EditText
-                        android:id="@+id/et_bid_demand_instalment_ratio_3"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/shape_service_order_update_instalment_bg"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:textColor="#333333"
-                        android:textSize="10sp"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="￥30"
-                        android:textColor="#999999"
-                        android:textSize="12sp"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="9dp"
-                    android:orientation="horizontal"
-                    android:visibility="@{demandDetailModel.updateInstalmentLine4Visibility}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="第四期"
-                        android:textColor="#333333"
-                        android:textSize="12sp"/>
-
-                    <EditText
-                        android:id="@+id/et_bid_demand_instalment_ratio_4"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/shape_service_order_update_instalment_bg"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:textColor="#333333"
-                        android:textSize="10sp"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="￥30"
-                        android:textColor="#999999"
-                        android:textSize="12sp"/>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="77dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:layout_marginRight="10dp"
-                        android:onClick="@{demandDetailModel.deleteInstalment}"
-                        android:src="@mipmap/jian_icon"/>
-
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="21dp"
-                        android:onClick="@{demandDetailModel.addInstalment}"
-                        android:src="@mipmap/jia_icon"/>
-
-                </LinearLayout>
             </LinearLayout>
 
             <FrameLayout
