@@ -60,7 +60,7 @@ public class SearchAllBean {
             private String avatar;
             private String city;
             private long cts;
-            private int id;
+            private long id;
             private int instalment;
             private int isauth;
             private double lat;
@@ -71,7 +71,7 @@ public class SearchAllBean {
             private int quote;
             private long starttime;
             private String title;
-            private int uid;
+            private long uid;
             private long uts;
 
             public String getAvatar() {
@@ -98,11 +98,11 @@ public class SearchAllBean {
                 this.cts = cts;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -186,11 +186,11 @@ public class SearchAllBean {
                 this.title = title;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 
@@ -207,8 +207,8 @@ public class SearchAllBean {
             private String avatar;
             private String city;
             private int cts;
-            private int endtime;
-            private int id;
+            private long endtime;
+            private long id;
             private int instalment;
             private int isauth;
             private double lat;
@@ -218,10 +218,10 @@ public class SearchAllBean {
             private int pattern;
             private int quote;
             private int quoteunit;
-            private int starttime;
+            private long starttime;
             private int timetype;
             private String title;
-            private int uid;
+            private long uid;
             private double userservicepoint;
             private long uts;
 
@@ -249,19 +249,19 @@ public class SearchAllBean {
                 this.cts = cts;
             }
 
-            public int getEndtime() {
+            public long getEndtime() {
                 return endtime;
             }
 
-            public void setEndtime(int endtime) {
+            public void setEndtime(long endtime) {
                 this.endtime = endtime;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -337,11 +337,11 @@ public class SearchAllBean {
                 this.quoteunit = quoteunit;
             }
 
-            public int getStarttime() {
+            public long getStarttime() {
                 return starttime;
             }
 
-            public void setStarttime(int starttime) {
+            public void setStarttime(long starttime) {
                 this.starttime = starttime;
             }
 
@@ -361,11 +361,11 @@ public class SearchAllBean {
                 this.title = title;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 
@@ -395,7 +395,7 @@ public class SearchAllBean {
             private String namesplit;
             private String position;
             private String tag;
-            private int uid;
+            private long uid;
 
             public String getAvatar() {
                 return avatar;
@@ -461,11 +461,11 @@ public class SearchAllBean {
                 this.tag = tag;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
         }

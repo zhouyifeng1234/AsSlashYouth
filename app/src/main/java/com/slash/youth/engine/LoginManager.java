@@ -39,8 +39,6 @@ public class LoginManager {
 //    public static String currentLoginUserAvatar = "group1/M00/00/02/eBtfY1g68kiAfiCNAABuHg0Rbxs.0a9ae1";
     public static String token = "";//我们自己服务器登录后的toekn
     public static String rongToken = "";//融云的token
-
-
     public static IWXAPI iwxApi;
     public static Tencent mTencent;
 
