@@ -7,17 +7,23 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
+import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.UserInfoItemBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -28,6 +34,9 @@ public class UserinfoEditorActivity extends Activity {
 
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private ActivityUserInfoEditorModel activityUserInfoEditorModel;
+    private File file = new File(Environment.getExternalStorageDirectory()+"/001.jpg");
+    private  ArrayList<String> path = new ArrayList<>();
+    private String filename;
     private StringBuffer sb = new StringBuffer();
 
     @Override
@@ -36,14 +45,7 @@ public class UserinfoEditorActivity extends Activity {
         Intent intent = getIntent();
         activityUserinfoEditorBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo_editor);
         long myId = intent.getLongExtra("myId", -1);
-        if(myId == -1){
-            MyFirstPageBean.DataBean.MyinfoBean myinfo = (MyFirstPageBean.DataBean.MyinfoBean) intent.getSerializableExtra("myUinfo");
-            activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this,myinfo);
-        }else {
-            String phone = intent.getStringExtra("phone");
-            UserInfoItemBean.DataBean.UinfoBean uifo = (UserInfoItemBean.DataBean.UinfoBean) intent.getSerializableExtra("uifo");
-            activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this,uifo,phone);
-        }
+        activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this);
         activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);
         back();
     }
@@ -92,6 +94,12 @@ public class UserinfoEditorActivity extends Activity {
                     try {
                         Bitmap photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                         activityUserinfoEditorBinding.ivHead.setImageBitmap(photo);
+                        WriteFile(photo);
+                        filename = file.getAbsolutePath(); //文件的绝对路径
+                        path.add(filename);
+                        String filePath = path.get(0);
+                        activityUserInfoEditorModel.avatar = filePath;
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -109,7 +117,13 @@ public class UserinfoEditorActivity extends Activity {
                             activityUserInfoEditorModel.skillLabelList.clear();
                             activityUserInfoEditorModel.skillLabelList.addAll(listCheckedLabelName);
                             int size = listCheckedLabelName.size();
-
+                            if(size!=0){
+                                activityUserinfoEditorBinding.llSkilllabelContainer.removeAllViews();
+                                for (String skillTagText : listCheckedLabelName) {
+                                    TextView skillTag = activityUserInfoEditorModel.createSkillTag(skillTagText);
+                                    activityUserinfoEditorBinding.llSkilllabelContainer.addView(skillTag);
+                                }
+                            }
                         }
                         //第一级技能标签 //第二级技能标签
                         String checkFirstLabel = bundleCheckedLabelsData.getString("checkedFirstLabel", "未选择");
@@ -130,15 +144,21 @@ public class UserinfoEditorActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-
-
-   /* @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // savedInstanceState.putString("msg_con", htmlsource);
-        // savedInstanceState.putString("msg_camera_picname", camera_picname);
-        super.onSaveInstanceState(savedInstanceState); //实现父类方法 放在最后 防止拍照后无法返回当前activity
-    }*/
-
+    private void WriteFile(Bitmap bitmap) {
+        FileOutputStream b = null;
+        try {
+            b = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                b.flush();
+                b.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

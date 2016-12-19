@@ -35,6 +35,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private boolean isfriend;
     private boolean isCare;
     private long uid;
+    private int anonymity;//0 niming  1 shiming
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,12 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         phone = intent.getStringExtra("phone");
         uid = intent.getLongExtra("Uid", -1);
         String skillTag = intent.getStringExtra("skillTag");
+        anonymity = intent.getIntExtra("anonymity", -1);
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
-        //testIsFriend(uid);
-       // testisfollow(uid);
+        testIsFriend(uid);
+        testisfollow(uid);
         back();
         title();
         listener();
@@ -69,9 +71,15 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
-
+            switch (anonymity){
+                case 1://实名
+                    break;
+                case 0://匿名
+                    activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
+                    break;
+            }
         } else {
-            activityUserinfoBinding.tvUserinfoTitle.setText("个人信息");
+            activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
@@ -151,14 +159,13 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
-
     //先验证一下好友关系
     public void testIsFriend(long uid) {
         ContactsManager.onTestFriendStatueProtocol(new onTestFriendStatue(), uid);
         if (isfriend) {
-            activityUserinfoBinding.tvAddFriend.setText("解除好友");
+            activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
         } else {
-            activityUserinfoBinding.tvAddFriend.setText("申请加好友");
+            activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
         }
     }
 
@@ -171,10 +178,10 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status) {
-                    case 1:
+                    case 1://好友
                         isfriend = true;
                         break;
-                    case 0:
+                    case 0://非好友
                         isfriend = false;
                         break;
                 }

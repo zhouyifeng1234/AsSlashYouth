@@ -227,6 +227,14 @@ public class DropDownMenu extends LinearLayout {
      *
      * @param text
      */
+
+    public void setCurrentTabText(int current_tab_position,String text) {
+        if (current_tab_position != -1) {
+            ((TextView) tabMenuView.getChildAt(current_tab_position)).setText(text);
+        }
+    }
+
+
     public void setTabText(String text) {
         if (current_tab_position != -1) {
             ((TextView) tabMenuView.getChildAt(current_tab_position)).setText(text);

@@ -21,11 +21,11 @@ public class MyHelpActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private FrameLayout fl;
     private ActivityMyHelpBinding activityMyHelpBinding;
+    private String titleString  = "帮助";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityMyHelpBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_help);
         MyHelpModel myHelpModel = new MyHelpModel(activityMyHelpBinding,this);
         activityMyHelpBinding.setMyHelpModel(myHelpModel);
@@ -35,7 +35,7 @@ public class MyHelpActivity extends Activity implements View.OnClickListener {
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("帮助");
+        title.setText(titleString);
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
     }

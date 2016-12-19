@@ -25,6 +25,7 @@ public class BindThridPartyActivity extends Activity implements View.OnClickList
     private TextView title;
     private FrameLayout fl;
     private ActivityMyThridPartyBinding activityMyThridPartyBinding;
+    private String titleString = "第三方账号";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class BindThridPartyActivity extends Activity implements View.OnClickList
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("第三方账号");
+        title.setText(titleString);
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
     }

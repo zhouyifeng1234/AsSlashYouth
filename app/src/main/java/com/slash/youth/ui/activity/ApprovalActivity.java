@@ -19,6 +19,7 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.LogKit;
 
 import java.io.FileNotFoundException;
 
@@ -33,15 +34,20 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     private int careertype;
     private ApprovalModel approvalModel;
     private String photoUri;
-
+    private String titleText = "认证";
+    private String submint = "提交";
+    private ApprovalCertificatesBinding approvalCertificatesBinding;
+    private Bitmap photo;
+    private boolean  photoAlbum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         careertype = intent.getIntExtra("careertype", -1);
+        long uid = intent.getLongExtra("Uid", -1);
         activityApprovalBinding = DataBindingUtil.setContentView(this, R.layout.activity_approval);
-        approvalModel = new ApprovalModel(activityApprovalBinding,2, this);
+        approvalModel = new ApprovalModel(activityApprovalBinding,2, this,uid);
         activityApprovalBinding.setApprovalModel(approvalModel);
         listener();
     }
@@ -50,10 +56,10 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("认证");
+        title.setText(titleText);
         save = (TextView) findViewById(R.id.tv_userinfo_save);
         save.setOnClickListener(this);
-        save.setText("提交");
+        save.setText(submint);
     }
 
     @Override
@@ -65,12 +71,22 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.tv_userinfo_save:
-                Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
-                intentExamineActivity.putExtra("bitmap", bitmap);
-                intentExamineActivity.putExtra("careertype", careertype);
-                intentExamineActivity.putExtra("cardType", approvalModel.cardType);
-                intentExamineActivity.putExtra("photoUri", photoUri);
-                startActivity(intentExamineActivity);
+
+                if(photoAlbum){
+                    Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
+                    intentExamineActivity.putExtra("careertype", careertype);
+                   // intentExamineActivity.putExtra("bitmap", photo);   //TODO 系统问题
+                    intentExamineActivity.putExtra("cardType", approvalModel.cardType);
+                    intentExamineActivity.putExtra("photoUri", photoUri);
+                    startActivity(intentExamineActivity);
+                }else {
+                    Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
+                    intentExamineActivity.putExtra("bitmap", bitmap);
+                    intentExamineActivity.putExtra("careertype", careertype);
+                    intentExamineActivity.putExtra("cardType", approvalModel.cardType);
+                    intentExamineActivity.putExtra("photoUri", photoUri);
+                    startActivity(intentExamineActivity);
+                }
                 break;
         }
     }
@@ -85,13 +101,11 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                     bitmap = (Bitmap) bundle.get("data");
                     Bitmap photo = BitmapKit.zoomBitmap(bitmap, 250, 200);
 
-                    ApprovalCertificatesBinding approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
-                    approvalCertificatesBinding.flCertificates.removeAllViews();
-
+                    approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
                     //选择类型
                     switch (cardType) {
                         case Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD:
-                           // setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_BUSINESS_CARD");
+                            setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_BUSINESS_CARD");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_IDCARD:
 
@@ -100,7 +114,7 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                             approvalCertificatesBinding.flCertificates.addView(imageView);
                             approvalModel.viewpageAdapter.notifyDataSetChanged();//后台
 
-                          //  setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_IDCARD");
+                            setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_IDCARD");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
 
@@ -109,17 +123,17 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                             approvalCertificatesBinding.flCertificates.addView(imageView1);
                             approvalModel.viewpageAdapter.notifyDataSetChanged();
 
-                            // setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION");
+                             setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_MAIL:
-                           // setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_MAIL");
+                            setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_MAIL");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_SIN:
-                          //  setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_SIN");
+                            setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_SIN");
                             break;
                         default:
-                           // activityApprovalBinding.ivCertificates.setImageBitmap(photo);
-                           // photoUri = BitmapKit.saveBitmap(photo, "photo");
+                            activityApprovalBinding.ivCertificates.setImageBitmap(photo);
+                            photoUri = BitmapKit.saveBitmap(photo, "photo");
                             break;
                     }
                 }
@@ -127,10 +141,9 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
             case Constants.USERINFO_PHOTOALBUM://7
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
-                    photoUri = uri.toString();
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                        Bitmap photo = BitmapKit.zoomBitmap(bitmap, 250, 200);
+                        photo = BitmapKit.zoomBitmap(bitmap, 250, 200);
 
                         switch (cardType) {
                             case Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD:
@@ -138,13 +151,15 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                             case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
                             case Cardtype.USER_REAL_AUTH_CARD_MAIL:
                             case Cardtype.USER_REAL_AUTH_CARD_SIN:
-                            ApprovalCertificatesBinding approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
+                            approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
                             approvalCertificatesBinding.ivCertificates.setImageBitmap(photo);
                                 break;
                             default:
                                 activityApprovalBinding.ivCertificates.setImageBitmap(photo);
                                 break;
                         }
+                        photoUri = BitmapKit.saveBitmap(photo, "photo");
+                         photoAlbum = true;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -156,8 +171,8 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     }
 
     private void setAndSavePhoto(Bitmap photo,String photoName) {
-      /*  ApprovalCertificatesBinding approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
-        approvalCertificatesBinding.ivCertificates.setImageBitmap(photo);*/
+        ApprovalCertificatesBinding approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
+        approvalCertificatesBinding.ivCertificates.setImageBitmap(photo);
         photoUri = BitmapKit.saveBitmap(photo,photoName);
     }
 

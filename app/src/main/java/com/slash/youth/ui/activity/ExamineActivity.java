@@ -22,6 +22,7 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
     private int type;
     private int cardType;
     private String photoUri;
+    private String titleString = "认证";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,6 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
             bitmap = intent.getParcelableExtra("bitmap");
             type = intent.getIntExtra("careertype", -1);
             cardType = intent.getIntExtra("cardType", -1);
-            photoUri = intent.getStringExtra("photoUri");
         }
         activityExamineCertificatesBinding = DataBindingUtil.setContentView(this, R.layout.activity_examine_certificates);
         ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding,this,bitmap,type,cardType,photoUri);
@@ -44,7 +44,7 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("认证");
+        title.setText(titleString);
         findViewById(R.id.fl_title_right).setVisibility(View.GONE);
     }
 

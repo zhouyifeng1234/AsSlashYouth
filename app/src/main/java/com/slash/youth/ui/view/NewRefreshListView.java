@@ -2,12 +2,15 @@ package com.slash.youth.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.icu.util.Measure;
 import android.support.v4.view.MotionEventCompat;
 import android.test.TouchUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -55,26 +58,7 @@ public class NewRefreshListView extends ListView implements OnScrollListener {
         //初始化为尾布局
     }
 
-    //测量
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-    }
-
-    //布局
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-
-    }
-
-    //绘制
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-    }
 
     OnItemClickListener mOnItemClickListener;
     private int headerHeight;
@@ -88,7 +72,7 @@ public class NewRefreshListView extends ListView implements OnScrollListener {
                 null);//头布局
         addMoreFooter =  View.inflate(getContext(), R.layout.footer_listview_addmore, null);
         this.addHeaderView(refreshHeader);
-        this.addFooterView(addMoreFooter);//添加布局到底部
+       // this.addFooterView(addMoreFooter);//添加布局到底部
         ivRefreshPic = (ImageView) refreshHeader
                 .findViewById(R.id.iv_header_listview_refresh_pic);
         tvRefreshState = (TextView) refreshHeader
@@ -102,14 +86,14 @@ public class NewRefreshListView extends ListView implements OnScrollListener {
         // System.out.println(measuredHeight);
        // int measuredWidth = refreshHeader.getMeasuredWidth();
         // System.out.println(measuredWidth);
-        refreshHeader.setPadding(0, -headerHeight, 0, 0);
+         refreshHeader.setPadding(0, -headerHeight, 0, 0);
 
        /* addMoreFooter.measure(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);*/
 
-        addMoreFooter.measure(0,0);
+       /* addMoreFooter.measure(0,0);
         footerHeight = addMoreFooter.getMeasuredHeight();
-        addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+        addMoreFooter.setPadding(0, -footerHeight, 0, 0);*/
 
         initData();
         initAnimation();
@@ -312,8 +296,8 @@ public class NewRefreshListView extends ListView implements OnScrollListener {
             if (loadMoreNewsTask != null&&isLoadToLast == false) {
                 loadMoreNewsTask.loadMore();
             } else {
-                ToastUtils.shortToast("加载更多失败~~~~(>_<);~~~~");
-                addMoreFooter.setPadding(0, -footerHeight, 0, 0);
+               // ToastUtils.shortToast("加载更多失败~~~~(>_<);~~~~");
+                //addMoreFooter.setPadding(0, -footerHeight, 0, 0);
                 isLoadingMore = false;
             }
         }

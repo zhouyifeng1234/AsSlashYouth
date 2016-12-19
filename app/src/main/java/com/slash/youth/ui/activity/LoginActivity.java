@@ -9,12 +9,16 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Toast;
 
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityLoginBinding;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ActivityLoginModel;
 import com.slash.youth.utils.CommonUtils;
@@ -40,6 +44,8 @@ public class LoginActivity extends Activity {
     public SsoHandler mSsoHandler;
     private ProgressDialog mDialog;
     public static Activity activity;
+    private ActivityLoginBinding activityLoginBinding;
+    private Long aLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

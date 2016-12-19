@@ -36,9 +36,7 @@ public class SetBaseProtocol extends BaseProtocol<SetBean> {
             String value = stringStringEntry.getValue();
             params.addBodyParameter(key, value);
         }
-
         stringMap.clear();
-
     }
 
     @Override

@@ -97,7 +97,7 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
             SkillManagerBean.DataBean.ListBean sumbitNewTemplet = (SkillManagerBean.DataBean.ListBean) data.getSerializableExtra("sumbitNewTemplet");
             mySkillManageModel.skillManageList.add(i,sumbitNewTemplet);
             MySkillManageAdapter  mySkillManageAdapter = new MySkillManageAdapter(mySkillManageModel.skillManageList,this,mySkillManageModel.skillManageList);
-            activityMySkillManageBinding.lvSkillManage.setAdapter(mySkillManageAdapter);
+            activityMySkillManageBinding.lv.setAdapter(mySkillManageAdapter);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

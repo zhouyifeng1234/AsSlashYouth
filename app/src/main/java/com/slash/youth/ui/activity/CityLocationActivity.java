@@ -154,7 +154,7 @@ public class CityLocationActivity extends Activity {
             if (cur.moveToFirst()) {
                 do {
                     String name = cur.getString(cur.getColumnIndex("CityName"));
-                    int id = cur.getInt(cur.getColumnIndex("ProID"));
+                    int id = cur.getInt(cur.getColumnIndex("ProId"));
                     CityClassBean city = new CityClassBean("", 0);
                     //  System.out.println(name);
                     city.city_name = name;
@@ -177,7 +177,7 @@ public class CityLocationActivity extends Activity {
             if (cur.moveToFirst()) {
                 do {
                     String name = cur.getString(cur.getColumnIndex("ProName"));
-                    int id = cur.getInt(cur.getColumnIndex("ProSort"));
+                    int id = cur.getInt(cur.getColumnIndex("ProId"));
                     CityClassBean city = new CityClassBean("", 0);
                      // System.out.println(name);
                     city.city_name = name;
