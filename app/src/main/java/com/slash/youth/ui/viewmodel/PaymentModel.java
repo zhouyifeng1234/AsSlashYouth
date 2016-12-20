@@ -5,13 +5,12 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPaymentBinding;
-import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PaymentBean;
-import com.slash.youth.engine.AccountManager;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -34,6 +33,7 @@ public class PaymentModel extends BaseObservable {
     double quote;//报价，最终以服务方的报价为准
 
     int type = -1;//1需求 2服务
+
 
     public PaymentModel(ActivityPaymentBinding activityPaymentBinding, Activity activity) {
         this.mActivity = activity;
@@ -63,24 +63,29 @@ public class PaymentModel extends BaseObservable {
     public void payment(View v) {
         if (currentCheckedPayType == PAY_TYPE_BALANCE) {
 //            ToastUtils.shortToast("余额支付");
-            AccountManager.getTradePasswordStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                @Override
-                public void execute(CommonResultBean dataBean) {
-                    if (dataBean.data.status == 1) {//设置了交易密码 需输入交易密码
-                        isSetTradePassword = true;
-                    } else if (dataBean.data.status == 0) {//表示当前没有交易密码
-                        isSetTradePassword = false;
-                        doBalancePayment();
-                    } else {
-                        LogKit.v("状态异常");
-                    }
-                }
 
-                @Override
-                public void executeResultError(String result) {
+//            AccountManager.getTradePasswordStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+//                @Override
+//                public void execute(CommonResultBean dataBean) {
+//                    if (dataBean.data.status == 1) {//设置了交易密码 需输入交易密码
+//                        isSetTradePassword = true;
+//                    } else if (dataBean.data.status == 0) {//表示当前没有交易密码
+//                        isSetTradePassword = false;
+//                        doBalancePayment();
+//                    } else {
+//                        LogKit.v("状态异常");
+//                    }
+//                }
+//
+//                @Override
+//                public void executeResultError(String result) {
+//
+//                }
+//            });
 
-                }
-            });
+
+            setInputPasswordVisibility(View.VISIBLE);
+
 
         } else if (currentCheckedPayType == PAY_TYPE_ALIPAY) {
             ToastUtils.shortToast("支付宝支付");
@@ -180,17 +185,62 @@ public class PaymentModel extends BaseObservable {
     }
 
     public void closeInputPasswordBox(View v) {
-        setInputTradePasswordBoxVisibility(View.GONE);
+        setInputPasswordVisibility(View.GONE);
     }
 
-    public void closeSurePasswordBox(View v) {
-        setSureTradePasswordBoxVisibility(View.GONE);
-    }
+    private int inputPasswordCount = 0;
+    private char[] passwordCharArr = new char[6];
 
-    public void closeSetPasswordBox(View v) {
-        setSetTradePasswordBoxVisibility(View.GONE);
+    public void inputPassword(View v) {
+        switch (v.getId()) {
+            case R.id.fl_delete_trade_password:
+                //删除密码按钮
+                if (inputPasswordCount > 0) {
+                    if (inputPasswordCount == 1) {
+                        setPassChar1Visibility(View.INVISIBLE);
+                    } else if (inputPasswordCount == 2) {
+                        setPassChar2Visibility(View.INVISIBLE);
+                    } else if (inputPasswordCount == 3) {
+                        setPassChar3Visibility(View.INVISIBLE);
+                    } else if (inputPasswordCount == 4) {
+                        setPassChar4Visibility(View.INVISIBLE);
+                    } else if (inputPasswordCount == 5) {
+                        setPassChar5Visibility(View.INVISIBLE);
+                    } else {
+                        setPassChar6Visibility(View.INVISIBLE);
+                    }
+                    inputPasswordCount--;
+                }
+                break;
+            default:
+                //输入密码 0-9 按钮
+                String passChar = ((TextView) v).getText().toString();
+                if (inputPasswordCount < 6) {
+                    inputPasswordCount++;
+                    int addIndex = inputPasswordCount - 1;
+                    passwordCharArr[addIndex] = passChar.charAt(0);
+                    if (inputPasswordCount == 1) {
+                        setPassChar1Visibility(View.VISIBLE);
+                    } else if (inputPasswordCount == 2) {
+                        setPassChar2Visibility(View.VISIBLE);
+                    } else if (inputPasswordCount == 3) {
+                        setPassChar3Visibility(View.VISIBLE);
+                    } else if (inputPasswordCount == 4) {
+                        setPassChar4Visibility(View.VISIBLE);
+                    } else if (inputPasswordCount == 5) {
+                        setPassChar5Visibility(View.VISIBLE);
+                    } else {
+                        setPassChar6Visibility(View.VISIBLE);
+                    }
+                    if (inputPasswordCount >= 6) {
+                        //密码输入完毕，去余额支付
+                        String tradePasswordStr = new String(passwordCharArr);
+                        ToastUtils.shortToast(tradePasswordStr);
+                    }
+                }
+                break;
+        }
     }
-
 
     private int closeVisibility = View.INVISIBLE;//右上角的关闭按钮是否可见
     private int gobackVisibility = View.VISIBLE;//左上角的回退箭头是否可见
@@ -200,9 +250,73 @@ public class PaymentModel extends BaseObservable {
     private int payMainInfoVisibility = View.VISIBLE;//支付主界面是否显示，一开始需要显示
     private int payFailVisibility = View.GONE;//支付失败页面是否显示
     private int inputPasswordVisibility = View.GONE;//输入交易密码的页面是否显示
-    private int setTradePasswordBoxVisibility = View.GONE;//设置交易密码的密码框
-    private int sureTradePasswordBoxVisibility = View.GONE;//设置之后确认交易密码的密码框
-    private int inputTradePasswordBoxVisibility = View.GONE;//选择余额支付时，输入交易密码的密码框
+
+    private int passChar1Visibility = View.INVISIBLE;
+    private int passChar2Visibility = View.INVISIBLE;
+    private int passChar3Visibility = View.INVISIBLE;
+    private int passChar4Visibility = View.INVISIBLE;
+    private int passChar5Visibility = View.INVISIBLE;
+    private int passChar6Visibility = View.INVISIBLE;
+
+    @Bindable
+    public int getPassChar1Visibility() {
+        return passChar1Visibility;
+    }
+
+    public void setPassChar1Visibility(int passChar1Visibility) {
+        this.passChar1Visibility = passChar1Visibility;
+        notifyPropertyChanged(BR.passChar1Visibility);
+    }
+
+    @Bindable
+    public int getPassChar2Visibility() {
+        return passChar2Visibility;
+    }
+
+    public void setPassChar2Visibility(int passChar2Visibility) {
+        this.passChar2Visibility = passChar2Visibility;
+        notifyPropertyChanged(BR.passChar2Visibility);
+    }
+
+    @Bindable
+    public int getPassChar3Visibility() {
+        return passChar3Visibility;
+    }
+
+    public void setPassChar3Visibility(int passChar3Visibility) {
+        this.passChar3Visibility = passChar3Visibility;
+        notifyPropertyChanged(BR.passChar3Visibility);
+    }
+
+    @Bindable
+    public int getPassChar4Visibility() {
+        return passChar4Visibility;
+    }
+
+    public void setPassChar4Visibility(int passChar4Visibility) {
+        this.passChar4Visibility = passChar4Visibility;
+        notifyPropertyChanged(BR.passChar4Visibility);
+    }
+
+    @Bindable
+    public int getPassChar5Visibility() {
+        return passChar5Visibility;
+    }
+
+    public void setPassChar5Visibility(int passChar5Visibility) {
+        this.passChar5Visibility = passChar5Visibility;
+        notifyPropertyChanged(BR.passChar5Visibility);
+    }
+
+    @Bindable
+    public int getPassChar6Visibility() {
+        return passChar6Visibility;
+    }
+
+    public void setPassChar6Visibility(int passChar6Visibility) {
+        this.passChar6Visibility = passChar6Visibility;
+        notifyPropertyChanged(BR.passChar6Visibility);
+    }
 
     @Bindable
     public int getCloseVisibility() {
@@ -282,35 +396,5 @@ public class PaymentModel extends BaseObservable {
     public void setInputPasswordVisibility(int inputPasswordVisibility) {
         this.inputPasswordVisibility = inputPasswordVisibility;
         notifyPropertyChanged(BR.inputPasswordVisibility);
-    }
-
-    @Bindable
-    public int getSetTradePasswordBoxVisibility() {
-        return setTradePasswordBoxVisibility;
-    }
-
-    public void setSetTradePasswordBoxVisibility(int setTradePasswordBoxVisibility) {
-        this.setTradePasswordBoxVisibility = setTradePasswordBoxVisibility;
-        notifyPropertyChanged(BR.setTradePasswordBoxVisibility);
-    }
-
-    @Bindable
-    public int getSureTradePasswordBoxVisibility() {
-        return sureTradePasswordBoxVisibility;
-    }
-
-    public void setSureTradePasswordBoxVisibility(int sureTradePasswordBoxVisibility) {
-        this.sureTradePasswordBoxVisibility = sureTradePasswordBoxVisibility;
-        notifyPropertyChanged(BR.sureTradePasswordBoxVisibility);
-    }
-
-    @Bindable
-    public int getInputTradePasswordBoxVisibility() {
-        return inputTradePasswordBoxVisibility;
-    }
-
-    public void setInputTradePasswordBoxVisibility(int inputTradePasswordBoxVisibility) {
-        this.inputTradePasswordBoxVisibility = inputTradePasswordBoxVisibility;
-        notifyPropertyChanged(BR.inputTradePasswordBoxVisibility);
     }
 }

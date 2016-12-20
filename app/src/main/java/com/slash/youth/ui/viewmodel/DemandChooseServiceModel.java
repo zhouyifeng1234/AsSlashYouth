@@ -95,7 +95,7 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     private View inflateItemDemandChooseService(DemandPurposeListBean.PurposeInfo demandChooseServiceBean) {
         ItemDemandChooseServiceBinding itemDemandChooseServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_choose_service, null, false);
-        ItemDemandChooseServiceModel itemDemandChooseServiceModel = new ItemDemandChooseServiceModel(itemDemandChooseServiceBinding, mActivity, demandChooseServiceBean,tid);
+        ItemDemandChooseServiceModel itemDemandChooseServiceModel = new ItemDemandChooseServiceModel(itemDemandChooseServiceBinding, mActivity, demandChooseServiceBean, tid);
         itemDemandChooseServiceBinding.setItemDemandChooseServiceModel(itemDemandChooseServiceModel);
         return itemDemandChooseServiceBinding.getRoot();
     }

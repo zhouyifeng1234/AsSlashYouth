@@ -435,8 +435,19 @@ public class DemandDetailModel extends BaseObservable {
 
     //下架需求操作
     public void offShelfDemand(View v) {
-        //调用服务端下架接口，下架成功后显示下架logo
-        setOffShelfLogoVisibility(View.VISIBLE);
+        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                setOffShelfLogoVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("下架需求失败:" + result);
+            }
+        }, demandId + "");
+
+
     }
 
     //跳转到个人信息界面
@@ -451,8 +462,17 @@ public class DemandDetailModel extends BaseObservable {
 
     //收藏需求
     public void collectDemand(View v) {
-        //需要调用服务端收藏接口
-        ToastUtils.shortToast("收藏需求");
+        DemandEngine.collectDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("收藏成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("收藏失败:" + result);
+            }
+        }, demandId + "");
     }
 
 

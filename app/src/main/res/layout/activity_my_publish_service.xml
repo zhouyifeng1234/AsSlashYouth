@@ -1306,9 +1306,9 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="@{myPublishServiceModel.setStartTimeAndEndTimeLayerVisibility}"
         >
-            <!--android:visibility="@{myPublishServiceModel.setStartTimeAndEndTimeLayerVisibility}"-->
+
             <FrameLayout
                 android:layout_width="269dp"
                 android:layout_height="214dp"
@@ -1395,9 +1395,9 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="gone"
-        >
             android:visibility="@{myPublishServiceModel.chooseDateTimeLayerVisibility}"
+        >
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1452,9 +1452,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
-            android:visibility="gone"
+            android:visibility="@{myPublishServiceModel.loadLayerVisibility}"
         >
-            <!--android:visibility="@{myPublishServiceModel.loadLayerVisibility}"-->
+
 
             <LinearLayout
                 android:layout_width="wrap_content"

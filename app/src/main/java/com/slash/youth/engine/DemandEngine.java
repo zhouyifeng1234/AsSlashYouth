@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
@@ -331,5 +332,16 @@ public class DemandEngine {
     public static void getRecommendServiceUser(BaseProtocol.IResultExecutor onRecommendServiceUserFinished, String id, String limit) {
         RecommendServiceUserProtocol recommendServiceUserProtocol = new RecommendServiceUserProtocol(id, limit);
         recommendServiceUserProtocol.getDataFromServer(onRecommendServiceUserFinished);
+    }
+
+    /**
+     * 需求详情页，服务方视角，收藏需求
+     *
+     * @param onCollectDemandFinished
+     * @param demandId
+     */
+    public static void collectDemand(BaseProtocol.IResultExecutor onCollectDemandFinished, String demandId) {
+        CollectTaskProtocol collectDemandProtocol = new CollectTaskProtocol(demandId, "1");
+        collectDemandProtocol.getDataFromServer(onCollectDemandFinished);
     }
 }

@@ -14,6 +14,8 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
+import com.slash.youth.domain.AppointmentServiceResultBean;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.SimilarServiceRecommendBean;
 import com.slash.youth.domain.UserInfoBean;
@@ -98,12 +100,35 @@ public class ServiceDetailModel extends BaseObservable {
 
     //收藏服务
     public void collectService(View v) {
+        ServiceEngine.collectService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("收藏成功");
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("收藏失败:" + result);
+            }
+        }, serviceId + "");
     }
 
     //立即抢单（抢服务）
     public void grabService(View v) {
-        ToastUtils.shortToast("立即预约服务");
+
+        ServiceEngine.appointmentService(new BaseProtocol.IResultExecutor<AppointmentServiceResultBean>() {
+            @Override
+            public void execute(AppointmentServiceResultBean dataBean) {
+                ToastUtils.shortToast("预约成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("预约服务失败:" + result);
+            }
+        }, serviceId + "");
+
+
     }
 
     //底部服务者视角看到的分享按钮

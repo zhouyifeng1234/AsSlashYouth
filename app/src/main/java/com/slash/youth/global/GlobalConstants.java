@@ -234,6 +234,8 @@ public class GlobalConstants {
         public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
         //三、[服务]-修改服务
         public static final String UPDATE_SERVICE = SERVER_HOST_SERVICE + "updateone";
+        //四、[服务]-预约服务生成订单
+        public static final String APPOINTMENT_SERVICE = SERVER_HOST_SERVICE + "appointment";
         //五、[服务]-服务方选定
         public static final String SERVICE_FLOW_SELECTED = SERVER_HOST_SERVICE + "selected";
         //六、[服务]-需求方预支付
@@ -368,7 +370,7 @@ public class GlobalConstants {
         //四、[我的]-[用户中心]-设置所在地
         public static final String SET_LOCATION = "/vcard/location/set";
         //五、[我的]-[用户中心]-设置斜杠身份
-        public static final String SET_SLASH_IDENTITY = SERVER_HOST_MY_USERINFO+"/vcard/identity/set";
+        public static final String SET_SLASH_IDENTITY = SERVER_HOST_MY_USERINFO + "/vcard/identity/set";
         //六、[我的]-[用户中心]-设置公司和职位
         public static final String SET_SLASH_COMPANY_AND_POSITION = "/vcard/company/set";
         //七、[我的]-[用户中心]-设置设置行业和方向
@@ -376,7 +378,7 @@ public class GlobalConstants {
         //八、[我的]-[用户中心]-设置设置头像
         public static final String SET_SLASH_AVATAR = "/vcard/avatar/set";
         //九、[我的]-[用户中心]-设置用户标签
-        public static final String SET_SLASH_TAG = SERVER_HOST_MY_USERINFO+"/vcard/tag/set";
+        public static final String SET_SLASH_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
         //十、[我的]-[用户中心]-设置用户认证
         public static final String SET_SLASH_AUTH = "/real/auth";
         //十一、[我的]-[用户中心]-用户认证流程状态
@@ -427,6 +429,8 @@ public class GlobalConstants {
         public static final String MY_COLLECTION_LIST = COLLECTION_HOST + "/list";
         public static final String MY_ADD_COLLECTION_ITEM = COLLECTION_HOST + "/add";
         public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST + "/del";
+        //判断是否收藏某任务 zhouyifeng
+        public static final String IS_COLLECT_TASK = COLLECTION_HOST + "/status";
 
         //管理我发布的
         public static final String MANAGE_PUBLISH_HOST = "http://121.42.145.178/feed/v1/api/mytaskmanagement";

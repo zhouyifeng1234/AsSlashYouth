@@ -950,7 +950,10 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{demandDetailModel.bidInfoVisibility}">
+            android:visibility="gone"
+
+        >
+            <!--android:visibility="@{demandDetailModel.bidInfoVisibility}"-->
 
             <LinearLayout
                 android:layout_width="match_parent"
