@@ -16,11 +16,13 @@ import com.slash.youth.databinding.ItemDemandChooseServiceBinding;
 import com.slash.youth.domain.DemandPurposeListBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
+import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class DemandChooseServiceModel extends BaseObservable {
     }
 
     ArrayList<DemandPurposeListBean.PurposeInfo> listDemandChooseService = new ArrayList<DemandPurposeListBean.PurposeInfo>();
-    ArrayList<DemandPurposeListBean> listDemandChooseRecommendService = new ArrayList<DemandPurposeListBean>();
+    ArrayList<RecommendServiceUserBean.ServiceUserInfo> listDemandChooseRecommendService = new ArrayList<RecommendServiceUserBean.ServiceUserInfo>();
 
     private void initData() {
         Bundle taskInfo = mActivity.getIntent().getExtras();
@@ -85,8 +87,8 @@ public class DemandChooseServiceModel extends BaseObservable {
     //填充系统推荐的服务方列表
     private void addDemandChooseRecommendServiceItems() {
         for (int i = 0; i < listDemandChooseRecommendService.size(); i++) {
-            DemandPurposeListBean demandChooseRecommendServiceBean = listDemandChooseRecommendService.get(i);
-            View itemDemandChooseRecommendService = inflateItemDemandChooseRecommendService(demandChooseRecommendServiceBean);
+            RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listDemandChooseRecommendService.get(i);
+            View itemDemandChooseRecommendService = inflateItemDemandChooseRecommendService(serviceUserInfo);
             if (itemDemandChooseRecommendService != null) {
                 mActivityDemandChooseServiceBinding.llDemandChooseRecommendServiceList.addView(itemDemandChooseRecommendService);
             }
@@ -100,9 +102,9 @@ public class DemandChooseServiceModel extends BaseObservable {
         return itemDemandChooseServiceBinding.getRoot();
     }
 
-    private View inflateItemDemandChooseRecommendService(DemandPurposeListBean demandChooseRecommendServiceBean) {
+    private View inflateItemDemandChooseRecommendService(RecommendServiceUserBean.ServiceUserInfo serviceUserInfo) {
         ItemDemandChooseRecommendServiceBinding itemDemandChooseRecommendServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_choose_recommend_service, null, false);
-        ItemDemandChooseRecommendServiceModel itemDemandChooseRecommendServiceModel = new ItemDemandChooseRecommendServiceModel(itemDemandChooseRecommendServiceBinding, mActivity, demandChooseRecommendServiceBean);
+        ItemDemandChooseRecommendServiceModel itemDemandChooseRecommendServiceModel = new ItemDemandChooseRecommendServiceModel(itemDemandChooseRecommendServiceBinding, mActivity, serviceUserInfo);
         itemDemandChooseRecommendServiceBinding.setItemDemandChooseRecommendServiceModel(itemDemandChooseRecommendServiceModel);
         return itemDemandChooseRecommendServiceBinding.getRoot();
     }
@@ -180,12 +182,6 @@ public class DemandChooseServiceModel extends BaseObservable {
     }
 
     private void getDemandChooseServiceList() {
-        //模拟数据，实际应该由服务端接口返回
-//        listDemandChooseService.add(new DemandPurposeListBean());
-//        listDemandChooseService.add(new DemandPurposeListBean());
-//        listDemandChooseService.add(new DemandPurposeListBean());
-//        listDemandChooseService.add(new DemandPurposeListBean());
-//        listDemandChooseService.add(new DemandPurposeListBean());
         DemandEngine.getDemandPurposeList(new BaseProtocol.IResultExecutor<DemandPurposeListBean>() {
             @Override
             public void execute(DemandPurposeListBean dataBean) {
@@ -201,12 +197,18 @@ public class DemandChooseServiceModel extends BaseObservable {
     }
 
     private void getDemandChooseRecommendServiceList() {
-        //模拟数据，实际应该由服务端接口返回
-//        listDemandChooseRecommendService.add(new DemandPurposeListBean());
-//        listDemandChooseRecommendService.add(new DemandPurposeListBean());
-//        listDemandChooseRecommendService.add(new DemandPurposeListBean());
-//        listDemandChooseRecommendService.add(new DemandPurposeListBean());
-//        listDemandChooseRecommendService.add(new DemandPurposeListBean());
+        DemandEngine.getRecommendServiceUser(new BaseProtocol.IResultExecutor<RecommendServiceUserBean>() {
+            @Override
+            public void execute(RecommendServiceUserBean dataBean) {
+                listDemandChooseRecommendService = dataBean.data.list;
+                addDemandChooseRecommendServiceItems();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取优秀服务方推荐失败:" + result);
+            }
+        }, tid + "", "5");
     }
 
     private int isAuthVisibility = View.VISIBLE;//是否显示认证
