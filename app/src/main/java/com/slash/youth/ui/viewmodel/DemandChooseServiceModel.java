@@ -20,6 +20,7 @@ import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -41,8 +42,10 @@ public class DemandChooseServiceModel extends BaseObservable {
     public DemandChooseServiceModel(ActivityDemandChooseServiceBinding activityDemandChooseServiceBinding, Activity activity) {
         this.mActivityDemandChooseServiceBinding = activityDemandChooseServiceBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initData();
         initView();
+        initListener();
     }
 
     ArrayList<DemandPurposeListBean.PurposeInfo> listDemandChooseService = new ArrayList<DemandPurposeListBean.PurposeInfo>();
@@ -56,15 +59,21 @@ public class DemandChooseServiceModel extends BaseObservable {
         LogKit.v("tid:" + tid + " " + type + " " + roleid);
 
         getTaskItemInfo();
-
-        getDemandChooseServiceList();
-        getDemandChooseRecommendServiceList();
     }
 
 
     private void initView() {
-//        addDemandChooseServiceItems();//实际应该在异步请求到数据后调用
-//        addDemandChooseRecommendServiceItems();//实际应该在异步请求到数据后调用
+
+    }
+
+    private void initListener() {
+        mActivityDemandChooseServiceBinding.svDemandChooseService.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                displayLoadLayer();
+                getTaskItemInfo();
+            }
+        });
     }
 
 
@@ -172,11 +181,12 @@ public class DemandChooseServiceModel extends BaseObservable {
 //                String stateText = getBigStateTextByStatusCode(dataBean.status);
 //                setBigState(stateText);
                 setBigState("预约中");
+                getDemandChooseServiceList();
             }
 
             @Override
             public void executeResultError(String result) {
-
+                ToastUtils.shortToast("加载任务item信息失败:" + result);
             }
         }, tid + "", type + "", roleid + "");
     }
@@ -187,11 +197,12 @@ public class DemandChooseServiceModel extends BaseObservable {
             public void execute(DemandPurposeListBean dataBean) {
                 listDemandChooseService = dataBean.data.purpose.list;
                 addDemandChooseServiceItems();
+                getDemandChooseRecommendServiceList();
             }
 
             @Override
             public void executeResultError(String result) {
-
+                ToastUtils.shortToast("获取抢单服务者列表失败:" + result);
             }
         }, tid + "");
     }
@@ -202,6 +213,7 @@ public class DemandChooseServiceModel extends BaseObservable {
             public void execute(RecommendServiceUserBean dataBean) {
                 listDemandChooseRecommendService = dataBean.data.list;
                 addDemandChooseRecommendServiceItems();
+                hideLoadLayer();
             }
 
             @Override
@@ -211,6 +223,20 @@ public class DemandChooseServiceModel extends BaseObservable {
         }, tid + "", "5");
     }
 
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
+    }
+
     private int isAuthVisibility = View.VISIBLE;//是否显示认证
     private String username;
     private String title;
@@ -218,7 +244,17 @@ public class DemandChooseServiceModel extends BaseObservable {
     private String quote;
     private int isInstalmentVisibility = View.GONE;
     private String bigState;
+    private int loadLayerVisibility;
 
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public int getIsAuthVisibility() {
