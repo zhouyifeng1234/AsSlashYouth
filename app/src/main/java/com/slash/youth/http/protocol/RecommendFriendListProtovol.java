@@ -5,6 +5,7 @@ import com.slash.youth.domain.RecommendFriendBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UserSkillLabelBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 

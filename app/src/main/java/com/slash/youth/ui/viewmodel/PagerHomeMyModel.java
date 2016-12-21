@@ -195,6 +195,7 @@ public class PagerHomeMyModel extends BaseObservable {
         //粉丝数
         fanscount = myinfo.getFanscount();
         mPagerHomeMyBinding.tvFansCount.setText("粉丝数"+ fanscount);
+        mPagerHomeMyBinding.pbProgressbarFans.setProgress(fanscount);
         //粉丝比率
         fansratio = myinfo.getFansratio();
         mPagerHomeMyBinding.tvFansRadio.setText(fansratio+"%");
@@ -202,11 +203,13 @@ public class PagerHomeMyModel extends BaseObservable {
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
+        mPagerHomeMyBinding.pbProgressbarTask.setProgress(achievetaskcount);
         mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("顺利成交"+achievetaskcount+"单");
         mPagerHomeMyBinding.tvMyTask.setText(achievetaskcount+"");
         mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共"+totoltaskcount+"单任务");
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
+        mPagerHomeMyBinding.pbProgressbarService.setProgress(averageservicepoint);
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力"+ userservicepoint +"星");

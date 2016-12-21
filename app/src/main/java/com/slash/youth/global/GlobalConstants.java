@@ -452,6 +452,8 @@ public class GlobalConstants {
         public static final String TEST_FRIEND_STATUE = MY_FRIEND_LIST_HOST + "/isfriend";
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
+        //[好友]-查看好友申请状态列表
+        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/status";
 
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
@@ -468,6 +470,8 @@ public class GlobalConstants {
         public static final String CANNEL_CARE = RELATION_HOST + "/cancel";
         //[推荐]-推荐好友
         public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
+        //[推荐]-推荐好友黑名单接口
+        public static final String RECOMMONEND_FRIEND_BLACK_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/blacklist";
         //、[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
         public static final String  ENCHASHMENT_APPlICATION =SERVER_HOST_MY_ACCOUNT+"/withdrawdeposit";
 

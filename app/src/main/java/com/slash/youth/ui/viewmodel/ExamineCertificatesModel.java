@@ -12,7 +12,12 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ExamineActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+
+import org.xutils.x;
+
+import java.io.File;
 
 /**
  * Created by zss on 2016/11/6.
@@ -24,6 +29,7 @@ public class ExamineCertificatesModel extends BaseObservable {
     private int type;
     private int cardType;
     private String photoUri;
+    private String fileName;
 
     public ExamineCertificatesModel(ActivityExamineCertificatesBinding activityExamineCertificatesBinding,
                                     ExamineActivity examineActivity, Bitmap bitmap,int type,int cardType,String photoUri) {
@@ -41,13 +47,34 @@ public class ExamineCertificatesModel extends BaseObservable {
         if(bitmap!=null){
             Bitmap photo = BitmapKit.zoomBitmap(bitmap, 220, 200);
             activityExamineCertificatesBinding.ivCertificates.setImageBitmap(photo);
+        }else {
+            switch (cardType){
+                case 1://工牌
+                    fileName = "sin";
+                    break;
+                case 2://在职证明
+                    fileName = "incumbeny_certification";
+                    break;
+                case 3://邮箱后台
+                    fileName = "mail";
+                    break;
+                case 4://名片
+                    fileName = "business_card";
+                    break;
+           }
+        x.image().bind(activityExamineCertificatesBinding.ivCertificates,new File(CommonUtils.getApplication().getCacheDir(), fileName).toURI().toString());
         }
 
     }
 
     //提交审核
     public void examine(View view){
-        MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
+     if(bitmap!=null){
+         MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
+     }else {
+         String photoUri = new File(CommonUtils.getApplication().getCacheDir(), fileName).toURI().toString();
+         MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
+     }
     }
 
     //重新上传

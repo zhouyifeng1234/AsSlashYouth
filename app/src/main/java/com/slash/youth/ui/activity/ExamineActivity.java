@@ -32,14 +32,13 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
             bitmap = intent.getParcelableExtra("bitmap");
             type = intent.getIntExtra("careertype", -1);
             cardType = intent.getIntExtra("cardType", -1);
+           photoUri = intent.getStringExtra("photoUri");
         }
         activityExamineCertificatesBinding = DataBindingUtil.setContentView(this, R.layout.activity_examine_certificates);
         ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding,this,bitmap,type,cardType,photoUri);
         activityExamineCertificatesBinding.setExamineCertificatesModel(examineCertificatesModel);
         listener();
     }
-
-
 
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);

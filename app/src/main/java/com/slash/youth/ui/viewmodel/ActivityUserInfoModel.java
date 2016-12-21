@@ -97,14 +97,16 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int footerHeight;
     private int startY;
     private int anonymity;
+    private OtherInfoBean.DataBean.UinfoBean uinfo;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
-                                 UserInfoActivity userInfoActivity,String tag,int anonymity) {
+                                 UserInfoActivity userInfoActivity,String tag,int anonymity
+                                ) {
         this.activityUserinfoBinding = activityUserinfoBinding;
-        this.userInfoActivity = userInfoActivity;
         this.tag = tag;
         this.otherUid = otherUid;
         this.anonymity = anonymity;
+        this.userInfoActivity = userInfoActivity;
        // initFootView();
         initData();
         initView();
@@ -136,7 +138,6 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
-
         if(isauth == 0){
             activityUserinfoBinding.tvUserinfoApproval.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -234,6 +235,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private void initData() {
         if(otherUid == -1){
             MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
+            MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid);
             uid =  LoginManager.currentLoginUserId;
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
             isOther = false;
@@ -310,6 +312,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                 activityUserinfoBinding.llSkilllabelContainer.addView(textViewTag);
             }
         }
+
+
 
         //用户ID
         myUid = uinfo.getId();
@@ -404,7 +408,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     public   OtherInfoBean.DataBean.UinfoBean otherUinfo;
 
     //更新用户信息
-    private void updateOtherUserInfo( OtherInfoBean.DataBean.UinfoBean uinfo) {
+    private void updateOtherUserInfo() {
        otherUinfo = uinfo;
         //   技能标签
         String tag = uinfo.getTag();
@@ -421,6 +425,31 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
         }
 
+        //粉丝数
+        fanscount = uinfo.getFanscount();
+        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
+        activityUserinfoBinding.pbFans.setProgress(fanscount);
+        //粉丝比率
+        fansratio = uinfo.getFansratio();
+        activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
+        activityUserinfoBinding.tvFansCount.setText("超过平台" + fansratio + "的用户");
+        //完成任务的单数
+        achievetaskcount = uinfo.getAchievetaskcount();
+        activityUserinfoBinding.pbTask.setProgress(achievetaskcount);
+        activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
+        activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
+        //任务总数
+        totoltaskcount = uinfo.getTotoltaskcount();
+        activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
+        //平均服务点
+        averageservicepoint = uinfo.getAverageservicepoint();
+        //用户服务指向
+        userservicepoint = uinfo.getUserservicepoint();
+        activityUserinfoBinding.pbService.setProgress((int)userservicepoint);
+        activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
+        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
+        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+
         //用户ID
         myUid = uinfo.getId();
         //用户头像
@@ -434,7 +463,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         if (!name.isEmpty()) {
             onNameListener.OnNameListener(name, myUid);
         } else {
-            activityUserinfoBinding.tvUserinfoUsername.setText("个人信息中心");
+            activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
         }
 
         //职业类型
@@ -510,27 +539,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
         activityUserinfoBinding.tvPlace.setText(place);
 
-        //粉丝数
-        fanscount = uinfo.getFanscount();
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
-        //粉丝比率
-        fansratio = uinfo.getFansratio();
-        activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
-        activityUserinfoBinding.tvFansCount.setText("超过平台" + fansratio + "的用户");
-        //完成任务的单数
-        achievetaskcount = uinfo.getAchievetaskcount();
-        activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
-        activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
-        //任务总数
-        totoltaskcount = uinfo.getTotoltaskcount();
-        activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
-        //平均服务点
-        averageservicepoint = uinfo.getAverageservicepoint();
-        //用户服务指向
-        userservicepoint = uinfo.getUserservicepoint();
-        activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
-        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
-        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+
     }
     //去认证
     public void OpenApprovalActivtity(View view) {
@@ -572,6 +581,48 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
+    public class onGetMyUidPersonInfo implements BaseProtocol.IResultExecutor<OtherInfoBean> {
+        @Override
+        public void execute(OtherInfoBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                OtherInfoBean.DataBean data = dataBean.getData();
+                uinfo = data.getUinfo();
+                //粉丝数
+                fanscount = uinfo.getFanscount();
+                activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
+                activityUserinfoBinding.pbFans.setProgress(fanscount);
+                //粉丝比率
+                fansratio = uinfo.getFansratio();
+                activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
+                activityUserinfoBinding.tvFansCount.setText("超过平台" + fansratio + "的用户");
+                //完成任务的单数
+                achievetaskcount = uinfo.getAchievetaskcount();
+                activityUserinfoBinding.pbTask.setProgress(achievetaskcount);
+                activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
+                activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
+                //任务总数
+                totoltaskcount = uinfo.getTotoltaskcount();
+                activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
+                //平均服务点
+                averageservicepoint = uinfo.getAverageservicepoint();
+                //用户服务指向
+                userservicepoint = uinfo.getUserservicepoint();
+                activityUserinfoBinding.pbService.setProgress((int)userservicepoint);
+                activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
+                activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
+                activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+            }else {
+                LogKit.d("rescode ="+rescode);
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
     //获取其他用户信息
     public class onGetOtherPersonInfo implements BaseProtocol.IResultExecutor<OtherInfoBean> {
         @Override
@@ -579,8 +630,8 @@ public class ActivityUserInfoModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
                 OtherInfoBean.DataBean data = dataBean.getData();
-                OtherInfoBean.DataBean.UinfoBean uinfo = data.getUinfo();
-                updateOtherUserInfo(uinfo);
+                uinfo = data.getUinfo();
+                updateOtherUserInfo();
             }else {
                 LogKit.d("rescode ="+rescode);
             }

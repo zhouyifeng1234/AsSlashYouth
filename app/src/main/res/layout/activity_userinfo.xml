@@ -260,11 +260,6 @@
                                                 android:text="斜杠身份: 互联网金融/UI设计师/系统架构师/摄影爱好者"/>
                                         </LinearLayout>
                                     </LinearLayout>
-
-
-
-
-
                             </android.support.v7.widget.CardView>
                         </LinearLayout>
                         <!--粉丝数-->
@@ -292,7 +287,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="粉丝数125"
                                     android:textColor="#999999"
                                     android:textSize="12sp"/>
                                 <View android:layout_width="0dp" android:layout_height="0dp"
@@ -309,7 +303,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="顺利成交7单"
                                     android:textColor="#999999"
                                     android:textSize="12sp"/>
                                 <View android:layout_width="0dp" android:layout_height="0dp"
@@ -326,7 +319,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="服务力4.2星"
                                     android:textColor="#999999"
                                     android:textSize="12sp"/>
                             </LinearLayout>
@@ -342,20 +334,31 @@
                                     android:layout_width="78dp"
                                     android:layout_height="match_parent">
                                     <View
+                                        android:visibility="gone"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/shape_home_my_info_bg"/>
                                     <View
+                                        android:visibility="gone"
                                         android:layout_width="57dp"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/shape_home_my_info_fanscount_bg"/>
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_fans"
+                                        style="@style/StyleProgressBarMini_fans"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="#ffffff"
+                                        android:max="100"
+                                        />
+
                                     <TextView
                                         android:id="@+id/tv_user_info_fansratio"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:gravity="center"
-                                        android:text="80%"
                                         android:textColor="#FFFFFF"
                                         android:textSize="8dp"/>
                                 </FrameLayout>
@@ -367,20 +370,29 @@
                                     android:layout_width="78dp"
                                     android:layout_height="match_parent">
                                     <View
+                                        android:visibility="gone"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/shape_home_my_info_bg"/>
                                     <View
+                                        android:visibility="gone"
                                         android:layout_width="57dp"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/shape_home_my_info_fanscount_bg"/>
+                                    <ProgressBar
+                                        android:id="@+id/pb_task"
+                                        style="@style/StyleProgressBarMini_fans"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="#ffffff"
+                                        android:max="100"
+                                        />
                                     <TextView
                                         android:id="@+id/tv_Achieve_Task_Count"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:gravity="center"
-                                        android:text="7"
                                         android:textColor="#FFFFFF"
                                         android:textSize="8dp"/>
                                 </FrameLayout>
@@ -392,20 +404,31 @@
                                     android:layout_width="78dp"
                                     android:layout_height="match_parent">
                                     <View
+                                        android:visibility="gone"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/shape_home_my_info_bg"/>
                                     <View
+                                        android:visibility="gone"
                                         android:layout_width="68dp"
                                         android:layout_height="match_parent"
                                         android:background="@drawable/shape_home_my_info_fanscount_bg"/>
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_service"
+                                        style="@style/StyleProgressBarMini_fans"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="#ffffff"
+                                        android:max="100"
+                                        />
+
                                     <TextView
                                         android:id="@+id/tv_Average_Service_Point"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:gravity="center"
-                                        android:text="4.2"
                                         android:textColor="#FFFFFF"
                                         android:textSize="8dp"/>
                                 </FrameLayout>

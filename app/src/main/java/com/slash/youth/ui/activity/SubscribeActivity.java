@@ -92,6 +92,8 @@ public class SubscribeActivity extends Activity {
     private int clickCount = 0;//默认是0
     private Intent intent;
     private boolean isEditor = false;
+    private int no_custom_f1;
+    private int no_custom_f2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +152,6 @@ public class SubscribeActivity extends Activity {
                     saveDate2Local("skillLabel", arrayList);
                     getSkillLabelAllArrayList(arrayList);
                 }
-
                 @Override
                 public void executeResultError(String result) {
                     LogKit.d("result : " + result);
@@ -199,7 +200,7 @@ public class SubscribeActivity extends Activity {
             String[] thirdSkillNames = userSkillLabel.split("_");
             for (String thirdSkillName : thirdSkillNames) {
                 if (thirdSkillName != null) {
-                    skillLabelBean = new SkillLabelBean(thirdSkillName, userf1, userf2, userid);
+                    skillLabelBean = new SkillLabelBean( userf1, userf2, userid,thirdSkillName);
                     listThirdUserCustomSkilllabelName.add(skillLabelBean);
                 }
             }
@@ -215,19 +216,19 @@ public class SubscribeActivity extends Activity {
 
             //一级标签集合
             if (f1 == 0 && f2 == 0) {
-                SkillLabelBean skillLabelBean = new SkillLabelBean(tag, f1, f2, id);
+                SkillLabelBean skillLabelBean = new SkillLabelBean( f1, f2, id,tag);
                 listFirstSkilllabelName.add(skillLabelBean);
                 listener.OnListener(listFirstSkilllabelName);
             }
 
             //二级标签集合
             if (f1 != 0 && f2 == 0) {
-                listSkilllabel.add(new SkillLabelBean(tag, f1, f2, id));
+                listSkilllabel.add(new SkillLabelBean(f1, f2, id,tag));
             }
 
             //三级标签集合
             if (f1 != 0 && f2 != 0) {
-                listThirdSkilllabelName.add(new SkillLabelBean(tag, f1, f2, id));
+                listThirdSkilllabelName.add(new SkillLabelBean( f1, f2, id,tag));
             }
         }
 
@@ -315,7 +316,7 @@ public class SubscribeActivity extends Activity {
             int id1 = skillLabelBean.getId();
             String tag1 = skillLabelBean.getTag();
             if (firstId == f11) {
-                commnSkilllabel.add(new SkillLabelBean(tag1, f11, f21, id1));
+                commnSkilllabel.add(new SkillLabelBean( f11, f21, id1,tag1));
             }
         }
     }
@@ -393,20 +394,32 @@ public class SubscribeActivity extends Activity {
     private void updateLableView(ArrayList<SkillLabelBean> listThirdSkilllabelName) {
         skillLabelLineWidth = 0;//每次刷新数据就赋值为0
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
+
+        //非自定义标签
         for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
             SkillLabelBean skillLabelBean = listThirdSkilllabelName.get(i);
+            no_custom_f1 = skillLabelBean.getF1();
+            no_custom_f2 = skillLabelBean.getF2();
             String thirdSkilllabelName = skillLabelBean.getTag();
             index = i;
             TextView tvThirdSkilllabelName = getTableView(i, thirdSkilllabelName, skillLabelBean);
-
             //测量标签TextView的宽度并判断是否换行
             addTableView(tvThirdSkilllabelName);
         }
+
+        //用户自定义标签
         for (int i = 0; i < listThirdUserCustomSkilllabelName.size(); i++) {
             SkillLabelBean skillLabelBean = listThirdUserCustomSkilllabelName.get(i);
-            addTableView(getUseCostomLableView(skillLabelBean.getTag(), skillLabelBean));
+            int f1 = skillLabelBean.getF1();
+            int f2 = skillLabelBean.getF2();
+            if(no_custom_f1 ==f1&&no_custom_f2 == f2){
+                addTableView(getUseCostomLableView(skillLabelBean.getTag(), skillLabelBean));
+            }
         }
-        addTableView(getAddLableView());
+        View addLableView = getAddLableView();
+        if(addLableView!=null){
+            addTableView(addLableView);
+        }
 
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.addView(llSkilllabelLine);
         //添加一行空格
@@ -626,7 +639,7 @@ public class SubscribeActivity extends Activity {
                     public void OnOkDialogClick(String text) {
                         if (text != null) {
                             int thirsId = listThirdSkilllabelName.size() + 1;
-                            SkillLabelBean skillLabelBean = new SkillLabelBean(text, firstId, secondId, thirsId);
+                            SkillLabelBean skillLabelBean = new SkillLabelBean( firstId, secondId, thirsId,text);
                             listThirdUserCustomSkilllabelName.add(skillLabelBean);
                             // saveDate2Local("userCostom",listThirdUserCustomSkilllabelName);
                             updateLableView(commnThirdSkillLabel);

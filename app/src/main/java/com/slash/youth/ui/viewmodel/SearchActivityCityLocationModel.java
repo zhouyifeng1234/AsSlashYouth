@@ -44,7 +44,7 @@ public class SearchActivityCityLocationModel extends BaseObservable {
     private SQLiteDatabase database;
     public ArrayList<Character> listCityNameFirstLetter;
     public ArrayList<ListCityBean> listCity = new ArrayList();
-    private ArrayList<LocationCityInfo> listCityInfo = new ArrayList<>();
+    public ArrayList<LocationCityInfo> listCityInfo = new ArrayList<>();
     public static String cityName;
     private Activity mActivity;
 

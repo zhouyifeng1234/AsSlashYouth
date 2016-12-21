@@ -53,7 +53,7 @@ public class PagerHomeContactsModel extends BaseObservable {
 
     private void initView() {
         HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_home_contacts, null, false);
-        HeaderHomeContactsModel headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding);
+        HeaderHomeContactsModel headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding,mActivity);
         headerListviewHomeContactsBinding.setHeaderHomeContactsModel(headerHomeContactsModel);
         View vContactsHeader = headerListviewHomeContactsBinding.getRoot();
         mPagerHomeContactsBinding.lvHomeContactsVisitor.addHeaderView(vContactsHeader);
@@ -117,6 +117,16 @@ public class PagerHomeContactsModel extends BaseObservable {
                 HomeContactsVisitorBean.DataBean data = dataBean.getData();
                 List<HomeContactsVisitorBean.DataBean.ListBean> list = data.getList();
                 listHomeContactsVisitorBean.addAll(list);
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
+                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
             }
             //设置访客列表数据
             homeContactsVisitorAdapter = new HomeContactsVisitorAdapter(listHomeContactsVisitorBean);

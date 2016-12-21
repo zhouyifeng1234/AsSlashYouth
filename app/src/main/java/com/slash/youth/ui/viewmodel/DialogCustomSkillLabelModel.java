@@ -31,10 +31,11 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
     private LinearLayout linearLayout;
     private String name;
     private Pattern pattern;
+    private String textString = "请输入";
 
     public DialogCustomSkillLabelModel(DialogCustomSkilllabelBinding dialogCustomSkilllabelBinding) {
         this.dialogCustomSkilllabelBinding = dialogCustomSkilllabelBinding;
-        dialogCustomSkilllabelBinding.tvTitle.setText("请输入");
+        dialogCustomSkilllabelBinding.tvTitle.setText(textString);
         String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
         pattern = Pattern.compile(regex);
 
@@ -42,7 +43,6 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
 
     //取消搜索对话框(xml中取消按钮绑定方法)
     public void cancelDialog(View v) {
-        //LogKit.d("cancel");
         currentDialog.dismiss();
     }
 
@@ -68,7 +68,7 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
                 ToastUtils.shortToast("自定义技能名不能有"+"-"+"字符");
             }else {
                 int length = chars.length;
-                if(length!=10){
+                if(length!=6){
                     listener.OnOkDialogClick(text);
 
                 }else {

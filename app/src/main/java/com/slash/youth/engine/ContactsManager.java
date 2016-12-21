@@ -1,10 +1,12 @@
 package com.slash.youth.engine;
 
+import com.slash.youth.http.protocol.AddBlackFriendProtocol;
 import com.slash.youth.http.protocol.AddFrriendRlationProtocol;
 import com.slash.youth.http.protocol.AddMeListProtocol;
 import com.slash.youth.http.protocol.AgreeFriendProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CannelCareProtocol;
+import com.slash.youth.http.protocol.CheckFriendApplicationProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.http.protocol.DeleteFriendRelationProtocol;
 import com.slash.youth.http.protocol.MyFriendListProtocol;
@@ -107,16 +109,15 @@ public class ContactsManager {
        cannelCareProtocol.getDataFromServer(onCannelCareProtocol);
    }
 
+    //推荐好友黑名单接口
+    public static void AddBlackFriend(BaseProtocol.IResultExecutor AddBlackFriendProtocol,long uid) {
+        AddBlackFriendProtocol addBlackFriendProtocol = new AddBlackFriendProtocol(uid);
+        addBlackFriendProtocol.getDataFromServer(AddBlackFriendProtocol);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    //[好友]-查看好友申请状态列表
+    public static void FriendApplicationStatus(BaseProtocol.IResultExecutor friendApplicationStatus,int  offset,int limit) {
+        CheckFriendApplicationProtocol checkFriendApplicationProtocol = new CheckFriendApplicationProtocol(offset,limit);
+        checkFriendApplicationProtocol.getDataFromServer(friendApplicationStatus);
+    }
 }

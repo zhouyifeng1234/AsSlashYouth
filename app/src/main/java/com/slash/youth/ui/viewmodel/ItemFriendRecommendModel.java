@@ -9,13 +9,18 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemHscFriendRecommendBinding;
 import com.slash.youth.domain.FriendRecommendBean;
 import com.slash.youth.domain.RecommendFriendBean;
+import com.slash.youth.domain.SetBean;
+import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.LoginBindProtocol;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
@@ -24,27 +29,32 @@ public class ItemFriendRecommendModel extends BaseObservable {
     ItemHscFriendRecommendBinding mItemHscFriendRecommendBinding;
     RecommendFriendBean.DataBean.ListBean mFriendRecommendBean;
     View mItemFriendRecommend;
-//    View mRecommendSpace;
+   // View mRecommendSpace;
     ArrayList<RecommendFriendBean.DataBean.ListBean> mListFriendRecommendBean;
-    int index;
+    private  ArrayList<RecommendFriendBean.DataBean.ListBean> mListFriendRecommendList = new ArrayList<>();
+   private   int index;
     private String avatar;
     private String company;
     private String position;
     private int isauth;
+    private int limit = 10;
 
     public ItemFriendRecommendModel(ItemHscFriendRecommendBinding itemHscFriendRecommendBinding, View itemFriendRecommend, ArrayList<RecommendFriendBean.DataBean.ListBean> listFriendRecommendBean, int index) {
         this.mItemHscFriendRecommendBinding = itemHscFriendRecommendBinding;
         this.mFriendRecommendBean = listFriendRecommendBean.get(index);
         this.mItemFriendRecommend = itemFriendRecommend;
-//        this.mRecommendSpace = recommendSpace;
+      // this.mRecommendSpace = recommendSpace;
         this.mListFriendRecommendBean = listFriendRecommendBean;
         this.index = index;
-
         initData();
-        initView();
+        initVisible();
+    }
+    //获取网络推荐好友的数据
+    private void initData() {
+        ContactsManager.getMyRecommendFriendList(new onGetMyRecommendFriendList(), limit);
     }
 
-    private void initData() {
+    private void initVisible() {
         setCommonRecommendMarkerVisibility(View.INVISIBLE);
         setEliteRecommendMarkerVisibility(View.INVISIBLE);
       /*  if (mFriendRecommendBean.isEliteRecommedn) {
@@ -54,58 +64,22 @@ public class ItemFriendRecommendModel extends BaseObservable {
             setEliteRecommendMarkerVisibility(View.INVISIBLE);
             setCommonRecommendMarkerVisibility(View.VISIBLE);
         }*/
-        setUsername(mFriendRecommendBean.getName());
-        avatar = mFriendRecommendBean.getAvatar();
-        company = mFriendRecommendBean.getCompany();
-        String direction = mFriendRecommendBean.getDirection();
-        String industry = mFriendRecommendBean.getIndustry();
-        isauth = mFriendRecommendBean.getIsauth();
-        int uid = mFriendRecommendBean.getUid();
-        position = mFriendRecommendBean.getPosition();
-    }
-
-    private void initView() {
-        if(avatar!=null){
-            BitmapKit.bindImage(mItemHscFriendRecommendBinding.ivRecommendIcon,GlobalConstants.HttpUrl.SERVER_HOST_IMG_UPLOAD_DOWNLOAD+"?findId="+avatar);
-        }
-        mItemHscFriendRecommendBinding.tvRecommendCommpany.setText(company);
-
-        mItemHscFriendRecommendBinding.tvRecommendPosition.setText(position);
-
-        switch (isauth){
-            case 1:
-                mItemHscFriendRecommendBinding.ivRecommendV.setVisibility(View.VISIBLE);
-                break;
-            case 0:
-                mItemHscFriendRecommendBinding.ivRecommendV.setVisibility(View.GONE);
-                break;
-            default:
-                mItemHscFriendRecommendBinding.ivRecommendV.setVisibility(View.GONE);
-                break;
-        }
     }
 
     //删除一条推荐
     public void deleteRecommend(View v) {
-        mListFriendRecommendBean.remove(mFriendRecommendBean);
-        ViewGroup itemParent = (ViewGroup) mItemFriendRecommend.getParent();
-        itemParent.removeView(mItemFriendRecommend);
-//        itemParent.removeView(mRecommendSpace);
-        //调用服务端相关接口，实现删除一个推荐条目的功能
-
-
+       // itemParent.removeView(mRecommendSpace);
+        RecommendFriendBean.DataBean.ListBean listBean = mListFriendRecommendList.get(index);
+        long uid = listBean.getUid();
+        ContactsManager.AddBlackFriend(new onAddBlackFriend(),uid);
     }
 
     //添加推荐的好友
     public void addFriend(View v) {
-        mListFriendRecommendBean.remove(mFriendRecommendBean);
-        ViewGroup itemParent = (ViewGroup) mItemFriendRecommend.getParent();
-        itemParent.removeView(mItemFriendRecommend);
+        RecommendFriendBean.DataBean.ListBean listBean = mListFriendRecommendList.get(index);
+        long uid = listBean.getUid();
+        ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),uid,"   ");
 //        itemParent.removeView(mRecommendSpace);
-        //调用服务端相关接口，实现添加一个推荐好友的操作
-
-
-
     }
 
     private int eliteRecommendMarkerVisibility;
@@ -140,5 +114,126 @@ public class ItemFriendRecommendModel extends BaseObservable {
     public void setUsername(String username) {
         this.username = username;
         notifyPropertyChanged(BR.username);
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+        notifyPropertyChanged(BR.company);
+    }
+
+    @Bindable
+    public String getCompany() {
+        return company;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+        notifyPropertyChanged(BR.position);
+    }
+
+    @Bindable
+    public String getPosition() {
+        return position;
+    }
+
+    public class onGetMyRecommendFriendList implements BaseProtocol.IResultExecutor<RecommendFriendBean> {
+        @Override
+        public void execute(RecommendFriendBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if (rescode == 0) {
+                RecommendFriendBean.DataBean data = dataBean.getData();
+                List<RecommendFriendBean.DataBean.ListBean> list = data.getList();
+                mListFriendRecommendList.addAll(list);
+                for (RecommendFriendBean.DataBean.ListBean listBean : list) {
+                    setView(listBean);
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
+
+    //设置推荐好友的数据
+    private void setView(RecommendFriendBean.DataBean.ListBean listBean) {
+        setUsername(listBean.getName());
+        avatar = listBean.getAvatar();
+        if(avatar!=null){
+            BitmapKit.bindImage(mItemHscFriendRecommendBinding.ivRecommendIcon,GlobalConstants.HttpUrl.SERVER_HOST_IMG_UPLOAD_DOWNLOAD+"?findId="+avatar);
+        }
+        setCompany(listBean.getCompany());
+        String direction = listBean.getDirection();
+        String industry = listBean.getIndustry();
+        long uid = listBean.getUid();
+        setPosition(listBean.getPosition());
+        int isauth = listBean.getIsauth();
+        switch (isauth){
+            case 1:
+                mItemHscFriendRecommendBinding.ivRecommendV.setVisibility(View.VISIBLE);
+                break;
+            case 0:
+                mItemHscFriendRecommendBinding.ivRecommendV.setVisibility(View.GONE);
+                break;
+            default:
+                mItemHscFriendRecommendBinding.ivRecommendV.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    //加好友关系
+    public class onAddFriendRelationProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        mItemHscFriendRecommendBinding.btnAddFriend.setText("已申请");
+                        LogKit.d("表示发起申请成功-并且对方未确认");
+                        break;
+                    case 2:
+                        mItemHscFriendRecommendBinding.btnAddFriend.setText("已申请");
+                        LogKit.d("表示发起申请成功-已经成为好友关系");
+                        break;
+                    case 0:
+                        LogKit.d("status:"+status+"status=0表示发起申请失败");
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
+    }
+
+    //拉黑朋友
+    public class onAddBlackFriend implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1://1加入黑名单成功
+                        mListFriendRecommendBean.remove(mFriendRecommendBean);
+                        ViewGroup itemParent = (ViewGroup) mItemFriendRecommend.getParent();
+                        itemParent.removeView(mItemFriendRecommend);
+                        break;
+                    case 0://0加入黑名单失败
+
+                        LogKit.d("加入黑名单失败");
+                        break;
+                }
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
     }
 }

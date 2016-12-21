@@ -35,10 +35,8 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     private ApprovalModel approvalModel;
     private String photoUri;
     private String titleText = "认证";
-    private String submint = "提交";
-    private ApprovalCertificatesBinding approvalCertificatesBinding;
+   // private String submint = "提交";
     private Bitmap photo;
-    private boolean  photoAlbum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,41 +50,21 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
         listener();
     }
 
-
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
         title.setText(titleText);
         save = (TextView) findViewById(R.id.tv_userinfo_save);
-        save.setOnClickListener(this);
-        save.setText(submint);
+        save.setVisibility(View.GONE);
+       // save.setOnClickListener(this);
+      //  save.setText(submint);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.iv_userinfo_back:
                 finish();
-                break;
-
-            case R.id.tv_userinfo_save:
-
-                if(photoAlbum){
-                    Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
-                    intentExamineActivity.putExtra("careertype", careertype);
-                   // intentExamineActivity.putExtra("bitmap", photo);   //TODO 系统问题
-                    intentExamineActivity.putExtra("cardType", approvalModel.cardType);
-                    intentExamineActivity.putExtra("photoUri", photoUri);
-                    startActivity(intentExamineActivity);
-                }else {
-                    Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
-                    intentExamineActivity.putExtra("bitmap", bitmap);
-                    intentExamineActivity.putExtra("careertype", careertype);
-                    intentExamineActivity.putExtra("cardType", approvalModel.cardType);
-                    intentExamineActivity.putExtra("photoUri", photoUri);
-                    startActivity(intentExamineActivity);
-                }
                 break;
         }
     }
@@ -99,43 +77,36 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                 if (resultCode == RESULT_OK) {
                     Bundle bundle = data.getExtras();
                     bitmap = (Bitmap) bundle.get("data");
-                    Bitmap photo = BitmapKit.zoomBitmap(bitmap, 250, 200);
-
-                    approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
+                    photo =  BitmapKit.zoomBitmap(bitmap, 250, 200);
+                  //  listener.OnBackClick(photo);
                     //选择类型
                     switch (cardType) {
                         case Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD:
+                            LogKit.d("名片");
                             setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_BUSINESS_CARD");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_IDCARD:
-
-                            ImageView imageView = new ImageView(CommonUtils.getContext());
-                            imageView.setImageBitmap(photo);
-                            approvalCertificatesBinding.flCertificates.addView(imageView);
-                            approvalModel.viewpageAdapter.notifyDataSetChanged();//后台
-
+                            LogKit.d("身份证");
                             setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_IDCARD");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
-
-                            ImageView imageView1 = new ImageView(CommonUtils.getContext());
-                            imageView1.setImageBitmap(photo);
-                            approvalCertificatesBinding.flCertificates.addView(imageView1);
-                            approvalModel.viewpageAdapter.notifyDataSetChanged();
-
+                            LogKit.d("在职证明");
                              setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_MAIL:
+                            LogKit.d("邮箱后台");
                             setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_MAIL");
                             break;
                         case Cardtype.USER_REAL_AUTH_CARD_SIN:
+                            LogKit.d("工牌");
                             setAndSavePhoto(photo,"USER_REAL_AUTH_CARD_SIN");
                             break;
                         default:
-                            activityApprovalBinding.ivCertificates.setImageBitmap(photo);
-                            photoUri = BitmapKit.saveBitmap(photo, "photo");
+                            photoUri = BitmapKit.saveBitmap(photo, "takePhoto");
                             break;
                     }
+                    //跳转界面
+                    jumpActivity();
                 }
                 break;
             case Constants.USERINFO_PHOTOALBUM://7
@@ -147,20 +118,26 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
 
                         switch (cardType) {
                             case Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD:
+                                setAndSavePhoto(photo,"business_card");
+                                break;
                             case Cardtype.USER_REAL_AUTH_CARD_IDCARD:
+                                setAndSavePhoto(photo,"id_card");
+                                break;
                             case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
+                                setAndSavePhoto(photo,"incumbeny_certification");
+                                break;
                             case Cardtype.USER_REAL_AUTH_CARD_MAIL:
+                                setAndSavePhoto(photo,"mail");
+                                break;
                             case Cardtype.USER_REAL_AUTH_CARD_SIN:
-                            approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
-                            approvalCertificatesBinding.ivCertificates.setImageBitmap(photo);
+                                setAndSavePhoto(photo,"sin");
                                 break;
                             default:
-                                activityApprovalBinding.ivCertificates.setImageBitmap(photo);
+                                photoUri = BitmapKit.saveBitmap(photo, "photoAlbum");
                                 break;
                         }
-                        photoUri = BitmapKit.saveBitmap(photo, "photo");
-                         photoAlbum = true;
-                    } catch (FileNotFoundException e) {
+                        jumpAlbumActivity();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -171,17 +148,32 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     }
 
     private void setAndSavePhoto(Bitmap photo,String photoName) {
-        ApprovalCertificatesBinding approvalCertificatesBinding = approvalModel.approvalCertificatesBinding;
-        approvalCertificatesBinding.ivCertificates.setImageBitmap(photo);
         photoUri = BitmapKit.saveBitmap(photo,photoName);
     }
 
-    private void setPhoto(Intent data) {
-        Bundle bundle = data.getExtras();
-        bitmap = (Bitmap) bundle.get("data");
-        Bitmap photo = BitmapKit.zoomBitmap(bitmap, 250, 200);
-        activityApprovalBinding.ivCertificates.setImageBitmap(photo);
-        photoUri = BitmapKit.saveBitmap(photo, "photo");
+    private void jumpActivity() {
+        Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
+        intentExamineActivity.putExtra("bitmap", photo);
+        intentExamineActivity.putExtra("careertype", careertype);
+        intentExamineActivity.putExtra("cardType", approvalModel.cardType);
+        intentExamineActivity.putExtra("photoUri", photoUri);
+        startActivity(intentExamineActivity);
     }
 
+    private void jumpAlbumActivity() {
+        Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
+        intentExamineActivity.putExtra("careertype", careertype);
+        intentExamineActivity.putExtra("cardType", approvalModel.cardType);
+        intentExamineActivity.putExtra("photoUri", photoUri);
+        startActivity(intentExamineActivity);
+    }
+
+    //监听回调返回键
+    public interface OnBackPhotoCListener{
+        void OnBackClick(Bitmap photo);
+    }
+    private OnBackPhotoCListener listener;
+    public void setOnBackPhotoListener(OnBackPhotoCListener listener) {
+        this.listener = listener;
+    }
 }

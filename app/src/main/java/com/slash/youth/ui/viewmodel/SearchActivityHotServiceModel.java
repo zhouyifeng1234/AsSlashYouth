@@ -108,18 +108,18 @@ public class SearchActivityHotServiceModel extends BaseObservable {
 
             //一级标签集合
             if (f1 == 0 && f2 == 0) {
-                SkillLabelBean skillLabelBean = new SkillLabelBean(tag, f1, f2, id);
+                SkillLabelBean skillLabelBean = new SkillLabelBean( f1, f2, id,tag);
                 listFirstSkilllabel.add(skillLabelBean);
             }
 
             //二级标签集合
             if (f1 != 0 && f2 == 0) {
-                listSecondSkilllabel.add(new SkillLabelBean(tag, f1, f2, id));
+                listSecondSkilllabel.add(new SkillLabelBean( f1, f2, id,tag));
             }
 
             //三级标签集合
             if (f1 != 0 && f2 != 0) {
-                listThirdSkilllabel.add(new SkillLabelBean(tag, f1, f2, id));
+                listThirdSkilllabel.add(new SkillLabelBean(f1, f2, id,tag));
             }
         }
     }

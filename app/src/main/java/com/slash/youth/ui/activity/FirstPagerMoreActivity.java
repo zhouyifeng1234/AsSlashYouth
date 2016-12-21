@@ -30,7 +30,7 @@ public class FirstPagerMoreActivity extends Activity {
         Intent intent = getIntent();
         boolean isDemand = intent.getBooleanExtra("isDemand", false);
         activityFirstPagerMoreBinding = DataBindingUtil.setContentView(this, R.layout.activity_first_pager_more);
-        if(isDemand){
+        if(!isDemand){
             activityFirstPagerMoreBinding.tvFirstPagerTitle.setText(TITLE);
         }
         FirstPagerDemandModel firstPagerDemandModel = new FirstPagerDemandModel(activityFirstPagerMoreBinding,isDemand,this);

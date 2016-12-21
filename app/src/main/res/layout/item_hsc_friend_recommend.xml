@@ -90,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="2dp"
+                    android:visibility="gone"
                     android:src="@mipmap/add_v"/>
 
             </LinearLayout>
@@ -97,10 +98,13 @@
             <TextView
                 android:id="@+id/tv_recommend_commpany"
                 android:layout_width="wrap_content"
+                android:maxLines="2"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="阿里旺旺科技公司"
+                android:maxEms="5"
+                android:ellipsize="end"
+                android:text="@{itemFriendRecommendModel.company}"
                 android:textColor="#999999"
                 android:textSize="11dp"/>
 
@@ -110,11 +114,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:text="UI设计总监"
+                android:text="@{itemFriendRecommendModel.position}"
                 android:textColor="#999999"
                 android:textSize="11dp"/>
 
             <TextView
+                android:id="@+id/btn_addFriend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

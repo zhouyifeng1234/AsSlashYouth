@@ -19,6 +19,8 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -109,6 +111,4 @@ public class BitmapKit {
         }
         return file.getAbsolutePath();
     }
-
-
 }

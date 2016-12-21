@@ -46,7 +46,7 @@ public class RecommendFriendBean {
             private int isauth;
             private String name;
             private String position;
-            private int uid;
+            private long uid;
 
             public String getAvatar() {
                 return avatar;
@@ -104,11 +104,11 @@ public class RecommendFriendBean {
                 this.position = position;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
         }

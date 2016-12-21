@@ -18,11 +18,11 @@ public class SkillLabelBean implements Serializable {
     public String tag;
 //    private ArrayList<SkillLabelBean> childs =new ArrayList<>();//li
 //    private ArrayList<Integer> childIds = new ArrayList<>();//li
-    public SkillLabelBean(String labelName,int f1,int f2,int id) {
-        this.tag = labelName;
+    public SkillLabelBean(int f1,int f2,int id,String labelName) {
         this.f1 = f1;
         this.f2 = f2;
         this.id =id;
+        this.tag = labelName;
     }
 //    public void addChild(SkillLabelBean child){
 //        childs.add(child);

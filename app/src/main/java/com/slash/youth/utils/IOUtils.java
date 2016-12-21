@@ -16,41 +16,15 @@ import java.util.ArrayList;
 
 public class IOUtils {
 
-	public static final String UID_PATH = "/data"
-			+ Environment.getDataDirectory().getAbsolutePath() + "/"
-			+ "Contacts_Uid";
-
-	//本地读取数据
-	public static ArrayList getDateFromLocal(String path) {
-		ArrayList data = null;
-		ObjectInputStream ois = null;
-		try {
-			ois = new ObjectInputStream(new FileInputStream(new File(path)));
-			data = (ArrayList) ois.readObject();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (ois != null) {
-				try {
-					ois.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return data;
-	}
-
 	//本地存储数据
-	public static void saveDate2Local(String path, ArrayList<Integer> data) {
+	public static void saveDate2Local(String path, ArrayList<Long> data) {
 		ObjectOutputStream oos = null;
 		try {
 			if (data == null || data.size() == 0) {
 				return;
 			}
 			//对象流读取一个集合
-			oos = new ObjectOutputStream(new FileOutputStream(new File(path)));
+			oos = new ObjectOutputStream(new FileOutputStream(new File(CommonUtils.getApplication().getCacheDir(),path)));
 			oos.writeObject(data);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,6 +39,27 @@ public class IOUtils {
 		}
 	}
 
+	//从本地读取
+	public static ArrayList<Long> getDateFromLocal(String fileName) {
+		ArrayList<Long> data = null;
+		ObjectInputStream ois = null;
+		try {
+			ois = new ObjectInputStream(new FileInputStream(new File(CommonUtils.getApplication().getCacheDir(),fileName)));
+			data = (ArrayList<Long>) ois.readObject();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (ois != null) {
+				try {
+					ois.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return data;
+	}
 
 	/** 关闭流 */
 	public static boolean close(Closeable io) {

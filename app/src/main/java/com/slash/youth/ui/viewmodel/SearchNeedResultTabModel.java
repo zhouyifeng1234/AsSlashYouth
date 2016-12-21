@@ -27,6 +27,7 @@ import com.slash.youth.ui.pager.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -247,16 +248,25 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 if (position > 0) {
                     tvFirstLetter = (TextView) view;
                     String firstLetter = tvFirstLetter.getText().toString();
 
-                    LogKit.d("=========="+firstLetter);
-                    if (mHashFirstLetterIndex.containsKey(firstLetter)) {
-                        Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
-//                    ToastUtils.shortToast(firstLetterIndex + "");
-                        searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                    for (int i = 0; i < searchActivityCityLocationModel.listCityInfo.size(); i++) {
+                        LocationCityInfo locationCityInfo = searchActivityCityLocationModel.listCityInfo.get(i);
+                        String firstCityLetter = locationCityInfo.getFirstLetter();
+                        if(firstCityLetter.equals(firstLetter) ){
+                           // ToastUtils.shortCenterToast(" "+firstLetter);
+                            searchCityLocationBinding.tv.setText(firstLetter);
+                            searchCityLocationBinding.tv.setVisibility(View.VISIBLE);
+                            CommonUtils.getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    searchCityLocationBinding.tv.setVisibility(View.GONE);
+                                }
+                            }, 2000);
+                            searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i +searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                        }
                     }
                 }
             }

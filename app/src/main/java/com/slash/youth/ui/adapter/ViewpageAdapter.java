@@ -22,6 +22,8 @@ public class ViewpageAdapter extends PagerAdapter {
     private String[] names;
     public ApprovalCertificatesBinding approvalCertificatesBinding;
     private ApprovalActivity approvalActivity;
+    private ApprovalCertificatesModel approvalCertificatesModel;
+    private ImageView imageView;
 
     public ViewpageAdapter(int[] images,String[] names,ApprovalActivity approvalActivity) {
         this.images = images;
@@ -39,27 +41,28 @@ public class ViewpageAdapter extends PagerAdapter {
         return view == object;
     }
 
-
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
     approvalCertificatesBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.approval_certificates, null, false);
     int realPosition = (position - 1 + images.length)%images.length;
-    ApprovalCertificatesModel approvalCertificatesModel = new ApprovalCertificatesModel(approvalCertificatesBinding,approvalActivity,position);
+    approvalCertificatesModel = new ApprovalCertificatesModel(approvalCertificatesBinding,approvalActivity,realPosition);
     approvalCertificatesBinding.setApprovalCertificatesModel(approvalCertificatesModel);
-    ImageView imageView = new ImageView(CommonUtils.getContext());
-    imageView.setImageResource(images[realPosition]);
-    approvalCertificatesBinding.flCertificates.addView(imageView);
-    approvalCertificatesBinding.tvCertificatesName.setText(names[realPosition]);
-    View itemView = approvalCertificatesBinding.getRoot();
-
+    View itemView = getView(realPosition);
     container.addView(itemView);
-        return itemView;
+    return itemView;
+    }
+
+    //获取图片
+    private View getView(int realPosition) {
+        imageView = new ImageView(CommonUtils.getContext());
+        imageView.setImageResource(images[realPosition]);
+        approvalCertificatesBinding.flCertificates.addView(imageView);
+        approvalCertificatesBinding.tvCertificatesName.setText(names[realPosition]);
+        return approvalCertificatesBinding.getRoot();
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
-
-
 }

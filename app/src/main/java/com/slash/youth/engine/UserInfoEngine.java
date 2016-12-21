@@ -56,7 +56,4 @@ public class UserInfoEngine {
         saveListTagProtocol.getDataFromServer(onSaveListTag);
     }
 
-
-
-
 }

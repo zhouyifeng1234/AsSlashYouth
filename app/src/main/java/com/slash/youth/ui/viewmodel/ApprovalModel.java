@@ -27,11 +27,15 @@ import com.slash.youth.utils.LogKit;
 public class ApprovalModel extends BaseObservable {
     private ActivityApprovalBinding activityApprovalBinding;
     private int careertype;
+    /*private int[] images ={R.mipmap.workcard_image,R.mipmap.onjob_proof_image,R.mipmap.mailbox_image,
+            R.mipmap.business_card,R.mipmap.id_image};*/
     private int[] images ={R.mipmap.workcard_image,R.mipmap.onjob_proof_image,R.mipmap.mailbox_image,
-            R.mipmap.business_card,R.mipmap.id_image};
-    public String[] names ={"工牌","在职证明等其他证件","邮箱后台截图","名片","身份证"};
+            R.mipmap.business_card};
+    //public String[] names ={"工牌","在职证明等其他证件","邮箱后台截图","名片","身份证"};
+    public String[] names ={"工牌","在职证明等其他证件","邮箱后台截图","名片"};
     public ViewpageAdapter viewpageAdapter;
-    private String[] titles ={"请上传身份证正面","工牌、名片、邮箱后台截图、其他在职资料任选其一"};
+    //private String[] titles ={"请上传身份证正面","工牌、名片、邮箱后台截图、其他在职资料任选其一"};
+    private String[] titles ={"工牌、名片、邮箱后台截图、其他在职资料任选其一"};
     private ApprovalActivity approvalActivity;
     public int cardType;
     public ApprovalCertificatesBinding approvalCertificatesBinding;
@@ -71,7 +75,7 @@ public class ApprovalModel extends BaseObservable {
                 activityApprovalBinding.vpApprovalContainer.setOffscreenPageLimit(3);
                 //两个页面的间距
                 activityApprovalBinding.vpApprovalContainer.setPageMargin(CommonUtils.dip2px(10));
-
+                //页面切换监听
                 activityApprovalBinding.vpApprovalContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -81,17 +85,18 @@ public class ApprovalModel extends BaseObservable {
                             activityApprovalBinding.vpApprovalContainer.setCurrentItem(1, false);
                         } else if (position == 0 && positionOffset < 0.01) {
                             //在position1右滑且右滑百分比接近0时，偷偷替换为position5（原本会滑到position0）
-                            activityApprovalBinding.vpApprovalContainer.setCurrentItem(5, false);
+                            activityApprovalBinding.vpApprovalContainer.setCurrentItem(4, false);
                         }
                     }
 
                     @Override
                     public void onPageSelected(int position) {
-                        if(position==5){
+                        activityApprovalBinding.tvApprovalTitle.setText(titles[0]);
+                       /* if(position==4){
                             activityApprovalBinding.tvApprovalTitle.setText(titles[0]);
                         }else {
                             activityApprovalBinding.tvApprovalTitle.setText(titles[1]);
-                        }
+                        }*/
 
                         approvalCertificatesBinding = viewpageAdapter.approvalCertificatesBinding;
                         //选中哪一个证件
@@ -108,9 +113,9 @@ public class ApprovalModel extends BaseObservable {
                             case 4:
                             cardType = Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD;
                                 break;
-                            case 5:
+                         /*   case 5:
                             cardType = Cardtype.USER_REAL_AUTH_CARD_IDCARD;
-                                break;
+                                break;*/
                         }
                     }
 

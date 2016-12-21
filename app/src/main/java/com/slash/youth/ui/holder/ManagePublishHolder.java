@@ -113,13 +113,13 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
             case MyManager.MAANAGER_MY_PUBLISH_TASK:
                 int status = data.getStatus();
                 switch (status){
-                    case 0://不在架上
-                        itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
-                        itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
-                        break;
-                    case 1:
+                    case 0://不在架上,那我就需要把它上架
                         itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
                         itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));
+                        break;
+                    case 1://在架上，那我显示下架
+                        itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
+                        itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
                         break;
                 }
                 break;

@@ -35,7 +35,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private boolean isfriend;
     private boolean isCare;
     private long uid;
-    private int anonymity;//0 niming  1 shiming
+    private int anonymity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

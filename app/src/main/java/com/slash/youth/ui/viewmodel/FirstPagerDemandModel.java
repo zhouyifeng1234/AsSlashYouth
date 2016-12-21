@@ -14,11 +14,13 @@ import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.databinding.PullToRefreshListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
+import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.pager.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -201,19 +203,25 @@ public class FirstPagerDemandModel extends BaseObservable {
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TextView tv= (TextView) view;
-//                ToastUtils.shortToast(position + " "+tv.getText());
-//                int clickIndex = position - mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount();
                 if (position > 0) {
                     tvFirstLetter = (TextView) view;
-                    // cityPosition = position;
-                    // tvFirstLetter.setTextColor(Color.BLUE);
-                    // tvFirstLetter.setBackgroundResource(R.drawable.shape_home_freetime_searchbox_bg);
                     String firstLetter = tvFirstLetter.getText().toString();
-                    if (mHashFirstLetterIndex.containsKey(firstLetter)) {
-                        Integer firstLetterIndex = mHashFirstLetterIndex.get(firstLetter);
-//                    ToastUtils.shortToast(firstLetterIndex + "");
-                        searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+
+                    for (int i = 0; i < searchActivityCityLocationModel.listCityInfo.size(); i++) {
+                        LocationCityInfo locationCityInfo = searchActivityCityLocationModel.listCityInfo.get(i);
+                        String firstCityLetter = locationCityInfo.getFirstLetter();
+                        if(firstCityLetter.equals(firstLetter) ){
+                          //  ToastUtils.shortCenterToast(" "+firstLetter);
+                            searchCityLocationBinding.tv.setText(firstLetter);
+                            searchCityLocationBinding.tv.setVisibility(View.VISIBLE);
+                            CommonUtils.getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    searchCityLocationBinding.tv.setVisibility(View.GONE);
+                                }
+                            }, 2000);
+                            searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i +searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                        }
                     }
                 }
             }
@@ -233,7 +241,6 @@ public class FirstPagerDemandModel extends BaseObservable {
         firstPagerMoreActivity.finish();
     }
 
-
     private void listener() {
         searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
             @Override
@@ -245,5 +252,4 @@ public class FirstPagerDemandModel extends BaseObservable {
             }
         });
     }
-
 }
