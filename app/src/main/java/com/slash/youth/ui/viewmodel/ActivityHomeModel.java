@@ -9,6 +9,10 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
+import com.slash.youth.domain.UserInfoBean;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
@@ -17,6 +21,7 @@ import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 /**
  * Created by zhouyifeng on 2016/9/6.
@@ -29,6 +34,22 @@ public class ActivityHomeModel extends BaseObservable {
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityHomeBinding = activityHomeBinding;
+        getCurrentLoginUserInfo();
+    }
+
+    private void getCurrentLoginUserInfo() {
+        UserInfoEngine.getMyUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                LoginManager.currentLoginUserAvatar = dataBean.data.uinfo.avatar;
+                LoginManager.currentLoginUserAvatar = dataBean.data.uinfo.name;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取我的个人信息失败:" + result);
+            }
+        });
     }
 
     @Bindable

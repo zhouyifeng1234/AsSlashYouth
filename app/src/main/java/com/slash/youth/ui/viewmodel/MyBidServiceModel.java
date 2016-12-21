@@ -23,6 +23,7 @@ import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
@@ -134,7 +135,9 @@ public class MyBidServiceModel extends BaseObservable {
      * @param v
      */
     public void havaAChat(View v) {
-
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", suid + "");//对方的uid
+        mActivity.startActivity(intentChatActivity);
     }
 
     /**

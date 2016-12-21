@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
+import com.slash.youth.http.protocol.LoginUserInfoProtocol;
 import com.slash.youth.http.protocol.NewDemandAndServiceProtocol;
 import com.slash.youth.http.protocol.OtherUserInfoProtocol;
 import com.slash.youth.http.protocol.SaveListTagProtocol;
@@ -18,6 +19,10 @@ public class UserInfoEngine {
 
     /**
      * 一、[用戶信息]-用户个人信息（获取别人的用户信息）
+     *
+     * @param onGetOtherUserInfoFinished
+     * @param uid
+     * @param isvisitor                  是否访客登记 0否 1是
      */
     public static void getOtherUserInfo(BaseProtocol.IResultExecutor onGetOtherUserInfoFinished, String uid, String isvisitor) {
         OtherUserInfoProtocol otherUserInfoProtocol = new OtherUserInfoProtocol(uid, isvisitor);
@@ -27,8 +32,9 @@ public class UserInfoEngine {
     /**
      * 二、[用戶信息]-获取个人资料(获取我的个人信息资料，自己的信息，当前登陆者的信息)
      */
-    public static void getMyUserInfo() {
-
+    public static void getMyUserInfo(BaseProtocol.IResultExecutor onGetMyUserInfoFinished) {
+        LoginUserInfoProtocol loginUserInfoProtocol = new LoginUserInfoProtocol();
+        loginUserInfoProtocol.getDataFromServer(onGetMyUserInfoFinished);
     }
 
     /**

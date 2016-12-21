@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -16,6 +17,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -54,8 +56,11 @@ import com.slash.youth.domain.ChatCmdChangeContactBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.ChatTaskInfoBean;
 import com.slash.youth.domain.SendMessageBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
@@ -114,6 +119,9 @@ public class ChatModel extends BaseObservable {
 
 
     private void initData() {
+        targetId = mActivity.getIntent().getStringExtra("targetId");
+        getTargetUserInfo();
+
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
 
         MsgManager.setHistoryListener(new ChatHistoryListener());
@@ -138,7 +146,6 @@ public class ChatModel extends BaseObservable {
             displayRelatedTask();
         }
     }
-
 
     private void initView() {
         //使底部的输入框失去焦点，隐藏软键盘
@@ -176,6 +183,21 @@ public class ChatModel extends BaseObservable {
                 mSvChatContent.fullScroll(View.FOCUS_DOWN);
             }
         });
+    }
+
+    private void getTargetUserInfo() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                targetName = dataBean.data.uinfo.name;
+                targetAvatar = dataBean.data.uinfo.avatar;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取聊天目标用户信息失败:" + result);
+            }
+        }, targetId, "0");
     }
 
     long startRecorderTime = 0;
@@ -1118,12 +1140,25 @@ public class ChatModel extends BaseObservable {
 
     //拍照发送图片
     public void photoGraph(View v) {
+        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        mActivity.startActivityForResult(intentCamera, 20);
 //        sendPic("/storage/sdcard1/4.jpg");
     }
 
     //选择相册图片发送
     public void getAlbumPic(View v) {
-        sendPic("/storage/sdcard1/4.jpg");
+        Intent intentAddPicture = new Intent();
+        intentAddPicture.setType("image/*");
+        intentAddPicture.setAction(Intent.ACTION_GET_CONTENT);
+        intentAddPicture.putExtra("crop", "true");
+        intentAddPicture.putExtra("outputX", CommonUtils.dip2px(91));
+        intentAddPicture.putExtra("outputY", CommonUtils.dip2px(91));
+        intentAddPicture.putExtra("outputFormat", "JPEG");
+        intentAddPicture.putExtra("aspectX", 1);
+        intentAddPicture.putExtra("aspectY", 1);
+        intentAddPicture.putExtra("return-data", true);
+        mActivity.startActivityForResult(intentAddPicture, 10);
+//        sendPic("/storage/sdcard1/4.jpg");
     }
 
     //交换联系方式
