@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyBidDemandBinding;
+import com.slash.youth.databinding.ItemDemandFlowLogBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
+import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
@@ -30,6 +34,7 @@ import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/10/27.
@@ -52,6 +57,8 @@ public class MyBidDemandModel extends BaseObservable {
         initListener();
     }
 
+    ArrayList<DemandFlowLogList.LogInfo> listLogInfo = new ArrayList<DemandFlowLogList.LogInfo>();
+
     private void initData() {
         Bundle taskInfo = mActivity.getIntent().getExtras();
         tid = taskInfo.getLong("tid");
@@ -63,7 +70,7 @@ public class MyBidDemandModel extends BaseObservable {
 
     private void getDataFromServer() {
         getTaskItemData();
-//        getDemandFlowLogData();
+        getDemandFlowLogData();
     }
 
     private void initView() {
@@ -223,6 +230,36 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void viewComment(View v) {
+    }
+
+    private void getDemandFlowLogData() {
+        DemandEngine.getDemandFlowLog(new BaseProtocol.IResultExecutor<DemandFlowLogList>() {
+            @Override
+            public void execute(DemandFlowLogList dataBean) {
+                listLogInfo = dataBean.data.list;
+                setDemandFlowLogItemData();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "");
+    }
+
+    public void setDemandFlowLogItemData() {
+        for (int i = listLogInfo.size() - 1; i >= 0; i--) {
+            DemandFlowLogList.LogInfo logInfo = listLogInfo.get(i);
+            View itemLogInfo = inflateItemLogInfo(logInfo);
+            mActivityMyBidDemandBinding.llDemandFlowLogs.addView(itemLogInfo);
+        }
+    }
+
+    public View inflateItemLogInfo(DemandFlowLogList.LogInfo logInfo) {
+        ItemDemandFlowLogBinding itemDemandFlowLogBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_flow_log, null, false);
+        ItemDemandLogModel itemDemandLogModel = new ItemDemandLogModel(itemDemandFlowLogBinding, mActivity, logInfo);
+        itemDemandFlowLogBinding.setItemDemanLogModel(itemDemandLogModel);
+        return itemDemandFlowLogBinding.getRoot();
     }
 
     InnerDemandCardInfo innerDemandCardInfo = null;

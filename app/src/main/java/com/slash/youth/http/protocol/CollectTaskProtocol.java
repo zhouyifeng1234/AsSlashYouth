@@ -7,23 +7,26 @@ import com.slash.youth.global.GlobalConstants;
 import org.xutils.http.RequestParams;
 
 /**
- * Created by zhouyifeng on 2016/9/30.
+ * Created by zhouyifeng on 2016/12/20.
  */
-public class CancelDemandProtocol extends BaseProtocol<CommonResultBean> {
-    private String cancelDemandId;
+public class CollectTaskProtocol extends BaseProtocol<CommonResultBean> {
+    private String tid;
+    private String type;
 
-    public CancelDemandProtocol(String cancelDemandId) {
-        this.cancelDemandId = cancelDemandId;
+    public CollectTaskProtocol(String tid, String type) {
+        this.tid = tid;
+        this.type = type;
     }
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.CANCEL_DEMAND;
+        return GlobalConstants.HttpUrl.MY_ADD_COLLECTION_ITEM;
     }
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("id", cancelDemandId);
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("tid", tid);
     }
 
     @Override

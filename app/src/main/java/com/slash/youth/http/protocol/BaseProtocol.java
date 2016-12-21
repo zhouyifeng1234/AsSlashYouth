@@ -5,6 +5,7 @@ import com.slash.youth.domain.ResultErrorBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.utils.AuthHeaderUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -44,6 +45,7 @@ abstract public class BaseProtocol<T> {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                ToastUtils.shortToast("加载网络数据失败");
                 LogKit.v("onError");
                 ex.printStackTrace();
             }

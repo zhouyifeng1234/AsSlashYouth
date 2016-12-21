@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
+import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
@@ -20,6 +21,7 @@ import com.slash.youth.http.protocol.InterventionProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
+import com.slash.youth.http.protocol.RecommendServiceUserProtocol;
 import com.slash.youth.http.protocol.ServicePartyBidDemandProtocol;
 import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
@@ -71,9 +73,12 @@ public class DemandEngine {
      * @param onBidDemandFinished
      * @param id
      * @param quote
+     * @param bidDemandInstalmentRatioList
+     * @param bp
+     * @param starttime
      */
-    public static void servicePartyBidDemand(BaseProtocol.IResultExecutor onBidDemandFinished, String id, String quote) {
-        ServicePartyBidDemandProtocol servicePartyBidDemandProtocol = new ServicePartyBidDemandProtocol(id, quote);
+    public static void servicePartyBidDemand(BaseProtocol.IResultExecutor onBidDemandFinished, String id, String quote, ArrayList<Double> bidDemandInstalmentRatioList, String bp, String starttime) {
+        ServicePartyBidDemandProtocol servicePartyBidDemandProtocol = new ServicePartyBidDemandProtocol(id, quote, bidDemandInstalmentRatioList, bp, starttime);
         servicePartyBidDemandProtocol.getDataFromServer(onBidDemandFinished);
     }
 
@@ -316,4 +321,27 @@ public class DemandEngine {
         updateDemandProtocol.getDataFromServer(onUpdateDemandFinished);
     }
 
+
+    /**
+     * 一、[推荐]-需求订单页服务者推荐接口   发布需求成功页面，服务者推荐
+     *
+     * @param onRecommendServiceUserFinished
+     * @param id                             需求详情ID
+     * @param limit                          一次拉取限制
+     */
+    public static void getRecommendServiceUser(BaseProtocol.IResultExecutor onRecommendServiceUserFinished, String id, String limit) {
+        RecommendServiceUserProtocol recommendServiceUserProtocol = new RecommendServiceUserProtocol(id, limit);
+        recommendServiceUserProtocol.getDataFromServer(onRecommendServiceUserFinished);
+    }
+
+    /**
+     * 需求详情页，服务方视角，收藏需求
+     *
+     * @param onCollectDemandFinished
+     * @param demandId
+     */
+    public static void collectDemand(BaseProtocol.IResultExecutor onCollectDemandFinished, String demandId) {
+        CollectTaskProtocol collectDemandProtocol = new CollectTaskProtocol(demandId, "1");
+        collectDemandProtocol.getDataFromServer(onCollectDemandFinished);
+    }
 }

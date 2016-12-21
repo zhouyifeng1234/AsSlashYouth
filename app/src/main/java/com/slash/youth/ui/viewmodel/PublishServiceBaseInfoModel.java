@@ -7,6 +7,8 @@ import android.databinding.Bindable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -16,6 +18,7 @@ import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
@@ -56,9 +59,9 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     private int mCurrentChooseHour;
     private int mCurrentChooseMinute;
     private boolean mIsChooseStartTime;
-    int timetype;//闲时类型
-    long starttime;
-    long endtime;
+    int timetype = 0;//闲时类型
+    long starttime = -1;
+    long endtime = -1;
     String starttimeStr;
     String endtimeStr;
     ServiceDetailBean serviceDetailBean;
@@ -68,6 +71,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         this.mActivityPublishServiceBaseinfoBinding = activityPublishServiceBaseinfoBinding;
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
@@ -84,6 +88,27 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
         mSaplAddPic.setActivity(mActivity);
         mSaplAddPic.initPic();
+    }
+
+    private void initListener() {
+        mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString();
+                int textCount = text.length();
+                mActivityPublishServiceBaseinfoBinding.tvDescTextCount.setText(textCount + "/300");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
@@ -103,11 +128,13 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
             timetype = 0;
             starttime = service.starttime;
             endtime = service.endtime;
-            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日-hh:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
             starttimeStr = sdf.format(starttime);
             endtimeStr = sdf.format(endtime);
-            mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
-            mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
+//            mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
+//            mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
+            mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText(starttimeStr + "-" + endtimeStr);
+            mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
         } else if (service.timetype == SERVICE_TIMETYPE_AFTER_WORK) {//下班后
             checkIdleTimeAfterWork(null);
         } else if (service.timetype == SERVICE_TIMETYPE_WEEKEND) {//周末
@@ -165,6 +192,12 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         mActivity.finish();
     }
 
+    public void gotoSkillManagerActivity(View v) {
+        Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
+        intentMySkillManageActivity.putExtra("Title", "技能管理");
+        mActivity.startActivity(intentMySkillManageActivity);
+    }
+
     //选择实名发布
     public void checkRealName(View v) {
         mActivityPublishServiceBaseinfoBinding.ivPublicServiceRealnameIcon.setImageResource(R.mipmap.pitchon_btn);
@@ -183,24 +216,36 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     public void checkIdleTimeAfterWork(View v) {
         setIdleTimeItemBg(R.drawable.shape_idletime_label_bg, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected);
         timetype = SERVICE_TIMETYPE_AFTER_WORK;
+        setDeleteCustomTimeIconVisibility(View.VISIBLE);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText("下班后");
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
     }
 
     //选址闲置时间类型 周末
     public void checkIdleTimeWeekend(View v) {
         setIdleTimeItemBg(R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected);
         timetype = SERVICE_TIMETYPE_WEEKEND;
+        setDeleteCustomTimeIconVisibility(View.VISIBLE);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText("周末");
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
     }
 
     //选址闲置时间类型 下班后和周末
     public void checkIdleTimeAfterWorkAndWeekend(View v) {
         setIdleTimeItemBg(R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg, R.drawable.shape_idletime_label_bg_unselected);
         timetype = SERVICE_TIMETYPE_AFTER_WORK_AND_WEEKEND;
+        setDeleteCustomTimeIconVisibility(View.VISIBLE);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText("下班后和周末");
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
     }
 
     //选址闲置时间类型 随时
     public void checkIdleTimeAnytime(View v) {
         setIdleTimeItemBg(R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg);
         timetype = SERVICE_TIMETYPE_ANYTIME;
+        setDeleteCustomTimeIconVisibility(View.VISIBLE);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText("随时");
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
     }
 
     private void setIdleTimeItemBg(int afterWorkBg, int weekendBg, int afterWorkAndWeekendBg, int anytimeBg) {
@@ -217,11 +262,32 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         }
         final Bundle bundleServiceData = new Bundle();
         String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
+        if (title.length() < 5 || title.length() > 20) {
+            ToastUtils.shortToast("标题必须为5-20字之间");
+            return;
+        }
         bundleServiceData.putString("title", title);
         String desc = mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.getText().toString();
+        if (desc.length() <= 0) {
+            ToastUtils.shortToast("请输入服务描述");
+            return;
+        } else if (desc.length() > 300) {
+            ToastUtils.shortToast("服务描述不能超过300字");
+            return;
+        }
         bundleServiceData.putString("desc", desc);
         bundleServiceData.putInt("anonymity", anonymity);//取值只能1或者0 (1实名 0匿名)
+        if (timetype < 0 || timetype > 4) {
+            ToastUtils.shortToast("时间类型错误");
+            return;
+        }
         bundleServiceData.putInt("timetype", timetype);
+        if (timetype == 0) {
+            if (starttime == -1 || endtime == -1) {
+                ToastUtils.shortToast("请选择闲置时间标签，或设置开始时间和结束时间");
+                return;
+            }
+        }
         bundleServiceData.putLong("starttime", starttime);
         bundleServiceData.putLong("endtime", endtime);
         final ArrayList<String> imgUrl = new ArrayList<String>();
@@ -301,17 +367,52 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         return calendar.getTimeInMillis();
     }
 
+    public void deleteCustomTime(View v) {
+        setDeleteCustomTimeIconVisibility(View.GONE);
+        setIdleTimeItemBg(R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText("选择下面标签");
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xffCCCCCC);
+        starttime = -1;
+        endtime = -1;
+        starttimeStr = "";
+        endtimeStr = "";
+        timetype = 0;
+    }
 
     public void chooseCustomIdleTime(View v) {
         setSetStartTimeAndEndTimeLayerVisibility(View.VISIBLE);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日-hh:mm");
+        String tmpStartTimeStr = "开始时间";
+        if (starttime != -1) {
+            tmpStartTimeStr = sdf.format(starttime);
+        }
+        String tmpEndTimeStr = "结束时间";
+        if (endtime != -1) {
+            tmpEndTimeStr = sdf.format(endtime);
+        }
+        mActivityPublishServiceBaseinfoBinding.tvStartTime.setText(tmpStartTimeStr);
+        mActivityPublishServiceBaseinfoBinding.tvEndTime.setText(tmpEndTimeStr);
     }
 
     public void okChooseIdleStartTimeAndEndTime(View v) {
+        if (starttime == -1 || endtime == -1) {
+            ToastUtils.shortToast("请填写开始时间和结束时间");
+            return;
+        }
+        if (starttime < System.currentTimeMillis()) {
+            ToastUtils.shortToast("开始时间必须大于当前时间");
+            return;
+        }
+        if (endtime < starttime) {
+            ToastUtils.shortToast("结束时间必须大于开始时间");
+            return;
+        }
+        setDeleteCustomTimeIconVisibility(View.VISIBLE);
         setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
         timetype = SERVICE_TIMETYPE_USER_DEFINED;
-        mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
-        mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText(starttimeStr + "-" + endtimeStr);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
+        setIdleTimeItemBg(R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected);
     }
 
     public void closeStartTimeAndEndTimeLayer(View v) {
@@ -330,6 +431,17 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     private int chooseDateTimeLayerVisibility = View.GONE;
     private int setStartTimeAndEndTimeLayerVisibility = View.GONE;
+    private int deleteCustomTimeIconVisibility = View.GONE;
+
+    @Bindable
+    public int getDeleteCustomTimeIconVisibility() {
+        return deleteCustomTimeIconVisibility;
+    }
+
+    public void setDeleteCustomTimeIconVisibility(int deleteCustomTimeIconVisibility) {
+        this.deleteCustomTimeIconVisibility = deleteCustomTimeIconVisibility;
+        notifyPropertyChanged(BR.deleteCustomTimeIconVisibility);
+    }
 
     @Bindable
     public int getChooseDateTimeLayerVisibility() {

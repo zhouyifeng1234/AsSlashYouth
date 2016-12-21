@@ -34,13 +34,19 @@ public class GetTaskItemProtocol extends BaseProtocol<MyTaskItemBean> {
 
     @Override
     public MyTaskItemBean parseData(String result) {
-        Gson gson = new Gson();
-        MyTaskItemBean myTaskItemBean = gson.fromJson(result, MyTaskItemBean.class);
         return myTaskItemBean;
     }
 
+    MyTaskItemBean myTaskItemBean;
+
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        myTaskItemBean = gson.fromJson(result, MyTaskItemBean.class);
+        if (myTaskItemBean.rescode == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

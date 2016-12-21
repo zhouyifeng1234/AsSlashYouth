@@ -84,6 +84,10 @@ public class GlobalConstants {
         public static final String SERVER_HOST_SERVICE = "http://121.42.145.178/feed/v1/api/service/";
         //消息系统接口 地址前缀
         public static final String SERVER_HOST_MESSAGE_SYSTEM = "http://121.42.145.178/msg/v1/api/";
+        //服务者推荐接口 地址前缀
+        public static final String SERVICE_USER_RECOMMEND = "http://121.42.145.178/uinfo/v1/api/sp/recommend";
+        //需求者推荐接口  地址前缀
+        public static final String DEMAND_USER_RECOMMEND = "http://121.42.145.178/uinfo/v1/api/dp/recommend";
         //ZSS
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
@@ -197,6 +201,8 @@ public class GlobalConstants {
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
+        //需求发布成功页面 服务者推荐
+        public static final String GET_RECOMMEND_SERVICE_USER = SERVICE_USER_RECOMMEND + "/list";
 
 
      /*   //一、[服务]-发布服务
@@ -228,6 +234,8 @@ public class GlobalConstants {
         public static final String SERVICE_DETAIL = SERVER_HOST_SERVICE + "queryone";
         //三、[服务]-修改服务
         public static final String UPDATE_SERVICE = SERVER_HOST_SERVICE + "updateone";
+        //四、[服务]-预约服务生成订单
+        public static final String APPOINTMENT_SERVICE = SERVER_HOST_SERVICE + "appointment";
         //五、[服务]-服务方选定
         public static final String SERVICE_FLOW_SELECTED = SERVER_HOST_SERVICE + "selected";
         //六、[服务]-需求方预支付
@@ -250,6 +258,10 @@ public class GlobalConstants {
         public static final String SERVICE_FLOW_NO_ACCEPT = SERVER_HOST_SERVICE + "eliminate";
         //预约服务者 延期支付
         public static final String SERVICE_DELAY_PAY = SERVER_HOST_SERVICE + "rollback";
+        //服务成功页 判断发服务者是否已认证
+        public static final String GET_USER_AUTH_STATUS = SERVER_HOST_MY_USERINFO + "/real/status";
+        //发布服务成功页面  需求者推荐
+        public static final String GET_RECOMMEND_DEMAND_USER = DEMAND_USER_RECOMMEND + "/list";
 
         //三、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
@@ -358,7 +370,7 @@ public class GlobalConstants {
         //四、[我的]-[用户中心]-设置所在地
         public static final String SET_LOCATION = "/vcard/location/set";
         //五、[我的]-[用户中心]-设置斜杠身份
-        public static final String SET_SLASH_IDENTITY = SERVER_HOST_MY_USERINFO+"/vcard/identity/set";
+        public static final String SET_SLASH_IDENTITY = SERVER_HOST_MY_USERINFO + "/vcard/identity/set";
         //六、[我的]-[用户中心]-设置公司和职位
         public static final String SET_SLASH_COMPANY_AND_POSITION = "/vcard/company/set";
         //七、[我的]-[用户中心]-设置设置行业和方向
@@ -366,7 +378,7 @@ public class GlobalConstants {
         //八、[我的]-[用户中心]-设置设置头像
         public static final String SET_SLASH_AVATAR = "/vcard/avatar/set";
         //九、[我的]-[用户中心]-设置用户标签
-        public static final String SET_SLASH_TAG = SERVER_HOST_MY_USERINFO+"/vcard/tag/set";
+        public static final String SET_SLASH_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
         //十、[我的]-[用户中心]-设置用户认证
         public static final String SET_SLASH_AUTH = "/real/auth";
         //十一、[我的]-[用户中心]-用户认证流程状态
@@ -374,7 +386,7 @@ public class GlobalConstants {
         //十二、[我的]-[用户中心]-举报用户
         public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
-        public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" +"/list";
+        public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" + "/list";
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //十四，[我的]-[用户中心]-认证
         public static final String MY_CHECKOUT_AUTH = SERVER_HOST + "/real/auth";
@@ -417,6 +429,8 @@ public class GlobalConstants {
         public static final String MY_COLLECTION_LIST = COLLECTION_HOST + "/list";
         public static final String MY_ADD_COLLECTION_ITEM = COLLECTION_HOST + "/add";
         public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST + "/del";
+        //判断是否收藏某任务 zhouyifeng
+        public static final String IS_COLLECT_TASK = COLLECTION_HOST + "/status";
 
         //管理我发布的
         public static final String MANAGE_PUBLISH_HOST = "http://121.42.145.178/feed/v1/api/mytaskmanagement";
@@ -473,7 +487,7 @@ public class GlobalConstants {
         //[推荐]-推荐好友黑名单接口
         public static final String RECOMMONEND_FRIEND_BLACK_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/blacklist";
         //、[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
-        public static final String  ENCHASHMENT_APPlICATION =SERVER_HOST_MY_ACCOUNT+"/withdrawdeposit";
+        public static final String ENCHASHMENT_APPlICATION = SERVER_HOST_MY_ACCOUNT + "/withdrawdeposit";
 
     }
 

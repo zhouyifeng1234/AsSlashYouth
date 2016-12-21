@@ -178,6 +178,7 @@ public class SlashAddLabelsLayout extends LinearLayout {
             int labelIndex = (int) v.getTag();
             if (labelIndex >= 0 && labelIndex < listTotalAddedTagsNames.size()) {
                 listTotalAddedTagsNames.remove(labelIndex);
+                listTotalAddedTags.remove(labelIndex);
                 initSkillLabels();
             }
         }

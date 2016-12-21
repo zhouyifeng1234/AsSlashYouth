@@ -1,7 +1,10 @@
 package com.slash.youth.engine;
 
+import com.slash.youth.http.protocol.AppointmentServiceProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
+import com.slash.youth.http.protocol.RecommendDemandUserProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.ServiceDelayPayProtocol;
 import com.slash.youth.http.protocol.ServiceDetailProtocol;
@@ -93,6 +96,11 @@ public class ServiceEngine {
     public static void updateService(BaseProtocol.IResultExecutor onUpdateServiceFinished, String id, String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
         UpdateServiceProtocol updateServiceProtocol = new UpdateServiceProtocol(id, title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
         updateServiceProtocol.getDataFromServer(onUpdateServiceFinished);
+    }
+
+    public static void appointmentService(BaseProtocol.IResultExecutor onAppointmentServiceFinished, String serviceId) {
+        AppointmentServiceProtocol appointmentServiceProtocol = new AppointmentServiceProtocol(serviceId);
+        appointmentServiceProtocol.getDataFromServer(onAppointmentServiceFinished);
     }
 
 
@@ -197,5 +205,24 @@ public class ServiceEngine {
         serviceDelayPayProtocol.getDataFromServer(onDelayPayFinished);
     }
 
+    /**
+     * 一、[推荐]-发布服务推荐给需求者  发布服务成功页面，推荐需求方
+     *
+     * @param onRecommendDemandUserFinished
+     * @param id                            服务详情ID
+     * @param limit                         一次拉取限制
+     */
+    public static void getRecommendDemandUser(BaseProtocol.IResultExecutor onRecommendDemandUserFinished, String id, String limit) {
+        RecommendDemandUserProtocol recommendDemandUserProtocol = new RecommendDemandUserProtocol(id, limit);
+        recommendDemandUserProtocol.getDataFromServer(onRecommendDemandUserFinished);
+    }
+
+    /**
+     * 服务详情页 收藏服务
+     */
+    public static void collectService(BaseProtocol.IResultExecutor onCollectServiceFinished, String serviceId) {
+        CollectTaskProtocol collectTaskProtocol = new CollectTaskProtocol(serviceId, "2");
+        collectTaskProtocol.getDataFromServer(onCollectServiceFinished);
+    }
 
 }

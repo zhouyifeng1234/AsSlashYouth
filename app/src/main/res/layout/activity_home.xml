@@ -129,7 +129,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#88000000"
+            android:background="#b3000000"
             android:clickable="true"
             android:onClick="@{activityHomeBinding.chooseServiceAndDemandLayerHide}"
             android:visibility="@{activityHomeBinding.chooseServiceAndDemandLayerVisibility}">
@@ -137,13 +137,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginBottom="75dp"
-                android:layout_marginLeft="67dp"
+                android:layout_marginRight="70dp"
+
                 android:onClick="@{activityHomeBinding.publishDemand}"
                 android:orientation="vertical">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:src="@mipmap/xuqiu_publish_icon"/>
+                           android:src="@mipmap/demand_publish_icon"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,21 +153,21 @@
                     android:layout_marginTop="9dp"
                     android:text="发需求"
                     android:textColor="#FFFFFF"
-                    android:textSize="13sp"/>
+                    android:textSize="15sp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginBottom="75dp"
-                android:layout_marginRight="68dp"
+                android:layout_marginLeft="70dp"
+
                 android:onClick="@{activityHomeBinding.publishService}"
                 android:orientation="vertical">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:src="@mipmap/fuwu_publish_icon"/>
+                           android:src="@mipmap/service_publish_icon"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,7 +175,7 @@
                     android:layout_marginTop="9dp"
                     android:text="发服务"
                     android:textColor="#FFFFFF"
-                    android:textSize="13sp"/>
+                    android:textSize="15sp"/>
             </LinearLayout>
 
             <ImageButton

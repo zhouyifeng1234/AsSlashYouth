@@ -6,15 +6,16 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemRecommendDemandBinding;
-import com.slash.youth.domain.AutoRecommendDemandBean;
+import com.slash.youth.domain.RecommendDemandUserBean;
 import com.slash.youth.ui.adapter.RecommendDemandAdapter;
 import com.slash.youth.ui.viewmodel.ItemRecommendDemandModel;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zhouyifeng on 2016/11/9.
  */
-public class RecommendDemandHolder extends BaseHolder<AutoRecommendDemandBean> {
+public class RecommendDemandHolder extends BaseHolder<RecommendDemandUserBean.DemandUserInfo> {
 
     private ItemRecommendDemandBinding mItemRecommendDemandBinding;
     private ItemRecommendDemandModel mItemRecommendDemandModel;
@@ -28,12 +29,22 @@ public class RecommendDemandHolder extends BaseHolder<AutoRecommendDemandBean> {
     }
 
     @Override
-    public void refreshView(AutoRecommendDemandBean data) {
+    public void refreshView(RecommendDemandUserBean.DemandUserInfo data) {
         mItemRecommendDemandModel.setCurrentPosition(getCurrentPosition());
         if (RecommendDemandAdapter.listCheckedItemId.contains(getCurrentPosition())) {
             mItemRecommendDemandBinding.ivRecommendDemandChecked.setImageResource(R.mipmap.pitchon_btn);
         } else {
             mItemRecommendDemandBinding.ivRecommendDemandChecked.setImageResource(R.mipmap.default_btn);
         }
+
+        BitmapKit.bindImage(mItemRecommendDemandBinding.ivDemandUserAvatar, data.avatar);
+        if (data.isauth == 0) {
+            //未认证
+            mItemRecommendDemandModel.setAuthVisibility(View.GONE);
+        } else {
+            //已认证
+            mItemRecommendDemandModel.setAuthVisibility(View.VISIBLE);
+        }
+        mItemRecommendDemandModel.setDemandUsername(data.name);
     }
 }

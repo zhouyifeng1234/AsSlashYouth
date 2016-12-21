@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
@@ -19,49 +24,136 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
+import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by zhouyifeng on 2016/10/24.
  */
 public class DemandDetailModel extends BaseObservable {
 
-//    public static final int VISUAL_ANGLE_SERVICE = 10000;//服务者视角
-//    public static final int VISUAL_ANGLE_DAMAND = 10001;//需求者视角
-
     ActivityDemandDetailBinding mActivityDemandDetailBinding;
     Activity mActivity;
-    //    private int current_visual_angle;//当前视角
-//    private boolean isDemandOffShelf;//需求是否下架
-//    private LatLng demandLatLng;//发布需求时获取的经纬度，由服务端返回
     long demandId;
+    SlashDateTimePicker sdtpBidDemandStarttime;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
         this.mActivity = activity;
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
         demandId = mActivity.getIntent().getLongExtra("demandId", -1);
-//        ToastUtils.shortToast("demandId:" + demandId);
         getDemandDetailDataFromServer();
-
-//        current_visual_angle = VISUAL_ANGLE_DAMAND;//获取当前者视角，应该根据服务端数据来判断，如果是自己发的需求，就是需求者视角，如果不是自己发的，就是服务者视角
-//        isDemandOffShelf = false;//由服务端数据获取当前浏览的需求是否已经下架
-//        demandLatLng = new LatLng(31.317866, 120.71596);//模拟经纬度，实际由服务端返回
     }
 
 
     private void initView() {
+        sdtpBidDemandStarttime = mActivityDemandDetailBinding.sdtpBidDemandChooseDatetime;
         mActivityDemandDetailBinding.svDemandDetailContent.setVerticalScrollBarEnabled(false);
+    }
 
+    private void initListener() {
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.addTextChangedListener(new InstalmentRatioTextChangeListener(1));
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.addTextChangedListener(new InstalmentRatioTextChangeListener(2));
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.addTextChangedListener(new InstalmentRatioTextChangeListener(3));
+        mActivityDemandDetailBinding.etBidDemandInstalmentRatio4.addTextChangedListener(new InstalmentRatioTextChangeListener(4));
+        mActivityDemandDetailBinding.etBidDemandQuote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String bidQuoteStr = s.toString();
+                String ratioStr1 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
+                String ratioStr2 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.getText().toString();
+                String ratioStr3 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.getText().toString();
+                String ratioStr4 = mActivityDemandDetailBinding.etBidDemandInstalmentRatio4.getText().toString();
+                try {
+                    double bidQuote = Double.parseDouble(bidQuoteStr);
+                    double ratio1 = Double.parseDouble(ratioStr1);
+                    int ratioQuote1 = (int) (bidQuote * ratio1 / 100);
+                    mActivityDemandDetailBinding.tvInstalment1Amount.setText("￥" + ratioQuote1);
+                    double ratio2 = Double.parseDouble(ratioStr2);
+                    int ratioQuote2 = (int) (bidQuote * ratio2 / 100);
+                    mActivityDemandDetailBinding.tvInstalment2Amount.setText("￥" + ratioQuote2);
+                    double ratio3 = Double.parseDouble(ratioStr3);
+                    int ratioQuote3 = (int) (bidQuote * ratio3 / 100);
+                    mActivityDemandDetailBinding.tvInstalment3Amount.setText("￥" + ratioQuote3);
+                    double ratio4 = Double.parseDouble(ratioStr4);
+                    int ratioQuote4 = (int) (bidQuote * ratio4 / 100);
+                    mActivityDemandDetailBinding.tvInstalment4Amount.setText("￥" + ratioQuote4);
+                } catch (Exception ex) {
+//                    ToastUtils.shortToast("填写数据有误");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private class InstalmentRatioTextChangeListener implements TextWatcher {
+
+        private int instalmentNo;
+
+        public InstalmentRatioTextChangeListener(int instalmentNo) {
+            this.instalmentNo = instalmentNo;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String ratioStr = s.toString();
+            String bidQuoteStr = mActivityDemandDetailBinding.etBidDemandQuote.getText().toString();
+            String ratioQuoteStr = "";
+            try {
+                double ratio = Double.parseDouble(ratioStr);
+                double bidQuote = Double.parseDouble(bidQuoteStr);
+                int ratioQuote = (int) (bidQuote * ratio / 100);
+                ratioQuoteStr = "￥" + ratioQuote;
+            } catch (Exception ex) {
+
+            }
+            switch (instalmentNo) {
+                case 1:
+                    mActivityDemandDetailBinding.tvInstalment1Amount.setText(ratioQuoteStr);
+                    break;
+                case 2:
+                    mActivityDemandDetailBinding.tvInstalment2Amount.setText(ratioQuoteStr);
+                    break;
+                case 3:
+                    mActivityDemandDetailBinding.tvInstalment3Amount.setText(ratioQuoteStr);
+                    break;
+                case 4:
+                    mActivityDemandDetailBinding.tvInstalment4Amount.setText(ratioQuoteStr);
+                    break;
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
     }
 
     private void displayTags(String tag1, String tag2, String tag3) {
@@ -183,10 +275,15 @@ public class DemandDetailModel extends BaseObservable {
                     setBottomBtnDemandVisibility(View.GONE);
                 }
                 setDemandTitle(demand.title);
-                SimpleDateFormat sdf = new SimpleDateFormat("开始:MM月dd日 hh:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
                 String starttimeStr = sdf.format(demand.starttime);
-                setDemandStartTime(starttimeStr);
+                setDemandStartTime("开始:" + starttimeStr);
+                //回填抢单浮层中的开始时间
+                mActivityDemandDetailBinding.tvBidDemandStarttime.setText(starttimeStr);
+                bidDemandStarttime = demand.starttime;
                 setQuote("¥" + demand.quote + "元");
+                //填写抢单浮层中的报价
+                mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
@@ -196,8 +293,14 @@ public class DemandDetailModel extends BaseObservable {
                 }
                 if (demand.instalment == 0) {//不开启
                     setInstalmentItemVisibility(View.GONE);
+                    //填写抢单浮层中的分期
+                    bidIsInstalment = true;//调用toggleInstalment方法后就变成false了
+                    toggleInstalment(null);
                 } else {//开启分期
                     setInstalmentItemVisibility(View.VISIBLE);
+                    //填写抢单浮层中的分期
+                    bidIsInstalment = false;//调用toggleInstalment方法后就变成true了
+                    toggleInstalment(null);
                 }
                 //技能标签
                 String[] tags = demand.tag.split(",");
@@ -247,8 +350,12 @@ public class DemandDetailModel extends BaseObservable {
                 //纠纷处理方式
                 if (demand.bp == 1) {
                     setDisputeHandingType("平台方式");
+                    //填写抢单浮层中的纠纷处理方式
+                    checkPlatformProcessing(null);
                 } else if (demand.bp == 2) {
                     setDisputeHandingType("协商方式");
+                    //填写抢单浮层中的纠纷处理方式
+                    checkConsultProcessing(null);
                 }
                 //上架、下架显示 用isonline字段判断
 //                    if(demand.isonline)
@@ -328,8 +435,19 @@ public class DemandDetailModel extends BaseObservable {
 
     //下架需求操作
     public void offShelfDemand(View v) {
-        //调用服务端下架接口，下架成功后显示下架logo
-        setOffShelfLogoVisibility(View.VISIBLE);
+        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                setOffShelfLogoVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("下架需求失败:" + result);
+            }
+        }, demandId + "");
+
+
     }
 
     //跳转到个人信息界面
@@ -344,21 +462,360 @@ public class DemandDetailModel extends BaseObservable {
 
     //收藏需求
     public void collectDemand(View v) {
-        //需要调用服务端收藏接口
-        ToastUtils.shortToast("收藏需求");
+        DemandEngine.collectDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("收藏成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("收藏失败:" + result);
+            }
+        }, demandId + "");
     }
 
-    //立即抢单
-    public void grabDemand(View v) {
-        //调用服务端接口进行抢单操作
-        ToastUtils.shortToast("立即抢单");
-    }
 
     //定位需求详情中的地址
     public void openDemandDetailLocation(View v) {
         Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
 //        intentDemandDetailLocationActivity.putExtra("demandLatLng", demandLatLng);
         mActivity.startActivity(intentDemandDetailLocationActivity);
+    }
+
+    /**
+     * 打开抢单信息浮层
+     *
+     * @param v
+     */
+    public void openBidDemandLayer(View v) {
+        setBidInfoVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 关闭抢单信息浮层
+     *
+     * @param v
+     */
+    public void closeBidDemandLayer(View v) {
+        setBidInfoVisibility(View.GONE);
+    }
+
+    /**
+     * 打开修改抢单时间
+     *
+     * @param v
+     */
+    public void openTimeLayer(View v) {
+        setChooseDateTimeLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消选择时间
+     *
+     * @param v
+     */
+    public void cancelChooseTime(View v) {
+        setChooseDateTimeLayerVisibility(View.GONE);
+    }
+
+    private int mBidCurrentChooseMonth;
+    private int mBidCurrentChooseDay;
+    private int mBidCurrentChooseHour;
+    private int mBidCurrentChooseMinute;
+    private long bidDemandStarttime;
+
+    /**
+     * 确定选择的时间
+     *
+     * @param v
+     */
+    public void okChooseTime(View v) {
+        setChooseDateTimeLayerVisibility(View.GONE);
+        mBidCurrentChooseMonth = sdtpBidDemandStarttime.getCurrentChooseMonth();
+        mBidCurrentChooseDay = sdtpBidDemandStarttime.getCurrentChooseDay();
+        mBidCurrentChooseHour = sdtpBidDemandStarttime.getCurrentChooseHour();
+        mBidCurrentChooseMinute = sdtpBidDemandStarttime.getCurrentChooseMinute();
+        String bidStarttimeStr = mBidCurrentChooseMonth + "月" + mBidCurrentChooseDay + "日" + "-" + mBidCurrentChooseHour + ":" + (mBidCurrentChooseMinute < 10 ? "0" + mBidCurrentChooseMinute : mBidCurrentChooseMinute);
+        mActivityDemandDetailBinding.tvBidDemandStarttime.setText(bidStarttimeStr);
+        convertTimeToMillis();
+    }
+
+    public void convertTimeToMillis() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.MONTH, mBidCurrentChooseMonth - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, mBidCurrentChooseDay);
+        calendar.set(Calendar.HOUR_OF_DAY, mBidCurrentChooseHour);
+        calendar.set(Calendar.MINUTE, mBidCurrentChooseMinute);
+        bidDemandStarttime = calendar.getTimeInMillis();
+    }
+
+    private int bidBp;
+
+    /**
+     * 抢单时 选择平台处理方式
+     *
+     * @param v
+     */
+    public void checkPlatformProcessing(View v) {
+        mActivityDemandDetailBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        mActivityDemandDetailBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.default_btn);
+        bidBp = 1;
+    }
+
+    /**
+     * 抢单时 选择写上方式
+     *
+     * @param v
+     */
+    public void checkConsultProcessing(View v) {
+        mActivityDemandDetailBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.default_btn);
+        mActivityDemandDetailBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
+        bidBp = 2;
+    }
+
+    private boolean bidIsInstalment;
+
+    /**
+     * 抢单 开启 关闭 分期
+     *
+     * @param v
+     */
+    public void toggleInstalment(View v) {
+        RelativeLayout.LayoutParams layoutParams
+                = (RelativeLayout.LayoutParams) mActivityDemandDetailBinding.ivBidDemandInstalmentHandle.getLayoutParams();
+        if (bidIsInstalment) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            mActivityDemandDetailBinding.ivBidDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
+            //关闭分期 隐藏分期比率
+            hideInstalmentRatio();
+        } else {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            mActivityDemandDetailBinding.ivBidDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
+            //开启分期 显示已输入的分期比率
+            displayInstalmentRatio();
+        }
+        mActivityDemandDetailBinding.ivBidDemandInstalmentHandle.setLayoutParams(layoutParams);
+        bidIsInstalment = !bidIsInstalment;
+    }
+
+    private int instalmentCount = 0;
+
+    /**
+     * 关闭分期时，隐藏分期比例
+     */
+    private void hideInstalmentRatio() {
+        setInstalmentRatioVisibility(View.GONE);
+    }
+
+    /**
+     * 开启分期时，显示已填写的分期比例
+     */
+    private void displayInstalmentRatio() {
+        setInstalmentRatioVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 删除分期
+     *
+     * @param v
+     */
+    public void deleteInstalment(View v) {
+        if (bidIsInstalment) {
+            if (instalmentCount > 0) {
+                instalmentCount--;
+                if (instalmentCount == 0) {
+                    setUpdateInstalmentLine1Visibility(View.GONE);
+                } else if (instalmentCount == 1) {
+                    setUpdateInstalmentLine2Visibility(View.GONE);
+                } else if (instalmentCount == 2) {
+                    setUpdateInstalmentLine3Visibility(View.GONE);
+                } else {//instalmentCount=3
+                    setUpdateInstalmentLine4Visibility(View.GONE);
+                }
+            }
+        }
+    }
+
+    /**
+     * 添加分期
+     *
+     * @param v
+     */
+    public void addInstalment(View v) {
+        if (bidIsInstalment) {
+            if (instalmentCount < 4) {
+                boolean isAddable = checkIsAddedable();
+                if (isAddable) {
+                    instalmentCount++;
+                    if (instalmentCount == 1) {
+                        setUpdateInstalmentLine1Visibility(View.VISIBLE);
+                    } else if (instalmentCount == 2) {
+                        setUpdateInstalmentLine2Visibility(View.VISIBLE);
+                    } else if (instalmentCount == 3) {
+                        setUpdateInstalmentLine3Visibility(View.VISIBLE);
+                    } else {//instalmentCount=4
+                        setUpdateInstalmentLine4Visibility(View.VISIBLE);
+                    }
+                } else {
+                    ToastUtils.shortToast("请正确填写分期比率");
+                }
+            }
+        }
+    }
+
+    /**
+     * 判断是否可以添加下一期，如果已经填写了分期比率，就可以添加，如果未填写，或者填写有误，就不能添加下一期
+     */
+    private boolean checkIsAddedable() {
+        String ratioStr;
+        if (instalmentCount == 0) {
+            return true;
+        } else if (instalmentCount == 1) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
+        } else if (instalmentCount == 2) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.getText().toString();
+        } else if (instalmentCount == 3) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.getText().toString();
+        } else {
+            return false;
+        }
+        if (ratioStr.endsWith("%")) {
+            ratioStr = ratioStr.substring(0, ratioStr.length() - 1);
+        }
+        try {
+            double ratio = Double.parseDouble(ratioStr);
+            if (ratio <= 0) {
+                return false;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+
+    ArrayList<Double> bidDemandInstalmentRatioList = new ArrayList<Double>();
+
+    /**
+     * 抢单信息填写完毕后，立即抢单
+     *
+     * @param v
+     */
+    public void bidDemand(View v) {
+        double bidQuote;
+        String bidQuoteStr = mActivityDemandDetailBinding.etBidDemandQuote.getText().toString();
+        try {
+            bidQuote = Double.parseDouble(bidQuoteStr);
+            if (bidQuote <= 0) {
+                ToastUtils.shortToast("报价必须大于0元");
+                return;
+            }
+        } catch (Exception ex) {
+            ToastUtils.shortToast("请正确填写报价");
+            return;
+        }
+
+        if (bidDemandStarttime <= 0) {
+            ToastUtils.shortToast("请先完善开始时间和结束时间");
+            return;
+        }
+        if (bidDemandStarttime <= System.currentTimeMillis()) {
+            ToastUtils.shortToast("开始时间必须大于当前时间");
+            return;
+        }
+
+        getInputInstalmentRatio();
+        if (bidIsInstalment == false) {
+            bidDemandInstalmentRatioList.clear();
+            bidDemandInstalmentRatioList.add(100d);
+        } else if (bidDemandInstalmentRatioList.size() <= 0) {
+            ToastUtils.shortToast("请先完善分期比例信息");
+            return;
+        } else {
+            double totalRatio = 0;
+            for (double ratio : bidDemandInstalmentRatioList) {
+                totalRatio += ratio;
+            }
+            if (totalRatio < 100) {
+                ToastUtils.shortToast("分期比例总和必须是100%");
+                return;
+            }
+        }
+
+        //调用抢需求接口
+        DemandEngine.servicePartyBidDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                ToastUtils.shortToast("抢单成功");
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("抢单失败;" + result);
+            }
+        }, demandId + "", bidQuote + "", bidDemandInstalmentRatioList, bidBp + "", bidDemandStarttime + "");
+    }
+
+    private void getInputInstalmentRatio() {
+        String ratioStr;
+        if (instalmentCount >= 1) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第一期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 2) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio2.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第二期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 3) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio3.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第三期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+        if (instalmentCount >= 4) {
+            ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio4.getText().toString();
+            double ratio = convertStrToRatio(ratioStr);
+            if (ratio == -1) {
+                ToastUtils.shortToast("请正确填写第四期分期比率");
+                return;
+            }
+            bidDemandInstalmentRatioList.add(ratio);
+        }
+    }
+
+    /**
+     * @param ratioStr
+     * @return
+     */
+    private double convertStrToRatio(String ratioStr) {
+        double ratio;
+        if (ratioStr.endsWith("%")) {
+            ratioStr = ratioStr.substring(0, ratioStr.length() - 1);
+        }
+        try {
+            ratio = Double.parseDouble(ratioStr);
+            if (ratio <= 0) {
+                return -1;
+            }
+        } catch (Exception ex) {
+            return -1;
+        }
+        return ratio;
     }
 
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
@@ -385,6 +842,85 @@ public class DemandDetailModel extends BaseObservable {
     private String demandPublishTime;
     private String demandDesc;
     private String disputeHandingType;
+
+    private int updateInstalmentLine1Visibility = View.GONE;
+    private int updateInstalmentLine2Visibility = View.GONE;
+    private int updateInstalmentLine3Visibility = View.GONE;
+    private int updateInstalmentLine4Visibility = View.GONE;
+    private int chooseDateTimeLayerVisibility = View.GONE;
+    private int bidInfoVisibility = View.GONE;
+    private int instalmentRatioVisibility;
+
+    @Bindable
+    public int getInstalmentRatioVisibility() {
+        return instalmentRatioVisibility;
+    }
+
+    public void setInstalmentRatioVisibility(int instalmentRatioVisibility) {
+        this.instalmentRatioVisibility = instalmentRatioVisibility;
+        notifyPropertyChanged(BR.instalmentRatioVisibility);
+    }
+
+    @Bindable
+    public int getBidInfoVisibility() {
+        return bidInfoVisibility;
+    }
+
+    public void setBidInfoVisibility(int bidInfoVisibility) {
+        this.bidInfoVisibility = bidInfoVisibility;
+        notifyPropertyChanged(BR.bidInfoVisibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine4Visibility() {
+        return updateInstalmentLine4Visibility;
+    }
+
+    public void setUpdateInstalmentLine4Visibility(int updateInstalmentLine4Visibility) {
+        this.updateInstalmentLine4Visibility = updateInstalmentLine4Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine4Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine3Visibility() {
+        return updateInstalmentLine3Visibility;
+    }
+
+    public void setUpdateInstalmentLine3Visibility(int updateInstalmentLine3Visibility) {
+        this.updateInstalmentLine3Visibility = updateInstalmentLine3Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine3Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine2Visibility() {
+        return updateInstalmentLine2Visibility;
+    }
+
+    public void setUpdateInstalmentLine2Visibility(int updateInstalmentLine2Visibility) {
+        this.updateInstalmentLine2Visibility = updateInstalmentLine2Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine2Visibility);
+    }
+
+    @Bindable
+    public int getUpdateInstalmentLine1Visibility() {
+        return updateInstalmentLine1Visibility;
+    }
+
+    public void setUpdateInstalmentLine1Visibility(int updateInstalmentLine1Visibility) {
+        this.updateInstalmentLine1Visibility = updateInstalmentLine1Visibility;
+        notifyPropertyChanged(BR.updateInstalmentLine1Visibility);
+    }
+
+    @Bindable
+    public int getChooseDateTimeLayerVisibility() {
+        return chooseDateTimeLayerVisibility;
+    }
+
+    public void setChooseDateTimeLayerVisibility(int chooseDateTimeLayerVisibility) {
+        this.chooseDateTimeLayerVisibility = chooseDateTimeLayerVisibility;
+        notifyPropertyChanged(BR.chooseDateTimeLayerVisibility);
+    }
+
 
     @Bindable
     public String getDisputeHandingType() {

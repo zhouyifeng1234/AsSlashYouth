@@ -37,6 +37,7 @@
                         android:layout_width="62dp"
                         android:layout_height="62dp">
                         <ImageView
+                            android:id="@+id/iv_service_user_avatar"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:src="@mipmap/assistant_icon"
@@ -45,7 +46,8 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_gravity="right|bottom"
-                            android:src="@mipmap/small_v_icon"/>
+                            android:src="@mipmap/small_v_icon"
+                            android:visibility="@{itemDemandChooseRecommendServiceModel.authVisibility}"/>
                     </FrameLayout>
 
                     <LinearLayout
@@ -57,7 +59,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="张三疯"
+                            android:text="@{itemDemandChooseRecommendServiceModel.name}"
                             android:textColor="#333333"
                             android:textSize="14sp"/>
 
@@ -65,29 +67,31 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
-                            android:text="北京中意之路信息技术有限公司人事行政总监"
+                            android:text="@{itemDemandChooseRecommendServiceModel.companyAndPosition}"
                             android:textColor="#666666"
                             android:textSize="12sp"/>
-
+                        <!--北京中意之路信息技术有限公司人事行政总监-->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
-                            android:text="IT互联网｜市场商务"
+                            android:text="@{itemDemandChooseRecommendServiceModel.industryAndDirection}"
                             android:textColor="#666666"
                             android:textSize="12sp"/>
+                        <!--IT互联网｜市场商务-->
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <TextView
-                    android:layout_marginTop="-15dp"
+                    android:onClick="@{itemDemandChooseRecommendServiceModel.invitation}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginBottom="12dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="-15dp"
                     android:background="@mipmap/task_demand_btn_bg" android:gravity="center"
                     android:text="邀请"
                     android:textColor="#31C6E4"

@@ -31,13 +31,19 @@ public class DemandPurposeProtocol extends BaseProtocol<DemandPurposeListBean> {
 
     @Override
     public DemandPurposeListBean parseData(String result) {
-        Gson gson = new Gson();
-        DemandPurposeListBean demandPurposeListBean = gson.fromJson(result, DemandPurposeListBean.class);
         return demandPurposeListBean;
     }
 
+    DemandPurposeListBean demandPurposeListBean;
+
     @Override
     public boolean checkJsonResult(String result) {
-        return true;
+        Gson gson = new Gson();
+        demandPurposeListBean = gson.fromJson(result, DemandPurposeListBean.class);
+        if (demandPurposeListBean.rescode == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

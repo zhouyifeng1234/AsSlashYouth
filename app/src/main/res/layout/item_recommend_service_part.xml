@@ -19,6 +19,7 @@
         >
 
             <ImageView
+                android:id="@+id/iv_service_user_avatar"
                 android:layout_width="51dp"
                 android:layout_height="51dp"
                 android:layout_gravity="center_vertical"
@@ -42,7 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:text="曹文成"
+                        android:text="@{itemRecommendServicePartModel.serviceUsername}"
                         android:textColor="#333333"
                         android:textSize="14sp"/>
                     <ImageView
@@ -50,7 +51,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="3dp"
-                        android:src="@mipmap/add_v"/>
+                        android:src="@mipmap/add_v"
+                        android:visibility="@{itemRecommendServicePartModel.authVisibility}"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -58,7 +60,7 @@
                         android:layout_marginLeft="4dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="百度阿里集团首席ui设计师"
+                        android:text="@{itemRecommendServicePartModel.companyAndPosition}"
                         android:textColor="#999999"
                         android:textSize="12sp"/>
 
@@ -87,10 +89,11 @@
                         android:layout_marginLeft="13dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="IOS/安卓/系统架构师"
+                        android:text="@{itemRecommendServicePartModel.industryAndDirection}"
                         android:textColor="#aaaaaa"
                         android:textSize="12sp"
                     />
+                    <!--IOS/安卓/系统架构师-->
 
                     <ImageView
                         android:id="@+id/iv_recommend_service_part_checked"
