@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.slash.youth.R;
 import com.slash.youth.domain.TokenLoginResultBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.utils.CommonUtils;
@@ -62,6 +63,8 @@ public class SplashActivity extends Activity {
                         LoginManager.currentLoginUserId = uid;
                         LoginManager.token = token;
                         LoginManager.rongToken = rongToken;
+                        //链接融云
+                        MsgManager.connectRongCloud(LoginManager.rongToken);
 
                         Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
                         startActivity(intentHomeActivity);

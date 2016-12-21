@@ -243,13 +243,20 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
             ToastUtils.shortToast("请选择开始时间");
             return;
         }
+        if (startTime < System.currentTimeMillis() + 60 * 60 * 1000) {
+            ToastUtils.shortToast("开始时间必须大于当前时间一个小时");
+            return;
+        }
         publishDemandData.putLong("startTime", startTime);
         //上传选择的图片，并把服务端返回的fileId提交上去
         final ArrayList<String> imgUrl = new ArrayList<String>();
         publishDemandData.putStringArrayList("pic", imgUrl);
         final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
         if (addedPicTempPath.size() <= 0) {
-            ToastUtils.shortToast("至少上传一张图片");
+//            ToastUtils.shortToast("至少上传一张图片");
+//            return;
+            intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
+            mActivity.startActivity(intentPublishDemandAddInfoActivity);
             return;
         }
         final int[] uploadCount = {0};

@@ -10,9 +10,11 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityPublishServiceSuccessBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.RecommendDemandUserBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.adapter.RecommendDemandAdapter;
 import com.slash.youth.utils.CommonUtils;
@@ -102,7 +104,9 @@ public class PublishServiceSuccessModel extends BaseObservable {
      * @param v
      */
     public void gotoAuth(View v) {
-
+        Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
+        intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
+        mActivity.startActivity(intentApprovalActivity);
     }
 
     private int publishSuccessHintVisibility;

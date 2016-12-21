@@ -258,6 +258,7 @@
                                 android:layout_alignParentRight="true"
                                 android:background="@android:color/transparent"
                                 android:hint="请输入5-20个字"
+                                android:maxLength="20"
                                 android:textColorHint="#CCCCCC"
                                 android:textSize="14sp"/>
 
@@ -279,6 +280,7 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="top|left"
                                 android:hint="描述一下你的需求300字内"
+                                android:maxLength="300"
                                 android:textColorHint="#cccccc"
                                 android:textSize="16sp"/>
 

@@ -287,6 +287,14 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
                 ToastUtils.shortToast("请选择闲置时间标签，或设置开始时间和结束时间");
                 return;
             }
+            if (starttime < System.currentTimeMillis() + 60 * 60 * 1000) {
+                ToastUtils.shortToast("开始时间必须大于当前时间一个小时");
+                return;
+            }
+            if (endtime <= starttime) {
+                ToastUtils.shortToast("结束时间必须大于开始时间");
+                return;
+            }
         }
         bundleServiceData.putLong("starttime", starttime);
         bundleServiceData.putLong("endtime", endtime);
@@ -294,7 +302,10 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         bundleServiceData.putStringArrayList("pic", imgUrl);
         final ArrayList<String> addedPicTempPath = mSaplAddPic.getAddedPicTempPath();
         if (addedPicTempPath.size() <= 0) {
-            ToastUtils.shortToast("至少上传一张图片");
+//            ToastUtils.shortToast("至少上传一张图片");
+//            return;
+            intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
+            mActivity.startActivity(intentPublishServiceAddInfoActivity);
             return;
         }
         LogKit.v(addedPicTempPath.size() + "");

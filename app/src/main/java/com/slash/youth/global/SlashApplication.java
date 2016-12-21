@@ -108,7 +108,7 @@ public class SlashApplication extends Application {
         MsgManager.setMessReceiver();
         //通过token连接融云
         //10000的token
-        MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
+//        MsgManager.connectRongCloud("wjTdt2YAMEl+kgwlIqEc9lpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcoB06J/c93lRr1B3q/o8EjamBqhw9iQHqA==");
 
         //10002的token
 //        MsgManager.connectRongCloud("OWellbpuoVve83MyzB06YVpJh/sDSWvAD7s9SQ9t2IpAr12GGUolcieJmtTlGLY0xSEqae+jIN8rMYEU2oRTbQ==");

@@ -128,6 +128,8 @@ public class GlobalConstants {
         public static final String TOKEN_LOGIN = SERVER_HOST + "auth/v1/login/token";
         //第三方登录
         public static final String THIRD_PARTY_LOGIN = SERVER_HOST + "auth/v1/login/thirdParty";
+        //获取融云token
+        public static final String GET_RONG_TOEKN = SERVER_HOST + "auth/v1/rongToken";
         //登录后完善信息 设置头像
         public static final String LOGIN_SET_AVATAR = SERVER_HOST_MY_USERINFO + "/" + "vcard/avatar/set";
         //登录后完善信息 设置真实姓名
@@ -467,7 +469,7 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
-        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/status";
+        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
 
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
@@ -485,7 +487,7 @@ public class GlobalConstants {
         //[推荐]-推荐好友
         public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
         //[推荐]-推荐好友黑名单接口
-        public static final String RECOMMONEND_FRIEND_BLACK_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/blacklist";
+        public static final String RECOMMONEND_FRIEND_BLACK_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/blacklist";
         //、[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
         public static final String ENCHASHMENT_APPlICATION = SERVER_HOST_MY_ACCOUNT + "/withdrawdeposit";
 

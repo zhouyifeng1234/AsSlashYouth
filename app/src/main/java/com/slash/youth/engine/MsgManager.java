@@ -13,13 +13,16 @@ import android.widget.FrameLayout;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
 import com.slash.youth.domain.PushInfoBean;
+import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ConversationListProtocol;
+import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -57,6 +60,8 @@ public class MsgManager {
     private static HistoryListener mHistoryListener;
     private static RelatedTaskListener mRelatedTaskListener;
 
+    private static int getRongTokenTimes = 0;
+
     /**
      * 建立与融云服务器的连接
      *
@@ -69,6 +74,9 @@ public class MsgManager {
             public void onChanged(ConnectionStatus connectionStatus) {
                 String connMessage = connectionStatus.getMessage();
                 LogKit.v("connectionStatus:" + connMessage);
+                if (connMessage.equals("Login on the other device, and be kicked offline.")) {
+                    ToastUtils.shortToast(connMessage);
+                }
             }
         });
         /**
@@ -81,8 +89,25 @@ public class MsgManager {
              */
             @Override
             public void onTokenIncorrect() {
-
                 LogKit.v("--onTokenIncorrect");
+                //token如果无效，重新调用获取rongToken接口
+                getRongTokenTimes++;
+                if (getRongTokenTimes > 3) {//如果超过三次还失败，就提示“链接融云失败”
+                    ToastUtils.shortToast("链接融云失败");
+                    return;
+                }
+                getRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
+                    @Override
+                    public void execute(RongTokenBean dataBean) {
+                        String rongToken = dataBean.data.token;
+                        connectRongCloud(rongToken);
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        ToastUtils.shortToast("重新获取融云token失败:" + result);
+                    }
+                }, LoginManager.currentLoginUserId + "", "111");//暂时phone参数随便传
             }
 
             /**
@@ -498,5 +523,14 @@ public class MsgManager {
     public static void getConversationList(BaseProtocol.IResultExecutor onGetConversationListFinished, String offset, String limit) {
         ConversationListProtocol conversationListProtocol = new ConversationListProtocol(offset, limit);
         conversationListProtocol.getDataFromServer(onGetConversationListFinished);
+    }
+
+    /**
+     * 获取融云token，暂时不去调用更新融云token接口（如果融云token失效，应该去调用更新融云token接口，但是调用后融云token并没有更新）
+     * 需要传入的手机号参数，随便传一个就能成功，所以暂时先传一个假数据
+     */
+    public static void getRongToken(BaseProtocol.IResultExecutor onGetRongTokenFinished, String uid, String phone) {
+        RongTokenProtocol rongTokenProtocol = new RongTokenProtocol(uid, phone);
+        rongTokenProtocol.getDataFromServer(onGetRongTokenFinished);
     }
 }
