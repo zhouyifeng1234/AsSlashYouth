@@ -15,9 +15,11 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.domain.PhoneLoginResultBean;
+import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.domain.ThirdPartyLoginResultBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
@@ -93,6 +95,9 @@ public class ActivityLoginModel extends BaseObservable {
                     //登陆成功，老用户
                     savaLoginState(uid, token, rongToken);
 
+                    //链接融云
+                    MsgManager.connectRongCloud(rongToken);
+
                     Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
                     intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     CommonUtils.getContext().startActivity(intentHomeActivity);
@@ -103,6 +108,9 @@ public class ActivityLoginModel extends BaseObservable {
                 } else if (dataBean.rescode == 11) {
                     //登陆成功，新用户
                     savaLoginState(uid, token, rongToken);
+
+                    //链接融云
+                    MsgManager.connectRongCloud(rongToken);
 
                     Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
                     intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -428,6 +436,21 @@ public class ActivityLoginModel extends BaseObservable {
                 LoginManager.currentLoginUserId = uid;
                 SpUtils.setString("token", token);
                 SpUtils.setLong("uid", uid);
+                //获取融云token，并连接融云
+                MsgManager.getRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
+                    @Override
+                    public void execute(RongTokenBean dataBean) {
+                        String rongToken = dataBean.data.token;
+                        LoginManager.rongToken = rongToken;
+                        MsgManager.connectRongCloud(rongToken);
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        ToastUtils.shortToast("第三方登录，获取融云token失败:" + result);
+                    }
+                }, uid + "", "111");//这里的phone随便传一直值
+
                 //跳转到首页
                 Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
                 intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

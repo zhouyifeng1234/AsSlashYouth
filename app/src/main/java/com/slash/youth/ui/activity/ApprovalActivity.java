@@ -8,20 +8,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityApprovalBinding;
-import com.slash.youth.databinding.ApprovalCertificatesBinding;
 import com.slash.youth.ui.viewmodel.ApprovalModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
-
-import java.io.FileNotFoundException;
 
 /**
  * Created by zss on 2016/11/5.

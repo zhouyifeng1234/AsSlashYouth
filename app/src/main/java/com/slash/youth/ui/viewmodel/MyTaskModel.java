@@ -20,6 +20,8 @@ import com.slash.youth.ui.activity.MyBidDemandActivity;
 import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.activity.MyPublishServiceActivity;
+import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
+import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.adapter.MyTaskAdapter;
 import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
@@ -529,12 +531,14 @@ public class MyTaskModel extends BaseObservable {
 
     //发布需求
     public void publishDemand(View v) {
-        ToastUtils.shortToast("发布需求");
+        Intent intentPublishDemandBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
+        mActivity.startActivity(intentPublishDemandBaseInfoActivity);
     }
 
     //发布服务
     public void publishService(View v) {
-        ToastUtils.shortToast("发布服务");
+        Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
+        mActivity.startActivity(intentPublishServiceBaseInfoActivity);
     }
 
     //筛选全部任务（进行中任务，发的和抢的，不包括任务）

@@ -15,6 +15,7 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PhoneLoginResultBean;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.ui.activity.test.RichTextTestActivity;
@@ -136,6 +137,7 @@ public class PerfectInfoModel extends BaseObservable {
                     String token = dataBean.data.token;
                     long uid = dataBean.data.uid;
                     if (dataBean.rescode == 11) {
+                        MsgManager.connectRongCloud(rongToken);
                         savaLoginState(uid, token, rongToken);
                         setRealname();
                     } else if (dataBean.rescode == 0) {
