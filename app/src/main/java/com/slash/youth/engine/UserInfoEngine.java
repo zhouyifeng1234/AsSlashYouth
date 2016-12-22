@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
+import com.slash.youth.http.protocol.LoginUserHomeInfoProtocol;
 import com.slash.youth.http.protocol.LoginUserInfoProtocol;
 import com.slash.youth.http.protocol.NewDemandAndServiceProtocol;
 import com.slash.youth.http.protocol.OtherUserInfoProtocol;
@@ -43,6 +44,14 @@ public class UserInfoEngine {
     public static void getUserAuthStatus(BaseProtocol.IResultExecutor onGetIsAuthFinished) {
         UserAuthStatusProtocol userAuthStatusProtocol = new UserAuthStatusProtocol();
         userAuthStatusProtocol.getDataFromServer(onGetIsAuthFinished);
+    }
+
+    /**
+     * 十三、[用戶信息]-我的首页数据  (可以获得手机号)
+     */
+    public static void getMyHomeInfo(BaseProtocol.IResultExecutor onGetMyHomeInfoFinished) {
+        LoginUserHomeInfoProtocol loginUserHomeInfoProtocol = new LoginUserHomeInfoProtocol();
+        loginUserHomeInfoProtocol.getDataFromServer(onGetMyHomeInfoFinished);
     }
 
     //[最近列表]-查看用户最近发布的列表

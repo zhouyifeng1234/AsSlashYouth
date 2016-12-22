@@ -139,7 +139,6 @@ public class GlobalConstants {
         //登录后完善 设置技能标签
         public static final String LOGIN_SET_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
 
-
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
         //二、[需求]-我的任务ITEM
@@ -265,6 +264,10 @@ public class GlobalConstants {
         //发布服务成功页面  需求者推荐
         public static final String GET_RECOMMEND_DEMAND_USER = DEMAND_USER_RECOMMEND + "/list";
 
+        //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
+        public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";
+        //二、[消息系统]-设置手机交换标识  聊天中设置已经交换过手机号的标识
+        public static final String SET_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/set";
         //三、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
 

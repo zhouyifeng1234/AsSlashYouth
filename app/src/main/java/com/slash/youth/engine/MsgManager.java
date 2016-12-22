@@ -16,7 +16,9 @@ import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ConversationListProtocol;
+import com.slash.youth.http.protocol.GetIsChangeContactProtocol;
 import com.slash.youth.http.protocol.RongTokenProtocol;
+import com.slash.youth.http.protocol.SetChangeContactProtocol;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
@@ -532,5 +534,21 @@ public class MsgManager {
     public static void getRongToken(BaseProtocol.IResultExecutor onGetRongTokenFinished, String uid, String phone) {
         RongTokenProtocol rongTokenProtocol = new RongTokenProtocol(uid, phone);
         rongTokenProtocol.getDataFromServer(onGetRongTokenFinished);
+    }
+
+    /**
+     * 是否交换过手机号
+     */
+    public static void getIsChangeContact(BaseProtocol.IResultExecutor onGetIsChangeContactFinished, String uid) {
+        GetIsChangeContactProtocol getIsChangeContactProtocol = new GetIsChangeContactProtocol(uid);
+        getIsChangeContactProtocol.getDataFromServer(onGetIsChangeContactFinished);
+    }
+
+    /**
+     * 设置已经交换了手机号标识
+     */
+    public static void setChangeContact(BaseProtocol.IResultExecutor onSetChangeContactFinished, String uid) {
+        SetChangeContactProtocol setChangeContactProtocol = new SetChangeContactProtocol(uid);
+        setChangeContactProtocol.getDataFromServer(onSetChangeContactFinished);
     }
 }

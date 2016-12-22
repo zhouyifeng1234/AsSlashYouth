@@ -55,6 +55,7 @@ import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.domain.ChatCmdChangeContactBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.ChatTaskInfoBean;
+import com.slash.youth.domain.IsChangeContactBean;
 import com.slash.youth.domain.SendMessageBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
@@ -103,9 +104,6 @@ public class ChatModel extends BaseObservable {
     private String targetId = "10002";
     private String targetName = "Jim";
     private String targetAvatar = "group1/M00/00/02/eBtfY1g68kiAfiCNAABuHg0Rbxs.0a9ae1";
-//    private String targetId = "10000";
-//    private String targetName = "风";
-//    private String targetAvatar = "group1/M00/00/02/eBtfY1g68l2AYPzzAACY_JV8bdw.7ad5ad";
 
     ArrayList<SendMessageBean> listSendMsg = new ArrayList<SendMessageBean>();
 
@@ -191,6 +189,8 @@ public class ChatModel extends BaseObservable {
             public void execute(UserInfoBean dataBean) {
                 targetName = dataBean.data.uinfo.name;
                 targetAvatar = dataBean.data.uinfo.avatar;
+                setOtherUsername(targetName);
+                setOtherCompanyAndPosition(dataBean.data.uinfo.company + " " + dataBean.data.uinfo.position);
             }
 
             @Override
@@ -745,34 +745,60 @@ public class ChatModel extends BaseObservable {
      * 交换联系方式
      */
     public void sendChangeContact() {
-        ChatCmdChangeContactBean chatCmdChangeContactBean = new ChatCmdChangeContactBean();
-        chatCmdChangeContactBean.uid = LoginManager.currentLoginUserId;
-        chatCmdChangeContactBean.phone = "18888888888";
-        Gson gson = new Gson();
-        String jsonData = gson.toJson(chatCmdChangeContactBean);
-        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_CHANGE_CONTACT);
-        textMessage.setExtra(jsonData);
-
-//        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        MsgManager.getIsChangeContact(new BaseProtocol.IResultExecutor<IsChangeContactBean>() {
             @Override
-            public void onSuccess(Integer integer) {
-                long sentTime = System.currentTimeMillis();
-                displayMsgTimeView(sentTime);
+            public void execute(IsChangeContactBean dataBean) {
+                IsChangeContactBean.Data2 data = dataBean.data.data;
+                if (data.status == 1) {
+                    //已经交换过手机号
+                    String otherPhone;
+                    if (targetId.equals(data.uid1 + "")) {
+                        otherPhone = data.uid1phone;
+                    } else {
+                        otherPhone = data.uid2phone;
+                    }
+                    createChangeContactWayInfoView(targetName, otherPhone);
+                } else {
+                    //没有交换过手机号
 
-                View infoView = createInfoView("您已发送交换手机号请求");
-                mLlChatContent.addView(infoView);
+                    ChatCmdChangeContactBean chatCmdChangeContactBean = new ChatCmdChangeContactBean();
+                    chatCmdChangeContactBean.uid = LoginManager.currentLoginUserId;
+                    chatCmdChangeContactBean.phone = LoginManager.currentLoginUserPhone;
+                    Gson gson = new Gson();
+                    String jsonData = gson.toJson(chatCmdChangeContactBean);
+                    TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_CHANGE_CONTACT);
+                    textMessage.setExtra(jsonData);
+
+                    //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+                    RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                        @Override
+                        public void onSuccess(Integer integer) {
+                            long sentTime = System.currentTimeMillis();
+                            displayMsgTimeView(sentTime);
+
+                            View infoView = createInfoView("您已发送交换手机号请求");
+                            mLlChatContent.addView(infoView);
+                        }
+
+                        @Override
+                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                            long sentTime = System.currentTimeMillis();
+                            displayMsgTimeView(sentTime);
+
+                            View infoView = createInfoView("发送交换联系方式请求失败");
+                            mLlChatContent.addView(infoView);
+                        }
+                    });
+                }
             }
 
             @Override
-            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                long sentTime = System.currentTimeMillis();
-                displayMsgTimeView(sentTime);
-
-                View infoView = createInfoView("发送交换联系方式请求失败");
-                mLlChatContent.addView(infoView);
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取是否交换过手机号标识失败:" + result);
             }
-        });
+        }, targetId);
+
+
     }
 
     /**
@@ -860,8 +886,8 @@ public class ChatModel extends BaseObservable {
         //需要调用服务端保存已交换过联系方式状态的接口,对方收到消息后也需要调用
 
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT);
-        String myPhone = "18888888888";
-        textMessage.setExtra("{\"content\":\"" + myPhone + "\",\"otherPhone\":\"\" + otherPhone + \"\"}");
+        String myPhone = LoginManager.currentLoginUserPhone;
+        textMessage.setExtra("{\"content\":\"" + myPhone + "\",\"otherPhone\":\"" + otherPhone + "\"}");//这里的otherPhone好像没有用到
 
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
@@ -1536,6 +1562,28 @@ public class ChatModel extends BaseObservable {
     private int upCancelSendVoiceVisibility;
     private int relaseCancelSendVoiceVisibility;
     private String relatedTaskTitle = "相关任务:";
+    private String otherUsername;
+    private String otherCompanyAndPosition;
+
+    @Bindable
+    public String getOtherCompanyAndPosition() {
+        return otherCompanyAndPosition;
+    }
+
+    public void setOtherCompanyAndPosition(String otherCompanyAndPosition) {
+        this.otherCompanyAndPosition = otherCompanyAndPosition;
+        notifyPropertyChanged(BR.otherCompanyAndPosition);
+    }
+
+    @Bindable
+    public String getOtherUsername() {
+        return otherUsername;
+    }
+
+    public void setOtherUsername(String otherUsername) {
+        this.otherUsername = otherUsername;
+        notifyPropertyChanged(BR.otherUsername);
+    }
 
     @Bindable
     public int getTextInputIconVisibility() {

@@ -9,6 +9,7 @@ import android.view.View;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
+import com.slash.youth.domain.MyHomeInfoBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.UserInfoEngine;
@@ -34,7 +35,8 @@ public class ActivityHomeModel extends BaseObservable {
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityHomeBinding = activityHomeBinding;
-        getCurrentLoginUserInfo();
+        getCurrentLoginUserInfo();//二、[用戶信息]-获取个人资料 接口中的数据，获取当前登录者的个人信息
+        getCurrentLoginUserInfo2();//十三、[用戶信息]-我的首页数据  接口中的数据，用来获取手机号
     }
 
     private void getCurrentLoginUserInfo() {
@@ -42,12 +44,26 @@ public class ActivityHomeModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 LoginManager.currentLoginUserAvatar = dataBean.data.uinfo.avatar;
-                LoginManager.currentLoginUserAvatar = dataBean.data.uinfo.name;
+                LoginManager.currentLoginUserName = dataBean.data.uinfo.name;
             }
 
             @Override
             public void executeResultError(String result) {
                 ToastUtils.shortToast("获取我的个人信息失败:" + result);
+            }
+        });
+    }
+
+    private void getCurrentLoginUserInfo2() {
+        UserInfoEngine.getMyHomeInfo(new BaseProtocol.IResultExecutor<MyHomeInfoBean>() {
+            @Override
+            public void execute(MyHomeInfoBean dataBean) {
+                LoginManager.currentLoginUserPhone = dataBean.data.myinfo.phone;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取我的首页数据失败:" + result);
             }
         });
     }
