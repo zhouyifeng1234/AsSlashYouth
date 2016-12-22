@@ -1,5 +1,7 @@
 package com.slash.youth.global;
 
+import java.net.URL;
+
 /**
  * Created by zhouyifeng on 2016/8/31.
  */
@@ -467,7 +469,7 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
-        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/status";
+        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/statusone";
 
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
@@ -488,6 +490,11 @@ public class GlobalConstants {
         public static final String RECOMMONEND_FRIEND_BLACK_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend"+"/blacklist";
         //、[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
         public static final String ENCHASHMENT_APPlICATION = SERVER_HOST_MY_ACCOUNT + "/withdrawdeposit";
+        //帮助——常见问题
+
+
+
+
 
     }
 

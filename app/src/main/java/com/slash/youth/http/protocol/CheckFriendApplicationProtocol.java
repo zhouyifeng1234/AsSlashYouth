@@ -11,12 +11,10 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/12/21.
  */
 public class CheckFriendApplicationProtocol  extends BaseProtocol<FriendStatusBean> {
-    private int offset;
-    private int limit;
+  private long uid;
 
-    public CheckFriendApplicationProtocol(int offset, int limit) {
-        this.offset = offset;
-        this.limit = limit;
+    public CheckFriendApplicationProtocol(long uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -26,12 +24,8 @@ public class CheckFriendApplicationProtocol  extends BaseProtocol<FriendStatusBe
 
     @Override
     public void addRequestParams(RequestParams params) {
-        if(offset>=0){
-            params.addBodyParameter("offset", String.valueOf(offset));
-        }
-      if(limit>0&&limit<=20){
-          params.addBodyParameter("limit", String.valueOf(limit));
-      }
+        params.addBodyParameter("uid", String.valueOf(uid));
+
     }
 
     @Override

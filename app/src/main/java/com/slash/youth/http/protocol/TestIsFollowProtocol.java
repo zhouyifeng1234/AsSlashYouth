@@ -26,7 +26,7 @@ public class TestIsFollowProtocol extends BaseProtocol<FansBean>{
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("uid", String.valueOf(uid));
+        params.addBodyParameter("touid", String.valueOf(uid));
     }
 
     @Override

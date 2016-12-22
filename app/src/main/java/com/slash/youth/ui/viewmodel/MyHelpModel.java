@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityMyHelpBinding;
+import com.slash.youth.ui.activity.CommonQuestionActivity;
 import com.slash.youth.ui.activity.ContactUsActivity;
 import com.slash.youth.ui.activity.MyCollectionActivity;
 import com.slash.youth.ui.activity.MyHelpActivity;
@@ -37,8 +38,8 @@ public class MyHelpModel extends BaseObservable {
 
     //commonQuestion 常见问题
     public void commonQuestion(View view){
-
-
+        Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), CommonQuestionActivity.class);
+        myHelpActivity.startActivity(intentCommonQuestionActivity);
     }
 
     //contactUs 联系我们

@@ -131,6 +131,7 @@
                                    android:layout_height="wrap_content"
                                    android:text="真实姓名"
                                     android:textSize="15dp"
+                                   android:maxEms="6"
                                    android:textColor="#333333"
                                    android:layout_centerVertical="true"
                                    android:layout_marginLeft="10dp"
@@ -140,7 +141,7 @@
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
                                    android:hint="请输入姓名"
-                                   android:cursorVisible="false"
+                                   android:cursorVisible="true"
                                    android:textSize="13dp"
                                    android:textColor="#60A7B6"
                                    android:textColorHint="#60A7B6"
@@ -394,7 +395,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="请填写"
                                 android:textSize="13dp"
-                                android:cursorVisible="false"
+                                android:cursorVisible="true"
                                 android:background="@null"
                                 android:textColor="#60A7B6"
                                 android:textColorHint="#60A7B6"
@@ -435,7 +436,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint="请填写"
-                                android:cursorVisible="false"
+                                android:cursorVisible="true"
                                 android:background="@null"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
@@ -504,6 +505,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="15dp">
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                    android:gravity="center_horizontal"
@@ -522,12 +524,12 @@
                                    android:ellipsize="end"
                                    android:inputType="textMultiLine"
                                    android:background="@null"
-                                   android:cursorVisible="false"
+                                   android:cursorVisible="true"
                                    android:gravity="left|top"
-                                   android:maxLines="3"
+                                   android:maxLines="4"
                                    android:maxLength="50"
                                    android:lineSpacingExtra="2dp"
-                                    android:hint="例：从事UI设计行业5年，具有丰富的设计经验..."/>
+                                    android:hint="请输入技能描述，50字内 例：从事UI设计行业5年，具有丰富的设计经验..."/>
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"

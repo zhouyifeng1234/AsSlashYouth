@@ -146,50 +146,6 @@ public class ActivityContactsCareModel extends BaseObservable {
             contactsCareAdapter = new ContactsCareAdapter(contactsLists,type);
             activityContactsCareBinding.lv.setAdapter(contactsCareAdapter);
 
-           // agreeFriend();
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-        }
-    }
-
-    //点击按钮同意添加好友
-   /* private void agreeFriend() {
-        contactsCareAdapter.setItemRemoveListener(new ContactsCareAdapter.onItemRemoveListener() {
-            @Override
-            public void onItemRemove(int index) {
-                ContactsBean.DataBean.ListBean listBean = contactsLists.get(index);
-                int id = listBean.getUid();
-                Long QQ_uid = new Long(id);
-               // ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),QQ_uid,"contacts");
-                if(isAgree){
-                   //contactsLists.remove(index);
-                    //contactsCareAdapter.notifyDataSetChanged();
-
-                }
-            }
-        });
-    }*/
-
-    public class onAgreeFriendProtocol implements BaseProtocol.IResultExecutor<SetBean> {
-        @Override
-        public void execute(SetBean dataBean) {
-            int rescode = dataBean.rescode;
-            if(rescode == 0){
-                SetBean.DataBean data = dataBean.getData();
-                int status = data.getStatus();
-                switch (status){
-                    case 1:
-                        ToastUtils.shortCenterToast("已是好友");
-                        isAgree = true;
-                        break;
-                    case 0:
-                        ToastUtils.shortCenterToast("添加好友未成功");
-                        isAgree = false;
-                        break;
-                }
-            }
         }
         @Override
         public void executeResultError(String result) {
