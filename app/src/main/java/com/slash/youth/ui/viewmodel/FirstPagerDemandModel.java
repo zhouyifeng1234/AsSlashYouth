@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,6 @@ public class FirstPagerDemandModel extends BaseObservable {
     private SearchActivityCityLocationBinding searchCityLocationBinding;
     private int constellationPosition = 0;
     private View constellationView;
-    private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private PullToRefreshListviewBinding pullToRefreshListviewBinding;
     private PullToRefreshListViewModel pullToRefreshListViewModel;
     private SearchActivityCityLocationModel searchActivityCityLocationModel;
@@ -100,7 +100,6 @@ public class FirstPagerDemandModel extends BaseObservable {
         }
         popupViews.add(constellationView);
         popupViews.add(sortView);
-
 
         pullToRefreshListviewBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pull_to_refresh_listview, null, false);
         pullToRefreshListViewModel = new PullToRefreshListViewModel(pullToRefreshListviewBinding ,isDemand,firstPagerMoreActivity);
@@ -183,8 +182,8 @@ public class FirstPagerDemandModel extends BaseObservable {
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
-        headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
-        // HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding);
+        HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
+      //HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,cu);
         //headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
 

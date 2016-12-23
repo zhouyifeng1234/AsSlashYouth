@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.engine.LoginManager;
@@ -148,10 +149,10 @@ public class PagerHomeMyModel extends BaseObservable {
         //是否认证
         isauth = myinfo.getIsauth();
         if(isauth == 1){  //认证过的
-            mPagerHomeMyBinding.ivV.setVisibility(View.VISIBLE);
+            mPagerHomeMyBinding.ivV.setImageResource(R.mipmap.v_icon_home_my);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.GONE);
         }else if(isauth == 0){    //非认证
-            mPagerHomeMyBinding.ivV.setVisibility(View.GONE);
+            mPagerHomeMyBinding.ivV.setImageResource(R.mipmap.exclamation);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.VISIBLE);
         }
         //头像

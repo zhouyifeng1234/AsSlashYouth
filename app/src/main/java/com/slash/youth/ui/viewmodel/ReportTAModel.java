@@ -38,7 +38,6 @@ public class ReportTAModel extends BaseObservable {
     }
 
     private void initView() {
-
         list.clear();
         getCheckable(activityReportTaBinding.cb1);
         getCheckable(activityReportTaBinding.cb2);

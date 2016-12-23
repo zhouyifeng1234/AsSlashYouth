@@ -15,6 +15,7 @@ import com.blankj.utilcode.utils.RegexUtils;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
+import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.SkillMamagerOneTempletBean;
@@ -38,6 +39,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhouyifeng on 2016/9/18.
@@ -61,6 +64,7 @@ public class ActivitySearchModel extends BaseObservable {
 
         etSearchListener();
         getSearchContentData(searchText, offset, limit);
+
     }
 
     //点击直接搜索框,搜索历史
@@ -111,12 +115,15 @@ public class ActivitySearchModel extends BaseObservable {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 searchText = s.toString();
                 showSearchHistroy(searchText);
+               // getSearchContentData(searchText, offset, limit);
+               // showSearchHistroy(searchText);
             }
         });
     }
@@ -183,6 +190,7 @@ public class ActivitySearchModel extends BaseObservable {
         currentActivity.activityResultAllBinding.setSearchResultAllModel(searchResultAllModel);
     }
 
+    //加载搜索历史的数据
     private void initSearchHistoryData() {
         //存储集合
         try {
@@ -222,8 +230,11 @@ public class ActivitySearchModel extends BaseObservable {
     }
 
     //获取搜索联想词
-    private void getSearchContentData(String searchText, int offset, int limit) {
-        SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(), searchText, offset, limit);
+    private void getSearchContentData(String text, int offset, int limit) {
+        String etText = mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
+        if(text!=null&&text!=""&&etText!=null){
+            SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(), text, offset, limit);
+        }
     }
 
     //获取搜索联想词
@@ -237,6 +248,9 @@ public class ActivitySearchModel extends BaseObservable {
                 if (!search_contentlist.contains(tagBean.tag)) {
                     search_contentlist.add(new ItemSearchBean(tagBean.tag, false));
                 }
+            }
+            if(list.size() == 0){
+                currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.GONE);
             }
             adapter = new SearchHistoryListAdapter(search_contentlist);
             currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
@@ -261,5 +275,4 @@ public class ActivitySearchModel extends BaseObservable {
             }
         });
     }
-
 }

@@ -76,7 +76,7 @@ public class SearchResultAllModel extends BaseObservable {
                 List<SearchAllBean.DataBean.UserListBean> userList = data.getUserList();
                 userListBeen.addAll(userList);
 
-                SearchResultAlAdapter searchResultAlAdapter = new SearchResultAlAdapter(demandListBeen,serviceListBeen,userListBeen);
+                SearchResultAlAdapter searchResultAlAdapter = new SearchResultAlAdapter(demandListBeen,serviceListBeen,userListBeen,text);
                 activityResultAllBinding.lvSearchAll.setAdapter(searchResultAlAdapter);
             }
         }
@@ -86,28 +86,6 @@ public class SearchResultAllModel extends BaseObservable {
         }
     }
 
-   /* private void initView() {
-        if(demandListBeen.size() == 0){
-            View demandView = activityResultAllBinding.lvSearchAll.getChildAt(0);
-            View demandMoreView = activityResultAllBinding.lvSearchAll.getChildAt(1);
-            activityResultAllBinding.lvSearchAll.removeView(demandView);
-            activityResultAllBinding.lvSearchAll.removeView(demandMoreView);
-        }
-
-        if(serviceListBeen.size() == 0){
-            View serviceView = activityResultAllBinding.lvSearchAll.getChildAt(2);
-            View serviceMoreView = activityResultAllBinding.lvSearchAll.getChildAt(3);
-            activityResultAllBinding.lvSearchAll.removeView(serviceView);
-            activityResultAllBinding.lvSearchAll.removeView(serviceMoreView);
-        }
-
-        if(userListBeen.size() == 0){
-            View userView = activityResultAllBinding.lvSearchAll.getChildAt(4);
-            View userMoreView = activityResultAllBinding.lvSearchAll.getChildAt(5);
-            activityResultAllBinding.lvSearchAll.removeView(userView);
-            activityResultAllBinding.lvSearchAll.removeView(userMoreView);
-        }
-    }*/
 
     private void listener() {
         activityResultAllBinding.lvSearchAll.setOnItemClickListener(new AdapterView.OnItemClickListener() {

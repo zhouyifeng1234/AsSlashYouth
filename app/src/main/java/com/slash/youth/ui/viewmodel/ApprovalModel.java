@@ -65,7 +65,7 @@ public class ApprovalModel extends BaseObservable {
     }
 
     private void initView() {
-        switch (1){
+        switch (cardType){
             case 0:
                 LogKit.d("没有完善职业类型");
                 break;

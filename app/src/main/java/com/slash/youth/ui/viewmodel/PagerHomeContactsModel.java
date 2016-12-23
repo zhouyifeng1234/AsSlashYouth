@@ -24,6 +24,7 @@ import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
+import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -38,17 +39,45 @@ public class PagerHomeContactsModel extends BaseObservable {
     private Activity mActivity;
     private int offset = 0;
     private int limit = 20;
-    private int visibleLastIndex = 0;   //最后的可视项索引
     private  ArrayList<HomeContactsVisitorBean.DataBean.ListBean> listHomeContactsVisitorBean = new ArrayList<>();
     private HomeContactsVisitorAdapter homeContactsVisitorAdapter;
-    private View footerView;
+    private int listSize;
 
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
         this.mActivity = activity;
+        initListView();
         initView();
         initData();
         listener();
+    }
+
+    private void initListView() {
+        PullToRefreshLayout ptrl = mPagerHomeContactsBinding.refreshView;
+        ptrl.setOnRefreshListener(new VisitorListListener());
+    }
+
+    public class VisitorListListener implements PullToRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+
+        }
+        @Override
+        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //如果加载到最后一页，需要调用setLoadToLast()方法
+                    if(listSize < limit){//说明到最后一页啦
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }else {//不是最后一页
+                        offset += limit;
+                        getDataFromServer();
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                }
+            }, 2000);
+        }
     }
 
     private void initView() {
@@ -57,12 +86,6 @@ public class PagerHomeContactsModel extends BaseObservable {
         headerListviewHomeContactsBinding.setHeaderHomeContactsModel(headerHomeContactsModel);
         View vContactsHeader = headerListviewHomeContactsBinding.getRoot();
         mPagerHomeContactsBinding.lvHomeContactsVisitor.addHeaderView(vContactsHeader);
-
-        footerView = View.inflate(mActivity, R.layout.header_listview_refresh, null);
-        footerView.measure(0,0);
-        int footerHeight = footerView.getMeasuredHeight();
-        footerView.setPadding(0, -footerHeight, 0, 0);
-        mPagerHomeContactsBinding.lvHomeContactsVisitor.addFooterView(footerView);
     }
 
     private void initData() {
@@ -90,22 +113,6 @@ public class PagerHomeContactsModel extends BaseObservable {
                 }
             }
         });
-
-        mPagerHomeContactsBinding.lvHomeContactsVisitor.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-                if(visibleLastIndex == listHomeContactsVisitorBean.size()&&listHomeContactsVisitorBean.size()!=0){
-                    footerView.setPadding(0, 0, 0, 0);
-                    offset = visibleLastIndex;
-                    ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
-                }
-            }
-        });
     }
 
     //获取我的访客的列表
@@ -116,17 +123,8 @@ public class PagerHomeContactsModel extends BaseObservable {
             if(rescode == 0){
                 HomeContactsVisitorBean.DataBean data = dataBean.getData();
                 List<HomeContactsVisitorBean.DataBean.ListBean> list = data.getList();
+                listSize = list.size();
                 listHomeContactsVisitorBean.addAll(list);
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
-                listHomeContactsVisitorBean.add(new HomeContactsVisitorBean.DataBean.ListBean());
             }
             //设置访客列表数据
             homeContactsVisitorAdapter = new HomeContactsVisitorAdapter(listHomeContactsVisitorBean);
@@ -137,5 +135,4 @@ public class PagerHomeContactsModel extends BaseObservable {
             LogKit.d("result:"+result);
         }
     }
-
 }

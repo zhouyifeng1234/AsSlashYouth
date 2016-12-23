@@ -63,7 +63,5 @@ public class PagerSearchPersonHolder extends BaseHolder<SearchUserItemBean.DataB
                 itemListviewSearchPersonBinding.ivSearchV.setVisibility(View.GONE);
                 break;
         }
-
     }
-
 }

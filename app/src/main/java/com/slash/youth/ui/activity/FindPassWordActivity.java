@@ -125,7 +125,6 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                     bitmap = (Bitmap) bundle.get("data");
                     break;
                 case Constants.MY_SETTING_TAKE_ABLEM:
-
                     Uri uri = data.getData();
                     try {
                         bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));

@@ -17,6 +17,7 @@ import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
 import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.ui.viewmodel.PagerHomeBaseModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ abstract public class BaseHomePager {
     private PagerHomeBaseBinding mPagerHomeBaseBinding;
     public ArrayList<String> homeAdvertisementUrlList;
     public Activity mActivity;
+    private static double currentLatitude;
+    private static double currentLongitude;
 
     public BaseHomePager(Activity activity) {
         this.mActivity = activity;
@@ -37,6 +40,9 @@ abstract public class BaseHomePager {
         initListener();
         setData();
     }
+
+
+
 
     public View initView() {
         mPagerHomeBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_base, null, false);

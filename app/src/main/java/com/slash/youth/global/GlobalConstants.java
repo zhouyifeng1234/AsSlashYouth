@@ -471,7 +471,7 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
-        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
+       // public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
         public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/statusone";
 
         //三、[关注]-查询我关注的人

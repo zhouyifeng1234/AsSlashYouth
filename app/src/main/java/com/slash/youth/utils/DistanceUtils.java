@@ -7,6 +7,12 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.slash.youth.domain.NearLocationBean;
+
+import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/12/8.
@@ -15,6 +21,14 @@ public class DistanceUtils {
     private static final double EARTH_RADIUS = 6378.137;//地球半径,单位千米
     public double currentLatitude;
     public double currentLongitude;
+    public LatLng mCurrentLatlng;
+    private AMap mMap;
+    private boolean isMoveByGestures = false;
+    private  float mapZoom = 14;
+    public String mCurrentAddress;
+    public String mCurrentAoiName;
+    private String mCurrentCityCode;
+    private ArrayList<NearLocationBean> mListNearLocation;
 
     private static double rad(double d) {
         return d * Math.PI / 180.0;
@@ -69,20 +83,27 @@ public class DistanceUtils {
                     currentLatitude = aMapLocation.getLatitude();
                     //获取经度
                     currentLongitude = aMapLocation.getLongitude();
-                    LogKit.v("currentLatitude:" + currentLatitude + " currentLongitude:" + currentLongitude);
-                   // LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-                  //  mCurrentLatlng = latLng;
-//                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
-                   // isMoveByGestures = false;
-                   // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
-                  //  mapZoom = mMap.getCameraPosition().zoom;
-                  //  mCurrentAddress = aMapLocation.getAddress();
-                   // mCurrentAoiName = aMapLocation.getAoiName();
-                   // mCurrentCityCode = aMapLocation.getCityCode();
-                   // LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
-                   // mListNearLocation = new ArrayList<NearLocationBean>();
+
+                    mCurrentAddress = aMapLocation.getAddress();
+                    mCurrentAoiName = aMapLocation.getAoiName();
+                    mCurrentCityCode = aMapLocation.getCityCode();
+                    String city = aMapLocation.getCity();
+                    SpUtils.setString("currentyCity",city);
+                    // String country = aMapLocation.getCountry();
+                    LogKit.v("currentLatitude:" + currentLatitude + " currentLongitude:" + currentLongitude+"city = "+city);
+                   /* LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+                    mCurrentLatlng = latLng;
+                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));
+                    isMoveByGestures = false;
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, mapZoom));
+                    mapZoom = mMap.getCameraPosition().zoom;
+                    mCurrentAddress = aMapLocation.getAddress();
+                    mCurrentAoiName = aMapLocation.getAoiName();
+                    mCurrentCityCode = aMapLocation.getCityCode();
+                    LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
+                    mListNearLocation = new ArrayList<NearLocationBean>();
                     //首先添加由定位或得的当前位置信息
-                   // mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+                    mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));*/
                     //相关周边POI搜索
                     //getNearPoi(currentLatitude, currentLongitude);
 
@@ -91,9 +112,9 @@ public class DistanceUtils {
                     Log.e("AmapError", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
-                    ToastUtils.shortToast("location Error, ErrCode:"
+                  /*  ToastUtils.shortToast("location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
-                            + aMapLocation.getErrorInfo());
+                            + aMapLocation.getErrorInfo());*/
                 }
             }
             mLocationClient.unRegisterLocationListener(this);

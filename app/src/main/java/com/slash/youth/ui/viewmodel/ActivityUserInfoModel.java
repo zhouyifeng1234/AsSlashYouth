@@ -39,6 +39,8 @@ import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
+import com.slash.youth.ui.view.PullableListView.MyListener;
+import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -110,7 +112,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         this.anonymity = anonymity;
         this.friendStatus =  friendStatus ;
         this.userInfoActivity = userInfoActivity;
-       // initFootView();
         initData();
         initView();
         initAnonymityView();
@@ -130,14 +131,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
-    private void initFootView() {
-        footView = View.inflate(userInfoActivity, R.layout.footer_listview_addmore, null);
-        footView.measure(0,0);
-        footerHeight = footView.getMeasuredHeight();
-        footView.setPadding(0,-footerHeight,0,0);
-        footView.setVisibility(View.GONE);
-        activityUserinfoBinding.lvUserinfo.addFooterView(footView);
-    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
@@ -152,82 +146,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 }
             });
         }
-
-        //条目点击事件
-       /* activityUserinfoBinding.lvUserinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NewDemandAandServiceBean.DataBean.ListBean listBean = userInfoListView.get(position);
-            }
-        });
-*/
-
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activityUserinfoBinding.sv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    LinearLayout ll = (LinearLayout) activityUserinfoBinding.sv.getChildAt(0);
-                    int measuredHeight = ll.getMeasuredHeight();
-                    float scaleY = activityUserinfoBinding.sv.getScrollY();
-                    int height = activityUserinfoBinding.sv.getHeight();
-
-                    if(measuredHeight == scaleY+height){
-                        footView.setVisibility(View.VISIBLE);
-                       footView.setPadding(0,0,0,0);
-
-                     if( listSize < limit){
-                         ToastUtils.shortToast("没有更多数据！");
-
-                         CommonUtils.getHandler().postDelayed(new Runnable() {
-                             @Override
-                             public void run() {
-                                 footView.setVisibility(View.GONE);
-                                 footView.setPadding(0,-footerHeight,0,0);
-                               //  activityUserinfoBinding.sv.smoothScrollTo(0,0);
-                             }
-                         }, 2000);
-
-                     }else {
-                         offset = offset +limit-1;
-                         UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
-                     }
-
-                    }
-                }
-            });
-        }*/
-
-        //触摸事件
-        /*activityUserinfoBinding.sv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        startY = (int)event.getRawY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (startY != -1) {
-                            int endY = (int) event.getRawY();
-                            if (Math.abs(endY - startY) > 10) {
-                                LogKit.d("===到最后拉====");
-                                CommonUtils.getHandler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        LogKit.d("===到最后拉====");
-
-                                    }
-                                }, 100);
-                            }
-                            startY = -1;
-                        }
-                        break;
-                }
-                return false;
-            }
-        });*/
     }
 
     private long uid;
@@ -260,7 +178,7 @@ public class ActivityUserInfoModel extends BaseObservable {
                 listSize = list.size();
                 userInfoListView.addAll(list);
                 userInfoAdapter = new UserInfoAdapter(userInfoListView);
-                activityUserinfoBinding.lvUserinfo.setAdapter(userInfoAdapter);
+               activityUserinfoBinding.lvUserinfo.setAdapter(userInfoAdapter);
             }
         }
 
@@ -286,7 +204,33 @@ public class ActivityUserInfoModel extends BaseObservable {
                 return true;
             }
         });
+
+        activityUserinfoBinding.refreshView.setOnRefreshListener(new TaskListListener());
     }
+
+    public class TaskListListener implements PullToRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+
+        }
+        @Override
+        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //如果加载到最后一页，需要调用setLoadToLast()方法
+                    if(listSize < limit){//说明到最后一页啦
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }else {//不是最后一页
+                        offset += limit;
+                        UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                }
+            }, 2000);
+        }
+    }
+
 
     //点击打开技能标签页面
     public void openskilllabel(View view) {

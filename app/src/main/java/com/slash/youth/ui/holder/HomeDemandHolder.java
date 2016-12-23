@@ -11,6 +11,7 @@ import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeMoreDemandBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -94,10 +95,9 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
 
         double lat = data.getLat();
         double lng = data.getLng();
-        DistanceUtils distanceUtils = new DistanceUtils();
-        distanceUtils.getLatAndLng(mActivity);
-        double currentLatitude = distanceUtils.currentLatitude;
-        double currentLongitude = distanceUtils.currentLongitude;
+
+        double currentLatitude = SlashApplication.getCurrentLatitude();
+        double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
         itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
     }

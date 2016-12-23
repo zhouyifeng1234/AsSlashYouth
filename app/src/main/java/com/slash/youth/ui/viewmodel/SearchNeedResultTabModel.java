@@ -64,9 +64,11 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private PullToRefreshListTabViewModel pullToRefreshListTabViewModel;
     private SearchActivityCityLocationModel searchActivityCityLocationModel;
     private boolean isDemand;
+    private String tag;
 
-    public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding) {
+    public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding,String tag) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
+        this.tag = tag;
         initData();
         addView();
         back();
@@ -137,7 +139,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         }
 
         pullToRefreshTabListviewBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pull_to_refresh_tab_listview, null, false);
-        pullToRefreshListTabViewModel = new PullToRefreshListTabViewModel(pullToRefreshTabListviewBinding,searchType,currentActivity);
+        pullToRefreshListTabViewModel = new PullToRefreshListTabViewModel(pullToRefreshTabListviewBinding,searchType,currentActivity,tag);
         pullToRefreshTabListviewBinding.setPullToRefreshListTabViewModel(pullToRefreshListTabViewModel);
         contentView = pullToRefreshTabListviewBinding.getRoot();
         contentView.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(10),CommonUtils.dip2px(10),0);
@@ -355,15 +357,17 @@ public class SearchNeedResultTabModel extends BaseObservable  {
 
     //关闭地点选择
     private void listener() {
-        searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
-            @Override
-            public void OnClick(String cityName) {
-                pullToRefreshListTabViewModel.city = cityName;
-                pullToRefreshListTabViewModel.getData(searchType);
-                mSearchNeedResultTabBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
-                mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
-            }
-        });
+        if(searchActivityCityLocationModel!=null){
+            searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
+                @Override
+                public void OnClick(String cityName) {
+                    pullToRefreshListTabViewModel.city = cityName;
+                    pullToRefreshListTabViewModel.getData(searchType);
+                    mSearchNeedResultTabBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
+                    mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
+                }
+            });
+        }
     }
 }
 

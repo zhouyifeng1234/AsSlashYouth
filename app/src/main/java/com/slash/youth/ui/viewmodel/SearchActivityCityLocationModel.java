@@ -184,6 +184,15 @@ public class SearchActivityCityLocationModel extends BaseObservable {
         }
         }
     });
+
+    //点击当前城市
+      /*  searchActivityCityLocationBinding.tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String city = searchActivityCityLocationBinding.tv.getText().toString();
+                listener.OnClick(cityName);
+            }
+        });   */
     }
 
     //显示中间的字

@@ -37,7 +37,6 @@ import java.util.ArrayList;
  * Created by zss on 2016/10/16.
  */
 public class SearchPagerFirstModel extends BaseObservable {
-
     private SearchPagerFirstBinding searchPagerFirstBinding;
     private  SearchActivity searchActivity;
     private PagerSearchItemAdapter pagerSearchItemAdapter;
@@ -46,27 +45,35 @@ public class SearchPagerFirstModel extends BaseObservable {
     private File file = new File(externalCacheDir, "history.text");
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     private ListView listView;
+    private ActivitySearchBinding activitySearchBinding;
+    private String demadHint = "搜需求";
+    private String serviceHint = "搜服务";
+    private String userHint = "搜人";
 
-    public SearchPagerFirstModel(SearchPagerFirstBinding searchPagerFirstBinding) {
+    public SearchPagerFirstModel(SearchPagerFirstBinding searchPagerFirstBinding,ActivitySearchBinding activitySearchBinding) {
         this.searchPagerFirstBinding = searchPagerFirstBinding;
+        this.activitySearchBinding = activitySearchBinding;
     }
 
     //搜索需求
     public void searchDemand(View v) {
         showView(SearchManager.HOT_SEARCH_DEMEND);
         SpUtils.setString("searchType",SearchManager.HOT_SEARCH_DEMEND);
+        activitySearchBinding.etActivitySearchAssociation.setHint(demadHint);
     }
 
     //搜索服务
     public void searchService(View v) {
         showView(SearchManager.HOT_SEARCH_SERVICE);
         SpUtils.setString("searchType",SearchManager.HOT_SEARCH_SERVICE);
+        activitySearchBinding.etActivitySearchAssociation.setHint(serviceHint);
     }
 
     //搜索人
     public void searchUser(View v){
         showView(SearchManager.HOT_SEARCH_PERSON);
         SpUtils.setString("searchType",SearchManager.HOT_SEARCH_PERSON);
+        activitySearchBinding.etActivitySearchAssociation.setHint(userHint);
     }
 
     public void showView(String title) {
@@ -75,5 +82,4 @@ public class SearchPagerFirstModel extends BaseObservable {
         SearchActivityHotServiceModel searchActivityHotServiceModel = new SearchActivityHotServiceModel(currentActivity.searchActivityHotServiceBinding,currentActivity.activitySearchBinding);
         currentActivity.searchActivityHotServiceBinding.setSearchActivityHotServiceModel(searchActivityHotServiceModel);
     }
-
 }

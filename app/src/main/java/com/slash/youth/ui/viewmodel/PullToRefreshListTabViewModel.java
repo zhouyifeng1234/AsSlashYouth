@@ -44,7 +44,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     private PagerSearchDemandtAdapter pagerHomeDemandtAdapter;
     private  int offset = 0;
     private int limit = 20;
-    public String tag = "微信";
+    public String tag;
     public int  pattern = -1;
     public   int isauth = -1;
     public String city = null;
@@ -58,9 +58,10 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     private SearchActivity currentActivity;
     private PagerHomeServiceAdapter pagerHomeServiceAdapter;
 
-    public PullToRefreshListTabViewModel(PullToRefreshTabListviewBinding pullToRefreshTabListviewBinding,String searchType,SearchActivity currentActivity) {
+    public PullToRefreshListTabViewModel(PullToRefreshTabListviewBinding pullToRefreshTabListviewBinding,String searchType,SearchActivity currentActivity,String tag) {
          this.pullToRefreshTabListviewBinding =  pullToRefreshTabListviewBinding;
         this.searchType = searchType;
+        this.tag = tag;
         this.currentActivity =currentActivity;
         initListView();
         initData();
@@ -77,6 +78,8 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     }
 
     public void getData(String searchType) {
+        //TODO  搜索标签还不能使用，方便测试
+        tag = "微信";
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);

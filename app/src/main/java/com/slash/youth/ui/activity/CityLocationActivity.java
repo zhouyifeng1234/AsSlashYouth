@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +31,7 @@ import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
 import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;
+import com.slash.youth.ui.holder.LocationCityFirstLetterHolder;
 import com.slash.youth.ui.viewmodel.ActivityCityLocationModel;
 import com.slash.youth.ui.viewmodel.HeaderLocationCityInfoModel;
 import com.slash.youth.utils.CommonUtils;
@@ -34,6 +39,7 @@ import com.slash.youth.utils.DBManager;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PatternUtils;
 import com.slash.youth.utils.Pinyin4JUtils;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.io.PrintWriter;
@@ -63,7 +69,12 @@ public class CityLocationActivity extends Activity {
     private int pro_sort;
     private int city_id;
     private Intent intent;
+    private android.os.Handler mHanler = new android.os.Handler();
      public static HashMap<String, String> map = new HashMap<>();
+    private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
+    private float startY;
+    private ImageView ivLocationCityFirstLetterListHeader;
+    private LocationCityFirstLetterAdapter locationCityFirstLetterAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +85,11 @@ public class CityLocationActivity extends Activity {
         mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding, this);
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
-        HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
+         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
-        ImageView ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
+        ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
         ivLocationCityFirstLetterListHeader.setImageResource(R.mipmap.search_letter_search_icon);
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.addHeaderView(ivLocationCityFirstLetterListHeader);
 
@@ -137,12 +148,8 @@ public class CityLocationActivity extends Activity {
         }
 
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setAdapter(new LocationCityInfoAdapter(listCityInfo));
-        mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setAdapter(new LocationCityFirstLetterAdapter(listCityNameFirstLetter));
-        //搜索的自动提示数据，实际应该由服务端返回
-        //搜索自动提示测试数据
-
-
-
+        locationCityFirstLetterAdapter = new LocationCityFirstLetterAdapter(listCityNameFirstLetter);
+        mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setAdapter(locationCityFirstLetterAdapter);
     }
 
     //获取城市
@@ -200,13 +207,13 @@ public class CityLocationActivity extends Activity {
                 if(position>0){
                     LocationCityInfo locationCityInfo = listCityInfo.get(position-1);
                     boolean isFirstLetter = locationCityInfo.isFirstLetter;
-                    String cityName1 = locationCityInfo.CityName;
+                    String cityName = locationCityInfo.CityName;
                     int id1 = locationCityInfo.getId();
                     for (ListProvinceBean listProvinceBean : listProvince) {
                         int proId = listProvinceBean.proId;
                         if(proId == id1){
                             String provinceName = listProvinceBean.provinceName;
-                            intent.putExtra("city",cityName1);
+                            intent.putExtra("city",cityName);
                             intent.putExtra("province",provinceName);
                             setResult(RESULT_OK,intent);
                             //map.put("city",cityName1);
@@ -217,7 +224,6 @@ public class CityLocationActivity extends Activity {
                 }
             }
         });
-
 
         //点击左侧字母弹出吐司并定位到对应的位置
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -231,13 +237,24 @@ public class CityLocationActivity extends Activity {
                         LocationCityInfo locationCityInfo = listCityInfo.get(i);
                         String firstCityLetter = locationCityInfo.getFirstLetter();
                         if(firstCityLetter.equals(firstLetter) ){
-                            ToastUtils.shortCenterToast(" "+firstLetter);
+                            mActivityCityLocationBinding.tv.setText(firstLetter);
+                            mActivityCityLocationBinding.tv.setVisibility(View.VISIBLE);
+                            mHanler.removeCallbacksAndMessages(null);
+                            mHanler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityCityLocationBinding.tv.setVisibility(View.GONE);
+                                }
+                            },1000);
                             mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i + mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
                         }
                     }
                 }
             }
         });
+
+        //滑动事件
+        touchListener();
 
         //搜索框的监听
         mActivityCityLocationBinding.etActivityCityLocationSearchbox.addTextChangedListener(new TextWatcher() {
@@ -306,5 +323,61 @@ public class CityLocationActivity extends Activity {
                 mActivityCityLocationModel.setCityInfoListVisible(View.VISIBLE);
             }
         });
+    }
+
+    //触摸滑动事件
+    private void touchListener() {
+        ListAdapter adapter = mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getAdapter();
+       // adapter.notifyDataSetChanged();
+       // Function.getTotalHeightofListView(mListView);
+        if (adapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) { // listAdapter.getCount()返回数据项的数目
+            View listItem = adapter.getView(i, null, mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+        }
+        ViewGroup.LayoutParams params = mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getLayoutParams();
+        /*params.height = totalHeight
+                + (adapter.getDividerHeight() * (adapter.getCount() - 1));*/
+        // listView.getDividerHeight()获取子项间分隔符占用的高度listView
+        // params.height最后得到整个ListView完整显示需要的高度
+       // mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setLayoutParams(params);
+
+
+     /*   mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        startY = event.getRawY();
+                        LogKit.d("开始滑动的位置"+startY);
+
+
+
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        float rawY = event.getRawY();
+                       float  moveY =  rawY - startY;
+                        LogKit.d("滑动的距离"+moveY);
+
+
+
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        float endY = event.getRawY();
+                        LogKit.d("结束的位置"+endY);
+
+
+
+                        break;
+                }
+                return false;
+            }
+        });*/
     }
 }

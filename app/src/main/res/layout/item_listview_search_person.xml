@@ -18,7 +18,7 @@
             android:layout_width="53dp"
             android:layout_height="54dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/home_head_sculpture"
+            android:src="@mipmap/default_avatar"
             android:layout_marginLeft="12dp"/>
 
         <LinearLayout

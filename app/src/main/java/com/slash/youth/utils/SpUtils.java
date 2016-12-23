@@ -43,6 +43,15 @@ public class SpUtils {
 		edit.commit();
 	}
 
+	public static void setInt(String key, int value) {
+		SharedPreferences sharedPreferences = CommonUtils.getContext()
+				.getSharedPreferences(GlobalConstants.SP_NAME,
+						Context.MODE_PRIVATE);
+		Editor edit = sharedPreferences.edit();
+		edit.putInt(key, value);
+		edit.commit();
+	}
+
 	public static String getString(String key, String defaultValue) {
 		SharedPreferences sharedPreferences = CommonUtils.getContext()
 				.getSharedPreferences(GlobalConstants.SP_NAME,
@@ -59,11 +68,11 @@ public class SpUtils {
 		return value;
 	}
 
-
-
-
-
-
-
-
+	public static int getInt(String key, int  defaultValue) {
+		SharedPreferences sharedPreferences = CommonUtils.getContext()
+				.getSharedPreferences(GlobalConstants.SP_NAME,
+						Context.MODE_PRIVATE);
+		int value  = sharedPreferences.getInt(key, defaultValue);
+		return value;
+	}
 }

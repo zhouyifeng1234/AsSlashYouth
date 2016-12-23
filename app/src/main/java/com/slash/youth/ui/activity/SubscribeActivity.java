@@ -460,7 +460,7 @@ public class SubscribeActivity extends Activity {
         LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2);
         llParamsForSkillLabel.rightMargin = CommonUtils.dip2px(labelRightMargin);//边距
         TextView tvThirdSkilllabelName = new TextView(CommonUtils.getContext());
-//        tvThirdSkilllabelName.setTag("label_" + i);
+       // tvThirdSkilllabelName.setTag("label_" + i);
         tvThirdSkilllabelName.setTag(skillLabelBean.getF1() + "-" + skillLabelBean.getF2() + "-" + skillLabelBean.getTag());
         tvThirdSkilllabelName.setOnClickListener(new CheckThirdLabelListener());
         tvThirdSkilllabelName.setLayoutParams(llParamsForSkillLabel);

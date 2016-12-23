@@ -51,7 +51,7 @@ public class SearchActivity extends Activity {
     public ActivitySearchBinding activitySearchBinding;
     public ActivityResultAllBinding activityResultAllBinding;
     public SearchPagerFirstBinding searchPagerFirstBinding;
-    public String checkedFirstLabel = "未选择";
+    public String checkedFirstLabel = "行业类别";
     public int mPage = 0;
     private SearchPagerFirstModel searchPagerFirstModel;
     public SearchListviewAssociationBinding searchListviewAssociationBinding;
@@ -67,7 +67,6 @@ public class SearchActivity extends Activity {
         CommonUtils.setCurrentActivity(SearchActivity.this);
 
         initView();
-
         removeView();
     }
 
@@ -75,7 +74,7 @@ public class SearchActivity extends Activity {
     private void initView() {
         //加载首页
         searchPagerFirstBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getApplication()), R.layout.search_pager_first, null, false);
-        searchPagerFirstModel = new SearchPagerFirstModel(searchPagerFirstBinding);
+        searchPagerFirstModel = new SearchPagerFirstModel(searchPagerFirstBinding,activitySearchBinding);
         searchPagerFirstBinding.setSearchPagerFirstModel(searchPagerFirstModel);
 
         //加载搜索技能页面
