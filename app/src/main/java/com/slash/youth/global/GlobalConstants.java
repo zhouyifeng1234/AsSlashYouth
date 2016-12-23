@@ -271,6 +271,7 @@ public class GlobalConstants {
         //三、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
 
+
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
         //十七、[需求]-技能标签(所有自定义技能标签)
@@ -473,6 +474,10 @@ public class GlobalConstants {
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
         public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
+        //四、[好友]-拒绝好友申请发
+        public static final String REJECT_ADD_FRIEND = MY_FRIEND_LIST_HOST + "/reject";
+        //十、[好友]-好友申请状态查询
+        public static final String GET_ADD_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/statusone";
 
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
