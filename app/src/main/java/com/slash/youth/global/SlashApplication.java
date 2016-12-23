@@ -90,6 +90,7 @@ public class SlashApplication extends Application {
         application = this;
         x.Ext.init(this);
 //        x.Ext.setDebug(BuildConfig.DEBUG);
+//        PingppLog.DEBUG = true;
 //        x.image().clearCacheFiles();
 //        x.image().clearMemCache();
         //注册微信的APPID

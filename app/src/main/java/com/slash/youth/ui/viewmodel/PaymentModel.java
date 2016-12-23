@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPaymentBinding;
 import com.slash.youth.domain.PaymentBean;
+import com.slash.youth.domain.ThirdPayChargeBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -88,7 +90,8 @@ public class PaymentModel extends BaseObservable {
 
 
         } else if (currentCheckedPayType == PAY_TYPE_ALIPAY) {
-            ToastUtils.shortToast("支付宝支付");
+//            ToastUtils.shortToast("支付宝支付");
+            doAlipay();
         } else if (currentCheckedPayType == PAY_TYPE_WEIXIN_PAY) {
             ToastUtils.shortToast("微信支付");
         }
@@ -145,6 +148,35 @@ public class PaymentModel extends BaseObservable {
                 }
             }, tid + "", quote + "", 0 + "");
         }
+    }
+
+    /**
+     * 支付宝支付
+     */
+    private void doAlipay() {
+        if (type == 1) {//任务类型是需求 中的支付
+            DemandEngine.demandThirdPay(new BaseProtocol.IResultExecutor<ThirdPayChargeBean>() {
+                @Override
+                public void execute(ThirdPayChargeBean dataBean) {
+                    Gson gson = new Gson();
+                    String chargeJson = gson.toJson(dataBean.data.charge);
+                    LogKit.v("chargeJson:" + chargeJson);
+//                    Pingpp.createPayment(mActivity, chargeJson);
+
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("获取charge对象失败");
+                }
+            }, tid + "", quote + "", "1");
+        } else if (type == 2) {//任务类型是服务 中的支付
+
+        }
+    }
+
+    private void doWXpayment() {
+
     }
 
     public void closePaymentActivity(View v) {

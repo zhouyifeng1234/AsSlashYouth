@@ -172,6 +172,8 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_REJECT = SERVER_HOST_DEMAND + "reject";
         //九、[需求]-需求方预支付
         public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST_DEMAND + "payment";
+        //需求 第三方支付
+        public static final String DEMAND_THIRD_PAY = SERVER_HOST_DEMAND + "paymentByChannel";
         //十、[需求]-我发布的历史需求列表
         public static final String MY_PUBLISH_HOSTORY_DEMAND_LIST = SERVER_HOST_DEMAND + "myhislist";
         //十一、[需求]-服务方完成任务
