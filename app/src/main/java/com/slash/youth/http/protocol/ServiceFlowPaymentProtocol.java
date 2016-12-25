@@ -1,4 +1,4 @@
-package com.slash.youth.engine;
+package com.slash.youth.http.protocol;
 
 import com.google.gson.Gson;
 import com.slash.youth.domain.PaymentBean;
@@ -17,11 +17,13 @@ public class ServiceFlowPaymentProtocol extends BaseProtocol<PaymentBean> {
     private String soid;
     private String amount;
     private String channel;
+    private String pass;//支付密码 这个是原始密码经过一次MD5
 
-    public ServiceFlowPaymentProtocol(String soid, String amount, String channel) {
+    public ServiceFlowPaymentProtocol(String soid, String amount, String channel, String pass) {
         this.soid = soid;
         this.amount = amount;
         this.channel = channel;
+        this.pass = pass;
     }
 
 
@@ -35,6 +37,7 @@ public class ServiceFlowPaymentProtocol extends BaseProtocol<PaymentBean> {
         params.addBodyParameter("soid", soid);
         params.addBodyParameter("amount", amount);
         params.addBodyParameter("channel", channel);
+        params.addBodyParameter("pass", pass);
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.slash.youth.databinding.ItemMyTaskBinding;
 import com.slash.youth.domain.AgreeRefundBean;
 import com.slash.youth.domain.DelayPayBean;
 import com.slash.youth.domain.InterventionBean;
-import com.slash.youth.domain.PaymentBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
@@ -145,17 +144,17 @@ public class ItemMyTaskModel extends BaseObservable {
 
     //当需求方选择的服务方有一个同意以后，就形成了一对一的关系，需求方需要去支付
     public void pay(View v) {
-        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<PaymentBean>() {
-            @Override
-            public void execute(PaymentBean dataBean) {
-
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        }, tid + "", amount + "", channel + "");
+//        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<PaymentBean>() {
+//            @Override
+//            public void execute(PaymentBean dataBean) {
+//
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//
+//            }
+//        }, tid + "", amount + "", channel + "");
     }
 
     //当服务方完成最后一期后，如果需求方不满意，可以延期支付，回滚一期，延期支付的机会有一次

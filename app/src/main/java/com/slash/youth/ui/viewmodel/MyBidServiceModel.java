@@ -219,6 +219,7 @@ public class MyBidServiceModel extends BaseObservable {
         payInfo.putLong("tid", tid);
         payInfo.putDouble("quote", orderQuote);
         payInfo.putInt("type", 2);//1需求 2服务
+        payInfo.putString("title", getServiceTitle());
         intentPaymentActivity.putExtras(payInfo);
 
         mActivity.startActivity(intentPaymentActivity);

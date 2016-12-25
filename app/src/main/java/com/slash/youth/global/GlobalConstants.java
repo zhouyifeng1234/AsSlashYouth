@@ -243,6 +243,8 @@ public class GlobalConstants {
         public static final String SERVICE_FLOW_SELECTED = SERVER_HOST_SERVICE + "selected";
         //六、[服务]-需求方预支付
         public static final String SERVICE_FLOW_PAYMENT = SERVER_HOST_SERVICE + "payment";
+        //服务 第三方支付
+        public static final String SERVICE_THIRD_PAY = SERVER_HOST_SERVICE + "paymentByChannel";
         //七、[需求]-服务方完成任务
         public static final String SERVICE_FLOW_COMPLETE = SERVER_HOST_SERVICE + "complete";
         //八、[服务]-需求方确认完成任务

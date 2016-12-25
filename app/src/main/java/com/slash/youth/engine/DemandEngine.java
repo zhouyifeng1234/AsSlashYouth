@@ -139,9 +139,10 @@ public class DemandEngine {
      * @param id                              需求ID
      * @param amount
      * @param channel                         PAYMENT_TYPE_BALANCE= 0; PAYMENT_TYPE_ALIPAY = 1;PAYMENT_TYPE_WX = 2;
+     * @param pass                            支付密码 这个是原始密码经过一次MD5
      */
-    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel) {
-        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel);
+    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel, String pass) {
+        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel, pass);
         demandPartyPrePaymentProtocol.getDataFromServer(onDemandPartyPrePaymentFinished);
     }
 

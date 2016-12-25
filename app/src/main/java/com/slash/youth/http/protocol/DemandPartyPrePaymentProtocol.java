@@ -15,11 +15,13 @@ public class DemandPartyPrePaymentProtocol extends BaseProtocol<PaymentBean> {
     private String id;// 需求ID
     private String amount;
     private String channel;
+    private String pass;//支付密码 这个是原始密码经过一次MD5
 
-    public DemandPartyPrePaymentProtocol(String id, String amount, String channel) {
+    public DemandPartyPrePaymentProtocol(String id, String amount, String channel, String pass) {
         this.id = id;
         this.amount = amount;
         this.channel = channel;
+        this.pass = pass;
     }
 
     @Override
@@ -32,6 +34,7 @@ public class DemandPartyPrePaymentProtocol extends BaseProtocol<PaymentBean> {
         params.addBodyParameter("id", id);
         params.addBodyParameter("amount", amount);
         params.addBodyParameter("channel", channel);
+        params.addBodyParameter("pass", pass);
     }
 
     PaymentBean paymentBean = null;

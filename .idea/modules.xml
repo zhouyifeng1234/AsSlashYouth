@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicatorLibrary/ViewPagerIndicatorLibrary.iml" filepath="$PROJECT_DIR$/ViewPagerIndicatorLibrary/ViewPagerIndicatorLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicatorSample/ViewPagerIndicatorSample.iml" filepath="$PROJECT_DIR$/ViewPagerIndicatorSample/ViewPagerIndicatorSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pingpplib/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/pingpplib/pingpp/pingpp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pingpplib/pingpplib.iml" filepath="$PROJECT_DIR$/pingpplib/pingpplib.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
     </modules>
   </component>

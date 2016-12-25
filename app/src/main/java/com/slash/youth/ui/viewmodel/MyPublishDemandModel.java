@@ -211,6 +211,7 @@ public class MyPublishDemandModel extends BaseObservable {
         payInfo.putLong("tid", tid);
         payInfo.putDouble("quote", innerDemandCardInfo.quote);
         payInfo.putInt("type", 1);
+        payInfo.putString("title", innerDemandCardInfo.title);
         intentPaymentActivity.putExtras(payInfo);
 
         mActivity.startActivity(intentPaymentActivity);
