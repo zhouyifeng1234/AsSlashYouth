@@ -70,7 +70,9 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         itemManagePublishHolderBinding.tvManageMyPublishName.setText(name);
 
         double quote = data.getQuote();
-        itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT+quote);
+        //单位
+        int quoteUnit = data.getQuoteUnit();
+        itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT+quote+"/"+MyManager.unitArr[quoteUnit]);
 
         int instalment = data.getInstalment();
         switch (instalment){

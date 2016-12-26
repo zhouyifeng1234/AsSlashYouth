@@ -481,8 +481,6 @@ public class GlobalConstants {
         public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
         //[关注]-关注动作
         public static final String CARE_TA = RELATION_HOST + "/add";
-        // public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
-        // public static final String  CARE_ME_PERSON = RELATION_HOST+"/myfans";
         //[关注]-我和某用户的关系
         public static final String IS_FOLLOW = RELATION_HOST + "/isfollow";
         //[关注]-取消关注动作

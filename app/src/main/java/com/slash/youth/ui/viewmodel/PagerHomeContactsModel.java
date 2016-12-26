@@ -22,6 +22,7 @@ import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.ui.activity.MySettingActivity;
+import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
@@ -134,5 +135,12 @@ public class PagerHomeContactsModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
+    }
+
+    //点击右上角的搜索按钮
+    public void search(View view){
+        Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
+        intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentSearchActivity);
     }
 }

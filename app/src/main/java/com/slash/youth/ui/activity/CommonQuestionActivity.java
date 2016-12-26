@@ -46,15 +46,16 @@ public class CommonQuestionActivity extends Activity  {
         fl.setVisibility(View.GONE);*/
 
         wv = (WebView) findViewById(R.id.wv_oauth);
-        settings = wv.getSettings();
+       // settings = wv.getSettings();
         // 浏览器不支持多窗口显示
-        settings.setSupportMultipleWindows(false);
+        //settings.setSupportMultipleWindows(false);
         // 页面是否可以进行缩放
-        settings.setSupportZoom(false);
+        //settings.setSupportZoom(false);
         // 使用WebViewClient的特性处理html页面
        // wv.setWebViewClient(new MyWebViewClient());
-        settings.setDomStorageEnabled(true);
-        wv.loadUrl("http://121.42.145.178/#!/program?type=program");
+        //settings.setDomStorageEnabled(true);
+        //http://121.42.145.178/#!/program?type=program
+        wv.loadUrl("http://114.215.83.138/#!/program?type=program");
 
 
      /*   Uri uri = Uri.parse("http://121.42.145.178/#!/program?type=program");

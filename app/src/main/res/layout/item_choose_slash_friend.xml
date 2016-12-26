@@ -15,9 +15,9 @@
       <ImageView
           android:layout_centerVertical="true"
           android:id="@+id/iv_friend_icon"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@mipmap/assistant_icon"/>
+          android:layout_width="57.5dp"
+          android:layout_height="57.5dp"
+          android:src="@mipmap/default_avatar"/>
 
       <RelativeLayout
           android:layout_marginLeft="10dp"
@@ -30,16 +30,19 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:orientation="horizontal">
+              <!--人名-->
               <TextView
                   android:id="@+id/tv_friend_name"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textColor="#333333"
                   android:textSize="15dp"
-                  android:text="张小伤"/>
+                  />
 
+              <!--认证V-->
               <ImageView
                   android:id="@+id/iv_friend_v"
+                  android:visibility="gone"
                   android:layout_marginLeft="3dp"
                   android:layout_gravity="center_vertical"
                   android:layout_width="wrap_content"
@@ -47,6 +50,8 @@
                   android:src="@mipmap/v"/>
 
           </LinearLayout>
+
+          <!--职位-->
           <TextView
               android:id="@+id/tv_direction"
               android:layout_alignParentBottom="true"
@@ -54,7 +59,6 @@
               android:layout_height="wrap_content"
               android:textColor="#999999"
               android:textSize="12dp"
-              android:text="百度总监"
               />
 
       </RelativeLayout>
@@ -71,7 +75,6 @@
            android:textSize="15dp"
            android:textColor="#333333"/>
 
-
        <CheckBox
            android:id="@+id/cb_sheld"
            android:visibility="gone"
@@ -86,6 +89,5 @@
            android:textSize="15dp"/>
 
    </RelativeLayout>
-
 
 </LinearLayout>

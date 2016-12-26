@@ -367,4 +367,11 @@ public class PagerHomeMyModel extends BaseObservable {
         public void executeResultError(String result) {
         }
     }
+
+    //点击问号，影响力
+    public void influence(View view){
+        LogKit.d("开启web的影响力页面");
+
+
+    }
 }
