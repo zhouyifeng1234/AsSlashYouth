@@ -149,6 +149,8 @@ public class MyPublishDemandModel extends BaseObservable {
     //申请退款
     public void refund(View v) {
         Intent intentRefundActivity = new Intent(CommonUtils.getContext(), RefundActivity.class);
+        intentRefundActivity.putExtra("tid", tid);
+        intentRefundActivity.putExtra("type", type);
         mActivity.startActivity(intentRefundActivity);
     }
 

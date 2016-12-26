@@ -192,6 +192,8 @@ public class GlobalConstants {
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
         //十六、[需求]-需求方获取意向单列表
         public static final String GET_DEMAND_PURPOSE_LIST = SERVER_HOST_DEMAND + "purposelist";
+        //十七、[需求]-需求方申请退款
+        public static final String DEMAND_REFUND = SERVER_HOST_DEMAND + "refund";
         //十八、[需求]-服务方确认同意退款
         public static final String SERVICE_PARTY_AGREE_REFUND = SERVER_HOST_DEMAND + "agreeRefund";
         //十九、[需求]-服务方不同意退款并申请平台介入
@@ -251,6 +253,8 @@ public class GlobalConstants {
         public static final String SERVICE_FLOW_COMPLETE = SERVER_HOST_SERVICE + "complete";
         //八、[服务]-需求方确认完成任务
         public static final String SERVICE_CONFIRM_COMPLETE = SERVER_HOST_SERVICE + "confirmComplete";
+        //九、[服务]-需求方申请退款
+        public static final String SERVICE_REFUND = SERVER_HOST_SERVICE + "refund";
         //十、[服务]-服务方同意退款
         public static final String SERVICE_FLOW_AGREE_REFUND = SERVER_HOST_SERVICE + "agreeRefund";
         //十一、[服务]-服务方不同意退款并申请平台介入

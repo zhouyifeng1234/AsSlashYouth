@@ -55,7 +55,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/xuanzhogn"/>
+                    android:src="@mipmap/moren"/>
 
                 <TextView
                     android:id="@+id/tv_refund_reason_late_to_address"

@@ -11,6 +11,7 @@ import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
+import com.slash.youth.http.protocol.DemandRefundProtocol;
 import com.slash.youth.http.protocol.DemandThirdPayProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.EliminateProtocol;
@@ -231,6 +232,19 @@ public class DemandEngine {
     public static void getDemandPurposeList(BaseProtocol.IResultExecutor onGetPurposeListFinished, String id) {
         DemandPurposeProtocol demandPurposeProtocol = new DemandPurposeProtocol(id);
         demandPurposeProtocol.getDataFromServer(onGetPurposeListFinished);
+    }
+
+    /**
+     * 十七、[需求]-需求方申请退款
+     *
+     * @param onRefundFinished
+     * @param id               需求ID
+     * @param reason           按照目前的客户端逻辑，reason和reasondetail至少传其中一个字段
+     * @param reasondetail     按照目前的客户端逻辑，reason和reasondetail至少传其中一个字段
+     */
+    public static void refund(BaseProtocol.IResultExecutor onRefundFinished, String id, String reason, String reasondetail) {
+        DemandRefundProtocol demandRefundProtocol = new DemandRefundProtocol(id, reason, reasondetail);
+        demandRefundProtocol.getDataFromServer(onRefundFinished);
     }
 
     /**
