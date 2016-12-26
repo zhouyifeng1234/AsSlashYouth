@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="headerLocationCityInfoModel"
                   type="com.slash.youth.ui.viewmodel.HeaderLocationCityInfoModel"/>
@@ -28,7 +29,6 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
-            android:text="苏州1"
             android:textColor="#333333"
             android:textSize="13.5sp"/>
 
@@ -40,51 +40,18 @@
             android:textColor="#666666"
             android:textSize="13.5sp"/>
 
-        <LinearLayout
-            android:id="@+id/ll_recentlyCity"
+        <com.slash.youth.ui.view.WarpLinearLayout
+            android:id="@+id/ll_city_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:grivate="left"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tv_city_first"
-                android:layout_width="85dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/shape_search_city"
-                android:gravity="center"
-                android:text="苏州2"
-                android:textColor="#333333"
-                android:textSize="13.5sp"
-                />
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tv_city_second"
-                android:layout_width="85dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/shape_search_city"
-                android:gravity="center"
-                android:text="苏州3"
-                android:textColor="#333333"
-                android:textSize="13.5sp"
-                />
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tv_city_thrid"
-                android:layout_width="85dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/shape_search_city"
-                android:gravity="center"
-                android:text="苏州4"
-                android:textColor="#333333"
-                android:textSize="13.5sp"
-                />
-        </LinearLayout>
+            app:horizontal_Space="10dp"
+            app:isFull="false"
+            app:vertical_Space="10dp" >
+
+        </com.slash.youth.ui.view.WarpLinearLayout>
+
     </LinearLayout>
 </layout>
 

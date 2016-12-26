@@ -6,53 +6,57 @@
             type="com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel"/>
     </data>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:background="#31C5E4"
-            android:orientation="horizontal"
-            >
             <RelativeLayout
-                android:id="@+id/iv_userinfo_back"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true">
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="#31C5E4"
+                android:orientation="horizontal"
+                >
+                <RelativeLayout
+                    android:id="@+id/iv_userinfo_back"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true">
 
-            <ImageView
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/nav_back"
-                android:layout_centerVertical="true"
-               />
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/nav_back"
+                        android:layout_centerVertical="true"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="编辑个人信息"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:onClick="@{activityUserInfoEditorModel.save}"
+                    android:id="@+id/tv_save"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保存"
+                    android:layout_centerVertical="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginRight="10dp"
+                    />
             </RelativeLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="编辑个人信息"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp"
-                />
-
-            <TextView
-                android:onClick="@{activityUserInfoEditorModel.save}"
-                android:id="@+id/tv_save"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保存"
-                android:layout_centerVertical="true"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:layout_marginRight="10dp"
-                />
-        </RelativeLayout>
 
             <ScrollView
                 android:id="@+id/sv_pager_home_my"
@@ -72,233 +76,234 @@
                         app:cardCornerRadius="5dp"
                         app:cardElevation="@dimen/cardElevation"
                         app:cardUseCompatPadding="true"
-                       >
-                       <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:orientation="vertical">
-                           <!--头像-->
-                           <RelativeLayout
-                               android:onClick="@{activityUserInfoEditorModel.clickAvatar}"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:layout_marginTop="10dp">
-                               <TextView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="头像"
-                                   android:textSize="15dp"
-                                   android:textColor="#333333"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="15dp"
-                                   />
-                               <ImageView
-                                   android:id="@+id/iv_head"
-                                   android:layout_width="48dp"
-                                   android:layout_height="48dp"
-                                   android:src="@mipmap/assistant_icon"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_marginRight="30dp"
-                                   android:layout_centerVertical="true"
-                                   />
-                               <ImageView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:src="@mipmap/right1_icon"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginRight="11dp"
-                                   />
-                           </RelativeLayout>
-                           <View
-                               android:layout_width="match_parent"
-                               android:layout_marginLeft="10dp"
-                               android:layout_marginRight="10dp"
-                               android:layout_height="1px"
-                               android:background="#999999"
-                               android:layout_marginTop="10dp"
-                               />
-                           <!--真实姓名-->
-                           <RelativeLayout
-                               android:layout_weight="1"
-                               android:layout_width="match_parent"
-                               android:layout_height="0dp"
-                               android:layout_marginTop="15dp"
-                               android:focusable="true"
-                               android:focusableInTouchMode="true">
-                               <TextView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="真实姓名"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <!--头像-->
+                            <RelativeLayout
+                                android:onClick="@{activityUserInfoEditorModel.clickAvatar}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="头像"
                                     android:textSize="15dp"
-                                   android:textColor="#333333"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   />
-                               <EditText
-                                   android:id="@+id/et_username"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:hint="请输入姓名"
-                                   android:cursorVisible="false"
-                                   android:textSize="13dp"
-                                   android:textColor="#60A7B6"
-                                   android:textColorHint="#60A7B6"
-                                   android:maxLength="256"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_marginRight="15dp"
-                                   android:background="@null"
-                                   />
-                           </RelativeLayout>
-                           <View
-                               android:layout_width="match_parent"
-                               android:layout_marginLeft="10dp"
-                               android:layout_marginRight="10dp"
-                               android:layout_height="1px"
-                               android:background="#999999"
-                               android:layout_marginTop="15dp"
-                               />
-                           <!--手机号码-->
-                           <RelativeLayout
-                               android:onClick="@{activityUserInfoEditorModel.setPhone}"
-                               android:layout_weight="1"
-                               android:layout_width="match_parent"
-                               android:layout_height="0dp"
-                               android:layout_marginTop="15dp">
-                               <TextView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="手机号码"
-                                   android:textSize="15dp"
-                                   android:textColor="#333333"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   />
-                               <TextView
-                                   android:id="@+id/tv_userphone"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="18888888888"
-                                   android:layout_centerVertical="true"
-                                   android:textSize="13dp"
-                                   android:textColor="#60A7B6"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_marginRight="30dp"
-                                   />
-                               <ImageView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:src="@mipmap/right1_icon"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginRight="5dp"
-                                   />
+                                    android:textColor="#333333"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    />
+                                <ImageView
+                                    android:id="@+id/iv_head"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="@mipmap/default_avatar"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:layout_centerVertical="true"
+                                    />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/right1_icon"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="11dp"
+                                    />
+                            </RelativeLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_height="1px"
+                                android:background="#999999"
+                                android:layout_marginTop="10dp"
+                                />
+                            <!--真实姓名-->
+                            <RelativeLayout
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="15dp"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="真实姓名"
+                                    android:textSize="15dp"
+                                    android:maxEms="6"
+                                    android:textColor="#333333"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/et_username"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="请输入姓名"
+                                    android:cursorVisible="true"
+                                    android:textSize="13dp"
+                                    android:textColor="#60A7B6"
+                                    android:textColorHint="#60A7B6"
+                                    android:maxLength="256"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="15dp"
+                                    android:background="@null"
+                                    />
+                            </RelativeLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_height="1px"
+                                android:background="#999999"
+                                android:layout_marginTop="15dp"
+                                />
+                            <!--手机号码-->
+                            <RelativeLayout
+                                android:onClick="@{activityUserInfoEditorModel.setPhone}"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="手机号码"
+                                    android:textSize="15dp"
+                                    android:textColor="#333333"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    />
+                                <TextView
+                                    android:id="@+id/tv_userphone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="18888888888"
+                                    android:layout_centerVertical="true"
+                                    android:textSize="13dp"
+                                    android:textColor="#60A7B6"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/right1_icon"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="5dp"
+                                    />
 
-                           </RelativeLayout>
-                           <View
-                               android:layout_width="match_parent"
-                               android:layout_marginLeft="10dp"
-                               android:layout_marginRight="10dp"
-                               android:layout_height="1px"
-                               android:background="#999999"
-                               android:layout_marginTop="15dp"
-                               />
+                            </RelativeLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_height="1px"
+                                android:background="#999999"
+                                android:layout_marginTop="15dp"
+                                />
 
-                           <!--所在地-->
-                           <RelativeLayout
-                               android:onClick="@{activityUserInfoEditorModel.setLocation}"
-                               android:layout_weight="1"
-                               android:layout_width="match_parent"
-                               android:layout_height="0dp"
-                               android:layout_marginTop="15dp">
-                               <TextView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="所在地"
-                                   android:textSize="15dp"
-                                   android:textColor="#333333"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   />
-                               <TextView
-                                   android:id="@+id/tv_location"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="江苏苏州"
-                                   android:textSize="13dp"
-                                   android:textColor="#60A7B6"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_marginRight="30dp"
-                                   />
-                               <ImageView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:src="@mipmap/right1_icon"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginRight="5dp"
-                                   />
+                            <!--所在地-->
+                            <RelativeLayout
+                                android:onClick="@{activityUserInfoEditorModel.setLocation}"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="所在地"
+                                    android:textSize="15dp"
+                                    android:textColor="#333333"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    />
+                                <TextView
+                                    android:id="@+id/tv_location"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="江苏苏州"
+                                    android:textSize="13dp"
+                                    android:textColor="#60A7B6"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/right1_icon"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="5dp"
+                                    />
 
-                           </RelativeLayout>
-                           <View
-                               android:layout_width="match_parent"
-                               android:layout_marginLeft="10dp"
-                               android:layout_marginRight="10dp"
-                               android:layout_height="1px"
-                               android:background="#999999"
-                               android:layout_marginTop="15dp"
-                               />
+                            </RelativeLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_height="1px"
+                                android:background="#999999"
+                                android:layout_marginTop="15dp"
+                                />
 
-                           <!--斜杠身份-->
-                           <RelativeLayout
-                               android:onClick="@{activityUserInfoEditorModel.editorIdentity}"
-                               android:layout_weight="1"
-                               android:layout_width="match_parent"
-                               android:layout_height="0dp"
-                               android:layout_marginTop="15dp"
-                               android:layout_marginBottom="15dp">
-                               <TextView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="斜杠身份"
-                                   android:textSize="15dp"
-                                   android:textColor="#333333"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   />
-                               <TextView
-                                   android:id="@+id/tv_identity"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:maxLength="15"
-                                   android:textSize="13dp"
-                                   android:textColor="#60A7B6"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_marginRight="30dp"
-                                   android:ellipsize="end"
-                                   android:maxLines="1"
-                                   android:lines="1"
+                            <!--斜杠身份-->
+                            <RelativeLayout
+                                android:onClick="@{activityUserInfoEditorModel.editorIdentity}"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="斜杠身份"
+                                    android:textSize="15dp"
+                                    android:textColor="#333333"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    />
+                                <TextView
+                                    android:id="@+id/tv_identity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLength="15"
+                                    android:textSize="13dp"
+                                    android:textColor="#60A7B6"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="30dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:lines="1"
 
-                                   />
-                               <ImageView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:src="@mipmap/right1_icon"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_centerVertical="true"
-                                   android:layout_marginRight="5dp"
-                                   />
+                                    />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/right1_icon"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="5dp"
+                                    />
 
-                           </RelativeLayout>
-                       </LinearLayout>
-                        </android.support.v7.widget.CardView>
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
                     <!--第二个卡-->
                     <android.support.v7.widget.CardView
@@ -311,143 +316,143 @@
                         app:cardElevation="@dimen/cardElevation"
                         app:cardUseCompatPadding="true"
                         >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="vertical">
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp">
-                            <TextView
-                                android:layout_width="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="vertical">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="职业类型"
-                                android:textSize="15dp"
-                                android:textColor="#333333"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                />
-
-                            <RadioGroup
-                                android:layout_alignParentRight="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="10dp"
-                                android:checkedButton="@+id/rb_office_worker"
-                                android:orientation="horizontal">
-
-                                <RadioButton
-                                    android:id="@+id/rb_office_worker"
-                                    android:button="@null"
+                                android:layout_marginTop="15dp">
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="上班族"
-                                    android:checked="true"
+                                    android:text="职业类型"
+                                    android:textSize="15dp"
                                     android:textColor="#333333"
-                                    android:drawablePadding="8dp"
-                                    android:drawableLeft="@drawable/selector_radiobutton_bg"
-                                    android:textSize="15dp"/>
-                                <RadioButton
-                                    android:id="@+id/rb_self_employed"
-                                    android:button="@null"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="自雇者"
-                                    android:textColor="#333333"
-                                    android:drawablePadding="8dp"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    android:drawableLeft="@drawable/selector_radiobutton_bg"
-                                    android:textSize="15dp"/>
+                                    />
 
-                            </RadioGroup>
-                        </RelativeLayout>
-                        <View
-                            android:id="@+id/view_company"
-                            android:layout_width="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_height="1px"
-                            android:background="#999999"
-                            android:layout_marginTop="15dp"
-                            />
-                        <!--最近公司-->
-                        <RelativeLayout
-                            android:id="@+id/rl_company"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="最近公司"
-                                android:textSize="15dp"
-                                android:textColor="#333333"
-                                android:layout_centerVertical="true"
+                                <RadioGroup
+                                    android:layout_alignParentRight="true"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="10dp"
+                                    android:checkedButton="@+id/rb_office_worker"
+                                    android:orientation="horizontal">
+
+                                    <RadioButton
+                                        android:id="@+id/rb_office_worker"
+                                        android:button="@null"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="上班族"
+                                        android:checked="true"
+                                        android:textColor="#333333"
+                                        android:drawablePadding="8dp"
+                                        android:drawableLeft="@drawable/selector_radiobutton_bg"
+                                        android:textSize="15dp"/>
+                                    <RadioButton
+                                        android:id="@+id/rb_self_employed"
+                                        android:button="@null"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="自雇者"
+                                        android:textColor="#333333"
+                                        android:drawablePadding="8dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:drawableLeft="@drawable/selector_radiobutton_bg"
+                                        android:textSize="15dp"/>
+
+                                </RadioGroup>
+                            </RelativeLayout>
+                            <View
+                                android:id="@+id/view_company"
+                                android:layout_width="match_parent"
                                 android:layout_marginLeft="10dp"
-                                />
-                            <EditText
-                                android:id="@+id/tv_company"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:hint="请填写"
-                                android:textSize="13dp"
-                                android:cursorVisible="false"
-                                android:background="@null"
-                                android:textColor="#60A7B6"
-                                android:textColorHint="#60A7B6"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_alignParentRight="true"
                                 android:layout_marginRight="10dp"
+                                android:layout_height="1px"
+                                android:background="#999999"
+                                android:layout_marginTop="15dp"
                                 />
-                        </RelativeLayout>
-                        <View
-                            android:id="@+id/view_position"
-                            android:layout_width="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_height="1px"
-                            android:background="#999999"
-                            android:layout_marginTop="15dp"
-                            />
-
-                        <!--公司职位-->
-                        <RelativeLayout
-                            android:id="@+id/rl_position"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="15dp">
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <!--最近公司-->
+                            <RelativeLayout
+                                android:id="@+id/rl_company"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="公司职位"
-                                android:layout_centerVertical="true"
+                                android:layout_marginTop="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="最近公司"
+                                    android:textSize="15dp"
+                                    android:textColor="#333333"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/tv_company"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="请填写"
+                                    android:textSize="13dp"
+                                    android:cursorVisible="true"
+                                    android:background="@null"
+                                    android:textColor="#60A7B6"
+                                    android:textColorHint="#60A7B6"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dp"
+                                    />
+                            </RelativeLayout>
+                            <View
+                                android:id="@+id/view_position"
+                                android:layout_width="match_parent"
                                 android:layout_marginLeft="10dp"
-                                android:textColor="#333333"
-                                android:textSize="15dp"
-                                />
-                            <EditText
-                                android:id="@+id/tv_profession"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:hint="请填写"
-                                android:cursorVisible="false"
-                                android:background="@null"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_alignParentRight="true"
                                 android:layout_marginRight="10dp"
-                                android:textSize="13dp"
-                                android:textColorHint="#60A7B6"
-                                android:textColor="#60A7B6"
+                                android:layout_height="1px"
+                                android:background="#999999"
+                                android:layout_marginTop="15dp"
                                 />
-                        </RelativeLayout>
 
-                    </LinearLayout>
+                            <!--公司职位-->
+                            <RelativeLayout
+                                android:id="@+id/rl_position"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="15dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="公司职位"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp"
+                                    />
+                                <EditText
+                                    android:id="@+id/tv_profession"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="请填写"
+                                    android:cursorVisible="true"
+                                    android:background="@null"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dp"
+                                    android:textSize="13dp"
+                                    android:textColorHint="#60A7B6"
+                                    android:textColor="#60A7B6"
+                                    />
+                            </RelativeLayout>
+
+                        </LinearLayout>
                     </android.support.v7.widget.CardView>
 
                     <!--技能描述-->
@@ -472,22 +477,22 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp">
-                             <ImageView
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:src="@mipmap/skill_icon"
-                                 android:layout_marginLeft="10dp"
-                                 android:layout_centerVertical="true"
-                                 />
-                             <TextView
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_marginLeft="36dp"
-                                 android:textSize="15dp"
-                                 android:textColor="#31C5E4"
-                                 android:layout_centerVertical="true"
-                                 android:text="技能描述"/>
-                             </RelativeLayout>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/skill_icon"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_centerVertical="true"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="36dp"
+                                    android:textSize="15dp"
+                                    android:textColor="#31C5E4"
+                                    android:layout_centerVertical="true"
+                                    android:text="技能描述"/>
+                            </RelativeLayout>
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_marginLeft="10dp"
@@ -496,7 +501,7 @@
                                 android:background="#999999"
                                 android:layout_marginTop="15dp"
                                 />
-                          <!--  技能描述内容-->
+                            <!--  技能描述内容-->
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -504,30 +509,31 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="15dp">
                                 <TextView
+                                    android:visibility="gone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                   android:gravity="center_horizontal"
-                                   android:text="请输入技能描述，50字内"
+                                    android:gravity="center_horizontal"
+                                    android:text="请输入技能描述，50字内"
                                     android:textSize="13dp"
                                     android:textColor="#999999"
                                     />
-                               <EditText
-                                   android:id="@+id/et_skilldescribe"
+                                <EditText
+                                    android:id="@+id/et_skilldescribe"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                   android:layout_marginTop="4dp"
-                                   android:textSize="13dp"
-                                   android:textColor="#999999"
-                                   android:textColorHint="#999999"
-                                   android:ellipsize="end"
-                                   android:inputType="textMultiLine"
-                                   android:background="@null"
-                                   android:cursorVisible="false"
-                                   android:gravity="left|top"
-                                   android:maxLines="3"
-                                   android:maxLength="50"
-                                   android:lineSpacingExtra="2dp"
-                                    android:hint="例：从事UI设计行业5年，具有丰富的设计经验..."/>
+                                    android:layout_marginTop="4dp"
+                                    android:textSize="13dp"
+                                    android:textColor="#999999"
+                                    android:textColorHint="#999999"
+                                    android:ellipsize="end"
+                                    android:inputType="textMultiLine"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:gravity="left|top"
+                                    android:maxLines="4"
+                                    android:maxLength="50"
+                                    android:lineSpacingExtra="2dp"
+                                    android:hint="请输入技能描述，50字内 例：从事UI设计行业5年，具有丰富的设计经验..."/>
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"
@@ -537,7 +543,7 @@
                                 android:background="#999999"
                                 android:layout_marginTop="15dp"
                                 />
-                           <!-- 行业方向-->
+                            <!-- 行业方向-->
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -556,7 +562,7 @@
                                     android:id="@+id/tv_direction"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                   android:layout_alignParentRight="true"
+                                    android:layout_alignParentRight="true"
                                     android:layout_marginRight="15dp"
                                     android:textSize="13dp"
                                     android:textColor="#60A7B6"
@@ -604,5 +610,102 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:clickable="true"
+            android:visibility="@{activityUserInfoEditorModel.uploadPicLayerVisibility}"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="#ffffff"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:gravity="center"
+                    android:text="上传图片"
+                    android:textColor="#333333"
+                    android:textSize="16sp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#E5E5E5"/>
+
+                <LinearLayout
+                    android:onClick="@{activityUserInfoEditorModel.photoGraph}"
+                    android:layout_width="221dp"
+                    android:layout_height="49dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/shape_chat_phone_icon_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="18dp"
+                        android:src="@mipmap/chat_camera_icon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="拍照"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{activityUserInfoEditorModel.getAlbumPic}"
+                    android:layout_width="221dp"
+                    android:layout_height="49dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="19dp"
+                    android:background="@drawable/shape_chat_phone_icon_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="18dp"
+                        android:src="@mipmap/album_icon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="从相册选择"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="221dp"
+                    android:layout_height="49dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="19dp"
+                    android:background="@drawable/shape_chat_cancel_upload_pic_bg"
+                    android:onClick="@{activityUserInfoEditorModel.closeUploadPic}"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="取消"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+    </FrameLayout>
 </layout>
 

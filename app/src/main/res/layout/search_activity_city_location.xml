@@ -12,19 +12,13 @@
         android:clickable="true"
        >
 
-        <LinearLayout
-            android:weightSum="10"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
         <FrameLayout
             android:id="@+id/fl_container"
             android:layout_weight="8"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="#ffffff">
+            <!--字母-->
             <TextView
                 android:id="@+id/tv"
                 android:layout_width="80dp"
@@ -36,7 +30,7 @@
                 android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_height="80dp" />
-
+            <!--listView-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -46,19 +40,28 @@
                     android:id="@+id/lv_activity_city_location_cityinfo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="11dp"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="14dp"
+                    android:layout_weight="12"
+                    android:scrollbars="none"
                     android:divider="@android:color/transparent">
                 </ListView>
 
-                <ListView
-                    android:id="@+id/lv_activity_city_location_city_firstletter"
-                    android:layout_width="20dp"
+                <LinearLayout
+                    android:id="@+id/ll_container"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="45dp"
-                    android:divider="@android:color/transparent">
-                </ListView>
+                    android:orientation="vertical">
+                    <ListView
+                        android:id="@+id/lv_activity_city_location_city_firstletter"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scrollbars="none"
+                        android:divider="@android:color/transparent">
+                    </ListView>
+                </LinearLayout>
             </LinearLayout>
 
             <ListView
@@ -70,6 +73,5 @@
             </ListView>
         </FrameLayout>
 
-        </LinearLayout>
     </LinearLayout>
 </layout>

@@ -19,7 +19,7 @@
             android:textSize="13.5sp"/>
 
         <View
-            android:layout_marginRight="55dp"
+            android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
             android:layout_marginTop="14dp"

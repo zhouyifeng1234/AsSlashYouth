@@ -11,15 +11,17 @@
             <TextView
                 android:id="@+id/tv_reportTA"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="42dp"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
                 android:text="举报TA"/>
-            <View
+
+          <View
+                android:visibility="gone"
                 android:layout_marginTop="58dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="11dp"
@@ -29,6 +31,7 @@
                 android:background="#e5e5e5"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_shieldTA"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
