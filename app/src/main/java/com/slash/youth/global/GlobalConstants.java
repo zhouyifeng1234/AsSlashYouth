@@ -1,5 +1,7 @@
 package com.slash.youth.global;
 
+import java.net.URL;
+
 /**
  * Created by zhouyifeng on 2016/8/31.
  */
@@ -477,7 +479,9 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
-        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
+      
+       // public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
+       public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/statusone";
         //四、[好友]-拒绝好友申请发
         public static final String REJECT_ADD_FRIEND = MY_FRIEND_LIST_HOST + "/reject";
         //十、[好友]-好友申请状态查询

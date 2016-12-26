@@ -6,6 +6,7 @@ import com.slash.youth.http.protocol.AddMeListProtocol;
 import com.slash.youth.http.protocol.AgreeFriendProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CannelCareProtocol;
+import com.slash.youth.http.protocol.CareTAProtocol;
 import com.slash.youth.http.protocol.CheckFriendApplicationProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.http.protocol.DeleteFriendRelationProtocol;
@@ -30,11 +31,17 @@ public class ContactsManager {
     public static  final String MY_CARE = "我关注";
     public static  final String ADD_ME = "加我的";
     public static  final String MY_ADD = "我加的";
-
     public static String ADD_FRIEND = "加好友";
     public static String IS_FRIEND = "已是好友";
     public static String ADD_FRIEND_APPLICATION = "已申请";
+    public static String AFREEN_FRIEND_APPLICATION= "同意";
+    public static String CARE_TA ="关注TA";
+    public static String CARE_TA_OK ="取消关注";
 
+    public static int  IS_PERS0N = 0;//0表示陌生人
+    public static int I_ADD_TA = 1;//1表示我主动加了他,他还未回复
+    public static int  TA_ADD_ME = 2;//表示他主动加了我，我还未同意
+    public static int  IS_FRIEND_OK =3;//表示是好友关系
 
 
     //[我的人脉]-人脉首页
@@ -87,8 +94,8 @@ public class ContactsManager {
 
     //[关注]-关注动作
     public static void onCareTAProtocol(BaseProtocol.IResultExecutor onCareTAProtocol,long uid) {
-        TestFriendStatueProcotol testFriendStatueProcotol = new TestFriendStatueProcotol(uid);
-        testFriendStatueProcotol.getDataFromServer(onCareTAProtocol);
+        CareTAProtocol careTAProtocol = new CareTAProtocol(uid);
+        careTAProtocol.getDataFromServer(onCareTAProtocol);
     }
 
     //[关注]-我和某用户的关系
@@ -116,8 +123,17 @@ public class ContactsManager {
     }
 
     //[好友]-查看好友申请状态列表
-    public static void FriendApplicationStatus(BaseProtocol.IResultExecutor friendApplicationStatus,int  offset,int limit) {
-        CheckFriendApplicationProtocol checkFriendApplicationProtocol = new CheckFriendApplicationProtocol(offset,limit);
+    public static void onFriendApplicationListStatus(BaseProtocol.IResultExecutor friendApplicationStatus,int  offset,int limit) {
+      /*  CheckFriendApplicationProtocol checkFriendApplicationProtocol = new CheckFriendApplicationProtocol(offset,limit);
+        checkFriendApplicationProtocol.getDataFromServer(friendApplicationStatus);*/
+    }
+
+    //[好友]-好友申请状态查询
+    public static void onFriendApplicationStatus(BaseProtocol.IResultExecutor friendApplicationStatus,long uid) {
+        CheckFriendApplicationProtocol checkFriendApplicationProtocol = new CheckFriendApplicationProtocol(uid);
         checkFriendApplicationProtocol.getDataFromServer(friendApplicationStatus);
     }
+
+
+
 }
