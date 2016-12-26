@@ -2,7 +2,9 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.graphics.Color;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -10,10 +12,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.MyManager;
@@ -30,6 +34,7 @@ import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -71,6 +76,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private int careertype;
     private String tag;
     private String slashIdentity;
+    private int isauth;
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
@@ -86,6 +92,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void initView() {
+
         //头像的路径
         if (avatar != null) {
             BitmapKit.bindImage(activityUserinfoEditorBinding.ivHead, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
@@ -155,18 +162,42 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         return textViewTag;
     }
 
+    public void closeUploadPic(View v) {
+        setUploadPicLayerVisibility(View.GONE);
+    }
+    private int uploadPicLayerVisibility = View.GONE;
+    @Bindable
+    public int getUploadPicLayerVisibility() {
+        return uploadPicLayerVisibility;
+    }
+
+    public void setUploadPicLayerVisibility(int uploadPicLayerVisibility) {
+        this.uploadPicLayerVisibility = uploadPicLayerVisibility;
+        notifyPropertyChanged(BR.uploadPicLayerVisibility);
+    }
+
     //点击头像
     public void clickAvatar(View view) {
+        setUploadPicLayerVisibility(View.VISIBLE);
+    }
+
+    //照相
+    public void photoGraph(View view){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        userinfoEditorActivity.startActivityForResult(intent,Constants.USERINFO_IMAGVIEW_TAKE_PHOTO );
+    }
+
+    public void getAlbumPic(View view){
         //去相册里面调用图片
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image*//*");//相片类型
+        intent.setType("image*//**//*");//相片类型
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("outputX", 48);
         intent.putExtra("outputY", 48);
-        userinfoEditorActivity.startActivityForResult(intent, Constants.USERINFO_IMAGVIEW);
+        userinfoEditorActivity.startActivityForResult(intent,Constants.USERINFO_SKILLLABEL_ALBUM );
     }
 
     //设置斜杠身份
@@ -226,6 +257,30 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //点击保存
     public void save(View view) {
+        //认证过的
+       if(isauth == 1){
+           showDialog();
+       }else {
+           //没有认证过
+           savePersonInfo();
+       }
+    }
+
+    private void showDialog() {
+        DialogUtils.showDialogHint(userinfoEditorActivity, "提示", "修改后，您将成为非认证用户，请再次认证", new DialogUtils.DialogCallBack() {
+            @Override
+            public void OkDown() {
+                savePersonInfo();
+            }
+
+            @Override
+            public void CancleDown() {
+                LogKit.d("取消删除");
+            }
+        });
+    }
+
+    private void savePersonInfo() {
         //保存图片路径
         if (avatar != "" && avatar != null) {
             uploadPhoto(avatar);
@@ -493,5 +548,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         industry = myinfo.getIndustry();
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
+        isauth = myinfo.getIsauth();
     }
 }

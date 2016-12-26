@@ -7,12 +7,14 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#edf1f2"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#31C5E4"
         >
 
         <LinearLayout
@@ -27,21 +29,23 @@
                 android:layout_marginBottom="11dp"
                 android:layout_marginLeft="11dp"
                 android:layout_marginTop="11dp"
+                android:src="@mipmap/nav_back"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/city_back_icon"/>
+                />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="中国"
-            android:textColor="#333333"
+            android:text="选择城市"
+            android:textColor="#ffffff"
             android:textSize="17sp"/>
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
@@ -49,6 +53,7 @@
         android:paddingLeft="11dp"
         android:paddingRight="11dp"
         android:paddingTop="7dp">
+
         <EditText
             android:id="@+id/et_activity_city_location_searchbox"
             android:layout_width="338dp"
@@ -74,8 +79,23 @@
 
     </RelativeLayout>
 
-    <FrameLayout android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/fl_view"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv"
+            android:visibility="gone"
+            android:layout_width="80dp"
+            android:layout_centerInParent="true"
+            android:text="A"
+            android:gravity="center"
+            android:background="@drawable/shape_toast_bg"
+            android:textSize="60sp"
+            android:layout_gravity="center"
+            android:layout_height="80dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,16 +105,27 @@
                 android:id="@+id/lv_activity_city_location_cityinfo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="11dp" android:layout_weight="1"
-                android:divider="@android:color/transparent"></ListView>
-            <ListView
-                android:id="@+id/lv_activity_city_location_city_firstletter"
-                android:layout_width="11dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="11dp"
-                android:layout_marginTop="51dp"
+                android:layout_marginLeft="14dp"
+                android:layout_weight="12"
+                android:scrollbars="none"
                 android:divider="@android:color/transparent">
             </ListView>
+
+            <LinearLayout
+                android:id="@+id/ll_container"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+               >
+                <ListView
+                    android:id="@+id/lv_activity_city_location_city_firstletter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:layout_gravity="center"
+                    android:divider="@android:color/transparent"/>
+            </LinearLayout>
+
         </LinearLayout>
         <ListView
             android:id="@+id/lv_activity_city_location_search_list"

@@ -11,6 +11,7 @@ import com.slash.youth.domain.DemandBean;
 import com.slash.youth.domain.SearchItemDemandBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
@@ -91,13 +92,9 @@ public class PagerHomeDemandHolder extends BaseHolder<SearchItemDemandBean.DataB
 
         double lat = data.getLat();
         double lng = data.getLng();
-        DistanceUtils distanceUtils = new DistanceUtils();
-        distanceUtils.getLatAndLng(currentActivity);
-        double currentLatitude = distanceUtils.currentLatitude;
-        double currentLongitude = distanceUtils.currentLongitude;
+        double currentLatitude = SlashApplication.getCurrentLatitude();
+        double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
         itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
-
     }
-
 }

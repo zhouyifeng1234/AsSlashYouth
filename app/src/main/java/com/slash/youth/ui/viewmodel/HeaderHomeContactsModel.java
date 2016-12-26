@@ -224,6 +224,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
                     long uid = listBean.getUid();
                     addMeUidList.add(uid);
                     ArrayList<Long> addMe = IOUtils.getDateFromLocal("addMe");
+
                     if (addMe.equals(addMeUidList)) {
                         //相等没有跟新
                         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);

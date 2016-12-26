@@ -21,6 +21,7 @@ import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -39,10 +40,10 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private ArrayList<SkillLabelBean> listSecondSkilllabel = new ArrayList<>();
     private ArrayList<SkillLabelBean> listThirdSkilllabel = new ArrayList();
     private ArrayList<SkillLabelBean> listSkilllabel = new ArrayList<SkillLabelBean>();
-    private  ArrayList<String> listThirdSkilllabelName = new ArrayList<String>();
+    private  ArrayList<SkillLabelBean> listThirdSkilllabelName = new ArrayList();
     private int secondId;
     private int firstId;
-    private int thridId;
+    private String text = "未选择";
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding,
                                          ActivitySearchBinding mActivitySearchBinding) {
@@ -52,17 +53,17 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         initView();
         initListener();
 
-        searchActivityHotServiceBinding.tvSearchTitle.setOnClickListener(new View.OnClickListener() {
+       /* searchActivityHotServiceBinding.tvSearchTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSearchResult(thridId);
             }
-        });
+        });*/
     }
 
     //加载布局
     private void initView() {
-        searchActivityHotServiceBinding.tvOpenChoose.setText("未选择");
+        searchActivityHotServiceBinding.tvOpenChoose.setText(text);
         mNpChooseMainLabels = searchActivityHotServiceBinding.npPublishServiceMainLabels;
         searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setVerticalScrollBarEnabled(false);
         searchActivityHotServiceBinding.svActivitySearchThirdSkilllabel.setVerticalScrollBarEnabled(false);
@@ -180,11 +181,11 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         for (SkillLabelBean skillLabelBean : listThirdSkilllabel) {
             int f1 = skillLabelBean.getF1();
             int f2 = skillLabelBean.getF2();
-            thridId = skillLabelBean.getId();
+            int thridId = skillLabelBean.getId();
             String tag = skillLabelBean.getTag();
             if(f2!=0){
                 if(f1 == firstId&&f2 == secondId){
-                    listThirdSkilllabelName.add(tag);
+                    listThirdSkilllabelName.add(new SkillLabelBean(f1,f2,thridId,tag));
                 }
             }
         }
@@ -199,19 +200,26 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                 int labelRightMargin = CommonUtils.dip2px(10);
                 int skillLabelLineWidth = 0;
                 for (int i = 0; i < listThirdSkilllabelName.size(); i++) {
-                    String thirdSkilllabelName = listThirdSkilllabelName.get(i);//这是第几个技能名字
+                    SkillLabelBean skillLabelBean = listThirdSkilllabelName.get(i);
+                    String thirdSkilllabelName = skillLabelBean.getTag();
+                    int thridId = skillLabelBean.getId();
+                    // String thirdSkilllabelName = listThirdSkilllabelName.get(i);//这是第几个技能名字
                     //创建标签TextView
                     LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2); //-1 match -2 wrap
                     llParamsForSkillLabel.rightMargin = CommonUtils.dip2px(labelRightMargin);
                     TextView tvThirdSkilllabelName = new TextView(CommonUtils.getContext());
                     tvThirdSkilllabelName.setLayoutParams(llParamsForSkillLabel);
                     tvThirdSkilllabelName.setMaxLines(1);
+                    tvThirdSkilllabelName.setTag(thirdSkilllabelName);
                     tvThirdSkilllabelName.setGravity(Gravity.CENTER);
                     tvThirdSkilllabelName.setTextColor(0xff333333);
                     tvThirdSkilllabelName.setTextSize(14);
                     tvThirdSkilllabelName.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
                     tvThirdSkilllabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
                     tvThirdSkilllabelName.setText(thirdSkilllabelName);
+                    //不同的textview的点击事件
+                    tvThirdSkilllabelName.setOnClickListener(new CheckThirdLabelListener());
+
                     //测量标签TextView的宽度并判断是否换行
                     tvThirdSkilllabelName.measure(0, 0);
                     int tvThirdSkilllabelWidth = tvThirdSkilllabelName.getMeasuredWidth() + labelRightMargin;
@@ -237,13 +245,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                             skillLabelLineWidth = newSkillLabelLineWidth;
                         }
                     }
-                    //不同的textview的点击事件
-                    tvThirdSkilllabelName.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showSearchResult(thridId);
-                        }
-                    });
                 }
             }
             public void createLabelLine() {
@@ -261,6 +262,15 @@ public class SearchActivityHotServiceModel extends BaseObservable {
             }
         });
     }
+
+    public class CheckThirdLabelListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String labelTag = (String) v.getTag();
+            showSearchResult(labelTag);
+        }
+    }
+
 
     //加载监听
     private void initListener() {
@@ -293,10 +303,10 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     }
 
     // 显示搜索页面
-    public void showSearchResult(int thridId)  {
+    public void showSearchResult(String tag)  {
         SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
         currentActivity.changeView(2);
-        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding);
+        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding,tag);
         currentActivity.searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
     }
 }

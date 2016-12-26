@@ -20,10 +20,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeFreetimeBinding;
 import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.engine.FirstPagerManager;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
@@ -59,13 +61,43 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private int limit=10;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
+    private View listMoreView;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
         initView();
+        initScrollView();
         initData();
+        initFootView();
         initListener();
+    }
+
+    //添加脚布局
+    private void initFootView() {
+        listMoreView = View.inflate(CommonUtils.getContext(), R.layout.first_pager_more, null);
+        pagerHomeFreetimeBinding.lvHomeDemandAndService.addFooterView(listMoreView);
+    }
+
+    private void initScrollView() {
+        pagerHomeFreetimeBinding.refreshView.setOnRefreshListener(new FreeTimeListListener());
+    }
+
+    public class FreeTimeListListener implements PullToRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDemandOrServiceListData();
+                    pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                }
+            }, 2000);
+        }
+        @Override
+        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+
+        }
     }
 
     ArrayList<String> listAdvImageUrl = new ArrayList<String>();
@@ -230,6 +262,15 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 }
             }
         });
+
+        //加载更多的点击事件
+        listMoreView.findViewById(R.id.tv_search_more).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickMore();
+            }
+        });
+
     }
 
     public class HomeVpAdvChange implements Runnable {
@@ -290,8 +331,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.VISIBLE);
         setServiceButtonVisibility(View.INVISIBLE);
         getDemandOrServiceListData();
-        pagerHomeFreetimeBinding.lvHomeDemandAndService
-       .setNewRefreshDataTask(new RefreshDataTask());
     }
 
     //服务需求
@@ -299,8 +338,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         setDemandButtonVisibility(View.INVISIBLE);
         setServiceButtonVisibility(View.VISIBLE);
         getDemandOrServiceListData();
-        pagerHomeFreetimeBinding.lvHomeDemandAndService
-        .setNewRefreshDataTask(new RefreshDataTask());
     }
 
     public void getDataFromServer() {
@@ -339,8 +376,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 public void run() {
                     getDemandOrServiceListData();
 
-                    pagerHomeFreetimeBinding.lvHomeDemandAndService
-                    .refreshDataFinish();
                 }
             }, 2000);
         }
@@ -404,6 +439,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     //点击添加更多
     public void more(View view){
+        clickMore();
+    }
+
+    private void clickMore() {
         Intent intentFirstPagerMoreActivity = new Intent(CommonUtils.getContext(), FirstPagerMoreActivity.class);
         intentFirstPagerMoreActivity.putExtra("isDemand",mIsDisplayDemandList);
         intentFirstPagerMoreActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

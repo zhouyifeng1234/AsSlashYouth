@@ -12,6 +12,8 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityApprovalBinding;
 import com.slash.youth.databinding.ApprovalCertificatesBinding;
+import com.slash.youth.domain.SkillManagerBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
@@ -19,6 +21,7 @@ import com.slash.youth.ui.adapter.ViewpageAdapter;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 
 /**
@@ -62,7 +65,7 @@ public class ApprovalModel extends BaseObservable {
     }
 
     private void initView() {
-        switch (1){
+        switch (cardType){
             case 0:
                 LogKit.d("没有完善职业类型");
                 break;
@@ -131,9 +134,26 @@ public class ApprovalModel extends BaseObservable {
                 activityApprovalBinding.cdIdImag.setVisibility(View.VISIBLE);
                 break;
             case -1:
-                LogKit.d("没有获取数据");
+                LogKit.d("没有获取数据，弹窗，到个人编辑页面");
+                showDialog();
                 break;
         }
+    }
+
+    private void showDialog() {
+        DialogUtils.showDialogFive(approvalActivity, " ", "完善个人编辑", new DialogUtils.DialogCallBack() {
+            @Override
+            public void OkDown() {
+                Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+                intentUserinfoEditorActivity.putExtra("myId",uid);
+                approvalActivity.startActivity(intentUserinfoEditorActivity);
+            }
+
+            @Override
+            public void CancleDown() {
+                LogKit.d("取消");
+            }
+        });
     }
 
     //拍照

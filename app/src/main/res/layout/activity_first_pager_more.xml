@@ -10,8 +10,9 @@
     android:orientation="vertical">
 
  <RelativeLayout
+     android:id="@+id/rl_bar"
      android:layout_width="match_parent"
-     android:layout_height="46dp"
+     android:layout_height="wrap_content"
      android:background="#31C5E4"
      >
 
@@ -19,7 +20,7 @@
          android:onClick="@{firstPagerDemandModel.back}"
          android:id="@+id/iv_userinfo_back"
          android:layout_width="40dp"
-         android:layout_height="40dp"
+         android:layout_height="46dp"
          android:layout_centerVertical="true">
          <ImageView
              android:layout_width="wrap_content"
@@ -57,11 +58,6 @@
         app:ddmenuUnselectedIcon="@mipmap/free_play">
 
     </com.slash.youth.ui.view.DropDownMenu>
-
-
-
-
-
 
     <!--<ListView
         android:id="@+id/lv_more"

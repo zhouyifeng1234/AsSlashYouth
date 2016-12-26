@@ -144,11 +144,11 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
 
                 String text = itemManagePublishHolderBinding.tvMyBtn.getText().toString();
                 if(text.equals(MyManager.UP)){
-                    action = 0;
+                    action = 1;
                     itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
                     itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
                 }else if(text.equals(MyManager.DOWN)){
-                    action = 1;
+                    action = 0;
                     itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
                     itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));
                 }

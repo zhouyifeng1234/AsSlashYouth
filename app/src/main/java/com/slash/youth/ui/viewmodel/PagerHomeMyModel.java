@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.engine.LoginManager;
@@ -148,10 +149,10 @@ public class PagerHomeMyModel extends BaseObservable {
         //是否认证
         isauth = myinfo.getIsauth();
         if(isauth == 1){  //认证过的
-            mPagerHomeMyBinding.ivV.setVisibility(View.VISIBLE);
+            mPagerHomeMyBinding.ivV.setImageResource(R.mipmap.v_icon_home_my);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.GONE);
         }else if(isauth == 0){    //非认证
-            mPagerHomeMyBinding.ivV.setVisibility(View.GONE);
+            mPagerHomeMyBinding.ivV.setImageResource(R.mipmap.exclamation);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.VISIBLE);
         }
         //头像
@@ -294,6 +295,7 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("phone",phone);
         intentUserInfoActivity.putExtra("skillTag",tag);
+        intentUserInfoActivity.putExtra("Uid",LoginManager.currentLoginUserId);
         mActivity.startActivity(intentUserInfoActivity);
     }
 
@@ -338,7 +340,6 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentMyHelpActivity = new Intent(CommonUtils.getContext(), MyHelpActivity.class);
         intentMyHelpActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyHelpActivity);
-
     }
 
     //我的收藏
