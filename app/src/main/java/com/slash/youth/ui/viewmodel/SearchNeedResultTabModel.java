@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.net.sip.SipSession;
@@ -9,8 +10,10 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.slash.youth.R;
@@ -65,6 +68,12 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private SearchActivityCityLocationModel searchActivityCityLocationModel;
     private boolean isDemand;
     private String tag;
+    private int heardHeight;
+    private int height;
+    private int itemHeight;
+    private int startHeight;
+    private int startY;
+    private int startIndex;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding,String tag) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
@@ -235,6 +244,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         ImageView ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
         ivLocationCityFirstLetterListHeader.setImageResource(R.mipmap.search_letter_search_icon);
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.addHeaderView(ivLocationCityFirstLetterListHeader);
+        ivLocationCityFirstLetterListHeader.measure(0,0);
+        heardHeight = ivLocationCityFirstLetterListHeader.getMeasuredHeight();
 
         searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setVerticalScrollBarEnabled(false);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.setVerticalScrollBarEnabled(false);
@@ -246,87 +257,94 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private Handler mHanler = new Handler();
     //设置城市监听事件
     private void setCityLinitListener() {
-        //点击字母定位城市
-        searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    tvFirstLetter = (TextView) view;
-                    String firstLetter = tvFirstLetter.getText().toString();
+        //获取listview的高度
+        ListAdapter adapter =  searchCityLocationBinding.lvActivityCityLocationCityFirstletter.getAdapter();
+        if (adapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) { // listAdapter.getCount()返回数据项的数目
+            View listItem = adapter.getView(i, null,  searchCityLocationBinding.lvActivityCityLocationCityFirstletter);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+        }
+        //总长
+        height = totalHeight - heardHeight;
+        //每一个字母的长度
+        itemHeight = height / 26;
 
-                    for (int i = 0; i < searchActivityCityLocationModel.listCityInfo.size(); i++) {
-                        LocationCityInfo locationCityInfo = searchActivityCityLocationModel.listCityInfo.get(i);
-                        String firstCityLetter = locationCityInfo.getFirstLetter();
-                        if(firstCityLetter.equals(firstLetter) ){
-                           // ToastUtils.shortCenterToast(" "+firstLetter);
-                            searchCityLocationBinding.tv.setText(firstLetter);
+        //从A开的距离
+        WindowManager wm = (WindowManager) CommonUtils.getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        int phoneHeight = wm.getDefaultDisplay().getHeight();
+
+        int titleHeight = SearchActivity.titleHeight;
+
+        startHeight = (phoneHeight - totalHeight-titleHeight-titleHeight) / 2+titleHeight+titleHeight;
+        //触摸事件
+        searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        startY = (int)event.getRawY();
+                         startIndex = (startY - startHeight) / itemHeight-1;
+                        if(startIndex >=0&& startIndex <26){
+                            String firstStartLetter = searchActivityCityLocationModel.listCityNameFirstLetter.get(startIndex).toString();
+                            searchCityLocationBinding.tv.setText(firstStartLetter);
                             searchCityLocationBinding.tv.setVisibility(View.VISIBLE);
-                            CommonUtils.getHandler().postDelayed(new Runnable() {
+                            mHanler.removeCallbacksAndMessages(null);
+                            mHanler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     searchCityLocationBinding.tv.setVisibility(View.GONE);
                                 }
-                            }, 2000);
-                            searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i +searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
-                        }
-                    }
-                }
-            }
-        });
-
-        //触摸事件监听
-       /* searchCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
-            private String key;
-            private float y = 0;
-            private int index = -1;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                TextView childAt = (TextView) ((ListView) v).getChildAt(2);
-                int height = childAt.getMeasuredHeight();
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        y = event.getY();
-                        index = (int) (y /height);
-                        if (index >= 0 && index < listCityNameFirstLetter.size()) {
-                            String firstDownLetter = listCityNameFirstLetter.get(index).toString();
-                            LogKit.d("firstDownLetter = " + firstDownLetter);
-                            if (mHashFirstLetterIndex.containsKey(firstDownLetter)) {
-                                showTextView(firstDownLetter);
-                                Integer firstLetterIndex = mHashFirstLetterIndex.get(firstDownLetter);
-                                searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                            },1000);
+                            //左边定位到具体的城市字母开头
+                            for (int i = 0; i < searchActivityCityLocationModel.listCityInfo.size(); i++) {
+                                LocationCityInfo locationCityInfo = searchActivityCityLocationModel.listCityInfo.get(i);
+                                String firstCityLetter = locationCityInfo.getFirstLetter();
+                                if(firstCityLetter.equals(firstStartLetter) ){
+                                    searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i+ searchCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount());
+                                }
                             }
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        y = event.getY();
-                        index = (int) (y / height);
-                        if (index >= 0 && index < listCityNameFirstLetter.size()) {
-                            String firstMoveLetter = listCityNameFirstLetter.get(index).toString();
-                            LogKit.d("firstMoveLetter = "+firstMoveLetter);
-                            if (mHashFirstLetterIndex.containsKey(firstMoveLetter)) {
-                                showTextView(firstMoveLetter);
-                                Integer firstLetterIndex = mHashFirstLetterIndex.get(firstMoveLetter);
-                                searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                        int  rawY = (int )event.getRawY();
+                        int   moveY =  rawY - startY;
+                        //对应的字母
+                        int count = moveY / itemHeight;
+                        int moveIndex =  startIndex +count;
+                        if(moveIndex>=0&&moveIndex<26){
+                            String firstMoveLetter = searchActivityCityLocationModel.listCityNameFirstLetter.get(moveIndex).toString();
+                            searchCityLocationBinding.tv.setText(firstMoveLetter);
+                            searchCityLocationBinding.tv.setVisibility(View.VISIBLE);
+                            mHanler.removeCallbacksAndMessages(null);
+                            mHanler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    searchCityLocationBinding.tv.setVisibility(View.GONE);
+                                }
+                            },1000);
+
+                            //左边定位到具体的城市字母开头
+                            for (int i = 0; i < searchActivityCityLocationModel.listCityInfo.size(); i++) {
+                                LocationCityInfo locationCityInfo = searchActivityCityLocationModel.listCityInfo.get(i);
+                                String firstCityLetter = locationCityInfo.getFirstLetter();
+                                if(firstCityLetter.equals(firstMoveLetter) ){
+                                    searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i+ searchCityLocationBinding.lvActivityCityLocationCityFirstletter.getHeaderViewsCount());
+                                }
                             }
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        y = event.getY();
-                        index = (int) (y / height);
-                        if (index >= 0 && index < listCityNameFirstLetter.size()) {
-                            String firstUpLetter = listCityNameFirstLetter.get(index).toString();
-                            LogKit.d("firstUpLetter = " + firstUpLetter);
-                            if (mHashFirstLetterIndex.containsKey(firstUpLetter)) {
-                                showTextView(firstUpLetter);
-                                Integer firstLetterIndex = mHashFirstLetterIndex.get(firstUpLetter);
-                                searchCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(firstLetterIndex + searchCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
-                            }
-                        }
+                        int endY = (int)event.getRawY();
                         break;
                 }
                 return true;
             }
-        });*/
+        });
     }
     //显示中间的字
     private void showTextView(String text ) {

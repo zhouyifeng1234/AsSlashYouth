@@ -55,6 +55,7 @@ public class SearchActivity extends Activity {
     public int mPage = 0;
     private SearchPagerFirstModel searchPagerFirstModel;
     public SearchListviewAssociationBinding searchListviewAssociationBinding;
+    public static int titleHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,9 @@ public class SearchActivity extends Activity {
         ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding,this);
         activitySearchBinding.setActivitySearchModel(activitySearchModel);
         CommonUtils.setCurrentActivity(SearchActivity.this);
+
+        activitySearchBinding.rlSeachBar.measure(0,0);
+        titleHeight = activitySearchBinding.rlSeachBar.getMeasuredHeight();
 
         initView();
         removeView();

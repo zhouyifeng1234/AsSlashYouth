@@ -163,12 +163,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     //先验证一下好友关系
     public void testIsFriend(long uid) {
         ContactsManager.onFriendApplicationStatus(new onFriendApplicationStatus(),uid);
-       /* ContactsManager.onTestFriendStatueProtocol(new onTestFriendStatue(), uid);
-        if (isfriend) {
-            activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
-        } else {
-            activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
-        }*/
     }
 
 

@@ -21,6 +21,8 @@ import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.ActivityUserinfoHeardListviewBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
 import com.slash.youth.databinding.FloatViewBinding;
+import com.slash.youth.domain.FreeTimeDemandBean;
+import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.domain.NewDemandAandServiceBean;
 import com.slash.youth.domain.NewTaskUserInfoBean;
 import com.slash.youth.domain.OtherInfoBean;
@@ -35,7 +37,9 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.MyTaskActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
@@ -131,9 +135,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
-
-
-    @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
         if(isauth == 0){
             activityUserinfoBinding.tvUserinfoApproval.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +147,30 @@ public class ActivityUserInfoModel extends BaseObservable {
                 }
             });
         }
+
+        //最新任务点击事件
+        activityUserinfoBinding.lvUserinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                NewDemandAandServiceBean.DataBean.ListBean userInfoBean = userInfoListView.get(position);
+                int type = userInfoBean.getType();
+                switch (type){
+                    case 1:
+                        long demandId  = userInfoBean.getUid();
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", demandId);
+                        userInfoActivity.startActivity(intentDemandDetailActivity);
+                        break;
+                    case 2:
+                        long serviceId = userInfoBean.getUid();
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                        userInfoActivity.startActivity(intentServiceDetailActivity);
+                        break;
+                }
+            }
+        });
     }
 
     private long uid;
@@ -153,7 +178,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private  int limit = 10;
     //加载数据
     private void initData() {
-        if(otherUid == -1){
+        if(otherUid == LoginManager.currentLoginUserId){
             MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
             MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid);
             uid =  LoginManager.currentLoginUserId;
@@ -193,17 +218,17 @@ public class ActivityUserInfoModel extends BaseObservable {
     private void initView() {
 
         //让listview不获取焦点
-        activityUserinfoBinding.lvUserinfo.setFocusable(false);
+       // activityUserinfoBinding.lvUserinfo.setFocusable(false);
 
         //手动ScrollView设置到顶部
         activityUserinfoBinding.sv.smoothScrollTo(0,0);
 
         //listview的设置不可滑动
-        activityUserinfoBinding.lvUserinfo.setOnTouchListener(new View.OnTouchListener() {
+      /*  activityUserinfoBinding.lvUserinfo.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
-        });
+        });*/
 
         activityUserinfoBinding.refreshView.setOnRefreshListener(new TaskListListener());
     }
@@ -258,8 +283,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 activityUserinfoBinding.llSkilllabelContainer.addView(textViewTag);
             }
         }
-
-
 
         //用户ID
         myUid = uinfo.getId();
@@ -621,30 +644,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
                 break;
         }
-
-
-       /* String text = activityUserinfoBinding.tvAddFriend.getText().toString();
-
-        if(text.equals(ContactsManager.ADD_FRIEND)){//加好友状态
-            if(isSuccessful){
-               // ToastUtils.shortCenterToast(add_friend_successful);
-                activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
-            }else {
-                ToastUtils.shortCenterToast(add_friend_error);
-                activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
-            }
-        }*/
-
-       /* if(text.equals(ContactsManager.IS_FRIEND)){//已经是好友
-        ContactsManager.deleteFriendRelationProtocol(new onDeleteFriendRelationProtocol(),otherUid,"unBindUserInfo");
-            if (isDelete) {
-                ToastUtils.shortCenterToast("已解除好友成功");
-                activityUserinfoBinding.tvAddFriend.setText("申请加好友");
-            }else {
-                ToastUtils.shortCenterToast("解除好友失败");
-                activityUserinfoBinding.tvAddFriend.setText("解除好友");
-            }
-        }*/
     }
 
     //聊一聊

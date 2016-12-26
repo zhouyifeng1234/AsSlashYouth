@@ -85,8 +85,8 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     private void initData() {
         getFriendRecommendData();
-      //  ContactsManager.getAddMeList(new onGetCareMeList(), 0, 20, GlobalConstants.HttpUrl.CARE_ME_PERSON);
-       // ContactsManager.getAddMeList(new onGetAddMeList(), 0, 20, GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST + "/addmelist");
+        ContactsManager.getAddMeList(new onGetCareMeList(), 0, 20, GlobalConstants.HttpUrl.CARE_ME_PERSON);
+        ContactsManager.getAddMeList(new onGetAddMeList(), 0, 20, GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST + "/addmelist");
     }
 
     private View createRecommendHorizontalSpace() {

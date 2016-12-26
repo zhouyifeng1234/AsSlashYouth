@@ -1,12 +1,15 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 import android.widget.Toast;
 
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
+import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.UserInfoActivity;
+import com.slash.youth.utils.CommonUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -62,12 +65,14 @@ private ActivityUserinfoBinding activityUserinfoBinding;
     public void qqSpace(View view){
         //好友列表
 
+        Intent intentChooseFriendActivtiy = new Intent(CommonUtils.getContext(), MyFriendActivtiy.class);
+        intentChooseFriendActivtiy.putExtra("sendFriend",true);
+        intentChooseFriendActivtiy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentChooseFriendActivtiy);
 
-
-       /* share_media = platforms.get(4).mPlatform;
+      /* share_media = platforms.get(4).mPlatform;
         ShareAction shareAction = new ShareAction(userInfoActivity);
-        shareAction.setPlatform(share_media).setCallback(umShareListener).share();
-*/
+        shareAction.setPlatform(share_media).setCallback(umShareListener).share();*/
     }
 
     //取消
@@ -105,8 +110,4 @@ private ActivityUserinfoBinding activityUserinfoBinding;
             Toast.makeText(userInfoActivity,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
-
-
-
-
 }

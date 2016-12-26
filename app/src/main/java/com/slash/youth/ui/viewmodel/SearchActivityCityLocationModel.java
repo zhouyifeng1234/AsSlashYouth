@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
@@ -8,8 +9,11 @@ import android.databinding.Bindable;
 import android.graphics.Color;
 import android.net.sip.SipSession;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.slash.youth.BR;
@@ -151,7 +155,7 @@ public class SearchActivityCityLocationModel extends BaseObservable {
 
     //事件监听，快速点击索引联动
     private void listener() {
-    searchActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+   /* searchActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if (position > 0) {
@@ -168,7 +172,7 @@ public class SearchActivityCityLocationModel extends BaseObservable {
                 }
             }
         }
-    });
+    });*/
 
     //点击城市列表，显示选中的城市名
     searchActivityCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -186,13 +190,15 @@ public class SearchActivityCityLocationModel extends BaseObservable {
     });
 
     //点击当前城市
-      /*  searchActivityCityLocationBinding.tv.setOnClickListener(new View.OnClickListener() {
+        searchActivityCityLocationBinding.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String city = searchActivityCityLocationBinding.tv.getText().toString();
                 listener.OnClick(cityName);
             }
-        });   */
+        });
+
+
     }
 
     //显示中间的字

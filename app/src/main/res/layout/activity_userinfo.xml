@@ -64,19 +64,18 @@
                 </FrameLayout>
             </RelativeLayout>
 
-
-
+            <!--内容-->
             <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
                 android:id="@+id/refresh_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <include layout="@layout/refresh_head" />
 
                 <com.slash.youth.ui.view.PullableSrcollView.PullableDownScrollView
                     android:id="@+id/sv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:scrollbars="none"
                     >
                     <!--包裹父布局-->
@@ -168,7 +167,6 @@
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content"
                                                         android:layout_gravity="center_vertical"
-                                                        android:text="李小四"
                                                         android:textColor="#333333"
                                                         android:textSize="15sp"/>
 
@@ -230,6 +228,9 @@
                                                         android:layout_gravity="center_vertical"
                                                         android:gravity="center"
                                                         android:text="暂未填写"
+                                                        android:maxEms="8"
+                                                        android:maxLines="1"
+                                                        android:ellipsize="end"
                                                         android:textColor="#31C5E4"
                                                         android:textSize="12sp"/>
                                                 </LinearLayout>
@@ -240,7 +241,6 @@
                                                     android:layout_height="wrap_content"
                                                     android:ellipsize="end"
                                                     android:maxLines="1"
-                                                    android:text="暂未填写职务信息"
                                                     android:textColor="#666666"
                                                     android:textSize="12sp"/>
                                                 <TextView
@@ -248,7 +248,6 @@
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
                                                     android:layout_marginTop="5dp"
-                                                    android:text="IT互联网｜市场商务"
                                                     android:textColor="#666666"
                                                     android:textSize="12sp"/>
                                             </LinearLayout>
@@ -265,13 +264,14 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="12dp"
                                                 android:textColor="#999999"
-                                                android:text="斜杠身份: 互联网金融/UI设计师/系统架构师/摄影爱好者"/>
+                                                />
                                         </LinearLayout>
                                     </LinearLayout>
                                 </android.support.v7.widget.CardView>
                             </LinearLayout>
                             <!--粉丝数-->
                             <LinearLayout
+                                android:layout_marginTop="8dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -485,6 +485,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="11dp"/>
                             </LinearLayout>
+
                         </RelativeLayout>
                         <!--技能描述-->
                         <android.support.v7.widget.CardView
@@ -706,13 +707,21 @@
 
             </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
 
+        </LinearLayout>
+
+        <!--加好友-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp">
 
             <!--加好友-->
             <LinearLayout
-                android:id="@+id/ll_addFriend"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/ll_add_Friend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-               android:background="#ffffff"
+                android:background="#ffffff"
                 android:orientation="vertical"
                 >
                 <View
@@ -824,19 +833,12 @@
                     android:layout_height="0.2dp"
                     android:background="#e5e5e5"/>
             </LinearLayout>
-
-           <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                />
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/fl_dialog_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
         </FrameLayout>
     </FrameLayout>
 </layout>

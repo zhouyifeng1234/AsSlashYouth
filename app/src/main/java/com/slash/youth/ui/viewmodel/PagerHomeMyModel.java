@@ -295,6 +295,7 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("phone",phone);
         intentUserInfoActivity.putExtra("skillTag",tag);
+        intentUserInfoActivity.putExtra("Uid",LoginManager.currentLoginUserId);
         mActivity.startActivity(intentUserInfoActivity);
     }
 
@@ -339,7 +340,6 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentMyHelpActivity = new Intent(CommonUtils.getContext(), MyHelpActivity.class);
         intentMyHelpActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyHelpActivity);
-
     }
 
     //我的收藏

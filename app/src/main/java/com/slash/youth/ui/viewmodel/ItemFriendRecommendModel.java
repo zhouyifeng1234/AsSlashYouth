@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -11,10 +12,13 @@ import com.slash.youth.domain.FriendRecommendBean;
 import com.slash.youth.domain.RecommendFriendBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.LoginBindProtocol;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 import org.xutils.x;
@@ -225,7 +229,6 @@ public class ItemFriendRecommendModel extends BaseObservable {
                         itemParent.removeView(mItemFriendRecommend);
                         break;
                     case 0://0加入黑名单失败
-
                         LogKit.d("加入黑名单失败");
                         break;
                 }
@@ -235,5 +238,15 @@ public class ItemFriendRecommendModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
+    }
+
+    //点击头像看他的资料
+    public void avater(View view){
+         RecommendFriendBean.DataBean.ListBean listBean = mListFriendRecommendList.get(index);
+        long uid = listBean.getUid();
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", uid);
+        intentUserInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentUserInfoActivity);
     }
 }

@@ -43,10 +43,12 @@ public class ChooseFriendModel  extends BaseObservable{
     private int offset = 0;
     private int limit = 20;
     private int listSize;
+    private boolean sendFriend;
 
-    public ChooseFriendModel(ActivityChooseFriendBinding activityChooseFriendBinding,MyFriendActivtiy chooseFriendActivtiy) {
+    public ChooseFriendModel(ActivityChooseFriendBinding activityChooseFriendBinding,MyFriendActivtiy chooseFriendActivtiy,boolean sendFriend) {
         this.activityChooseFriendBinding = activityChooseFriendBinding;
         this.chooseFriendActivtiy = chooseFriendActivtiy;
+        this.sendFriend = sendFriend;
         initListView();
         initData();
         initView();
@@ -104,35 +106,21 @@ public class ChooseFriendModel  extends BaseObservable{
         activityChooseFriendBinding.lvLetter.setAdapter(locationCityFirstLetterAdapter);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
         activityChooseFriendBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // showSendDialog(position);
-
-                MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
-                long uid = listBean.getUid();
-                Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-                intentUserInfoActivity.putExtra("Uid", uid);
-                chooseFriendActivtiy.startActivity(intentUserInfoActivity);
+                if(sendFriend){
+                    showSendDialog(position);
+                }else {
+                    MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
+                    long uid = listBean.getUid();
+                    Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                    intentUserInfoActivity.putExtra("Uid", uid);
+                    chooseFriendActivtiy.startActivity(intentUserInfoActivity);
+                }
             }
         });
-
-      /* activityChooseFriendBinding.lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-           @Override
-           public void onScrollStateChanged(AbsListView view, int scrollState) {
-           }
-
-           @Override
-           public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-               visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-               if(visibleLastIndex == friendArrayList.size()){
-                   offset = visibleLastIndex;
-                   ContactsManager.getMyFriendList(new onMyFriendList(),offset,limit);
-               }
-           }
-       });*/
     }
 
     private void showSendDialog(int position) {

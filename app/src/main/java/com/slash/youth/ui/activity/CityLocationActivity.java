@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,9 +74,14 @@ public class CityLocationActivity extends Activity {
     private android.os.Handler mHanler = new android.os.Handler();
      public static HashMap<String, String> map = new HashMap<>();
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
-    private float startY;
+    private int startY;
     private ImageView ivLocationCityFirstLetterListHeader;
     private LocationCityFirstLetterAdapter locationCityFirstLetterAdapter;
+    private int heardHeight;
+    private int height;
+    private int itemHeight;
+    private int startHeight;
+    private int startIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +99,8 @@ public class CityLocationActivity extends Activity {
         ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
         ivLocationCityFirstLetterListHeader.setImageResource(R.mipmap.search_letter_search_icon);
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.addHeaderView(ivLocationCityFirstLetterListHeader);
+        ivLocationCityFirstLetterListHeader.measure(0,0);
+        heardHeight = ivLocationCityFirstLetterListHeader.getMeasuredHeight();
 
         mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setVerticalScrollBarEnabled(false);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setVerticalScrollBarEnabled(false);
@@ -226,13 +235,12 @@ public class CityLocationActivity extends Activity {
         });
 
         //点击左侧字母弹出吐司并定位到对应的位置
-        mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
                     TextView tvFirstLetter = (TextView) view;
                     String firstLetter = tvFirstLetter.getText().toString();
-
                     for (int i = 0; i < listCityInfo.size(); i++) {
                         LocationCityInfo locationCityInfo = listCityInfo.get(i);
                         String firstCityLetter = locationCityInfo.getFirstLetter();
@@ -251,7 +259,7 @@ public class CityLocationActivity extends Activity {
                     }
                 }
             }
-        });
+        });*/
 
         //滑动事件
         touchListener();
@@ -328,8 +336,6 @@ public class CityLocationActivity extends Activity {
     //触摸滑动事件
     private void touchListener() {
         ListAdapter adapter = mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getAdapter();
-       // adapter.notifyDataSetChanged();
-       // Function.getTotalHeightofListView(mListView);
         if (adapter == null) {
             return;
         }
@@ -339,45 +345,84 @@ public class CityLocationActivity extends Activity {
             listItem.measure(0, 0); // 计算子项View 的宽高
             totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
         }
-        ViewGroup.LayoutParams params = mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.getLayoutParams();
-        /*params.height = totalHeight
-                + (adapter.getDividerHeight() * (adapter.getCount() - 1));*/
-        // listView.getDividerHeight()获取子项间分隔符占用的高度listView
-        // params.height最后得到整个ListView完整显示需要的高度
-       // mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setLayoutParams(params);
+        //总长
+        height = totalHeight - heardHeight;
+        //每一个字母的长度
+        itemHeight = height / 26;
 
+        mActivityCityLocationBinding.rlBar.measure(0,0);
+        int titleHeight = mActivityCityLocationBinding.rlBar.getMeasuredHeight();
 
-     /*   mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
+        //从A开的距离
+        WindowManager wm = (WindowManager) CommonUtils.getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        int phoneHeight = wm.getDefaultDisplay().getHeight();
+        startHeight = (phoneHeight - totalHeight-titleHeight) / 2+titleHeight;
+
+        //触摸事件
+        mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
-                        startY = event.getRawY();
-                        LogKit.d("开始滑动的位置"+startY);
-
-
-
-
+                        startY = (int)event.getRawY();
+                        index = (startY - startHeight) / itemHeight;
+                        startIndex = index-1;
+                        if(startIndex >=0&& startIndex <26){
+                            String firstStartLetter = listCityNameFirstLetter.get(startIndex).toString();
+                            mActivityCityLocationBinding.tv.setText(firstStartLetter);
+                            mActivityCityLocationBinding.tv.setVisibility(View.VISIBLE);
+                            mHanler.removeCallbacksAndMessages(null);
+                            mHanler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityCityLocationBinding.tv.setVisibility(View.GONE);
+                                }
+                            },1000);
+                            //左边定位到具体的城市字母开头
+                            for (int i = 0; i < listCityInfo.size(); i++) {
+                                LocationCityInfo locationCityInfo = listCityInfo.get(i);
+                                String firstCityLetter = locationCityInfo.getFirstLetter();
+                                if(firstCityLetter.equals(firstStartLetter) ){
+                                    mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i+ mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                                }
+                            }
+                        }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        float rawY = event.getRawY();
-                       float  moveY =  rawY - startY;
-                        LogKit.d("滑动的距离"+moveY);
+                        int  rawY = (int )event.getRawY();
+                       int   moveY =  rawY - startY;
+                        //对应的字母
+                        int count = moveY / itemHeight;
+                        int moveIndex =  startIndex+count;
+                        if(moveIndex>=0&&moveIndex<26){
+                            String firstMoveLetter = listCityNameFirstLetter.get(moveIndex).toString();
+                            mActivityCityLocationBinding.tv.setText(firstMoveLetter);
+                            mActivityCityLocationBinding.tv.setVisibility(View.VISIBLE);
+                            mHanler.removeCallbacksAndMessages(null);
+                            mHanler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mActivityCityLocationBinding.tv.setVisibility(View.GONE);
+                                }
+                            },1000);
 
-
-
-
+                            //左边定位到具体的城市字母开头
+                            for (int i = 0; i < listCityInfo.size(); i++) {
+                                LocationCityInfo locationCityInfo = listCityInfo.get(i);
+                                String firstCityLetter = locationCityInfo.getFirstLetter();
+                                if(firstCityLetter.equals(firstMoveLetter) ){
+                                    mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i+ mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
+                                }
+                            }
+                        }
                         break;
                     case MotionEvent.ACTION_UP:
-                        float endY = event.getRawY();
-                        LogKit.d("结束的位置"+endY);
-
-
-
+                        int endY = (int)event.getRawY();
                         break;
                 }
-                return false;
+                return true;
             }
-        });*/
+        });
     }
 }
