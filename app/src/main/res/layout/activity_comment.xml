@@ -26,6 +26,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:src="@mipmap/nav_back"
+                    android:visibility="@{commentModel.goBackIconVisibility}"
                 />
 
                 <TextView
@@ -36,15 +37,29 @@
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>
 
-                <TextView
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="12dp"
-                    android:onClick="@{commentModel.completeComment}"
-                    android:text="完成"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp"/>
+                    android:layout_marginRight="12dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.completeComment}"
+                        android:text="完成"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp"
+                        android:visibility="@{commentModel.completeCommentBtnVisibility}"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.closeCommentActivity}"
+                        android:text="关闭"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp"
+                        android:visibility="@{commentModel.closeCommentBtnVisibility}"/>
+                </FrameLayout>
+
 
             </RelativeLayout>
 
@@ -315,13 +330,13 @@
                     />
 
                     <ImageView
-
                         android:layout_width="79dp"
                         android:layout_height="79dp"
                         android:layout_gravity="bottom|right"
                         android:layout_marginBottom="3dp"
                         android:layout_marginRight="3dp"
-                        android:src="@mipmap/complete_seal"/>
+                        android:src="@mipmap/complete_seal"
+                        android:visibility="@{commentModel.completeCommentIconVisibility}"/>
 
                 </FrameLayout>
 
@@ -332,7 +347,8 @@
                 android:layout_height="48dp"
                 android:layout_marginBottom="-10dp"
                 android:layout_marginTop="15dp"
-                android:background="#ffffff">
+                android:background="#ffffff"
+                android:visibility="@{commentModel.bottomShareBtnVisibility}">
 
                 <Button
                     android:layout_width="match_parent"
@@ -341,6 +357,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/btn_next_step"
+                    android:onClick="@{commentModel.shareTask}"
                     android:text="分享"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"/>
@@ -354,7 +371,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="@{commentModel.commentSuccessDialogVisibility}"
         >
 
             <FrameLayout
@@ -425,6 +442,7 @@
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:background="@drawable/btn_next_step"
+                            android:onClick="@{commentModel.gotoShareTask}"
                             android:text="去分享"
                             android:textColor="#FFFFFF"
                             android:textSize="12sp"/>
@@ -439,10 +457,41 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="9dp"
+                    android:onClick="@{commentModel.closeCommentSuccessDialog}"
                     android:src="@mipmap/withdraw_cash_close_icon"/>
 
 
             </FrameLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="@{commentModel.loadLayerVisibility}"
+        >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
 
         </FrameLayout>
     </FrameLayout>

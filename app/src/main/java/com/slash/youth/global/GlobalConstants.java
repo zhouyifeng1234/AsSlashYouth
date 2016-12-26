@@ -1,7 +1,5 @@
 package com.slash.youth.global;
 
-import java.net.URL;
-
 /**
  * Created by zhouyifeng on 2016/8/31.
  */
@@ -147,6 +145,10 @@ public class GlobalConstants {
         public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
         //三、[需求]-我的任务tid反查服务或者需求详情信息
         public static final String GET_MY_TASK_SERVICE_DEMAND_DETAIL = SERVER_HOST_MY_TASK_LIST + "oneinfo";
+        //一、[需求]-需求方评价接口
+        public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
+        //三、[需求]-查看评价和分享状态接口
+        public static final String QUERY_COMMENT_STATUS = SERVER_HOST_COMMENT_SHARE + "query";
 
 
         //一、[文件]-图片上传
@@ -204,8 +206,6 @@ public class GlobalConstants {
         public static final String UPDATE_DEMAND = SERVER_HOST_DEMAND + "updateone";
         //七、[设置]-判断是否有交易密码
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
-        //一、[需求]-需求方评价接口
-        public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
         //需求发布成功页面 服务者推荐
         public static final String GET_RECOMMEND_SERVICE_USER = SERVICE_USER_RECOMMEND + "/list";
 
@@ -479,9 +479,9 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
-      
-       // public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
-       public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/statusone";
+
+        // public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
+        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/statusone";
         //四、[好友]-拒绝好友申请发
         public static final String REJECT_ADD_FRIEND = MY_FRIEND_LIST_HOST + "/reject";
         //十、[好友]-好友申请状态查询
