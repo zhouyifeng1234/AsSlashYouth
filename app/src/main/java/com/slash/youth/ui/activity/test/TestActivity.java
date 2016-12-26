@@ -168,17 +168,17 @@ public class TestActivity extends Activity {
     //九、[需求]-需求方预支付
     // 似乎无法使用跳过验证的方法，{"code":1,"data":{"message":"auth invalid."}}
     public void demandPartyPrePayment(View v) {
-        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<String>() {
-            @Override
-            public void execute(String dataBean) {
-                ToastUtils.shortToast(dataBean);
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        }, "22", "1300", "0");
+//        DemandEngine.demandPartyPrePayment(new BaseProtocol.IResultExecutor<String>() {
+//            @Override
+//            public void execute(String dataBean) {
+//                ToastUtils.shortToast(dataBean);
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//
+//            }
+//        }, "22", "1300", "0");
     }
 
     //十、[需求]-我发布的历史需求列表

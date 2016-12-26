@@ -110,7 +110,6 @@ public class MyTaskModel extends BaseObservable {
 
     private void initListener() {
 
-        //为了方便测试，设置Item的点击事件，实际需要做各种判断
         mActivityMyTaskBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

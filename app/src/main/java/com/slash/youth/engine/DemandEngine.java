@@ -12,6 +12,7 @@ import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
+import com.slash.youth.http.protocol.DemandThirdPayProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.EliminateProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
@@ -132,16 +133,25 @@ public class DemandEngine {
 
 
     /**
-     * 九、[需求]-需求方预支付
+     * 九、[需求]-需求方预支付（余额支付）
      *
      * @param onDemandPartyPrePaymentFinished
      * @param id                              需求ID
      * @param amount
      * @param channel                         PAYMENT_TYPE_BALANCE= 0; PAYMENT_TYPE_ALIPAY = 1;PAYMENT_TYPE_WX = 2;
+     * @param pass                            支付密码 这个是原始密码经过一次MD5
      */
-    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel) {
-        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel);
+    public static void demandPartyPrePayment(BaseProtocol.IResultExecutor onDemandPartyPrePaymentFinished, String id, String amount, String channel, String pass) {
+        DemandPartyPrePaymentProtocol demandPartyPrePaymentProtocol = new DemandPartyPrePaymentProtocol(id, amount, channel, pass);
         demandPartyPrePaymentProtocol.getDataFromServer(onDemandPartyPrePaymentFinished);
+    }
+
+    /**
+     * 第三方支付，获取charge字符串
+     */
+    public static void demandThirdPay(BaseProtocol.IResultExecutor onThirdPayFinished, String id, String amount, String channel) {
+        DemandThirdPayProtocol demandThirdPayProtocol = new DemandThirdPayProtocol(id, amount, channel);
+        demandThirdPayProtocol.getDataFromServer(onThirdPayFinished);
     }
 
     /**

@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.slash.youth.databinding.PagerHomeInfoBinding;
 import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
@@ -29,6 +31,7 @@ public class PagerHomeInfoModel extends BaseObservable {
         this.mPagerHomeInfoBinding = pagerHomeInfoBinding;
         this.mActivity = activity;
         initView();
+        initListener();
     }
 
     ArrayList<ConversationListBean.ConversationInfo> listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
@@ -37,12 +40,27 @@ public class PagerHomeInfoModel extends BaseObservable {
         getDataFromServer();
     }
 
+    private void initListener() {
+        mPagerHomeInfoBinding.lvPagerHomeInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ConversationListBean.ConversationInfo conversationInfo = listConversation.get(position);
+                long uid = conversationInfo.uid;
+                Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+                intentChatActivity.putExtra("targetId", uid + "");
+                mActivity.startActivity(intentChatActivity);
+            }
+        });
+    }
+
     public void getDataFromServer() {
         MsgManager.getConversationList(new BaseProtocol.IResultExecutor<ConversationListBean>() {
             @Override
             public void execute(ConversationListBean dataBean) {
                 listConversation = dataBean.data.list;
-                setConversationList();
+                if (listConversation != null) {
+                    setConversationList();
+                }
             }
 
             @Override

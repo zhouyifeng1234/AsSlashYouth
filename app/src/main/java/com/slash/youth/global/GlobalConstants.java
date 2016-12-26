@@ -141,7 +141,6 @@ public class GlobalConstants {
         //登录后完善 设置技能标签
         public static final String LOGIN_SET_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
 
-
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
         //二、[需求]-我的任务ITEM
@@ -175,6 +174,8 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_REJECT = SERVER_HOST_DEMAND + "reject";
         //九、[需求]-需求方预支付
         public static final String DEMAND_PARTY_PRE_PAYMENT = SERVER_HOST_DEMAND + "payment";
+        //需求 第三方支付
+        public static final String DEMAND_THIRD_PAY = SERVER_HOST_DEMAND + "paymentByChannel";
         //十、[需求]-我发布的历史需求列表
         public static final String MY_PUBLISH_HOSTORY_DEMAND_LIST = SERVER_HOST_DEMAND + "myhislist";
         //十一、[需求]-服务方完成任务
@@ -244,6 +245,8 @@ public class GlobalConstants {
         public static final String SERVICE_FLOW_SELECTED = SERVER_HOST_SERVICE + "selected";
         //六、[服务]-需求方预支付
         public static final String SERVICE_FLOW_PAYMENT = SERVER_HOST_SERVICE + "payment";
+        //服务 第三方支付
+        public static final String SERVICE_THIRD_PAY = SERVER_HOST_SERVICE + "paymentByChannel";
         //七、[需求]-服务方完成任务
         public static final String SERVICE_FLOW_COMPLETE = SERVER_HOST_SERVICE + "complete";
         //八、[服务]-需求方确认完成任务
@@ -267,8 +270,13 @@ public class GlobalConstants {
         //发布服务成功页面  需求者推荐
         public static final String GET_RECOMMEND_DEMAND_USER = DEMAND_USER_RECOMMEND + "/list";
 
+        //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
+        public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";
+        //二、[消息系统]-设置手机交换标识  聊天中设置已经交换过手机号的标识
+        public static final String SET_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/set";
         //三、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
+
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
@@ -471,8 +479,13 @@ public class GlobalConstants {
         //[好友]-解除（删除）好友关系（包括未建立完成的好友关系）
         public static final String DELETE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/del";
         //[好友]-查看好友申请状态列表
+      
        // public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/status";
-        public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/statusone";
+       public static final String CHECK_FRIEND_STATUS = MY_FRIEND_LIST_HOST+"/statusone";
+        //四、[好友]-拒绝好友申请发
+        public static final String REJECT_ADD_FRIEND = MY_FRIEND_LIST_HOST + "/reject";
+        //十、[好友]-好友申请状态查询
+        public static final String GET_ADD_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/statusone";
 
         //三、[关注]-查询我关注的人
         public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";

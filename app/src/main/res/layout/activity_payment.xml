@@ -105,9 +105,10 @@
                                 android:ellipsize="end"
                                 android:lines="1"
                                 android:maxLines="1"
-                                android:text="做一个互联网公司企业宣传策划案"
+                                android:text="@{paymentModel.taskTitle}"
                                 android:textColor="#333333"
                                 android:textSize="14sp"/>
+                            <!--做一个互联网公司企业宣传策划案-->
 
                         </LinearLayout>
 
@@ -136,9 +137,10 @@
                                 android:ellipsize="end"
                                 android:lines="1"
                                 android:maxLines="1"
-                                android:text="￥800"
+                                android:text="@{paymentModel.payMoney}"
                                 android:textColor="#FF7333"
                                 android:textSize="14sp"/>
+                            <!--￥800-->
 
                         </LinearLayout>
 
@@ -219,7 +221,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="3400"
+                                            android:text="@{paymentModel.currentmoney}"
                                             android:textColor="#31C5E4"
                                             android:textSize="14sp"/>
                                         <TextView
@@ -565,10 +567,10 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="13dp"
                     android:layout_marginTop="9dp"
-                    android:text="网络连接失败，请重新支付"
+                    android:text="@{paymentModel.payFailReason}"
                     android:textColor="#666666"
                     android:textSize="14sp"/>
-
+                <!--网络连接失败，请重新支付-->
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -622,9 +624,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="24dp"
-                            android:text="请输入交易密码"
+                            android:text="@{paymentModel.inputPasswordHintText}"
                             android:textColor="#333333"
                             android:textSize="15sp"/>
+                        <!--请输入交易密码-->
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -937,6 +940,37 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="gone"
+        >
+            <!--android:visibility="@{paymentModel.loadLayerVisibility}"-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
 
     </FrameLayout>
 

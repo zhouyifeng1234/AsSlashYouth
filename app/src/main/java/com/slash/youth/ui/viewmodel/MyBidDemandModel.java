@@ -26,6 +26,7 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
@@ -125,7 +126,9 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void havaAChat(View v) {
-
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", innerDemandCardInfo.uid + "");//对方的uid
+        mActivity.startActivity(intentChatActivity);
     }
 
 

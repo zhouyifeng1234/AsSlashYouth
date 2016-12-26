@@ -12,10 +12,12 @@ import com.slash.youth.http.protocol.ServiceFlowAgreeRefundProtocol;
 import com.slash.youth.http.protocol.ServiceFlowComplainProtocol;
 import com.slash.youth.http.protocol.ServiceFlowCompleteProtocol;
 import com.slash.youth.http.protocol.ServiceFlowNoAcceptProtocol;
+import com.slash.youth.http.protocol.ServiceFlowPaymentProtocol;
 import com.slash.youth.http.protocol.ServiceFlowSelectedProtocol;
 import com.slash.youth.http.protocol.ServiceInstalmentListProtocol;
 import com.slash.youth.http.protocol.ServiceOrderInfoProtocol;
 import com.slash.youth.http.protocol.ServiceOrderStatusProtocol;
+import com.slash.youth.http.protocol.ServiceThirdPayProtocol;
 import com.slash.youth.http.protocol.UpdateServiceProtocol;
 
 import java.util.ArrayList;
@@ -114,10 +116,24 @@ public class ServiceEngine {
 
     /**
      * 六、[服务]-需求方预支付
+     *
+     * @param onPaymentFinished
+     * @param soid
+     * @param amount
+     * @param channel
+     * @param pass              支付密码 这个是原始密码经过一次MD5
      */
-    public static void servicePayment(BaseProtocol.IResultExecutor onPaymentFinished, String soid, String amount, String channel) {
-        ServiceFlowPaymentProtocol serviceFlowPaymentProtocol = new ServiceFlowPaymentProtocol(soid, amount, channel);
+    public static void servicePayment(BaseProtocol.IResultExecutor onPaymentFinished, String soid, String amount, String channel, String pass) {
+        ServiceFlowPaymentProtocol serviceFlowPaymentProtocol = new ServiceFlowPaymentProtocol(soid, amount, channel, pass);
         serviceFlowPaymentProtocol.getDataFromServer(onPaymentFinished);
+    }
+
+    /**
+     * 第三方支付，获取charge字符串
+     */
+    public static void serviceThirdPay(BaseProtocol.IResultExecutor onThirdPayFinished, String id, String amount, String channel) {
+        ServiceThirdPayProtocol serviceThirdPayProtocol = new ServiceThirdPayProtocol(id, amount, channel);
+        serviceThirdPayProtocol.getDataFromServer(onThirdPayFinished);
     }
 
     /**
