@@ -28,12 +28,14 @@ public class SearchResultAlAdapter extends  SearchAllAdapter{
     private SearchMoreHolder searchMoreHolder;
     private SearchNeedResultTabModel searchNeedResultTabModel;
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
+    private String tag;
 
-    public SearchResultAlAdapter(ArrayList<SearchAllBean.DataBean.DemandListBean> demandListBeen, ArrayList<SearchAllBean.DataBean.ServiceListBean> serviceListBeen, ArrayList<SearchAllBean.DataBean.UserListBean> userListBeen) {
+    public SearchResultAlAdapter(ArrayList<SearchAllBean.DataBean.DemandListBean> demandListBeen, ArrayList<SearchAllBean.DataBean.ServiceListBean> serviceListBeen, ArrayList<SearchAllBean.DataBean.UserListBean> userListBeen,String tag) {
         super(demandListBeen, serviceListBeen, userListBeen);
         this.userListBeen = userListBeen;
         this.demandListBeen = demandListBeen;
         this.serviceListBeen =serviceListBeen;
+        this.tag = tag;
     }
 
     @Override
@@ -87,7 +89,7 @@ public class SearchResultAlAdapter extends  SearchAllAdapter{
     }
     private void showMoreSearch() {
         currentActivity.changeView(2);
-        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding);
+        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding,tag);
         currentActivity.searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
     }
 }

@@ -21,6 +21,8 @@ public class ReportTAActivity extends Activity implements View.OnClickListener {
     private TextView save;
     private ReportTAModel reportTAModel;
     private int uid;
+    private String titleText = "举报";
+    private String sure = "确定";
 
 
     @Override
@@ -40,10 +42,10 @@ public class ReportTAActivity extends Activity implements View.OnClickListener {
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("举报");
+        title.setText(titleText);
         save = (TextView) findViewById(R.id.tv_userinfo_save);
         save.setOnClickListener(this);
-        save.setText("确定");
+        save.setText(sure);
     }
 
     @Override

@@ -63,7 +63,7 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
     }
 
     private void showDialog() {
-        DialogUtils.showDialogFive(mySkillManageActivity, "是否删除该技能", "", new DialogUtils.DialogCallBack() {
+        DialogUtils.showDialogFive(mySkillManageActivity, "删除", "是否删除该技能", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 if(index!=-1){

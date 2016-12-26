@@ -14,6 +14,7 @@ import com.slash.youth.databinding.ActivityEditorIdentityBinding;
 import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.ui.viewmodel.EditorIdentityModel;
 import com.slash.youth.ui.viewmodel.FirstPagerDemandModel;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class FirstPagerMoreActivity extends Activity {
     private ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding;
     private static final String  TITLE ="更多服务";
+    public static int barHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,12 @@ public class FirstPagerMoreActivity extends Activity {
         Intent intent = getIntent();
         boolean isDemand = intent.getBooleanExtra("isDemand", false);
         activityFirstPagerMoreBinding = DataBindingUtil.setContentView(this, R.layout.activity_first_pager_more);
+        activityFirstPagerMoreBinding.rlBar.measure(0,0);
+        barHeight = activityFirstPagerMoreBinding.rlBar.getMeasuredHeight();
         if(!isDemand){
             activityFirstPagerMoreBinding.tvFirstPagerTitle.setText(TITLE);
         }
         FirstPagerDemandModel firstPagerDemandModel = new FirstPagerDemandModel(activityFirstPagerMoreBinding,isDemand,this);
         activityFirstPagerMoreBinding.setFirstPagerDemandModel(firstPagerDemandModel);
     }
-
 }

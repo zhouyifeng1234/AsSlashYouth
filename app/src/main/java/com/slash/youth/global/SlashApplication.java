@@ -11,6 +11,7 @@ import android.os.Handler;
 import com.pingplusplus.android.PingppLog;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.utils.ActivityUtils;
+import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -36,6 +37,9 @@ public class SlashApplication extends Application {
 //        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
         PlatformConfig.setQQZone(GlobalConstants.ThirdAppId.APPID_QQ, GlobalConstants.ThirdAppId.APPKEY_QQ);
     }
+
+    private static double currentLatitude;
+    private static double currentLongitude;
 
     @Override
     public void onCreate() {
@@ -118,6 +122,14 @@ public class SlashApplication extends Application {
         //10003的tokenF
 //        MsgManager.connectRongCloud("J+NjV3RqnU1xfMolWAd6T1pJh/sDSWvAD7s9SQ9t2IpAr12GGUolclxn65zIYrLNwE/geOWQulCDALq54CXhkA==");
         LogKit.v("two");
+
+
+        //定位一次，获取当前所在地的经纬度
+        DistanceUtils distanceUtils = new DistanceUtils();
+        distanceUtils.getLatAndLng(this);
+        currentLatitude = distanceUtils.currentLatitude;
+        currentLongitude = distanceUtils.currentLongitude;
+
     }
 
     public static String getCurProcessName(Context context) {
@@ -155,4 +167,11 @@ public class SlashApplication extends Application {
     }
 
 
+    public static double getCurrentLatitude() {
+        return currentLatitude;
+    }
+
+    public static double getCurrentLongitude() {
+        return currentLongitude;
+    }
 }

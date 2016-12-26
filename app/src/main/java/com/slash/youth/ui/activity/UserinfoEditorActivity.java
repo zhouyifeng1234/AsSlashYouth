@@ -17,6 +17,7 @@ import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
@@ -35,7 +36,9 @@ public class UserinfoEditorActivity extends Activity {
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private ActivityUserInfoEditorModel activityUserInfoEditorModel;
     private File file = new File(Environment.getExternalStorageDirectory()+"/001.jpg");
+    private File fileName = new File(Environment.getExternalStorageDirectory()+"/002.jpg");
     private  ArrayList<String> path = new ArrayList<>();
+    private  ArrayList<String> pathFile = new ArrayList<>();
     private String filename;
     private StringBuffer sb = new StringBuffer();
 
@@ -87,24 +90,37 @@ public class UserinfoEditorActivity extends Activity {
                     }
                 }
                 break;
-            case Constants.USERINFO_IMAGVIEW:
-                //1.图片裁剪小图片，2传递uri,用bitmapFactory解析出来(intent不适合传递大量数据)
-                if (resultCode == RESULT_OK) {
-                    Uri uri = data.getData();
-                    try {
-                        Bitmap photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                        activityUserinfoEditorBinding.ivHead.setImageBitmap(photo);
-                        WriteFile(photo);
-                        filename = file.getAbsolutePath(); //文件的绝对路径
-                        path.add(filename);
-                        String filePath = path.get(0);
-                        activityUserInfoEditorModel.avatar = filePath;
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
+            case Constants.USERINFO_IMAGVIEW_TAKE_PHOTO:
+            if (resultCode == RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");
+                Bitmap photo = BitmapKit.zoomBitmap(bitmap, 48, 48);
+                activityUserinfoEditorBinding.ivHead.setImageBitmap(photo);
+                WriteFile(photo, fileName);
+                filename = fileName.getAbsolutePath();
+                pathFile.add(filename);
+                String takePhotoFilePath = pathFile.get(0);
+                activityUserInfoEditorModel.avatar = takePhotoFilePath;
+            }
                 break;
+            case Constants.USERINFO_SKILLLABEL_ALBUM:
+            if(resultCode == RESULT_OK){
+                Uri uri = data.getData();
+                try {
+                    Bitmap bitmap_album= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                    Bitmap  photo_album  = BitmapKit.zoomBitmap(bitmap_album, 48, 48);
+                    activityUserinfoEditorBinding.ivHead.setImageBitmap(photo_album);
+                    WriteFile(photo_album,file);
+                    filename = file.getAbsolutePath();
+                    path.add(filename);
+                    String filePath = path.get(0);
+                    activityUserInfoEditorModel.avatar = filePath;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
             case Constants.USERINFO_SKILLLABEL:
                 if (resultCode == RESULT_OK) {
                     Bundle bundleCheckedLabelsData = data.getBundleExtra("bundleCheckedLabelsData");
@@ -144,7 +160,7 @@ public class UserinfoEditorActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void WriteFile(Bitmap bitmap) {
+    private void WriteFile(Bitmap bitmap,File file) {
         FileOutputStream b = null;
         try {
             b = new FileOutputStream(file);
@@ -160,5 +176,4 @@ public class UserinfoEditorActivity extends Activity {
             }
         }
     }
-
 }

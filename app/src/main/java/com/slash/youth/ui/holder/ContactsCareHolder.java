@@ -125,11 +125,11 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
                 int status = data.getStatus();
                 switch (status){
                     case 1:
-                        ToastUtils.shortCenterToast("已是好友");
+                       // ToastUtils.shortCenterToast("已是好友");
                         tvAddOk.setVisibility(View.VISIBLE);
                         break;
                     case 0:
-                        ToastUtils.shortCenterToast("添加好友未成功");
+                       // ToastUtils.shortCenterToast("添加好友未成功");
                         break;
                 }
             }

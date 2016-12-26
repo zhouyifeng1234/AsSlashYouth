@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
@@ -22,8 +23,10 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        boolean sendFriend = intent.getBooleanExtra("sendFriend", false);
         activityChooseFriendBinding = DataBindingUtil.setContentView(this, R.layout.activity_choose_friend);
-        ChooseFriendModel chooseFriendModel = new ChooseFriendModel(activityChooseFriendBinding,this);
+        ChooseFriendModel chooseFriendModel = new ChooseFriendModel(activityChooseFriendBinding,this,sendFriend);
         activityChooseFriendBinding.setChooseFriendModel(chooseFriendModel);
 
         listener();

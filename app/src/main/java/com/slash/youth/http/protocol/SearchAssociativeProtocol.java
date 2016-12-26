@@ -5,6 +5,7 @@ import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.UserSkillLabelBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PatternUtils;
 
 import org.xutils.http.RequestParams;
 
@@ -30,9 +31,18 @@ public class SearchAssociativeProtocol extends BaseProtocol<SearchAssociativeBea
 
     @Override
     public void addRequestParams(RequestParams params) {
-      params.addBodyParameter("tag",tag);
-      params.addBodyParameter("offset", String.valueOf(offset));
-      params.addBodyParameter("limit", String.valueOf(limit));
+      if(tag.length() == 1){
+          boolean match = PatternUtils.match(PatternUtils.chineseRegex, tag);
+          if(match){//是中文
+              params.addBodyParameter("tag",tag);
+              params.addBodyParameter("offset", String.valueOf(offset));
+              params.addBodyParameter("limit", String.valueOf(limit));
+          }
+      }else {
+          params.addBodyParameter("tag",tag);
+          params.addBodyParameter("offset", String.valueOf(offset));
+          params.addBodyParameter("limit", String.valueOf(limit));
+      }
     }
 
     @Override

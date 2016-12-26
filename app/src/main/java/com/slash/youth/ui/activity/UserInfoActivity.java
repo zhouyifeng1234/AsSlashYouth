@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.domain.FansBean;
+import com.slash.youth.domain.FriendStatusBean;
 import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UserInfoItemBean;
@@ -33,9 +34,9 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private long myId;
     private String phone;
     private boolean isfriend;
-    private boolean isCare;
     private long uid;
     private int anonymity;
+    private int friendStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         String skillTag = intent.getStringExtra("skillTag");
         anonymity = intent.getIntExtra("anonymity", -1);
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity,friendStatus);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
         testIsFriend(uid);
         testisfollow(uid);
@@ -117,7 +118,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_reportTA:
                 Intent intentReportTAActivity = new Intent(CommonUtils.getContext(), ReportTAActivity.class);
-                intentReportTAActivity.putExtra("uid", userInfoModel.otherId);
+                intentReportTAActivity.putExtra("uid", userInfoModel.otherUid);
                 intentReportTAActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 CommonUtils.getContext().startActivity(intentReportTAActivity);
                 popupWindow.dismiss();
@@ -133,7 +134,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 R.layout.pop_window, null);
 
         contentView.findViewById(R.id.tv_reportTA).setOnClickListener(this);
-        contentView.findViewById(R.id.tv_shieldTA).setOnClickListener(this);
+       contentView.findViewById(R.id.tv_shieldTA).setOnClickListener(this);
 
         popupWindow = new PopupWindow(contentView,
                 RandomLayout.LayoutParams.WRAP_CONTENT, RandomLayout.LayoutParams.WRAP_CONTENT, true);
@@ -161,13 +162,9 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
     //先验证一下好友关系
     public void testIsFriend(long uid) {
-        ContactsManager.onTestFriendStatueProtocol(new onTestFriendStatue(), uid);
-        if (isfriend) {
-            activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
-        } else {
-            activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
-        }
+        ContactsManager.onFriendApplicationStatus(new onFriendApplicationStatus(),uid);
     }
+
 
     //验证好友关系
     public class onTestFriendStatue implements BaseProtocol.IResultExecutor<SetBean> {
@@ -194,36 +191,34 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    //先验证我和某用户的关系
-    public void testisfollow(long uid) {
-        ContactsManager.onTestIsFollow(new onTestIsFollow(), uid);
-        if (isCare) {
-            activityUserinfoBinding.tvAttentionTA.setText("取消关注TA");
-        } else {
-            activityUserinfoBinding.tvAttentionTA.setText("关注TA");
-        }
-    }
-
-    public class onTestIsFollow implements BaseProtocol.IResultExecutor<FansBean> {
+    //验证我和某一个用户的加好友的状态
+    public class onFriendApplicationStatus implements BaseProtocol.IResultExecutor<FriendStatusBean> {
         @Override
-        public void execute(FansBean dataBean) {
+        public void execute(FriendStatusBean dataBean) {
             int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                FansBean.DataBean data = dataBean.getData();
-                int fans = data.getFans();
-                switch (fans) {
-                    case 1://我是他的粉丝
-                        isCare = true;
+            if(rescode == 0){
+                FriendStatusBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 0:
+                        LogKit.d("0表示陌生人");
+                        friendStatus = 0;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
                         break;
-                    case 0://无关系
-                        isCare = false;
+                    case 1:
+                        LogKit.d("表示我主动加了他，他还未回复");
+                        friendStatus = 1;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
                         break;
-                }
-                int follow = data.getFollow();
-                switch (follow) {
-                    case 1://他是我的粉丝
+                    case 2:
+                        LogKit.d("表示他主动加了我，我还未同意");
+                        friendStatus = 2;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.AFREEN_FRIEND_APPLICATION);
                         break;
-                    case 0://无关系
+                    case 3:
+                        LogKit.d("表示是好友关系");
+                        friendStatus = 3;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
                         break;
                 }
             }
@@ -235,5 +230,43 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    //先验证我和某用户的关系
+    public void testisfollow(long uid) {
+        ContactsManager.onTestIsFollow(new onTestIsFollow(), uid);
+    }
 
+    public class onTestIsFollow implements BaseProtocol.IResultExecutor<FansBean> {
+        @Override
+        public void execute(FansBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if (rescode == 0) {
+                FansBean.DataBean data = dataBean.getData();
+                int fans = data.getFans();
+                switch (fans) {
+                    case 1://1表示他是我的粉丝，0表示无关系  --他有没有关注过我
+                        break;
+                    case 0://无关系
+                        break;
+                }
+                int follow = data.getFollow();
+                switch (follow) {
+                    case 1://1表示我是他的粉丝，0表示无关系 ==我关注他
+                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA_OK);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                        LogKit.d("==我关注过他=");
+                        break;
+                    case 0://无关系
+                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                        LogKit.d("==我没有关注过他=");
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
 }
