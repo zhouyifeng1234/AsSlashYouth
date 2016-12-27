@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
@@ -15,6 +16,7 @@ import com.slash.youth.databinding.ItemChatMySendVoiceBinding;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 import java.io.IOException;
@@ -54,7 +56,21 @@ public class ChatMySendVoiceModel extends BaseObservable {
     }
 
     private void initView() {
-        setVoiceDuration(mDuration + " ̋   ");
+        //计算录音条的长短，按照微信的规则，1-2s是最短的。2-10s每秒增加一个单位。10-60s每10s增加一个单位。
+        int voiceLenUnit = CommonUtils.dip2px(5);
+        int voiceStartLen = CommonUtils.dip2px(70);
+        ViewGroup.LayoutParams layoutParams = mItemChatMySendVoiceBinding.flVoiceBox.getLayoutParams();
+        if (mDuration <= 2) {
+            layoutParams.width = voiceStartLen;
+        } else if (mDuration <= 10) {
+            layoutParams.width = voiceStartLen + (mDuration - 2) * voiceLenUnit;
+        } else {
+            layoutParams.width = voiceStartLen + 8 * voiceLenUnit + (mDuration - 10) / 10 * voiceLenUnit;
+        }
+        mItemChatMySendVoiceBinding.flVoiceBox.setLayoutParams(layoutParams);
+
+//        setVoiceDuration(mDuration + " ̋   ");
+        setVoiceDuration(mDuration + "\"");
 
         BitmapKit.bindImage(mItemChatMySendVoiceBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
 

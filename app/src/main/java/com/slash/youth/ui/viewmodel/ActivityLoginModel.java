@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.os.Build;
@@ -46,14 +47,16 @@ public class ActivityLoginModel extends BaseObservable {
     LoginActivity.QQLoginUiListener qqLoginUiListener;
     LoginActivity loginActivity;
     SsoHandler mSsoHandler;
+    Activity mActivity;
     int currentPageState = PAGE_STATE_GOTOLOGIN;//当前的页面状态，默认为"我有账号,去登录"状态
 
 
-    public ActivityLoginModel(ActivityLoginBinding activityLoginBinding, LoginActivity.QQLoginUiListener qqLoginUiListener, LoginActivity loginActivity, SsoHandler ssoHandler) {
+    public ActivityLoginModel(ActivityLoginBinding activityLoginBinding, LoginActivity.QQLoginUiListener qqLoginUiListener, LoginActivity loginActivity, SsoHandler ssoHandler, Activity activity) {
         this.mActivityLoginBinding = activityLoginBinding;
         this.qqLoginUiListener = qqLoginUiListener;
         this.loginActivity = loginActivity;
         this.mSsoHandler = ssoHandler;
+        this.mActivity = activity;
         initData();
         initView();
     }
@@ -99,8 +102,7 @@ public class ActivityLoginModel extends BaseObservable {
                     MsgManager.connectRongCloud(rongToken);
 
                     Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                    intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    CommonUtils.getContext().startActivity(intentHomeActivity);
+                    mActivity.startActivity(intentHomeActivity);
                     if (LoginActivity.activity != null) {
                         LoginActivity.activity.finish();
                         LoginActivity.activity = null;
@@ -113,8 +115,7 @@ public class ActivityLoginModel extends BaseObservable {
                     MsgManager.connectRongCloud(rongToken);
 
                     Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
-                    intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
+                    mActivity.startActivity(intentPerfectInfoActivity);
                 } else {
                     ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                 }
@@ -425,9 +426,8 @@ public class ActivityLoginModel extends BaseObservable {
                 thirdPlatformBundle.putString("userInfo", userInfo);
 
                 Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
-                intentPerfectInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intentPerfectInfoActivity.putExtras(thirdPlatformBundle);
-                CommonUtils.getContext().startActivity(intentPerfectInfoActivity);
+                mActivity.startActivity(intentPerfectInfoActivity);
             } else if (dataBean.rescode == 0) {//已经登录过的用户
                 LogKit.v("已经登录过的用户");
                 String token = dataBean.data.token;
@@ -453,8 +453,7 @@ public class ActivityLoginModel extends BaseObservable {
 
                 //跳转到首页
                 Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                intentHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                CommonUtils.getContext().startActivity(intentHomeActivity);
+                mActivity.startActivity(intentHomeActivity);
                 if (LoginActivity.activity != null) {
                     LoginActivity.activity.finish();
                     LoginActivity.activity = null;

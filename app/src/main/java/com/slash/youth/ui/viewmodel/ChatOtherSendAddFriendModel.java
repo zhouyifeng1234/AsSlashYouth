@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.view.View;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatOtherSendAddFriendBinding;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
@@ -17,12 +18,14 @@ public class ChatOtherSendAddFriendModel extends BaseObservable {
     Activity mActivity;
     ChatModel mChatModel;
     String mTargetAvatar;
+    boolean mIsCanAddFriend;
 
-    public ChatOtherSendAddFriendModel(ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding, Activity activity, ChatModel chatModel, String targetAvatar) {
+    public ChatOtherSendAddFriendModel(ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding, Activity activity, ChatModel chatModel, String targetAvatar, boolean isCanAddFriend) {
         this.mItemChatOtherSendAddFriendBinding = itemChatOtherSendAddFriendBinding;
         this.mActivity = activity;
         this.mChatModel = chatModel;
         this.mTargetAvatar = targetAvatar;
+        this.mIsCanAddFriend = isCanAddFriend;
 
         initData();
         initView();
@@ -33,16 +36,24 @@ public class ChatOtherSendAddFriendModel extends BaseObservable {
     }
 
     private void initView() {
+        if (mIsCanAddFriend) {
+            mItemChatOtherSendAddFriendBinding.tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_add_friend_bg);
+            mItemChatOtherSendAddFriendBinding.tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_add_friend_bg);
+        } else {
+            mItemChatOtherSendAddFriendBinding.tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+            mItemChatOtherSendAddFriendBinding.tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+        }
+
         BitmapKit.bindImage(mItemChatOtherSendAddFriendBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
     }
 
     //同意添加对方为好友
     public void agreeAddFriend(View v) {
-        mChatModel.agreeAddFriend();
+        mChatModel.agreeAddFriend(mItemChatOtherSendAddFriendBinding.tvDeny, mItemChatOtherSendAddFriendBinding.tvAgree);
     }
 
     //拒绝添加对方为好友
     public void refuseAddFriend(View v) {
-        mChatModel.refuseAddFriend();
+        mChatModel.refuseAddFriend(mItemChatOtherSendAddFriendBinding.tvDeny, mItemChatOtherSendAddFriendBinding.tvAgree);
     }
 }
