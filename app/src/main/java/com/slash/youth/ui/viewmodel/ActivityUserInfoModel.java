@@ -68,7 +68,6 @@ public class ActivityUserInfoModel extends BaseObservable {
     private String defaultArea  = "暂未填写";
     private String add_friend_successful = "已申请加好友成功";
     private String add_friend_error = "申请加好友";
-    public long  userUid = -1;//-1是自己看自己的
     public String name;
     private int expert;
     private int isauth;
@@ -231,6 +230,12 @@ public class ActivityUserInfoModel extends BaseObservable {
         });*/
 
         activityUserinfoBinding.refreshView.setOnRefreshListener(new TaskListListener());
+
+        //最新的任务没有
+        if(listSize == 0){
+            View rl = userInfoActivity.findViewById(R.id.rl_progress);
+            rl.setVisibility(View.GONE);
+        }
     }
 
     public class TaskListListener implements PullToRefreshLayout.OnRefreshListener {

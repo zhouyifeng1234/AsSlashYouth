@@ -9,6 +9,7 @@ import com.slash.youth.http.protocol.CannelCareProtocol;
 import com.slash.youth.http.protocol.CareTAProtocol;
 import com.slash.youth.http.protocol.CheckFriendApplicationProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
+import com.slash.youth.http.protocol.CreatePassWordProtovol;
 import com.slash.youth.http.protocol.DeleteFriendRelationProtocol;
 import com.slash.youth.http.protocol.MyFriendListProtocol;
 import com.slash.youth.http.protocol.PersonRelationProtocol;
@@ -134,6 +135,10 @@ public class ContactsManager {
         checkFriendApplicationProtocol.getDataFromServer(friendApplicationStatus);
     }
 
-
+    //[设置]-创建交易密码
+    public static void onCreatePassWord(BaseProtocol.IResultExecutor onCreatePassWord,String passWord,String url) {
+        CreatePassWordProtovol createPassWordProtovol = new CreatePassWordProtovol(passWord,url);
+        createPassWordProtovol.getDataFromServer(onCreatePassWord);
+    }
 
 }

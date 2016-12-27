@@ -4,8 +4,6 @@ package com.slash.youth.domain;
  * Created by zss on 2016/11/11.
  */
 public class SetTimeBean {
-
-
     private DataBean data;
     private int rescode;
 
@@ -40,9 +38,9 @@ public class SetTimeBean {
             private long cts;
             private int dnd;
             private String endtime;
-            private int id;
+            private long id;
             private String starttime;
-            private int uid;
+            private long uid;
             private long uts;
 
             public long getCts() {
@@ -69,11 +67,11 @@ public class SetTimeBean {
                 this.endtime = endtime;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -85,11 +83,11 @@ public class SetTimeBean {
                 this.starttime = starttime;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 

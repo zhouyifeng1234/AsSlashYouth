@@ -6,6 +6,7 @@ import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
+import com.slash.youth.http.protocol.CheckVersionProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.LoginGetTagProtocol;
 import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
@@ -31,7 +32,7 @@ import java.util.Map;
  * Created by Administrator on 2016/8/31.
  */
 public class LoginManager {
-    public static long currentLoginUserId;//实际应该在登录状态中获取
+    public static long currentLoginUserId =10009;//实际应该在登录状态中获取
     public static String currentLoginUserName;
     public static String currentLoginUserAvatar;
     public static String currentLoginUserPhone;
@@ -248,6 +249,11 @@ public class LoginManager {
         }
     };
 
+    //版本检测
+    public static void checkVersion(BaseProtocol.IResultExecutor onCheckVersion,int type,long code) {
+        CheckVersionProtocol checkVersionProtocol = new CheckVersionProtocol(type,code);
+        checkVersionProtocol.getDataFromServer(onCheckVersion);
+    }
 
 }
 

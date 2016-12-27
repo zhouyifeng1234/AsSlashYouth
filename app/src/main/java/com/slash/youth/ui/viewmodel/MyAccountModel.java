@@ -14,6 +14,7 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SetDataUtils;
+import com.slash.youth.utils.ToastUtils;
 
 /**
  * Created by zss on 2016/11/6.
@@ -79,5 +80,13 @@ public class MyAccountModel extends BaseObservable {
         intentWithdrawalsActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);
     }
+
+    //提示
+    public void hint(View view){
+        ToastUtils.shortCenterToast("提示框");
+
+
+    }
+
 
 }

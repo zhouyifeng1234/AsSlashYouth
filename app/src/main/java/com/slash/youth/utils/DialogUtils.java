@@ -123,8 +123,8 @@ public class DialogUtils  {
         dialog = dialogBuilder.create();
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                dialogcallback.OkDown();
+            public void onClick(View v) {//左右位子变化了
+                dialogcallback.CancleDown();
                 dialog.dismiss();
             }
         });
@@ -132,7 +132,7 @@ public class DialogUtils  {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogcallback.CancleDown();
+                dialogcallback.OkDown();
                 dialog.dismiss();
             }
         });

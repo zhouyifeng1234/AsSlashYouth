@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     >
 
-
-
     <LinearLayout
         android:layout_centerInParent="true"
         android:layout_width="322dp"

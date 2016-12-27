@@ -14,6 +14,7 @@ import com.slash.youth.databinding.ActivityContactUsBinding;
 import com.slash.youth.ui.activity.ContactUsActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.lang.reflect.Method;
 
@@ -24,26 +25,31 @@ public class ContactUsModel extends BaseObservable {
 
     private ActivityContactUsBinding activityContactUsBinding;
     private ContactUsActivity contactUsActivity;
+    private String phoneNumber = "400400400";
+    private String address = "service@slashyanger.com";
 
     public ContactUsModel(ActivityContactUsBinding activityContactUsBinding, ContactUsActivity contactUsActivity) {
         this.activityContactUsBinding = activityContactUsBinding;
         this.contactUsActivity = contactUsActivity;
     }
 
-    public void question(View view) {
-        LogKit.d("问题");
+    public void hepler(View view) {
+
+        ToastUtils.shortCenterToast("斜杠小助手");
+
+        LogKit.d("斜杠小助手");
     }
 
-    public void contactUs(View view) {
+    public void phone(View view) {
         String phoneNumber = activityContactUsBinding.tvPhone.getText().toString();
-        Uri uri = Uri.parse("tel:"+"400400400");
-        Intent intent2 = new Intent(Intent.ACTION_DIAL, uri);
-        contactUsActivity.startActivity(intent2);
+        Uri uri = Uri.parse("tel:"+phoneNumber);
+        Intent phoneIntent = new Intent(Intent.ACTION_DIAL, uri);
+        contactUsActivity.startActivity(phoneIntent);
     }
 
-    public void updateVersion(View view){
+    public void email(View view){
         String url =  activityContactUsBinding.tvUrl.getText().toString();
-        Uri uri = Uri.parse("http://"+"service@slashyanger.com");
+        Uri uri = Uri.parse("http://"+address);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         contactUsActivity.startActivity(intent);
     }

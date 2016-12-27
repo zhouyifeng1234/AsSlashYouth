@@ -32,7 +32,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:onClick="@{contactUsModel.question}"
+                    android:onClick="@{contactUsModel.hepler}"
                     android:id="@+id/ll_commonQuestion"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                     />
 
                 <LinearLayout
-                    android:onClick="@{contactUsModel.contactUs}"
+                    android:onClick="@{contactUsModel.phone}"
                     android:id="@+id/ll_contactUs"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                     />
 
                 <LinearLayout
-                    android:onClick="@{contactUsModel.updateVersion}"
+                    android:onClick="@{contactUsModel.email}"
                     android:id="@+id/ll_updataVersion"
                     android:layout_weight="1"
                     android:layout_width="match_parent"

@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:textSize="24dp"
+            android:text="0.00元"
             android:layout_marginTop="35dp"
             android:layout_gravity="center_horizontal"/>
 
@@ -53,58 +54,73 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="20dp"
             android:orientation="horizontal">
-        <TextView
-            android:textSize="14dp"
-            android:textColor="#ffffff"
-            android:layout_width="wrap_content"
+
+        <!--可提现-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="可提现"/>
-
-            <TextView
-                android:id="@+id/current_money"
-                android:textColor="#FFE083"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-
-       <View
-             android:layout_weight="1"
-             android:layout_width="0dp"
-             android:layout_height="0dp"/>
-
+            android:orientation="horizontal">
             <TextView
                 android:textSize="14dp"
                 android:textColor="#ffffff"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:text="可提现"/>
+            <TextView
+                android:id="@+id/current_money"
+                android:textColor="#FFE083"
+                android:text="0.00元"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+
+        <!--冻结-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:textSize="14dp"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:text="冻结"/>
 
             <TextView
                 android:id="@+id/freeze_money"
                 android:textColor="#FFE083"
-                android:text="                         "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="0.00元"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="match_parent"
                 />
 
             <ImageView
+                android:onClick="@{myAccountModel.hint}"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/question_mark_icon"/>
-        </LinearLayout>
+
         </LinearLayout>
 
-        <View
-            android:background="#e5e5e5"
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+        </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="77dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@mipmap/rectangle1_line"
+            >
 
        <LinearLayout
            android:gravity="center"
@@ -127,15 +143,13 @@
                android:layout_marginTop="14dp"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
+               android:text="0.00元"
                android:textSize="17dp"
                />
 
        </LinearLayout>
 
-        <View
-            android:background="#e5e5e5"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
+
 
             <LinearLayout
                 android:gravity="center"
@@ -159,74 +173,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
+                    android:text="0.00元"
                    />
 
             </LinearLayout>
-
-
         </LinearLayout>
 
-        <View
-            android:background="#e5e5e5"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <android.support.v7.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:onClick="@{myAccountModel.withdrawals}"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            app:cardBackgroundColor="#ffffff"
-            app:cardCornerRadius="5dp"
-            android:layout_marginTop="15dp"
-            app:cardElevation="@dimen/cardElevation"
-            app:cardUseCompatPadding="true"
-            tools:showIn="@layout/activity_userinfo">
-
+       <!--提现-->
             <LinearLayout
+                android:onClick="@{myAccountModel.withdrawals}"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginTop="14dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="49dp"
+                android:background="@mipmap/rectangle2"
                 android:orientation="horizontal">
 
-               <ImageView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@mipmap/withdraw_cash_icon"/>
-
-                <TextView
-                    android:layout_marginLeft="9dp"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="提现"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/withdraw_cash_icon"/>
 
-                <View
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"/>
+                    <TextView
+                        android:layout_marginLeft="9dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="提现"/>
 
-                <TextView
-                    android:id="@+id/tv_withdrawals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:textSize="13dp"
-                    android:textColor="#31C5E4"
-                 />
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/right1_icon"/>
+                    <TextView
+                        android:id="@+id/tv_withdrawals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:textSize="13dp"
+                        android:text="0.00元"
+                        android:textColor="#31C5E4"
+                        />
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/right1_icon"/>
+
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
     </LinearLayout>
 </layout>

@@ -181,13 +181,14 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     />
+                                <!--手机号码-->
                                 <TextView
                                     android:id="@+id/tv_userphone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="18888888888"
                                     android:layout_centerVertical="true"
                                     android:textSize="13dp"
+                                    android:inputType="phone"
                                     android:textColor="#60A7B6"
                                     android:layout_marginLeft="10dp"
                                     android:layout_alignParentRight="true"

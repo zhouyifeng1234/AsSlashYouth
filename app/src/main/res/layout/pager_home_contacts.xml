@@ -65,7 +65,9 @@
 
             </com.slash.youth.ui.view.widge.PullableDownListView>
 
-            <include layout="@layout/load_more" />
+            <include
+                android:id="@+id/more"
+                layout="@layout/load_more" />
         </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
 
     </LinearLayout>

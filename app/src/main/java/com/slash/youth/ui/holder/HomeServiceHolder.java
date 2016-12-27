@@ -41,11 +41,14 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
 
     @Override
     public void refreshView(FreeTimeServiceBean.DataBean.ListBean data) {
-        long starttime = data.getStarttime();
+       /* long starttime = data.getStarttime();
         long endtime = data.getEndtime();
         String startData = TimeUtils.getData(starttime);
-        String endData = TimeUtils.getData(endtime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.FREE_TIME + "" + startData + "-" + endData);
+        String endData = TimeUtils.getData(endtime);*/
+       // mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + "" + startData);
+        int timetype = data.getTimetype();
+        itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
+        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
 
         String avatar = data.getAvatar();
@@ -69,11 +72,11 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         String name = data.getName();
         itemHomeDemandServiceBinding.tvName.setText(name);
 
-    /*    long quote = data.getQuote();
+        long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
-        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit + 1];
+        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit];
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
-*/
+
         int pattern = data.getPattern();
         switch (pattern) {
             case 0:

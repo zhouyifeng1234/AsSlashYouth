@@ -7,6 +7,7 @@ import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.net.sip.SipSession;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -114,6 +115,12 @@ public class PagerHomeContactsModel extends BaseObservable {
                 }
             }
         });
+
+        //访客列表没有数据
+        if(listSize == 0){
+            View rl = mPagerHomeContactsBinding.more.findViewById(R.id.rl_progress);
+            rl.setVisibility(View.GONE);
+        }
     }
 
     //获取我的访客的列表

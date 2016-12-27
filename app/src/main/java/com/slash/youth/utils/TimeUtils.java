@@ -13,6 +13,7 @@ public class TimeUtils {
     private static String pattern1 = "mm分钟之前";
     private static String pattern2 = "HH:mm";
     private static String pattern3 = "MM月dd日hh:mm";
+    private static String pattern4 = "MM/dd/yyyy HH:mm:ss";
 
 
     public static String getTime(long uts) {
@@ -35,19 +36,16 @@ public class TimeUtils {
 
 
     public static String getData(long uts) {
-
         return getString(uts,pattern3);
-
     }
 
-
-
+    public static String getTimeData(long uts) {
+        return getString(uts,pattern4);
+    }
 
     private static String getString(long uts,String pattern) {
         SimpleDateFormat sdf= new SimpleDateFormat(pattern);
         Date date= new Date(uts);
         return sdf.format(date);
     }
-
-
 }
