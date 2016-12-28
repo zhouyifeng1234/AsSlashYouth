@@ -98,7 +98,6 @@ public class PagerHomeContactsModel extends BaseObservable {
         ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
         //条目点击事件
         mPagerHomeContactsBinding.lvHomeContactsVisitor.setOnItemClickListener(new AdapterView.OnItemClickListener() {

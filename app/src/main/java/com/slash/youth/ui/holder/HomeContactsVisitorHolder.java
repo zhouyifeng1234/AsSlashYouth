@@ -60,7 +60,10 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
 
         String direction = data.getDirection();
         String industry = data.getIndustry();
-        itemListviewHomeContactsVisitorBinding.tvVisitorDirection.setText(industry+"|"+direction);
+        if(direction!=null&&industry!=null&&direction!=""&&industry!=""){
+            itemListviewHomeContactsVisitorBinding.tvVisitorDirection.setText(industry+"|"+direction);
+        }
+
 
         long uts = data.getUts();//最后访问时间，毫秒时间戳
         String time = TimeUtils.getTime(uts);

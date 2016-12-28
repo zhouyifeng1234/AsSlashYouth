@@ -23,12 +23,13 @@
             android:layout_height="62dp">
             <ImageView
                 android:id="@+id/iv_addme_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@mipmap/assistant_icon"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
+                android:src="@mipmap/default_avatar"
                 />
             <ImageView
                 android:id="@+id/iv"
+                android:visibility="gone"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="right|bottom"
@@ -45,11 +46,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <!--姓名-->
                 <TextView
                     android:id="@+id/tv_addme_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="张三疯"
                     android:textColor="#333333"
                     android:textSize="14sp"/>
 
@@ -58,27 +59,33 @@
                     android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:src="@mipmap/v_icon_home_my"/>
 
 
             </LinearLayout>
 
-
+        <!--公司职位-->
             <TextView
                 android:id="@+id/tv_addme_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="北京中意之路信息技术有限政总监"
+                android:maxLines="1"
+                android:maxEms="15"
+                android:ellipsize="end"
                 android:textColor="#666666"
                 android:textSize="13dp"/>
 
+            <!--行业-->
             <TextView
                 android:id="@+id/tv_addme_direction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="IT互联网｜市场商务"
+                android:maxEms="10"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#666666"
                 android:textSize="11dp"/>
 

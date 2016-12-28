@@ -183,11 +183,26 @@ public class ActivityUserInfoModel extends BaseObservable {
             uid =  LoginManager.currentLoginUserId;
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
             isOther = false;
+
+            activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
+            activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
+            activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
+            activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
         }else {
             MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
-            uid = otherUid;
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit);
             isOther = true;
+
+            activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
+            activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
+            activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
+            switch (anonymity){
+                case 1://实名
+                    break;
+                case 0://匿名
+                    activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
+                    break;
+            }
         }
     }
 

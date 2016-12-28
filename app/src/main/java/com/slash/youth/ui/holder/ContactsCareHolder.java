@@ -27,7 +27,6 @@ import java.util.List;
  * Created by zss on 2016/11/20.
  */
 public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBean> implements View.OnClickListener {
-
     private ImageView ivAddMeV;
     private ImageView ivAddMe;
     private ImageView iv;
@@ -87,10 +86,13 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
         uid = data.getUid();
         long uts = data.getUts();
 
-        if(industry!=null&&direction!=null&&industry!=" "){
+        if(industry!=null&&direction!=null&&industry!=""&&direction!=""){
         tvDirection.setText(industry+"|"+direction);
         }
-        tvPosition.setText(company+" "+position);
+        if(company!=null&&position!=null&&company!=""&&position!=""){
+            tvPosition.setText(company+" "+position);
+        }
+
 
         btn.setOnClickListener(this);
 
@@ -139,5 +141,4 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
             LogKit.d("result:"+result);
         }
     }
-
 }

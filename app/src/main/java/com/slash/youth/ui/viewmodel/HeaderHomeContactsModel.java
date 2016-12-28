@@ -109,7 +109,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
             ItemHscFriendRecommendBinding itemHscFriendRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_hsc_friend_recommend, null, false);
             View itemFriendRecommend = itemHscFriendRecommendBinding.getRoot();
             View recommendSpace = createRecommendHorizontalSpace();
-            ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, listFriendRecommendBean, i);
+            ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, listFriendRecommendBean, i,recommendSpace);
             itemHscFriendRecommendBinding.setItemFriendRecommendModel(itemFriendRecommendModel);
             mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(itemFriendRecommend);
             mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(recommendSpace);
@@ -183,7 +183,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 myFansCount = info.getMyFansCount();
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
@@ -205,7 +204,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 displayFriendRecommend();
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);

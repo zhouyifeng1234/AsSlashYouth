@@ -25,6 +25,7 @@ import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,8 @@ public class ChooseFriendModel  extends BaseObservable{
             @Override
             public void OkDown() {
                 LogKit.d("OK");
+
+                ToastUtils.shortCenterToast("推荐好友ok");
             }
 
             @Override
