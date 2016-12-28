@@ -12,108 +12,119 @@
         android:orientation="vertical">
         <include layout="@layout/usertitlebar" />
 
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/bg_blue"
-            android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/total_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="24dp"
-            android:text="0.00元"
-            android:layout_marginTop="35dp"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="14dp"
-            android:layout_gravity="center_horizontal"
-            android:text="账户总余额"/>
-
-        <View
-            android:background="#ffffff"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_marginTop="17dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-
-        <!--可提现-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:textSize="14dp"
-                android:textColor="#ffffff"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="可提现"/>
-            <TextView
-                android:id="@+id/current_money"
-                android:textColor="#FFE083"
-                android:text="0.00元"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
-        </LinearLayout>
-
-        <!--冻结-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:textSize="14dp"
-                android:textColor="#ffffff"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="冻结"/>
-
-            <TextView
-                android:id="@+id/freeze_money"
-                android:textColor="#FFE083"
-                android:text="0.00元"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                />
-
-            <ImageView
-                android:onClick="@{myAccountModel.hint}"
-                android:layout_marginLeft="5dp"
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/question_mark_icon"/>
+                android:background="@mipmap/bg_blue"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/total_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="24dp"
+                    android:text="0.00元"
+                    android:layout_marginTop="35dp"
+                    android:layout_gravity="center_horizontal"/>
 
-        </LinearLayout>
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="14dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="账户总余额"/>
+
+                <View
+                    android:background="#ffffff"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"/>
+
+                <LinearLayout
+                    android:layout_marginTop="17dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal">
+
+                    <!--可提现-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:textSize="14dp"
+                            android:textColor="#ffffff"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="可提现"/>
+                        <TextView
+                            android:id="@+id/current_money"
+                            android:textColor="#FFE083"
+                            android:text="0.00元"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+
+                    </LinearLayout>
+
+                    <!--冻结-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:textSize="14dp"
+                            android:textColor="#ffffff"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="冻结"/>
+
+                        <TextView
+                            android:id="@+id/freeze_money"
+                            android:textColor="#FFE083"
+                            android:text="0.00元"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            />
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        <ImageView
+            android:onClick="@{myAccountModel.hint}"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/question_icon_one"
+            />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

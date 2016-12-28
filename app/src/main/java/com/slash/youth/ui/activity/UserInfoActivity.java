@@ -33,10 +33,8 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private ActivityUserInfoModel userInfoModel;
     private long myId;
     private String phone;
-    private boolean isfriend;
     private long uid;
     private int anonymity;
-    private int friendStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +45,8 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         String skillTag = intent.getStringExtra("skillTag");
         anonymity = intent.getIntExtra("anonymity", -1);
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity,friendStatus);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
-        testIsFriend(uid);
-        testisfollow(uid);
         back();
         title();
         listener();
@@ -104,7 +100,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.tv_userinfo_save:
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
@@ -159,115 +154,5 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-    }
-
-    //先验证一下好友关系
-    public void testIsFriend(long uid) {
-        ContactsManager.onFriendApplicationStatus(new onFriendApplicationStatus(),uid);
-    }
-
-
-    //验证好友关系
-    public class onTestFriendStatue implements BaseProtocol.IResultExecutor<SetBean> {
-        @Override
-        public void execute(SetBean dataBean) {
-            int rescode = dataBean.rescode;
-            if (rescode == 0) {
-                SetBean.DataBean data = dataBean.getData();
-                int status = data.getStatus();
-                switch (status) {
-                    case 1://好友
-                        isfriend = true;
-                        break;
-                    case 0://非好友
-                        isfriend = false;
-                        break;
-                }
-            }
-        }
-
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
-    }
-
-    //验证我和某一个用户的加好友的状态
-    public class onFriendApplicationStatus implements BaseProtocol.IResultExecutor<FriendStatusBean> {
-        @Override
-        public void execute(FriendStatusBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if(rescode == 0){
-                FriendStatusBean.DataBean data = dataBean.getData();
-                int status = data.getStatus();
-                switch (status){
-                    case 0:
-                        LogKit.d("0表示陌生人");
-                        friendStatus = 0;
-                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
-                        break;
-                    case 1:
-                        LogKit.d("表示我主动加了他，他还未回复");
-                        friendStatus = 1;
-                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
-                        break;
-                    case 2:
-                        LogKit.d("表示他主动加了我，我还未同意");
-                        friendStatus = 2;
-                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.AFREEN_FRIEND_APPLICATION);
-                        break;
-                    case 3:
-                        LogKit.d("表示是好友关系");
-                        friendStatus = 3;
-                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
-                        break;
-                }
-            }
-        }
-
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
-    }
-
-    //先验证我和某用户的关系
-    public void testisfollow(long uid) {
-        ContactsManager.onTestIsFollow(new onTestIsFollow(), uid);
-    }
-
-    public class onTestIsFollow implements BaseProtocol.IResultExecutor<FansBean> {
-        @Override
-        public void execute(FansBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                FansBean.DataBean data = dataBean.getData();
-                int fans = data.getFans();
-                switch (fans) {
-                    case 1://1表示他是我的粉丝，0表示无关系  --他有没有关注过我
-                        break;
-                    case 0://无关系
-                        break;
-                }
-                int follow = data.getFollow();
-                switch (follow) {
-                    case 1://1表示我是他的粉丝，0表示无关系 ==我关注他
-                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA_OK);
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
-                        LogKit.d("==我关注过他=");
-                        break;
-                    case 0://无关系
-                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA);
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
-                        LogKit.d("==我没有关注过他=");
-                        break;
-                }
-            }
-        }
-
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
     }
 }

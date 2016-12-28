@@ -140,7 +140,6 @@ public class ItemFriendRecommendModel extends BaseObservable {
 
     //设置推荐好友的数据
     private void setView(RecommendFriendBean.DataBean.ListBean listBean) {
-        LogKit.d("name     "+listBean.getName()+" avatar  "+listBean.getAvatar()+"   uid"+listBean.getUid());
         setUsername(listBean.getName());
         avatar = listBean.getAvatar();
         if(avatar!=null){

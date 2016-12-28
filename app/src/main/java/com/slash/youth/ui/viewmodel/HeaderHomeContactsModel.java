@@ -50,7 +50,7 @@ import java.util.Map;
  * Created by zhouyifeng on 2016/10/12.
  */
 public class HeaderHomeContactsModel extends BaseObservable {
-    HeaderListviewHomeContactsBinding mHeaderListviewHomeContactsBinding;
+    public HeaderListviewHomeContactsBinding mHeaderListviewHomeContactsBinding;
     private PersonRelationBean.DataBean.InfoBean info;
     private ArrayList<RecommendFriendBean.DataBean.ListBean> listFriendRecommendBean = new ArrayList<>();
     private int addMeFriendCount;

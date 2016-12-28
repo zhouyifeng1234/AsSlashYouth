@@ -495,8 +495,8 @@ public class GlobalConstants {
     //web的路径
     public static final class WebPath {
         public static final String WEB_PATH_HOST = "http://114.215.83.138/#!/";
-        public static final String WEB_INFLUENCE = WEB_PATH_HOST+"integral";
-        public static final String WEB_COMMON_QUESTION =WEB_PATH_HOST+"program?type=program";
+        public static final String WEB_INFLUENCE = WEB_PATH_HOST+"integral&nav=1";
+        public static final String WEB_COMMON_QUESTION =WEB_PATH_HOST+"program?type=program&nav=1";
         public static final String WEB_CONTACT_US = WEB_PATH_HOST+"program?type=contact";
     }
 }

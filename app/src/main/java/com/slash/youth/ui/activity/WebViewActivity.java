@@ -55,7 +55,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         }
 
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
-        ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding,webUrl);
+        ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding,webUrl,this);
         activityCommonQuestionBinding.setActivityCommonQuestionModel(activityCommonQuestionModel);
         listener();
     }

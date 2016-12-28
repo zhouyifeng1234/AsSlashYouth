@@ -149,13 +149,15 @@
                     android:textSize="13dp"
                     android:hint="点击这里输入"
                     android:gravity="start"
-                    android:inputType="text"
                     android:textColorHint="#cccccc"
                     android:layout_marginLeft="6dp"
                     android:layout_marginTop="10dp"
-                    android:cursorVisible="false"
+                    android:cursorVisible="true"
+                    android:inputType="textMultiLine"
+                    android:maxLines="6"
+                    android:maxLength="300"
+                    android:lineSpacingExtra="1dp"
                     />
-
 
                 <TextView
                     android:id="@+id/tv_report_num"

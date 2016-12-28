@@ -291,7 +291,7 @@ public class PagerHomeMyModel extends BaseObservable {
      Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("phone",phone);
         intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
-        intentUserinfoEditorActivity.putExtra("myId",LoginManager.currentLoginUserId);
+        intentUserinfoEditorActivity.putExtra("myId",id);
         mActivity.startActivity(intentUserinfoEditorActivity);
     }
 

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.sip.SipSession;
 import android.os.Build;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
@@ -27,6 +29,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
+import com.slash.youth.ui.view.WarpLinearLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -44,6 +47,7 @@ public class PagerHomeContactsModel extends BaseObservable {
     private  ArrayList<HomeContactsVisitorBean.DataBean.ListBean> listHomeContactsVisitorBean = new ArrayList<>();
     private HomeContactsVisitorAdapter homeContactsVisitorAdapter;
     private int listSize;
+    private HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding;
 
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
@@ -83,7 +87,7 @@ public class PagerHomeContactsModel extends BaseObservable {
     }
 
     private void initView() {
-        HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_home_contacts, null, false);
+        headerListviewHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_home_contacts, null, false);
         HeaderHomeContactsModel headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding,mActivity);
         headerListviewHomeContactsBinding.setHeaderHomeContactsModel(headerHomeContactsModel);
         View vContactsHeader = headerListviewHomeContactsBinding.getRoot();
@@ -119,6 +123,7 @@ public class PagerHomeContactsModel extends BaseObservable {
         if(listSize == 0){
             View rl = mPagerHomeContactsBinding.more.findViewById(R.id.rl_progress);
             rl.setVisibility(View.GONE);
+            headerListviewHomeContactsBinding.tvNone.setVisibility(View.VISIBLE);
         }
     }
 

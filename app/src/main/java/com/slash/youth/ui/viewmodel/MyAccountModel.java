@@ -84,8 +84,6 @@ public class MyAccountModel extends BaseObservable {
     //提示
     public void hint(View view){
         ToastUtils.shortCenterToast("提示框");
-
-
     }
 
 
