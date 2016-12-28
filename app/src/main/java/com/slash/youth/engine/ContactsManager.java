@@ -9,6 +9,7 @@ import com.slash.youth.http.protocol.CannelCareProtocol;
 import com.slash.youth.http.protocol.CareTAProtocol;
 import com.slash.youth.http.protocol.CheckFriendApplicationProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
+import com.slash.youth.http.protocol.CreatePassWordProtovol;
 import com.slash.youth.http.protocol.DeleteFriendRelationProtocol;
 import com.slash.youth.http.protocol.MyFriendListProtocol;
 import com.slash.youth.http.protocol.PersonRelationProtocol;
@@ -32,7 +33,7 @@ public class ContactsManager {
     public static  final String ADD_ME = "加我的";
     public static  final String MY_ADD = "我加的";
     public static String ADD_FRIEND = "加好友";
-    public static String IS_FRIEND = "已是好友";
+    public static String IS_FRIEND = "解除好友";
     public static String ADD_FRIEND_APPLICATION = "已申请";
     public static String AFREEN_FRIEND_APPLICATION= "同意";
     public static String CARE_TA ="关注TA";
@@ -134,6 +135,10 @@ public class ContactsManager {
         checkFriendApplicationProtocol.getDataFromServer(friendApplicationStatus);
     }
 
-
+    //[设置]-创建交易密码
+    public static void onCreatePassWord(BaseProtocol.IResultExecutor onCreatePassWord,String passWord,String url) {
+        CreatePassWordProtovol createPassWordProtovol = new CreatePassWordProtovol(passWord,url);
+        createPassWordProtovol.getDataFromServer(onCreatePassWord);
+    }
 
 }

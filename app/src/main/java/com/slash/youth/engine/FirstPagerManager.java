@@ -15,9 +15,21 @@ public class FirstPagerManager {
     public static final String  PATTERN_UP ="线上";
     public static final String  PATTERN_DOWN ="线下";
     public static final String  FREE_TIME ="闲置时间:";
+    public static final String  START_TIME ="开始时间:";
     public static final String[] QUOTEUNITS = {"次","个","幅","份","单","小时","分钟","天","其他"};
     public static final String  QUOTE ="报价:¥";
-
+    /*闲时类型*/
+    public static final int SERVICE_TIMETYPE_USER_DEFINED = 0;
+    public static final String  TIMETYPE_USER_DEFINED = "用户默认";
+    public static final int SERVICE_TIMETYPE_WEEKEND = 2;
+    public static final String TIMETYPE_WEEKEND = "周末";
+    public static final int SERVICE_TIMETYPE_AFTER_WORK = 1;
+    public static final String  TIMETYPE_AFTER_WORK = "下班以后";
+    public static final int SERVICE_TIMETYPE_AFTER_WORK_AND_WEEKEND = 3;
+    public static final String  AFTER_WORK_AND_WEEKEND = "下班后和周末";
+    public static final int SERVICE_TIMETYPE_ANYTIME = 4;
+    public static final String TIMETYPE_ANYTIME = "随时";
+    public static final String[] TIMETYPES = {"用户默认","下班以后","周末","下班后和周末","随时"};
 
     //首页广告
     public static void onGetFirstPagerAdvertisement(BaseProtocol.IResultExecutor onGetFirstPagerAdvertisement, String url) {
@@ -48,8 +60,5 @@ public class FirstPagerManager {
         FreeTimeServiceListProtocol freeTimeServiceListProtocol = new FreeTimeServiceListProtocol(limit);
         freeTimeServiceListProtocol.getDataFromServer(onFreeTimeServiceList);
     }
-
-
-
 
 }

@@ -283,7 +283,7 @@
         <activity android:name=".ui.activity.WithdrawalsActivity"/>
         <activity android:name=".ui.activity.ContactsCareActivity"/>
         <activity android:name=".ui.activity.FirstPagerMoreActivity"/>
-        <activity android:name=".ui.activity.CommonQuestionActivity"/>
+        <activity android:name=".ui.activity.WebViewActivity"/>
 
         <!-- 微信相关 -->
         <!-- <activity -->
