@@ -68,7 +68,6 @@ public class ActivityUserInfoModel extends BaseObservable {
     private String defaultArea  = "暂未填写";
     private String add_friend_successful = "已申请加好友成功";
     private String add_friend_error = "申请加好友";
-    public long  userUid = -1;//-1是自己看自己的
     public String name;
     private int expert;
     private int isauth;
@@ -184,11 +183,26 @@ public class ActivityUserInfoModel extends BaseObservable {
             uid =  LoginManager.currentLoginUserId;
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
             isOther = false;
+
+            activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
+            activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
+            activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
+            activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
         }else {
             MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
-            uid = otherUid;
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit);
             isOther = true;
+
+            activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
+            activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
+            activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
+            switch (anonymity){
+                case 1://实名
+                    break;
+                case 0://匿名
+                    activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
+                    break;
+            }
         }
     }
 
@@ -231,6 +245,12 @@ public class ActivityUserInfoModel extends BaseObservable {
         });*/
 
         activityUserinfoBinding.refreshView.setOnRefreshListener(new TaskListListener());
+
+        //最新的任务没有
+        if(listSize == 0){
+            View rl = userInfoActivity.findViewById(R.id.rl_progress);
+            rl.setVisibility(View.GONE);
+        }
     }
 
     public class TaskListListener implements PullToRefreshLayout.OnRefreshListener {

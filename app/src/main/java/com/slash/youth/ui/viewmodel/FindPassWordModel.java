@@ -17,6 +17,7 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UploadFileResultBean;
+import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CreatePassWordProtovol;
@@ -25,6 +26,7 @@ import com.slash.youth.http.protocol.UploadPhotoProtocol;
 import com.slash.youth.ui.activity.FindPassWordActivity;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,24 +39,25 @@ import java.util.Map;
 public class FindPassWordModel extends BaseObservable {
     private ActivityFindPasswordBinding activityFindPasswordBinding;
     private FindPassWordActivity findPassWordActivity;
-    //final static int CAMERA_RESULT = 0;//声明一个常量，代表结果码
     public Map<String, String> createPassWordMap = new HashMap<>();
     public Map<String, String> surePassWordMap = new HashMap<>();
     private String createPassWord;
     private String surePassWord;
     public boolean createPassWord1=true;
     public boolean setPhoto1 = true;
+    private boolean isSetTradePassword;
+    private String toastText = "两次输入的密码不一致,请重新输入密码";
 
-    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding,FindPassWordActivity findPassWordActivity) {
+    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding,FindPassWordActivity findPassWordActivity,boolean isSetTradePassword) {
         this.activityFindPasswordBinding = activityFindPasswordBinding;
         this.findPassWordActivity = findPassWordActivity;
+        this.isSetTradePassword = isSetTradePassword;
         listener();
     }
 
     private void listener() {
         getCtretePassWord(activityFindPasswordBinding.etSetNewPassword);
          getSurePassWord(activityFindPasswordBinding.etSureNewPassword);
-
     }
 
     private void getCtretePassWord(EditText v) {
@@ -70,7 +73,9 @@ public class FindPassWordModel extends BaseObservable {
             @Override
             public void afterTextChanged(Editable s) {
                 String  setPassWord =  s.toString();
-                createPassWordMap.put("createPassWord",setPassWord);
+                if(setPassWord.length() == 6){
+                    createPassWordMap.put("createPassWord",setPassWord);
+                }
             }
 
         });
@@ -89,7 +94,17 @@ public class FindPassWordModel extends BaseObservable {
             @Override
             public void afterTextChanged(Editable s) {
                 String  setPassWord =  s.toString();
-                surePassWordMap.put("surePassWord",setPassWord);
+                if(setPassWord.length() == 6){
+                    surePassWordMap.put("surePassWord",setPassWord);
+                    //判断2次密码是否一致
+                    String createPassWord = createPassWordMap.get("createPassWord");
+                    String surePassWord = surePassWordMap.get("surePassWord");
+                    if(!createPassWord.equals(surePassWord)) {
+                        ToastUtils.shortCenterToast(toastText);
+                        createPassWordMap.clear();
+                        surePassWordMap.clear();
+                    }
+                }
             }
         });
     }
@@ -103,6 +118,7 @@ public class FindPassWordModel extends BaseObservable {
     public void photoGraph(View view){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_PHOTO);
+        setUploadPicLayerVisibility(View.GONE);
     }
 
     //相册
@@ -116,6 +132,7 @@ public class FindPassWordModel extends BaseObservable {
         intent.putExtra("outputX", 250);
         intent.putExtra("outputY", 100);
         findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_ABLEM);
+        setUploadPicLayerVisibility(View.GONE);
     }
 
     //关闭弹窗
@@ -132,11 +149,6 @@ public class FindPassWordModel extends BaseObservable {
     public void setUploadPicLayerVisibility(int uploadPicLayerVisibility) {
         this.uploadPicLayerVisibility = uploadPicLayerVisibility;
         notifyPropertyChanged(BR.uploadPicLayerVisibility);
-    }
-
-    //上传图片
-    public void uploadPhoto(String filename){
-        MyManager.uploadFile(new onUploadFile(),filename);
     }
 
     //设置密码
@@ -168,55 +180,34 @@ public class FindPassWordModel extends BaseObservable {
     }
 
     //创建密码
-    public void createPassWord(String pass){
-        CreatePassWordProtovol createPassWordProtovol = new CreatePassWordProtovol(pass);
-        createPassWordProtovol.getDataFromServer(new BaseProtocol.IResultExecutor<SetBean>() {
-            @Override
-            public void execute(SetBean dataBean) {
-                int rescode = dataBean.rescode;
-                if(rescode == 0){
-                    SetBean.DataBean data = dataBean.getData();
-                    int status = data.getStatus();
-                    switch (status){
-                        case 1:
-                            LogKit.d("设置成功");
-                            createPassWord1 = true;
-                            break;
-                        case 2:
-                            LogKit.d("设置失败");
-                            createPassWord1 = false;
-                            break;
-                    }
-                }
-            }
-            @Override
-            public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-            }
-        });
+    public void createPassWord(String passWord,String url){
+        ContactsManager.onCreatePassWord(new onCreatePassWord(),passWord,url);
     }
 
-
-    private String uploadFail = "上传照片失败";
-    //上传图片
-    public class onUploadFile implements BaseProtocol.IResultExecutor<UploadFileResultBean> {
+    //创建交易密码
+    public class onCreatePassWord implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
-        public void execute(UploadFileResultBean dataBean) {
+        public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
             if(rescode == 0){
-                UploadFileResultBean.Data data = dataBean.data;
-                String fileId = data.fileId;
-                LogKit.d("图片路径"+fileId);
-            }else {
-                LogKit.d(uploadFail);
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        LogKit.d("设置成功");
+                        ToastUtils.shortCenterToast("设置成功");
+                        break;
+                    case 0:
+                        LogKit.d("设置失败");
+                        ToastUtils.shortCenterToast("设置失败");
+                        break;
+                }
             }
         }
 
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
-
-
 }

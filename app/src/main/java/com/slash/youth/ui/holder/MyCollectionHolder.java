@@ -45,7 +45,7 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
 
         long cts = data.getCts();//收藏时间
         String time = TimeUtils.getTime(cts);
-        itemMyCollectionBinding.tvTime.setText(MyManager.TASK_TIME+time);
+        itemMyCollectionBinding.tvTime.setText(MyManager.START_TIME+time);
 
         int instalment = data.getInstalment();//1表示支持分期 0表示不支持分期
         switch (instalment){

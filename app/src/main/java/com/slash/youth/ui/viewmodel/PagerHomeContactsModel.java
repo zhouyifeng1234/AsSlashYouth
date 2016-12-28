@@ -7,6 +7,7 @@ import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.net.sip.SipSession;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -22,6 +23,7 @@ import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.ui.activity.MySettingActivity;
+import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
@@ -96,7 +98,6 @@ public class PagerHomeContactsModel extends BaseObservable {
         ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private void listener() {
         //条目点击事件
         mPagerHomeContactsBinding.lvHomeContactsVisitor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,6 +114,12 @@ public class PagerHomeContactsModel extends BaseObservable {
                 }
             }
         });
+
+        //访客列表没有数据
+        if(listSize == 0){
+            View rl = mPagerHomeContactsBinding.more.findViewById(R.id.rl_progress);
+            rl.setVisibility(View.GONE);
+        }
     }
 
     //获取我的访客的列表
@@ -134,5 +141,12 @@ public class PagerHomeContactsModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
+    }
+
+    //点击右上角的搜索按钮
+    public void search(View view){
+        Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
+        intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentSearchActivity);
     }
 }

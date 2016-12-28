@@ -5,13 +5,11 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityMyHelpBinding;
-import com.slash.youth.ui.activity.CommonQuestionActivity;
+import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.ui.activity.ContactUsActivity;
-import com.slash.youth.ui.activity.MyCollectionActivity;
 import com.slash.youth.ui.activity.MyHelpActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -38,12 +36,17 @@ public class MyHelpModel extends BaseObservable {
 
     //commonQuestion 常见问题
     public void commonQuestion(View view){
-        Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), CommonQuestionActivity.class);
+        Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
+        intentCommonQuestionActivity.putExtra("commonQuestion","commonQuestion");
         myHelpActivity.startActivity(intentCommonQuestionActivity);
     }
 
     //contactUs 联系我们
     public void contactUs(View view){
+       /* Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
+        intentCommonQuestionActivity.putExtra("contactUs","contactUs");
+        myHelpActivity.startActivity(intentCommonQuestionActivity);*/
+
        Intent intentContactUsActivity = new Intent(CommonUtils.getContext(), ContactUsActivity.class);
         myHelpActivity.startActivity(intentContactUsActivity);
     }

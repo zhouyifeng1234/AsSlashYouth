@@ -21,8 +21,10 @@ import com.slash.youth.ui.activity.FindPassWordActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
+import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
@@ -33,33 +35,28 @@ import java.util.HashMap;
  */
 public class MySettingModel extends BaseObservable {
     private ActivityMySettingBinding activityMySettingBinding;
-    private boolean isInstalment = false;//消息
-    private boolean isInstalment1 = false;//时间
     private HashMap<String, String> paramsMap = new HashMap<>();
     private int status;
     private String endtime;
     private String starttime;
-    private int status1;
-    private int status2;
+    private int timeStatus;
+    private int msgStatus;
     private MySettingActivity mySettingActivity;
     private boolean isTimeOpen;//时间设置
     private boolean isMsgOpen;//消息设置
-    private String title = "找回交易密码";
+    private String startTime = "22:00";
+    private String endTime= "08:00";
+    private String SET_OK ="设置成功";
+    private String SET_FAIL = "设置失败";
 
     public MySettingModel(ActivityMySettingBinding activityMySettingBinding,MySettingActivity mySettingActivity) {
         this.activityMySettingBinding = activityMySettingBinding;
         this.mySettingActivity  = mySettingActivity;
         initView();
         initData();
-
     }
 
     private void initView() {
-        if(SpUtils.getBoolean("create_ok",false)){
-            activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
-            activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
-            activityMySettingBinding.tvSetAndfindPassword.setText(title);
-        }
     }
 
     private void initData() {
@@ -67,6 +64,30 @@ public class MySettingModel extends BaseObservable {
         getTimeState();
         //信息展示
         getMsgState();
+    }
+    private void getTimeState() {
+        SetTimeProtocol setTimeProtocol = new SetTimeProtocol();
+        setTimeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetTimeBean>() {
+            @Override
+            public void execute(SetTimeBean dataBean) {
+                int rescode = dataBean.getRescode();
+                if(rescode == 0){
+                    SetTimeBean.DataBean data = dataBean.getData();
+                    SetTimeBean.DataBean.DataBean1 timeData = data.getData();
+                    int timeDnd = timeData.getDnd(); //1表示已经设置 0表示未设置
+                    switchTimeDnd2Boolean(timeDnd);
+                    endtime = timeData.getEndtime();
+                    starttime = timeData.getStarttime();
+                    if(starttime!=null&&endtime!=null){
+                        activityMySettingBinding.tvTime.setText(starttime +"-"+ endtime);
+                    }
+                }
+            }
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:"+result);
+            }
+        });
     }
 
     private void getMsgState() {
@@ -77,10 +98,9 @@ public class MySettingModel extends BaseObservable {
                 int rescode = dataBean.getRescode();
                 if(rescode == 0){
                     SetMsgBean.DataBean data = dataBean.getData();
-                    SetMsgBean.DataBean.DataBean1 data1 = data.getData();
-                    int dnd1 = data1.getDnd();//1表示已经设置 0表示未设置
-                    switchMsgDnd2Boolean(dnd1);
-                   // setMsgState(activityMySettingBinding.ivPublishDemandInstalmentHandle,activityMySettingBinding.ivPublishDemandInstalmentBg,dnd);
+                    SetMsgBean.DataBean.DataBean1 msgData = data.getData();
+                    int msgDnd = msgData.getDnd();//1表示已经设置 0表示未设置
+                    switchMsgDnd2Boolean(msgDnd);
                 }
             }
             @Override
@@ -90,45 +110,10 @@ public class MySettingModel extends BaseObservable {
         });
     }
 
-    private void getTimeState() {
-        SetTimeProtocol setTimeProtocol = new SetTimeProtocol();
-        setTimeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetTimeBean>() {
-            @Override
-            public void execute(SetTimeBean dataBean) {
-                int rescode = dataBean.getRescode();
-                if(rescode == 0){
-                    SetTimeBean.DataBean data = dataBean.getData();
-                    SetTimeBean.DataBean.DataBean1 data1 = data.getData();
-                    int dnd = data1.getDnd(); //1表示已经设置 0表示未设置
-                    switchTimeDnd2Boolean(dnd);
-                    // setTimeState(activityMySettingBinding.ivPublishDemandInstalmentHandle1,activityMySettingBinding.ivPublishDemandInstalmentBg1,dnd);
-                    endtime = data1.getEndtime();
-                    starttime = data1.getStarttime();
-                    activityMySettingBinding.tvTime.setText(starttime +"-"+ endtime);
-                }
-            }
-            @Override
-            public void executeResultError(String result) {
-                LogKit.d("result:"+result);
-            }
-        });
-    }
-
     //设置消息
     public void setMsg(View view){
-        if(isMsgOpen){
-            activityMySettingBinding.ivToggleOpen1.setVisibility(View.VISIBLE);
-            activityMySettingBinding.ivToggleClose1.setVisibility(View.GONE);
-            status2 = 1;
-        }else {
-            activityMySettingBinding.ivToggleOpen1.setVisibility(View.GONE);
-            activityMySettingBinding.ivToggleClose1.setVisibility(View.VISIBLE);
-            status2 = 0;
-        }
-        isMsgOpen = !isMsgOpen;
-        //点击状态，传回后端保存
-        paramsMap.put("status",String.valueOf(status2));
-        int state = setData(GlobalConstants.HttpUrl.SET_MSG_SET, paramsMap);
+        //点击时间弹出对话框
+        showDialog();
     }
 
     //点击设置时间
@@ -136,16 +121,43 @@ public class MySettingModel extends BaseObservable {
         if(isTimeOpen){
             activityMySettingBinding.ivToggleOpen.setVisibility(View.VISIBLE);
             activityMySettingBinding.ivToggleClose.setVisibility(View.GONE);
-            status1 = 1;
+            timeStatus = 1;
         }else {
             activityMySettingBinding.ivToggleOpen.setVisibility(View.GONE);
             activityMySettingBinding.ivToggleClose.setVisibility(View.VISIBLE);
-            status1 = 0;
+            timeStatus = 0;
         }
         isTimeOpen = !isTimeOpen;
         //点击状态，传回后端保存
-        paramsMap.put("status",String.valueOf(status1));
-        int state = setData(GlobalConstants.HttpUrl.SET_MSG_SET, paramsMap);
+        paramsMap.put("status",String.valueOf(timeStatus));
+        paramsMap.put("starttime",startTime);
+        paramsMap.put("endtime",endTime);
+        int state = setData(GlobalConstants.HttpUrl.SET_TIME_SET, paramsMap);
+    }
+
+    private void showDialog() {
+        DialogUtils.showDialogFive(mySettingActivity, "是否开启免打扰？", "开启后，不接受陌生用户信息，不影响抢单和预约", new DialogUtils.DialogCallBack() {
+            @Override
+            public void OkDown() {
+                if(isMsgOpen){
+                    activityMySettingBinding.ivToggleOpen1.setVisibility(View.VISIBLE);
+                    activityMySettingBinding.ivToggleClose1.setVisibility(View.GONE);
+                    msgStatus = 1;
+                }else {
+                    activityMySettingBinding.ivToggleOpen1.setVisibility(View.GONE);
+                    activityMySettingBinding.ivToggleClose1.setVisibility(View.VISIBLE);
+                    msgStatus = 0;
+                }
+                isMsgOpen = !isMsgOpen;
+                //点击状态，传回后端保存
+                paramsMap.put("status",String.valueOf(msgStatus));
+                int state = setData(GlobalConstants.HttpUrl.SET_MSG_SET, paramsMap);
+            }
+            @Override
+            public void CancleDown() {
+                LogKit.d("cannel");
+            }
+        });
     }
 
     //设置初始化状态
@@ -171,8 +183,8 @@ public class MySettingModel extends BaseObservable {
     }
 
     //选择设置dnd到boolean
-    private void switchTimeDnd2Boolean(int dnd) {
-        switch (dnd){
+    private void switchTimeDnd2Boolean(int timeDnd) {
+        switch (timeDnd){
             case 0://未设置
                 setOriginalTimeState(false);
                 isTimeOpen = true;
@@ -184,8 +196,8 @@ public class MySettingModel extends BaseObservable {
         }
     }
 
-    private void switchMsgDnd2Boolean(int dnd) {
-        switch (dnd){
+    private void switchMsgDnd2Boolean(int msgDnd) {
+        switch (msgDnd){
             case 0://未设置
                 setOriginalMsgState(false);
                 isMsgOpen= true;
@@ -196,10 +208,6 @@ public class MySettingModel extends BaseObservable {
                 break;
         }
     }
-
-
-    private String SET_OK ="设置成功";
-    private String SET_FAIL = "设置失败";
 
     //设置数据
     private int setData(String url,HashMap<String, String> paramsMap) {
@@ -266,88 +274,4 @@ public class MySettingModel extends BaseObservable {
             }
         });
     }
-
-
-    //以前的代码
-    //时间设置
-    public void timeSetting(View view){
-        RelativeLayout.LayoutParams layoutParams
-                = (RelativeLayout.LayoutParams) activityMySettingBinding.ivPublishDemandInstalmentHandle1.getLayoutParams();
-        if (isInstalment1) {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            activityMySettingBinding.ivPublishDemandInstalmentBg1.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
-            status1 = 0;
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            activityMySettingBinding.ivPublishDemandInstalmentBg1.setImageResource(R.mipmap.background_safebox_toggle);
-            status1 = 1;
-        }
-        activityMySettingBinding.ivPublishDemandInstalmentHandle1.setLayoutParams(layoutParams);
-        isInstalment1 = !isInstalment1;
-        //点击状态，传回后端保存
-        paramsMap.put("starttime",starttime);
-        paramsMap.put("endtime",endtime);
-        paramsMap.put("status",String.valueOf(status1));
-        int state = setData(GlobalConstants.HttpUrl.SET_TIME_SET, paramsMap);
-    }
-
-    //得到初始化的状态
-    private void setTimeState(ImageView v1,ImageView v2,int dnd) {
-        switch (dnd){
-            case 1://1表示已经设置
-                clicktToggle(v1,v2,false);
-                isInstalment1 = !isInstalment1;
-                break;
-            case 0://0表示未设置
-                clicktToggle(v1,v2,true);
-                break;
-        }
-    }
-
-    //消息设置
-    public void newsSetting(View view){
-        RelativeLayout.LayoutParams layoutParams
-                = (RelativeLayout.LayoutParams) activityMySettingBinding.ivPublishDemandInstalmentHandle.getLayoutParams();
-        if (isInstalment) {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            activityMySettingBinding.ivPublishDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
-            status2 = 0;
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            activityMySettingBinding.ivPublishDemandInstalmentBg.setImageResource(R.mipmap.background_safebox_toggle);
-            status2 = 1;
-        }
-        activityMySettingBinding.ivPublishDemandInstalmentHandle.setLayoutParams(layoutParams);
-        isInstalment = !isInstalment;
-        //点击状态，传回后端保存
-        paramsMap.put("status",String.valueOf(status2));
-        int state = setData(GlobalConstants.HttpUrl.SET_MSG_SET, paramsMap);
-    }
-
-    //得到初始化按钮的点击状态
-    private void clicktToggle(ImageView v1, ImageView v2 , boolean isCheck) {
-        RelativeLayout.LayoutParams layoutParams
-                = (RelativeLayout.LayoutParams) v1.getLayoutParams();
-        if (isCheck) {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            v2.setImageResource(R.mipmap.background_safebox_toggle_weijihuo);
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            v2.setImageResource(R.mipmap.background_safebox_toggle);
-        }
-        v1.setLayoutParams(layoutParams);
-    }
-
-    private void setMsgState(ImageView v1,ImageView v2,int dnd) {
-        switch (dnd){
-            case 1://1表示已经设置
-                clicktToggle(v1,v2,false);
-                isInstalment = !isInstalment;
-                break;
-            case 0://0表示未设置
-                clicktToggle(v1,v2,true);
-                break;
-        }
-    }
-
 }

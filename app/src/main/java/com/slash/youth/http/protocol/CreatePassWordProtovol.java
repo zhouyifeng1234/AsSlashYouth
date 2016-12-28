@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillLabelGetBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.MD5Utils;
+import com.umeng.socialize.utils.Log;
 
 import org.xutils.http.RequestParams;
 
@@ -13,9 +15,11 @@ import org.xutils.http.RequestParams;
  */
 public class CreatePassWordProtovol extends BaseProtocol<SetBean> {
     private String pass;
+    private String url;
 
-    public CreatePassWordProtovol(String pass) {
+    public CreatePassWordProtovol(String pass,String url) {
         this.pass = pass;
+        this.url = url;
     }
 
     @Override
@@ -27,6 +31,7 @@ public class CreatePassWordProtovol extends BaseProtocol<SetBean> {
     public void addRequestParams(RequestParams params) {
         String createPass = MD5Utils.md5(pass);
         params.addBodyParameter("pass",createPass);
+        params.addBodyParameter("url",url);
     }
 
     @Override

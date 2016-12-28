@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
+import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.engine.AccountManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Constants;
@@ -48,12 +51,17 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     private String titleRight ="提交";
     private Bitmap bitmap;
     private Bitmap photo;
+    private boolean isSetTradePassword;
+    private String toastText = "两次输入的密码不一致";
+    private String toastTextString = "请上传手持身份证正面照";
+    private String toastString = "请填写密码";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        testPassWord();
         activityFindPasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_find_password);
-        findPassWordModel = new FindPassWordModel(activityFindPasswordBinding,this);
+        findPassWordModel = new FindPassWordModel(activityFindPasswordBinding,this,isSetTradePassword);
         activityFindPasswordBinding.setFindPassWordModel(findPassWordModel);
         intent = new Intent();
         listener();
@@ -62,7 +70,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        if (SpUtils.getBoolean("create_ok",false)) {
+        if (isSetTradePassword) {
             title.setText(findPassWord);
             activityFindPasswordBinding.tvDesc.setText(findPassWordText);
         }else {
@@ -74,9 +82,6 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
         save.setOnClickListener(this);
     }
 
-    private String toastText = "两次输入的密码不一致";
-    private String toastTextString = "请上传手持身份证正面照";
-    private String toastString = "请填写密码";
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -96,15 +101,8 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                         ToastUtils.shortToast(toastTextString);
                     }
                     if(createPassWord.equals(surePassWord)&&!(path).isEmpty()){
-
-                        //上传照片的地址
-                        findPassWordModel.uploadPhoto(path.get(0));
                         //创建密码
-                        findPassWordModel.createPassWord(surePassWord);
-                        if(findPassWordModel.setPhoto1&&findPassWordModel.createPassWord1){
-                            FindPassWordActivity.this.setResult(RESULT_OK);
-                        }
-                        finish();
+                        findPassWordModel.createPassWord(surePassWord,path.get(0));
                     }
                 }else {
                     ToastUtils.shortToast(toastString);
@@ -161,5 +159,25 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                 e.printStackTrace();
             }
         }
+    }
+
+    //判断是否有交易密码
+    private void testPassWord() {
+        AccountManager.getTradePasswordStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//设置了交易密码
+                    isSetTradePassword = true;
+                } else if (dataBean.data.status == 0) {//表示当前没有交易密码
+                    isSetTradePassword = false;
+                } else {
+                    LogKit.v("状态异常");
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+            }
+        });
     }
 }

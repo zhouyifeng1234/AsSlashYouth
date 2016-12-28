@@ -72,6 +72,7 @@ public class BitmapKit {
         });
 //        builder.setCircular(true);//设置显示圆形图片
         builder.setRadius(DensityUtil.dip2px(5));
+       // builder.setSize(CommonUtils.dip2px(59),CommonUtils.dip2px(59));//zss
         builder.setSquare(true);
         builder.setLoadingDrawableId(R.mipmap.default_avatar);//设置加载过程中的图片
         builder.setFailureDrawableId(R.mipmap.default_avatar);//设置加载失败后的图片

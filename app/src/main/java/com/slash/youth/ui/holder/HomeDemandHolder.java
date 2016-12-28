@@ -42,7 +42,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
     public void refreshView(FreeTimeDemandBean.DataBean.ListBean data) {
         long starttime = data.getStarttime();
         String startData = TimeUtils.getData(starttime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(startData);
+        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME+startData);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
 
         String avatar = data.getAvatar();

@@ -67,6 +67,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     }
 
     private void setTitle(boolean isOther, String name) {
+
         if (isOther) {
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);

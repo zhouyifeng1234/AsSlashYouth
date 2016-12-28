@@ -25,6 +25,7 @@ import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
+import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
@@ -133,6 +134,7 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
 
+    private String careertypeString ="自雇者";
     //设置我的数据
     private void setMyInfoData() {
         //电话号码
@@ -149,10 +151,10 @@ public class PagerHomeMyModel extends BaseObservable {
         //是否认证
         isauth = myinfo.getIsauth();
         if(isauth == 1){  //认证过的
-            mPagerHomeMyBinding.ivV.setImageResource(R.mipmap.v_icon_home_my);
+            mPagerHomeMyBinding.ivV.setVisibility(View.VISIBLE);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.GONE);
         }else if(isauth == 0){    //非认证
-            mPagerHomeMyBinding.ivV.setImageResource(R.mipmap.exclamation);
+            mPagerHomeMyBinding.ivV.setVisibility(View.GONE);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.VISIBLE);
         }
         //头像
@@ -165,7 +167,9 @@ public class PagerHomeMyModel extends BaseObservable {
         industry = myinfo.getIndustry();
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
-        mPagerHomeMyBinding.tvIndustry.setText(industry+" | "+direction);
+        if(industry!=null&&direction!=null&&direction!=""&&industry!=""){
+            mPagerHomeMyBinding.tvIndustry.setText(industry+" | "+direction);
+        }
 
         //职业类型
         careertype = myinfo.getCareertype();
@@ -181,7 +185,7 @@ public class PagerHomeMyModel extends BaseObservable {
                 mPagerHomeMyBinding.tvMyUserInfoCompany.setText("暂未填写职务信息");
             }
         }else if(careertype == 2){//自由职业者
-            mPagerHomeMyBinding.tvMyUserInfoCompany.setText("自雇者");
+            mPagerHomeMyBinding.tvMyUserInfoCompany.setText(careertypeString);
         }
 
         //城市    //省份
@@ -227,23 +231,24 @@ public class PagerHomeMyModel extends BaseObservable {
 
         int expertlevel = myinfo.getExpertlevel();//对应的等级
         List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
-        for (int i = 0; i < expertlevels.size(); i++) {
-            if(i==0){
-                  expertⅠMaxMarks = (float) expertlevels.get(0);
-            }
-            if(i==1){
-                expertⅡMaxMarks = (float) expertlevels.get(1);
-            }
+        if(expertlevels.size()!=0){
+            for (int i = 0; i < expertlevels.size(); i++) {
+                if(i==0){
+                    expertⅠMaxMarks = (float) expertlevels.get(0);
+                }
+                if(i==1){
+                    expertⅡMaxMarks = (float) expertlevels.get(1);
+                }
 
-            if(i==2) {
-                expertⅢMaxMarks = (float) expertlevels.get(2);
+                if(i==2) {
+                    expertⅢMaxMarks = (float) expertlevels.get(2);
+                }
+                if(i==3) {
+                    expertⅣMaxMarks = (float) expertlevels.get(3);
+                }
             }
-            if(i==3) {
-                expertⅣMaxMarks = (float) expertlevels.get(3);
-            }
+            expertMarks = (float) expertlevels.get(expertlevel-1);
         }
-         expertMarks = (float) expertlevels.get(expertlevel-1);
-
     }
 
     private void setExpertMarks() {
@@ -366,5 +371,12 @@ public class PagerHomeMyModel extends BaseObservable {
         @Override
         public void executeResultError(String result) {
         }
+    }
+
+    //点击问号，影响力
+    public void influence(View view){
+        Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
+        intentCommonQuestionActivity.putExtra("influence","influence");
+        mActivity.startActivity(intentCommonQuestionActivity);
     }
 }

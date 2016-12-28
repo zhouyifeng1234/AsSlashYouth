@@ -31,11 +31,10 @@ import java.util.List;
  */
 public class ItemFriendRecommendModel extends BaseObservable {
     ItemHscFriendRecommendBinding mItemHscFriendRecommendBinding;
-    RecommendFriendBean.DataBean.ListBean mFriendRecommendBean;
+    private RecommendFriendBean.DataBean.ListBean mFriendRecommendBean;
     View mItemFriendRecommend;
-   // View mRecommendSpace;
+    View mRecommendSpace;
     ArrayList<RecommendFriendBean.DataBean.ListBean> mListFriendRecommendBean;
-    private  ArrayList<RecommendFriendBean.DataBean.ListBean> mListFriendRecommendList = new ArrayList<>();
    private   int index;
     private String avatar;
     private String company;
@@ -43,11 +42,11 @@ public class ItemFriendRecommendModel extends BaseObservable {
     private int isauth;
     private int limit = 10;
 
-    public ItemFriendRecommendModel(ItemHscFriendRecommendBinding itemHscFriendRecommendBinding, View itemFriendRecommend, ArrayList<RecommendFriendBean.DataBean.ListBean> listFriendRecommendBean, int index) {
+    public ItemFriendRecommendModel(ItemHscFriendRecommendBinding itemHscFriendRecommendBinding, View itemFriendRecommend, ArrayList<RecommendFriendBean.DataBean.ListBean> listFriendRecommendBean, int index,View recommendSpace) {
         this.mItemHscFriendRecommendBinding = itemHscFriendRecommendBinding;
         this.mFriendRecommendBean = listFriendRecommendBean.get(index);
         this.mItemFriendRecommend = itemFriendRecommend;
-      // this.mRecommendSpace = recommendSpace;
+       this.mRecommendSpace = recommendSpace;
         this.mListFriendRecommendBean = listFriendRecommendBean;
         this.index = index;
         initData();
@@ -55,7 +54,7 @@ public class ItemFriendRecommendModel extends BaseObservable {
     }
     //获取网络推荐好友的数据
     private void initData() {
-        ContactsManager.getMyRecommendFriendList(new onGetMyRecommendFriendList(), limit);
+        setView(mFriendRecommendBean);
     }
 
     private void initVisible() {
@@ -73,17 +72,15 @@ public class ItemFriendRecommendModel extends BaseObservable {
     //删除一条推荐
     public void deleteRecommend(View v) {
        // itemParent.removeView(mRecommendSpace);
-        RecommendFriendBean.DataBean.ListBean listBean = mListFriendRecommendList.get(index);
-        long uid = listBean.getUid();
+        long uid = mFriendRecommendBean.getUid();
         ContactsManager.AddBlackFriend(new onAddBlackFriend(),uid);
     }
 
     //添加推荐的好友
     public void addFriend(View v) {
-        RecommendFriendBean.DataBean.ListBean listBean = mListFriendRecommendList.get(index);
-        long uid = listBean.getUid();
+        long uid = mFriendRecommendBean.getUid();
         ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),uid,"   ");
-//        itemParent.removeView(mRecommendSpace);
+
     }
 
     private int eliteRecommendMarkerVisibility;
@@ -140,31 +137,14 @@ public class ItemFriendRecommendModel extends BaseObservable {
         return position;
     }
 
-    public class onGetMyRecommendFriendList implements BaseProtocol.IResultExecutor<RecommendFriendBean> {
-        @Override
-        public void execute(RecommendFriendBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                RecommendFriendBean.DataBean data = dataBean.getData();
-                List<RecommendFriendBean.DataBean.ListBean> list = data.getList();
-                mListFriendRecommendList.addAll(list);
-                for (RecommendFriendBean.DataBean.ListBean listBean : list) {
-                    setView(listBean);
-                }
-            }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
-    }
 
     //设置推荐好友的数据
     private void setView(RecommendFriendBean.DataBean.ListBean listBean) {
+        LogKit.d("name     "+listBean.getName()+" avatar  "+listBean.getAvatar()+"   uid"+listBean.getUid());
         setUsername(listBean.getName());
         avatar = listBean.getAvatar();
         if(avatar!=null){
-            BitmapKit.bindImage(mItemHscFriendRecommendBinding.ivRecommendIcon,GlobalConstants.HttpUrl.SERVER_HOST_IMG_UPLOAD_DOWNLOAD+"?findId="+avatar);
+            BitmapKit.bindImage(mItemHscFriendRecommendBinding.ivAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         setCompany(listBean.getCompany());
         String direction = listBean.getDirection();
@@ -227,6 +207,7 @@ public class ItemFriendRecommendModel extends BaseObservable {
                         mListFriendRecommendBean.remove(mFriendRecommendBean);
                         ViewGroup itemParent = (ViewGroup) mItemFriendRecommend.getParent();
                         itemParent.removeView(mItemFriendRecommend);
+                        itemParent.removeView(mRecommendSpace);
                         break;
                     case 0://0加入黑名单失败
                         LogKit.d("加入黑名单失败");
@@ -242,8 +223,7 @@ public class ItemFriendRecommendModel extends BaseObservable {
 
     //点击头像看他的资料
     public void avater(View view){
-         RecommendFriendBean.DataBean.ListBean listBean = mListFriendRecommendList.get(index);
-        long uid = listBean.getUid();
+        long uid = mFriendRecommendBean.getUid();
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("Uid", uid);
         intentUserInfoActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
