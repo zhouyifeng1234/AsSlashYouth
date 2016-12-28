@@ -36,12 +36,14 @@ public class MyManager {
     public static final String   INSTALMENT="分期到账";
     public static final String   QOUNT ="报价:¥";
     public static final String   TASK_TIME ="任务时间:";
+    public static final String   START_TIME ="开始时间:";
     public static final String   MY_COLLECTION ="我的收藏";
     public static final String   BACK_SUCCESS ="返回成功";
     public static final String   RES_FAIL="返回失败";
     public static final String   RES_TAG_EXIST="标签已存在";
     public static final String   RES_INVALID_TOKEN="用户uid不存在";
     public static final String   RES_INVALID_PARAMS="参数错误";
+    public static String[] unitArr = {"次","个","幅","份","单","小时","分钟","天","其他"};
 
 
     //我的模块,首页获取我的个人信息
