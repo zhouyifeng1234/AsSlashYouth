@@ -23,16 +23,22 @@
                 android:textSize="17sp"
             />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:src="@mipmap/icon_search_home_contacts"/>
+            <!--搜索按钮-->
+           <RelativeLayout
+               android:onClick="@{pagerHomeContactsModel.search}"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:layout_marginRight="16dp"
+               android:layout_width="40dp"
+               android:layout_height="40dp">
+               <ImageView
+                   android:layout_centerInParent="true"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@mipmap/icon_search_home_contacts"/>
+           </RelativeLayout>
 
         </RelativeLayout>
-
 
          <!--   <ListView
                 android:id="@+id/lv_home_contacts_visitor"
@@ -59,7 +65,9 @@
 
             </com.slash.youth.ui.view.widge.PullableDownListView>
 
-            <include layout="@layout/load_more" />
+            <include
+                android:id="@+id/more"
+                layout="@layout/load_more" />
         </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
 
     </LinearLayout>

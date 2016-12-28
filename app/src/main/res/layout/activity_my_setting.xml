@@ -55,37 +55,9 @@
                         android:textColor="#60A7B6"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="50dp"
+                        android:text="22:00-08:00"
                         />
-
-                    <RelativeLayout
-                        android:visibility="gone"
-                        android:id="@+id/rl_toggle"
-                        android:layout_marginRight="10dp"
-                        android:layout_alignParentRight="true"
-                        android:onClick="@{mySettingModel.timeSetting}"
-                        android:layout_centerVertical="true"
-                        android:layout_width="33dp"
-                        android:layout_height="wrap_content">
-
-
-                      <ImageView
-                            android:id="@+id/iv_publish_demand_instalment_bg1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/background_safebox_toggle"/>
-
-                        <ImageView
-                            android:id="@+id/iv_publish_demand_instalment_handle1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/handle"/>
-
-                    </RelativeLayout>
-
+                    <!--时间设置-->
                     <FrameLayout
                         android:onClick="@{mySettingModel.setTime}"
                         android:layout_marginRight="10dp"
@@ -133,32 +105,7 @@
                         android:layout_marginLeft="10dp"
                         />
 
-                    <RelativeLayout
-                        android:visibility="gone"
-                        android:layout_marginRight="10dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="10dp"
-                        android:onClick="@{mySettingModel.newsSetting}"
-                        android:layout_centerVertical="true"
-                        android:layout_width="33dp"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:id="@+id/iv_publish_demand_instalment_bg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/background_safebox_toggle"/>
-
-                        <ImageView
-                            android:id="@+id/iv_publish_demand_instalment_handle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/handle"/>
-                    </RelativeLayout>
-
+                    <!--消息设置-->
                     <FrameLayout
                         android:onClick="@{mySettingModel.setMsg}"
                         android:layout_marginRight="10dp"
