@@ -11,6 +11,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.HomeContactsVisitorModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -49,6 +50,8 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
 
         String name = data.getName();
         itemListviewHomeContactsVisitorBinding.tvVisitorName.setText(name);
+
+        LogKit.d("name = "+name+"uid = "+data.getUid());
 
         String company = data.getCompany();
         String position = data.getPosition();

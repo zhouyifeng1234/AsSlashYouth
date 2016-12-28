@@ -92,9 +92,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void initView() {
-
         //头像的路径
         if (avatar != null) {
+            LogKit.d("========================================"+avatar);
             BitmapKit.bindImage(activityUserinfoEditorBinding.ivHead, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         //姓名
@@ -223,7 +223,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     public void skillLabel(View view) {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         intentSubscribeActivity.putExtra("isEditor", true);
-        intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", skillLabelList);
+        intentSubscribeActivity.putStringArrayListExtra("addedTagsName", skillLabelList);
         userinfoEditorActivity.startActivityForResult(intentSubscribeActivity, Constants.USERINFO_SKILLLABEL);
     }
 

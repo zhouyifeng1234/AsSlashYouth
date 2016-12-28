@@ -703,6 +703,15 @@
                             android:dividerHeight="0dip"
                             android:layout_height="wrap_content"/>
 
+                        <TextView
+                            android:id="@+id/tv_none"
+                            android:layout_marginTop="5dp"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="暂无任务"/>
                     </LinearLayout>
 
                 </com.slash.youth.ui.view.PullableSrcollView.PullableDownScrollView>

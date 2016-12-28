@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -222,9 +223,11 @@ public class FirstPagerDemandModel extends BaseObservable {
         }
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) { // listAdapter.getCount()返回数据项的数目
-            View listItem = adapter.getView(i, null,   searchCityLocationBinding.lvActivityCityLocationCityFirstletter);
-            listItem.measure(0, 0); // 计算子项View 的宽高
-            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+            View listItem = adapter.getView(i, null,  searchCityLocationBinding.lvActivityCityLocationCityFirstletter);
+            if(listItem!=null){
+                listItem.measure(0, 0); // 计算子项View 的宽高
+                totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+            }
         }
         //总长
         height = totalHeight - heardHeight;

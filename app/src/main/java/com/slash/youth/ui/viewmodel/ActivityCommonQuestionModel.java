@@ -1,14 +1,21 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommonQuestionBinding;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.utils.LogKit;
 
 import java.net.URL;
@@ -21,10 +28,12 @@ public class ActivityCommonQuestionModel extends BaseObservable {
     private WebView wv;
     private WebSettings settings;
     private String webUrl;
+    private WebViewActivity webViewActivity;
 
-    public ActivityCommonQuestionModel(ActivityCommonQuestionBinding activityCommonQuestionBinding,String webUrl) {
+    public ActivityCommonQuestionModel(ActivityCommonQuestionBinding activityCommonQuestionBinding,String webUrl,WebViewActivity webViewActivity) {
         this.activityCommonQuestionBinding = activityCommonQuestionBinding;
         this.webUrl = webUrl;
+        this.webViewActivity =webViewActivity;
         initView();
     }
 
@@ -71,7 +80,9 @@ public class ActivityCommonQuestionModel extends BaseObservable {
             wv.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
+        //nav = 1是没有头布局
         wv.loadUrl(webUrl);
 
     }
+
 }

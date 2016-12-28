@@ -87,7 +87,6 @@ abstract public class BaseProtocol<T> {
         return params;
     }
 
-
     public void addRequestHeader(RequestParams params) {
         Map headerMap = AuthHeaderUtils.getBasicAuthHeader("POST", getUrlString());
         String date = (String) headerMap.get("Date");

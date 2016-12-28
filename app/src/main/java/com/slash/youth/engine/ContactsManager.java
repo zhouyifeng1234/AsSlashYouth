@@ -35,7 +35,7 @@ public class ContactsManager {
     public static String ADD_FRIEND = "加好友";
     public static String IS_FRIEND = "解除好友";
     public static String ADD_FRIEND_APPLICATION = "已申请";
-    public static String AFREEN_FRIEND_APPLICATION= "同意";
+    public static String AFREEN_FRIEND_APPLICATION= "同意加好友";
     public static String CARE_TA ="关注TA";
     public static String CARE_TA_OK ="取消关注";
 

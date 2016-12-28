@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.sip.SipSession;
 import android.os.Build;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,8 +22,10 @@ import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.ActivityUserinfoHeardListviewBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
 import com.slash.youth.databinding.FloatViewBinding;
+import com.slash.youth.domain.FansBean;
 import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeServiceBean;
+import com.slash.youth.domain.FriendStatusBean;
 import com.slash.youth.domain.NewDemandAandServiceBean;
 import com.slash.youth.domain.NewTaskUserInfoBean;
 import com.slash.youth.domain.OtherInfoBean;
@@ -63,15 +66,11 @@ public class ActivityUserInfoModel extends BaseObservable {
     private ActivityUserinfoBinding activityUserinfoBinding;
     private  ArrayList<NewDemandAandServiceBean.DataBean.ListBean> userInfoListView = new ArrayList<>();
     private UserInfoAdapter userInfoAdapter;
-    private FloatViewBinding floatViewBinding;
     private String slashIdentity = "暂未填写";//默认
     private String defaultArea  = "暂未填写";
-    private String add_friend_successful = "已申请加好友成功";
-    private String add_friend_error = "申请加好友";
     public String name;
     private int expert;
     private int isauth;
-    private boolean isAgree;
     private String position;
     private String province;
     private String avatar;
@@ -95,8 +94,6 @@ public class ActivityUserInfoModel extends BaseObservable {
     private UserInfoActivity userInfoActivity;
     private String industry;
     private String desc;
-    private boolean isSuccessful;
-    private boolean isDelete;
     private TextView textViewTag;
     private View footView;
     private int listSize;
@@ -104,21 +101,110 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int startY;
     private int anonymity;
     private OtherInfoBean.DataBean.UinfoBean uinfo;
-    private int  friendStatus ;
+    private  int friendStatus;
+    private int attentionStatus;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
-                                 UserInfoActivity userInfoActivity,String tag,int anonymity,int  friendStatus
+                                 UserInfoActivity userInfoActivity,String tag,int anonymity
                                 ) {
         this.activityUserinfoBinding = activityUserinfoBinding;
         this.tag = tag;
         this.otherUid = otherUid;
         this.anonymity = anonymity;
-        this.friendStatus =  friendStatus ;
         this.userInfoActivity = userInfoActivity;
+        testIsFriend();
+        testisfollow();
         initData();
         initView();
         initAnonymityView();
         listener();
+    }
+
+    //先验证一下好友关系
+    public void testIsFriend() {
+        ContactsManager.onFriendApplicationStatus(new onFriendApplicationStatus(),otherUid);
+    }
+
+    //先验证我和某用户的关系
+    public void testisfollow() {
+        ContactsManager.onTestIsFollow(new onTestIsFollow(), otherUid);
+    }
+
+    //验证我和某用户的关系
+    public class onTestIsFollow implements BaseProtocol.IResultExecutor<FansBean> {
+        @Override
+        public void execute(FansBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if (rescode == 0) {
+                FansBean.DataBean data = dataBean.getData();
+                int fans = data.getFans();
+                switch (fans) {
+                    case 1://1表示他是我的粉丝，0表示无关系  --他有没有关注过我
+                        break;
+                    case 0://无关系
+                        break;
+                }
+                int follow = data.getFollow();
+                switch (follow) {
+                    case 1://1表示我是他的粉丝，0表示无关系 ==我关注他
+                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA_OK);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                        attentionStatus = 1;
+                        LogKit.d("我关注过他");
+                        break;
+                    case 0://无关系
+                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                        attentionStatus = 0;
+                        LogKit.d("我没有关注过他");
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
+
+    //验证我和某一个用户的加好友的状态
+    public class onFriendApplicationStatus implements BaseProtocol.IResultExecutor<FriendStatusBean> {
+        @Override
+        public void execute(FriendStatusBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if(rescode == 0){
+                FriendStatusBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 0:
+                        LogKit.d("0表示陌生人");
+                        friendStatus = 0;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
+                        break;
+                    case 1:
+                        LogKit.d("表示我主动加了他，他还未回复");
+                        friendStatus = 1;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
+                        break;
+                    case 2:
+                        LogKit.d("表示他主动加了我，我还未同意");
+                        friendStatus = 2;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.AFREEN_FRIEND_APPLICATION);
+                        break;
+                    case 3:
+                        LogKit.d("表示是好友关系");
+                        friendStatus = 3;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
     }
 
     private void initAnonymityView() {
@@ -151,7 +237,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         activityUserinfoBinding.lvUserinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 NewDemandAandServiceBean.DataBean.ListBean userInfoBean = userInfoListView.get(position);
                 int type = userInfoBean.getType();
                 switch (type){
@@ -192,7 +277,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit);
             isOther = true;
-
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
@@ -230,19 +314,8 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //加载界面
     private void initView() {
-
-        //让listview不获取焦点
-       // activityUserinfoBinding.lvUserinfo.setFocusable(false);
-
         //手动ScrollView设置到顶部
         activityUserinfoBinding.sv.smoothScrollTo(0,0);
-
-        //listview的设置不可滑动
-      /*  activityUserinfoBinding.lvUserinfo.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });*/
 
         activityUserinfoBinding.refreshView.setOnRefreshListener(new TaskListListener());
 
@@ -250,6 +323,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         if(listSize == 0){
             View rl = userInfoActivity.findViewById(R.id.rl_progress);
             rl.setVisibility(View.GONE);
+            activityUserinfoBinding.tvNone.setVisibility(View.VISIBLE);
         }
     }
 
@@ -275,7 +349,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             }, 2000);
         }
     }
-
 
     //点击打开技能标签页面
     public void openskilllabel(View view) {
@@ -512,7 +585,9 @@ public class ActivityUserInfoModel extends BaseObservable {
         //方向
         direction = uinfo.getDirection();
         industry = uinfo.getIndustry();
-        activityUserinfoBinding.tvProfession.setText(industry + "|" + direction);
+        if(direction!=null&&industry!=null&&direction!=""&&industry!=""){
+            activityUserinfoBinding.tvProfession.setText(industry + "|" + direction);
+        }
 
         //专家  用户身份，是否是专家，专家几级,默认是不显示
         expert = uinfo.getExpert();
@@ -634,34 +709,19 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //加好友
     public void addFriend(View view) {
-
         switch (friendStatus){
-            case 0:
+            case 0://现在是陌生人，点击之后是加好友
                 ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),otherUid,"   ");
-              //  ContactsManager.deleteFriendRelationProtocol(new onDeleteFriendRelationProtocol(),otherUid,"unBindUserInfo");
-                if(isSuccessful){
-                    // ToastUtils.shortCenterToast(add_friend_successful);
-                    activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
-                }else {
-                    LogKit.d("网络错误");
-                    //ToastUtils.shortCenterToast(add_friend_error);
-                    //activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
-                }
                 break;
-            case 1:
+            case 1://现在是我已申请状态，点击之后没有效果
                 activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
+                ToastUtils.shortToast("您已申请加好友");
                 break;
-            case 2:
-               // activityUserinfoBinding.tvAddFriend.setText(ContactsManager.AFREEN_FRIEND_APPLICATION);
+            case 2://人家向我发出好友申请,我显示同意，点击之后变成解除好友
                 ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),otherUid,"  ");
-                if(isAgree){
-                    activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
-                }else {
-                    LogKit.d("网络错误");
-                }
                 break;
-            case 3:
-                activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
+            case 3://现在解除好友，点击一下,变成加好友
+                ContactsManager.deleteFriendRelationProtocol(new onDeleteFriendRelationProtocol(),otherUid,"   ");
                 break;
         }
     }
@@ -674,12 +734,13 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //关注他
     public void attention(View view) {
-        String text = activityUserinfoBinding.tvAttentionTA.getText().toString();
-        if(text.equals(ContactsManager.CARE_TA_OK)){
-            ContactsManager.onCannelCareProtocol(new onCannelCareProtocol(),otherUid);
-        }
-        if(text.equals(ContactsManager.CARE_TA)){
-           ContactsManager.onCareTAProtocol(new onCareTAProtocol(),otherUid);
+        switch (attentionStatus){
+            case 1://我关注过他
+                ContactsManager.onCannelCareProtocol(new onCannelCareProtocol(),otherUid);
+                break;
+            case 0://我没关注他
+                ContactsManager.onCareTAProtocol(new onCareTAProtocol(),otherUid);
+                break;
         }
     }
 
@@ -701,10 +762,11 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case 1:
-                        isSuccessful = true;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND_APPLICATION);
+                        friendStatus = 1;
                         break;
                     case 0:
-                        isSuccessful = false;
+                        ToastUtils.shortToast("加好友失败");
                         break;
                 }
             }
@@ -716,7 +778,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     }
 
     //删除好友关系
-    /*public class onDeleteFriendRelationProtocol implements BaseProtocol.IResultExecutor<SetBean> {
+    public class onDeleteFriendRelationProtocol implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
         public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
@@ -725,10 +787,11 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case 1:
-                        isDelete = true;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.ADD_FRIEND);
+                        friendStatus = 0;
                         break;
                     case 0:
-                        isDelete = false;
+                        ToastUtils.shortToast("删除好友失败");
                         break;
                 }
             }
@@ -737,7 +800,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
-    }*/
+    }
 
     //关注TA
     public class onCareTAProtocol implements BaseProtocol.IResultExecutor<SetBean> {
@@ -749,9 +812,9 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                       // ToastUtils.shortCenterToast("已关注");
                         activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA_OK);
                         activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                        attentionStatus = 1;
                         break;
                     case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
                         LogKit.d("已经关注过错误");
@@ -784,9 +847,9 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                       // ToastUtils.shortCenterToast("已取消关注TA");
                         activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA);
                         activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                        attentionStatus = 0;
                         break;
                     case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
                         LogKit.d("已经关注过错误");
@@ -809,6 +872,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
+    //同意加好友申请的接口
     public class onAgreeFriendProtocol implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
         public void execute(SetBean dataBean) {
@@ -818,12 +882,11 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case 1:
-                       // ToastUtils.shortCenterToast("已是好友");
-                        isAgree = true;
+                        activityUserinfoBinding.tvAddFriend.setText(ContactsManager.IS_FRIEND);
+                        friendStatus = 3;
                         break;
                     case 0:
-                       // ToastUtils.shortCenterToast("添加好友未成功");
-                        isAgree = false;
+                        ToastUtils.shortToast("同意未成功");
                         break;
                 }
             }

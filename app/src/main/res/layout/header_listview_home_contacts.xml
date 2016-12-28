@@ -426,6 +426,14 @@
                 android:textSize="15sp"/>
 
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/tv_none"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="您还没有访客哦！"
+            android:gravity="center_horizontal"
+            android:textColor="#333333"
+            />
     </LinearLayout>
 </layout>
