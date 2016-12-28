@@ -32,7 +32,6 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/1.
  */
 public class UserinfoEditorActivity extends Activity {
-
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private ActivityUserInfoEditorModel activityUserInfoEditorModel;
     private File file = new File(Environment.getExternalStorageDirectory()+"/001.jpg");
