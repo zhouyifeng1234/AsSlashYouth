@@ -1,15 +1,9 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.widget.Toast;
 
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
@@ -18,17 +12,9 @@ import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ActivityLoginModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.PackageUtil;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by zhouyifeng on 2016/9/5.
@@ -53,7 +39,7 @@ public class LoginActivity extends Activity {
         mSsoHandler = new SsoHandler(LoginActivity.this, mAuthInfo);
 
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        ActivityLoginModel activityLoginModel = new ActivityLoginModel(activityLoginBinding, qqLoginUiListener, this, mSsoHandler);
+        ActivityLoginModel activityLoginModel = new ActivityLoginModel(activityLoginBinding, qqLoginUiListener, this, mSsoHandler, this);
         activityLoginBinding.setActivityLoginModel(activityLoginModel);
 
     }
