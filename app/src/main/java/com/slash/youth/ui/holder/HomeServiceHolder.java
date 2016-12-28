@@ -15,8 +15,6 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
@@ -45,7 +43,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         long endtime = data.getEndtime();
         String startData = TimeUtils.getData(starttime);
         String endData = TimeUtils.getData(endtime);*/
-       // mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + "" + startData);
+        // mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + "" + startData);
         int timetype = data.getTimetype();
         itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
         mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
@@ -74,8 +72,10 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
 
         long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
-        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit];
-        itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        if (quoteunit >= 1 && quoteunit <= 9) {
+            String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit - 1];
+            itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        }
 
         int pattern = data.getPattern();
         switch (pattern) {
@@ -107,6 +107,6 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("<" + distance + "KM");
     }
 }

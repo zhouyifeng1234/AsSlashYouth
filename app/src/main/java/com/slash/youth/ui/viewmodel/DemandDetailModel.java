@@ -85,16 +85,20 @@ public class DemandDetailModel extends BaseObservable {
                 try {
                     double bidQuote = Double.parseDouble(bidQuoteStr);
                     double ratio1 = Double.parseDouble(ratioStr1);
-                    int ratioQuote1 = (int) (bidQuote * ratio1 / 100);
+//                    int ratioQuote1 = (int) (bidQuote * ratio1 / 100);
+                    double ratioQuote1 = bidQuote * ratio1 / 100;
                     mActivityDemandDetailBinding.tvInstalment1Amount.setText("￥" + ratioQuote1);
                     double ratio2 = Double.parseDouble(ratioStr2);
-                    int ratioQuote2 = (int) (bidQuote * ratio2 / 100);
+//                    int ratioQuote2 = (int) (bidQuote * ratio2 / 100);
+                    double ratioQuote2 = bidQuote * ratio2 / 100;
                     mActivityDemandDetailBinding.tvInstalment2Amount.setText("￥" + ratioQuote2);
                     double ratio3 = Double.parseDouble(ratioStr3);
-                    int ratioQuote3 = (int) (bidQuote * ratio3 / 100);
+//                    int ratioQuote3 = (int) (bidQuote * ratio3 / 100);
+                    double ratioQuote3 = bidQuote * ratio3 / 100;
                     mActivityDemandDetailBinding.tvInstalment3Amount.setText("￥" + ratioQuote3);
                     double ratio4 = Double.parseDouble(ratioStr4);
-                    int ratioQuote4 = (int) (bidQuote * ratio4 / 100);
+//                    int ratioQuote4 = (int) (bidQuote * ratio4 / 100);
+                    double ratioQuote4 = bidQuote * ratio4 / 100;
                     mActivityDemandDetailBinding.tvInstalment4Amount.setText("￥" + ratioQuote4);
                 } catch (Exception ex) {
 //                    ToastUtils.shortToast("填写数据有误");
@@ -129,7 +133,7 @@ public class DemandDetailModel extends BaseObservable {
             try {
                 double ratio = Double.parseDouble(ratioStr);
                 double bidQuote = Double.parseDouble(bidQuoteStr);
-                int ratioQuote = (int) (bidQuote * ratio / 100);
+                double ratioQuote = bidQuote * ratio / 100;
                 ratioQuoteStr = "￥" + ratioQuote;
             } catch (Exception ex) {
 
@@ -623,6 +627,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void deleteInstalment(View v) {
+        setAddInstalmentIconVisibility(View.VISIBLE);
         if (bidIsInstalment) {
             if (instalmentCount > 0) {
                 instalmentCount--;
@@ -645,6 +650,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void addInstalment(View v) {
+        setAddInstalmentIconVisibility(View.VISIBLE);
         if (bidIsInstalment) {
             if (instalmentCount < 4) {
                 boolean isAddable = checkIsAddedable();
@@ -658,6 +664,7 @@ public class DemandDetailModel extends BaseObservable {
                         setUpdateInstalmentLine3Visibility(View.VISIBLE);
                     } else {//instalmentCount=4
                         setUpdateInstalmentLine4Visibility(View.VISIBLE);
+                        setAddInstalmentIconVisibility(View.GONE);
                     }
                 } else {
                     ToastUtils.shortToast("请正确填写分期比率");
@@ -718,11 +725,11 @@ public class DemandDetailModel extends BaseObservable {
         }
 
         if (bidDemandStarttime <= 0) {
-            ToastUtils.shortToast("请先完善开始时间和结束时间");
+            ToastUtils.shortToast("请先完善开始时间");
             return;
         }
-        if (bidDemandStarttime <= System.currentTimeMillis()) {
-            ToastUtils.shortToast("开始时间必须大于当前时间");
+        if (bidDemandStarttime <= System.currentTimeMillis() + 60 * 60 * 1000) {
+            ToastUtils.shortToast("开始时间必须大于当前时间1个小时");
             return;
         }
 
@@ -738,7 +745,7 @@ public class DemandDetailModel extends BaseObservable {
             for (double ratio : bidDemandInstalmentRatioList) {
                 totalRatio += ratio;
             }
-            if (totalRatio < 100) {
+            if (totalRatio != 100) {
                 ToastUtils.shortToast("分期比例总和必须是100%");
                 return;
             }
@@ -749,6 +756,7 @@ public class DemandDetailModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("抢单成功");
+                setBidInfoVisibility(View.GONE);
             }
 
             @Override
@@ -759,6 +767,7 @@ public class DemandDetailModel extends BaseObservable {
     }
 
     private void getInputInstalmentRatio() {
+        bidDemandInstalmentRatioList.clear();
         String ratioStr;
         if (instalmentCount >= 1) {
             ratioStr = mActivityDemandDetailBinding.etBidDemandInstalmentRatio1.getText().toString();
@@ -850,6 +859,18 @@ public class DemandDetailModel extends BaseObservable {
     private int chooseDateTimeLayerVisibility = View.GONE;
     private int bidInfoVisibility = View.GONE;
     private int instalmentRatioVisibility;
+
+    private int addInstalmentIconVisibility;
+
+    @Bindable
+    public int getAddInstalmentIconVisibility() {
+        return addInstalmentIconVisibility;
+    }
+
+    public void setAddInstalmentIconVisibility(int addInstalmentIconVisibility) {
+        this.addInstalmentIconVisibility = addInstalmentIconVisibility;
+        notifyPropertyChanged(BR.addInstalmentIconVisibility);
+    }
 
     @Bindable
     public int getInstalmentRatioVisibility() {

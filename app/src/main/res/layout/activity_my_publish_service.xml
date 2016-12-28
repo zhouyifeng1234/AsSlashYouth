@@ -787,6 +787,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#66000000"
+            android:clickable="true"
             android:visibility="@{myPublishServiceModel.updateLayerVisibility}">
 
             <LinearLayout
@@ -1091,6 +1092,15 @@
                             android:textColor="#333333"
                             android:textSize="10sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -1136,6 +1146,15 @@
                             android:inputType="number"
                             android:textColor="#333333"
                             android:textSize="10sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
 
                         <View
                             android:layout_width="0dp"
@@ -1183,6 +1202,15 @@
                             android:textColor="#333333"
                             android:textSize="10sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -1229,6 +1257,15 @@
                             android:textColor="#333333"
                             android:textSize="10sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -1269,7 +1306,8 @@
                             android:layout_width="21dp"
                             android:layout_height="21dp"
                             android:onClick="@{myPublishServiceModel.addInstalment}"
-                            android:src="@mipmap/jia_icon"/>
+                            android:src="@mipmap/jia_icon"
+                            android:visibility="@{myPublishServiceModel.addInstalmentIconVisibility}"/>
 
                     </LinearLayout>
 

@@ -950,10 +950,9 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="gone"
-
+            android:visibility="@{demandDetailModel.bidInfoVisibility}"
         >
-            <!--android:visibility="@{demandDetailModel.bidInfoVisibility}"-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1258,6 +1257,15 @@
                             android:textColor="#333333"
                             android:textSize="10sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -1303,6 +1311,15 @@
                             android:inputType="number"
                             android:textColor="#333333"
                             android:textSize="10sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
 
                         <View
                             android:layout_width="0dp"
@@ -1350,6 +1367,15 @@
                             android:textColor="#333333"
                             android:textSize="10sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -1396,6 +1422,15 @@
                             android:textColor="#333333"
                             android:textSize="10sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:text="%"
+                            android:textColor="#333333"
+                            android:textSize="12sp"/>
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -1438,7 +1473,8 @@
                             android:layout_width="21dp"
                             android:layout_height="21dp"
                             android:onClick="@{demandDetailModel.addInstalment}"
-                            android:src="@mipmap/jia_icon"/>
+                            android:src="@mipmap/jia_icon"
+                            android:visibility="@{demandDetailModel.addInstalmentIconVisibility}"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -1474,9 +1510,9 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="gone"
+            android:visibility="@{demandDetailModel.chooseDateTimeLayerVisibility}"
         >
-            <!--android:visibility="@{demandDetailModel.chooseDateTimeLayerVisibility}"-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"

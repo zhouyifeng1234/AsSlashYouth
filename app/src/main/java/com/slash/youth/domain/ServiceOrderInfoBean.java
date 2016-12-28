@@ -14,7 +14,7 @@ public class ServiceOrderInfoBean {
     public class Order {
         public int bp;
         public int channel;
-        public long chid;
+        public String chid;
         public int chtype;
         public long cts;
         public long id;

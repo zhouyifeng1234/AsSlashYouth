@@ -119,16 +119,20 @@ public class MyPublishServiceModel extends BaseObservable {
                 try {
                     double updateQuote = Double.parseDouble(updateQuoteStr);
                     double ratio1 = Double.parseDouble(ratioStr1);
-                    int ratioQuote1 = (int) (updateQuote * ratio1 / 100);
+//                    int ratioQuote1 = (int) (updateQuote * ratio1 / 100);
+                    double ratioQuote1 = updateQuote * ratio1 / 100;
                     mActivityMyPublishServiceBinding.tvInstalment1Amount.setText("￥" + ratioQuote1);
                     double ratio2 = Double.parseDouble(ratioStr2);
-                    int ratioQuote2 = (int) (updateQuote * ratio2 / 100);
+//                    int ratioQuote2 = (int) (updateQuote * ratio2 / 100);
+                    double ratioQuote2 = updateQuote * ratio2 / 100;
                     mActivityMyPublishServiceBinding.tvInstalment2Amount.setText("￥" + ratioQuote2);
                     double ratio3 = Double.parseDouble(ratioStr3);
-                    int ratioQuote3 = (int) (updateQuote * ratio3 / 100);
+//                    int ratioQuote3 = (int) (updateQuote * ratio3 / 100);
+                    double ratioQuote3 = updateQuote * ratio3 / 100;
                     mActivityMyPublishServiceBinding.tvInstalment3Amount.setText("￥" + ratioQuote3);
                     double ratio4 = Double.parseDouble(ratioStr4);
-                    int ratioQuote4 = (int) (updateQuote * ratio4 / 100);
+//                    int ratioQuote4 = (int) (updateQuote * ratio4 / 100);
+                    double ratioQuote4 = updateQuote * ratio4 / 100;
                     mActivityMyPublishServiceBinding.tvInstalment4Amount.setText("￥" + ratioQuote4);
                 } catch (Exception ex) {
 //                    ToastUtils.shortToast("填写数据有误");
@@ -164,7 +168,7 @@ public class MyPublishServiceModel extends BaseObservable {
             try {
                 double ratio = Double.parseDouble(ratioStr);
                 double updateQuote = Double.parseDouble(updateQuoteStr);
-                int ratioQuote = (int) (updateQuote * ratio / 100);
+                double ratioQuote = updateQuote * ratio / 100;
                 ratioQuoteStr = "￥" + ratioQuote;
             } catch (Exception ex) {
 
@@ -348,8 +352,8 @@ public class MyPublishServiceModel extends BaseObservable {
             ToastUtils.shortToast("请先完善开始时间和结束时间");
             return;
         }
-        if (starttime <= System.currentTimeMillis()) {
-            ToastUtils.shortToast("开始时间必须大于当前时间");
+        if (starttime <= System.currentTimeMillis() + 60 * 60 * 1000) {
+            ToastUtils.shortToast("开始时间必须大于当前时间1个小时");
             return;
         }
         if (endtime <= starttime) {
@@ -369,7 +373,7 @@ public class MyPublishServiceModel extends BaseObservable {
             for (double ratio : updateInstalmentRatioList) {
                 totalRatio += ratio;
             }
-            if (totalRatio < 100) {
+            if (totalRatio != 100) {
                 ToastUtils.shortToast("分期比例总和必须是100%");
                 return;
             }
@@ -378,6 +382,7 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("服务方选定成功");
+                setUpdateLayerVisibility(View.GONE);
             }
 
             @Override
@@ -388,6 +393,7 @@ public class MyPublishServiceModel extends BaseObservable {
     }
 
     private void getInputInstalmentRatio() {
+        updateInstalmentRatioList.clear();
         String ratioStr;
         if (instalmentCount >= 1) {
             ratioStr = mActivityMyPublishServiceBinding.etUpdateInstalmentRatio1.getText().toString();
@@ -468,7 +474,8 @@ public class MyPublishServiceModel extends BaseObservable {
     }
 
     public void closeUpdateTaskTimeLayer(View v) {
-        setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
+//        setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
+        setUpdateLayerVisibility(View.GONE);
     }
 
     public void okChooseIdleStartTimeAndEndTime(View v) {
@@ -606,6 +613,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void deleteInstalment(View v) {
+        setAddInstalmentIconVisibility(View.VISIBLE);
         if (isUpdateInstalment) {
             if (instalmentCount > 0) {
                 instalmentCount--;
@@ -628,6 +636,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void addInstalment(View v) {
+        setAddInstalmentIconVisibility(View.VISIBLE);
         if (isUpdateInstalment) {
             if (instalmentCount < 4) {
                 boolean isAddable = checkIsAddedable();
@@ -641,6 +650,7 @@ public class MyPublishServiceModel extends BaseObservable {
                         setUpdateInstalmentLine3Visibility(View.VISIBLE);
                     } else {//instalmentCount=4
                         setUpdateInstalmentLine4Visibility(View.VISIBLE);
+                        setAddInstalmentIconVisibility(View.GONE);
                     }
                 } else {
                     ToastUtils.shortToast("请正确填写分期比率");
@@ -1049,6 +1059,18 @@ public class MyPublishServiceModel extends BaseObservable {
     private String serviceUsername;
 
     private int loadLayerVisibility = View.GONE;
+
+    private int addInstalmentIconVisibility;
+
+    @Bindable
+    public int getAddInstalmentIconVisibility() {
+        return addInstalmentIconVisibility;
+    }
+
+    public void setAddInstalmentIconVisibility(int addInstalmentIconVisibility) {
+        this.addInstalmentIconVisibility = addInstalmentIconVisibility;
+        notifyPropertyChanged(BR.addInstalmentIconVisibility);
+    }
 
     @Bindable
     public int getInstalmentRatioVisibility() {

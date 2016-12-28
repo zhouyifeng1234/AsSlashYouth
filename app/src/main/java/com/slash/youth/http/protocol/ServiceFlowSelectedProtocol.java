@@ -52,7 +52,7 @@ public class ServiceFlowSelectedProtocol extends BaseProtocol<CommonResultBean> 
             jo.put("endtime", endtime);
             JSONArray jaInstalmentRatio = new JSONArray();
             for (double ratio : instalment) {
-                jaInstalmentRatio.put(ratio);
+                jaInstalmentRatio.put(ratio / 100.0d);
             }
             jo.put("instalment", jaInstalmentRatio);
             jo.put("bp", bp);
