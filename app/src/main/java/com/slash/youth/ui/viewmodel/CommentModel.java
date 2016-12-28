@@ -2,16 +2,21 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommentBinding;
 import com.slash.youth.domain.CommentResultBean;
-import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.domain.CommentStatusBean;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -31,23 +36,81 @@ public class CommentModel extends BaseObservable {
     int type;//需求服务类型 1需求 2服务
     long suid;//服务者UID
 
+    boolean isCompleteComment = false;
+
 
     public CommentModel(ActivityCommentBinding activityCommentBinding, Activity activity) {
         this.mActivityCommentBinding = activityCommentBinding;
         this.mActivity = activity;
-        initView();
+        displayLoadLayer();
         initData();
+        initView();
     }
 
-    private void initView() {
-
-    }
 
     private void initData() {
         Bundle commentInfo = mActivity.getIntent().getExtras();
         tid = commentInfo.getLong("tid");
         type = commentInfo.getInt("type");
         suid = commentInfo.getLong("suid");
+
+        MyTaskEngine.getCommentStatus(new BaseProtocol.IResultExecutor<CommentStatusBean>() {
+            @Override
+            public void execute(CommentStatusBean dataBean) {
+                CommentStatusBean.Evaluation evaluation = dataBean.data.evaluation;
+                if (evaluation != null && evaluation.cts != 0) {
+                    LogKit.v("已评价");
+                    isCompleteComment = true;
+                    setGoBackIconVisibility(View.GONE);
+                    setCompleteCommentBtnVisibility(View.GONE);
+                    setCloseCommentBtnVisibility(View.VISIBLE);
+                    setBottomShareBtnVisibility(View.VISIBLE);
+                    setCompleteCommentIconVisibility(View.VISIBLE);
+                    mActivityCommentBinding.etCommentContent.setEnabled(false);
+                    mActivityCommentBinding.etCommentContent.setText(evaluation.remark);
+                    serviceQualityMarks = evaluation.quality;
+                    completeSpeedMarks = evaluation.speed;
+                    serviceAttitudeMarks = evaluation.attitude;
+                    displayStars(mActivityCommentBinding.llServiceQualityStars, serviceQualityMarks - 1);
+                    displayStars(mActivityCommentBinding.llCompleteSpeedStars, completeSpeedMarks - 1);
+                    displayStars(mActivityCommentBinding.llServiceAttitudeStars, serviceAttitudeMarks - 1);
+
+                } else {
+                    LogKit.v("未评价");
+                    isCompleteComment = false;
+                    setGoBackIconVisibility(View.VISIBLE);
+                    setCompleteCommentBtnVisibility(View.VISIBLE);
+                    setCloseCommentBtnVisibility(View.GONE);
+                    setBottomShareBtnVisibility(View.INVISIBLE);
+                    setCompleteCommentIconVisibility(View.GONE);
+                    mActivityCommentBinding.etCommentContent.setEnabled(true);
+                }
+                hideLoadLayer();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取任务评价状态失败");
+            }
+        }, tid + "", type + "");
+    }
+
+    private void initView() {
+
+    }
+
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
     }
 
     public void gotoBack(View v) {
@@ -55,19 +118,21 @@ public class CommentModel extends BaseObservable {
     }
 
     public void giveMarks(View v) {
-        ViewGroup viewGroup = (ViewGroup) v.getParent();
-        int currentCheckedIndex = viewGroup.indexOfChild(v);
-        displayStars(viewGroup, currentCheckedIndex);
-        switch (viewGroup.getId()) {
-            case R.id.ll_service_quality_stars:
-                serviceQualityMarks = currentCheckedIndex + 1;
-                break;
-            case R.id.ll_complete_speed_stars:
-                completeSpeedMarks = currentCheckedIndex + 1;
-                break;
-            case R.id.ll_service_attitude_stars:
-                serviceAttitudeMarks = currentCheckedIndex + 1;
-                break;
+        if (!isCompleteComment) {
+            ViewGroup viewGroup = (ViewGroup) v.getParent();
+            int currentCheckedIndex = viewGroup.indexOfChild(v);
+            displayStars(viewGroup, currentCheckedIndex);
+            switch (viewGroup.getId()) {
+                case R.id.ll_service_quality_stars:
+                    serviceQualityMarks = currentCheckedIndex + 1;
+                    break;
+                case R.id.ll_complete_speed_stars:
+                    completeSpeedMarks = currentCheckedIndex + 1;
+                    break;
+                case R.id.ll_service_attitude_stars:
+                    serviceAttitudeMarks = currentCheckedIndex + 1;
+                    break;
+            }
         }
     }
 
@@ -85,12 +150,37 @@ public class CommentModel extends BaseObservable {
 
     //完成提交评论
     public void completeComment(View v) {
+        if (serviceQualityMarks <= 0) {
+            ToastUtils.shortToast("请给服务质量打分");
+            return;
+        }
+        if (completeSpeedMarks <= 0) {
+            ToastUtils.shortToast("请给完成速度打分");
+            return;
+        }
+        if (serviceAttitudeMarks <= 0) {
+            ToastUtils.shortToast("请给服务态度打分");
+            return;
+        }
         String remark = mActivityCommentBinding.etCommentContent.getText().toString();
-        DemandEngine.comment(new BaseProtocol.IResultExecutor<CommentResultBean>() {
+        if (TextUtils.isEmpty(remark)) {
+            ToastUtils.shortToast("请填写评价描述信息");
+            return;
+        }
+        //评价需求还是服务，由传入的type参数决定
+        MyTaskEngine.comment(new BaseProtocol.IResultExecutor<CommentResultBean>() {
             @Override
             public void execute(CommentResultBean dataBean) {
                 //评论成功
-                ToastUtils.shortToast("评论成功");
+                //ToastUtils.shortToast("评论成功");
+                setCommentSuccessDialogVisibility(View.VISIBLE);
+                isCompleteComment = true;
+                setGoBackIconVisibility(View.GONE);
+                setCompleteCommentBtnVisibility(View.GONE);
+                setCloseCommentBtnVisibility(View.VISIBLE);
+                setCompleteCommentIconVisibility(View.VISIBLE);
+                mActivityCommentBinding.etCommentContent.setEnabled(false);
+                setBottomShareBtnVisibility(View.VISIBLE);
             }
 
             @Override
@@ -101,4 +191,113 @@ public class CommentModel extends BaseObservable {
         }, serviceQualityMarks + "", completeSpeedMarks + "", serviceAttitudeMarks + "", remark, type + "", tid + "", suid + "");
     }
 
+    /**
+     * 关闭评价成功弹框
+     *
+     * @param v
+     */
+    public void closeCommentSuccessDialog(View v) {
+        setCommentSuccessDialogVisibility(View.GONE);
+    }
+
+    /**
+     * 评价成功后弹框中的去分享按钮
+     *
+     * @param v
+     */
+    public void gotoShareTask(View v) {
+        setCommentSuccessDialogVisibility(View.GONE);
+        shareTask(null);
+    }
+
+    /**
+     * 底部分享按钮
+     *
+     * @param v
+     */
+    public void shareTask(View v) {
+        ToastUtils.shortToast("分享任务");
+    }
+
+    public void closeCommentActivity(View v) {
+        mActivity.finish();
+    }
+
+    private int completeCommentIconVisibility = View.GONE;
+    private int commentSuccessDialogVisibility = View.GONE;
+    private int completeCommentBtnVisibility;
+    private int closeCommentBtnVisibility;
+    private int loadLayerVisibility;
+    private int bottomShareBtnVisibility;
+    private int goBackIconVisibility;
+
+    @Bindable
+    public int getGoBackIconVisibility() {
+        return goBackIconVisibility;
+    }
+
+    public void setGoBackIconVisibility(int goBackIconVisibility) {
+        this.goBackIconVisibility = goBackIconVisibility;
+        notifyPropertyChanged(BR.goBackIconVisibility);
+    }
+
+    @Bindable
+    public int getBottomShareBtnVisibility() {
+        return bottomShareBtnVisibility;
+    }
+
+    public void setBottomShareBtnVisibility(int bottomShareBtnVisibility) {
+        this.bottomShareBtnVisibility = bottomShareBtnVisibility;
+        notifyPropertyChanged(BR.bottomShareBtnVisibility);
+    }
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
+
+    @Bindable
+    public int getCompleteCommentBtnVisibility() {
+        return completeCommentBtnVisibility;
+    }
+
+    public void setCompleteCommentBtnVisibility(int completeCommentBtnVisibility) {
+        this.completeCommentBtnVisibility = completeCommentBtnVisibility;
+        notifyPropertyChanged(BR.completeCommentBtnVisibility);
+    }
+
+    @Bindable
+    public int getCloseCommentBtnVisibility() {
+        return closeCommentBtnVisibility;
+    }
+
+    public void setCloseCommentBtnVisibility(int closeCommentBtnVisibility) {
+        this.closeCommentBtnVisibility = closeCommentBtnVisibility;
+        notifyPropertyChanged(BR.closeCommentBtnVisibility);
+    }
+
+    @Bindable
+    public int getCommentSuccessDialogVisibility() {
+        return commentSuccessDialogVisibility;
+    }
+
+    public void setCommentSuccessDialogVisibility(int commentSuccessDialogVisibility) {
+        this.commentSuccessDialogVisibility = commentSuccessDialogVisibility;
+        notifyPropertyChanged(BR.commentSuccessDialogVisibility);
+    }
+
+    @Bindable
+    public int getCompleteCommentIconVisibility() {
+        return completeCommentIconVisibility;
+    }
+
+    public void setCompleteCommentIconVisibility(int completeCommentIconVisibility) {
+        this.completeCommentIconVisibility = completeCommentIconVisibility;
+        notifyPropertyChanged(BR.completeCommentIconVisibility);
+    }
 }

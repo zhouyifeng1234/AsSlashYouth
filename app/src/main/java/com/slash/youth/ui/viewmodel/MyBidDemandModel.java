@@ -27,6 +27,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
@@ -233,6 +234,16 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void viewComment(View v) {
+
+        Intent intentCommentActivity = new Intent(CommonUtils.getContext(), CommentActivity.class);
+
+        Bundle commentInfo = new Bundle();
+        commentInfo.putLong("tid", tid);
+        commentInfo.putInt("type", type);
+        commentInfo.putLong("suid", innerDemandCardInfo.suid);
+        intentCommentActivity.putExtras(commentInfo);
+
+        mActivity.startActivity(intentCommentActivity);
     }
 
     private void getDemandFlowLogData() {

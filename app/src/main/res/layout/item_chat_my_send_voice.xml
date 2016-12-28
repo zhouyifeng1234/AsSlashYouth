@@ -45,8 +45,11 @@
                 android:textColor="#CCCCCC"
                 android:textSize="15sp"/>
 
+            <!--android:layout_width="131dp"-->
+
             <FrameLayout
-                android:layout_width="131dp"
+                android:id="@+id/fl_voice_box"
+                android:layout_width="70dp"
                 android:layout_height="39dp"
                 android:layout_marginLeft="9dp"
                 android:background="@drawable/chat_box_blue_bg"

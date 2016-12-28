@@ -108,20 +108,28 @@ public class ChatModel extends BaseObservable {
 
     ArrayList<SendMessageBean> listSendMsg = new ArrayList<SendMessageBean>();
 
+    private int friendRelationShipStatus = 0;//0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
+    private int changeContactStatus = 0;//1标识已经交换过  -1标识尚未交换过
+
+    private int getBaseDataFinishedCount = 0;
+    private int getBaseDataTotalCount = 0;
+
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
         this.mActivity = activity;
 
         targetId = mActivity.getIntent().getStringExtra("targetId");
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
+        displayLoadLayer();
         getTargetUserInfo();
+        getFriendRelationShipStatus();
+        getChangeContactStatus();
 
-        //为了正确显示对方的头像等信息，把初始化方法放在获取对方的个人信息之后执行
+        //为了正确显示对方的头像等信息，把初始化方法放在加载基本信息完毕之后执行
 //        initData();
 //        initView();
 //        initListener();
     }
-
 
     private void initData() {
 
@@ -186,7 +194,22 @@ public class ChatModel extends BaseObservable {
         });
     }
 
+    /**
+     * 刚进入页面时，显示加载层
+     */
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据加载完毕后,隐藏加载层
+     */
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
+    }
+
     private void getTargetUserInfo() {
+        getBaseDataTotalCount++;
         UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
             @Override
             public void execute(UserInfoBean dataBean) {
@@ -195,16 +218,98 @@ public class ChatModel extends BaseObservable {
                 setOtherUsername(targetName);
                 setOtherCompanyAndPosition(dataBean.data.uinfo.company + " " + dataBean.data.uinfo.position);
 
-                initData();
-                initView();
-                initListener();
+                getBaseDataFinishedCount++;
+                if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
+                    initData();
+                    initView();
+                    initListener();
+                    hideLoadLayer();
+                }
             }
 
             @Override
             public void executeResultError(String result) {
                 ToastUtils.shortToast("获取聊天目标用户信息失败:" + result);
+
+                getBaseDataFinishedCount++;
+                if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
+                    initData();
+                    initView();
+                    initListener();
+                    hideLoadLayer();
+                }
             }
         }, targetId, "0");
+    }
+
+    private void getFriendRelationShipStatus() {
+        getBaseDataTotalCount++;
+        MsgManager.getAddFriendStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                int status = dataBean.data.status;
+//                if (status == 0) {
+//                    //0表示陌生人
+//                } else if (status == 1) {
+//                    //1表示我主动加了他，他还未回复
+//                } else if (status == 2) {
+//                    //2表示他主动加了我，我还未同意
+//                } else {
+//                    //3表示是好友关系
+//                }
+                friendRelationShipStatus = status;
+
+                getBaseDataFinishedCount++;
+                if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
+                    initData();
+                    initView();
+                    initListener();
+                    hideLoadLayer();
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                //这里不会执行
+            }
+        }, targetId);
+    }
+
+    private void getChangeContactStatus() {
+        getBaseDataTotalCount++;
+        MsgManager.getIsChangeContact(new BaseProtocol.IResultExecutor<IsChangeContactBean>() {
+            @Override
+            public void execute(IsChangeContactBean dataBean) {
+                IsChangeContactBean.Data2 data = dataBean.data.data;
+//                if (data.status == 1) {
+//                    //已经交换过手机号
+//                } else {
+//                    //没有交换过手机号,发送交换手机号的请求
+//                }
+                changeContactStatus = data.status;
+
+                getBaseDataFinishedCount++;
+                if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
+                    initData();
+                    initView();
+                    initListener();
+                    hideLoadLayer();
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取是否交换过手机号标识失败:" + result);
+
+                getBaseDataFinishedCount++;
+                if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
+                    initData();
+                    initView();
+                    initListener();
+                    hideLoadLayer();
+                }
+            }
+        }, targetId);
     }
 
     long startRecorderTime = 0;
@@ -785,10 +890,13 @@ public class ChatModel extends BaseObservable {
     }
 
 
+    boolean isSendChangeContack = false;//表示是否已经发送了交换手机号的请求，因为发送交换手机号请求，完全走的是融云，服务端没有相关接口，所以服务端没提供查找是否已经发送交换手机号请求的接口，这里只能用一个变量来判断
+
     /**
      * 交换联系方式
      */
     public void sendChangeContact() {
+
         MsgManager.getIsChangeContact(new BaseProtocol.IResultExecutor<IsChangeContactBean>() {
             @Override
             public void execute(IsChangeContactBean dataBean) {
@@ -805,35 +913,40 @@ public class ChatModel extends BaseObservable {
                     mLlChatContent.addView(changeContactWayInfoView);
                 } else {
                     //没有交换过手机号,发送交换手机号的请求
+                    if (!isSendChangeContack) {
+                        ChatCmdChangeContactBean chatCmdChangeContactBean = new ChatCmdChangeContactBean();
+                        chatCmdChangeContactBean.uid = LoginManager.currentLoginUserId;
+                        chatCmdChangeContactBean.phone = LoginManager.currentLoginUserPhone;
+                        Gson gson = new Gson();
+                        String jsonData = gson.toJson(chatCmdChangeContactBean);
+                        TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_CHANGE_CONTACT);
+                        textMessage.setExtra(jsonData);
 
-                    ChatCmdChangeContactBean chatCmdChangeContactBean = new ChatCmdChangeContactBean();
-                    chatCmdChangeContactBean.uid = LoginManager.currentLoginUserId;
-                    chatCmdChangeContactBean.phone = LoginManager.currentLoginUserPhone;
-                    Gson gson = new Gson();
-                    String jsonData = gson.toJson(chatCmdChangeContactBean);
-                    TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_CHANGE_CONTACT);
-                    textMessage.setExtra(jsonData);
+                        //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
+                        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                            @Override
+                            public void onSuccess(Integer integer) {
+                                long sentTime = System.currentTimeMillis();
+                                displayMsgTimeView(sentTime);
 
-                    //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
-                    RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
-                        @Override
-                        public void onSuccess(Integer integer) {
-                            long sentTime = System.currentTimeMillis();
-                            displayMsgTimeView(sentTime);
+                                View infoView = createInfoView("您已发送交换手机号请求");
+                                mLlChatContent.addView(infoView);
+                                isSendChangeContack = true;
+                            }
 
-                            View infoView = createInfoView("您已发送交换手机号请求");
-                            mLlChatContent.addView(infoView);
-                        }
+                            @Override
+                            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                                long sentTime = System.currentTimeMillis();
+                                displayMsgTimeView(sentTime);
 
-                        @Override
-                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                            long sentTime = System.currentTimeMillis();
-                            displayMsgTimeView(sentTime);
-
-                            View infoView = createInfoView("发送交换联系方式请求失败");
-                            mLlChatContent.addView(infoView);
-                        }
-                    });
+                                View infoView = createInfoView("发送交换联系方式请求失败");
+                                mLlChatContent.addView(infoView);
+                            }
+                        });
+                    } else {
+                        View infoView = createInfoView("您已发送交货手机号的请求");
+                        mLlChatContent.addView(infoView);
+                    }
                 }
             }
 
@@ -842,8 +955,6 @@ public class ChatModel extends BaseObservable {
                 ToastUtils.shortToast("获取是否交换过手机号标识失败:" + result);
             }
         }, targetId);
-
-
     }
 
     /**
@@ -927,9 +1038,8 @@ public class ChatModel extends BaseObservable {
     }
 
     //同意交换联系方式
-    public void agreeChangeContact(final String otherPhone) {
-        //需要调用服务端保存已交换过联系方式状态的接口,对方收到消息后也需要调用
-
+    public void agreeChangeContact(final String otherPhone, final TextView tvDeny, final TextView tvAgree) {
+        //需要调用服务端保存已交换过联系方式状态的接口
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT);
         String myPhone = LoginManager.currentLoginUserPhone;
         textMessage.setExtra("{\"content\":\"" + myPhone + "\",\"otherPhone\":\"" + otherPhone + "\"}");//这里的otherPhone好像没有用到
@@ -937,28 +1047,51 @@ public class ChatModel extends BaseObservable {
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
+                tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+                tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+                tvDeny.setEnabled(false);
+                tvAgree.setEnabled(false);
+
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
 
                 View changeContactWayInfoView = createChangeContactWayInfoView(targetName, otherPhone);
                 mLlChatContent.addView(changeContactWayInfoView);
+                //设置手机号交换标识
+                MsgManager.setChangeContact(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                    @Override
+                    public void execute(CommonResultBean dataBean) {
+
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        ToastUtils.shortToast("设置手机号交换标识失败:" + result);
+                    }
+                }, targetId);
             }
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
+                View infoView = createInfoView("同意交换联系方式失败");
+                mLlChatContent.addView(infoView);
             }
         });
     }
 
     //拒绝交换联系方式
-    public void refuseChangeContact() {
+    public void refuseChangeContact(final TextView tvDeny, final TextView tvAgree) {
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT);
         textMessage.setExtra("{\"content\":\"对方拒绝交换联系方式\"}");
 
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
+                tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+                tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+                tvDeny.setEnabled(false);
+                tvAgree.setEnabled(false);
+
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
 
@@ -968,78 +1101,113 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
+                View infoView = createInfoView("拒绝交换联系方式失败");
+                mLlChatContent.addView(infoView);
             }
         });
     }
 
     //同意添加对方为好友
-    public void agreeAddFriend() {
-        //调用同意添加好友的接口
-        MsgManager.agreeAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                //同意添加好友成功，此时双方已经是好友关系了
-                TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
-                textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
+    public void agreeAddFriend(final TextView tvDeny, final TextView tvAgree) {
+        //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
+        if (friendRelationShipStatus != 2) {
+            //调用同意添加好友的接口
+            MsgManager.agreeAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    //同意添加好友成功，此时双方已经是好友关系了
+                    tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+                    tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+                    tvDeny.setEnabled(false);
+                    tvAgree.setEnabled(false);
 
-                RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
-                    @Override
-                    public void onSuccess(Integer integer) {
-                        long sentTime = System.currentTimeMillis();
-                        displayMsgTimeView(sentTime);
+                    TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
+                    textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
 
-                        View infoView = createInfoView("您已同意添加对方为好友");
-                        mLlChatContent.addView(infoView);
-                    }
+                    RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                        @Override
+                        public void onSuccess(Integer integer) {
+                            long sentTime = System.currentTimeMillis();
+                            displayMsgTimeView(sentTime);
 
-                    @Override
-                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                            View infoView = createInfoView("您已同意添加对方为好友");
+                            mLlChatContent.addView(infoView);
+                        }
 
-                    }
-                });
-            }
+                        @Override
+                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
 
-            @Override
-            public void executeResultError(String result) {
-                View infoView = createInfoView("同意添加好友申请失败");
-                mLlChatContent.addView(infoView);
-            }
-        }, targetId, "对方已同意添加您为好友");
+                        }
+                    });
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    View infoView = createInfoView("同意添加好友申请失败");
+                    mLlChatContent.addView(infoView);
+                }
+            }, targetId, "对方已同意添加您为好友");
+        } else if (friendRelationShipStatus == 0) {//陌生人
+            View infoView = createInfoView("状态错误，对方未向您发送添加好友请求");
+            mLlChatContent.addView(infoView);
+        } else if (friendRelationShipStatus == 1) {//表示我主动加了他，他还未回复
+            View infoView = createInfoView("状态错误，您已经向对方发送添加好友请求");
+            mLlChatContent.addView(infoView);
+        } else if (friendRelationShipStatus == 3) {//表示我主动加了他，他还未回复
+            View infoView = createInfoView("状态错误，你们已经是好友关系");
+            mLlChatContent.addView(infoView);
+        }
     }
 
     //拒绝添加对方为好友
-    public void refuseAddFriend() {
-        //调用拒绝添加好友的接口
-        MsgManager.rejectAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
-                textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
+    public void refuseAddFriend(final TextView tvDeny, final TextView tvAgree) {
+        //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
+        if (friendRelationShipStatus != 2) {
+            //调用拒绝添加好友的接口
+            MsgManager.rejectAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+                    tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+                    tvDeny.setEnabled(false);
+                    tvAgree.setEnabled(false);
 
-                RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
-                    @Override
-                    public void onSuccess(Integer integer) {
-                        long sentTime = System.currentTimeMillis();
-                        displayMsgTimeView(sentTime);
+                    TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
+                    textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
 
-                        View infoView = createInfoView("您已拒绝添加对方为好友");
-                        mLlChatContent.addView(infoView);
-                    }
+                    RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                        @Override
+                        public void onSuccess(Integer integer) {
+                            long sentTime = System.currentTimeMillis();
+                            displayMsgTimeView(sentTime);
 
-                    @Override
-                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                            View infoView = createInfoView("您已拒绝添加对方为好友");
+                            mLlChatContent.addView(infoView);
+                        }
 
-                    }
-                });
-            }
+                        @Override
+                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
 
-            @Override
-            public void executeResultError(String result) {
-                View infoView = createInfoView("拒绝添加好友申请失败");
-                mLlChatContent.addView(infoView);
-            }
-        }, targetId, "对方拒绝添加您为好友");
+                        }
+                    });
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    View infoView = createInfoView("拒绝添加好友申请失败");
+                    mLlChatContent.addView(infoView);
+                }
+            }, targetId, "对方拒绝添加您为好友");
+        } else if (friendRelationShipStatus == 0) {//陌生人
+            View infoView = createInfoView("状态错误，对方未向您发送添加好友请求");
+            mLlChatContent.addView(infoView);
+        } else if (friendRelationShipStatus == 1) {//表示我主动加了他，他还未回复
+            View infoView = createInfoView("状态错误，您已经向对方发送添加好友请求");
+            mLlChatContent.addView(infoView);
+        } else if (friendRelationShipStatus == 3) {//表示我主动加了他，他还未回复
+            View infoView = createInfoView("状态错误，你们已经是好友关系");
+            mLlChatContent.addView(infoView);
+        }
     }
 
 
@@ -1129,9 +1297,9 @@ public class ChatModel extends BaseObservable {
         return itemChatFriendPicBinding.getRoot();
     }
 
-    private View createOtherSendAddFriendView(ChatCmdAddFriendBean chatCmdAddFriendBean) {
+    private View createOtherSendAddFriendView(ChatCmdAddFriendBean chatCmdAddFriendBean, boolean isCanAddFriend) {
         ItemChatOtherSendAddFriendBinding itemChatOtherSendAddFriendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_add_friend, null, false);
-        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this, targetAvatar);
+        ChatOtherSendAddFriendModel chatOtherSendAddFriendModel = new ChatOtherSendAddFriendModel(itemChatOtherSendAddFriendBinding, mActivity, this, targetAvatar, isCanAddFriend);
         itemChatOtherSendAddFriendBinding.setChatOtherSendAddFriendModel(chatOtherSendAddFriendModel);
         return itemChatOtherSendAddFriendBinding.getRoot();
     }
@@ -1178,9 +1346,9 @@ public class ChatModel extends BaseObservable {
         return itemChatMySendBusinessCardBinding.getRoot();
     }
 
-    private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean, String otherPhone) {
+    private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean, String otherPhone, boolean isChangeContact) {
         ItemChatOtherChangeContactWayBinding itemChatOtherChangeContactWayBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_change_contact_way, null, false);
-        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone, targetAvatar);
+        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone, targetAvatar, isChangeContact);
         itemChatOtherChangeContactWayBinding.setChatOtherChangeContactWayModel(chatOtherChangeContactWayModel);
         return itemChatOtherChangeContactWayBinding.getRoot();
     }
@@ -1350,6 +1518,7 @@ public class ChatModel extends BaseObservable {
             LogKit.v(System.currentTimeMillis() + "");
             sendReadReceipt(System.currentTimeMillis());
         }
+
     }
 
 
@@ -1522,8 +1691,15 @@ public class ChatModel extends BaseObservable {
         Gson gson = new Gson();
         View msgView = null;
         if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+            //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
+            boolean isCanAddFriend;
+            if (friendRelationShipStatus == 2) {
+                isCanAddFriend = true;
+            } else {
+                isCanAddFriend = false;
+            }
             ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
-            msgView = createOtherSendAddFriendView(chatCmdAddFriendBean);
+            msgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
 //            mLlChatContent.addView(createOtherSendAddFriendView(chatCmdAddFriendBean));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
             ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(extra, ChatCmdShareTaskBean.class);
@@ -1534,8 +1710,15 @@ public class ChatModel extends BaseObservable {
             msgView = createOtherSendBusinessCardView(chatCmdBusinesssCardBean);
 //            mLlChatContent.addView(createOtherSendBusinessCardView(chatCmdBusinesssCardBean));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+            //1标识已经交换过  -1标识尚未交换过
+            boolean isChangeContact;
+            if (changeContactStatus == 1) {
+                isChangeContact = true;
+            } else {
+                isChangeContact = false;
+            }
             ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(extra, ChatCmdChangeContactBean.class);
-            msgView = createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone);
+            msgView = createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone, isChangeContact);
 //            mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
             try {
@@ -1631,6 +1814,17 @@ public class ChatModel extends BaseObservable {
     private String relatedTaskTitle = "相关任务:";
     private String otherUsername;
     private String otherCompanyAndPosition;
+    private int loadLayerVisibility;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public String getOtherCompanyAndPosition() {

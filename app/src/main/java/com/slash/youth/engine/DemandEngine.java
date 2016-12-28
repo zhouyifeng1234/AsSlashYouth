@@ -4,7 +4,6 @@ import com.slash.youth.http.protocol.AgreeRefundProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CancelDemandProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
-import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
@@ -12,6 +11,7 @@ import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
 import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
+import com.slash.youth.http.protocol.DemandRefundProtocol;
 import com.slash.youth.http.protocol.DemandThirdPayProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.EliminateProtocol;
@@ -235,6 +235,19 @@ public class DemandEngine {
     }
 
     /**
+     * 十七、[需求]-需求方申请退款
+     *
+     * @param onRefundFinished
+     * @param id               需求ID
+     * @param reason           按照目前的客户端逻辑，reason和reasondetail至少传其中一个字段
+     * @param reasondetail     按照目前的客户端逻辑，reason和reasondetail至少传其中一个字段
+     */
+    public static void refund(BaseProtocol.IResultExecutor onRefundFinished, String id, String reason, String reasondetail) {
+        DemandRefundProtocol demandRefundProtocol = new DemandRefundProtocol(id, reason, reasondetail);
+        demandRefundProtocol.getDataFromServer(onRefundFinished);
+    }
+
+    /**
      * 十八、[需求]-服务方确认同意退款
      *
      * @param onAgreeRefundFinished
@@ -306,31 +319,12 @@ public class DemandEngine {
     }
 
     /**
-     * 一、[需求]-需求方评价接口
-     *
-     * @param onCommentFinished
-     * @param quality           服务质量评分 枚举类型 1 2 3 4 5 表示等级
-     * @param speed             服务速度评分 枚举类型 1 2 3 4 5 表示等级
-     * @param attitude          服务态度评分 枚举类型 1 2 3 4 5 表示等级
-     * @param remark            评价描述 长度小于4096字节
-     * @param type              需求服务类型 1需求 2服务
-     * @param tid               需求or服务ID
-     * @param suid              服务者UID
-     */
-    public static void comment(BaseProtocol.IResultExecutor onCommentFinished, String quality, String speed, String attitude, String remark, String type, String tid, String suid) {
-        CommentProtocol commentProtocol = new CommentProtocol(quality, speed, attitude, remark, type, tid, suid);
-        commentProtocol.getDataFromServer(onCommentFinished);
-    }
-
-
-    /**
      * 三、[需求]-修改需求
      */
     public static void updateDemand(BaseProtocol.IResultExecutor onUpdateDemandFinished, String id, String title, ArrayList<String> listTag, String starttime, String anonymity, String desc, ArrayList<String> listPic, String instalment, String bp, String pattern, String place, String placedetail, String lng, String lat, String offer, String quote) {
         UpdateDemandProtocol updateDemandProtocol = new UpdateDemandProtocol(id, title, listTag, starttime, anonymity, desc, listPic, instalment, bp, pattern, place, placedetail, lng, lat, offer, quote);
         updateDemandProtocol.getDataFromServer(onUpdateDemandFinished);
     }
-
 
     /**
      * 一、[推荐]-需求订单页服务者推荐接口   发布需求成功页面，服务者推荐

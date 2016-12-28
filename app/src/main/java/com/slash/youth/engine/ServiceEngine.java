@@ -17,6 +17,7 @@ import com.slash.youth.http.protocol.ServiceFlowSelectedProtocol;
 import com.slash.youth.http.protocol.ServiceInstalmentListProtocol;
 import com.slash.youth.http.protocol.ServiceOrderInfoProtocol;
 import com.slash.youth.http.protocol.ServiceOrderStatusProtocol;
+import com.slash.youth.http.protocol.ServiceRefundProtocol;
 import com.slash.youth.http.protocol.ServiceThirdPayProtocol;
 import com.slash.youth.http.protocol.UpdateServiceProtocol;
 
@@ -155,6 +156,19 @@ public class ServiceEngine {
     public static void confirmComplete(BaseProtocol.IResultExecutor onConfirmCompleteFinished, String soid, String fid) {
         ServiceConfirmCompleteProtocol serviceConfirmCompleteProtocol = new ServiceConfirmCompleteProtocol(soid, fid);
         serviceConfirmCompleteProtocol.getDataFromServer(onConfirmCompleteFinished);
+    }
+
+    /**
+     * 九、[服务]-需求方申请退款
+     *
+     * @param onRefundFinished
+     * @param soid             服务订单ID
+     * @param reason           1、2、3   reason和reasondetail至少有一个
+     * @param reasondetail     退款原因详细   reason和reasondetail至少有一个
+     */
+    public static void refund(BaseProtocol.IResultExecutor onRefundFinished, String soid, String reason, String reasondetail) {
+        ServiceRefundProtocol serviceRefundProtocol = new ServiceRefundProtocol(soid, reason, reasondetail);
+        serviceRefundProtocol.getDataFromServer(onRefundFinished);
     }
 
 
