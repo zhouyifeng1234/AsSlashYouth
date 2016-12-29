@@ -523,6 +523,7 @@ public class DemandDetailModel extends BaseObservable {
         setChooseDateTimeLayerVisibility(View.GONE);
     }
 
+    private int mBidCurrentChooseYear;
     private int mBidCurrentChooseMonth;
     private int mBidCurrentChooseDay;
     private int mBidCurrentChooseHour;
@@ -536,6 +537,7 @@ public class DemandDetailModel extends BaseObservable {
      */
     public void okChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
+        mBidCurrentChooseYear = sdtpBidDemandStarttime.getCurrentChooseYear();
         mBidCurrentChooseMonth = sdtpBidDemandStarttime.getCurrentChooseMonth();
         mBidCurrentChooseDay = sdtpBidDemandStarttime.getCurrentChooseDay();
         mBidCurrentChooseHour = sdtpBidDemandStarttime.getCurrentChooseHour();
@@ -549,6 +551,7 @@ public class DemandDetailModel extends BaseObservable {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        calendar.set(Calendar.YEAR, mBidCurrentChooseYear);
         calendar.set(Calendar.MONTH, mBidCurrentChooseMonth - 1);
         calendar.set(Calendar.DAY_OF_MONTH, mBidCurrentChooseDay);
         calendar.set(Calendar.HOUR_OF_DAY, mBidCurrentChooseHour);

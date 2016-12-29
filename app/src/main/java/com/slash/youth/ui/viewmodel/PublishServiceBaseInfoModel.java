@@ -54,6 +54,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     public SlashDateTimePicker mChooseDateTimePicker;
 
     int anonymity = PUBLISH_ANONYMITY_REALNAME;//是否匿名发布，默认为实名发布
+    private int mCurrentChooseYear;
     private int mCurrentChooseMonth;
     private int mCurrentChooseDay;
     private int mCurrentChooseHour;
@@ -350,6 +351,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     public void okChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
+        mCurrentChooseYear = mChooseDateTimePicker.getCurrentChooseYear();
         mCurrentChooseMonth = mChooseDateTimePicker.getCurrentChooseMonth();
         mCurrentChooseDay = mChooseDateTimePicker.getCurrentChooseDay();
         mCurrentChooseHour = mChooseDateTimePicker.getCurrentChooseHour();
@@ -371,6 +373,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        calendar.set(Calendar.YEAR, mCurrentChooseYear);
         calendar.set(Calendar.MONTH, mCurrentChooseMonth - 1);
         calendar.set(Calendar.DAY_OF_MONTH, mCurrentChooseDay);
         calendar.set(Calendar.HOUR_OF_DAY, mCurrentChooseHour);

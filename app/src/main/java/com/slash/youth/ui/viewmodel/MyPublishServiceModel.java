@@ -512,6 +512,7 @@ public class MyPublishServiceModel extends BaseObservable {
         setChooseDateTimeLayerVisibility(View.GONE);
     }
 
+    private int mCurrentChooseYear;
     private int mCurrentChooseMonth;
     private int mCurrentChooseDay;
     private int mCurrentChooseHour;
@@ -523,6 +524,8 @@ public class MyPublishServiceModel extends BaseObservable {
 
     public void okChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
+        mCurrentChooseYear = mChooseDateTimePicker.getCurrentChooseYear();
+        LogKit.v("year:" + mCurrentChooseYear);
         mCurrentChooseMonth = mChooseDateTimePicker.getCurrentChooseMonth();
         mCurrentChooseDay = mChooseDateTimePicker.getCurrentChooseDay();
         mCurrentChooseHour = mChooseDateTimePicker.getCurrentChooseHour();
@@ -544,6 +547,7 @@ public class MyPublishServiceModel extends BaseObservable {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        calendar.set(Calendar.YEAR, mCurrentChooseYear);
         calendar.set(Calendar.MONTH, mCurrentChooseMonth - 1);
         calendar.set(Calendar.DAY_OF_MONTH, mCurrentChooseDay);
         calendar.set(Calendar.HOUR_OF_DAY, mCurrentChooseHour);
