@@ -44,7 +44,7 @@ public class MyAddSkillModel extends BaseObservable {
     private String title;
     private String desc;
     private double quote = 0;
-    private ArrayList<String> listTag;
+    private ArrayList<String> listTag  = new ArrayList<String>();
     private int anonymity = 1;
     private int bp = 1;
     private int count;
@@ -165,10 +165,15 @@ public class MyAddSkillModel extends BaseObservable {
     //跳转到标签页面。关联标签
     public void jumpSkillLabel(View view){
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
-        ArrayList<String> addedSkillLabels = sallAddedSkilllabels.getAddedTagsName();
-        intentSubscribeActivity.putStringArrayListExtra("addedSkillLabels", addedSkillLabels);
+        ArrayList<String> addedTagsName = sallAddedSkilllabels.getAddedTagsName();
+        ArrayList<String> addedTags = sallAddedSkilllabels.getAddedTags();
+        intentSubscribeActivity.putStringArrayListExtra("addedTagsName", addedTagsName);
+        intentSubscribeActivity.putStringArrayListExtra("addedTags", addedTags);
         intentSubscribeActivity.putExtra("addSkillTemplte",0);
         myAddSkillActivity.startActivityForResult(intentSubscribeActivity, Constants.SKILL_MANAGER_ADD_LABEL);
+
+
+        /* sallAddedSkilllabels.initSkillLabels();*/
     }
 
     //提交
@@ -283,9 +288,13 @@ public class MyAddSkillModel extends BaseObservable {
         npUnit.setValue(serviceValue);
         tag = service.getTag();
         String[] tags = tag.split(",");
-       listTag = new ArrayList<String>();
-        Collections.addAll(listTag, tags);
-        activityMyAddSkillBinding.sallAddedSkilllabels.setTag(listTag);
+        listTag.clear();
+        for (String tag : tags) {
+            int index = tag.lastIndexOf("-");
+            String substring = tag.substring(index + 1);
+            listTag.add(substring);
+        }
+        activityMyAddSkillBinding.sallAddedSkilllabels.reloadSkillLabels(listTag,listTag);
 
         pic = service.getPic();
         if(pic!=null){

@@ -51,17 +51,17 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     private String titleRight ="提交";
     private Bitmap bitmap;
     private Bitmap photo;
-    private boolean isSetTradePassword;
     private String toastText = "两次输入的密码不一致";
     private String toastTextString = "请上传手持身份证正面照";
     private String toastString = "请填写密码";
+    private int tradePasswordStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         testPassWord();
         activityFindPasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_find_password);
-        findPassWordModel = new FindPassWordModel(activityFindPasswordBinding,this,isSetTradePassword);
+        findPassWordModel = new FindPassWordModel(activityFindPasswordBinding,this);
         activityFindPasswordBinding.setFindPassWordModel(findPassWordModel);
         intent = new Intent();
         listener();
@@ -70,13 +70,6 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        if (isSetTradePassword) {
-            title.setText(findPassWord);
-            activityFindPasswordBinding.tvDesc.setText(findPassWordText);
-        }else {
-            title.setText(setPassWord);
-            activityFindPasswordBinding.tvDesc.setText(setPassWordText);
-        }
         save = (TextView) findViewById(R.id.tv_userinfo_save);
         save.setText(titleRight);
         save.setOnClickListener(this);
@@ -101,8 +94,16 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                         ToastUtils.shortToast(toastTextString);
                     }
                     if(createPassWord.equals(surePassWord)&&!(path).isEmpty()){
+
+                      /*  switch (tradePasswordStatus){
+
+                        }
+
                         //创建密码
                         findPassWordModel.createPassWord(surePassWord,path.get(0));
+
+                        //找回交易密码
+                        findPassWordModel.findPassWord(surePassWord,path.get(0));*/
                     }
                 }else {
                     ToastUtils.shortToast(toastString);
@@ -166,12 +167,17 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
         AccountManager.getTradePasswordStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
-                if (dataBean.data.status == 1) {//设置了交易密码
-                    isSetTradePassword = true;
-                } else if (dataBean.data.status == 0) {//表示当前没有交易密码
-                    isSetTradePassword = false;
-                } else {
-                    LogKit.v("状态异常");
+                switch (dataBean.data.status){
+                    case 1://设置了交易密码
+                        title.setText(findPassWord);
+                        activityFindPasswordBinding.tvDesc.setText(findPassWordText);
+                        tradePasswordStatus = 1;
+                        break;
+                    case 0://表示当前没有交易密码
+                        title.setText(setPassWord);
+                        activityFindPasswordBinding.tvDesc.setText(setPassWordText);
+                        tradePasswordStatus = 0;
+                        break;
                 }
             }
 

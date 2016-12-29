@@ -216,6 +216,8 @@
                         android:textColor="#CCCCCC"
                         android:textSize="11sp"/>
 
+
+
                     <com.slash.youth.ui.view.SlashAddPicLayout
                         android:id="@+id/add_pic"
                         android:layout_width="wrap_content"
@@ -223,6 +225,7 @@
                         android:orientation="horizontal">
 
                     </com.slash.youth.ui.view.SlashAddPicLayout>
+
 
                     <View
                         android:layout_width="match_parent"

@@ -32,6 +32,7 @@ import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
 import com.slash.youth.ui.view.NewRefreshListView;
@@ -231,6 +232,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         CommonUtils.getHandler().removeCallbacks(homeVpAdvChange);
+                        //点击的时候，到banner页面
+                        initBanner();
                         break;
                     case MotionEvent.ACTION_UP:
                         CommonUtils.getHandler().postDelayed(homeVpAdvChange, 2000);
@@ -271,6 +274,12 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             }
         });
 
+    }
+
+    private void initBanner() {
+        Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
+        intentCommonQuestionActivity.putExtra("banner","banner");
+        mActivity.startActivity(intentCommonQuestionActivity);
     }
 
     public class HomeVpAdvChange implements Runnable {

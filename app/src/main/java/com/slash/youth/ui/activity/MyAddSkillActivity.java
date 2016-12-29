@@ -66,7 +66,10 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
         if(resultCode == Constants.SKILL_MANAGER_ADD_LABEL){
             switch (requestCode){
                 case Constants.SKILL_MANAGER_ADD_LABEL://获取添加的技能标签
-                        myAddSkillModel.sallAddedSkilllabels.getAddLabelsResult(data);
+                    myAddSkillModel.sallAddedSkilllabels.listTotalAddedTagsNames.clear();
+                    myAddSkillModel.sallAddedSkilllabels.listTotalAddedTags.clear();
+                    myAddSkillModel.sallAddedSkilllabels.removeAllViews();
+                    myAddSkillModel.sallAddedSkilllabels.getAddLabelsResult(data);
                     break;
             }
         }

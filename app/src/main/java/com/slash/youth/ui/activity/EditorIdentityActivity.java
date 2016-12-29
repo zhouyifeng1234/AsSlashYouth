@@ -19,13 +19,13 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/1.
  */
 public class EditorIdentityActivity extends Activity implements View.OnClickListener {
-
     private View root;
     private EditorIdentityModel editorIdentityModel;
     private ActivityEditorIdentityBinding activityEditorIdentityBinding;
     private Intent intent;
     private StringBuffer sb = new StringBuffer();
-
+    private String titleString = "编辑斜杠职业";
+    private String finish = "完成";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
 
     private void initView() {
         TextView title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("编辑斜杠职业");
+        title.setText(titleString);
         TextView tvfinish = (TextView) findViewById(R.id. tv_userinfo_save);
         tvfinish.setVisibility(View.VISIBLE);
-        tvfinish.setText("完成");
+        tvfinish.setText(finish);
         tvfinish.setOnClickListener(this);
         ImageView ivmenu = (ImageView) findViewById(R.id.iv_userinfo_menu);
         ivmenu.setVisibility(View.GONE);

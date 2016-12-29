@@ -41,17 +41,11 @@ public class FindPassWordModel extends BaseObservable {
     private FindPassWordActivity findPassWordActivity;
     public Map<String, String> createPassWordMap = new HashMap<>();
     public Map<String, String> surePassWordMap = new HashMap<>();
-    private String createPassWord;
-    private String surePassWord;
-    public boolean createPassWord1=true;
-    public boolean setPhoto1 = true;
-    private boolean isSetTradePassword;
     private String toastText = "两次输入的密码不一致,请重新输入密码";
 
-    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding,FindPassWordActivity findPassWordActivity,boolean isSetTradePassword) {
+    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding,FindPassWordActivity findPassWordActivity) {
         this.activityFindPasswordBinding = activityFindPasswordBinding;
         this.findPassWordActivity = findPassWordActivity;
-        this.isSetTradePassword = isSetTradePassword;
         listener();
     }
 
@@ -182,6 +176,11 @@ public class FindPassWordModel extends BaseObservable {
     //创建密码
     public void createPassWord(String passWord,String url){
         ContactsManager.onCreatePassWord(new onCreatePassWord(),passWord,url);
+    }
+
+    //找回交易密码
+    public void findPassWord(String passWord,String url){
+        ContactsManager.onFindPassWord(new onCreatePassWord(),passWord,url);
     }
 
     //创建交易密码

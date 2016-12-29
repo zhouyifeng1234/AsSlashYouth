@@ -31,6 +31,7 @@ import com.slash.youth.ui.activity.EditorIdentityActivity;
 import com.slash.youth.ui.activity.ReplacePhoneActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
+import com.slash.youth.ui.view.WarpLinearLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
@@ -68,7 +69,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     public String province;
     private String phone;
     private String[] skillLabels;
-    public ArrayList<String> skillLabelList;
+    public ArrayList<String> skillLabelList = new ArrayList<>();
     public String avatar;
     private boolean isSetLocation = false;
     private String industry;
@@ -77,24 +78,30 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String tag;
     private String slashIdentity;
     private int isauth;
+    private WarpLinearLayout llSkilllabelContainer;
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
         this.myUid = myUid;
         this.userinfoEditorActivity = userinfoEditorActivity;
         initData();
+        initView();
         listener();
     }
 
     private void initData() {
+        llSkilllabelContainer = activityUserinfoEditorBinding.llSkilllabelContainer;
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
         MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
     }
 
     private void initView() {
+    }
+
+    private void setUserView() {
         //头像的路径
         if (avatar != null) {
-            LogKit.d("========================================"+avatar);
+
             BitmapKit.bindImage(activityUserinfoEditorBinding.ivHead, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         //姓名
@@ -136,10 +143,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         //行业方向
         activityUserinfoEditorBinding.tvDirection.setText(industry + "|" + direction);
         //技能标签
-        skillLabels = tag.split(" ");
+        skillLabels = tag.split(",");
         List<String> lists = Arrays.asList(skillLabels);
-        skillLabelList = new ArrayList<>(lists);
-        int length = skillLabels.length;
+        skillLabelList.clear();
+        skillLabelList.addAll(lists);
 
         if (tag != "" && tag != null) {
             activityUserinfoEditorBinding.llSkilllabelContainer.removeAllViews();
@@ -224,6 +231,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         intentSubscribeActivity.putExtra("isEditor", true);
         intentSubscribeActivity.putStringArrayListExtra("addedTagsName", skillLabelList);
+        intentSubscribeActivity.putStringArrayListExtra("addedTags", skillLabelList);
         userinfoEditorActivity.startActivityForResult(intentSubscribeActivity, Constants.USERINFO_SKILLLABEL);
     }
 
@@ -495,7 +503,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 MyFirstPageBean.DataBean data = dataBean.getData();
                 MyFirstPageBean.DataBean.MyinfoBean myinfo = data.getMyinfo();
                 setUserInfoEditor(myinfo);
-                initView();
+                setUserView();
             } else {
                 LogKit.d("rescode=" + rescode);
             }
@@ -534,9 +542,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //获取数据
     private void setUserInfoEditor(MyFirstPageBean.DataBean.MyinfoBean myinfo) {
-        if (avatar != null && avatar != "" && !avatar.isEmpty()) {
-            avatar = myinfo.getAvatar();
-        }
+        avatar = myinfo.getAvatar();
         name = myinfo.getName();
         phone = myinfo.getPhone();
         province = myinfo.getProvince();

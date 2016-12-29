@@ -234,33 +234,6 @@ public class CityLocationActivity extends Activity {
             }
         });
 
-        //点击左侧字母弹出吐司并定位到对应的位置
-      /*  mActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    TextView tvFirstLetter = (TextView) view;
-                    String firstLetter = tvFirstLetter.getText().toString();
-                    for (int i = 0; i < listCityInfo.size(); i++) {
-                        LocationCityInfo locationCityInfo = listCityInfo.get(i);
-                        String firstCityLetter = locationCityInfo.getFirstLetter();
-                        if(firstCityLetter.equals(firstLetter) ){
-                            mActivityCityLocationBinding.tv.setText(firstLetter);
-                            mActivityCityLocationBinding.tv.setVisibility(View.VISIBLE);
-                            mHanler.removeCallbacksAndMessages(null);
-                            mHanler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mActivityCityLocationBinding.tv.setVisibility(View.GONE);
-                                }
-                            },1000);
-                            mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i + mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
-                        }
-                    }
-                }
-            }
-        });*/
-
         //滑动事件
         touchListener();
 

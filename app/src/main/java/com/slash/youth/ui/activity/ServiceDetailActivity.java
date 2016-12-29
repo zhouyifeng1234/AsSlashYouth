@@ -15,7 +15,6 @@ public class ServiceDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ActivityServiceDetailBinding activityServiceDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_service_detail);
         ServiceDetailModel serviceDetailModel = new ServiceDetailModel(activityServiceDetailBinding, this);
         activityServiceDetailBinding.setServiceDetailModel(serviceDetailModel);

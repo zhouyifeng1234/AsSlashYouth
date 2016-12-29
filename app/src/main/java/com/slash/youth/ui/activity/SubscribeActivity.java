@@ -122,7 +122,7 @@ public class SubscribeActivity extends Activity {
         initListener();
     }
 
-    private void initData() {//addedSkillLabels
+    private void initData() {
         final ArrayList<String> addedTagsName = getIntent().getStringArrayListExtra("addedTagsName");
         final ArrayList<String> addedTags = getIntent().getStringArrayListExtra("addedTags");
         if (addedTagsName != null) {

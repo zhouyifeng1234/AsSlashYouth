@@ -65,6 +65,7 @@ import java.util.UnknownFormatConversionException;
 public class ActivityUserInfoModel extends BaseObservable {
     private ActivityUserinfoBinding activityUserinfoBinding;
     private  ArrayList<NewDemandAandServiceBean.DataBean.ListBean> userInfoListView = new ArrayList<>();
+    private ArrayList<String> skillLabelList = new ArrayList<>();
     private UserInfoAdapter userInfoAdapter;
     private String slashIdentity = "暂未填写";//默认
     private String defaultArea  = "暂未填写";
@@ -354,6 +355,8 @@ public class ActivityUserInfoModel extends BaseObservable {
     public void openskilllabel(View view) {
         if(!isOther){
             Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
+            intentSubscribeActivity.putStringArrayListExtra("addedTagsName", skillLabelList);
+            intentSubscribeActivity.putStringArrayListExtra("addedTags", skillLabelList);
             intentSubscribeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             CommonUtils.getContext().startActivity(intentSubscribeActivity);
         }
@@ -367,6 +370,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         if(tag!=""&&tag!=null){
             String[] split = tag.split(",");
             for (String textTag : split) {
+                skillLabelList.add(textTag);
                 textViewTag = new TextView(CommonUtils.getContext());
                 textViewTag.setText(textTag);
                 textViewTag.setTextColor(Color.parseColor("#31C5E4"));
@@ -416,8 +420,10 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.GONE);
         }else if(isauth == 0){
             //非认证
-            activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
-            activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
+            if(!isOther){
+                activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
+                activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
+            }
         }
 
         //身份,斜杠 斜杠身份  没填写斜杠身份时，显示暂未填写 ,如果有的话，就填写
@@ -729,6 +735,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     //聊一聊
     public void chat(View view) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId",String.valueOf(myUid));
         userInfoActivity.startActivity(intentChatActivity);
     }
 

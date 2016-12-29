@@ -60,7 +60,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 tokenLogin();
-                //checkVersion();
+                checkVersion();
             }
         }, 3000);
     }
@@ -117,8 +117,9 @@ public class SplashActivity extends Activity {
     private void checkVersion() {
         // 获取当前的版本号
         versionCode = PackageUtil.getVersionCode(this);
+        LogKit.d("======versionCode======"+versionCode);
         //获取网络的版本号
-        LoginManager.checkVersion(new onCheckVersion(),type, versionCode);
+      //  LoginManager.checkVersion(new onCheckVersion(),type, versionCode);
     }
 
     //检测版本

@@ -11,6 +11,7 @@ import com.slash.youth.http.protocol.CheckFriendApplicationProtocol;
 import com.slash.youth.http.protocol.ContactsMyVisitorProtocol;
 import com.slash.youth.http.protocol.CreatePassWordProtovol;
 import com.slash.youth.http.protocol.DeleteFriendRelationProtocol;
+import com.slash.youth.http.protocol.FindPassWordProtovol;
 import com.slash.youth.http.protocol.MyFriendListProtocol;
 import com.slash.youth.http.protocol.PersonRelationProtocol;
 import com.slash.youth.http.protocol.RecommendFriendListProtovol;
@@ -140,5 +141,12 @@ public class ContactsManager {
         CreatePassWordProtovol createPassWordProtovol = new CreatePassWordProtovol(passWord,url);
         createPassWordProtovol.getDataFromServer(onCreatePassWord);
     }
+
+    //[设置]-找回交易密码
+    public static void onFindPassWord(BaseProtocol.IResultExecutor onFindPassWord,String passWord,String url) {
+        FindPassWordProtovol findPassWordProtovol = new FindPassWordProtovol(passWord,url);
+        findPassWordProtovol.getDataFromServer(onFindPassWord);
+    }
+
 
 }

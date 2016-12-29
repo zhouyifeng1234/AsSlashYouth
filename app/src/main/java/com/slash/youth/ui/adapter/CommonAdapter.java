@@ -1,9 +1,11 @@
-package com.slash.youth.utils;
+package com.slash.youth.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.slash.youth.utils.ViewHolder;
 
 import java.util.List;
 

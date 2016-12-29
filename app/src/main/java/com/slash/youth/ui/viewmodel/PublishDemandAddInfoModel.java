@@ -60,7 +60,6 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
     private void initView() {
         mActivityPublishDemandAddinfoBinding.svPublishDemandLabels.setVerticalScrollBarEnabled(false);
-
         mSallSkillLabels.setActivity(mActivity);
         mSallSkillLabels.initSkillLabels();
     }
@@ -260,7 +259,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
         mSallSkillLabels.listTotalAddedTagsNames.clear();
         mSallSkillLabels.listTotalAddedTags.clear();
-        mSallSkillLabels.initSkillLabels();
+        //mSallSkillLabels.initSkillLabels();
     }
 
     public void openMapActivity(View v) {

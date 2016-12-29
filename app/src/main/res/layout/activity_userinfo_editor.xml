@@ -135,7 +135,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="真实姓名"
                                     android:textSize="15dp"
-                                    android:maxEms="6"
                                     android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
@@ -149,7 +148,7 @@
                                     android:textSize="13dp"
                                     android:textColor="#60A7B6"
                                     android:textColorHint="#60A7B6"
-                                    android:maxLength="256"
+                                    android:maxEms="5"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:layout_alignParentRight="true"
@@ -584,7 +583,7 @@
                                     android:textSize="15dp"
                                     android:textColor="#333333"
                                     android:text="技能标签"/>
-
+                                <!--技能标签-->
                                 <com.slash.youth.ui.view.WarpLinearLayout
                                     android:id="@+id/ll_skilllabel_container"
                                     android:layout_width="match_parent"
@@ -612,7 +611,7 @@
             </ScrollView>
         </LinearLayout>
 
-
+        <!--图片弹框-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

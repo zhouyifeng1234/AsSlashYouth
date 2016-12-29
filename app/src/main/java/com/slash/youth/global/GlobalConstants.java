@@ -381,6 +381,9 @@ public class GlobalConstants {
         public static final String SET_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/set";
         //六、[设置]-创建交易密码
         public static final String CREATE_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/create";
+        //八、[设置]-找回交易密码
+        public static final String FIND_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/findback";
+
 
         //第三方，获得第三方平台列表
         public static final String GET_BINDING = SERVER_HOST + "auth/v1/login/getBind";
@@ -497,10 +500,11 @@ public class GlobalConstants {
     }
 
     //web的路径
-    public static final class WebPath {
+    public static final class WebPath {//http://114.215.83.138/#!/banner
         public static final String WEB_PATH_HOST = "http://114.215.83.138/#!/";
         public static final String WEB_INFLUENCE = WEB_PATH_HOST+"integral&nav=1";
         public static final String WEB_COMMON_QUESTION =WEB_PATH_HOST+"program?type=program&nav=1";
         public static final String WEB_CONTACT_US = WEB_PATH_HOST+"program?type=contact";
+        public static final String WEB_BANNER = WEB_PATH_HOST+"banner&nav=1";
     }
 }

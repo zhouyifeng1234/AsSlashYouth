@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.slash.youth.R;
 import com.slash.youth.domain.Bean;
-import com.slash.youth.domain.SearchAllBean;
-import com.slash.youth.utils.CommonAdapter;
 import com.slash.youth.utils.ViewHolder;
 
 import java.util.List;

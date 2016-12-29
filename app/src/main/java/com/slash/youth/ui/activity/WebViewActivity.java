@@ -37,9 +37,11 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private String questionTitle  = "常见问题";
     private String influenceTitle  = "影响力";
+    private String bannerTitle  = "只有你能决定你有多优秀";
     private FrameLayout fl;
     private String influence;
     private String commonQuestion;
+    private String banner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,10 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         commonQuestion = intent.getStringExtra("commonQuestion");
         if(commonQuestion !=null){
             webUrl = GlobalConstants.WebPath.WEB_COMMON_QUESTION;
+        }
+        banner = intent.getStringExtra("banner");
+        if(banner!=null){
+            webUrl = GlobalConstants.WebPath.WEB_BANNER;
         }
 
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
@@ -68,6 +74,9 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         }
         if(commonQuestion!=null){
             title.setText(questionTitle);
+        }
+        if(banner!=null){
+            title.setText(bannerTitle);
         }
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);

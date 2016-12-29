@@ -157,7 +157,7 @@ public class EditorIdentityModel extends BaseObservable {
         ivbtnParams.rightMargin = CommonUtils.dip2px(-9);
         ImageButton ivbtnUnCheckedLabel = new ImageButton(CommonUtils.getContext());
         ivbtnUnCheckedLabel.setBackground(new ColorDrawable(Color.TRANSPARENT));
-        ivbtnUnCheckedLabel.setImageResource(R.mipmap.close1_icon);
+        ivbtnUnCheckedLabel.setImageResource(R.mipmap.close_icon_2);
         ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
         ivbtnUnCheckedLabel.setLayoutParams(ivbtnParams);
         llCheckedLabel.addView(textview);
@@ -193,15 +193,6 @@ public class EditorIdentityModel extends BaseObservable {
 //        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
 //        dialogBuilder.show();
     }
-
-  /*  public interface onSkillLabelListListener{
-        void onListClick(ArrayList<String> list);
-    }
-
-    private onSkillLabelListListener listener;
-    public void  setOnSkillLabelListListener( onSkillLabelListListener listener) {
-        this.listener = listener;
-    }*/
 
     private int lineCount = 0;
     private int lineWidth = 0;

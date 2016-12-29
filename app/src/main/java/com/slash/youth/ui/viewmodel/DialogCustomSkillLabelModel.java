@@ -68,7 +68,7 @@ public class DialogCustomSkillLabelModel extends BaseObservable {
                 ToastUtils.shortToast("自定义技能名不能有"+"-"+"字符");
             }else {
                 int length = chars.length;
-                if(length!=6){
+                if(length<=5){
                     listener.OnOkDialogClick(text);
 
                 }else {

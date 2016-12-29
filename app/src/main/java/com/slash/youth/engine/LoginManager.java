@@ -62,36 +62,12 @@ public class LoginManager {
         getPhoneVerificationCodeProtocol.getDataFromServer(onSendPinFinished);
     }
 
-    public static void getPhoneVerificationCode(String phoneNum) {
-        GetPhoneVerificationCodeProtocol getPhoneVerificationCodeProtocol = new GetPhoneVerificationCodeProtocol(phoneNum);
-        getPhoneVerificationCodeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SendPinResultBean>() {
-            @Override
-            public void execute(SendPinResultBean dataBean) {
-
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        });
-    }
-
     //验证手机上收到的验证码
-    public static void checkPhoneVerificationCode(String phoneNum, String pin) {
+    public static void checkPhoneVerificationCode(BaseProtocol.IResultExecutor checkPhoneVerificationCode,String phoneNum, String pin) {
         CheckPhoneVerificationCodeProtocol checkPhoneVerificationCodeProtocol = new CheckPhoneVerificationCodeProtocol(phoneNum, pin);
-        checkPhoneVerificationCodeProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<String>() {
-            @Override
-            public void execute(String dataBean) {
-                ToastUtils.shortToast(dataBean);
-            }
-
-            @Override
-            public void executeResultError(String result) {
-
-            }
-        });
+        checkPhoneVerificationCodeProtocol.getDataFromServer(checkPhoneVerificationCode);
     }
+
 
     /**
      * 手机号登录
