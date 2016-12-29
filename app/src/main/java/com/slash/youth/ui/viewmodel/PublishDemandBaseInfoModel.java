@@ -53,6 +53,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
     String demandTitle = "";
     String demandDesc = "";
     long startTime = -1;
+    private int mCurrentChooseYear;
     private int mCurrentChooseMonth;
     private int mCurrentChooseDay;
     private int mCurrentChooseHour;
@@ -189,6 +190,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
 
     public void okChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
+        mCurrentChooseYear = mChooseDateTimePicker.getCurrentChooseYear();
         mCurrentChooseMonth = mChooseDateTimePicker.getCurrentChooseMonth();
         mCurrentChooseDay = mChooseDateTimePicker.getCurrentChooseDay();
         mCurrentChooseHour = mChooseDateTimePicker.getCurrentChooseHour();
@@ -204,6 +206,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        calendar.set(Calendar.YEAR, mCurrentChooseYear);
         calendar.set(Calendar.MONTH, mCurrentChooseMonth - 1);
         calendar.set(Calendar.DAY_OF_MONTH, mCurrentChooseDay);
         calendar.set(Calendar.HOUR_OF_DAY, mCurrentChooseHour);

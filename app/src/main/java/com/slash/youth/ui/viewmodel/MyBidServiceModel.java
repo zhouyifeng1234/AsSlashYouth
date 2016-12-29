@@ -4,17 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyBidServiceBinding;
+import com.slash.youth.databinding.ItemServiceFlowLogBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.ServiceDetailBean;
+import com.slash.youth.domain.ServiceFlowLogList;
 import com.slash.youth.domain.ServiceInstalmentListBean;
 import com.slash.youth.domain.ServiceOrderInfoBean;
 import com.slash.youth.domain.UserInfoBean;
@@ -81,6 +85,7 @@ public class MyBidServiceModel extends BaseObservable {
         getTaskItemData();
         getServiceDetailFromServer();//通过tid获取服务详情信息
         getServiceOrderInfoData();//根据soid(即tid)获取服务订单状态信息
+        getServiceFlowLogData();//获取服务流程的日志
     }
 
     private void initView() {
@@ -283,7 +288,12 @@ public class MyBidServiceModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
+                ToastUtils.shortToast("获取服务订单条目信息失败:" + result);
 
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
         }, tid + "", "2", "2");
     }
@@ -355,7 +365,12 @@ public class MyBidServiceModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
+                ToastUtils.shortToast("获取服务详情信息失败:" + result);
 
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
         }, tid + "", "2");
     }
@@ -412,9 +427,60 @@ public class MyBidServiceModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
+                ToastUtils.shortToast("获取服务订单信息失败:" + result);
 
+                loadDataTimes++;
+                if (loadDataTimes >= 5) {
+                    hideLoadLayer();
+                }
             }
         }, soid + "");
+    }
+
+    ArrayList<ServiceFlowLogList.LogInfo> logInfoList;
+
+    /**
+     * 获取服务流程的日志
+     */
+    private void getServiceFlowLogData() {
+        ServiceEngine.getServiceFlowLog(new BaseProtocol.IResultExecutor<ServiceFlowLogList>() {
+            @Override
+            public void execute(ServiceFlowLogList dataBean) {
+                logInfoList = dataBean.data.list;
+
+                //由于目前服务流程日志接口没有返回数据，用一些假数据代替
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+
+                setServiceFlowLogItemData();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取服务流程日志失败:" + result);
+            }
+        }, tid + "");
+    }
+
+    private void setServiceFlowLogItemData() {
+        for (int i = logInfoList.size() - 1; i >= 0; i--) {
+            ServiceFlowLogList.LogInfo logInfo = logInfoList.get(i);
+            View itemLogInfo = inflateItemLogInfo(logInfo);
+            mActivityMyBidServiceBinding.llServiceFlowLogs.addView(itemLogInfo);
+        }
+    }
+
+    public View inflateItemLogInfo(ServiceFlowLogList.LogInfo logInfo) {
+        ItemServiceFlowLogBinding itemServiceFlowLogBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_service_flow_log, null, false);
+        ItemServiceLogModel itemServiceLogModel = new ItemServiceLogModel(itemServiceFlowLogBinding, mActivity, logInfo);
+        itemServiceFlowLogBinding.setItemServiceLogModel(itemServiceLogModel);
+        return itemServiceFlowLogBinding.getRoot();
     }
 
     /**
