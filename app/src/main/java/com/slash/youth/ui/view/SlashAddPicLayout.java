@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -172,8 +175,16 @@ public class SlashAddPicLayout extends LinearLayout {
         if (resultCode == mActivity.RESULT_OK) {
             if (requestCode == 10) {
                 if (data != null) {
+                    Bitmap bitmap = null;
                     try {
-                        Bitmap bitmap = data.getParcelableExtra("data");
+                        bitmap = data.getParcelableExtra("data");
+                        if (bitmap == null) {
+                            Uri uri = data.getData();
+                            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                            Rect rect = new Rect(0, 0, CommonUtils.dip2px(91), CommonUtils.dip2px(91));
+                            bitmap = BitmapFactory.decodeStream(CommonUtils.getContext().getContentResolver().openInputStream(uri), rect, bitmapOptions);
+                        }
+                        LogKit.v("bitmap:" + bitmap);
                         String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
                         File cacheDir = new File(picCachePath);
                         if (!cacheDir.exists()) {
@@ -185,6 +196,11 @@ public class SlashAddPicLayout extends LinearLayout {
                         addPic();
                     } catch (Exception ex) {
                         ex.printStackTrace();
+                    } finally {
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                            bitmap = null;
+                        }
                     }
                 }
             }
