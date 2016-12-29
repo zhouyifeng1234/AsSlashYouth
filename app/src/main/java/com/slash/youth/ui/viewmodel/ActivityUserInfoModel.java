@@ -148,13 +148,11 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int follow = data.getFollow();
                 switch (follow) {
                     case 1://1表示我是他的粉丝，0表示无关系 ==我关注他
-                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA_OK);
                         activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
                         attentionStatus = 1;
                         LogKit.d("我关注过他");
                         break;
                     case 0://无关系
-                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA);
                         activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
                         attentionStatus = 0;
                         LogKit.d("我没有关注过他");
@@ -819,7 +817,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA_OK);
                         activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
                         attentionStatus = 1;
                         break;
@@ -854,7 +851,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                        activityUserinfoBinding.tvAttentionTA.setText(ContactsManager.CARE_TA);
                         activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
                         attentionStatus = 0;
                         break;

@@ -95,13 +95,20 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                     }
                     if(createPassWord.equals(surePassWord)&&!(path).isEmpty()){
 
-                      /*  switch (tradePasswordStatus){
+                        LogKit.d("==tradePasswordStatus=="+tradePasswordStatus);
+                       /* switch (tradePasswordStatus){
+                            case 1:
 
-                        }
 
-                        //创建密码
+                                break;
+                            case 0:
+
+
+                                break;
+                        }*/
+
+                      /*  //创建密码
                         findPassWordModel.createPassWord(surePassWord,path.get(0));
-
                         //找回交易密码
                         findPassWordModel.findPassWord(surePassWord,path.get(0));*/
                     }
