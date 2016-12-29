@@ -245,6 +245,8 @@ public class GlobalConstants {
         public static final String GET_SERVICE_ORDER_INFO = SERVER_HOST_SERVICE + "orderinfo";
         //十六、[需求]-服务方淘汰某需求方
         public static final String SERVICE_FLOW_NO_ACCEPT = SERVER_HOST_SERVICE + "eliminate";
+        //十七、[需求]-服务订单日志接口
+        public static final String GET_SERVICE_FLOW_LOG=SERVER_HOST_SERVICE+"log";
         //预约服务者 延期支付
         public static final String SERVICE_DELAY_PAY = SERVER_HOST_SERVICE + "rollback";
         //服务成功页 判断发服务者是否已认证

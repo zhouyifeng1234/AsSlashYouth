@@ -733,7 +733,9 @@ public class DemandDetailModel extends BaseObservable {
             return;
         }
 
-        getInputInstalmentRatio();
+        if (bidIsInstalment) {
+            getInputInstalmentRatio();
+        }
         if (bidIsInstalment == false) {
             bidDemandInstalmentRatioList.clear();
             bidDemandInstalmentRatioList.add(100d);

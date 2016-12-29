@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.AppointmentServiceProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
+import com.slash.youth.http.protocol.GetServiceFlowLogProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.RecommendDemandUserProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
@@ -225,6 +226,11 @@ public class ServiceEngine {
     public static void noAccept(BaseProtocol.IResultExecutor onNoAcceptFinished, String soid, String uid) {
         ServiceFlowNoAcceptProtocol serviceFlowNoAcceptProtocol = new ServiceFlowNoAcceptProtocol(soid, uid);
         serviceFlowNoAcceptProtocol.getDataFromServer(onNoAcceptFinished);
+    }
+
+    public static void getServiceFlowLog(BaseProtocol.IResultExecutor onGetLogFinished, String soid) {
+        GetServiceFlowLogProtocol getServiceFlowLogProtocol = new GetServiceFlowLogProtocol(soid);
+        getServiceFlowLogProtocol.getDataFromServer(onGetLogFinished);
     }
 
     /**
