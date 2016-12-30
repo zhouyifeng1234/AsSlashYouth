@@ -242,13 +242,15 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
             return;
         }
         publishDemandData.putString("demandDesc", demandDesc);
-        if (startTime == -1) {
-            ToastUtils.shortToast("请选择开始时间");
-            return;
-        }
-        if (startTime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
-            ToastUtils.shortToast("开始时间必须大于当前时间两个小时");
-            return;
+//        if (startTime == -1) {
+//            ToastUtils.shortToast("请选择开始时间");
+//            return;
+//        }
+        if (startTime != -1) {
+            if (startTime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
+                ToastUtils.shortToast("开始时间必须大于当前时间两个小时");
+                return;
+            }
         }
         publishDemandData.putLong("startTime", startTime);
         //上传选择的图片，并把服务端返回的fileId提交上去

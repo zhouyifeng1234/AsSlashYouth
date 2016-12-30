@@ -70,7 +70,9 @@ public class PublishDemandProtocol extends BaseProtocol<PublishDemandResultBean>
                 jaTag.put(tag);
             }
             jo.put("tag", jaTag);
-            jo.put("starttime", starttime);
+            if (!starttime.equals("-1")) {
+                jo.put("starttime", starttime);
+            }
             jo.put("anonymity", anonymity);
             jo.put("desc", desc);
             JSONArray jaPic = new JSONArray();
