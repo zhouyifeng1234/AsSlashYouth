@@ -524,7 +524,7 @@
                                     android:id="@+id/iv_service_detail_pic_1"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@mipmap/assistant_icon"/>
 
                                 <TextView
@@ -550,7 +550,7 @@
                                     android:id="@+id/iv_service_detail_pic_2"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@mipmap/assistant_icon"/>
 
                                 <TextView
@@ -576,7 +576,7 @@
                                     android:id="@+id/iv_service_detail_pic_3"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@mipmap/assistant_icon"/>
 
                                 <TextView
@@ -611,7 +611,7 @@
                                     android:id="@+id/iv_service_detail_pic_4"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@mipmap/assistant_icon"/>
 
                                 <TextView
@@ -637,7 +637,7 @@
                                     android:id="@+id/iv_service_detail_pic_5"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@mipmap/assistant_icon"/>
 
                                 <TextView
@@ -664,7 +664,7 @@
                                     android:id="@+id/iv_service_detail_pic_6"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@mipmap/assistant_icon"/>
 
                                 <TextView

@@ -246,8 +246,8 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
             ToastUtils.shortToast("请选择开始时间");
             return;
         }
-        if (startTime < System.currentTimeMillis() + 60 * 60 * 1000) {
-            ToastUtils.shortToast("开始时间必须大于当前时间一个小时");
+        if (startTime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
+            ToastUtils.shortToast("开始时间必须大于当前时间两个小时");
             return;
         }
         publishDemandData.putLong("startTime", startTime);
