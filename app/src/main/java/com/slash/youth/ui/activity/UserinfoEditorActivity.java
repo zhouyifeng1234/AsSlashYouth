@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class UserinfoEditorActivity extends Activity {
         activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this);
         activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);
         back();
+
     }
 
     private void back() {

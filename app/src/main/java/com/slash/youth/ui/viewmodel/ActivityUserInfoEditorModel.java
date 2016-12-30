@@ -79,6 +79,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String slashIdentity;
     private int isauth;
     private WarpLinearLayout llSkilllabelContainer;
+    private boolean isChange;
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
@@ -255,22 +256,26 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 LogKit.d(uploadFail);
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
         }
     }
 
-
     //点击保存
     public void save(View view) {
         //认证过的
        if(isauth == 1){
-           showDialog();
+           if(isChange){//没有改动直接保存
+               savePersonInfo();
+               userinfoEditorActivity.finish();
+           }else {//有改动并且认证过，就显示弹框
+               showDialog();
+           }
        }else {
            //没有认证过
            savePersonInfo();
+           userinfoEditorActivity.finish();
        }
     }
 
@@ -279,6 +284,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             @Override
             public void OkDown() {
                 savePersonInfo();
+                userinfoEditorActivity.finish();
             }
 
             @Override
@@ -299,8 +305,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
         checked = activityUserinfoEditorBinding.rbOfficeWorker.isChecked();
         saveUserInfo(name, checked ? 1 : 2, skilldescrib);
+
         //保存公司和职位
-        if (checked) {
+        if (checked&&company!=null&&position!=null) {
             paramsMap.put("company", company);
             paramsMap.put("position", position);
             SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_COMPANY_AND_POSITION, paramsMap);
@@ -322,11 +329,13 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         String replace = industryAndDirection.replace("|", ",");
         if (industryAndDirection != null && industryAndDirection != "") {
             String[] split = replace.split(",");
-            industry = split[0];
-            direction = split[1];
-            paramsMap.put("industry", industry);
-            paramsMap.put("direction", direction);
-            SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY, paramsMap);
+            if(split.length!=0){
+                industry = split[0];
+                direction = split[1];
+                paramsMap.put("industry", industry);
+                paramsMap.put("direction", direction);
+                SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY, paramsMap);
+            }
         }
 
         //斜杠身份只能包含中文\英文\数字
@@ -353,7 +362,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                         LogKit.d("保存用户信息错误");
                     }
                 }
-
                 @Override
                 public void executeResultError(String result) {
                     LogKit.d("result:" + result);
@@ -381,6 +389,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                     checked = isChecked;
                     setCompanyAndPosition(!checked);
                 }
+                isChange = true;
             }
         });
 
@@ -416,14 +425,13 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 editext = s.toString();
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 editext = s.toString();
+                isChange = true;
             }
         });
 
@@ -440,12 +448,11 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 textView = s.toString();
+                isChange = true;
             }
         });
         return textView;
@@ -483,6 +490,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             if (rescode == 0) {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
+
                 LogKit.d("status:" + status);
             }
         }
@@ -526,7 +534,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 //技能描述
                 skilldescrib = uinfo.getDesc();
                 //技能描述
-                if (!skilldescrib.isEmpty()) {
+                if (!skilldescrib.isEmpty()&&skilldescrib!=null&&skilldescrib!="") {
                     activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
                 }
             } else {

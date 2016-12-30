@@ -35,7 +35,9 @@ public class ToastUtils {
     }
 
     public static void shortToast(String text) {
-        Toast.makeText(CommonUtils.getContext(), text, Toast.LENGTH_SHORT).show();
+        if(text!=null&&text!=""){
+            Toast.makeText(CommonUtils.getContext(), text, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static void shortCenterToast(String text) {

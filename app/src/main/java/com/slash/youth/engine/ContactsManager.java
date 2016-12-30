@@ -15,6 +15,7 @@ import com.slash.youth.http.protocol.FindPassWordProtovol;
 import com.slash.youth.http.protocol.MyFriendListProtocol;
 import com.slash.youth.http.protocol.PersonRelationProtocol;
 import com.slash.youth.http.protocol.RecommendFriendListProtovol;
+import com.slash.youth.http.protocol.SetPassWordProtocol;
 import com.slash.youth.http.protocol.TestFriendStatueProcotol;
 import com.slash.youth.http.protocol.TestIsFollowProtocol;
 
@@ -146,5 +147,9 @@ public class ContactsManager {
         findPassWordProtovol.getDataFromServer(onFindPassWord);
     }
 
-
+    //[设置]-设置新的交易密码
+    public static void onSetNewPassWord(BaseProtocol.IResultExecutor onSetPassWordProtocol,String oldpass,String newpass) {
+        SetPassWordProtocol setPassWordProtocol = new SetPassWordProtocol(oldpass,newpass);
+        setPassWordProtocol.getDataFromServer(onSetPassWordProtocol);
+    }
 }

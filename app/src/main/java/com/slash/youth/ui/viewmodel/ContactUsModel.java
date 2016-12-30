@@ -49,9 +49,9 @@ public class ContactUsModel extends BaseObservable {
 
     public void email(View view){
         String url =  activityContactUsBinding.tvUrl.getText().toString();
-        Uri uri = Uri.parse("http://"+address);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        contactUsActivity.startActivity(intent);
+        Intent data=new Intent(Intent.ACTION_SENDTO);
+        data.setData(Uri.parse("mailto:"+url));
+        contactUsActivity.startActivity(data);
     }
 
 }

@@ -39,6 +39,11 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         uid = intent.getLongExtra("Uid", -1);
