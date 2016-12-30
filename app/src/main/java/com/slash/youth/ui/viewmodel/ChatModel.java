@@ -118,6 +118,7 @@ public class ChatModel extends BaseObservable {
         this.mActivityChatBinding = activityChatBinding;
         this.mActivity = activity;
 
+        hideSoftInputMethod();//隐藏软件盘的方法要尽早调用，一开始就让输入框失去焦点，这样，软键盘一开始就不会弹出来
         targetId = mActivity.getIntent().getStringExtra("targetId");
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
         displayLoadLayer();
@@ -157,12 +158,6 @@ public class ChatModel extends BaseObservable {
     }
 
     private void initView() {
-        //使底部的输入框失去焦点，隐藏软键盘
-        mTvChatFriendName = mActivityChatBinding.tvChatFriendName;
-        mTvChatFriendName.setFocusable(true);
-        mTvChatFriendName.setFocusableInTouchMode(true);
-        mTvChatFriendName.requestFocus();
-
         mLlChatContent = mActivityChatBinding.llChatContent;
 
         //测试添加各种消息条目
@@ -344,6 +339,15 @@ public class ChatModel extends BaseObservable {
         mActivityChatBinding.etChatInput.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                LogKit.v("etChatInput----addOnLayoutChangeListener");
+                mSvChatContent.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+
+        mLlChatContent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                //                LogKit.v("mLlChatContent----addOnLayoutChangeListener");
                 mSvChatContent.fullScroll(View.FOCUS_DOWN);
             }
         });
@@ -1375,9 +1379,12 @@ public class ChatModel extends BaseObservable {
     }
 
     private void hideSoftInputMethod() {
+        //使底部的输入框失去焦点，隐藏软键盘
+        mTvChatFriendName = mActivityChatBinding.tvChatFriendName;
         mTvChatFriendName.setFocusable(true);
         mTvChatFriendName.setFocusableInTouchMode(true);
         mTvChatFriendName.requestFocus();
+        //如果在软键盘还没有弹起来的时候，就让输入框失去焦点，软键盘是不会再弹起来的；但是，如果软键盘已经弹起来了，只是让输入框失去焦点，软键盘是无法隐藏的，必须调用以下相应的API才行
         InputMethodManager imm = (InputMethodManager) CommonUtils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mTvChatFriendName.getWindowToken(), 0);
     }
