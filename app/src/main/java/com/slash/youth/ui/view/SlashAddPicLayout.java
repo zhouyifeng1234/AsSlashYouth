@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -100,6 +100,7 @@ public class SlashAddPicLayout extends LinearLayout {
 
         FrameLayout.LayoutParams paramsImageView = new FrameLayout.LayoutParams(CommonUtils.dip2px(91), CommonUtils.dip2px(91));
         ImageView imageView = new ImageView(CommonUtils.getContext());
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(paramsImageView);
         paramsImageView.leftMargin = CommonUtils.dip2px(10);
         paramsImageView.topMargin = CommonUtils.dip2px(16);
@@ -153,6 +154,9 @@ public class SlashAddPicLayout extends LinearLayout {
         }
     }
 
+    private static final int compressPicMaxWidth = CommonUtils.dip2px(91);
+    private static final int compressPicMaxHeight = CommonUtils.dip2px(91);
+
     public class AddPicClickListener implements OnClickListener {
 
         @Override
@@ -160,13 +164,14 @@ public class SlashAddPicLayout extends LinearLayout {
             Intent intentAddPicture = new Intent();
             intentAddPicture.setType("image/*");
             intentAddPicture.setAction(Intent.ACTION_GET_CONTENT);
-            intentAddPicture.putExtra("crop", "true");
-            intentAddPicture.putExtra("outputX", CommonUtils.dip2px(91));
-            intentAddPicture.putExtra("outputY", CommonUtils.dip2px(91));
+            intentAddPicture.addCategory(Intent.CATEGORY_OPENABLE);
+//            intentAddPicture.putExtra("crop", "true");
+//            intentAddPicture.putExtra("outputX", CommonUtils.dip2px(91));
+//            intentAddPicture.putExtra("outputY", CommonUtils.dip2px(91));
             intentAddPicture.putExtra("outputFormat", "JPEG");
-            intentAddPicture.putExtra("aspectX", 1);
-            intentAddPicture.putExtra("aspectY", 1);
-            intentAddPicture.putExtra("return-data", true);
+//            intentAddPicture.putExtra("aspectX", 1);
+//            intentAddPicture.putExtra("aspectY", 1);
+//            intentAddPicture.putExtra("return-data", true);
             mActivity.startActivityForResult(intentAddPicture, 10);
         }
     }
@@ -177,14 +182,40 @@ public class SlashAddPicLayout extends LinearLayout {
                 if (data != null) {
                     Bitmap bitmap = null;
                     try {
-                        bitmap = data.getParcelableExtra("data");
-                        if (bitmap == null) {
-                            Uri uri = data.getData();
-                            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                            Rect rect = new Rect(0, 0, CommonUtils.dip2px(91), CommonUtils.dip2px(91));
-                            bitmap = BitmapFactory.decodeStream(CommonUtils.getContext().getContentResolver().openInputStream(uri), rect, bitmapOptions);
+//                        bitmap = data.getParcelableExtra("data");
+//                        LogKit.v("bitmap--1:" + bitmap);
+//                        if (bitmap == null) {
+//                            Uri uri = data.getData();
+//                            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+//                            Rect rect = new Rect(0, 0, CommonUtils.dip2px(91), CommonUtils.dip2px(91));
+//                            bitmap = BitmapFactory.decodeStream(CommonUtils.getContext().getContentResolver().openInputStream(uri), null, bitmapOptions);
+//                        }
+//                        LogKit.v("bitmap--2:" + bitmap);
+
+                        Uri uri = data.getData();
+                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                        bitmapOptions.inJustDecodeBounds = true;
+                        bitmap = BitmapFactory.decodeStream(CommonUtils.getContext().getContentResolver().openInputStream(uri), null, bitmapOptions);
+                        int outWidth = bitmapOptions.outWidth;
+                        int outHeight = bitmapOptions.outHeight;
+                        LogKit.v("outWidth:" + outWidth);
+                        LogKit.v("outHeight:" + outHeight);
+                        if (outWidth <= 0 || outHeight <= 0) {
+                            ToastUtils.shortToast("请选择图片文件");
+                            return;
                         }
-                        LogKit.v("bitmap:" + bitmap);
+                        int scale = 1;
+                        int widthScale = outWidth / compressPicMaxWidth;
+                        int heightScale = outHeight / compressPicMaxHeight;
+                        if (widthScale > heightScale) {
+                            scale = widthScale;
+                        } else {
+                            scale = heightScale;
+                        }
+                        bitmapOptions.inJustDecodeBounds = false;
+                        bitmapOptions.inSampleSize = scale;
+                        bitmap = BitmapFactory.decodeStream(CommonUtils.getContext().getContentResolver().openInputStream(uri), null, bitmapOptions);
+
                         String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
                         File cacheDir = new File(picCachePath);
                         if (!cacheDir.exists()) {

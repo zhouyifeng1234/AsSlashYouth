@@ -31,20 +31,20 @@ import java.util.Collections;
  * Created by zss on 2016/11/3.
  */
 public class MyAddSkillModel extends BaseObservable {
-    private SlashAddPicLayout addPic;
+    public SlashAddPicLayout addPic;
     private int totalNum = 300;
     private int num;
     private ActivityMyAddSkillBinding activityMyAddSkillBinding;
     private MyAddSkillActivity myAddSkillActivity;
     private SlashNumberPicker npUnit;
-    private String[] unitArr = {"次","个","幅","份","单","小时","分钟","天","其他"};
+    private String[] unitArr = {"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
     private int value;
     public SlashAddLabelsLayout sallAddedSkilllabels;
     private long id;
     private String title;
     private String desc;
     private double quote = 0;
-    private ArrayList<String> listTag  = new ArrayList<String>();
+    private ArrayList<String> listTag = new ArrayList<String>();
     private int anonymity = 1;
     private int bp = 1;
     private int count;
@@ -52,7 +52,7 @@ public class MyAddSkillModel extends BaseObservable {
     private int instalment = 0;
     private double lat = 0.00000000D;
     private int iscomment;
-    private double lng=0.00000000D;
+    private double lng = 0.00000000D;
     private int loop;
     private int pattern = 0;
     private int quoteunit;
@@ -61,14 +61,15 @@ public class MyAddSkillModel extends BaseObservable {
     private int timetype = 0;
     private int uid;
     private int uts;
-    private ArrayList<String> listPic = new ArrayList<String>();;
+    private ArrayList<String> listPic = new ArrayList<String>();
+    ;
     private String tag;
     private String pic;
     private long startime;
     private long endtime;
     private String place = "";
     private boolean isSucceful;
-    private String toastText ="请把信息填写完整";
+    private String toastText = "请把信息填写完整";
 
     public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, long id) {
         this.activityMyAddSkillBinding = activityMyAddSkillBinding;
@@ -100,8 +101,8 @@ public class MyAddSkillModel extends BaseObservable {
 
     //加载数据
     private void initData() {
-        if(id!=-1){
-        MyManager.onGetOneSkillTemplet(new onGetOneSkillTemplet(),id);
+        if (id != -1) {
+            MyManager.onGetOneSkillTemplet(new onGetOneSkillTemplet(), id);
         }
     }
 
@@ -118,15 +119,16 @@ public class MyAddSkillModel extends BaseObservable {
     }
 
     //点击选择单位
-    public void chooseUnit(View view){
+    public void chooseUnit(View view) {
         setRlChooseMainLabelVisible(View.VISIBLE);
     }
+
     //确定单位
-    public void sure(View view){
+    public void sure(View view) {
         setRlChooseMainLabelVisible(View.INVISIBLE);
         value = npUnit.getValue();
         String unit = unitArr[value];
-        if(!unit.isEmpty()){
+        if (!unit.isEmpty()) {
             activityMyAddSkillBinding.tvUnit.setText(unit);
         }
     }
@@ -137,19 +139,22 @@ public class MyAddSkillModel extends BaseObservable {
             private CharSequence wordNum;//记录输入的字数
             private int selectionStart;
             private int selectionEnd;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 wordNum = s;
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 String text = s.toString();
                 num = s.length();
                 selectionEnd = activityMyAddSkillBinding.etSkillManageDesc.getSelectionEnd();
-                activityMyAddSkillBinding.tvDescNum.setText(num+"/"+totalNum);
+                activityMyAddSkillBinding.tvDescNum.setText(num + "/" + totalNum);
                 // selectionStart=activityReportTaBinding.etReportOther.getSelectionStart();
                 if (wordNum.length() > totalNum) {
                     //删除多余输入的字（不会显示出来）
@@ -163,13 +168,13 @@ public class MyAddSkillModel extends BaseObservable {
     }
 
     //跳转到标签页面。关联标签
-    public void jumpSkillLabel(View view){
+    public void jumpSkillLabel(View view) {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         ArrayList<String> addedTagsName = sallAddedSkilllabels.getAddedTagsName();
         ArrayList<String> addedTags = sallAddedSkilllabels.getAddedTags();
         intentSubscribeActivity.putStringArrayListExtra("addedTagsName", addedTagsName);
         intentSubscribeActivity.putStringArrayListExtra("addedTags", addedTags);
-        intentSubscribeActivity.putExtra("addSkillTemplte",0);
+        intentSubscribeActivity.putExtra("addSkillTemplte", 0);
         myAddSkillActivity.startActivityForResult(intentSubscribeActivity, Constants.SKILL_MANAGER_ADD_LABEL);
 
 
@@ -177,15 +182,15 @@ public class MyAddSkillModel extends BaseObservable {
     }
 
     //提交
-    public void sumbit(View view){
+    public void sumbit(View view) {
         getSumbitData();
        /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
                 +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
  */
 
-       MyManager.onAddSkillTemplet(new onAddSkillTemplet(),title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+        MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
 
-        if(isSucceful){
+        if (isSucceful) {
             SkillManagerBean.DataBean.ListBean listBean = new SkillManagerBean.DataBean.ListBean();
             listBean.setTitle(title);
             listBean.setTag(tag);
@@ -207,26 +212,26 @@ public class MyAddSkillModel extends BaseObservable {
             listBean.setCts(cts);
             listBean.setId(id);
             Intent intent = new Intent();
-            intent.putExtra("sumbitNewTemplet",listBean);
-            myAddSkillActivity.setResult(Constants.SUMBIT_ONE_SKILL_MANAGER,intent);
+            intent.putExtra("sumbitNewTemplet", listBean);
+            myAddSkillActivity.setResult(Constants.SUMBIT_ONE_SKILL_MANAGER, intent);
             myAddSkillActivity.finish();
         }
     }
 
     //获取要提交的内容
-    public void getSumbitData(){
+    public void getSumbitData() {
         title = activityMyAddSkillBinding.etTitle.getText().toString();
         desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
-        String  quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
-        if(quoteString!=""&&!quoteString.isEmpty()&&quoteString!=" "){
-            quote=Double.parseDouble(quoteString);
+        String quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
+        if (quoteString != "" && !quoteString.isEmpty() && quoteString != " ") {
+            quote = Double.parseDouble(quoteString);
         }
-        quoteunit = value+1;
+        quoteunit = value + 1;
         anonymity = 1;
-         timetype = 0;//时间类型
-         instalment = 1;
-         bp = 1;//取值只能1或者2 1平台 2协商
-         pattern = 1;//取值只能1或者0 （1线下 0线上）
+        timetype = 0;//时间类型
+        instalment = 1;
+        bp = 1;//取值只能1或者2 1平台 2协商
+        pattern = 1;//取值只能1或者0 （1线下 0线上）
         //TODO传递图片
         //获取图片
         //获取标签
@@ -238,7 +243,7 @@ public class MyAddSkillModel extends BaseObservable {
         @Override
         public void execute(SkillMamagerOneTempletBean dataBean) {
             int rescode = dataBean.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 SkillMamagerOneTempletBean.DataBean data = dataBean.getData();
                 SkillMamagerOneTempletBean.DataBean.ServiceBean service = data.getService();
                 initOneTemplet(service);
@@ -247,7 +252,7 @@ public class MyAddSkillModel extends BaseObservable {
 
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
@@ -256,10 +261,10 @@ public class MyAddSkillModel extends BaseObservable {
         @Override
         public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
-            if(rescode == 0){
+            if (rescode == 0) {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                switch (status){
+                switch (status) {
                     case 1:
                         isSucceful = true;
                         break;
@@ -270,21 +275,22 @@ public class MyAddSkillModel extends BaseObservable {
                 }
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
     private void initOneTemplet(SkillMamagerOneTempletBean.DataBean.ServiceBean service) {
         String serviceTitle = service.getTitle();
-         activityMyAddSkillBinding.etTitle.setText(serviceTitle);
-        String serviceDesc= service.getDesc();
-         activityMyAddSkillBinding.etSkillManageDesc.setText(serviceDesc);
+        activityMyAddSkillBinding.etTitle.setText(serviceTitle);
+        String serviceDesc = service.getDesc();
+        activityMyAddSkillBinding.etSkillManageDesc.setText(serviceDesc);
         int serviceQuote = service.getQuote();
-         activityMyAddSkillBinding.etMoney.setText(String.valueOf(serviceQuote));
-        int serviceQuoteunit= service.getQuoteunit();
-        int serviceValue = serviceQuoteunit-1;
+        activityMyAddSkillBinding.etMoney.setText(String.valueOf(serviceQuote));
+        int serviceQuoteunit = service.getQuoteunit();
+        int serviceValue = serviceQuoteunit - 1;
         npUnit.setValue(serviceValue);
         tag = service.getTag();
         String[] tags = tag.split(",");
@@ -294,10 +300,10 @@ public class MyAddSkillModel extends BaseObservable {
             String substring = tag.substring(index + 1);
             listTag.add(substring);
         }
-        activityMyAddSkillBinding.sallAddedSkilllabels.reloadSkillLabels(listTag,listTag);
+        activityMyAddSkillBinding.sallAddedSkilllabels.reloadSkillLabels(listTag, listTag);
 
         pic = service.getPic();
-        if(pic!=null){
+        if (pic != null) {
             String[] pics = pic.split(",");
             Collections.addAll(listPic, pics);
         }
