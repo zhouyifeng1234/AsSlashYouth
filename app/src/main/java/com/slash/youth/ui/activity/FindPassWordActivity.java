@@ -82,7 +82,6 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.tv_userinfo_save://提交
-
                 createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
                 surePassWord = findPassWordModel.surePassWordMap.get("surePassWord");
                 if(createPassWord!=null&&surePassWord!=null){
@@ -94,23 +93,14 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                         ToastUtils.shortToast(toastTextString);
                     }
                     if(createPassWord.equals(surePassWord)&&!(path).isEmpty()){
-
-                        LogKit.d("==tradePasswordStatus=="+tradePasswordStatus);
-                       /* switch (tradePasswordStatus){
-                            case 1:
-
-
+                        switch (tradePasswordStatus){
+                            case 1://设置了交易密码,找回密码
+                                findPassWordModel.findPassWord(surePassWord,path.get(0));
                                 break;
-                            case 0:
-
-
+                            case 0://没有设置密码，创建密码
+                                findPassWordModel.createPassWord(surePassWord,path.get(0));
                                 break;
-                        }*/
-
-                      /*  //创建密码
-                        findPassWordModel.createPassWord(surePassWord,path.get(0));
-                        //找回交易密码
-                        findPassWordModel.findPassWord(surePassWord,path.get(0));*/
+                        }
                     }
                 }else {
                     ToastUtils.shortToast(toastString);

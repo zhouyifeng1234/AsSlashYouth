@@ -137,33 +137,38 @@ public class EditorIdentityModel extends BaseObservable {
     }
 
     //创造技能标签
-    private View createSkillaLabel(final String text) {
+    private LinearLayout createSkillaLabel(final String text) {
+        //创建linearlayout
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
         LinearLayout llCheckedLabel = new LinearLayout(CommonUtils.getContext());
         llCheckedLabel.setOrientation(LinearLayout.HORIZONTAL);
-        params.leftMargin = CommonUtils.dip2px(17);
+        params.leftMargin = CommonUtils.dip2px(20);
         llCheckedLabel.setLayoutParams(params);
+        //创建textview
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
+        ll.topMargin = CommonUtils.dip2px(5);
         TextView textview = new TextView(CommonUtils.getContext());
         textview.setLayoutParams(ll);
         textview.setMaxLines(1);
         textview.setGravity(Gravity.CENTER);
         textview.setTextColor(0xffffffff);
         textview.setTextSize(14);
+        textview.setBackgroundResource(R.drawable.shape_userinfo_add_skilllabel);
         textview.setText(text);
         textview.setPadding(CommonUtils.dip2px(15), CommonUtils.dip2px(12), CommonUtils.dip2px(15), CommonUtils.dip2px(12));
+        //创建imageButton
         LinearLayout.LayoutParams ivbtnParams = new LinearLayout.LayoutParams(-2, -2);
-        ivbtnParams.topMargin = CommonUtils.dip2px(-23);
-        ivbtnParams.rightMargin = CommonUtils.dip2px(-9);
+        //ivbtnParams.topMargin = CommonUtils.dip2px(-23);
+        //ivbtnParams.rightMargin = CommonUtils.dip2px(-9);
         ImageButton ivbtnUnCheckedLabel = new ImageButton(CommonUtils.getContext());
         ivbtnUnCheckedLabel.setBackground(new ColorDrawable(Color.TRANSPARENT));
         ivbtnUnCheckedLabel.setImageResource(R.mipmap.close_icon_2);
-        ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
+       // ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
         ivbtnUnCheckedLabel.setLayoutParams(ivbtnParams);
+
         llCheckedLabel.addView(textview);
         llCheckedLabel.addView(ivbtnUnCheckedLabel);
-        llCheckedLabel.setBackgroundResource(R.drawable.shape_userinfo_add_skilllabel);
-        llCheckedLabel.setGravity(Gravity.CENTER);
+
         ivbtnUnCheckedLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,8 +209,10 @@ public class EditorIdentityModel extends BaseObservable {
         createLabelLine();//new
         for (int i = 0; i < data.size(); i++) {
             //测量标签TextView的宽度并判断是否换行
-            adddView(createSkillaLabel( data.get(i)));
+            LinearLayout skillaLabel =  createSkillaLabel(data.get(i));
+            adddView(skillaLabel);
         }
+
         adddView(addSkillaLabel());
         activityEditorIdentityBinding.llAddSkillLabel.addView(llSkilllabelLine);
     }

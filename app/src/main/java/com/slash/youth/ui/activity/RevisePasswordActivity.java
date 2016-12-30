@@ -24,6 +24,8 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
     private TextView save;
     private ActivityRevisePasswordBinding activityRevisePasswordBinding;
     private RevisePassWordModel revisePassWordModel;
+    private String titleString = "修改交易密码";
+    private String sure = "确定";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,10 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("修改交易密码");
+        title.setText(titleString);
         save = (TextView) findViewById(R.id.tv_userinfo_save);
         save.setOnClickListener(this);
-        save.setText("确定");
+        save.setText(sure);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
                 String surepass = revisePassWordModel.surePassWordMap.get("surepass");
                 if(oldpass!=null &&newpass!=null && surepass!=null){
                     if(newpass.equals(surepass)){
-                        revisePassWordModel.setPassWord(oldpass,newpass);
+                        revisePassWordModel.setNewPassWord(oldpass,newpass);
                     }else {
                         ToastUtils.shortToast("输入的新密码不一致,请重新输入");
                     }
@@ -67,5 +69,4 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
                 break;
         }
     }
-
 }

@@ -9,10 +9,12 @@ import android.widget.EditText;
 
 import com.slash.youth.databinding.ActivityRevisePasswordBinding;
 import com.slash.youth.domain.SetBean;
+import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SetPassWordProtocol;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,6 @@ public class RevisePassWordModel extends BaseObservable {
     }
 
     private void initData() {
-
     }
 
     private void listener() {
@@ -97,33 +98,35 @@ public class RevisePassWordModel extends BaseObservable {
         });
     }
 
-    //设置密码
-    public void setPassWord(String oldpass,String newpass){
-        SetPassWordProtocol setPassWordProtocol = new SetPassWordProtocol(oldpass,newpass);
-        setPassWordProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetBean>() {
-            @Override
-            public void execute(SetBean dataBean) {
-                int rescode = dataBean.rescode;
-                if(rescode == 0){
-                    SetBean.DataBean data = dataBean.getData();
-                    int status = data.getStatus();
-                    switch (status){
-                        case 1:
-                            LogKit.d("设置成功");
-
-                            break;
-                        case 2:
-                            LogKit.d("设置失败");
-                            break;
-                    }
-                }
-            }
-
-            @Override
-            public void executeResultError(String result) {
-                LogKit.d("result:"+result);
-            }
-        });
+    //修改新的密码
+    public void setNewPassWord(String oldpass,String newpass){
+        ContactsManager.onSetNewPassWord(new onSetNewPassWord(),oldpass,newpass);
     }
 
+    //创建交易密码
+    public class onSetNewPassWord implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status){
+                    case 1:
+                        LogKit.d("设置成功");
+                        ToastUtils.shortCenterToast("修改成功");
+                        break;
+                    case 0:
+                        LogKit.d("设置失败");
+                        ToastUtils.shortCenterToast("修改失败");
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
 }
