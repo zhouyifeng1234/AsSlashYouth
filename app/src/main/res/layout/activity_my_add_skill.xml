@@ -1,359 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="myAddSkillModel"
                   type="com.slash.youth.ui.viewmodel.MyAddSkillModel"/>
     </data>
-        <FrameLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#31C5E4"
-        android:orientation="vertical">
-
-        <include layout="@layout/usertitlebar" />
-        <ScrollView
+    >
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#31C5E4"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <include layout="@layout/usertitlebar"/>
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                app:cardBackgroundColor="#ffffff"
-                android:layout_marginTop="-10dp"
-                android:layout_marginBottom="0dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="@dimen/cardElevation"
-                app:cardUseCompatPadding="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="14dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="服务标题"
-                        android:textColor="#333333"
-                        android:textSize="14sp"/>
+                android:layout_height="wrap_content">
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="-10dp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="@dimen/cardElevation"
+                    app:cardUseCompatPadding="true">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/et_title"
-                            android:background="@null"
-                            android:layout_width="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="20dp"
-                            android:hint="请输入5个字以内"
-                            android:maxLines="1"
-                            android:maxLength="5"
-                            android:textColor="#333333"
-                            android:textColorHint="#cccccc"
-                            android:textSize="14sp"/>
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="14dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="服务标题"
+                                android:textColor="#333333"
+                                android:textSize="14sp"/>
 
-                    </LinearLayout>
-                </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:orientation="horizontal">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="121dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_rounded_demand2_desc_bg">
-                    <EditText
-                        android:id="@+id/et_skill_manage_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:maxLength="300"
-                        android:textColor="#333333"
-                        android:background="@android:color/transparent"
-                        android:gravity="top|left"
-                        android:hint="描述一下你的需求300字内"
-                        android:textColorHint="#cccccc"
-                        android:textSize="16sp"/>
-                    <TextView
-                        android:id="@+id/tv_desc_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|bottom"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="5dp"
-                        android:text="0/300"
-                        android:textColor="#cccccc"
-                        android:textSize="16dp"/>
-                </FrameLayout>
+                                <EditText
+                                    android:id="@+id/et_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="20dp"
+                                    android:background="@null"
+                                    android:hint="请输入5个字以内"
+                                    android:maxLength="5"
+                                    android:maxLines="1"
+                                    android:textColor="#333333"
+                                    android:textColorHint="#cccccc"
+                                    android:textSize="14sp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    >
+                            </LinearLayout>
+                        </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="报价:"
-                        android:textColor="#333333"
-                        android:textSize="14sp"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="121dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/shape_rounded_demand2_desc_bg">
+                            <EditText
+                                android:id="@+id/et_skill_manage_desc"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@android:color/transparent"
+                                android:gravity="top|left"
+                                android:hint="描述一下你的需求300字内"
+                                android:maxLength="300"
+                                android:textColor="#333333"
+                                android:textColorHint="#cccccc"
+                                android:textSize="16sp"/>
+                            <TextView
+                                android:id="@+id/tv_desc_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|bottom"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginRight="5dp"
+                                android:text="0/300"
+                                android:textColor="#cccccc"
+                                android:textSize="16dp"/>
+                        </FrameLayout>
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:id="@+id/et_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:textColorHint="#CCCCCC"
-                        android:textColor="#333333"
-                        android:inputType="number"
-                        android:textSize="13sp"/>
-                    <TextView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:textSize="13dp"
-                        android:textColor="#333333"
-                        android:text="元"
-                    />
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#E5E5E5"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="价格单位"
-                        android:textColor="#333333"
-                        android:textSize="14sp"/>
-
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:id="@+id/tv_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:hint="请选择"
-                        android:textColorHint="#CCCCCC"
-                        android:textColor="#333333"
-                        android:textSize="13sp"/>
-                    <ImageView
-                        android:onClick="@{myAddSkillModel.chooseUnit}"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:src="@mipmap/towards_right_icon"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#E5E5E5"/>
-
-                <com.slash.youth.ui.view.SlashAddPicLayout
-                    android:id="@+id/sapl_publish_demand_addpic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                </com.slash.youth.ui.view.SlashAddPicLayout>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginTop="24dp"
-                        android:text="＊建议上传清晰度高的图片上限5张"
-                        android:textColor="#CCCCCC"
-                        android:textSize="11sp"/>
-
-
-
-                    <com.slash.youth.ui.view.SlashAddPicLayout
-                        android:id="@+id/add_pic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                    </com.slash.youth.ui.view.SlashAddPicLayout>
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginRight="14dp"
-                        android:layout_marginTop="15dp"
-                        android:background="#E5E5E5"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginRight="14dp"
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal"
                         >
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="关联标签"
-                            android:textColor="#333333"
-                            android:textSize="14sp"/>
-
-                        <View android:layout_width="0dp" android:layout_height="0dp"
-                            android:layout_weight="1"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:background="@android:color/transparent"
-                            android:hint="为了高效匹配需求者请添加"
-                            android:textColorHint="#CCCCCC"
-                            android:textSize="13sp"/>
-                        <ImageView
-                            android:onClick="@{myAddSkillModel.jumpSkillLabel}"
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="6dp"
-                            android:src="@mipmap/towards_right_icon"/>
-
-                    </LinearLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="74dp"
-                        android:layout_marginLeft="14dp"
-                        android:layout_marginRight="14dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/shape_rounded_demand2_desc_bg">
-                        <ScrollView
-                            android:id="@+id/sv_publish_demand_labels"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="5dp">
-                            <com.slash.youth.ui.view.SlashAddLabelsLayout
-                                android:id="@+id/sall_added_skilllabels"
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:orientation="vertical"
+                                android:layout_gravity="center_vertical"
+                                android:text="报价:"
+                                android:textColor="#333333"
+                                android:textSize="14sp"/>
+
+                            <View android:layout_width="0dp" android:layout_height="0dp"
+                                  android:layout_weight="1"/>
+
+                            <EditText
+                                android:id="@+id/et_money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@android:color/transparent"
+                                android:inputType="number"
+                                android:textColor="#333333"
+                                android:textColorHint="#CCCCCC"
+                                android:textSize="13sp"/>
+                            <TextView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:text="元"
+                                android:textColor="#333333"
+                                android:textSize="13dp"
+                            />
+
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="12dp"
+                            android:background="#E5E5E5"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal"
+                        >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="价格单位"
+                                android:textColor="#333333"
+                                android:textSize="14sp"/>
+
+                            <View android:layout_width="0dp" android:layout_height="0dp"
+                                  android:layout_weight="1"/>
+
+                            <TextView
+                                android:id="@+id/tv_unit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@android:color/transparent"
+                                android:hint="请选择"
+                                android:textColor="#333333"
+                                android:textColorHint="#CCCCCC"
+                                android:textSize="13sp"/>
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:onClick="@{myAddSkillModel.chooseUnit}"
+                                android:src="@mipmap/towards_right_icon"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="12dp"
+                            android:background="#E5E5E5"/>
+
+                        <!--<com.slash.youth.ui.view.SlashAddPicLayout-->
+                        <!--android:id="@+id/sapl_publish_demand_addpic"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="vertical">-->
+
+                        <!--</com.slash.youth.ui.view.SlashAddPicLayout>-->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginTop="24dp"
+                            android:text="＊建议上传清晰度高的图片上限5张"
+                            android:textColor="#CCCCCC"
+                            android:textSize="11sp"/>
+
+
+                        <com.slash.youth.ui.view.SlashAddPicLayout
+                            android:id="@+id/add_pic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        </com.slash.youth.ui.view.SlashAddPicLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="15dp"
+                            android:background="#E5E5E5"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal"
+                        >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="关联标签"
+                                android:textColor="#333333"
+                                android:textSize="14sp"/>
+
+                            <View android:layout_width="0dp" android:layout_height="0dp"
+                                  android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@android:color/transparent"
+                                android:hint="为了高效匹配需求者请添加"
+                                android:textColorHint="#CCCCCC"
+                                android:textSize="13sp"/>
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:onClick="@{myAddSkillModel.jumpSkillLabel}"
+                                android:src="@mipmap/towards_right_icon"/>
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="74dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="14dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/shape_rounded_demand2_desc_bg">
+                            <ScrollView
+                                android:id="@+id/sv_publish_demand_labels"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="5dp">
+                                <com.slash.youth.ui.view.SlashAddLabelsLayout
+                                    android:id="@+id/sall_added_skilllabels"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:orientation="vertical"
                                 >
 
-                            </com.slash.youth.ui.view.SlashAddLabelsLayout>
-                        </ScrollView>
-                    </FrameLayout>
-                <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="67dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@mipmap/demand_layer_3">
+                                </com.slash.youth.ui.view.SlashAddLabelsLayout>
+                            </ScrollView>
+                        </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="67dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@mipmap/demand_layer_3">
 
-                        <Button
-                           android:visibility="gone"
-                            android:layout_width="252dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/btn_next_step"
-                            android:text="提交"
-                            android:layout_marginBottom="9dp"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"/>
+                            <Button
+                                android:layout_width="252dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/btn_next_step"
+                                android:text="提交"
+                                android:textColor="#FFFFFF"
+                                android:textSize="15sp"
+                                android:visibility="gone"/>
 
 
-                    <LinearLayout
-                        android:onClick="@{myAddSkillModel.sumbit}"
-                        android:id="@+id/btn_sumbit"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="9dp"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="-1dp"
-                            android:src="@mipmap/btn2_lift"/>
-                        <TextView
-                            android:layout_width="210dp"
-                            android:layout_height="match_parent"
-                            android:text="提交"
-                            android:textSize="15dp"
-                            android:gravity="center"
-                            android:textColor="#ffffff"
-                            android:background="@mipmap/btn2_middle"/>
+                            <LinearLayout
+                                android:id="@+id/btn_sumbit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="9dp"
+                                android:layout_marginTop="5dp"
+                                android:onClick="@{myAddSkillModel.sumbit}"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginRight="-1dp"
+                                    android:src="@mipmap/btn2_lift"/>
+                                <TextView
+                                    android:layout_width="210dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@mipmap/btn2_middle"
+                                    android:gravity="center"
+                                    android:text="提交"
+                                    android:textColor="#ffffff"
+                                    android:textSize="15dp"/>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="0dp"
-                            android:src="@mipmap/btn2_right"
-                            />
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="0dp"
+                                    android:src="@mipmap/btn2_right"
+                                />
+                            </LinearLayout>
+
+                        </FrameLayout>
+
                     </LinearLayout>
-
-                    </FrameLayout>
-
-                </LinearLayout>
-             </android.support.v7.widget.CardView>
-        </ScrollView>
-    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </ScrollView>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -361,7 +360,7 @@
             android:background="#55000000"
             android:clickable="true"
             android:visibility="@{myAddSkillModel.rlChooseMainLabelVisible}"
-            >
+        >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -378,16 +377,16 @@
                         android:orientation="vertical">
 
                         <View android:layout_width="match_parent"
-                            android:layout_height="110dp"/>
+                              android:layout_height="110dp"/>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="61dp"
                             android:background="@drawable/shape_rectangle_gradient"/>
                         <View android:layout_width="match_parent"
-                            android:layout_height="110dp"/>
+                              android:layout_height="110dp"/>
                         <View android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="#E5E5E5"/>
+                              android:layout_height="2dp"
+                              android:background="#E5E5E5"/>
 
                     </LinearLayout>
                     <com.slash.youth.ui.view.SlashNumberPicker
@@ -401,7 +400,6 @@
                 </RelativeLayout>
 
                 <Button
-                    android:visibility="gone"
                     android:id="@+id/btn_okChooseMainLabel"
                     android:layout_width="333dp"
                     android:layout_height="45dp"
@@ -412,14 +410,15 @@
                     android:text="确定"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
-                    />
+                    android:visibility="gone"
+                />
 
                 <LinearLayout
-                    android:onClick="@{myAddSkillModel.sure}"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
+                    android:onClick="@{myAddSkillModel.sure}"
                     android:orientation="horizontal">
                     <ImageView
                         android:layout_width="wrap_content"
@@ -429,18 +428,18 @@
                     <TextView
                         android:layout_width="250dp"
                         android:layout_height="match_parent"
-                        android:text="确定"
-                        android:textSize="15dp"
+                        android:background="@mipmap/btn2_middle"
                         android:gravity="center"
+                        android:text="确定"
                         android:textColor="#ffffff"
-                        android:background="@mipmap/btn2_middle"/>
+                        android:textSize="15dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_marginLeft="0dp"
                         android:src="@mipmap/btn2_right"
-                        />
+                    />
                 </LinearLayout>
 
 
