@@ -226,7 +226,11 @@ public class ActivityLoginModel extends BaseObservable {
     public void qqLogin(View v) {
 //        LoginManager.loginQQ(qqLoginUiListener, loginActivity);
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
-        mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.QQ, umAuthListener);
+        if (mShareAPI.isInstall(loginActivity, SHARE_MEDIA.QQ)) {
+            mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.QQ, umAuthListener);
+        } else {
+            ToastUtils.shortToast("请先安装QQ客户端");
+        }
     }
 
     public void weiboLogin(View v) {

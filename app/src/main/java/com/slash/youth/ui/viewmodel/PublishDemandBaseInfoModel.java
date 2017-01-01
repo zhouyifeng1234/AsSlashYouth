@@ -184,6 +184,13 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         setChooseDateTimeLayerVisibility(View.VISIBLE);
     }
 
+    public void deleteStartTime(View v) {
+        startTime = -1;
+        setStartTimeStr("");
+        setDeleteStartTimeIconVisibility(View.GONE);
+        setSetStartTimeBtnVisibility(View.VISIBLE);
+    }
+
     public void cancelChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
     }
@@ -198,6 +205,8 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         String dateTimeStr = mCurrentChooseMonth + "月" + mCurrentChooseDay + "日" + "-" + mCurrentChooseHour + ":" + (mCurrentChooseMinute < 10 ? "0" + mCurrentChooseMinute : mCurrentChooseMinute);
         setStartTimeStr(dateTimeStr);
         convertTimeToMillis();
+        setDeleteStartTimeIconVisibility(View.VISIBLE);
+        setSetStartTimeBtnVisibility(View.GONE);
 //        LogKit.v(startTime + "");
 //        LogKit.v(System.currentTimeMillis() + "");
     }
@@ -306,6 +315,29 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
 
     private int chooseDateTimeLayerVisibility = View.GONE;
     private String startTimeStr;
+
+    private int setStartTimeBtnVisibility = View.VISIBLE;
+    private int deleteStartTimeIconVisibility = View.GONE;
+
+    @Bindable
+    public int getSetStartTimeBtnVisibility() {
+        return setStartTimeBtnVisibility;
+    }
+
+    public void setSetStartTimeBtnVisibility(int setStartTimeBtnVisibility) {
+        this.setStartTimeBtnVisibility = setStartTimeBtnVisibility;
+        notifyPropertyChanged(BR.setStartTimeBtnVisibility);
+    }
+
+    @Bindable
+    public int getDeleteStartTimeIconVisibility() {
+        return deleteStartTimeIconVisibility;
+    }
+
+    public void setDeleteStartTimeIconVisibility(int deleteStartTimeIconVisibility) {
+        this.deleteStartTimeIconVisibility = deleteStartTimeIconVisibility;
+        notifyPropertyChanged(BR.deleteStartTimeIconVisibility);
+    }
 
     @Bindable
     public int getChooseDateTimeLayerVisibility() {

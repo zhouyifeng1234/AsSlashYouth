@@ -88,6 +88,7 @@ public class SlashApplication extends Application {
 
         UMShareAPI.get(this);
         Config.REDIRECT_URL = "www.slashyouth.com";
+        Config.dialogSwitch = false;//不使用默认dialog
 
         context = getApplicationContext();
         mainThreadId = android.os.Process.myTid();

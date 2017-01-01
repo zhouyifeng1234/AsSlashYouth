@@ -29,6 +29,9 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -416,13 +419,65 @@ public class DemandDetailModel extends BaseObservable {
 
     //进行分享需求操作
     public void shareDemand(View v) {
-        ToastUtils.shortToast("Share Demand");
+//        ToastUtils.shortToast("Share Demand");
+        openShareLayer();
     }
 
     //底部分享按钮的操作，需求者视角的时候从才会显示
     public void shareDemandBottom(View v) {
-        ToastUtils.shortToast("Share Demand Bottom");
+//        ToastUtils.shortToast("Share Demand Bottom");\
+        openShareLayer();
     }
+
+    private void openShareLayer() {
+        setShareLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消分销按钮
+     *
+     * @param v
+     */
+    public void cancelShare(View v) {
+        setShareLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 分享给微信好友
+     *
+     * @param v
+     */
+    public void shareToWeChat(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").setCallback(umShareListener).share();
+    }
+
+    /**
+     * 分享到微信朋友圈
+     *
+     * @param v
+     */
+    public void shareToWeChatCircle(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").setCallback(umShareListener).share();
+    }
+
+    /**
+     * 分享到QQ
+     *
+     * @param v
+     */
+    public void shareToQQ(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").setCallback(umShareListener).share();
+    }
+
+    /**
+     * 分享到QQ空间
+     *
+     * @param v
+     */
+    public void shareToQZone(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").setCallback(umShareListener).share();
+    }
+
 
     //修改需求内容，会跳转到发布需求的页面，并在发布需求页面自动填充已有的内容
     public void updateDemand(View v) {
@@ -522,6 +577,27 @@ public class DemandDetailModel extends BaseObservable {
     public void cancelChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            LogKit.v("platform" + platform);
+            ToastUtils.shortToast(platform + " 分享成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.shortToast(platform + " 分享失败");
+            if (t != null) {
+                LogKit.v("throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.shortToast(platform + " 分享取消了");
+        }
+    };
 
     private int mBidCurrentChooseYear;
     private int mBidCurrentChooseMonth;
@@ -866,6 +942,17 @@ public class DemandDetailModel extends BaseObservable {
     private int instalmentRatioVisibility;
 
     private int addInstalmentIconVisibility;
+    private int shareLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getShareLayerVisibility() {
+        return shareLayerVisibility;
+    }
+
+    public void setShareLayerVisibility(int shareLayerVisibility) {
+        this.shareLayerVisibility = shareLayerVisibility;
+        notifyPropertyChanged(BR.shareLayerVisibility);
+    }
 
     @Bindable
     public int getAddInstalmentIconVisibility() {
