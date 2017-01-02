@@ -30,6 +30,10 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,10 +74,6 @@ public class ServiceDetailModel extends BaseObservable {
         mActivity.finish();
     }
 
-    //分享服务（顶部需求者视角看到的分享按钮）
-    public void shareService(View v) {
-
-    }
 
     //修改服务
     public void updateService(View v) {
@@ -131,10 +131,96 @@ public class ServiceDetailModel extends BaseObservable {
 
     }
 
+    //分享服务（顶部需求者视角看到的分享按钮）
+    public void shareService(View v) {
+        openShareLayer();
+    }
+
     //底部服务者视角看到的分享按钮
     public void shareServiceBottom(View v) {
-
+        openShareLayer();
     }
+
+    private void openShareLayer() {
+        setShareLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消分销按钮
+     *
+     * @param v
+     */
+    public void cancelShare(View v) {
+        setShareLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 分享给微信好友
+     *
+     * @param v
+     */
+    public void shareToWeChat(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到微信朋友圈
+     *
+     * @param v
+     */
+    public void shareToWeChatCircle(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到QQ
+     *
+     * @param v
+     */
+    public void shareToQQ(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        } else {
+            ToastUtils.shortToast("请先安装qq客户端");
+        }
+    }
+
+    /**
+     * 分享到QQ空间
+     *
+     * @param v
+     */
+    public void shareToQZone(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            LogKit.v("platform" + platform);
+            ToastUtils.shortToast(platform + " 分享成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.shortToast(platform + " 分享失败");
+            if (t != null) {
+                LogKit.v("throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.shortToast(platform + " 分享取消了");
+        }
+    };
 
     public void openServiceDetailLocation(View v) {
 
@@ -447,6 +533,18 @@ public class ServiceDetailModel extends BaseObservable {
     private String fanscount;
     private String taskcount;
     private String serviceUserPlace;
+
+    private int shareLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getShareLayerVisibility() {
+        return shareLayerVisibility;
+    }
+
+    public void setShareLayerVisibility(int shareLayerVisibility) {
+        this.shareLayerVisibility = shareLayerVisibility;
+        notifyPropertyChanged(BR.shareLayerVisibility);
+    }
 
     @Bindable
     public int getTopShareBtnVisibility() {

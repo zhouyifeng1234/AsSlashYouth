@@ -30,6 +30,7 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -323,7 +324,7 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:MM月dd日 hh:mm");//发布时间:9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:MM月dd日 hh:mm:ss");//发布时间:9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
@@ -448,7 +449,10 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToWeChat(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").setCallback(umShareListener).share();
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
     }
 
     /**
@@ -457,7 +461,10 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToWeChatCircle(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").setCallback(umShareListener).share();
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
     }
 
     /**
@@ -466,7 +473,12 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToQQ(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").setCallback(umShareListener).share();
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        } else {
+            ToastUtils.shortToast("请先安装qq客户端");
+        }
     }
 
     /**
@@ -475,7 +487,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToQZone(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").setCallback(umShareListener).share();
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
     }
 
 

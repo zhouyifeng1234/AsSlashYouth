@@ -8,6 +8,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
     >
         <ImageView
             android:layout_width="wrap_content"
@@ -41,18 +42,18 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:visibility="@{perfectInfoModel.phonenumLoginInfoVisibility}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="@{perfectInfoModel.phonenumLoginInfoVisibility}">
                 <EditText
                     android:id="@+id/et_activity_perfect_info_phonenum"
                     android:layout_width="match_parent"
                     android:layout_height="43dp"
                     android:background="@drawable/yjjx_bg"
                     android:gravity="center"
-                    android:hint="输入手机号"
-                    android:textColor="#999999"
+                    android:hint="请输入手机号"
+                    android:textColor="#000000"
                     android:textColorHint="#999999"
                     android:textSize="16.5sp"
                 />
@@ -66,8 +67,8 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/yjjx_bg"
                         android:gravity="center"
-                        android:hint="输入验证码"
-                        android:textColor="#999999"
+                        android:hint="请输入验证码"
+                        android:textColor="#000000"
                         android:textColorHint="#999999"
                         android:textSize="16.5sp"/>
                     <Button
@@ -93,8 +94,9 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/yjjx_bg"
                 android:gravity="center"
-                android:hint="输入真实姓名"
-                android:textColor="#999999"
+                android:hint="请输入真实姓名"
+                android:maxLength="5"
+                android:textColor="#000000"
                 android:textColorHint="#999999"
                 android:textSize="16.5sp"/>
 

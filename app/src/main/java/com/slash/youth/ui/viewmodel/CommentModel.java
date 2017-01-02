@@ -18,6 +18,10 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 /**
  * 当服务方顺利完成需求方的任务之后，需求方对服务方评价F
@@ -216,8 +220,91 @@ public class CommentModel extends BaseObservable {
      * @param v
      */
     public void shareTask(View v) {
-        ToastUtils.shortToast("分享任务");
+//        ToastUtils.shortToast("分享任务");
+        openShareLayer();
     }
+
+    private void openShareLayer() {
+        setShareLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消分销按钮
+     *
+     * @param v
+     */
+    public void cancelShare(View v) {
+        setShareLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 分享给微信好友
+     *
+     * @param v
+     */
+    public void shareToWeChat(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到微信朋友圈
+     *
+     * @param v
+     */
+    public void shareToWeChatCircle(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到QQ
+     *
+     * @param v
+     */
+    public void shareToQQ(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        } else {
+            ToastUtils.shortToast("请先安装qq客户端");
+        }
+    }
+
+    /**
+     * 分享到QQ空间
+     *
+     * @param v
+     */
+    public void shareToQZone(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            LogKit.v("platform" + platform);
+            ToastUtils.shortToast(platform + " 分享成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.shortToast(platform + " 分享失败");
+            if (t != null) {
+                LogKit.v("throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.shortToast(platform + " 分享取消了");
+        }
+    };
+
 
     public void closeCommentActivity(View v) {
         mActivity.finish();
@@ -230,6 +317,18 @@ public class CommentModel extends BaseObservable {
     private int loadLayerVisibility;
     private int bottomShareBtnVisibility;
     private int goBackIconVisibility;
+
+    private int shareLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getShareLayerVisibility() {
+        return shareLayerVisibility;
+    }
+
+    public void setShareLayerVisibility(int shareLayerVisibility) {
+        this.shareLayerVisibility = shareLayerVisibility;
+        notifyPropertyChanged(BR.shareLayerVisibility);
+    }
 
     @Bindable
     public int getGoBackIconVisibility() {

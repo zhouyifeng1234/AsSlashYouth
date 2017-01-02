@@ -819,6 +819,8 @@ public class ChatModel extends BaseObservable {
         listSendMsg.add(sendMessageBean);
 
         mLlChatContent.addView(myPicView);
+
+        setUploadPicLayerVisibility(View.GONE);
     }
 
 
