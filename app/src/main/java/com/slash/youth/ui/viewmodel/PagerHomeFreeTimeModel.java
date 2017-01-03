@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -25,7 +23,6 @@ import com.slash.youth.databinding.PagerHomeFreetimeBinding;
 import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.engine.FirstPagerManager;
-import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
@@ -36,7 +33,6 @@ import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
 import com.slash.youth.ui.view.NewRefreshListView;
-import com.slash.youth.ui.view.PullableListView.MyListener;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -56,10 +52,10 @@ import java.util.List;
 public class PagerHomeFreeTimeModel extends BaseObservable {
     private PagerHomeFreetimeBinding pagerHomeFreetimeBinding;
     public Activity mActivity;
-    private  ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
-    private  ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
+    private ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
+    private ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
     public boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
-    private int limit=10;
+    private int limit = 10;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
     private View listMoreView;
@@ -95,6 +91,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 }
             }, 2000);
         }
+
         @Override
         public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
 
@@ -245,26 +242,26 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
         //条目点击
         pagerHomeFreetimeBinding.lvHomeDemandAndService
-      .setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mIsDisplayDemandList) {
-                    //需求
-                    FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
-                    long demandId = listBean.getId();
-                    Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                    intentDemandDetailActivity.putExtra("demandId", demandId);
-                    mActivity.startActivity(intentDemandDetailActivity);
-                } else {
-                    //服务
-                    FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
-                    long serviceId = listBean.getId();
-                    Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                    intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                    mActivity.startActivity(intentServiceDetailActivity);
-                }
-            }
-        });
+                .setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (mIsDisplayDemandList) {
+                            //需求
+                            FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
+                            long demandId = listBean.getId();
+                            Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                            intentDemandDetailActivity.putExtra("demandId", demandId);
+                            mActivity.startActivity(intentDemandDetailActivity);
+                        } else {
+                            //服务
+                            FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
+                            long serviceId = listBean.getId();
+                            Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                            intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                            mActivity.startActivity(intentServiceDetailActivity);
+                        }
+                    }
+                });
 
         //加载更多的点击事件
         listMoreView.findViewById(R.id.tv_search_more).setOnClickListener(new View.OnClickListener() {
@@ -278,7 +275,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     private void initBanner() {
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
-        intentCommonQuestionActivity.putExtra("banner","banner");
+        intentCommonQuestionActivity.putExtra("banner", "banner");
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
@@ -316,8 +313,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     public void gotoSearchActivity(View v) {
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
-        intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentSearchActivity);
+        mActivity.startActivity(intentSearchActivity);
     }
 
     //切换为展示需求列条
@@ -368,10 +364,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public void getDemandOrServiceListData() {
         if (mIsDisplayDemandList) {
             listDemandBean.clear();
-            FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(),limit);
+            FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(), limit);
         } else {
             listServiceBean.clear();
-            FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(),limit);
+            FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(), limit);
         }
     }
 
@@ -396,9 +392,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             listAdvImageUrl.add(data);
 
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
@@ -407,51 +404,54 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         @Override
         public void execute(FreeTimeDemandBean data) {
             int rescode = data.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
                 listDemandBean.addAll(list);
-                homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean,mActivity);
+                homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                 pagerHomeFreetimeBinding.lvHomeDemandAndService
-                .setAdapter(homeDemandAndDemandAdapter);
+                        .setAdapter(homeDemandAndDemandAdapter);
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
     private int listsize;
+
     //首页闲时服务
     public class onFreeTimeServiceList implements BaseProtocol.IResultExecutor<FreeTimeServiceBean> {
         @Override
         public void execute(FreeTimeServiceBean data) {
             int rescode = data.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
                 listServiceBean.addAll(list);
-                homeServiceAdapter = new HomeServiceAdapter(listServiceBean,mActivity);
+                homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                 pagerHomeFreetimeBinding.lvHomeDemandAndService
-                .setAdapter(homeServiceAdapter);
+                        .setAdapter(homeServiceAdapter);
             }
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
     //点击添加更多
-    public void more(View view){
+    public void more(View view) {
         clickMore();
     }
 
     private void clickMore() {
         Intent intentFirstPagerMoreActivity = new Intent(CommonUtils.getContext(), FirstPagerMoreActivity.class);
-        intentFirstPagerMoreActivity.putExtra("isDemand",mIsDisplayDemandList);
+        intentFirstPagerMoreActivity.putExtra("isDemand", mIsDisplayDemandList);
         intentFirstPagerMoreActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentFirstPagerMoreActivity);
     }

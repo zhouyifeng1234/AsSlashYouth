@@ -12,6 +12,7 @@ import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.MyTaskActivity;
+import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
 
@@ -78,5 +79,10 @@ public class PagerHomeInfoModel extends BaseObservable {
     public void gotoMyTask(View v) {
         Intent intentMyTaskActivity = new Intent(CommonUtils.getContext(), MyTaskActivity.class);
         mActivity.startActivity(intentMyTaskActivity);
+    }
+
+    public void gotoSearchActivity(View v) {
+        Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
+        mActivity.startActivity(intentSearchActivity);
     }
 }

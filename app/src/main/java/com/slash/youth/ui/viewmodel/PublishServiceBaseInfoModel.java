@@ -288,8 +288,8 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
                 ToastUtils.shortToast("请选择闲置时间标签，或设置开始时间和结束时间");
                 return;
             }
-            if (starttime < System.currentTimeMillis() + 60 * 60 * 1000) {
-                ToastUtils.shortToast("开始时间必须大于当前时间一个小时");
+            if (starttime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
+                ToastUtils.shortToast("开始时间必须大于当前时间两个小时");
                 return;
             }
             if (endtime <= starttime) {
