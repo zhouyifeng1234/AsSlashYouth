@@ -76,11 +76,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
         mHeaderListviewHomeContactsBinding.hsvHomeContactsRecommend.setHorizontalScrollBarEnabled(false);
         //获取首页的信息
         ContactsManager.getPersonRelationFirstPage(new onPersonRelationFirstPage());
-
-        mHeaderListviewHomeContactsBinding.tvCareMe.setText(String.valueOf(myFansCount));
-        mHeaderListviewHomeContactsBinding.tvMyCare.setText(String.valueOf(myFollowCount));
-        mHeaderListviewHomeContactsBinding.tvMyAdd.setText(String.valueOf(myAddFriendCount));
-        mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
     }
 
     private void initData() {
@@ -181,6 +176,10 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 myAddFriendCount = info.getMyAddFriendCount();
                 myFollowCount = info.getMyFollowCount();
                 myFansCount = info.getMyFansCount();
+                mHeaderListviewHomeContactsBinding.tvCareMe.setText(String.valueOf(myFansCount));
+                mHeaderListviewHomeContactsBinding.tvMyCare.setText(String.valueOf(myFollowCount));
+                mHeaderListviewHomeContactsBinding.tvMyAdd.setText(String.valueOf(myAddFriendCount));
+                mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
             }
         }
         @Override

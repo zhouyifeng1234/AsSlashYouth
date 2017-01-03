@@ -1,11 +1,8 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.net.sip.SipSession;
-import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,16 +18,13 @@ import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.databinding.PullToRefreshTabListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
-import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
-import com.slash.youth.ui.pager.ListDropDownAdapter;
+import com.slash.youth.ui.adapter.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
-import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

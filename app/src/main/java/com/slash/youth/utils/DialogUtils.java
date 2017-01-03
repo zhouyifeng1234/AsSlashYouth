@@ -20,16 +20,16 @@ public class DialogUtils  {
     private static AlertDialog dialog;
 
 
-    public static void showDialogOne(Context context,String title,String time,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+    public static void showDialogOne(Context context,final DialogCallUnderStandBack dialogCallUnderStandBack){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout, null);
         ImageButton understand = (ImageButton) view.findViewById(R.id.ib_close);
-        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+      /*  TextView text1 = (TextView) view.findViewById(R.id.tv_content);
         TextView text2 = (TextView) view.findViewById(R.id.tv_time_title);
-        TextView text3 = (TextView) view.findViewById(R.id.tv_data);
-        text2.setText(title);
+        TextView text3 = (TextView) view.findViewById(R.id.tv_data);*/
+       /* text2.setText(title);
         text1.setText(content);
-        text3.setText(time);
+        text3.setText(time);*/
         dialogBuilder.setView(view);
         dialog = dialogBuilder.create();
         understand.setOnClickListener(new View.OnClickListener() {

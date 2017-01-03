@@ -79,6 +79,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                     break;
                 case 0://匿名
                     activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
+                    activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
                     break;
             }
         } else {

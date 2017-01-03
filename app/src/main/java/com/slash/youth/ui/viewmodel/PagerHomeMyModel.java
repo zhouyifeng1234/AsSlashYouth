@@ -14,6 +14,7 @@ import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
@@ -128,7 +129,7 @@ public class PagerHomeMyModel extends BaseObservable {
         }).start();
     }
 
-    private void initData() {
+    private void  initData() {
         setExpertMarks();
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
     }
@@ -270,7 +271,7 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.putExtra("careertype",careertype);
         intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
-        mActivity.startActivity(intentApprovalActivity);
+        mActivity.startActivityForResult(intentApprovalActivity, UserInfoEngine.MY_USER_EDITOR);
     }
 
     //去认证
@@ -292,7 +293,7 @@ public class PagerHomeMyModel extends BaseObservable {
         intentUserinfoEditorActivity.putExtra("phone",phone);
         intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
         intentUserinfoEditorActivity.putExtra("myId",id);
-        mActivity.startActivity(intentUserinfoEditorActivity);
+        mActivity.startActivityForResult(intentUserinfoEditorActivity, UserInfoEngine.MY_USER_EDITOR);
     }
 
     //个人信息页面

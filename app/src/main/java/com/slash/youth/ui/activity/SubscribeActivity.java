@@ -665,6 +665,7 @@ public class SubscribeActivity extends Activity {
                 switch (rescode) {
                     case GlobalConstants.Rescode.RES_SUCCESS:
                         LogKit.d(MyManager.BACK_SUCCESS);
+                        ToastUtils.shortToast("已添加");
                         break;
                     case GlobalConstants.Rescode.RES_FAIL:
                         LogKit.d(MyManager.RES_FAIL);
@@ -677,7 +678,6 @@ public class SubscribeActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void executeResultError(String result) {
                 LogKit.d("result :" + result);

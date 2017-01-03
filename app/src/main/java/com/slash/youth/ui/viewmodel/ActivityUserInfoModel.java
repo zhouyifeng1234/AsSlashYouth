@@ -215,6 +215,7 @@ public class ActivityUserInfoModel extends BaseObservable {
                 activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.ANONVMITY);
                 activityUserinfoBinding.lvUserinfo.setVisibility(View.GONE);
                 activityUserinfoBinding.llTaskTitle.setVisibility(View.GONE);
+                activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
                 break;
         }
     }
@@ -514,7 +515,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         activityUserinfoBinding.pbService.setProgress((int)userservicepoint);
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
         activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
-        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+        activityUserinfoBinding.averageServicePoint.setText("平台平均服务力为" + averageservicepoint + "星");
 
         //用户ID
         myUid = uinfo.getId();
@@ -582,8 +583,11 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //技能描述
         desc = uinfo.getDesc();
-        if (desc != null) {
+        if (desc != null||desc!="") {
+            activityUserinfoBinding.tvDescTitle.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
+        }else{
+            activityUserinfoBinding.tvDescTitle.setVisibility(View.VISIBLE);
         }
 
         //方向

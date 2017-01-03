@@ -176,9 +176,6 @@ public class MyAddSkillModel extends BaseObservable {
         intentSubscribeActivity.putStringArrayListExtra("addedTags", addedTags);
         intentSubscribeActivity.putExtra("addSkillTemplte", 0);
         myAddSkillActivity.startActivityForResult(intentSubscribeActivity, Constants.SKILL_MANAGER_ADD_LABEL);
-
-
-        /* sallAddedSkilllabels.initSkillLabels();*/
     }
 
     //提交
@@ -187,7 +184,6 @@ public class MyAddSkillModel extends BaseObservable {
        /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
                 +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
  */
-
         MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
 
         if (isSucceful) {

@@ -142,7 +142,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         activityUserinfoEditorBinding.tvProfession.setText(position);
 
         //行业方向
-        activityUserinfoEditorBinding.tvDirection.setText(industry + "|" + direction);
+        if(industry!=null&&direction!=null&&industry!=""&&direction!=""){
+            activityUserinfoEditorBinding.tvDirection.setText(industry + "|" + direction);
+        }
         //技能标签
         skillLabels = tag.split(",");
         List<String> lists = Arrays.asList(skillLabels);

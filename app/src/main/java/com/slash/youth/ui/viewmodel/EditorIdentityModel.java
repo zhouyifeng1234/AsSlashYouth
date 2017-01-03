@@ -86,6 +86,7 @@ public class EditorIdentityModel extends BaseObservable {
         imageViewAdd.setLayoutParams(ll);
         LinearLayout.LayoutParams ll2 = new LinearLayout.LayoutParams(-2, -2);
         ll2.leftMargin = CommonUtils.dip2px(17);
+        ll2.topMargin = CommonUtils.dip2px(18);
         LinearLayout linearLayout = new LinearLayout(CommonUtils.getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(ll2);
@@ -142,11 +143,11 @@ public class EditorIdentityModel extends BaseObservable {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
         LinearLayout llCheckedLabel = new LinearLayout(CommonUtils.getContext());
         llCheckedLabel.setOrientation(LinearLayout.HORIZONTAL);
-        params.leftMargin = CommonUtils.dip2px(20);
+        params.leftMargin = CommonUtils.dip2px(24);
         llCheckedLabel.setLayoutParams(params);
         //创建textview
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
-        ll.topMargin = CommonUtils.dip2px(5);
+        ll.topMargin = CommonUtils.dip2px(18);
         TextView textview = new TextView(CommonUtils.getContext());
         textview.setLayoutParams(ll);
         textview.setMaxLines(1);
@@ -158,12 +159,10 @@ public class EditorIdentityModel extends BaseObservable {
         textview.setPadding(CommonUtils.dip2px(15), CommonUtils.dip2px(12), CommonUtils.dip2px(15), CommonUtils.dip2px(12));
         //创建imageButton
         LinearLayout.LayoutParams ivbtnParams = new LinearLayout.LayoutParams(-2, -2);
-        //ivbtnParams.topMargin = CommonUtils.dip2px(-23);
-        //ivbtnParams.rightMargin = CommonUtils.dip2px(-9);
         ImageButton ivbtnUnCheckedLabel = new ImageButton(CommonUtils.getContext());
         ivbtnUnCheckedLabel.setBackground(new ColorDrawable(Color.TRANSPARENT));
         ivbtnUnCheckedLabel.setImageResource(R.mipmap.close_icon_2);
-       // ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
+        ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
         ivbtnUnCheckedLabel.setLayoutParams(ivbtnParams);
 
         llCheckedLabel.addView(textview);

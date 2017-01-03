@@ -510,6 +510,7 @@
                                 android:layout_marginTop="15dp">
                                 <TextView
                                     android:visibility="gone"
+                                    android:id="@+id/tv_et_hiht"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_horizontal"
@@ -531,9 +532,10 @@
                                     android:cursorVisible="true"
                                     android:gravity="left|top"
                                     android:maxLines="4"
-                                    android:maxLength="50"
+                                    android:maxEms="50"
                                     android:lineSpacingExtra="2dp"
-                                    android:hint="请输入技能描述，50字内 例：从事UI设计行业5年，具有丰富的设计经验..."/>
+                                    android:hint="请输入技能描述，50字内
+                                    例：从事UI设计行业5年，具有丰富的设计经验..."/>
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"
@@ -550,7 +552,6 @@
                                 android:layout_marginTop="15dp"
                                 >
                                 <TextView
-                                    android:id="@+id/tv_hangyefangxiang"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
