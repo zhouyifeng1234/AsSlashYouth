@@ -407,9 +407,13 @@
 
         <!-- 融云 -->
         <!-- imlib config begin -->
+        <!--<meta-data-->
+        <!--android:name="RONG_CLOUD_APP_KEY"-->
+        <!--android:value="4z3hlwrv33rqt"/>-->
+
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="4z3hlwrv33rqt"/>
+            android:value="25wehl3uww3zw"/>
 
         <service
             android:name="io.rong.imlib.ipc.RongService"

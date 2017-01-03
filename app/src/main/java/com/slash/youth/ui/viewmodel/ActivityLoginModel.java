@@ -22,6 +22,7 @@ import com.slash.youth.domain.ThirdPartyLoginResultBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
@@ -35,6 +36,9 @@ import com.umeng.socialize.UmengTool;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
+import java.util.UUID;
+
+import io.rong.imlib.RongIMClient;
 
 /**
  * Created by zhouyifeng on 2016/9/5.
@@ -66,6 +70,74 @@ public class ActivityLoginModel extends BaseObservable {
 
     private void initView() {
 //        setRegisterAndLoginTextVisibility();
+    }
+
+    /**
+     * 点击“遇到问题”，与斜杠小助手聊天
+     *
+     * @param v
+     */
+    public void chatToSlashHelper(View v) {
+        final String tmpRongToken = SpUtils.getString("tmpRongToken", "");
+        if (TextUtils.isEmpty(tmpRongToken)) {
+            UUID uuid = UUID.randomUUID();
+            String tmpUid = uuid.toString();//创建一个临时的uid，用来获取临时的融云token
+            LogKit.v("tmpUid:" + tmpUid);
+            MsgManager.getRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
+                @Override
+                public void execute(RongTokenBean dataBean) {
+                    String newTmpRongToken = dataBean.data.token;
+                    SpUtils.setString("tmpRongToken", newTmpRongToken);
+                    connectToRongCloud(newTmpRongToken);
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("获取临时融云token失败");
+                }
+            }, tmpUid, "11");
+        } else {
+            connectToRongCloud(tmpRongToken);
+        }
+    }
+
+//    private int connectToRoungCloudCount = 0;
+
+    private void connectToRongCloud(String tmpRongToken) {
+        RongIMClient.connect(tmpRongToken, new RongIMClient.ConnectCallback() {
+            /**
+             * Token 错误，在线上环境下主要是因为 Token 已经过期，您需要向 App Server 重新请求一个新的 Token
+             */
+            @Override
+            public void onTokenIncorrect() {
+//                connectToRoungCloudCount++;
+//                if (connectToRoungCloudCount > 3) {
+//                    ToastUtils.shortToast("使用临时token链接融云失败");
+//                } else {
+//
+//
+//                    connectToRongCloud();
+//                }
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                gotoChatSlashHelperActivity();
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+    }
+
+    private void gotoChatSlashHelperActivity() {
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        //加入斜杠小助手的uid
+
+        intentChatActivity.putExtra("targetId", "1000");
+        mActivity.startActivity(intentChatActivity);
     }
 
 

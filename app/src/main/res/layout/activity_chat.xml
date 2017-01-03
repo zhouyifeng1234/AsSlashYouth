@@ -44,6 +44,7 @@
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"/>
                     <TextView
+                        android:id="@+id/tv_other_company_position"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -56,6 +57,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/ll_chat_info_cmd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
@@ -178,6 +180,7 @@
                     android:orientation="horizontal">
 
                     <FrameLayout
+                        android:id="@+id/fl_text_voice_switch_btn"
                         android:layout_width="27dp"
                         android:layout_height="27dp"
                         android:layout_gravity="center_vertical"
@@ -268,7 +271,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:visibility="@{chatModel.sendVoiceCmdLayerVisibility}">
+            android:visibility="@{chatModel.sendVoiceCmdLayerVisibility}"
+        >
+            <!--android:visibility="gone"-->
 
             <LinearLayout
                 android:layout_width="180dp"
@@ -514,8 +519,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
+
             android:visibility="@{chatModel.loadLayerVisibility}"
         >
+            <!--android:visibility="gone"-->
 
             <LinearLayout
                 android:layout_width="wrap_content"

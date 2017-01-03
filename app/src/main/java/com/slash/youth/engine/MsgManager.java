@@ -444,6 +444,9 @@ public class MsgManager {
     //自定义的各种聊天消息的监听器
 
     public static String targetId = "-1";
+    public static String targetName;
+    public static String targetAvatar;//聊天目标的头像url（fileId）
+    public static int targetAvatarResource = -1;//如果聊天目标是斜杠小助手，头像用本地的资源文件
 
     public interface ChatTextListener {
         public void displayText(Message message, int left);

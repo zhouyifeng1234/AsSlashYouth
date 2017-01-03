@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.net.Uri;
 
 import com.slash.youth.databinding.ItemChatFriendPicBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.LogKit;
@@ -40,7 +41,11 @@ public class ChatFriendPicModel extends BaseObservable {
         LogKit.v(mThumUri.toString());
         x.image().bind(mItemChatFriendPicBinding.ivChatFriendPic, mThumUri.toString());
 
-        BitmapKit.bindImage(mItemChatFriendPicBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        if (!"1000".equals(MsgManager.targetId)) {
+            BitmapKit.bindImage(mItemChatFriendPicBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        } else {
+            mItemChatFriendPicBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);
+        }
     }
 
 }

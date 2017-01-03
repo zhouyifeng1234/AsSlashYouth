@@ -5,6 +5,7 @@ import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
 import com.slash.youth.http.protocol.GetTaskItemProtocol;
 import com.slash.youth.http.protocol.MyTaskServiceDetailProtocol;
+import com.slash.youth.http.protocol.UpAndDownTaskProtocol;
 
 /**
  * Created by zhouyifeng on 2016/10/29.
@@ -70,5 +71,19 @@ public class MyTaskEngine {
     public static void getCommentStatus(BaseProtocol.IResultExecutor onGetCommentStatusFinished, String tid, String type) {
         QueryCommentStatusProtocol queryCommentStatusProtocol = new QueryCommentStatusProtocol(tid, type);
         queryCommentStatusProtocol.getDataFromServer(onGetCommentStatusFinished);
+    }
+
+
+    /**
+     * 根据需求或者服务ID上架或者下架需求服务
+     *
+     * @param onUpOrDownFinished
+     * @param tid                需求或者服务ID
+     * @param type               类型 1需求 2服务
+     * @param action             1上架 0下架
+     */
+    public static void upAndDownTask(BaseProtocol.IResultExecutor onUpOrDownFinished, String tid, String type, String action) {
+        UpAndDownTaskProtocol upAndDownTaskProtocol = new UpAndDownTaskProtocol(tid, type, action);
+        upAndDownTaskProtocol.getDataFromServer(onUpOrDownFinished);
     }
 }

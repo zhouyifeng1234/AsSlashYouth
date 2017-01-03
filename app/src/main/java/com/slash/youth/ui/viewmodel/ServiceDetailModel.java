@@ -20,6 +20,7 @@ import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.SimilarServiceRecommendBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -90,7 +91,17 @@ public class ServiceDetailModel extends BaseObservable {
 
     //下架服务
     public void offShelfService(View v) {
+        MyTaskEngine.upAndDownTask(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                setOffShelfLogoVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("下架服务失败:" + result);
+            }
+        }, serviceId + "", "2", "0");
     }
 
     //聊一聊

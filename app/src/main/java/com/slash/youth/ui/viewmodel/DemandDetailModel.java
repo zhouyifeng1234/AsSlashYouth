@@ -18,6 +18,7 @@ import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -506,7 +507,19 @@ public class DemandDetailModel extends BaseObservable {
 
     //下架需求操作
     public void offShelfDemand(View v) {
-        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+//        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+//            @Override
+//            public void execute(CommonResultBean dataBean) {
+//                setOffShelfLogoVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//                ToastUtils.shortToast("下架需求失败:" + result);
+//            }
+//        }, demandId + "");
+
+        MyTaskEngine.upAndDownTask(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
                 setOffShelfLogoVisibility(View.VISIBLE);
@@ -516,9 +529,7 @@ public class DemandDetailModel extends BaseObservable {
             public void executeResultError(String result) {
                 ToastUtils.shortToast("下架需求失败:" + result);
             }
-        }, demandId + "");
-
-
+        }, demandId + "", "1", "0");
     }
 
     //跳转到个人信息界面

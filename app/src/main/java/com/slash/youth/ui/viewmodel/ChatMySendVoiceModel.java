@@ -72,7 +72,11 @@ public class ChatMySendVoiceModel extends BaseObservable {
 //        setVoiceDuration(mDuration + " ̋   ");
         setVoiceDuration(mDuration + "\"");
 
-        BitmapKit.bindImage(mItemChatMySendVoiceBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        if (!TextUtils.isEmpty(LoginManager.currentLoginUserAvatar)) {
+            BitmapKit.bindImage(mItemChatMySendVoiceBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        } else {
+            mItemChatMySendVoiceBinding.ivChatMyAvatar.setImageResource(R.mipmap.default_avatar);
+        }
 
         if (mIsRead) {
             mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("已读");

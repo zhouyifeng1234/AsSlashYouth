@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 
 import com.slash.youth.databinding.ItemChatOtherSendBusinessCardBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 
@@ -30,7 +31,11 @@ public class ChatOtherSendBusinessCardModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemChatOtherSendBusinessCardBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        if (!"1000".equals(MsgManager.targetId)) {
+            BitmapKit.bindImage(mItemChatOtherSendBusinessCardBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        } else {
+            mItemChatOtherSendBusinessCardBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);
+        }
     }
 
 }
