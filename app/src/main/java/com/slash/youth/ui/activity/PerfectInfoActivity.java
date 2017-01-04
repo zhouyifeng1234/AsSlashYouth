@@ -11,19 +11,14 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
-import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
-import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.PerfectInfoModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
-
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -76,24 +71,9 @@ public class PerfectInfoActivity extends Activity {
                 @Override
                 public void execute(UploadFileResultBean dataBean) {
                     String fileId = dataBean.data.fileId;
-                    //调用设置头像接口
-                    LoginManager.loginSetAvatar(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                        @Override
-                        public void execute(CommonResultBean dataBean) {
-                            //页面上显示头像，直接加载本地缓存的图片
-                            ImageOptions.Builder builder = new ImageOptions.Builder();
-                            ImageOptions imageOptions = builder.build();
-                            builder.setCircular(true);
-                            x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, fileThumb.toURI().toString(), imageOptions);
-                            mPerfectInfoModel.setIsUploadAvatar(true);
-                        }
-
-                        @Override
-                        public void executeResultError(String result) {
-                            LogKit.v("设置头像失败：" + result);
-                            ToastUtils.shortToast("设置头像失败：" + result);
-                        }
-                    }, fileId);
+                    mPerfectInfoModel.setUploadAvatarFileId(fileId);
+                    mPerfectInfoModel.setIsUploadAvatar(true);
+                    mPerfectInfoModel.setAvatarFileThumb(fileThumb);
                 }
 
                 @Override

@@ -50,7 +50,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="意向单"
+                        android:text="订单"
                         android:textColor="#ffffff"
                         android:textSize="17sp"/>
                 </LinearLayout>
@@ -258,6 +258,7 @@
                                         android:layout_gravity="center_horizontal"
                                         android:src="@mipmap/negotiation_icon"/>
                                     <TextView
+                                        android:id="@+id/tv_bp_text"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
@@ -587,7 +588,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="13sp"
                                                 android:layout_marginTop="11dp"
-                                                android:text="对方选择与您合作，请进行确认，快者得"
+                                                android:text="对方完成预支付，请开始任务"
                                                 android:textColor="#333333"
                                                 android:textSize="14sp"/>
 

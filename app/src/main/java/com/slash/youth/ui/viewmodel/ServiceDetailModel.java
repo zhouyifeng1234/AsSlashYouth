@@ -27,6 +27,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -48,6 +49,7 @@ public class ServiceDetailModel extends BaseObservable {
     Activity mActivity;
     private LinearLayout mLlServiceRecommend;
     long serviceId;
+    boolean isFromDetail;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -60,6 +62,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     private void initData() {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
+        isFromDetail = mActivity.getIntent().getBooleanExtra("isFromDetail", false);//用来判断是否是从详情页中的推荐跳转过来的
         LogKit.v("serviceId:" + serviceId);
         getServiceDetailData();
     }
@@ -364,7 +367,7 @@ public class ServiceDetailModel extends BaseObservable {
                         setBottomBtnDemandVisibility(View.VISIBLE);
                     }
                     setTitle(service.title);
-                    setQuote("¥" + service.quote + "元");
+                    setQuote("¥" + (int) service.quote + "元");
                     if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_USER_DEFINED) {//自定义时间
                         //时间:9月18日 8:30-9月19日 8:30
                         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
@@ -523,11 +526,23 @@ public class ServiceDetailModel extends BaseObservable {
      */
     public void setRecommendServiceItemData() {
         for (int i = 0; i < listRecommendService.size(); i++) {
-            DetailRecommendServiceList.RecommendServiceInfo recommendServiceInfo = listRecommendService.get(i);
+            final DetailRecommendServiceList.RecommendServiceInfo recommendServiceInfo = listRecommendService.get(i);
             ItemServiceDetailRecommendServiceBinding itemServiceDetailRecommendServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_service_detail_recommend_service, null, false);
             ItemServiceDetailRecommendServiceModel itemServiceDetailRecommendServiceModel = new ItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceBinding, mActivity, recommendServiceInfo);
             itemServiceDetailRecommendServiceBinding.setItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceModel);
-            mLlServiceRecommend.addView(itemServiceDetailRecommendServiceBinding.getRoot());
+            View itemView = itemServiceDetailRecommendServiceBinding.getRoot();
+            if (!isFromDetail) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", recommendServiceInfo.id);
+                        intentServiceDetailActivity.putExtra("isFromDetail", true);
+                        mActivity.startActivity(intentServiceDetailActivity);
+                    }
+                });
+            }
+            mLlServiceRecommend.addView(itemView);
         }
     }
 

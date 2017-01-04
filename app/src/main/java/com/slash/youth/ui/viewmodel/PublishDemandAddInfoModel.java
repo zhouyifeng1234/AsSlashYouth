@@ -152,6 +152,10 @@ public class PublishDemandAddInfoModel extends BaseObservable {
             offer = 0;//需求方报价
             try {
                 quote = Double.parseDouble(quoteStr);
+                if (quote <= 0) {
+                    ToastUtils.shortToast("报价必须大于0");
+                    return;
+                }
             } catch (Exception ex) {
                 ToastUtils.shortToast("请正确填写报价");
                 return;

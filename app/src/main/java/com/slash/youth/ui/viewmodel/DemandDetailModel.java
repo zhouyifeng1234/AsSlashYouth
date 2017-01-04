@@ -27,6 +27,7 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
@@ -55,6 +56,7 @@ public class DemandDetailModel extends BaseObservable {
     long demandId;
     SlashDateTimePicker sdtpBidDemandStarttime;
     private LinearLayout mLlDemandRecommend;
+    boolean isFromDetail;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -66,6 +68,7 @@ public class DemandDetailModel extends BaseObservable {
 
     private void initData() {
         demandId = mActivity.getIntent().getLongExtra("demandId", -1);
+        isFromDetail = mActivity.getIntent().getBooleanExtra("isFromDetail", false);//用来判断是否是从详情页中的推荐跳转过来的
         getDemandDetailDataFromServer();
     }
 
@@ -307,9 +310,9 @@ public class DemandDetailModel extends BaseObservable {
                     //填写抢单浮层中的报价
                     mActivityDemandDetailBinding.etBidDemandQuote.setText("");
                 } else {
-                    setQuote("¥" + demand.quote + "元");
+                    setQuote("¥" + (int) demand.quote + "元");
                     //填写抢单浮层中的报价
-                    mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
+                    mActivityDemandDetailBinding.etBidDemandQuote.setText((int)demand.quote + "");
                 }
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
                 if (demand.pattern == 1) {//线下
@@ -463,11 +466,23 @@ public class DemandDetailModel extends BaseObservable {
 
     private void setRecommendDemandItemData() {
         for (int i = 0; i < listRecommendDemand.size(); i++) {
-            DetailRecommendDemandList.RecommendDemandInfo recommendDemandInfo = listRecommendDemand.get(i);
+            final DetailRecommendDemandList.RecommendDemandInfo recommendDemandInfo = listRecommendDemand.get(i);
             ItemDetailRecommendDemandBinding itemDetailRecommendDemandBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_detail_recommend_demand, null, false);
             ItemDetailRecommendDemandModel itemDetailRecommendDemandModel = new ItemDetailRecommendDemandModel(itemDetailRecommendDemandBinding, mActivity, recommendDemandInfo);
             itemDetailRecommendDemandBinding.setItemDetailRecommendDemandModel(itemDetailRecommendDemandModel);
-            mLlDemandRecommend.addView(itemDetailRecommendDemandBinding.getRoot());
+            View itemView = itemDetailRecommendDemandBinding.getRoot();
+            if (!isFromDetail) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", recommendDemandInfo.id);
+                        intentDemandDetailActivity.putExtra("isFromDetail", true);
+                        mActivity.startActivity(intentDemandDetailActivity);
+                    }
+                });
+            }
+            mLlDemandRecommend.addView(itemView);
         }
     }
 

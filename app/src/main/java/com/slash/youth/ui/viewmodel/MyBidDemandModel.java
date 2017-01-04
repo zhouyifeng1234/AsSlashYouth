@@ -336,7 +336,7 @@ public class MyBidDemandModel extends BaseObservable {
         getDemandUserInfo();//获取需求方的个人信息
         getServiceUserInfo();//获取服务方的个人信息
         setDemandTitle(innerDemandCardInfo.title);
-        SimpleDateFormat sdfStarttime = new SimpleDateFormat("开始时间:yyyy年MM月dd日 hh:mm");
+        SimpleDateFormat sdfStarttime = new SimpleDateFormat("开始时间:yyyy年MM月dd日 HH:mm");
         setStarttime(sdfStarttime.format(innerDemandCardInfo.starttime));
         setQuote(innerDemandCardInfo.quote + "元");
         if (innerDemandCardInfo.instalment == 1) {//分期
@@ -358,9 +358,11 @@ public class MyBidDemandModel extends BaseObservable {
             setInstalmentVisibility(View.GONE);
         }
         if (innerDemandCardInfo.bp == 2) {//协商
-            setBpConsultVisibility(View.VISIBLE);
+//            setBpConsultVisibility(View.VISIBLE);
+            mActivityMyBidDemandBinding.tvBpText.setText("协商处理纠纷");
         } else { //1 平台
-            setBpConsultVisibility(View.GONE);
+//            setBpConsultVisibility(View.GONE);
+            mActivityMyBidDemandBinding.tvBpText.setText("平台处理纠纷");
         }
 
         displayStatusButton();
