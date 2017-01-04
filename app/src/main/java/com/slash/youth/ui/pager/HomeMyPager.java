@@ -17,6 +17,8 @@ import com.slash.youth.utils.CommonUtils;
  */
 public class HomeMyPager extends BaseHomePager {
 
+    private PagerHomeMyModel pagerHomeMyModel;
+
     public HomeMyPager(Activity activity) {
         super(activity);
     }
@@ -24,7 +26,7 @@ public class HomeMyPager extends BaseHomePager {
     @Override
     public View initView() {
         PagerHomeMyBinding pagerHomeMyBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_my, null, false);
-        PagerHomeMyModel pagerHomeMyModel = new PagerHomeMyModel(pagerHomeMyBinding, mActivity);
+        pagerHomeMyModel = new PagerHomeMyModel(pagerHomeMyBinding, mActivity);
         pagerHomeMyBinding.setPagerHomeMyModel(pagerHomeMyModel);
         return pagerHomeMyBinding.getRoot();
     }

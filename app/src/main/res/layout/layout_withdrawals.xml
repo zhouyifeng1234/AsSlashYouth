@@ -50,19 +50,15 @@
                         android:textSize="15dp"
                         android:text="提现金额(元)"/>
 
-                    <View
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"/>
-
                     <EditText
                         android:id="@+id/et_dollar"
                         android:layout_gravity="center_vertical"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_marginRight="10dp"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
                         android:gravity="end"
+                        android:maxLines="1"
                         android:textColor="#CCCCCC"
                         android:background="@null"
                         android:hint="请输入提现金额，最多可提12,800元"
@@ -155,20 +151,16 @@
                         android:textSize="15dp"
                         android:text="对应账号"/>
 
-                    <View
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"/>
-
                     <EditText
                         android:id="@+id/et_number"
                         android:layout_gravity="center_vertical"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_marginRight="10dp"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:maxLines="1"
+                        android:gravity="end"
                         android:textColor="#CCCCCC"
-                        android:inputType="number"
                         android:background="@null"
                         android:hint="请输入想要转入的账号"
                         />
@@ -219,8 +211,8 @@
 
     </LinearLayout>
         <FrameLayout
-            android:id="@+id/fl_hint"
             android:visibility="gone"
+            android:id="@+id/fl_hint"
             android:background="#66000000"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -266,17 +258,6 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/shape_tishi_button_bg">
 
-                 <!--   <Button
-                        android:visibility="gone"
-                        android:layout_width="170dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/btn_next_step"
-                        android:text="确定"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp"/>-->
-
-
                     <LinearLayout
                         android:onClick="@{withdrawalsModel.hintSure}"
                         android:layout_gravity="center"
@@ -318,6 +299,7 @@
                 android:layout_marginTop="9dp"
                 android:src="@mipmap/withdraw_cash_close_icon"/>
         </FrameLayout>
+
         </FrameLayout>
     </FrameLayout>
 </layout>

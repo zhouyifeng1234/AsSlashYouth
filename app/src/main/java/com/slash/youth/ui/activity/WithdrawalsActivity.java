@@ -23,7 +23,6 @@ public class WithdrawalsActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         layoutWithdrawalsBinding = DataBindingUtil.setContentView(this, R.layout.layout_withdrawals);
         WithdrawalsModel withdrawalsModel = new WithdrawalsModel(layoutWithdrawalsBinding,this);
         layoutWithdrawalsBinding.setWithdrawalsModel(withdrawalsModel);

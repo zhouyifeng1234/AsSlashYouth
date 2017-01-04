@@ -346,8 +346,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
-        getDemandOrServiceListData();
-
         //模拟数据 首页广告条图片URL
         listAdvImageUrl.add("http://pic33.nipic.com/20130916/3420027_192919547000_2.jpg");
         listAdvImageUrl.add("http://b.hiphotos.baidu.com/album/s%3D1600%3Bq%3D90/sign=4f04be8ab8014a90853e42bb99470263/b8389b504fc2d562d426d1d5e61190ef76c66cdf.jpg?v=tbs");

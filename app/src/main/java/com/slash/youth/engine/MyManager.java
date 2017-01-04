@@ -60,8 +60,8 @@ public class MyManager {
     }
 
     //我的模块,获取用户个人信息（自己看其他人）
-    public static void getOtherPersonInfo(BaseProtocol.IResultExecutor onGetOtherPersonInfo,long Uid) {
-        MyUserInfoProtocol myUserInfoProtocol = new MyUserInfoProtocol(Uid);
+    public static void getOtherPersonInfo(BaseProtocol.IResultExecutor onGetOtherPersonInfo,long Uid,int anonymity) {
+        MyUserInfoProtocol myUserInfoProtocol = new MyUserInfoProtocol(Uid,anonymity);
         myUserInfoProtocol.getDataFromServer(onGetOtherPersonInfo);
     }
 

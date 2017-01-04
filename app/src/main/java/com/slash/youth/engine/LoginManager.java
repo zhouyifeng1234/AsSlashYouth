@@ -12,6 +12,7 @@ import com.slash.youth.http.protocol.LoginGetTagProtocol;
 import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
 import com.slash.youth.http.protocol.LoginSetRealnameProtocol;
 import com.slash.youth.http.protocol.LoginSetTagProtocol;
+import com.slash.youth.http.protocol.LoginoutProtocol;
 import com.slash.youth.http.protocol.PhoneLoginpProtocol;
 import com.slash.youth.http.protocol.ThirdPartyLoginProtocol;
 import com.slash.youth.http.protocol.TokenLoginProtocol;
@@ -230,6 +231,14 @@ public class LoginManager {
         CheckVersionProtocol checkVersionProtocol = new CheckVersionProtocol(type,code);
         checkVersionProtocol.getDataFromServer(onCheckVersion);
     }
+
+    //登出
+    public static void logout(BaseProtocol.IResultExecutor onLogout,String token) {
+        LoginoutProtocol loginoutProtocol = new LoginoutProtocol(token);
+        loginoutProtocol.getDataFromServer(onLogout);
+    }
+
+
 
 }
 

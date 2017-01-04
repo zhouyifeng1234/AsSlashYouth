@@ -485,7 +485,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:text="---平台平均服务力为4.5星"
+                                        android:text="平台平均服务力为4.5星"
                                         android:textColor="#CCCCCC"
                                         android:textSize="9sp"/>
                                 </LinearLayout>
@@ -554,12 +554,10 @@
                                     android:layout_marginTop="15dp">
 
                                     <TextView
+                                        android:id="@+id/tv_desc_title"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:gravity="center_horizontal"
-                                        android:text="请输入技能描述，50字内"
-                                        android:textSize="13dp"
-                                        android:textColor="#999999" />
+                                        android:text="暂无描述"/>
 
                                     <TextView
                                         android:id="@+id/tv_userinfo_skilldescribe"
@@ -571,7 +569,7 @@
                                         android:lineSpacingExtra="4dp"
                                         android:textColor="#999999"
                                         android:ellipsize="end"
-                                        android:text="例：从事UI设计行业5年，具有丰富的设计经验..." />
+                                        />
                                 </LinearLayout>
 
                                 <View
@@ -638,6 +636,7 @@
                                     </com.slash.youth.ui.view.WarpLinearLayout>
 
                                     <ImageView
+                                        android:visibility="gone"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:src="@mipmap/right1_icon"

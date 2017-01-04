@@ -1,4 +1,4 @@
-package com.slash.youth.ui.pager;
+package com.slash.youth.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

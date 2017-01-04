@@ -18,6 +18,7 @@ import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/6.
  */
 public class DialogPassWorsModel extends BaseObservable {
-
     private DialogPasswordBinding dialogPasswordBinding;
     public AlertDialog currentDialog;//当前对话框
     private ImageView[] imageViews = new ImageView[6];//用来存小圆点的
@@ -35,10 +35,12 @@ public class DialogPassWorsModel extends BaseObservable {
     private int num =0;
     private double amount;
     private String number;
+    private WithdrawalsActivity withdrawalsActivity;
 
-    public DialogPassWorsModel(DialogPasswordBinding dialogPasswordBinding,double amount,String number,LayoutWithdrawalsBinding layoutWithdrawalsBinding) {
+    public DialogPassWorsModel(DialogPasswordBinding dialogPasswordBinding,double amount,String number,LayoutWithdrawalsBinding layoutWithdrawalsBinding,WithdrawalsActivity withdrawalsActivity) {
         this.dialogPasswordBinding = dialogPasswordBinding;
         this.layoutWithdrawalsBinding = layoutWithdrawalsBinding;
+        this.withdrawalsActivity = withdrawalsActivity;
         this.amount = amount;
         this.number = number;
         initData();
@@ -124,15 +126,19 @@ public class DialogPassWorsModel extends BaseObservable {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status){
-                    case 1:
+                    case 1://提现申请成功，请以最终银行交易为准
                         layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
                         layoutWithdrawalsBinding.tvHint.setText(MyManager.WITHDRAWALS_SUCCESS);
+                        //返回到我的账户
+                        WithdrawalsModel.type = 1;
                         break;
-                    case 2:
+                    case 2://钱包可提现余额不足
                         layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
                         layoutWithdrawalsBinding.tvHint.setText(MyManager.WITHDRAWALS_FAIL_BALANCE_LEASE);
+                        //当前的页面
+                        WithdrawalsModel.type = 2;
                         break;
-                    case 3:
+                    case 3://密码错误，提示密码框
                         layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
                         layoutWithdrawalsBinding.tvHint.setText(MyManager.WITHDRAWALS_FAIL_PASSWORD_ERROR);
                         break;

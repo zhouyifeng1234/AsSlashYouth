@@ -8,6 +8,7 @@ import android.net.sip.SipSession;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +22,7 @@ import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.Observable;
 
@@ -32,6 +34,7 @@ public class WithdrawalsModel extends BaseObservable {
     private WithdrawalsActivity withdrawalsActivity;
     private double amount;
     private String number;
+    public static int type;
 
     public WithdrawalsModel(LayoutWithdrawalsBinding layoutWithdrawalsBinding, WithdrawalsActivity withdrawalsActivity) {
         this.layoutWithdrawalsBinding = layoutWithdrawalsBinding;
@@ -49,7 +52,7 @@ public class WithdrawalsModel extends BaseObservable {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if(s == null || s.length() == 0){
-                    layoutWithdrawalsBinding.etDollar.setText("0.00");
+                  //  layoutWithdrawalsBinding.etDollar.setHint("0.00");
                     return;
                 }
 
@@ -84,39 +87,78 @@ public class WithdrawalsModel extends BaseObservable {
 
         @Override
         public void afterTextChanged(Editable s) {
-            amount =Double.parseDouble(s.toString());
+            String money =  s.toString();
+            if(s!=null&&!money.equals("")){
+                amount =Double.parseDouble(money);
+            }
         }
     });
 
-        //账号
-        layoutWithdrawalsBinding.etNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+    //账号
+    layoutWithdrawalsBinding.etNumber.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+        @Override
+        public void afterTextChanged(Editable s) {
                 number = s.toString();
-            }
-        });
+        }
+    });
 
     }
 
     //next
     public void next(View view){
-    layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+        if( amount == 0){
+            ToastUtils.shortToast("请填写金额");
+        }else {
+            if(number == null||number.isEmpty()||number.equals("请输入想要转入的账号")){
+                ToastUtils.shortToast("请填写账号");
+            }else {
+                layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+            }
+        }
     }
+
 
     //确定
     public void hintSure(View view){
+        if( amount == 0){
+            ToastUtils.shortToast("请填写金额");
+        }else {
+            if(number.isEmpty()){
+                ToastUtils.shortToast("请填写账号");
+            }else {
+                switch (type){
+                    case 1:
+                        withdrawalsActivity.finish();
+                        break;
+                    case 2:
+                        layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
+                        break;
+                    default:
+                        showDialog();
+                        break;
+                }
+            }
+        }
+    }
+
+    //取消
+    public void hintCannel(View view){
+        layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
+    }
+
+    private void showDialog() {
         layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(withdrawalsActivity);
         DialogPasswordBinding dialogPasswordBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_password, null, false);
-        DialogPassWorsModel dialogPassWorsModel = new DialogPassWorsModel(dialogPasswordBinding,amount,number,layoutWithdrawalsBinding);
+        DialogPassWorsModel dialogPassWorsModel = new DialogPassWorsModel(dialogPasswordBinding,amount,number,layoutWithdrawalsBinding,withdrawalsActivity);
         dialogPasswordBinding.setDialogPasWorsModel(dialogPassWorsModel);
         dialogBuilder.setView(dialogPasswordBinding.getRoot());//getRoot返回根布局
         AlertDialog dialogPassWord = dialogBuilder.create();
@@ -131,10 +173,5 @@ public class WithdrawalsModel extends BaseObservable {
 //        dialogSubscribeWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        dialogSubscribeWindow.setDimAmount(0.1f);//dialog的灰度
 //        dialogBuilder.show();
-    }
-
-    //取消
-    public void hintCannel(View view){
-    layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
     }
 }

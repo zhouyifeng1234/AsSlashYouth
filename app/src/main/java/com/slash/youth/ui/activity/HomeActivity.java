@@ -1,22 +1,27 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
+import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
 
 public class HomeActivity extends Activity {
 
+    private ActivityHomeBinding activityHomeBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.setCurrentActivity(this);
-        ActivityHomeBinding activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
         activityHomeBinding.setActivityHomeBinding(activityHomeModel);
 
@@ -42,4 +47,14 @@ public class HomeActivity extends Activity {
 //            }
 //        });
 //    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == UserInfoEngine.MY_USER_EDITOR){
+            activityHomeBinding.flActivityHomePager.removeAllViews();
+            activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+        }
+    }
 }

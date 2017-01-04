@@ -14,6 +14,9 @@ import com.slash.youth.utils.CommonUtils;
  * Created by zhouyifeng on 2016/9/6.
  */
 public class HomeContactsPager extends BaseHomePager {
+
+    private PagerHomeContactsModel pagerHomeContactsModel;
+
     public HomeContactsPager(Activity activity) {
         super(activity);
     }
@@ -21,7 +24,7 @@ public class HomeContactsPager extends BaseHomePager {
     @Override
     public View initView() {
         PagerHomeContactsBinding pagerHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_contacts, null, false);
-        PagerHomeContactsModel pagerHomeContactsModel = new PagerHomeContactsModel(pagerHomeContactsBinding, mActivity);
+        pagerHomeContactsModel = new PagerHomeContactsModel(pagerHomeContactsBinding, mActivity);
         pagerHomeContactsBinding.setPagerHomeContactsModel(pagerHomeContactsModel);
         return pagerHomeContactsBinding.getRoot();
     }

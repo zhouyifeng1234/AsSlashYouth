@@ -94,7 +94,7 @@ public class PagerHomeContactsModel extends BaseObservable {
         mPagerHomeContactsBinding.lvHomeContactsVisitor.addHeaderView(vContactsHeader);
     }
 
-    private void initData() {
+    public void initData() {
         getDataFromServer();
     }
 

@@ -14,6 +14,7 @@ public class TimeUtils {
     private static String pattern2 = "HH:mm";
     private static String pattern3 = "MM月dd日hh:mm";
     private static String pattern4 = "MM/dd/yyyy HH:mm:ss";
+    private static String pattern5 = "yyyy年MM月dd日 HH:mm";
 
 
     public static String getTime(long uts) {
@@ -48,4 +49,10 @@ public class TimeUtils {
         Date date= new Date(uts);
         return sdf.format(date);
     }
+
+    public static String getCurrentTime(){
+        currentTime = System.currentTimeMillis();
+        return getString(currentTime,pattern5);
+    }
+
 }

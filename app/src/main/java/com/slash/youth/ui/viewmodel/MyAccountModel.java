@@ -8,10 +8,13 @@ import com.slash.youth.databinding.ActivityMyAccountBinding;
 import com.slash.youth.domain.MyAccountBean;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.MyAccountProtocol;
+import com.slash.youth.ui.activity.MyAccountActivity;
 import com.slash.youth.ui.activity.TransactionRecordActivity;
+import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CountUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SetDataUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -22,9 +25,11 @@ import com.slash.youth.utils.ToastUtils;
 public class MyAccountModel extends BaseObservable {
     private ActivityMyAccountBinding activityMyAccountBinding;
     private String unit = "元";
+    private MyAccountActivity myAccountActivity;
 
-    public MyAccountModel(ActivityMyAccountBinding activityMyAccountBinding) {
+    public MyAccountModel(ActivityMyAccountBinding activityMyAccountBinding, MyAccountActivity myAccountActivity) {
         this.activityMyAccountBinding = activityMyAccountBinding;
+        this.myAccountActivity = myAccountActivity;
         initData();
     }
 
@@ -82,9 +87,14 @@ public class MyAccountModel extends BaseObservable {
     }
 
     //提示
-    public void hint(View view){
-        ToastUtils.shortCenterToast("提示框");
-    }
+    public void hint(View view) {
+       DialogUtils.showDialogOne(myAccountActivity, new DialogUtils.DialogCallUnderStandBack() {
+           @Override
+           public void OkDown() {
+             LogKit.d("canncel");
 
+           }
+       });
+    }
 
 }

@@ -38,6 +38,7 @@ public class SearchItemDemandBean {
         }
 
         public static class ListBean {
+            private  int anonymity;
             private String avatar;
             private String city;
             private long cts;
@@ -49,11 +50,37 @@ public class SearchItemDemandBean {
             private String location;
             private String name;
             private int pattern;
+            private String place;
+            private String tag;
             private int quote;
             private long starttime;
             private String title;
             private int uid;
             private long uts;
+
+            public String getTag() {
+                return tag;
+            }
+
+            public void setTag(String tag) {
+                this.tag = tag;
+            }
+
+            public String getPlace() {
+                return place;
+            }
+
+            public void setPlace(String place) {
+                this.place = place;
+            }
+
+            public int getAnonymity() {
+                return anonymity;
+            }
+
+            public void setAnonymity(int anonymity) {
+                this.anonymity = anonymity;
+            }
 
             public String getAvatar() {
                 return avatar;

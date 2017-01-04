@@ -215,6 +215,7 @@ public class ActivityUserInfoModel extends BaseObservable {
                 activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.ANONVMITY);
                 activityUserinfoBinding.lvUserinfo.setVisibility(View.GONE);
                 activityUserinfoBinding.llTaskTitle.setVisibility(View.GONE);
+                activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
                 break;
         }
     }
@@ -263,9 +264,9 @@ public class ActivityUserInfoModel extends BaseObservable {
     private void initData() {
         if(otherUid == LoginManager.currentLoginUserId){
             MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
-            MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid);
+            MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid,anonymity);
             uid =  LoginManager.currentLoginUserId;
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit,anonymity);
             isOther = false;
 
             activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
@@ -273,8 +274,8 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
         }else {
-            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit);
+            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid,anonymity);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit,anonymity);
             isOther = true;
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
@@ -341,7 +342,7 @@ public class ActivityUserInfoModel extends BaseObservable {
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }else {//不是最后一页
                         offset += limit;
-                        UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+                        UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit,anonymity);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
                 }
@@ -514,7 +515,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         activityUserinfoBinding.pbService.setProgress((int)userservicepoint);
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
         activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
-        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+        activityUserinfoBinding.averageServicePoint.setText("平台平均服务力为" + averageservicepoint + "星");
 
         //用户ID
         myUid = uinfo.getId();
@@ -582,8 +583,11 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //技能描述
         desc = uinfo.getDesc();
-        if (desc != null) {
+        if (desc != null||desc!="") {
+            activityUserinfoBinding.tvDescTitle.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
+        }else{
+            activityUserinfoBinding.tvDescTitle.setVisibility(View.VISIBLE);
         }
 
         //方向
