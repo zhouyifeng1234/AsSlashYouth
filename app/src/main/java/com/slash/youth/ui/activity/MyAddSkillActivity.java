@@ -31,8 +31,9 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         long skillListId = intent.getLongExtra("skillListId", -1);
+        int skillTemplteType = intent.getIntExtra("skillTemplteType", -1);
         activityMyAddSkillBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_add_skill);
-        myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding, this, skillListId);
+        myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding, this, skillListId,skillTemplteType);
         activityMyAddSkillBinding.setMyAddSkillModel(myAddSkillModel);
         listener();
     }

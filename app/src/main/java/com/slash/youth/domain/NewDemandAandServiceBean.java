@@ -39,6 +39,7 @@ public class NewDemandAandServiceBean {
         }
 
         public static class ListBean {
+            private int anonymity;
             private String avatar;
             private long  endtime;
             private long  id;
@@ -56,6 +57,14 @@ public class NewDemandAandServiceBean {
             private String title;
             private int type;
             private long  uid;
+
+            public int getAnonymity() {
+                return anonymity;
+            }
+
+            public void setAnonymity(int anonymity) {
+                this.anonymity = anonymity;
+            }
 
             public String getAvatar() {
                 return avatar;

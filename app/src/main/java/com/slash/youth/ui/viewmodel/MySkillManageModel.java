@@ -116,7 +116,10 @@ public class MySkillManageModel extends BaseObservable  {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(position);
                         long skillListId = listBean.getId();
-                        mySkillManageActivity.jumpMyAddSkillActivity(mySkillManageActivity,skillListId);
+                        Intent intentMyAddSkillActivity = new Intent(CommonUtils.getContext(), MyAddSkillActivity.class);
+                        intentMyAddSkillActivity.putExtra("skillListId",skillListId);
+                        intentMyAddSkillActivity.putExtra("skillTemplteType", Constants.UPDATE_SKILL_MANAGER_ONE);
+                        mySkillManageActivity.startActivityForResult(intentMyAddSkillActivity, Constants.UPDATE_SKILL_MANAGER_ONE);
                     }
                 });
                 break;

@@ -100,10 +100,11 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int listSize;
     private int footerHeight;
     private int startY;
-    private int anonymity;
+    private int anonymity = 1;
     private OtherInfoBean.DataBean.UinfoBean uinfo;
     private  int friendStatus;
     private int attentionStatus;
+    private int relationshipscount;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag,int anonymity
@@ -117,7 +118,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         testisfollow();
         initData();
         initView();
-        initAnonymityView();
         listener();
     }
 
@@ -206,19 +206,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
-    private void initAnonymityView() {
-        switch (anonymity){
-            case 1://实名
-                break;
-            case 0://匿名
-                activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
-                activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.ANONVMITY);
-                activityUserinfoBinding.lvUserinfo.setVisibility(View.GONE);
-                activityUserinfoBinding.llTaskTitle.setVisibility(View.GONE);
-                activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
-                break;
-        }
-    }
+
 
     private void listener() {
         if(isauth == 0){
@@ -262,7 +250,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private  int limit = 10;
     //加载数据
     private void initData() {
-        if(otherUid == LoginManager.currentLoginUserId){
+        if(otherUid == LoginManager.currentLoginUserId){//自己看自己
             MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
             MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid,anonymity);
             uid =  LoginManager.currentLoginUserId;
@@ -273,18 +261,22 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
-        }else {
+        }else {//自己看其他人
             MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid,anonymity);
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit,anonymity);
             isOther = true;
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
+
+            //判断是否匿名
             switch (anonymity){
                 case 1://实名
                     break;
                 case 0://匿名
-                    activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
+                    activityUserinfoBinding.lvUserinfo.setVisibility(View.GONE);
+                    activityUserinfoBinding.llTaskTitle.setVisibility(View.GONE);
+                    activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
                     break;
             }
         }
@@ -358,6 +350,7 @@ public class ActivityUserInfoModel extends BaseObservable {
             intentSubscribeActivity.putStringArrayListExtra("addedTags", skillLabelList);
             intentSubscribeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             CommonUtils.getContext().startActivity(intentSubscribeActivity);
+            activityUserinfoBinding.ivInto.setVisibility(View.VISIBLE);
         }
     }
 
@@ -380,22 +373,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
         }
 
-        //用户ID
-        myUid = uinfo.getId();
-        //用户头像
-        avatar = uinfo.getAvatar();
-        if(!avatar.isEmpty()){
-            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD+"?fileId="+avatar);
-        }
-        //用户姓名
-        name = uinfo.getName();
-        activityUserinfoBinding.tvUserinfoUsername.setText(name);
-        if(!name.isEmpty()){
-            onNameListener.OnNameListener(name,myUid);
-        }else {
-            activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
-        }
-
         //职业类型
         careertype = uinfo.getCareertype();
         if(careertype == 1){//固定职业者
@@ -410,6 +387,23 @@ public class ActivityUserInfoModel extends BaseObservable {
         }else if(careertype == 2){//自由职业者
             activityUserinfoBinding.tvUserInfoCompany.setText("自雇者");
         }
+
+        //用户ID
+        myUid = uinfo.getId();
+        //用户头像
+        avatar = uinfo.getAvatar();
+        if(!avatar.isEmpty()){
+            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD+"?fileId="+avatar);
+        }
+        //用户姓名
+        name = uinfo.getName();
+        activityUserinfoBinding.tvUserinfoUsername.setText(name);
+        if(!name.isEmpty()){
+            onNameListener.OnNameListener(name,myUid,company);
+        }else {
+            activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
+        }
+
 
         //是否认证
         isauth = uinfo.getIsauth();
@@ -494,8 +488,9 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //粉丝数
         fanscount = uinfo.getFanscount();
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
-        activityUserinfoBinding.pbFans.setProgress(fanscount);
+         relationshipscount = uinfo.getRelationshipscount();
+        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + relationshipscount);
+        activityUserinfoBinding.pbFans.setProgress(relationshipscount);
         //粉丝比率
         fansratio = uinfo.getFansratio();
         activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
@@ -517,22 +512,6 @@ public class ActivityUserInfoModel extends BaseObservable {
         activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
         activityUserinfoBinding.averageServicePoint.setText("平台平均服务力为" + averageservicepoint + "星");
 
-        //用户ID
-        myUid = uinfo.getId();
-        //用户头像
-        avatar = uinfo.getAvatar();
-        if (!avatar.isEmpty()) {
-            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-        }
-        //用户姓名
-        name = uinfo.getName();
-        activityUserinfoBinding.tvUserinfoUsername.setText(name);
-        if (!name.isEmpty()) {
-            onNameListener.OnNameListener(name, myUid);
-        } else {
-            activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
-        }
-
         //职业类型
         careertype = uinfo.getCareertype();
         if (careertype == 1) {//固定职业者
@@ -546,6 +525,22 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
         } else if (careertype == 2) {//自由职业者
             activityUserinfoBinding.tvUserInfoCompany.setText("自雇者");
+        }
+
+        //用户ID
+        myUid = uinfo.getId();
+        //用户头像
+        avatar = uinfo.getAvatar();
+        if (!avatar.isEmpty()) {
+            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+        }
+        //用户姓名
+        name = uinfo.getName();
+        activityUserinfoBinding.tvUserinfoUsername.setText(name);
+        if (!name.isEmpty()) {
+            onNameListener.OnNameListener(name, myUid,company);
+        } else {
+            activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
         }
 
         //是否认证
@@ -625,7 +620,7 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //接口回调
     public interface OnNameListener{
-        void OnNameListener(String name ,long myId);
+        void OnNameListener(String name ,long myId,String company);
     }
 
     private OnNameListener onNameListener;
@@ -661,9 +656,10 @@ public class ActivityUserInfoModel extends BaseObservable {
                 OtherInfoBean.DataBean data = dataBean.getData();
                 uinfo = data.getUinfo();
                 //粉丝数
+                relationshipscount = uinfo.getRelationshipscount();
                 fanscount = uinfo.getFanscount();
-                activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
-                activityUserinfoBinding.pbFans.setProgress(fanscount);
+                activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + relationshipscount);
+                activityUserinfoBinding.pbFans.setProgress(relationshipscount);
                 //粉丝比率
                 fansratio = uinfo.getFansratio();
                 activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");

@@ -39,6 +39,9 @@ public class FreeTimeDemandBean {
         }
 
         public static class ListBean {
+            private int anonymity;
+            private int quoteunit;
+            private int timetype;
             private String avatar;
             private long id;
             private int instalment;
@@ -50,8 +53,41 @@ public class FreeTimeDemandBean {
             private String place;
             private long quote;
             private long starttime;
+            private long endtime;
             private String title;
             private long uid;
+
+            public long getEndtime() {
+                return endtime;
+            }
+
+            public void setEndtime(long endtime) {
+                this.endtime = endtime;
+            }
+
+            public int getTimetype() {
+                return timetype;
+            }
+
+            public void setTimetype(int timetype) {
+                this.timetype = timetype;
+            }
+
+            public int getQuoteunit() {
+                return quoteunit;
+            }
+
+            public void setQuoteunit(int quoteunit) {
+                this.quoteunit = quoteunit;
+            }
+
+            public int getAnonymity() {
+                return anonymity;
+            }
+
+            public void setAnonymity(int anonymity) {
+                this.anonymity = anonymity;
+            }
 
             public String getAvatar() {
                 return avatar;

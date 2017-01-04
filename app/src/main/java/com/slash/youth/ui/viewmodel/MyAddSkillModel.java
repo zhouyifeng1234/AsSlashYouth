@@ -62,18 +62,18 @@ public class MyAddSkillModel extends BaseObservable {
     private int uid;
     private int uts;
     private ArrayList<String> listPic = new ArrayList<String>();
-    ;
     private String tag;
     private String pic;
     private long startime;
     private long endtime;
     private String place = "";
-    private boolean isSucceful;
     private String toastText = "请把信息填写完整";
+    private int skillTemplteType;
 
-    public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, long id) {
+    public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, long id,  int skillTemplteType) {
         this.activityMyAddSkillBinding = activityMyAddSkillBinding;
         this.myAddSkillActivity = myAddSkillActivity;
+        this.skillTemplteType = skillTemplteType;
         this.id = id;
         initView();
         initData();
@@ -184,34 +184,42 @@ public class MyAddSkillModel extends BaseObservable {
        /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
                 +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
  */
-        MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
 
-        if (isSucceful) {
-            SkillManagerBean.DataBean.ListBean listBean = new SkillManagerBean.DataBean.ListBean();
-            listBean.setTitle(title);
-            listBean.setTag(tag);
-            listBean.setStarttime(starttime);
-            listBean.setEndtime(endtime);
-            listBean.setAnonymity(anonymity);//服务端默认取值为1
-            listBean.setDesc(desc);
-            listBean.setTimetype(timetype);//默认时间的类型
-            listBean.setPic(pic);
-            listBean.setInstalment(instalment);
-            listBean.setBp(bp);
-            listBean.setPattern(pattern);
-            listBean.setPlace(place);
-            listBean.setLng(lng);
-            listBean.setLat(lat);
-            listBean.setQuote(quote);
-            listBean.setQuoteunit(quoteunit);
-            listBean.setCount(count);
-            listBean.setCts(cts);
-            listBean.setId(id);
-            Intent intent = new Intent();
-            intent.putExtra("sumbitNewTemplet", listBean);
-            myAddSkillActivity.setResult(Constants.SUMBIT_ONE_SKILL_MANAGER, intent);
-            myAddSkillActivity.finish();
+        switch (skillTemplteType){
+            case Constants.ADD_ONE_SKILL_MANAGER://添加一个技能标签模板
+                MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+                break;
+            case Constants.UPDATE_SKILL_MANAGER_ONE://修改一个技能标签模板
+                MyManager.onUpdateSkillTemplet(new onAddSkillTemplet(),id,title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+                break;
         }
+    }
+
+    private void sumbitSucceful() {
+        SkillManagerBean.DataBean.ListBean listBean = new SkillManagerBean.DataBean.ListBean();
+        listBean.setTitle(title);
+        listBean.setTag(tag);
+        listBean.setStarttime(starttime);
+        listBean.setEndtime(endtime);
+        listBean.setAnonymity(anonymity);//服务端默认取值为1
+        listBean.setDesc(desc);
+        listBean.setTimetype(timetype);//默认时间的类型
+        listBean.setPic(pic);
+        listBean.setInstalment(instalment);
+        listBean.setBp(bp);
+        listBean.setPattern(pattern);
+        listBean.setPlace(place);
+        listBean.setLng(lng);
+        listBean.setLat(lat);
+        listBean.setQuote(quote);
+        listBean.setQuoteunit(quoteunit);
+        listBean.setCount(count);
+        listBean.setCts(cts);
+        listBean.setId(id);
+        Intent intent = new Intent();
+        intent.putExtra("sumbitNewTemplet", listBean);
+        myAddSkillActivity.setResult(Constants.SUMBIT_ONE_SKILL_MANAGER, intent);
+        myAddSkillActivity.finish();
     }
 
     //获取要提交的内容
@@ -228,8 +236,9 @@ public class MyAddSkillModel extends BaseObservable {
         instalment = 1;
         bp = 1;//取值只能1或者2 1平台 2协商
         pattern = 1;//取值只能1或者0 （1线下 0线上）
-        //TODO传递图片
         //获取图片
+        ArrayList<String> addedPicTempPath = addPic.getAddedPicTempPath();
+        listPic.addAll(addedPicTempPath);
         //获取标签
         listTag = sallAddedSkilllabels.getAddedTagsName();
     }
@@ -245,7 +254,6 @@ public class MyAddSkillModel extends BaseObservable {
                 initOneTemplet(service);
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
@@ -262,10 +270,10 @@ public class MyAddSkillModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status) {
                     case 1:
-                        isSucceful = true;
+                        ToastUtils.shortToast("已提交");
+                        sumbitSucceful();
                         break;
                     case 0:
-                        isSucceful = false;
                         ToastUtils.shortToast(toastText);
                         break;
                 }
@@ -323,5 +331,4 @@ public class MyAddSkillModel extends BaseObservable {
         uts = service.getUts();
         place = service.getPlace();
     }
-
 }

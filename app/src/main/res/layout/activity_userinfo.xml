@@ -168,6 +168,7 @@
                                                     android:layout_height="wrap_content"
                                                     android:orientation="horizontal"
                                                     >
+                                                    <!--姓名-->
                                                     <TextView
                                                         android:id="@+id/tv_userinfo_username"
                                                         android:layout_width="wrap_content"
@@ -243,6 +244,7 @@
                                                         android:textColor="#31C5E4"
                                                         android:textSize="12sp"/>
                                                 </LinearLayout>
+                                                <!--公司-->
                                                 <TextView
                                                     android:layout_marginTop="5dp"
                                                     android:id="@+id/tv_userInfo_company"
@@ -252,6 +254,7 @@
                                                     android:maxLines="1"
                                                     android:textColor="#666666"
                                                     android:textSize="12sp"/>
+                                                <!--技能标签-->
                                                 <TextView
                                                     android:id="@+id/tv_userInfo_tag"
                                                     android:layout_width="wrap_content"
@@ -262,6 +265,7 @@
                                             </LinearLayout>
 
                                         </LinearLayout>
+                                        <!--斜杠身份-->
                                         <LinearLayout
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -637,6 +641,7 @@
 
                                     <ImageView
                                         android:visibility="gone"
+                                        android:id="@+id/iv_into"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:src="@mipmap/right1_icon"

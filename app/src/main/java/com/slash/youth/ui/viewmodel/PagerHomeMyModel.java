@@ -72,6 +72,7 @@ public class PagerHomeMyModel extends BaseObservable {
     public String phone;
     private String unit = "元";
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
+    private String desc;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
@@ -138,6 +139,8 @@ public class PagerHomeMyModel extends BaseObservable {
     private String careertypeString ="自雇者";
     //设置我的数据
     private void setMyInfoData() {
+        //描述详情
+        desc = myinfo.getDesc();
         //电话号码
         phone = myinfo.getPhone();
         //金额

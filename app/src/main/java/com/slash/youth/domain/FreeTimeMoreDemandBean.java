@@ -39,6 +39,10 @@ public class FreeTimeMoreDemandBean {
         }
 
         public static class ListBean {
+            private int anonymity;
+            private int isonline;
+            private String place;
+            private String tag;
             private String avatar;
             private String city;
             private long cts;
@@ -55,6 +59,38 @@ public class FreeTimeMoreDemandBean {
             private String title;
             private int uid;
             private long uts;
+
+            public String getTag() {
+                return tag;
+            }
+
+            public void setTag(String tag) {
+                this.tag = tag;
+            }
+
+            public String getPlace() {
+                return place;
+            }
+
+            public void setPlace(String place) {
+                this.place = place;
+            }
+
+            public int getIsonline() {
+                return isonline;
+            }
+
+            public void setIsonline(int isonline) {
+                this.isonline = isonline;
+            }
+
+            public int getAnonymity() {
+                return anonymity;
+            }
+
+            public void setAnonymity(int anonymity) {
+                this.anonymity = anonymity;
+            }
 
             public String getAvatar() {
                 return avatar;

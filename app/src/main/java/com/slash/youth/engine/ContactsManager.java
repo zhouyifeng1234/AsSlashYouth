@@ -24,7 +24,6 @@ import com.slash.youth.http.protocol.TestIsFollowProtocol;
  */
 public class ContactsManager {
     public static String USER_INFO = "个人信息";
-    public static String ANONVMITY = "匿名";
     public static  final int FOLLOW_USER_NOT_EXIST_ERROR = 0;//用户不存在错误
     public static  final int FOLLOW_STATUS_SUCCESS = 1;//关注or取消关注成功
     public static  final int FOLLOW_STATUS_ALREADY_ERROR = 2;//已经关注过错误

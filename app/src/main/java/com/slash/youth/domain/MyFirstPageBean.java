@@ -42,6 +42,7 @@ public class MyFirstPageBean {
             private double amount;
             private String avatar;
             private int averageservicepoint;
+            private String desc;
             private int careertype;
             private String city;
             private String company;
@@ -63,6 +64,15 @@ public class MyFirstPageBean {
             private int totoltaskcount;
             private double userservicepoint;
             private List<Integer> expertlevels;
+
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
 
             public int getAchievetaskcount() {
                 return achievetaskcount;
