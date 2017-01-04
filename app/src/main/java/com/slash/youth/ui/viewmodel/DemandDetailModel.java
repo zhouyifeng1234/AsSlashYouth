@@ -284,21 +284,35 @@ public class DemandDetailModel extends BaseObservable {
                     setBottomBtnDemandVisibility(View.GONE);
                 }
                 setDemandTitle(demand.title);
-                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
-                String starttimeStr = sdf.format(demand.starttime);
-                setDemandStartTime("开始:" + starttimeStr);
+                String starttimeStr = "";
+                if (demand.starttime != 0) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
+                    starttimeStr = sdf.format(demand.starttime);
+                    setDemandStartTime("开始:" + starttimeStr);
+                } else {
+                    setDemandStartTime("随时");
+                }
                 //回填抢单浮层中的开始时间
                 mActivityDemandDetailBinding.tvBidDemandStarttime.setText(starttimeStr);
                 bidDemandStarttime = demand.starttime;
-                setQuote("¥" + demand.quote + "元");
-                //填写抢单浮层中的报价
-                mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
+                if (demand.quote == 0) {
+                    setQuote("服务方报价");
+                    //填写抢单浮层中的报价
+                    mActivityDemandDetailBinding.etBidDemandQuote.setText("");
+                } else {
+                    setQuote("¥" + demand.quote + "元");
+                    //填写抢单浮层中的报价
+                    mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
+                }
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
                     setDemandPlace("约定地点" + demand.place);
                 } else if (demand.pattern == 0) {//线上
-                    setOfflineItemVisibility(View.GONE);
+//                    setOfflineItemVisibility(View.GONE);
+                    setOfflineItemVisibility(View.VISIBLE);
+                    mActivityDemandDetailBinding.tvOnlineOfflineLabel.setText("线上");
+                    setDemandDetailLocationVisibility(View.GONE);
                 }
                 if (demand.instalment == 0) {//不开启
                     setInstalmentItemVisibility(View.GONE);
@@ -325,16 +339,18 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:MM月dd日 hh:mm:ss");//发布时间:9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm");//发布时间:9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
                 setDemandDesc(demand.desc);
                 //详情图片
                 String[] picFileIds = demand.pic.split(",");
-                if (picFileIds.length <= 0) {//这种情况应该不存在，因为至少传一张图片
+                //如果demand.pic为""空字符喘，picFileIds的length也是1
+                if (picFileIds.length <= 0 || TextUtils.isEmpty(demand.pic)) {//这种情况应该不存在，因为至少传一张图片
                     mActivityDemandDetailBinding.llDemandDetailPicLine1.setVisibility(View.GONE);
                     mActivityDemandDetailBinding.llDemandDetailPicLine2.setVisibility(View.GONE);
+                    mActivityDemandDetailBinding.vPicUnderline.setVisibility(View.GONE);
                 } else if (picFileIds.length > 0 && picFileIds.length <= 3) {
                     mActivityDemandDetailBinding.llDemandDetailPicLine1.setVisibility(View.VISIBLE);
                     mActivityDemandDetailBinding.llDemandDetailPicLine2.setVisibility(View.GONE);
@@ -384,7 +400,7 @@ public class DemandDetailModel extends BaseObservable {
      *
      * @param uid
      */
-    private void getDemandUserInfo(long uid) {
+    private void getDemandUserInfo(final long uid) {
         UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
             @Override
             public void execute(UserInfoBean dataBean) {
@@ -405,6 +421,10 @@ public class DemandDetailModel extends BaseObservable {
                     userPlace = uinfo.province + uinfo.city;
                 }
                 setDemandUserPlace(userPlace);
+
+                if (uid != LoginManager.currentLoginUserId) {
+                    getRecommendDemandData();//获取相似需求推荐
+                }
             }
 
             @Override
@@ -412,6 +432,13 @@ public class DemandDetailModel extends BaseObservable {
                 ToastUtils.shortToast("获取需求发布者信息失败:" + result);
             }
         }, uid + "", "0");
+    }
+
+    /**
+     * 从接口获取相似需求推荐的数据，当服务者视角看需求的时候，需要显示推荐需求
+     */
+    private void getRecommendDemandData() {
+
     }
 
 
@@ -966,6 +993,18 @@ public class DemandDetailModel extends BaseObservable {
 
     private int addInstalmentIconVisibility;
     private int shareLayerVisibility = View.GONE;
+
+    private int demandDetailLocationVisibility;
+
+    @Bindable
+    public int getDemandDetailLocationVisibility() {
+        return demandDetailLocationVisibility;
+    }
+
+    public void setDemandDetailLocationVisibility(int demandDetailLocationVisibility) {
+        this.demandDetailLocationVisibility = demandDetailLocationVisibility;
+        notifyPropertyChanged(BR.demandDetailLocationVisibility);
+    }
 
     @Bindable
     public int getShareLayerVisibility() {

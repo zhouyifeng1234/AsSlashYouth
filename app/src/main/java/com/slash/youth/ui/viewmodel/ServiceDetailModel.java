@@ -64,7 +64,6 @@ public class ServiceDetailModel extends BaseObservable {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
         LogKit.v("serviceId:" + serviceId);
         getServiceDetailData();
-        getRecommendServiceData();
     }
 
     private void initView() {
@@ -351,7 +350,6 @@ public class ServiceDetailModel extends BaseObservable {
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
 
-                    getServiceUserInfo(service.uid);//获取服务发布者的个人信息
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角
                         setTopServiceBtnVisibility(View.VISIBLE);
@@ -417,9 +415,11 @@ public class ServiceDetailModel extends BaseObservable {
                     setServiceDesc(service.desc);
                     //服务相关图片
                     String[] picFileIds = service.pic.split(",");
-                    if (picFileIds.length <= 0) {//这种情况应该不存在，因为至少传一张图片
+                    //如果service.pic为""空字符喘，picFileIds的length也是1
+                    if (picFileIds.length <= 0 || TextUtils.isEmpty(service.pic)) {//这种情况应该不存在，因为至少传一张图片
                         mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.GONE);
                         mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.GONE);
+                        mActivityServiceDetailBinding.vPicUnderline.setVisibility(View.GONE);
                     } else if (picFileIds.length > 0 && picFileIds.length <= 3) {
                         mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.VISIBLE);
                         mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.GONE);
@@ -449,6 +449,8 @@ public class ServiceDetailModel extends BaseObservable {
                     }
                     //上架、下架显示 用isonline字段判断
 //                    if(service.isonline)
+
+                    getServiceUserInfo(service.uid);//获取服务发布者的个人信息
                 }
 
                 @Override
@@ -464,7 +466,7 @@ public class ServiceDetailModel extends BaseObservable {
      *
      * @param uid
      */
-    private void getServiceUserInfo(long uid) {
+    private void getServiceUserInfo(final long uid) {
         UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
             @Override
             public void execute(UserInfoBean dataBean) {
@@ -485,6 +487,10 @@ public class ServiceDetailModel extends BaseObservable {
                     userPlace = uinfo.province + uinfo.city;
                 }
                 setServiceUserPlace(userPlace);
+
+                if (uid != LoginManager.currentLoginUserId) {
+                    getRecommendServiceData();//获取相似服务推荐
+                }
             }
 
             @Override
