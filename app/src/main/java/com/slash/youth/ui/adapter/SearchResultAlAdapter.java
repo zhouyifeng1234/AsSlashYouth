@@ -88,7 +88,7 @@ public class SearchResultAlAdapter extends  SearchAllAdapter{
         });
     }
     private void showMoreSearch() {
-        currentActivity.changeView(2);
+        currentActivity.changeView(5);
         searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding,tag);
         currentActivity.searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
     }

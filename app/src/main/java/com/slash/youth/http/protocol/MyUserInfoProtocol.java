@@ -14,9 +14,11 @@ import org.xutils.http.RequestParams;
  */
 public class MyUserInfoProtocol extends BaseProtocol<OtherInfoBean> {
     private long uid;
+    private int anonymity;
 
-    public MyUserInfoProtocol(long uid) {
+    public MyUserInfoProtocol(long uid,int anonymity) {
         this.uid = uid;
+        this.anonymity = anonymity;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class MyUserInfoProtocol extends BaseProtocol<OtherInfoBean> {
     @Override
     public void addRequestParams(RequestParams params) {
         params.addBodyParameter("uid", String.valueOf(uid));
-
+        params.addBodyParameter("anonymity", String.valueOf(anonymity));
     }
 
     @Override

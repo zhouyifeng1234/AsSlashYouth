@@ -15,11 +15,13 @@ public class NewDemandAndServiceProtocol extends BaseProtocol<NewDemandAandServi
     private long uid;
     private int offset;
     private int limit;
+    private int anonymity;
 
-    public NewDemandAndServiceProtocol(long uid, int offset, int limit) {
+    public NewDemandAndServiceProtocol(long uid, int offset, int limit,int anonymity) {
         this.uid = uid;
         this.offset = offset;
         this.limit = limit;
+        this.anonymity = anonymity;
     }
 
     @Override
@@ -41,6 +43,9 @@ public class NewDemandAndServiceProtocol extends BaseProtocol<NewDemandAandServi
             params.addBodyParameter("limit", String.valueOf(limit));
         }
 
+        if(anonymity==1||anonymity == 0){
+            params.addBodyParameter("anonymity", String.valueOf(anonymity));
+        }
     }
 
     @Override

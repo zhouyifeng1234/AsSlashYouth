@@ -172,6 +172,39 @@ public class DialogUtils  {
 
     }
 
+    public static void showDialogLogout(Context context,String title,String content,final DialogCallBack dialogcallback){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout_logout, null);
+        View ok = view.findViewById(R.id.ok);
+        View cancel = view.findViewById(R.id.cancel);
+        TextView text1 = (TextView) view.findViewById(R.id.tv_hint);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_title);
+        text2.setText(title);
+        text1.setText(content);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogcallback.OkDown();
+                dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogcallback.CancleDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+
+    }
+
+
+
 
 
     private static void setDialog() {

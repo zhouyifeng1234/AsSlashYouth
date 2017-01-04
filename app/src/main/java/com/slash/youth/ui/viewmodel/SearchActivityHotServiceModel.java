@@ -18,6 +18,7 @@ import com.slash.youth.engine.SkillLabelHouseManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
+import com.slash.youth.ui.holder.AddMoreHolder;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -53,7 +54,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         initView();
         initListener();
 
-       /* searchActivityHotServiceBinding.tvSearchTitle.setOnClickListener(new View.OnClickListener() {
+      /*  searchActivityHotServiceBinding.tvSearchTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSearchResult(thridId);
@@ -90,9 +91,19 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         public void execute(ArrayList<SkillLabelAllBean> arrayList) {
             //对集合进行分类
             getSkillLabelAllArrayList(arrayList);
+            //默认一级的标签
             showFirstLabel();
-            showSecondLabel(1);
-            showThridLabel(1,listFirstSkilllabel.size()+1);
+            //默认选取二级标签的第一个是一级标签的第一个
+            SkillLabelBean firstSkillLabelBean = listFirstSkilllabel.get(0);
+            int firstId = firstSkillLabelBean.getId();//默认id
+            showSecondLabel(firstId);
+            //三级标签的默认，f1=一级标签的id,f2= 对应二级标签的id
+            SkillLabelBean secondSkillLabelBean = listSecondSkilllabel.get(0);
+            int f1 = secondSkillLabelBean.getF1();
+            if(f1 == firstId){
+                int secondId = secondSkillLabelBean.getId();
+                showThridLabel(firstId,secondId);
+            }
         }
         @Override
         public void executeResultError(String result) {
@@ -135,7 +146,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
         mNpChooseMainLabels.setMinValue(0);
         mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
-        mNpChooseMainLabels.setValue(1);
+        mNpChooseMainLabels.setValue(0);
     }
 
     //点击一级标签确定按钮
@@ -145,30 +156,36 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         SearchActivity searchActivity = (SearchActivity) CommonUtils.getCurrentActivity();
         searchActivity.checkedFirstLabel = mainLabelsArr[value];
         searchActivityHotServiceBinding.tvOpenChoose.setText(mainLabelsArr[value]);
-        //一级标签的id
-        firstId = value+1;
+        //一级标签的id，展示二级
+        SkillLabelBean skillLabelBean = listFirstSkilllabel.get(value);
+        int firstId = skillLabelBean.getId();
         showSecondLabel(firstId);
+        //二级的id,展示三级
+        SkillLabelBean labelBean = listSkilllabel.get(0);
+        int secondId = labelBean.getId();
+        showThridLabel(firstId,secondId);
     }
 
     //初始化展示二级标签
-    private void showSecondLabel(int id) {
+    private void showSecondLabel(int firstId) {
     listSkilllabel.clear();
-        //初始化的时候展示的是id为1的二级标签
-        for (SkillLabelBean skillLabelBean : listSecondSkilllabel) {
-            int f1 = skillLabelBean.getF1();
-            int f2 = skillLabelBean.getF2();
 
-            if(f1 == id&&f2==0){
-                listSkilllabel.add(skillLabelBean);
-            }
+    //初始化的时候展示的是id为对应的的二级标签
+    for (SkillLabelBean skillLabelBean : listSecondSkilllabel) {
+        int f1 = skillLabelBean.getF1();
+        int f2 = skillLabelBean.getF2();
+        if(f1 == firstId&&f2==0){
+            listSkilllabel.add(skillLabelBean);
         }
+    }
+
     searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.setAdapter(new SubscribeSecondSkilllabelAdapter(listSkilllabel));
     SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
     searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.post(new Runnable() {
         @Override
         public void run() {
             View lvActivitySubscribeSecondSkilllableListFirstChild = searchActivityHotServiceBinding.lvActivitySearchSecondSkilllableList.getChildAt(0);
-            // LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + "");
+             LogKit.d(lvActivitySubscribeSecondSkilllableListFirstChild + " ");
             SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();//获取他的tag
             lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
         }
@@ -189,6 +206,10 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                 }
             }
         }
+        //TODO,这里隐藏的bug,但不影响逻辑和使用
+        listThirdSkilllabelName.add(new SkillLabelBean(0,0,0,""));
+        listThirdSkilllabelName.add(new SkillLabelBean(0,0,0,""));
+
         searchActivityHotServiceBinding.llActivitySearchThirdSkilllabel.removeAllViews();
         searchActivityHotServiceBinding.llActivitySearchThirdSkilllabel.post(new Runnable() {
             LinearLayout llSkilllabelLine;
@@ -217,6 +238,12 @@ public class SearchActivityHotServiceModel extends BaseObservable {
                     tvThirdSkilllabelName.setPadding(CommonUtils.dip2px(16), CommonUtils.dip2px(11), CommonUtils.dip2px(16), CommonUtils.dip2px(11));
                     tvThirdSkilllabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_third_skilllabel);
                     tvThirdSkilllabelName.setText(thirdSkilllabelName);
+
+                    //TODO,这里隐藏的bug,但不影响逻辑和使用
+                    if(thirdSkilllabelName == ""){
+                        tvThirdSkilllabelName.setVisibility(View.GONE);
+                    }
+
                     //不同的textview的点击事件
                     tvThirdSkilllabelName.setOnClickListener(new CheckThirdLabelListener());
 
@@ -270,7 +297,6 @@ public class SearchActivityHotServiceModel extends BaseObservable {
             showSearchResult(labelTag);
         }
     }
-
 
     //加载监听
     private void initListener() {

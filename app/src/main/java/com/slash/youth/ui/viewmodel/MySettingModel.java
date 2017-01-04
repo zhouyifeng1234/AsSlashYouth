@@ -8,9 +8,12 @@ import android.widget.RelativeLayout;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMySettingBinding;
+import com.slash.youth.domain.ContactsBean;
+import com.slash.youth.domain.RecodeBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SetMsgBean;
 import com.slash.youth.domain.SetTimeBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.LoginoutProtocol;
@@ -22,13 +25,17 @@ import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
+import com.slash.youth.ui.adapter.ContactsCareAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.TimeUtils;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by zss on 2016/11/3.
@@ -48,6 +55,7 @@ public class MySettingModel extends BaseObservable {
     private String endTime= "08:00";
     private String SET_OK ="设置成功";
     private String SET_FAIL = "设置失败";
+    private String currentTime;
 
     public MySettingModel(ActivityMySettingBinding activityMySettingBinding,MySettingActivity mySettingActivity) {
         this.activityMySettingBinding = activityMySettingBinding;
@@ -248,30 +256,45 @@ public class MySettingModel extends BaseObservable {
 
     //退出程序
     public void finishApp(View view){
-        logout();
-        Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
-        mySettingActivity.startActivity(intentLoginActivity);
-        mySettingActivity.finish();
+        currentTime = TimeUtils.getCurrentTime();
+        final String logout = "您的账号于"+currentTime+"在 一台设备登录。如非本人操作，则密 码可能已泄露，建议前往我的—设置 修改密码。";
+        DialogUtils.showDialogLogout(mySettingActivity, "下线通知", logout, new DialogUtils.DialogCallBack() {
+            @Override
+            public void OkDown() {
+            LogKit.d("cannel");
+            }
 
-        /*Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        mySettingActivity.startActivity(intent);*/
+            @Override
+            public void CancleDown() {
+                logout(LoginManager.token);
+            }
+        });
     }
 
     //登录退出的接口
-    private void logout() {
-        final LoginoutProtocol loginoutProtocol = new LoginoutProtocol();
-        loginoutProtocol.getDataFromServer(new BaseProtocol.IResultExecutor() {
-            @Override
-            public void execute(Object dataBean) {
-                LogKit.d("dataBean :"+dataBean.toString());
-            }
+    private void logout(String token) {
+        LoginManager.logout(new onLogout(),token);
+    }
 
-            @Override
-            public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+    public class onLogout implements BaseProtocol.IResultExecutor<RecodeBean> {
+        @Override
+        public void execute(RecodeBean dataBean) {
+            int rescode = dataBean.getRescode();
+            switch (rescode){
+                case 0:
+                    Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
+                    mySettingActivity.startActivity(intentLoginActivity);
+                    mySettingActivity.finish();
+                    break;
+                case 1:
+                    LogKit.d("退出失败");
+                    ToastUtils.shortToast("退出失败");
+                    break;
             }
-        });
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:"+result);
+        }
     }
 }

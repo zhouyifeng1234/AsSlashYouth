@@ -56,8 +56,8 @@ public class UserInfoEngine {
     }
 
     //[最近列表]-查看用户最近发布的列表
-    public static void getNewDemandAndServiceList(BaseProtocol.IResultExecutor onGetNewDemandAndServiceList, long uid, int offset, int limit) {
-        NewDemandAndServiceProtocol newDemandAndServiceProtocol = new NewDemandAndServiceProtocol(uid, offset, limit);
+    public static void getNewDemandAndServiceList(BaseProtocol.IResultExecutor onGetNewDemandAndServiceList, long uid, int offset, int limit,int anonymity) {
+        NewDemandAndServiceProtocol newDemandAndServiceProtocol = new NewDemandAndServiceProtocol(uid, offset, limit,anonymity);
         newDemandAndServiceProtocol.getDataFromServer(onGetNewDemandAndServiceList);
     }
 

@@ -61,7 +61,7 @@ public class ActivitySubscribeModel extends BaseObservable {
                 mNpChooseMainLabels.setDisplayedValues(mainLabelsArr);
                 mNpChooseMainLabels.setMinValue(0);
                 mNpChooseMainLabels.setMaxValue(mainLabelsArr.length - 1);
-                mNpChooseMainLabels.setValue(1);
+                mNpChooseMainLabels.setValue(0);
             }
         });
     }

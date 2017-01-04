@@ -87,7 +87,7 @@ public class PagerHomeDemandHolder extends BaseHolder<SearchItemDemandBean.DataB
                 break;
         }
 
-        String place = data.getCity();
+        String place = data.getPlace();
         itemHomeDemandServiceBinding.tvLocation.setText(place);
 
         double lat = data.getLat();

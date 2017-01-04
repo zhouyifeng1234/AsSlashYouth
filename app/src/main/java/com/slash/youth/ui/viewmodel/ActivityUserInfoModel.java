@@ -264,9 +264,9 @@ public class ActivityUserInfoModel extends BaseObservable {
     private void initData() {
         if(otherUid == LoginManager.currentLoginUserId){
             MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
-            MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid);
+            MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid,anonymity);
             uid =  LoginManager.currentLoginUserId;
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit,anonymity);
             isOther = false;
 
             activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
@@ -274,8 +274,8 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
         }else {
-            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid);
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit);
+            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid,anonymity);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),otherUid,offset,limit,anonymity);
             isOther = true;
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
@@ -342,7 +342,7 @@ public class ActivityUserInfoModel extends BaseObservable {
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }else {//不是最后一页
                         offset += limit;
-                        UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit);
+                        UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit,anonymity);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
                 }

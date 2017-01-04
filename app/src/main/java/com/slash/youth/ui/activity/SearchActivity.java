@@ -117,6 +117,10 @@ public class SearchActivity extends Activity {
             case 4:
                 activitySearchBinding.flSearchFirst.addView(searchListviewAssociationBinding.getRoot());
                 break;
+            case 5:
+                activitySearchBinding.flSearchFirst.addView(searchNeedResultTabBinding.getRoot());
+                break;
+
         }
         mPage = page;
     }
@@ -146,6 +150,10 @@ public class SearchActivity extends Activity {
                     case 4:
                         changeView(0);
                         mPage = 0;
+                        break;
+                    case 5:
+                        changeView(3);
+                        mPage = 1;
                         break;
                 }
                 if (activitySearchBinding.etActivitySearchAssociation.getText() != null) {

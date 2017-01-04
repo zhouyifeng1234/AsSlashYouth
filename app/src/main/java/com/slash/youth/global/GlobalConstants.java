@@ -264,7 +264,7 @@ public class GlobalConstants {
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";
-        //十七、[需求]-技能标签(所有自定义技能标签)
+        //十七、[需求]-技能标签(所有自定义技能标签)//recommend/v1/api/tag/get
         public static final String SKILLLABEL_GET = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/get";
         //十八、[需求]-技能标签(增加自定义技能标签)
         public static final String SKILLLABEL_CREATE = SERVER_HOST_SKILLLABEL + "recommend/v1/api/tag/create";
