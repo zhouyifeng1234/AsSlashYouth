@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
+import com.slash.youth.databinding.ItemDetailRecommendDemandBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
+import com.slash.youth.domain.DetailRecommendDemandList;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.LoginManager;
@@ -49,6 +54,7 @@ public class DemandDetailModel extends BaseObservable {
     Activity mActivity;
     long demandId;
     SlashDateTimePicker sdtpBidDemandStarttime;
+    private LinearLayout mLlDemandRecommend;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -65,6 +71,7 @@ public class DemandDetailModel extends BaseObservable {
 
 
     private void initView() {
+        mLlDemandRecommend = mActivityDemandDetailBinding.llDemandRecommend;
         sdtpBidDemandStarttime = mActivityDemandDetailBinding.sdtpBidDemandChooseDatetime;
         mActivityDemandDetailBinding.svDemandDetailContent.setVerticalScrollBarEnabled(false);
     }
@@ -434,11 +441,34 @@ public class DemandDetailModel extends BaseObservable {
         }, uid + "", "0");
     }
 
+    ArrayList<DetailRecommendDemandList.RecommendDemandInfo> listRecommendDemand;
+
     /**
      * 从接口获取相似需求推荐的数据，当服务者视角看需求的时候，需要显示推荐需求
      */
     private void getRecommendDemandData() {
+        DemandEngine.getDetailRecommendDemand(new BaseProtocol.IResultExecutor<DetailRecommendDemandList>() {
+            @Override
+            public void execute(DetailRecommendDemandList dataBean) {
+                listRecommendDemand = dataBean.data.list;
+                setRecommendDemandItemData();
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取需求服务列表失败");
+            }
+        }, demandId + "", "5");
+    }
+
+    private void setRecommendDemandItemData() {
+        for (int i = 0; i < listRecommendDemand.size(); i++) {
+            DetailRecommendDemandList.RecommendDemandInfo recommendDemandInfo = listRecommendDemand.get(i);
+            ItemDetailRecommendDemandBinding itemDetailRecommendDemandBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_detail_recommend_demand, null, false);
+            ItemDetailRecommendDemandModel itemDetailRecommendDemandModel = new ItemDetailRecommendDemandModel(itemDetailRecommendDemandBinding, mActivity, recommendDemandInfo);
+            itemDetailRecommendDemandBinding.setItemDetailRecommendDemandModel(itemDetailRecommendDemandModel);
+            mLlDemandRecommend.addView(itemDetailRecommendDemandBinding.getRoot());
+        }
     }
 
 

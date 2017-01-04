@@ -16,8 +16,8 @@ import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.AppointmentServiceResultBean;
 import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.DetailRecommendServiceList;
 import com.slash.youth.domain.ServiceDetailBean;
-import com.slash.youth.domain.SimilarServiceRecommendBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
@@ -57,8 +57,6 @@ public class ServiceDetailModel extends BaseObservable {
         initData();
         initView();
     }
-
-    ArrayList<SimilarServiceRecommendBean> listRecommendService = new ArrayList<SimilarServiceRecommendBean>();
 
     private void initData() {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
@@ -500,19 +498,24 @@ public class ServiceDetailModel extends BaseObservable {
         }, uid + "", "0");
     }
 
+    ArrayList<DetailRecommendServiceList.RecommendServiceInfo> listRecommendService;
+
     /**
      * 从接口获取相似服务推荐的数据，当需求者视角看服务的时候，需要显示推荐服务
      */
     public void getRecommendServiceData() {
-        //模拟数据
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
+        ServiceEngine.getDetailRecommendService(new BaseProtocol.IResultExecutor<DetailRecommendServiceList>() {
+            @Override
+            public void execute(DetailRecommendServiceList dataBean) {
+                listRecommendService = dataBean.data.list;
+                setRecommendServiceItemData();
+            }
 
-        //实际应该网络加载数据完毕后的异步回调中调用
-        setRecommendServiceItemData();
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取推荐服务列表失败");
+            }
+        }, serviceId + "", "5");
     }
 
     /**
@@ -520,9 +523,9 @@ public class ServiceDetailModel extends BaseObservable {
      */
     public void setRecommendServiceItemData() {
         for (int i = 0; i < listRecommendService.size(); i++) {
-            SimilarServiceRecommendBean similarServiceRecommendBean = listRecommendService.get(i);
+            DetailRecommendServiceList.RecommendServiceInfo recommendServiceInfo = listRecommendService.get(i);
             ItemServiceDetailRecommendServiceBinding itemServiceDetailRecommendServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_service_detail_recommend_service, null, false);
-            ItemServiceDetailRecommendServiceModel itemServiceDetailRecommendServiceModel = new ItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceBinding, mActivity, similarServiceRecommendBean);
+            ItemServiceDetailRecommendServiceModel itemServiceDetailRecommendServiceModel = new ItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceBinding, mActivity, recommendServiceInfo);
             itemServiceDetailRecommendServiceBinding.setItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceModel);
             mLlServiceRecommend.addView(itemServiceDetailRecommendServiceBinding.getRoot());
         }

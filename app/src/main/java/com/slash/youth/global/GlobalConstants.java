@@ -212,6 +212,8 @@ public class GlobalConstants {
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
         //需求发布成功页面 服务者推荐
         public static final String GET_RECOMMEND_SERVICE_USER = SERVICE_USER_RECOMMEND + "/list";
+        //二、[推荐]-需求详情页推荐更多需求列表
+        public static final String GET_DETAIL_RECOMMEND_DEMAND = RECOMMEND_DEMAND_HOST + "/more";
 
         //一、[服务]-发布服务-
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
@@ -253,6 +255,8 @@ public class GlobalConstants {
         public static final String GET_USER_AUTH_STATUS = SERVER_HOST_MY_USERINFO + "/real/status";
         //发布服务成功页面  需求者推荐
         public static final String GET_RECOMMEND_DEMAND_USER = DEMAND_USER_RECOMMEND + "/list";
+        //二、[推荐]-服务详情中更多服务列表
+        public static final String GET_DETAIL_RECOMMEND_SERVICE = RECOMMEND_SERVICE_HOST + "/more";
 
         //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";

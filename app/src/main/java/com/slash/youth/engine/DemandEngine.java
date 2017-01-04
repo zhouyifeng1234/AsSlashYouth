@@ -13,6 +13,7 @@ import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
 import com.slash.youth.http.protocol.DemandRefundProtocol;
 import com.slash.youth.http.protocol.DemandThirdPayProtocol;
+import com.slash.youth.http.protocol.DetailRecommendDemandProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.EliminateProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
@@ -347,5 +348,10 @@ public class DemandEngine {
     public static void collectDemand(BaseProtocol.IResultExecutor onCollectDemandFinished, String demandId) {
         CollectTaskProtocol collectDemandProtocol = new CollectTaskProtocol(demandId, "1");
         collectDemandProtocol.getDataFromServer(onCollectDemandFinished);
+    }
+
+    public static void getDetailRecommendDemand(BaseProtocol.IResultExecutor onGetRecommendDataFinished, String id, String limit) {
+        DetailRecommendDemandProtocol detailRecommendDemandProtocol = new DetailRecommendDemandProtocol(id, limit);
+        detailRecommendDemandProtocol.getDataFromServer(onGetRecommendDataFinished);
     }
 }
