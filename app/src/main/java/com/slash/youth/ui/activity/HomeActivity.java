@@ -1,9 +1,13 @@
 package com.slash.youth.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
@@ -30,6 +34,7 @@ public class HomeActivity extends Activity {
 //        TextView tv = new TextView(this);
 //        tv.setText("Text");
         activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(this).getRootView());
+
     }
 
 //    public void getData(View v) {

@@ -60,6 +60,16 @@ public class OtherInfoBean {
             private String tag;
             private int totoltaskcount;
             private double userservicepoint;
+            private int relationshipscount;
+
+
+            public int getRelationshipscount() {
+                return relationshipscount;
+            }
+
+            public void setRelationshipscount(int relationshipscount) {
+                this.relationshipscount = relationshipscount;
+            }
 
             public int getAchievetaskcount() {
                 return achievetaskcount;

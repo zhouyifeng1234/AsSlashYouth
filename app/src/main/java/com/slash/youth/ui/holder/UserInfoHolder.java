@@ -14,6 +14,7 @@ import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ItemUserInfoModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -65,10 +66,10 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         String name = data.getName();
         itemUserinfoBinding.tvName.setText(name);
 
-       /* long quote = data.getQuote();
+        long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
-        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit + 1];
-        itemUserinfoBinding.tvQuote.setText(quoteString);*/
+        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit];
+        itemUserinfoBinding.tvQuote.setText(quoteString);
 
         int pattern = data.getPattern();
         switch (pattern){
@@ -93,20 +94,12 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         String place = data.getPlace();
         itemUserinfoBinding.tvLocation.setText(place);
 
-        //目标经纬度
+        //用户的经纬度
         double lat = data.getLat();
         double lng = data.getLng();
-        //用户的经纬度
-
-
-        // new DistanceUtils().getLatAndLng(CommonUtils.getApplication());
-
-        // System.out.println("====第三方第三方===="+DistanceUtils.getDistance(22.75424,112.76535 , 23.014171, 113.10111));
-        itemUserinfoBinding.tvDistance.setText("<4.2KM");
-
-
+        double currentLatitude = SlashApplication.getCurrentLatitude();
+        double currentLongitude = SlashApplication.getCurrentLongitude();
+        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+        itemUserinfoBinding.tvDistance.setText("<"+distance+"KM");
     }
-
-
-
 }

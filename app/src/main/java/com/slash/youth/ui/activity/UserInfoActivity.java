@@ -60,16 +60,16 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private void title() {
         userInfoModel.setOnNameListener(new ActivityUserInfoModel.OnNameListener() {
             @Override
-            public void OnNameListener(String name, long myUid) {
-                setTitle(userInfoModel.isOther, name);
+            public void OnNameListener(String name, long myUid,String company) {
+                setTitle(userInfoModel.isOther, name,company);
                 myId = myUid;
             }
         });
     }
 
-    private void setTitle(boolean isOther, String name) {
+    private void setTitle(boolean isOther, String name,String company) {
 
-        if (isOther) {
+        if (isOther) {//我看其他人
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
@@ -78,7 +78,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 case 1://实名
                     break;
                 case 0://匿名
-                    activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.ANONVMITY);
                     activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
                     break;
             }

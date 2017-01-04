@@ -20,6 +20,7 @@ import com.slash.youth.http.protocol.MyFirstPageProtocol;
 import com.slash.youth.http.protocol.MyUserInfoProtocol;
 import com.slash.youth.http.protocol.SetMsgProtocol;
 import com.slash.youth.http.protocol.SkillManagerProtocol;
+import com.slash.youth.http.protocol.UpdateSkillTempletProtocol;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -130,6 +131,13 @@ public class MyManager {
         GetSkillTempletProtocol getSkillTempletProtocol = new GetSkillTempletProtocol(id);
         getSkillTempletProtocol.getDataFromServer(onGetOneSkillTemplet);
     }
+
+    //技能管理——修改技能模板
+    public static void  onUpdateSkillTemplet(BaseProtocol.IResultExecutor onUpdateSkillTemplet,long id ,String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
+        UpdateSkillTempletProtocol updateSkillTempletProtocol = new UpdateSkillTempletProtocol(id,title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+        updateSkillTempletProtocol.getDataFromServer(onUpdateSkillTemplet);
+    }
+
 
 
     public static final String WITHDRAWALS_SUCCESS="提现申请成功，请以最终银行交易为准";

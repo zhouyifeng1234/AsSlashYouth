@@ -78,8 +78,6 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     }
 
     public void getData(String searchType) {
-        //TODO  搜索标签还不能使用，方便测试
-        tag = "微信";
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);

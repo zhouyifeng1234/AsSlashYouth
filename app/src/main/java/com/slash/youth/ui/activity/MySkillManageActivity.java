@@ -83,7 +83,8 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
     public void jumpMyAddSkillActivity(Activity activity,long skillListId) {
         Intent intentMyAddSkillActivity = new Intent(CommonUtils.getContext(), MyAddSkillActivity.class);
         intentMyAddSkillActivity.putExtra("skillListId",skillListId);
-        activity.startActivityForResult(intentMyAddSkillActivity, Constants.SKILL_MANAGER_ONE);
+        intentMyAddSkillActivity.putExtra("skillTemplteType",Constants.ADD_ONE_SKILL_MANAGER);
+        activity.startActivityForResult(intentMyAddSkillActivity, Constants.ADD_ONE_SKILL_MANAGER);
     }
 
     private void setActivityTitle(String titleName) {

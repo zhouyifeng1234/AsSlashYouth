@@ -72,11 +72,11 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         String name = data.getName();
         itemHomeDemandServiceBinding.tvName.setText(name);
 
-    /*    long quote = data.getQuote();
+       long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
-        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit + 1];
+        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit];
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
-*/
+
         int pattern = data.getPattern();
         switch (pattern){
             case 0:
@@ -97,7 +97,7 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
                 break;
         }
 
-        String city = data.getCity();
+        String city = data.getPlace();
          itemHomeDemandServiceBinding.tvLocation.setText(city);
 
         //目标经纬度

@@ -132,6 +132,7 @@ public class SlashApplication extends Application {
 
     }
 
+
     public static String getCurProcessName(Context context) {
 
         int pid = android.os.Process.myPid();

@@ -24,6 +24,7 @@ import com.slash.youth.http.protocol.CheckVersionProtocol;
 import com.slash.youth.ui.adapter.PagerMoreDemandtAdapter;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PackageUtil;
@@ -117,9 +118,8 @@ public class SplashActivity extends Activity {
     private void checkVersion() {
         // 获取当前的版本号
         versionCode = PackageUtil.getVersionCode(this);
-        LogKit.d("======versionCode======"+versionCode);
         //获取网络的版本号
-      //  LoginManager.checkVersion(new onCheckVersion(),type, versionCode);
+        LoginManager.checkVersion(new onCheckVersion(),type, versionCode);
     }
 
     //检测版本
@@ -138,10 +138,10 @@ public class SplashActivity extends Activity {
                 //int type = versionData.getType();//1表示android,2表示ios
                 String url = versionData.getUrl(); //下载app的url
 
-                if (NetVersionCode > versionCode) {
+              /*  if (NetVersionCode > versionCode) {
                     // 检测版本更新
                     versionUpdate(forceupdate,version);
-                }
+                }*/
             }
         }
         @Override
