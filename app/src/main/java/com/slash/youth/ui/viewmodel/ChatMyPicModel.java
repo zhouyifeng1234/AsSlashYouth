@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMyPicBinding;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
@@ -50,8 +51,12 @@ public class ChatMyPicModel extends BaseObservable {
     private void initView() {
         LogKit.v(mThumUri.toString());
         x.image().bind(mItemChatMyPicBinding.ivChatMyPic, mThumUri.toString());
-        //加载图像
-        BitmapKit.bindImage(mItemChatMyPicBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        //加载头像
+        if (!TextUtils.isEmpty(LoginManager.currentLoginUserAvatar)) {
+            BitmapKit.bindImage(mItemChatMyPicBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        } else {
+            mItemChatMyPicBinding.ivChatMyAvatar.setImageResource(R.mipmap.default_avatar);
+        }
 
         if (mIsRead) {
             mItemChatMyPicBinding.tvChatMsgReadStatus.setText("已读");

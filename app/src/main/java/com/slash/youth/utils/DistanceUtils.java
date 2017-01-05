@@ -8,9 +8,9 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.slash.youth.domain.NearLocationBean;
+import com.slash.youth.global.SlashApplication;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class DistanceUtils {
     public LatLng mCurrentLatlng;
     private AMap mMap;
     private boolean isMoveByGestures = false;
-    private  float mapZoom = 14;
+    private float mapZoom = 14;
     public String mCurrentAddress;
     public String mCurrentAoiName;
     private String mCurrentCityCode;
@@ -39,8 +39,8 @@ public class DistanceUtils {
         double radLat2 = rad(lat2);
         double a = radLat1 - radLat2;
         double b = rad(lng1) - rad(lng2);
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
-                Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
@@ -50,7 +50,7 @@ public class DistanceUtils {
     public AMapLocationClientOption mLocationOption = null;
 
     //GPS获取当前我自己的经纬度
-    public  void getLatAndLng(Context context){
+    public void getLatAndLng(Context context) {
 
         //初始化定位
         mLocationClient = new AMapLocationClient(context);
@@ -81,16 +81,18 @@ public class DistanceUtils {
 //                        mLocationClient.setLocationOption(mLocationOption);
                     //获取纬度
                     currentLatitude = aMapLocation.getLatitude();
+                    SlashApplication.setCurrentLatitude(currentLatitude);
                     //获取经度
                     currentLongitude = aMapLocation.getLongitude();
+                    SlashApplication.setCurrentLongitude(currentLongitude);
 
                     mCurrentAddress = aMapLocation.getAddress();
                     mCurrentAoiName = aMapLocation.getAoiName();
                     mCurrentCityCode = aMapLocation.getCityCode();
                     String city = aMapLocation.getCity();
-                    SpUtils.setString("currentyCity",city);
+                    SpUtils.setString("currentyCity", city);
                     // String country = aMapLocation.getCountry();
-                    LogKit.v("currentLatitude:" + currentLatitude + " currentLongitude:" + currentLongitude+"city = "+city);
+                    LogKit.v("currentLatitude:" + currentLatitude + " currentLongitude:" + currentLongitude + "city = " + city);
                    /* LatLng latLng = new LatLng(currentLatitude, currentLongitude);
                     mCurrentLatlng = latLng;
                       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(31.30400177, 120.64404488), 10));

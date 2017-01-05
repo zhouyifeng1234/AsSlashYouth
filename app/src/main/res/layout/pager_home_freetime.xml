@@ -50,6 +50,8 @@
                 android:background="@drawable/shape_home_freetime_searchbox_bg"
                 android:drawableLeft="@mipmap/nav_icon_search"
                 android:drawablePadding="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:hint="找需求、找服务、找人"
                 android:onClick="@{pagerHomeFreeTimeModel.gotoSearchActivity}"
                 android:paddingLeft="10dp"
@@ -58,89 +60,89 @@
 
         </RelativeLayout>
 
-          <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
-              android:id="@+id/refresh_view"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+        <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-              <include layout="@layout/refresh_head" />
-              <com.slash.youth.ui.view.PullableSrcollView.PullableScrollView
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
+            <include layout="@layout/refresh_head"/>
+            <com.slash.youth.ui.view.PullableSrcollView.PullableScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
-                      <FrameLayout
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="7dp"
-                          android:clipChildren="false"
-                          >
-                          <android.support.v4.view.ViewPager
-                              android:id="@+id/vp_home_freetime_adv"
-                              android:layout_width="match_parent"
-                              android:layout_height="159dp"
-                              android:layout_marginLeft="21dp"
-                              android:layout_marginRight="21dp"
-                              android:clipChildren="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:clipChildren="false"
+                    >
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/vp_home_freetime_adv"
+                            android:layout_width="match_parent"
+                            android:layout_height="159dp"
+                            android:layout_marginLeft="21dp"
+                            android:layout_marginRight="21dp"
+                            android:clipChildren="false">
 
-                          </android.support.v4.view.ViewPager>
-                      </FrameLayout>
+                        </android.support.v4.view.ViewPager>
+                    </FrameLayout>
 
-                      <LinearLayout
-                          android:layout_width="match_parent"
-                          android:layout_height="39dp"
-                          android:layout_marginTop="6dp"
-                          android:background="#ffffff"
-                          android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="39dp"
+                        android:layout_marginTop="6dp"
+                        android:background="#ffffff"
+                        android:orientation="horizontal">
 
-                          <View
-                              android:layout_width="4dp"
-                              android:layout_height="20dp"
-                              android:layout_gravity="center_vertical"
-                              android:layout_marginLeft="12dp"
-                              android:background="@drawable/shape_rounded_green_2dp"/>
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="12dp"
+                            android:background="@drawable/shape_rounded_green_2dp"/>
 
-                          <TextView
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_gravity="center_vertical"
-                              android:layout_marginLeft="9dp"
-                              android:text="猜你喜欢"
-                              android:textColor="#666666"
-                              android:textSize="14sp"/>
-                          <View
-                              android:layout_width="0dp"
-                              android:layout_height="0dp"
-                              android:layout_weight="1"/>
-                          <TextView
-                              android:onClick="@{pagerHomeFreeTimeModel.more}"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:layout_gravity="center_vertical"
-                              android:layout_marginRight="11dp"
-                              android:text="查看更多"
-                              android:textColor="#31C5E4"
-                              android:textSize="14dp"/>
-                      </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="9dp"
+                            android:text="猜你喜欢"
+                            android:textColor="#666666"
+                            android:textSize="14sp"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="11dp"
+                            android:onClick="@{pagerHomeFreeTimeModel.more}"
+                            android:text="查看更多"
+                            android:textColor="#31C5E4"
+                            android:textSize="14dp"/>
+                    </LinearLayout>
 
-                      <com.slash.youth.ui.view.ListviewForScrollView
-                          android:id="@+id/lv_home_demand_and_service"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:layout_marginLeft="11dp"
-                          android:layout_marginRight="11dp"
-                          android:scrollbars="none"
-                          android:layout_marginTop="7dp">
+                    <com.slash.youth.ui.view.ListviewForScrollView
+                        android:id="@+id/lv_home_demand_and_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="7dp"
+                        android:scrollbars="none">
 
-                      </com.slash.youth.ui.view.ListviewForScrollView>
+                    </com.slash.youth.ui.view.ListviewForScrollView>
 
-                  </LinearLayout>
-              </com.slash.youth.ui.view.PullableSrcollView.PullableScrollView>
-              <include layout="@layout/load_more" />
-          </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+                </LinearLayout>
+            </com.slash.youth.ui.view.PullableSrcollView.PullableScrollView>
+            <include layout="@layout/load_more"/>
+        </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
 
     </LinearLayout>
 </layout>

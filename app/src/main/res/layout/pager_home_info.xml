@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f3f3f3"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -50,10 +51,13 @@
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
             android:layout_marginTop="-43dp"
+            android:onClick="@{pagerHomeInfoModel.gotoMyTask}"
             app:cardBackgroundColor="#ffffff"
             app:cardCornerRadius="5dp"
-            app:cardElevation="@dimen/cardElevation"
+
             app:cardUseCompatPadding="true">
+            <!--app:cardElevation="@dimen/cardElevation"-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:onClick="@{pagerHomeInfoModel.gotoMyTask}"
+
                     android:paddingBottom="10dp"
                     android:paddingRight="24dp"
                     android:paddingTop="10dp"

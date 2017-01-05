@@ -108,8 +108,8 @@ public class GlobalConstants {
         //[推荐]-首页需求推荐列表
         public static final String RECOMMEND_DEMAND_HOST = "http://121.42.145.178/feed/v1/api/demand/recommend";
         public static final String FIRST_PAGER_DEMAND_LIST = RECOMMEND_DEMAND_HOST + "/list";
-        public static final String RECOMMEND_SERVICE_HOST ="http://121.42.145.178/feed/v1/api/service/recommend";
-        public static final String FIRST_PAGER_SERVICE_LIST = RECOMMEND_SERVICE_HOST+"/list";
+        public static final String RECOMMEND_SERVICE_HOST = "http://121.42.145.178/feed/v1/api/service/recommend";
+        public static final String FIRST_PAGER_SERVICE_LIST = RECOMMEND_SERVICE_HOST + "/list";
 
 
         /**
@@ -147,6 +147,8 @@ public class GlobalConstants {
         public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
         //三、[需求]-我的任务tid反查服务或者需求详情信息
         public static final String GET_MY_TASK_SERVICE_DEMAND_DETAIL = SERVER_HOST_MY_TASK_LIST + "oneinfo";
+        //四、[需求]-是否预约过某服务或者抢单过某需求
+        public static final String GET_BID_TASK_STATUS = SERVER_HOST_MY_TASK_LIST + "isparticipation";
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
         //三、[需求]-查看评价和分享状态接口
@@ -212,6 +214,8 @@ public class GlobalConstants {
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
         //需求发布成功页面 服务者推荐
         public static final String GET_RECOMMEND_SERVICE_USER = SERVICE_USER_RECOMMEND + "/list";
+        //二、[推荐]-需求详情页推荐更多需求列表
+        public static final String GET_DETAIL_RECOMMEND_DEMAND = RECOMMEND_DEMAND_HOST + "/more";
 
         //一、[服务]-发布服务-
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
@@ -246,13 +250,15 @@ public class GlobalConstants {
         //十六、[需求]-服务方淘汰某需求方
         public static final String SERVICE_FLOW_NO_ACCEPT = SERVER_HOST_SERVICE + "eliminate";
         //十七、[需求]-服务订单日志接口
-        public static final String GET_SERVICE_FLOW_LOG=SERVER_HOST_SERVICE+"log";
+        public static final String GET_SERVICE_FLOW_LOG = SERVER_HOST_SERVICE + "log";
         //预约服务者 延期支付
         public static final String SERVICE_DELAY_PAY = SERVER_HOST_SERVICE + "rollback";
         //服务成功页 判断发服务者是否已认证
         public static final String GET_USER_AUTH_STATUS = SERVER_HOST_MY_USERINFO + "/real/status";
         //发布服务成功页面  需求者推荐
         public static final String GET_RECOMMEND_DEMAND_USER = DEMAND_USER_RECOMMEND + "/list";
+        //二、[推荐]-服务详情中更多服务列表
+        public static final String GET_DETAIL_RECOMMEND_SERVICE = RECOMMEND_SERVICE_HOST + "/more";
 
         //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";
@@ -407,6 +413,9 @@ public class GlobalConstants {
         public static final String MANAGE_PUBLISH_LIST = MANAGE_PUBLISH_HOST + "/list";
         public static final String MANAGE_PUBLISH_DELETE = MANAGE_PUBLISH_HOST + "/del";
         public static final String MANAGE_PUBLISH_UP_AND_DOWN = MANAGE_PUBLISH_HOST + "/manage";
+        //zhouyifeng
+        //四、[我发布的管理]-上下架-通过需求or服务ID
+        public static final String UP_AND_DOWN_TASK = MANAGE_PUBLISH_HOST + "/managebytid";
 
         //技能管理
         public static final String SKILL_MANAGE_HOST = "http://121.42.145.178/feed/v1/api/myservicemanagement";
@@ -467,8 +476,7 @@ public class GlobalConstants {
 
         //[帮助]-检测app新版本
         public static final String VERSION_HOST = "http://121.42.145.178/system/v1/api/config";
-        public static final String CHECK_VERSION = VERSION_HOST+"/version/check";
-
+        public static final String CHECK_VERSION = VERSION_HOST + "/version/check";
 
 
     }
@@ -506,9 +514,9 @@ public class GlobalConstants {
     //web的路径
     public static final class WebPath {//http://114.215.83.138/#!/banner
         public static final String WEB_PATH_HOST = "http://114.215.83.138/#!/";
-        public static final String WEB_INFLUENCE = WEB_PATH_HOST+"integral&nav=1";
-        public static final String WEB_COMMON_QUESTION =WEB_PATH_HOST+"program?type=program&nav=1";
-        public static final String WEB_CONTACT_US = WEB_PATH_HOST+"program?type=contact";
-        public static final String WEB_BANNER = WEB_PATH_HOST+"banner&nav=1";
+        public static final String WEB_INFLUENCE = WEB_PATH_HOST + "integral&nav=1";
+        public static final String WEB_COMMON_QUESTION = WEB_PATH_HOST + "program?type=program&nav=1";
+        public static final String WEB_CONTACT_US = WEB_PATH_HOST + "program?type=contact";
+        public static final String WEB_BANNER = WEB_PATH_HOST + "banner&nav=1";
     }
 }

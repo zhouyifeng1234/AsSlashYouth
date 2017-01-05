@@ -242,10 +242,15 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         double quote = 0;
         String quoteStr = mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString();
         if (TextUtils.isEmpty(quoteStr)) {
-
+            ToastUtils.shortToast("请填写报价");
+            return;
         } else {
             try {
                 quote = Double.parseDouble(quoteStr);
+                if (quote <= 0) {
+                    ToastUtils.shortToast("报价必须大于0");
+                    return;
+                }
             } catch (Exception ex) {
                 ToastUtils.shortToast("请正确填写报价");
                 return;

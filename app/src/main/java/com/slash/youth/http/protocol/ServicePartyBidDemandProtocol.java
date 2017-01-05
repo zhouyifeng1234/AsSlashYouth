@@ -69,7 +69,7 @@ public class ServicePartyBidDemandProtocol extends BaseProtocol<CommonResultBean
     public boolean checkJsonResult(String result) {
         Gson gson = new Gson();
         commonResultBean = gson.fromJson(result, CommonResultBean.class);
-        if (commonResultBean.rescode == 0 || commonResultBean.data.status == 1) {
+        if (commonResultBean.rescode == 0 && commonResultBean.data.status == 1) {
             return true;
         } else {
             return false;

@@ -23,7 +23,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="订阅"
+                    android:text="关联标签"
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>
                 <ImageButton
@@ -33,9 +33,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="11dp"
                     android:layout_marginLeft="11dp"
-                    android:onClick="@{activitySubscribeModel.goBack}"
                     android:layout_marginTop="11dp"
                     android:background="@android:color/transparent"
+                    android:onClick="@{activitySubscribeModel.goBack}"
                     android:src="@mipmap/nav_back"
                 />
                 <TextView
@@ -264,7 +264,6 @@
                     android:background="#edf1f2">
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/tv_activity_subscribe_choose_all_skilllabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -276,6 +275,7 @@
                         android:text="全选"
                         android:textColor="#999999"
                         android:textSize="14sp"
+                        android:visibility="gone"
                     />
 
                     <ScrollView
@@ -329,7 +329,8 @@
                         <View android:layout_width="match_parent" android:layout_height="110dp"/>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="61dp" android:background="@drawable/shape_rectangle_gradient"/>
+                            android:layout_height="61dp"
+                            android:background="@drawable/shape_rectangle_gradient"/>
                         <View android:layout_width="match_parent" android:layout_height="110dp"/>
                         <View android:layout_width="match_parent" android:layout_height="2dp"
                               android:background="#E5E5E5"/>

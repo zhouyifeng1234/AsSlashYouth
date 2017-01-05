@@ -5,8 +5,11 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
@@ -84,17 +87,32 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     //填充来竞标的服务方列表
     private void addDemandChooseServiceItems() {
-        for (int i = 0; i < listDemandChooseService.size(); i++) {
-            DemandPurposeListBean.PurposeInfo demandChooseServiceBean = listDemandChooseService.get(i);
-            View itemDemandChooseService = inflateItemDemandChooseService(demandChooseServiceBean);
-            if (itemDemandChooseService != null) {
-                mActivityDemandChooseServiceBinding.llDemandChooseServiceList.addView(itemDemandChooseService);
+        mActivityDemandChooseServiceBinding.llDemandChooseServiceList.removeAllViews();
+        if (listDemandChooseService.size() <= 0) {
+            LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            llParams.topMargin = CommonUtils.dip2px(13);
+            llParams.bottomMargin = CommonUtils.dip2px(15);
+            TextView tvNoInfo = new TextView(CommonUtils.getContext());
+            tvNoInfo.setLayoutParams(llParams);
+            tvNoInfo.setText("暂无信息");
+            tvNoInfo.setTextColor(0xff31C6E4);
+            tvNoInfo.setTextSize(15);
+            tvNoInfo.setGravity(Gravity.CENTER);
+            mActivityDemandChooseServiceBinding.llDemandChooseServiceList.addView(tvNoInfo);
+        } else {
+            for (int i = 0; i < listDemandChooseService.size(); i++) {
+                DemandPurposeListBean.PurposeInfo demandChooseServiceBean = listDemandChooseService.get(i);
+                View itemDemandChooseService = inflateItemDemandChooseService(demandChooseServiceBean);
+                if (itemDemandChooseService != null) {
+                    mActivityDemandChooseServiceBinding.llDemandChooseServiceList.addView(itemDemandChooseService);
+                }
             }
         }
     }
 
     //填充系统推荐的服务方列表
     private void addDemandChooseRecommendServiceItems() {
+        mActivityDemandChooseServiceBinding.llDemandChooseRecommendServiceList.removeAllViews();
         for (int i = 0; i < listDemandChooseRecommendService.size(); i++) {
             RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listDemandChooseRecommendService.get(i);
             View itemDemandChooseRecommendService = inflateItemDemandChooseRecommendService(serviceUserInfo);

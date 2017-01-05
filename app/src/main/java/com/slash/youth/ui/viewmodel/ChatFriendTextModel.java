@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemChatFriendTextBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 
@@ -31,7 +32,11 @@ public class ChatFriendTextModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemChatFriendTextBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        if (!"1000".equals(MsgManager.targetId)) {
+            BitmapKit.bindImage(mItemChatFriendTextBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        } else {
+            mItemChatFriendTextBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);
+        }
     }
 
     private String textContent;

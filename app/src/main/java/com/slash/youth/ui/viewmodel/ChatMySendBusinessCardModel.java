@@ -2,7 +2,9 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMySendBusinessCardBinding;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
@@ -31,8 +33,11 @@ public class ChatMySendBusinessCardModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemChatMySendBusinessCardBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
-
+        if (!TextUtils.isEmpty(LoginManager.currentLoginUserAvatar)) {
+            BitmapKit.bindImage(mItemChatMySendBusinessCardBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        } else {
+            mItemChatMySendBusinessCardBinding.ivChatMyAvatar.setImageResource(R.mipmap.default_avatar);
+        }
 
         if (mIsRead) {
             mItemChatMySendBusinessCardBinding.tvChatMsgReadStatus.setText("已读");

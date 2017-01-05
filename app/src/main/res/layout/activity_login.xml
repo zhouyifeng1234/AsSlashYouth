@@ -82,6 +82,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="17dp"
+                android:onClick="@{activityLoginModel.chatToSlashHelper}"
                 android:text="遇到问题?"
                 android:textColor="#ffffff"
                 android:textSize="15sp"/>
@@ -136,6 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:clickable="true"
                     android:onClick="@{activityLoginModel.wechatLogin}"
                     android:orientation="horizontal">
 
@@ -162,6 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
+                    android:clickable="true"
                     android:onClick="@{activityLoginModel.qqLogin}"
                     android:orientation="horizontal">
                     <ImageView

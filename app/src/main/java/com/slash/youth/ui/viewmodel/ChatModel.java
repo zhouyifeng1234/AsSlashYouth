@@ -102,9 +102,10 @@ public class ChatModel extends BaseObservable {
     private LinearLayout mLlChatContent;//聊天内容容器
     private ScrollView mSvChatContent;
 
-    private String targetId = "10002";
-    private String targetName = "Jim";
-    private String targetAvatar = "group1/M00/00/02/eBtfY1g68kiAfiCNAABuHg0Rbxs.0a9ae1";
+    private String targetId;
+    private String targetName;
+    private String targetAvatar;
+    private int targetAvatarResource;
 
     ArrayList<SendMessageBean> listSendMsg = new ArrayList<SendMessageBean>();
 
@@ -121,15 +122,21 @@ public class ChatModel extends BaseObservable {
         hideSoftInputMethod();//隐藏软件盘的方法要尽早调用，一开始就让输入框失去焦点，这样，软键盘一开始就不会弹出来
         targetId = mActivity.getIntent().getStringExtra("targetId");
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
-        displayLoadLayer();
-        getTargetUserInfo();
-        getFriendRelationShipStatus();
-        getChangeContactStatus();
-
-        //为了正确显示对方的头像等信息，把初始化方法放在加载基本信息完毕之后执行
-//        initData();
-//        initView();
-//        initListener();
+        //判断聊天目标是否是斜杠小助手
+        if (!"1000".equals(targetId)) {
+            displayLoadLayer();
+            getTargetUserInfo();
+            getFriendRelationShipStatus();
+            getChangeContactStatus();
+            //为了正确显示对方的头像等信息，把初始化方法放在加载基本信息完毕之后执行
+//            initData();
+//            initView();
+//            initListener();
+        } else {
+            initData();
+            initView();
+            initListener();
+        }
     }
 
     private void initData() {
@@ -137,23 +144,31 @@ public class ChatModel extends BaseObservable {
         MsgManager.setHistoryListener(new ChatHistoryListener());
         MsgManager.loadHistoryChatRecord();
 
-        String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
-        if (!TextUtils.isEmpty(chatCmdName)) {
-            if (chatCmdName.equals("sendBusinessCard")) {
-                sendBusinessCard();
-            } else if (chatCmdName.equals("sendShareTask")) {
-                sendShareTask();
+        if ("1000".equals(targetId)) {//如果是斜杠小助手
+            targetName = "斜杠小助手";
+            MsgManager.targetName = targetName;
+            setOtherUsername(targetName);
+            targetAvatarResource = R.mipmap.slash_helper_square;
+            MsgManager.targetAvatarResource = targetAvatarResource;
+        } else {
+            String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
+            if (!TextUtils.isEmpty(chatCmdName)) {
+                if (chatCmdName.equals("sendBusinessCard")) {
+                    sendBusinessCard();
+                } else if (chatCmdName.equals("sendShareTask")) {
+                    sendShareTask();
+                }
             }
-        }
-        Bundle taskInfoBundle = mActivity.getIntent().getBundleExtra("taskInfo");
-        if (taskInfoBundle != null) {//如果通过“聊一聊”进入聊天界面，会带上任务，并发送给对方
-            ChatTaskInfoBean chatTaskInfoBean = new ChatTaskInfoBean();
-            chatTaskInfoBean.tid = taskInfoBundle.getLong("tid");
-            chatTaskInfoBean.type = taskInfoBundle.getInt("type");
-            chatTaskInfoBean.title = taskInfoBundle.getString("title");
-            sendRelatedTaskInfo(chatTaskInfoBean);
-        } else {//如果进入界面时没有带上任务，就检测本地是否有对方发送过来的相关任务
-            displayRelatedTask();
+            Bundle taskInfoBundle = mActivity.getIntent().getBundleExtra("taskInfo");
+            if (taskInfoBundle != null) {//如果通过“聊一聊”进入聊天界面，会带上任务，并发送给对方
+                ChatTaskInfoBean chatTaskInfoBean = new ChatTaskInfoBean();
+                chatTaskInfoBean.tid = taskInfoBundle.getLong("tid");
+                chatTaskInfoBean.type = taskInfoBundle.getInt("type");
+                chatTaskInfoBean.title = taskInfoBundle.getString("title");
+                sendRelatedTaskInfo(chatTaskInfoBean);
+            } else {//如果进入界面时没有带上任务，就检测本地是否有对方发送过来的相关任务
+                displayRelatedTask();
+            }
         }
     }
 
@@ -178,6 +193,13 @@ public class ChatModel extends BaseObservable {
 //        mLlChatContent.addView(createChangeContactWayInfoView());//因为背景切图还没有，所以暂未实现
 //        mLlChatContent.addView(createOtherSendVoiceView());
 //        mLlChatContent.addView(createMySendVoiceView());
+
+        if ("1000".equals(targetId)) {
+            mActivityChatBinding.tvOtherCompanyPosition.setVisibility(View.GONE);
+            mActivityChatBinding.tvChatFriendName.setTextSize(16);
+            mActivityChatBinding.flTextVoiceSwitchBtn.setVisibility(View.GONE);
+            mActivityChatBinding.llChatInfoCmd.setVisibility(View.GONE);
+        }
 
         //自动滚动到底部
         mSvChatContent = mActivityChatBinding.svChatContent;
@@ -210,6 +232,8 @@ public class ChatModel extends BaseObservable {
             public void execute(UserInfoBean dataBean) {
                 targetName = dataBean.data.uinfo.name;
                 targetAvatar = dataBean.data.uinfo.avatar;
+                MsgManager.targetName = targetName;
+                MsgManager.targetAvatar = targetAvatar;
                 setOtherUsername(targetName);
                 setOtherCompanyAndPosition(dataBean.data.uinfo.company + " " + dataBean.data.uinfo.position);
 
@@ -819,6 +843,8 @@ public class ChatModel extends BaseObservable {
         listSendMsg.add(sendMessageBean);
 
         mLlChatContent.addView(myPicView);
+
+        setUploadPicLayerVisibility(View.GONE);
     }
 
 
@@ -1821,7 +1847,7 @@ public class ChatModel extends BaseObservable {
     private String relatedTaskTitle = "相关任务:";
     private String otherUsername;
     private String otherCompanyAndPosition;
-    private int loadLayerVisibility;
+    private int loadLayerVisibility = View.GONE;
 
     @Bindable
     public int getLoadLayerVisibility() {

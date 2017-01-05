@@ -88,6 +88,7 @@ public class SlashApplication extends Application {
 
         UMShareAPI.get(this);
         Config.REDIRECT_URL = "www.slashyouth.com";
+        Config.dialogSwitch = false;//不使用默认dialog
 
         context = getApplicationContext();
         mainThreadId = android.os.Process.myTid();
@@ -127,8 +128,11 @@ public class SlashApplication extends Application {
         //定位一次，获取当前所在地的经纬度
         DistanceUtils distanceUtils = new DistanceUtils();
         distanceUtils.getLatAndLng(this);
-        currentLatitude = distanceUtils.currentLatitude;
-        currentLongitude = distanceUtils.currentLongitude;
+//        currentLatitude = distanceUtils.currentLatitude;
+//        currentLongitude = distanceUtils.currentLongitude;
+
+//        LogKit.v("currentLatitude:" + currentLatitude);
+//        LogKit.v("currentLongitude:" + currentLongitude);
 
     }
 
@@ -168,8 +172,16 @@ public class SlashApplication extends Application {
     }
 
 
+    public static void setCurrentLongitude(double currentLongitude) {
+        SlashApplication.currentLongitude = currentLongitude;
+    }
+
     public static double getCurrentLatitude() {
         return currentLatitude;
+    }
+
+    public static void setCurrentLatitude(double currentLatitude) {
+        SlashApplication.currentLatitude = currentLatitude;
     }
 
     public static double getCurrentLongitude() {

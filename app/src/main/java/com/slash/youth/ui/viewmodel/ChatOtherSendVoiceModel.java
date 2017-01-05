@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatOtherSendVoiceBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -61,7 +62,11 @@ public class ChatOtherSendVoiceModel extends BaseObservable {
 //        setVoiceDuration(mDuration + " ̋   ");
         setVoiceDuration(mDuration + "\"");
 
-        BitmapKit.bindImage(mItemChatOtherSendVoiceBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        if (!"1000".equals(MsgManager.targetId)) {
+            BitmapKit.bindImage(mItemChatOtherSendVoiceBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        } else {
+            mItemChatOtherSendVoiceBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);
+        }
     }
 
     boolean isClickStartVoice = true;

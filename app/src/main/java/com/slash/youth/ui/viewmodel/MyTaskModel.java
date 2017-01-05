@@ -146,6 +146,10 @@ public class MyTaskModel extends BaseObservable {
                                 break;
                             default:
                                 //其它情况应该跳转到需求详情页
+                                //这里有疑问，是跳到需求详情页还是四个圈的页面，暂时先写成四个圈的页面
+                                Intent intentMyPublishDemandActivity2 = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
+                                intentMyPublishDemandActivity2.putExtras(taskInfo);
+                                mActivity.startActivity(intentMyPublishDemandActivity2);
                                 break;
                         }
                     } else if (myTaskBean.type == 2) {//我发的服务
@@ -168,6 +172,10 @@ public class MyTaskModel extends BaseObservable {
                                 break;
                             default:
                                 //其它情况应该跳转到需求详情页
+                                //这里有疑问，是跳到需求详情页还是四个圈的页面，暂时先写成四个圈的页面
+                                Intent intentMyBidDemandActivity2 = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
+                                intentMyBidDemandActivity2.putExtras(taskInfo);
+                                mActivity.startActivity(intentMyBidDemandActivity2);
                                 break;
                         }
                     } else if (myTaskBean.type == 2) {//我抢的服务(我预约的服务)
@@ -275,7 +283,7 @@ public class MyTaskModel extends BaseObservable {
                     }
                 }
 
-                ToastUtils.shortToast(listMyTask.size() + "");
+//                ToastUtils.shortToast(listMyTask.size() + "");
             }
 
             @Override
@@ -332,7 +340,7 @@ public class MyTaskModel extends BaseObservable {
                     }
                 }
 
-                ToastUtils.shortToast(listMyTask.size() + "");
+//                ToastUtils.shortToast(listMyTask.size() + "");
             }
 
             @Override
@@ -388,7 +396,7 @@ public class MyTaskModel extends BaseObservable {
                     }
                 }
 
-                ToastUtils.shortToast(listMyTask.size() + "");
+//                ToastUtils.shortToast(listMyTask.size() + "");
 
             }
 
@@ -448,7 +456,7 @@ public class MyTaskModel extends BaseObservable {
                     }
                 }
 
-                ToastUtils.shortToast(listMyTask.size() + "");
+//                ToastUtils.shortToast(listMyTask.size() + "");
             }
 
             @Override

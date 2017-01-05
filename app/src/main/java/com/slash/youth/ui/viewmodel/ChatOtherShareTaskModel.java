@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 
 import com.slash.youth.databinding.ItemChatOtherShareTaskBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 
@@ -29,7 +30,11 @@ public class ChatOtherShareTaskModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemChatOtherShareTaskBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        if (!"1000".equals(MsgManager.targetId)) {
+            BitmapKit.bindImage(mItemChatOtherShareTaskBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        } else {
+            mItemChatOtherShareTaskBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);
+        }
     }
 
 }

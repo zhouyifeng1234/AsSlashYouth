@@ -3,6 +3,7 @@ package com.slash.youth.engine;
 import com.slash.youth.http.protocol.AppointmentServiceProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
+import com.slash.youth.http.protocol.DetailRecommendServiceProtocol;
 import com.slash.youth.http.protocol.GetServiceFlowLogProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.RecommendDemandUserProtocol;
@@ -259,6 +260,18 @@ public class ServiceEngine {
     public static void collectService(BaseProtocol.IResultExecutor onCollectServiceFinished, String serviceId) {
         CollectTaskProtocol collectTaskProtocol = new CollectTaskProtocol(serviceId, "2");
         collectTaskProtocol.getDataFromServer(onCollectServiceFinished);
+    }
+
+    /**
+     * 二、[推荐]-服务详情中更多服务列表
+     *
+     * @param onGetRecommendDataFinished
+     * @param id                         服务明细ID
+     * @param limit                      一次拉取限制
+     */
+    public static void getDetailRecommendService(BaseProtocol.IResultExecutor onGetRecommendDataFinished, String id, String limit) {
+        DetailRecommendServiceProtocol detailRecommendServiceProtocol = new DetailRecommendServiceProtocol(id, limit);
+        detailRecommendServiceProtocol.getDataFromServer(onGetRecommendDataFinished);
     }
 
 }

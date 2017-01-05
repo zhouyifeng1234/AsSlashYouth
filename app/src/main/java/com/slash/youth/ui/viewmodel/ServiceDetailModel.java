@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +17,26 @@ import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.AppointmentServiceResultBean;
 import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.DetailRecommendServiceList;
 import com.slash.youth.domain.ServiceDetailBean;
-import com.slash.youth.domain.SimilarServiceRecommendBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +50,7 @@ public class ServiceDetailModel extends BaseObservable {
     Activity mActivity;
     private LinearLayout mLlServiceRecommend;
     long serviceId;
+    boolean isFromDetail;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -53,13 +61,11 @@ public class ServiceDetailModel extends BaseObservable {
         initView();
     }
 
-    ArrayList<SimilarServiceRecommendBean> listRecommendService = new ArrayList<SimilarServiceRecommendBean>();
-
     private void initData() {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
+        isFromDetail = mActivity.getIntent().getBooleanExtra("isFromDetail", false);//用来判断是否是从详情页中的推荐跳转过来的
         LogKit.v("serviceId:" + serviceId);
         getServiceDetailData();
-        getRecommendServiceData();
     }
 
     private void initView() {
@@ -70,10 +76,6 @@ public class ServiceDetailModel extends BaseObservable {
         mActivity.finish();
     }
 
-    //分享服务（顶部需求者视角看到的分享按钮）
-    public void shareService(View v) {
-
-    }
 
     //修改服务
     public void updateService(View v) {
@@ -90,7 +92,17 @@ public class ServiceDetailModel extends BaseObservable {
 
     //下架服务
     public void offShelfService(View v) {
+        MyTaskEngine.upAndDownTask(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                setOffShelfLogoVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("下架服务失败:" + result);
+            }
+        }, serviceId + "", "2", "0");
     }
 
     //聊一聊
@@ -100,17 +112,35 @@ public class ServiceDetailModel extends BaseObservable {
 
     //收藏服务
     public void collectService(View v) {
-        ServiceEngine.collectService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                ToastUtils.shortToast("收藏成功");
-            }
+        if (isCollectionService) {//已经收藏过了，点击取消收藏
+            MyTaskEngine.cancelCollection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("取消收藏成功");
+                    isCollectionService = false;
+                    setNoCollectionState();
+                }
 
-            @Override
-            public void executeResultError(String result) {
-                ToastUtils.shortToast("收藏失败:" + result);
-            }
-        }, serviceId + "");
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("取消收藏失败:" + result);
+                }
+            }, "2", serviceId + "");
+        } else {//还未收藏，点击收藏
+            ServiceEngine.collectService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("收藏成功");
+                    isCollectionService = true;
+                    setCollectionState();
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("收藏失败:" + result);
+                }
+            }, serviceId + "");
+        }
     }
 
     //立即抢单（抢服务）
@@ -131,10 +161,96 @@ public class ServiceDetailModel extends BaseObservable {
 
     }
 
+    //分享服务（顶部需求者视角看到的分享按钮）
+    public void shareService(View v) {
+        openShareLayer();
+    }
+
     //底部服务者视角看到的分享按钮
     public void shareServiceBottom(View v) {
-
+        openShareLayer();
     }
+
+    private void openShareLayer() {
+        setShareLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消分销按钮
+     *
+     * @param v
+     */
+    public void cancelShare(View v) {
+        setShareLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 分享给微信好友
+     *
+     * @param v
+     */
+    public void shareToWeChat(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到微信朋友圈
+     *
+     * @param v
+     */
+    public void shareToWeChatCircle(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到QQ
+     *
+     * @param v
+     */
+    public void shareToQQ(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        } else {
+            ToastUtils.shortToast("请先安装qq客户端");
+        }
+    }
+
+    /**
+     * 分享到QQ空间
+     *
+     * @param v
+     */
+    public void shareToQZone(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            LogKit.v("platform" + platform);
+            ToastUtils.shortToast(platform + " 分享成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.shortToast(platform + " 分享失败");
+            if (t != null) {
+                LogKit.v("throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.shortToast(platform + " 分享取消了");
+        }
+    };
 
     public void openServiceDetailLocation(View v) {
 
@@ -254,7 +370,6 @@ public class ServiceDetailModel extends BaseObservable {
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
 
-                    getServiceUserInfo(service.uid);//获取服务发布者的个人信息
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角
                         setTopServiceBtnVisibility(View.VISIBLE);
@@ -271,7 +386,7 @@ public class ServiceDetailModel extends BaseObservable {
                         setBottomBtnDemandVisibility(View.VISIBLE);
                     }
                     setTitle(service.title);
-                    setQuote("¥" + service.quote + "元");
+                    setQuote("¥" + (int) service.quote + "元");
                     if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_USER_DEFINED) {//自定义时间
                         //时间:9月18日 8:30-9月19日 8:30
                         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
@@ -320,9 +435,11 @@ public class ServiceDetailModel extends BaseObservable {
                     setServiceDesc(service.desc);
                     //服务相关图片
                     String[] picFileIds = service.pic.split(",");
-                    if (picFileIds.length <= 0) {//这种情况应该不存在，因为至少传一张图片
+                    //如果service.pic为""空字符喘，picFileIds的length也是1
+                    if (picFileIds.length <= 0 || TextUtils.isEmpty(service.pic)) {//这种情况应该不存在，因为至少传一张图片
                         mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.GONE);
                         mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.GONE);
+                        mActivityServiceDetailBinding.vPicUnderline.setVisibility(View.GONE);
                     } else if (picFileIds.length > 0 && picFileIds.length <= 3) {
                         mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.VISIBLE);
                         mActivityServiceDetailBinding.llServiceDetailPicline2.setVisibility(View.GONE);
@@ -352,6 +469,8 @@ public class ServiceDetailModel extends BaseObservable {
                     }
                     //上架、下架显示 用isonline字段判断
 //                    if(service.isonline)
+
+                    getServiceUserInfo(service.uid);//获取服务发布者的个人信息
                 }
 
                 @Override
@@ -367,7 +486,7 @@ public class ServiceDetailModel extends BaseObservable {
      *
      * @param uid
      */
-    private void getServiceUserInfo(long uid) {
+    private void getServiceUserInfo(final long uid) {
         UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
             @Override
             public void execute(UserInfoBean dataBean) {
@@ -388,6 +507,10 @@ public class ServiceDetailModel extends BaseObservable {
                     userPlace = uinfo.province + uinfo.city;
                 }
                 setServiceUserPlace(userPlace);
+
+                if (uid != LoginManager.currentLoginUserId) {
+                    getRecommendServiceData(uid);//获取相似服务推荐
+                }
             }
 
             @Override
@@ -397,19 +520,76 @@ public class ServiceDetailModel extends BaseObservable {
         }, uid + "", "0");
     }
 
+    ArrayList<DetailRecommendServiceList.RecommendServiceInfo> listRecommendService;
+
     /**
      * 从接口获取相似服务推荐的数据，当需求者视角看服务的时候，需要显示推荐服务
      */
-    public void getRecommendServiceData() {
-        //模拟数据
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
-        listRecommendService.add(new SimilarServiceRecommendBean());
+    public void getRecommendServiceData(final long uid) {
+        ServiceEngine.getDetailRecommendService(new BaseProtocol.IResultExecutor<DetailRecommendServiceList>() {
+            @Override
+            public void execute(DetailRecommendServiceList dataBean) {
+                listRecommendService = dataBean.data.list;
+                setRecommendServiceItemData();
+                if (uid != LoginManager.currentLoginUserId) {
+                    getCollectionStatus();
+                }
+            }
 
-        //实际应该网络加载数据完毕后的异步回调中调用
-        setRecommendServiceItemData();
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取推荐服务列表失败");
+            }
+        }, serviceId + "", "5");
+    }
+
+    boolean isCollectionService;
+
+    /**
+     * 获取当前登录者收藏服务的状态
+     */
+    private void getCollectionStatus() {
+        MyTaskEngine.getCollectionStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//1表示收藏过
+                    setCollectionState();
+                    isCollectionService = true;
+                } else {// 0表示未收藏过
+                    setNoCollectionState();
+                    isCollectionService = false;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取收藏服务状态失败:" + result);
+            }
+        }, "2", serviceId + "");
+    }
+
+    /**
+     * 设置收藏状态
+     */
+    private void setCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.yi_heart);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityServiceDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityServiceDetailBinding.tvCollection.setText("取消收藏");
+    }
+
+    /**
+     * 设置未收藏状态
+     */
+    private void setNoCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.collection_icon);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityServiceDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityServiceDetailBinding.tvCollection.setText("收藏");
     }
 
     /**
@@ -417,11 +597,23 @@ public class ServiceDetailModel extends BaseObservable {
      */
     public void setRecommendServiceItemData() {
         for (int i = 0; i < listRecommendService.size(); i++) {
-            SimilarServiceRecommendBean similarServiceRecommendBean = listRecommendService.get(i);
+            final DetailRecommendServiceList.RecommendServiceInfo recommendServiceInfo = listRecommendService.get(i);
             ItemServiceDetailRecommendServiceBinding itemServiceDetailRecommendServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_service_detail_recommend_service, null, false);
-            ItemServiceDetailRecommendServiceModel itemServiceDetailRecommendServiceModel = new ItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceBinding, mActivity, similarServiceRecommendBean);
+            ItemServiceDetailRecommendServiceModel itemServiceDetailRecommendServiceModel = new ItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceBinding, mActivity, recommendServiceInfo);
             itemServiceDetailRecommendServiceBinding.setItemServiceDetailRecommendServiceModel(itemServiceDetailRecommendServiceModel);
-            mLlServiceRecommend.addView(itemServiceDetailRecommendServiceBinding.getRoot());
+            View itemView = itemServiceDetailRecommendServiceBinding.getRoot();
+            if (!isFromDetail) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", recommendServiceInfo.id);
+                        intentServiceDetailActivity.putExtra("isFromDetail", true);
+                        mActivity.startActivity(intentServiceDetailActivity);
+                    }
+                });
+            }
+            mLlServiceRecommend.addView(itemView);
         }
     }
 
@@ -447,6 +639,18 @@ public class ServiceDetailModel extends BaseObservable {
     private String fanscount;
     private String taskcount;
     private String serviceUserPlace;
+
+    private int shareLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getShareLayerVisibility() {
+        return shareLayerVisibility;
+    }
+
+    public void setShareLayerVisibility(int shareLayerVisibility) {
+        this.shareLayerVisibility = shareLayerVisibility;
+        notifyPropertyChanged(BR.shareLayerVisibility);
+    }
 
     @Bindable
     public int getTopShareBtnVisibility() {

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMyTextBinding;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
@@ -45,7 +46,11 @@ public class ChatMyTextModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemChatMyTextBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        if (!TextUtils.isEmpty(LoginManager.currentLoginUserAvatar)) {
+            BitmapKit.bindImage(mItemChatMyTextBinding.ivChatMyAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
+        } else {
+            mItemChatMyTextBinding.ivChatMyAvatar.setImageResource(R.mipmap.default_avatar);
+        }
 
         if (mIsRead) {
             mItemChatMyTextBinding.tvChatMsgReadStatus.setText("已读");

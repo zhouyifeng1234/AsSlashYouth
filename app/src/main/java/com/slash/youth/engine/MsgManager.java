@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,9 @@ public class MsgManager {
                 //token如果无效，重新调用获取rongToken接口
                 getRongTokenTimes++;
                 if (getRongTokenTimes > 3) {//如果超过三次还失败，就提示“链接融云失败”
+                    Looper.prepare();
                     ToastUtils.shortToast("链接融云失败");
+                    Looper.loop();
                     return;
                 }
                 getRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
@@ -441,6 +444,9 @@ public class MsgManager {
     //自定义的各种聊天消息的监听器
 
     public static String targetId = "-1";
+    public static String targetName;
+    public static String targetAvatar;//聊天目标的头像url（fileId）
+    public static int targetAvatarResource = -1;//如果聊天目标是斜杠小助手，头像用本地的资源文件
 
     public interface ChatTextListener {
         public void displayText(Message message, int left);

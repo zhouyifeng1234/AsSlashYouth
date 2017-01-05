@@ -4,23 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
+import com.slash.youth.databinding.ItemDetailRecommendDemandBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
+import com.slash.youth.domain.DetailRecommendDemandList;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
@@ -29,6 +37,10 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +56,8 @@ public class DemandDetailModel extends BaseObservable {
     Activity mActivity;
     long demandId;
     SlashDateTimePicker sdtpBidDemandStarttime;
+    private LinearLayout mLlDemandRecommend;
+    boolean isFromDetail;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -55,11 +69,13 @@ public class DemandDetailModel extends BaseObservable {
 
     private void initData() {
         demandId = mActivity.getIntent().getLongExtra("demandId", -1);
+        isFromDetail = mActivity.getIntent().getBooleanExtra("isFromDetail", false);//用来判断是否是从详情页中的推荐跳转过来的
         getDemandDetailDataFromServer();
     }
 
 
     private void initView() {
+        mLlDemandRecommend = mActivityDemandDetailBinding.llDemandRecommend;
         sdtpBidDemandStarttime = mActivityDemandDetailBinding.sdtpBidDemandChooseDatetime;
         mActivityDemandDetailBinding.svDemandDetailContent.setVerticalScrollBarEnabled(false);
     }
@@ -279,21 +295,35 @@ public class DemandDetailModel extends BaseObservable {
                     setBottomBtnDemandVisibility(View.GONE);
                 }
                 setDemandTitle(demand.title);
-                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
-                String starttimeStr = sdf.format(demand.starttime);
-                setDemandStartTime("开始:" + starttimeStr);
+                String starttimeStr = "";
+                if (demand.starttime != 0) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
+                    starttimeStr = sdf.format(demand.starttime);
+                    setDemandStartTime("开始:" + starttimeStr);
+                } else {
+                    setDemandStartTime("随时");
+                }
                 //回填抢单浮层中的开始时间
                 mActivityDemandDetailBinding.tvBidDemandStarttime.setText(starttimeStr);
                 bidDemandStarttime = demand.starttime;
-                setQuote("¥" + demand.quote + "元");
-                //填写抢单浮层中的报价
-                mActivityDemandDetailBinding.etBidDemandQuote.setText(demand.quote + "");
+                if (demand.quote == 0) {
+                    setQuote("服务方报价");
+                    //填写抢单浮层中的报价
+                    mActivityDemandDetailBinding.etBidDemandQuote.setText("");
+                } else {
+                    setQuote("¥" + (int) demand.quote + "元");
+                    //填写抢单浮层中的报价
+                    mActivityDemandDetailBinding.etBidDemandQuote.setText((int) demand.quote + "");
+                }
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
                     setDemandPlace("约定地点" + demand.place);
                 } else if (demand.pattern == 0) {//线上
-                    setOfflineItemVisibility(View.GONE);
+//                    setOfflineItemVisibility(View.GONE);
+                    setOfflineItemVisibility(View.VISIBLE);
+                    mActivityDemandDetailBinding.tvOnlineOfflineLabel.setText("线上");
+                    setDemandDetailLocationVisibility(View.GONE);
                 }
                 if (demand.instalment == 0) {//不开启
                     setInstalmentItemVisibility(View.GONE);
@@ -320,16 +350,18 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:MM月dd日 hh:mm");//发布时间:9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm");//发布时间:9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
                 setDemandDesc(demand.desc);
                 //详情图片
                 String[] picFileIds = demand.pic.split(",");
-                if (picFileIds.length <= 0) {//这种情况应该不存在，因为至少传一张图片
+                //如果demand.pic为""空字符喘，picFileIds的length也是1
+                if (picFileIds.length <= 0 || TextUtils.isEmpty(demand.pic)) {//这种情况应该不存在，因为至少传一张图片
                     mActivityDemandDetailBinding.llDemandDetailPicLine1.setVisibility(View.GONE);
                     mActivityDemandDetailBinding.llDemandDetailPicLine2.setVisibility(View.GONE);
+                    mActivityDemandDetailBinding.vPicUnderline.setVisibility(View.GONE);
                 } else if (picFileIds.length > 0 && picFileIds.length <= 3) {
                     mActivityDemandDetailBinding.llDemandDetailPicLine1.setVisibility(View.VISIBLE);
                     mActivityDemandDetailBinding.llDemandDetailPicLine2.setVisibility(View.GONE);
@@ -379,7 +411,7 @@ public class DemandDetailModel extends BaseObservable {
      *
      * @param uid
      */
-    private void getDemandUserInfo(long uid) {
+    private void getDemandUserInfo(final long uid) {
         UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
             @Override
             public void execute(UserInfoBean dataBean) {
@@ -400,6 +432,10 @@ public class DemandDetailModel extends BaseObservable {
                     userPlace = uinfo.province + uinfo.city;
                 }
                 setDemandUserPlace(userPlace);
+
+                if (uid != LoginManager.currentLoginUserId) {
+                    getRecommendDemandData(uid);//获取相似需求推荐
+                }
             }
 
             @Override
@@ -409,6 +445,132 @@ public class DemandDetailModel extends BaseObservable {
         }, uid + "", "0");
     }
 
+    ArrayList<DetailRecommendDemandList.RecommendDemandInfo> listRecommendDemand;
+
+    /**
+     * 从接口获取相似需求推荐的数据，当服务者视角看需求的时候，需要显示推荐需求
+     */
+    private void getRecommendDemandData(final long uid) {
+        DemandEngine.getDetailRecommendDemand(new BaseProtocol.IResultExecutor<DetailRecommendDemandList>() {
+            @Override
+            public void execute(DetailRecommendDemandList dataBean) {
+                listRecommendDemand = dataBean.data.list;
+                setRecommendDemandItemData();
+                if (uid != LoginManager.currentLoginUserId) {
+                    getBidDemandStatus(uid);
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取需求服务列表失败");
+            }
+        }, demandId + "", "5");
+    }
+
+    private void setRecommendDemandItemData() {
+        for (int i = 0; i < listRecommendDemand.size(); i++) {
+            final DetailRecommendDemandList.RecommendDemandInfo recommendDemandInfo = listRecommendDemand.get(i);
+            ItemDetailRecommendDemandBinding itemDetailRecommendDemandBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_detail_recommend_demand, null, false);
+            ItemDetailRecommendDemandModel itemDetailRecommendDemandModel = new ItemDetailRecommendDemandModel(itemDetailRecommendDemandBinding, mActivity, recommendDemandInfo);
+            itemDetailRecommendDemandBinding.setItemDetailRecommendDemandModel(itemDetailRecommendDemandModel);
+            View itemView = itemDetailRecommendDemandBinding.getRoot();
+            if (!isFromDetail) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", recommendDemandInfo.id);
+                        intentDemandDetailActivity.putExtra("isFromDetail", true);
+                        mActivity.startActivity(intentDemandDetailActivity);
+                    }
+                });
+            }
+            mLlDemandRecommend.addView(itemView);
+        }
+    }
+
+    boolean isBidDemand = false;//表示是否抢单过某需求
+
+    /**
+     * 获取当前登录用户是否抢过这个需求，服务者视角才需要
+     */
+    private void getBidDemandStatus(final long uid) {
+        MyTaskEngine.getBidTaskStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//1预约过某服务或者抢单过某需求
+                    setBidDemandSuccessStatus();
+                } else {//0未预约过某服务或者未抢单过某需求
+                    isBidDemand = false;
+                }
+                if (uid != LoginManager.currentLoginUserId) {
+                    getCollectionStatus();
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取抢单状态失败:" + result);
+            }
+        }, "1", demandId + "");
+    }
+
+    private void setBidDemandSuccessStatus() {
+        mActivityDemandDetailBinding.tvBidDemand.setText("抢单成功");
+        mActivityDemandDetailBinding.tvBidDemand.setBackgroundColor(0xffcccccc);
+        mActivityDemandDetailBinding.tvBidDemand.setClickable(false);
+        isBidDemand = true;
+    }
+
+    boolean isCollectionDemand;
+
+    /**
+     * 获取当前登录者收藏需求的状态
+     */
+    private void getCollectionStatus() {
+        MyTaskEngine.getCollectionStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//1表示收藏过
+                    setCollectionState();
+                    isCollectionDemand = true;
+                } else {// 0表示未收藏过
+                    setNoCollectionState();
+                    isCollectionDemand = false;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取收藏需求状态失败:" + result);
+            }
+        }, "1", demandId + "");
+    }
+
+    /**
+     * 设置收藏状态
+     */
+    private void setCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.yi_heart);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityDemandDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityDemandDetailBinding.tvCollection.setText("取消收藏");
+    }
+
+    /**
+     * 设置未收藏状态
+     */
+    private void setNoCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.collection_icon);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityDemandDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityDemandDetailBinding.tvCollection.setText("收藏");
+    }
 
     public void goBack(View v) {
         mActivity.finish();
@@ -416,13 +578,76 @@ public class DemandDetailModel extends BaseObservable {
 
     //进行分享需求操作
     public void shareDemand(View v) {
-        ToastUtils.shortToast("Share Demand");
+//        ToastUtils.shortToast("Share Demand");
+        openShareLayer();
     }
 
     //底部分享按钮的操作，需求者视角的时候从才会显示
     public void shareDemandBottom(View v) {
-        ToastUtils.shortToast("Share Demand Bottom");
+//        ToastUtils.shortToast("Share Demand Bottom");\
+        openShareLayer();
     }
+
+    private void openShareLayer() {
+        setShareLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 取消分销按钮
+     *
+     * @param v
+     */
+    public void cancelShare(View v) {
+        setShareLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 分享给微信好友
+     *
+     * @param v
+     */
+    public void shareToWeChat(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到微信朋友圈
+     *
+     * @param v
+     */
+    public void shareToWeChatCircle(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        }
+    }
+
+    /**
+     * 分享到QQ
+     *
+     * @param v
+     */
+    public void shareToQQ(View v) {
+        UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
+        if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        } else {
+            ToastUtils.shortToast("请先安装qq客户端");
+        }
+    }
+
+    /**
+     * 分享到QQ空间
+     *
+     * @param v
+     */
+    public void shareToQZone(View v) {
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+    }
+
 
     //修改需求内容，会跳转到发布需求的页面，并在发布需求页面自动填充已有的内容
     public void updateDemand(View v) {
@@ -439,7 +664,19 @@ public class DemandDetailModel extends BaseObservable {
 
     //下架需求操作
     public void offShelfDemand(View v) {
-        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+//        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+//            @Override
+//            public void execute(CommonResultBean dataBean) {
+//                setOffShelfLogoVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//                ToastUtils.shortToast("下架需求失败:" + result);
+//            }
+//        }, demandId + "");
+
+        MyTaskEngine.upAndDownTask(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
                 setOffShelfLogoVisibility(View.VISIBLE);
@@ -449,9 +686,7 @@ public class DemandDetailModel extends BaseObservable {
             public void executeResultError(String result) {
                 ToastUtils.shortToast("下架需求失败:" + result);
             }
-        }, demandId + "");
-
-
+        }, demandId + "", "1", "0");
     }
 
     //跳转到个人信息界面
@@ -466,19 +701,36 @@ public class DemandDetailModel extends BaseObservable {
 
     //收藏需求
     public void collectDemand(View v) {
-        DemandEngine.collectDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                ToastUtils.shortToast("收藏成功");
-            }
+        if (isCollectionDemand) {//已经收藏过了，点击取消收藏
+            MyTaskEngine.cancelCollection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("取消收藏成功");
+                    isCollectionDemand = false;
+                    setNoCollectionState();
+                }
 
-            @Override
-            public void executeResultError(String result) {
-                ToastUtils.shortToast("收藏失败:" + result);
-            }
-        }, demandId + "");
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("取消收藏失败:" + result);
+                }
+            }, "1", demandId + "");
+        } else {//还未收藏，点击收藏
+            DemandEngine.collectDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("收藏成功");
+                    isCollectionDemand = true;
+                    setCollectionState();
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("收藏失败:" + result);
+                }
+            }, demandId + "");
+        }
     }
-
 
     //定位需求详情中的地址
     public void openDemandDetailLocation(View v) {
@@ -493,7 +745,9 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void openBidDemandLayer(View v) {
-        setBidInfoVisibility(View.VISIBLE);
+        if (!isBidDemand) {
+            setBidInfoVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -522,6 +776,27 @@ public class DemandDetailModel extends BaseObservable {
     public void cancelChooseTime(View v) {
         setChooseDateTimeLayerVisibility(View.GONE);
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            LogKit.v("platform" + platform);
+            ToastUtils.shortToast(platform + " 分享成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.shortToast(platform + " 分享失败");
+            if (t != null) {
+                LogKit.v("throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.shortToast(platform + " 分享取消了");
+        }
+    };
 
     private int mBidCurrentChooseYear;
     private int mBidCurrentChooseMonth;
@@ -762,6 +1037,7 @@ public class DemandDetailModel extends BaseObservable {
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("抢单成功");
                 setBidInfoVisibility(View.GONE);
+                setBidDemandSuccessStatus();
             }
 
             @Override
@@ -866,6 +1142,29 @@ public class DemandDetailModel extends BaseObservable {
     private int instalmentRatioVisibility;
 
     private int addInstalmentIconVisibility;
+    private int shareLayerVisibility = View.GONE;
+
+    private int demandDetailLocationVisibility;
+
+    @Bindable
+    public int getDemandDetailLocationVisibility() {
+        return demandDetailLocationVisibility;
+    }
+
+    public void setDemandDetailLocationVisibility(int demandDetailLocationVisibility) {
+        this.demandDetailLocationVisibility = demandDetailLocationVisibility;
+        notifyPropertyChanged(BR.demandDetailLocationVisibility);
+    }
+
+    @Bindable
+    public int getShareLayerVisibility() {
+        return shareLayerVisibility;
+    }
+
+    public void setShareLayerVisibility(int shareLayerVisibility) {
+        this.shareLayerVisibility = shareLayerVisibility;
+        notifyPropertyChanged(BR.shareLayerVisibility);
+    }
 
     @Bindable
     public int getAddInstalmentIconVisibility() {

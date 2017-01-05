@@ -289,7 +289,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="大额资金建议开始"
+                    android:text="大额资金建议开启"
                     android:textColor="#CCCCCC"
                     android:textSize="13sp"/>
 
@@ -428,13 +428,15 @@
                     android:textColor="#333333"
                     android:textSize="14sp"/>
 
+                <View android:layout_width="0dp" android:layout_height="0dp"
+                      android:layout_weight="1"/>
+
                 <EditText
                     android:id="@+id/et_publish_demand_address"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="11dp"
-                    android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:editable="false"
                     android:hint="输入见面地点或点击图标选择"

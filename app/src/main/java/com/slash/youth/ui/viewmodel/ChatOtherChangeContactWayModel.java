@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatOtherChangeContactWayBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 
@@ -46,7 +47,11 @@ public class ChatOtherChangeContactWayModel extends BaseObservable {
             mItemChatOtherChangeContactWayBinding.tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_add_friend_bg);
         }
 
-        BitmapKit.bindImage(mItemChatOtherChangeContactWayBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        if (!"1000".equals(MsgManager.targetId)) {
+            BitmapKit.bindImage(mItemChatOtherChangeContactWayBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
+        } else {
+            mItemChatOtherChangeContactWayBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);
+        }
     }
 
     //同意交换联系方式
