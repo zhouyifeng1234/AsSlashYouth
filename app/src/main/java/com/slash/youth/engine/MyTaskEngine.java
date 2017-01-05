@@ -1,6 +1,7 @@
 package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.BidTaskStatusProtocol;
 import com.slash.youth.http.protocol.CommentProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
 import com.slash.youth.http.protocol.GetTaskItemProtocol;
@@ -85,5 +86,18 @@ public class MyTaskEngine {
     public static void upAndDownTask(BaseProtocol.IResultExecutor onUpOrDownFinished, String tid, String type, String action) {
         UpAndDownTaskProtocol upAndDownTaskProtocol = new UpAndDownTaskProtocol(tid, type, action);
         upAndDownTaskProtocol.getDataFromServer(onUpOrDownFinished);
+    }
+
+
+    /**
+     * 四、[需求]-是否预约过某服务或者抢单过某需求
+     *
+     * @param onGetBidTaskStatusFinished
+     * @param type                       1需求 2服务
+     * @param tid                        任务ID
+     */
+    public static void getBidTaskStatus(BaseProtocol.IResultExecutor onGetBidTaskStatusFinished, String type, String tid) {
+        BidTaskStatusProtocol bidTaskStatusProtocol = new BidTaskStatusProtocol(type, tid);
+        bidTaskStatusProtocol.getDataFromServer(onGetBidTaskStatusFinished);
     }
 }

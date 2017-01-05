@@ -147,6 +147,8 @@ public class GlobalConstants {
         public static final String GET_MY_TASK_ITEM = SERVER_HOST_MY_TASK_LIST + "one";
         //三、[需求]-我的任务tid反查服务或者需求详情信息
         public static final String GET_MY_TASK_SERVICE_DEMAND_DETAIL = SERVER_HOST_MY_TASK_LIST + "oneinfo";
+        //四、[需求]-是否预约过某服务或者抢单过某需求
+        public static final String GET_BID_TASK_STATUS = SERVER_HOST_MY_TASK_LIST + "isparticipation";
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
         //三、[需求]-查看评价和分享状态接口

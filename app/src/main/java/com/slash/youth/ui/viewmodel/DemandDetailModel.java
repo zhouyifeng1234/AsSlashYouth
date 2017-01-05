@@ -312,7 +312,7 @@ public class DemandDetailModel extends BaseObservable {
                 } else {
                     setQuote("¥" + (int) demand.quote + "元");
                     //填写抢单浮层中的报价
-                    mActivityDemandDetailBinding.etBidDemandQuote.setText((int)demand.quote + "");
+                    mActivityDemandDetailBinding.etBidDemandQuote.setText((int) demand.quote + "");
                 }
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
                 if (demand.pattern == 1) {//线下
@@ -433,7 +433,7 @@ public class DemandDetailModel extends BaseObservable {
                 setDemandUserPlace(userPlace);
 
                 if (uid != LoginManager.currentLoginUserId) {
-                    getRecommendDemandData();//获取相似需求推荐
+                    getRecommendDemandData(uid);//获取相似需求推荐
                 }
             }
 
@@ -449,12 +449,15 @@ public class DemandDetailModel extends BaseObservable {
     /**
      * 从接口获取相似需求推荐的数据，当服务者视角看需求的时候，需要显示推荐需求
      */
-    private void getRecommendDemandData() {
+    private void getRecommendDemandData(final long uid) {
         DemandEngine.getDetailRecommendDemand(new BaseProtocol.IResultExecutor<DetailRecommendDemandList>() {
             @Override
             public void execute(DetailRecommendDemandList dataBean) {
                 listRecommendDemand = dataBean.data.list;
                 setRecommendDemandItemData();
+                if (uid != LoginManager.currentLoginUserId) {
+                    getBidDemandStatus();
+                }
             }
 
             @Override
@@ -484,6 +487,36 @@ public class DemandDetailModel extends BaseObservable {
             }
             mLlDemandRecommend.addView(itemView);
         }
+    }
+
+    boolean isBidDemand = false;//表示是否抢单过某需求
+
+    /**
+     * 获取当前登录用户是否抢过这个需求，服务者视角才需要
+     */
+    private void getBidDemandStatus() {
+        MyTaskEngine.getBidTaskStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//1预约过某服务或者抢单过某需求
+                    setBidDemandSuccessStatus();
+                } else {//0未预约过某服务或者未抢单过某需求
+                    isBidDemand = false;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取抢单状态失败:" + result);
+            }
+        }, "1", demandId + "");
+    }
+
+    private void setBidDemandSuccessStatus() {
+        mActivityDemandDetailBinding.tvBidDemand.setText("抢单成功");
+        mActivityDemandDetailBinding.tvBidDemand.setBackgroundColor(0xffcccccc);
+        mActivityDemandDetailBinding.tvBidDemand.setClickable(false);
+        isBidDemand = true;
     }
 
 
@@ -643,7 +676,9 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void openBidDemandLayer(View v) {
-        setBidInfoVisibility(View.VISIBLE);
+        if (!isBidDemand) {
+            setBidInfoVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -933,6 +968,7 @@ public class DemandDetailModel extends BaseObservable {
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("抢单成功");
                 setBidInfoVisibility(View.GONE);
+                setBidDemandSuccessStatus();
             }
 
             @Override
