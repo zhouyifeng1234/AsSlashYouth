@@ -24,8 +24,9 @@
                     android:id="@+id/iv_item_listview_home_demand_avatar"
                     android:layout_width="58dp"
                     android:layout_height="58dp"
-                    android:src="@mipmap/assistant_icon"/>
+                    android:src="@mipmap/default_avatar"/>
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_authentication"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,19 +41,20 @@
                 android:layout_marginLeft="7dp"
                 android:layout_marginTop="15dp"
                 android:orientation="vertical">
+                <!--标题-->
                 <TextView
                     android:id="@+id/tv_item_listview_home_demand_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="做一个互联网公司企业宣传策划案"
                     android:textColor="#333333"
                     android:textSize="15sp"/>
+
+                <!--时间-->
                 <TextView
                     android:id="@+id/tv_item_listview_home_demand_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:text="任务时间:9月18日 8:30"
                     android:textColor="#333333"
                     android:textSize="14sp"/>
 
@@ -64,28 +66,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:orientation="horizontal">
+            <!--姓名-->
             <TextView
                 android:id="@+id/tv_item_listview_home_demand_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="18dp"
-                android:text="曹文成"
                 android:textColor="#CCCCCC"
                 android:textSize="12sp"/>
 
+            <!--报价-->
             <TextView
                 android:id="@+id/tv_quote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="21dp"
-                android:text="报价:¥300"
                 android:textColor="#FF7333"
                 android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/tv_line"
+                android:visibility="gone"
                 android:layout_marginLeft="11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
@@ -97,6 +100,7 @@
                 android:background="@drawable/shape_search_item_bg"
                 />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"

@@ -9,6 +9,7 @@ import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.MyCollectionHolder;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean.DataB
     }
 
     private void showDialog() {
-        DialogUtils.showDialogFive(myCollectionActivity, "是否删除该任务", "", new DialogUtils.DialogCallBack() {
+        DialogUtils.showDialogFive(myCollectionActivity, "删除", "是否删除该任务", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 if(index!=-1){
@@ -79,11 +80,12 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean.DataB
                 int status = data.getStatus();
                 switch (status) {
                     case 1:
+                        ToastUtils.shortToast("删除成功");
                         listData.remove(index);
                         notifyDataSetChanged();
                         break;
                     case 0:
-                        LogKit.d("删除失败");
+                        ToastUtils.shortToast("删除失败");
                         break;
                 }
                 LogKit.d("status:"+status);
@@ -94,5 +96,4 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean.DataB
             LogKit.d("result:"+result);
         }
     }
-
 }

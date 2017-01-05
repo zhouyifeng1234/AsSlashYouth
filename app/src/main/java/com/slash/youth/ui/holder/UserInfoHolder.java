@@ -39,16 +39,30 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
 
     @Override
     public void refreshView(NewDemandAandServiceBean.DataBean.ListBean data) {
+        int anonymity = data.getAnonymity();
+        String name = data.getName();
+        String avatar = data.getAvatar();
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                if(avatar!=null&&avatar.equals("")){
+                    BitmapKit.bindImage(itemUserinfoBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                }
+                itemUserinfoBinding.tvName.setText(name);
+                break;
+            case 0://匿名
+                itemUserinfoBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                itemUserinfoBinding.tvName.setText(anonymityName);
+                break;
+        }
+
         long starttime = data.getStarttime();
         long endtime = data.getEndtime();
         String startData = TimeUtils.getData(starttime);
         String endData = TimeUtils.getData(endtime);
         itemUserinfoBinding.tvTime.setText(UserInfoEngine.TASK_TIME_TITLE+startData+"-"+endData);
-
-        String avatar = data.getAvatar();
-        if(avatar!=null&&avatar.equals("")){
-            BitmapKit.bindImage(itemUserinfoBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-        }
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -62,9 +76,6 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
 
         String title = data.getTitle();
         itemUserinfoBinding.tvTitle.setText(title);
-
-        String name = data.getName();
-        itemUserinfoBinding.tvName.setText(name);
 
         long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();

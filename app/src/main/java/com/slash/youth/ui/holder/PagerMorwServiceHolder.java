@@ -44,17 +44,31 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
 
     @Override
     public void refreshView(FreeTimeMoreServiceBean.DataBean.ListBean data) {
+        int anonymity = data.getAnonymity();
+        String name = data.getName();
+        String avatar = data.getAvatar();
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                if(avatar!=null&&avatar.equals("")){
+                    BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                }
+                itemHomeDemandServiceBinding.tvName.setText(name);
+                break;
+            case 0://匿名
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                itemHomeDemandServiceBinding.tvName.setText(anonymityName);
+                break;
+        }
+
         long starttime = data.getStarttime();
         long endtime = data.getEndtime();
         String startData = TimeUtils.getData(starttime);
         String endData = TimeUtils.getData(endtime);
         mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.FREE_TIME+""+startData+"-"+endData);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
-
-        String avatar = data.getAvatar();
-        if(avatar!=null&&avatar.equals("")){
-            BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-        }
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -68,9 +82,6 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
 
         String title = data.getTitle();
         itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
-
-        String name = data.getName();
-        itemHomeDemandServiceBinding.tvName.setText(name);
 
        long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
@@ -109,5 +120,4 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
         itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
     }
-
 }

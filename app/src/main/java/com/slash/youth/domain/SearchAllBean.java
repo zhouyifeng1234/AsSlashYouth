@@ -57,6 +57,10 @@ public class SearchAllBean {
         }
 
         public static class DemandListBean {
+            private int anonymity;
+            private String place;
+            private String tag;
+            private int isonline;
             private String avatar;
             private String city;
             private long cts;
@@ -73,6 +77,38 @@ public class SearchAllBean {
             private String title;
             private long uid;
             private long uts;
+
+            public int getIsonline() {
+                return isonline;
+            }
+
+            public void setIsonline(int isonline) {
+                this.isonline = isonline;
+            }
+
+            public String getTag() {
+                return tag;
+            }
+
+            public void setTag(String tag) {
+                this.tag = tag;
+            }
+
+            public String getPlace() {
+                return place;
+            }
+
+            public void setPlace(String place) {
+                this.place = place;
+            }
+
+            public int getAnonymity() {
+                return anonymity;
+            }
+
+            public void setAnonymity(int anonymity) {
+                this.anonymity = anonymity;
+            }
 
             public String getAvatar() {
                 return avatar;
@@ -204,6 +240,10 @@ public class SearchAllBean {
         }
 
         public static class ServiceListBean {
+            private int anonymity;
+            private String place;
+            private String tag;
+            private int isonline;
             private String avatar;
             private String city;
             private int cts;
@@ -224,6 +264,38 @@ public class SearchAllBean {
             private long uid;
             private double userservicepoint;
             private long uts;
+
+            public int getAnonymity() {
+                return anonymity;
+            }
+
+            public void setAnonymity(int anonymity) {
+                this.anonymity = anonymity;
+            }
+
+            public String getPlace() {
+                return place;
+            }
+
+            public void setPlace(String place) {
+                this.place = place;
+            }
+
+            public String getTag() {
+                return tag;
+            }
+
+            public void setTag(String tag) {
+                this.tag = tag;
+            }
+
+            public int getIsonline() {
+                return isonline;
+            }
+
+            public void setIsonline(int isonline) {
+                this.isonline = isonline;
+            }
 
             public String getAvatar() {
                 return avatar;

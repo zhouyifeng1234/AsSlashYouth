@@ -39,6 +39,7 @@ public class ContactsBean {
         }
 
         public static class ListBean {
+            private int isfriend;
             private String avatar;
             private String company;
             private String direction;
@@ -49,6 +50,14 @@ public class ContactsBean {
             private int status;
             private long uid;
             private long uts;
+
+            public int getIsfriend() {
+                return isfriend;
+            }
+
+            public void setIsfriend(int isfriend) {
+                this.isfriend = isfriend;
+            }
 
             public String getAvatar() {
                 return avatar;

@@ -37,6 +37,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
     public static CardView btn;
     private long uid;
     private int type;
+    private int isfriend;
 
     public ContactsCareHolder(int type) {
         this.type = type;
@@ -93,17 +94,24 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
             tvPosition.setText(company+" "+position);
         }
 
-
         btn.setOnClickListener(this);
 
         iv.setVisibility(View.GONE);
 
+        isfriend = data.getIsfriend();
         switch (type){
             case 1:
                 btn.setVisibility(View.GONE);
                 break;
             case 3:
-                btn.setVisibility(View.VISIBLE);
+                switch (isfriend){
+                    case 1://显示同意
+                        btn.setVisibility(View.VISIBLE);
+                        break;
+                    case 0://已是好友
+                        tvAddOk.setVisibility(View.VISIBLE);
+                        break;
+                }
                 break;
             case 2:
             case 4:
@@ -114,7 +122,6 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
 
     @Override
     public void onClick(View v) {
-        btn.setVisibility(View.GONE);
         ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),uid,"contacts");
     }
 
@@ -127,11 +134,12 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
                 int status = data.getStatus();
                 switch (status){
                     case 1:
-                       // ToastUtils.shortCenterToast("已是好友");
+                        ToastUtils.shortCenterToast("已是好友");
                         tvAddOk.setVisibility(View.VISIBLE);
+                        btn.setVisibility(View.GONE);
                         break;
                     case 0:
-                       // ToastUtils.shortCenterToast("添加好友未成功");
+                        ToastUtils.shortCenterToast("添加好友未成功");
                         break;
                 }
             }

@@ -106,11 +106,11 @@ public class ActivityContactsCareModel extends BaseObservable {
                 break;
             case ContactsManager.ADD_ME:
                 type = 3;
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/addmelist");
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_ADD_ME_LIST);
                 break;
             case ContactsManager.MY_ADD:
                 type = 4;
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST+"/myaddlist");
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_FRIEND_LIST_MY_ADD_LIST);
                 break;
         }
     }

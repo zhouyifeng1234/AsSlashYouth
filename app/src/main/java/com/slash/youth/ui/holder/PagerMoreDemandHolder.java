@@ -43,15 +43,29 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
 
     @Override
     public void refreshView(FreeTimeMoreDemandBean.DataBean.ListBean data) {
+        int anonymity = data.getAnonymity();
+        String name = data.getName();
+        String avatar = data.getAvatar();
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                if(avatar!=null&&avatar.equals("")){
+                    BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                }
+                itemHomeDemandServiceBinding.tvName.setText(name);
+                break;
+            case 0://匿名
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                itemHomeDemandServiceBinding.tvName.setText(anonymityName);
+                break;
+        }
+
         long starttime = data.getStarttime();
         String startData = TimeUtils.getData(starttime);
         mItemHomeDemandServiceModel.setDemandOrServiceTime(startData);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
-
-        String avatar = data.getAvatar();
-        if(avatar!=null&&avatar.equals("")){
-            BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-        }
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -65,9 +79,6 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
 
         String title = data.getTitle();
         itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
-
-        String name = data.getName();
-        itemHomeDemandServiceBinding.tvName.setText(name);
 
         long quote = data.getQuote();
         String quoteString = FirstPagerManager.QUOTE + quote + "元";

@@ -261,12 +261,12 @@ public class MySettingModel extends BaseObservable {
         DialogUtils.showDialogLogout(mySettingActivity, "下线通知", logout, new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
-            LogKit.d("cannel");
+                logout(LoginManager.token);
             }
 
             @Override
             public void CancleDown() {
-                logout(LoginManager.token);
+                LogKit.d("cannel");
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.slash.youth.databinding.DialogPasswordBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.SearchListviewAssociationBinding;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 
 /**
  * Created by zss on 2016/10/17.
