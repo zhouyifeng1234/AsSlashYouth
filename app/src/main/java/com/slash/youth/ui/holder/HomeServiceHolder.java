@@ -107,6 +107,6 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<" + distance + "KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("距离 " + distance + "KM");
     }
 }

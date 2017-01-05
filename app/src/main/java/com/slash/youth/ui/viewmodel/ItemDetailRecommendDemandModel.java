@@ -65,7 +65,7 @@ public class ItemDetailRecommendDemandModel extends BaseObservable {
         }
         setDemandPlace(mRecommendDemandInfo.place);
         double distance = DistanceUtils.getDistance(SlashApplication.getCurrentLatitude(), SlashApplication.getCurrentLongitude(), mRecommendDemandInfo.lat, mRecommendDemandInfo.lng);
-        setDistanceStr(distance + "KM");
+        setDistanceStr("距离 " + distance + "KM");
     }
 
     private int authVisibility;

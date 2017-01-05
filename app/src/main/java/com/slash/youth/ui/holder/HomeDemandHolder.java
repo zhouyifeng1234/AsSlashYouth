@@ -8,7 +8,6 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
 import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeMoreDemandBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.global.SlashApplication;
@@ -42,16 +41,16 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
     public void refreshView(FreeTimeDemandBean.DataBean.ListBean data) {
         long starttime = data.getStarttime();
         String startData = TimeUtils.getData(starttime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME+startData);
+        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + startData);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
 
         String avatar = data.getAvatar();
-        if(avatar!=null&&avatar.equals("")){
+        if (avatar != null && avatar.equals("")) {
             BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
         int isauth = data.getIsauth();
-        switch (isauth){
+        switch (isauth) {
             case 0:
                 itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.GONE);
                 break;
@@ -71,7 +70,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
 
         int pattern = data.getPattern();
-        switch (pattern){
+        switch (pattern) {
             case 0:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
                 break;
@@ -81,7 +80,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         }
 
         int instalment = data.getInstalment();
-        switch (instalment){
+        switch (instalment) {
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
                 break;
@@ -99,6 +98,6 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("距离 " + distance + "KM");
     }
 }
