@@ -30,14 +30,17 @@
                     android:layout_height="60dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginTop="15dp">
-                    <ImageView android:layout_width="58dp"
-                               android:layout_height="58dp"
-                               android:src="@mipmap/assistant_icon"/>
+                    <ImageView
+                        android:id="@+id/iv_demand_user_avatar"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:src="@mipmap/assistant_icon"/>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|right"
-                        android:src="@mipmap/tab_authentication"/>
+                        android:src="@mipmap/tab_authentication"
+                        android:visibility="@{itemDetailRecommendDemandModel.authVisibility}"/>
 
                 </FrameLayout>
 
@@ -50,16 +53,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="做一个互联网公司企业宣传策划案"
+                        android:text="@{itemDetailRecommendDemandModel.demandTitle}"
                         android:textColor="#333333"
                         android:textSize="15sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="闲置时间:2016年9月18日 8:00"
+                        android:text="@{itemDetailRecommendDemandModel.demandStartTime}"
                         android:textColor="#666666"
                         android:textSize="14sp"/>
+                    <!--开始时间:2016年9月18日 8:00-->
 
                 </LinearLayout>
             </LinearLayout>
@@ -74,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="18dp"
-                    android:text="曹文成"
+                    android:text="@{itemDetailRecommendDemandModel.demandUsername}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
 
@@ -83,9 +87,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="21dp"
-                    android:text="报价:¥300"
+                    android:text="@{itemDetailRecommendDemandModel.quote}"
                     android:textColor="#FF7333"
                     android:textSize="13sp"/>
+                <!--报价:¥300-->
 
                 <View android:layout_width="0dp" android:layout_height="0dp"
                       android:layout_weight="1"/>
@@ -96,7 +101,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/shape_rounded_demand_service_maker_bg"
                     android:paddingLeft="2dp" android:paddingRight="2dp"
-                    android:text="线上"
+                    android:text="@{itemDetailRecommendDemandModel.patternText}"
                     android:textColor="#31C5E4"
                     android:textSize="12sp"/>
                 <TextView
@@ -110,7 +115,8 @@
                     android:paddingRight="2dp"
                     android:text="支持分期"
                     android:textColor="#31C5E4"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    android:visibility="@{itemDetailRecommendDemandModel.instalmentVisibility}"/>
 
             </LinearLayout>
 
@@ -139,18 +145,21 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="6dp"
                     android:ellipsize="end" android:maxLines="1"
-                    android:text="苏州市圆融星座苏州市圆融星座苏州市圆融星座."
+                    android:text="@{itemDetailRecommendDemandModel.demandPlace}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
+                <!--苏州市圆融星座苏州市圆融星座苏州市圆融星座.-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="8dp"
-                    android:text="&lt; 4.5KM"
+                    android:text="@{itemDetailRecommendDemandModel.distanceStr}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
+                <!--&lt; 4.5KM-->
+
 
                 <View android:layout_width="0dp" android:layout_height="0dp"
                       android:layout_weight="1"/>

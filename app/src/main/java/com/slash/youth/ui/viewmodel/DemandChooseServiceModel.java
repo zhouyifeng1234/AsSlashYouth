@@ -70,6 +70,8 @@ public class DemandChooseServiceModel extends BaseObservable {
         mActivityDemandChooseServiceBinding.svDemandChooseService.setRefreshTask(new RefreshScrollView.IRefreshTask() {
             @Override
             public void refresh() {
+                listDemandChooseService.clear();
+                listDemandChooseRecommendService.clear();
                 displayLoadLayer();
                 getTaskItemInfo();
             }

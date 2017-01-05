@@ -27,6 +27,11 @@ import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
+import java.io.File;
+
 /**
  * Created by zhouyifeng on 2016/9/12.
  */
@@ -104,6 +109,24 @@ public class PerfectInfoModel extends BaseObservable {
         if (!isUploadAvatar) {
             ToastUtils.shortToast("必须先上传头像");
             return;
+        } else {
+            //调用设置头像接口
+            LoginManager.loginSetAvatar(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    //页面上显示头像，直接加载本地缓存的图片
+                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                    ImageOptions imageOptions = builder.build();
+                    builder.setCircular(true);
+                    x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, getAvatarFileThumb().toURI().toString(), imageOptions);
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.v("设置头像失败：" + result);
+                    ToastUtils.shortToast("设置头像失败：" + result);
+                }
+            }, getUploadAvatarFileId());
         }
 
         phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
@@ -225,6 +248,28 @@ public class PerfectInfoModel extends BaseObservable {
     private int phonenumLoginInfoVisibility = View.VISIBLE;
 
     private boolean isUploadAvatar = false;
+    private String uploadAvatarFileId;
+    private File avatarFileThumb;
+
+    @Bindable
+    public File getAvatarFileThumb() {
+        return avatarFileThumb;
+    }
+
+    public void setAvatarFileThumb(File avatarFileThumb) {
+        this.avatarFileThumb = avatarFileThumb;
+        notifyPropertyChanged(BR.avatarFileThumb);
+    }
+
+    @Bindable
+    public String getUploadAvatarFileId() {
+        return uploadAvatarFileId;
+    }
+
+    public void setUploadAvatarFileId(String uploadAvatarFileId) {
+        this.uploadAvatarFileId = uploadAvatarFileId;
+        notifyPropertyChanged(BR.uploadAvatarFileId);
+    }
 
     @Bindable
     public boolean getIsUploadAvatar() {

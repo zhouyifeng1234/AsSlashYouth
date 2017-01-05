@@ -49,9 +49,11 @@ public class ItemServiceDetailRecommendServiceModel extends BaseObservable {
         setServiceUsername(mRecommendServiceInfo.name);
         setServiceTitle(mRecommendServiceInfo.title);
         if (mRecommendServiceInfo.quoteunit == 9) {
-            setQuote("报价:" + mRecommendServiceInfo.quote + "元");
-        } else {
-            setQuote("报价:" + mRecommendServiceInfo.quote + "元/" + optionalPriceUnit[mRecommendServiceInfo.quoteunit - 1]);
+            setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元");
+        } else if (mRecommendServiceInfo.quote < 9 && mRecommendServiceInfo.quote > 0) {
+            setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元/" + optionalPriceUnit[mRecommendServiceInfo.quoteunit - 1]);
+        } else {//如果数据正确，这种情况应该不存在
+            setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元");
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
         String starttimeStr = sdf.format(mRecommendServiceInfo.starttime);

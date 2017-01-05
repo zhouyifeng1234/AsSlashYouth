@@ -22,7 +22,7 @@ public class DetailRecommendDemandList {
         public double lat;
         public double lng;
         public String name;
-        public int pattern;
+        public int pattern;//1线下 0线上
         public String place;
         public double quote;
         public long starttime;

@@ -44,13 +44,13 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="做一个公aaa司aaaaaaaaaaaaaaaaa"
+                        android:text="@{myPublishDemandModel.demandTitle}"
                         android:textColor="#ffffff"
                         android:textSize="17sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="意向单"
+                        android:text="订单"
                         android:textColor="#ffffff"
                         android:textSize="17sp"/>
                 </LinearLayout>
@@ -258,6 +258,7 @@
                                         android:layout_gravity="center_horizontal"
                                         android:src="@mipmap/negotiation_icon"/>
                                     <TextView
+                                        android:id="@+id/tv_bp_text"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
