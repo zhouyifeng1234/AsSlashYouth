@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,17 +112,35 @@ public class ServiceDetailModel extends BaseObservable {
 
     //收藏服务
     public void collectService(View v) {
-        ServiceEngine.collectService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                ToastUtils.shortToast("收藏成功");
-            }
+        if (isCollectionService) {//已经收藏过了，点击取消收藏
+            MyTaskEngine.cancelCollection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("取消收藏成功");
+                    isCollectionService = false;
+                    setNoCollectionState();
+                }
 
-            @Override
-            public void executeResultError(String result) {
-                ToastUtils.shortToast("收藏失败:" + result);
-            }
-        }, serviceId + "");
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("取消收藏失败:" + result);
+                }
+            }, "2", serviceId + "");
+        } else {//还未收藏，点击收藏
+            ServiceEngine.collectService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("收藏成功");
+                    isCollectionService = true;
+                    setCollectionState();
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("收藏失败:" + result);
+                }
+            }, serviceId + "");
+        }
     }
 
     //立即抢单（抢服务）
@@ -490,7 +509,7 @@ public class ServiceDetailModel extends BaseObservable {
                 setServiceUserPlace(userPlace);
 
                 if (uid != LoginManager.currentLoginUserId) {
-                    getRecommendServiceData();//获取相似服务推荐
+                    getRecommendServiceData(uid);//获取相似服务推荐
                 }
             }
 
@@ -506,12 +525,15 @@ public class ServiceDetailModel extends BaseObservable {
     /**
      * 从接口获取相似服务推荐的数据，当需求者视角看服务的时候，需要显示推荐服务
      */
-    public void getRecommendServiceData() {
+    public void getRecommendServiceData(final long uid) {
         ServiceEngine.getDetailRecommendService(new BaseProtocol.IResultExecutor<DetailRecommendServiceList>() {
             @Override
             public void execute(DetailRecommendServiceList dataBean) {
                 listRecommendService = dataBean.data.list;
                 setRecommendServiceItemData();
+                if (uid != LoginManager.currentLoginUserId) {
+                    getCollectionStatus();
+                }
             }
 
             @Override
@@ -519,6 +541,55 @@ public class ServiceDetailModel extends BaseObservable {
                 ToastUtils.shortToast("获取推荐服务列表失败");
             }
         }, serviceId + "", "5");
+    }
+
+    boolean isCollectionService;
+
+    /**
+     * 获取当前登录者收藏服务的状态
+     */
+    private void getCollectionStatus() {
+        MyTaskEngine.getCollectionStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//1表示收藏过
+                    setCollectionState();
+                    isCollectionService = true;
+                } else {// 0表示未收藏过
+                    setNoCollectionState();
+                    isCollectionService = false;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取收藏服务状态失败:" + result);
+            }
+        }, "2", serviceId + "");
+    }
+
+    /**
+     * 设置收藏状态
+     */
+    private void setCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.yi_heart);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityServiceDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityServiceDetailBinding.tvCollection.setText("取消收藏");
+    }
+
+    /**
+     * 设置未收藏状态
+     */
+    private void setNoCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.collection_icon);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityServiceDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityServiceDetailBinding.tvCollection.setText("收藏");
     }
 
     /**

@@ -73,8 +73,6 @@ public class DemandChooseServiceModel extends BaseObservable {
         mActivityDemandChooseServiceBinding.svDemandChooseService.setRefreshTask(new RefreshScrollView.IRefreshTask() {
             @Override
             public void refresh() {
-                listDemandChooseService.clear();
-                listDemandChooseRecommendService.clear();
                 displayLoadLayer();
                 getTaskItemInfo();
             }
@@ -89,7 +87,8 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     //填充来竞标的服务方列表
     private void addDemandChooseServiceItems() {
-        if (listDemandChooseRecommendService.size() <= 0) {
+        mActivityDemandChooseServiceBinding.llDemandChooseServiceList.removeAllViews();
+        if (listDemandChooseService.size() <= 0) {
             LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llParams.topMargin = CommonUtils.dip2px(13);
             llParams.bottomMargin = CommonUtils.dip2px(15);
@@ -113,6 +112,7 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     //填充系统推荐的服务方列表
     private void addDemandChooseRecommendServiceItems() {
+        mActivityDemandChooseServiceBinding.llDemandChooseRecommendServiceList.removeAllViews();
         for (int i = 0; i < listDemandChooseRecommendService.size(); i++) {
             RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listDemandChooseRecommendService.get(i);
             View itemDemandChooseRecommendService = inflateItemDemandChooseRecommendService(serviceUserInfo);
