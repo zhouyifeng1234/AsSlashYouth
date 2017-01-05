@@ -918,6 +918,7 @@
                         android:textColor="#666666"
                         android:textSize="12sp"/>
                     <TextView
+                        android:id="@+id/tv_collection"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

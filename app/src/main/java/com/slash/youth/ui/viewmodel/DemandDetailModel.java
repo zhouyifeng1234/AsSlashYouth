@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -456,7 +457,7 @@ public class DemandDetailModel extends BaseObservable {
                 listRecommendDemand = dataBean.data.list;
                 setRecommendDemandItemData();
                 if (uid != LoginManager.currentLoginUserId) {
-                    getBidDemandStatus();
+                    getBidDemandStatus(uid);
                 }
             }
 
@@ -494,7 +495,7 @@ public class DemandDetailModel extends BaseObservable {
     /**
      * 获取当前登录用户是否抢过这个需求，服务者视角才需要
      */
-    private void getBidDemandStatus() {
+    private void getBidDemandStatus(final long uid) {
         MyTaskEngine.getBidTaskStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -502,6 +503,9 @@ public class DemandDetailModel extends BaseObservable {
                     setBidDemandSuccessStatus();
                 } else {//0未预约过某服务或者未抢单过某需求
                     isBidDemand = false;
+                }
+                if (uid != LoginManager.currentLoginUserId) {
+                    getCollectionStatus();
                 }
             }
 
@@ -519,6 +523,54 @@ public class DemandDetailModel extends BaseObservable {
         isBidDemand = true;
     }
 
+    boolean isCollectionDemand;
+
+    /**
+     * 获取当前登录者收藏需求的状态
+     */
+    private void getCollectionStatus() {
+        MyTaskEngine.getCollectionStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                if (dataBean.data.status == 1) {//1表示收藏过
+                    setCollectionState();
+                    isCollectionDemand = true;
+                } else {// 0表示未收藏过
+                    setNoCollectionState();
+                    isCollectionDemand = false;
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取收藏需求状态失败:" + result);
+            }
+        }, "1", demandId + "");
+    }
+
+    /**
+     * 设置收藏状态
+     */
+    private void setCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.yi_heart);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityDemandDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityDemandDetailBinding.tvCollection.setText("取消收藏");
+    }
+
+    /**
+     * 设置未收藏状态
+     */
+    private void setNoCollectionState() {
+        Drawable topDrawable = CommonUtils.getContext().getResources().getDrawable(R.mipmap.collection_icon);
+        int intrinsicWidth = topDrawable.getIntrinsicWidth();
+        int intrinsicHeight = topDrawable.getIntrinsicHeight();
+        topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        mActivityDemandDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
+        mActivityDemandDetailBinding.tvCollection.setText("收藏");
+    }
 
     public void goBack(View v) {
         mActivity.finish();
@@ -649,19 +701,36 @@ public class DemandDetailModel extends BaseObservable {
 
     //收藏需求
     public void collectDemand(View v) {
-        DemandEngine.collectDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                ToastUtils.shortToast("收藏成功");
-            }
+        if (isCollectionDemand) {//已经收藏过了，点击取消收藏
+            MyTaskEngine.cancelCollection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("取消收藏成功");
+                    isCollectionDemand = false;
+                    setNoCollectionState();
+                }
 
-            @Override
-            public void executeResultError(String result) {
-                ToastUtils.shortToast("收藏失败:" + result);
-            }
-        }, demandId + "");
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("取消收藏失败:" + result);
+                }
+            }, "1", demandId + "");
+        } else {//还未收藏，点击收藏
+            DemandEngine.collectDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+                    ToastUtils.shortToast("收藏成功");
+                    isCollectionDemand = true;
+                    setCollectionState();
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("收藏失败:" + result);
+                }
+            }, demandId + "");
+        }
     }
-
 
     //定位需求详情中的地址
     public void openDemandDetailLocation(View v) {
