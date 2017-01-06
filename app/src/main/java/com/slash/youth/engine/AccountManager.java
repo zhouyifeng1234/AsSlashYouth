@@ -4,6 +4,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CreateTradePasswordProtocol;
 import com.slash.youth.http.protocol.MyAccountProtocol;
 import com.slash.youth.http.protocol.TradePasswordStatusProtocol;
+import com.slash.youth.http.protocol.TransactionRecoreProtocol;
 
 /**
  * Created by Administrator on 2016/8/31.
@@ -39,4 +40,11 @@ public class AccountManager {
         TradePasswordStatusProtocol tradePasswordStatusProtocol = new TradePasswordStatusProtocol();
         tradePasswordStatusProtocol.getDataFromServer(onGetStatusFinished);
     }
+
+    //获取我的交易流水
+    public static void getTransactionRecore(BaseProtocol.IResultExecutor onGetTransactionRecore,int offset,int limit) {
+        TransactionRecoreProtocol transactionRecoreProtocol = new TransactionRecoreProtocol(offset,limit);
+        transactionRecoreProtocol.getDataFromServer(onGetTransactionRecore);
+    }
+
 }

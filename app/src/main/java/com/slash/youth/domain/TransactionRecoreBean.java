@@ -9,11 +9,6 @@ public class TransactionRecoreBean {
 
 
     private DataBean data;
-    /**
-     * data : {"list":[{"amount":13000,"cts":1478747923717,"fromuid":10002,"id":12,"orderid":"A9E97618-14DB-4930-9936-6CB0AF22C0F6","remark":"需求付款支出","tid":185,"title":"","touid":10002,"ttype":1,"type":2},{"amount":950,"cts":1478511539795,"fromuid":10002,"id":8,"orderid":"A2D73510-1C34-4E7B-8DBA-4C7897BAC2E1","remark":"需求完成收入","tid":173,"title":"","touid":10002,"ttype":1,"type":1}]}
-     * rescode : 0
-     */
-
     private int rescode;
 
     public DataBean getData() {
@@ -33,20 +28,6 @@ public class TransactionRecoreBean {
     }
 
     public static class DataBean {
-        /**
-         * amount : 13000
-         * cts : 1478747923717
-         * fromuid : 10002
-         * id : 12
-         * orderid : A9E97618-14DB-4930-9936-6CB0AF22C0F6
-         * remark : 需求付款支出
-         * tid : 185
-         * title :
-         * touid : 10002
-         * ttype : 1
-         * type : 2
-         */
-
         private List<ListBean> list;
 
         public List<ListBean> getList() {
@@ -58,23 +39,16 @@ public class TransactionRecoreBean {
         }
 
         public static class ListBean {
-            private int amount;
+            private float amount;
             private long cts;
-            private int fromuid;
-            private int id;
-            private String orderid;
-            private String remark;
-            private int tid;
             private String title;
-            private int touid;
-            private int ttype;
             private int type;
 
-            public int getAmount() {
+            public float getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(float amount) {
                 this.amount = amount;
             }
 
@@ -86,68 +60,12 @@ public class TransactionRecoreBean {
                 this.cts = cts;
             }
 
-            public int getFromuid() {
-                return fromuid;
-            }
-
-            public void setFromuid(int fromuid) {
-                this.fromuid = fromuid;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getOrderid() {
-                return orderid;
-            }
-
-            public void setOrderid(String orderid) {
-                this.orderid = orderid;
-            }
-
-            public String getRemark() {
-                return remark;
-            }
-
-            public void setRemark(String remark) {
-                this.remark = remark;
-            }
-
-            public int getTid() {
-                return tid;
-            }
-
-            public void setTid(int tid) {
-                this.tid = tid;
-            }
-
             public String getTitle() {
                 return title;
             }
 
             public void setTitle(String title) {
                 this.title = title;
-            }
-
-            public int getTouid() {
-                return touid;
-            }
-
-            public void setTouid(int touid) {
-                this.touid = touid;
-            }
-
-            public int getTtype() {
-                return ttype;
-            }
-
-            public void setTtype(int ttype) {
-                this.ttype = ttype;
             }
 
             public int getType() {

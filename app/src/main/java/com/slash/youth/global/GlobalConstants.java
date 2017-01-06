@@ -437,6 +437,8 @@ public class GlobalConstants {
         public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST + "/list";
         //[好友]-查看加我的列表
         public static final String MY_FRIEND_LIST_ADD_ME_LIST = MY_FRIEND_LIST_HOST + "/addmelist";
+        //[好友]-查看我加的列表
+        public static final String MY_FRIEND_LIST_MY_ADD_LIST = MY_FRIEND_LIST_HOST + "/myaddlist";
         //同意添加为好友
         public static final String AGREE_FRIEND_RELATION = MY_FRIEND_LIST_HOST + "/approval";
         //[好友]-发起好友申请
