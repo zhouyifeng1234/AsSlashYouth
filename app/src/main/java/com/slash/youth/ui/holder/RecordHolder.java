@@ -37,7 +37,7 @@ public class RecordHolder extends BaseHolder<TransactionRecoreBean.DataBean.List
     public void refreshView(TransactionRecoreBean.DataBean.ListBean data) {
         int type = data.getType();
         String title = data.getTitle();
-        int amount = data.getAmount();
+        float amount = data.getAmount();
         long cts = data.getCts();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(new Date(cts));

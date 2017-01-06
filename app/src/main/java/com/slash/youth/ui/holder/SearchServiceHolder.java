@@ -42,12 +42,25 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
 
     @Override
     public void refreshView(SearchAllBean.DataBean.ServiceListBean demandListBean, int position) {
-        String avatar = demandListBean.getAvatar();
-        if(avatar!=null){
-            BitmapKit.bindImage(iv_item_listview_home_service_avatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-        }
 
-        tv_item_listview_home_demand_username.setText(demandListBean.getName());
+        int anonymity = demandListBean.getAnonymity();
+        String name = demandListBean.getName();
+        String avatar = demandListBean.getAvatar();
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                if(avatar!=null&&avatar.equals("")){
+                    BitmapKit.bindImage(iv_item_listview_home_service_avatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                }
+                tv_item_listview_home_demand_username.setText(name);
+                break;
+            case 0://匿名
+                iv_item_listview_home_service_avatar.setImageResource(R.mipmap.default_avatar_1);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                tv_item_listview_home_demand_username.setText(anonymityName);
+                break;
+        }
 
         if(demandListBean.getIsauth() == 1){
             iv_authentication.setVisibility(View.VISIBLE);

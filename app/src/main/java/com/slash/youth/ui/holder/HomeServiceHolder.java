@@ -44,15 +44,30 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         String startData = TimeUtils.getData(starttime);
         String endData = TimeUtils.getData(endtime);*/
         // mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + "" + startData);
+
+        int anonymity = data.getAnonymity();
+        String name = data.getName();
+        String avatar = data.getAvatar();
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                if(avatar!=null&&avatar.equals("")){
+                    BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                }
+                itemHomeDemandServiceBinding.tvName.setText(name);
+                break;
+            case 0://匿名
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                itemHomeDemandServiceBinding.tvName.setText(anonymityName);
+                break;
+        }
+
         int timetype = data.getTimetype();
         itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
         mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
-
-        String avatar = data.getAvatar();
-        if (avatar != null && avatar.equals("")) {
-            BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-        }
 
         int isauth = data.getIsauth();
         switch (isauth) {
@@ -67,8 +82,6 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         String title = data.getTitle();
         itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
 
-        String name = data.getName();
-        itemHomeDemandServiceBinding.tvName.setText(name);
 
         long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();

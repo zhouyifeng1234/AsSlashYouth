@@ -127,14 +127,16 @@
 
                             <EditText
                                 android:id="@+id/et_money"
-                                android:layout_width="wrap_content"
+                                android:layout_width="280dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:background="@android:color/transparent"
                                 android:inputType="number"
                                 android:textColor="#333333"
+                                android:gravity="end"
                                 android:textColorHint="#CCCCCC"
                                 android:textSize="13sp"/>
+
                             <TextView
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"

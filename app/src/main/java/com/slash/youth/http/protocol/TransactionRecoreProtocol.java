@@ -26,7 +26,9 @@ public class TransactionRecoreProtocol extends BaseProtocol<TransactionRecoreBea
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("offset", String.valueOf(offset));
+        if(offset>=0){
+            params.addBodyParameter("offset", String.valueOf(offset));
+        }
         params.addBodyParameter("limit", String.valueOf(limit));
     }
 

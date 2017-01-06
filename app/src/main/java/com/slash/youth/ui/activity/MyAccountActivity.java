@@ -55,7 +55,5 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
                 CommonUtils.getContext().startActivity(intentTransactionRecordActivity);
                 break;
         }
-
-
     }
 }

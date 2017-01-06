@@ -21,6 +21,7 @@ import com.slash.youth.utils.LogKit;
 public class TransactionRecordActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private ActivityTransactionRecordBinding activityTransactionRecordBinding;
+    private String titleString = "交易记录";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +29,12 @@ public class TransactionRecordActivity extends Activity implements View.OnClickL
         activityTransactionRecordBinding = DataBindingUtil.setContentView(this, R.layout.activity_transaction_record);
         TransactionRecoreModel transactionRecoreModel = new TransactionRecoreModel(activityTransactionRecordBinding);
         activityTransactionRecordBinding.setTransactionRecoreModel(transactionRecoreModel);
-
         listener();
     }
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
-        title.setText("交易记录");
+        title.setText(titleString);
         findViewById(R.id.fl_title_right).setVisibility(View.GONE);
     }
 

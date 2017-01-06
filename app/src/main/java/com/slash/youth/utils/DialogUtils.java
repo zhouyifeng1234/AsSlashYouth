@@ -186,7 +186,7 @@ public class DialogUtils  {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogcallback.OkDown();
+                dialogcallback.CancleDown();
                 dialog.dismiss();
             }
         });
@@ -194,7 +194,7 @@ public class DialogUtils  {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogcallback.CancleDown();
+                dialogcallback.OkDown();
                 dialog.dismiss();
             }
         });
@@ -203,9 +203,34 @@ public class DialogUtils  {
 
     }
 
+    public static void showDialogVersionUpdate(Context context,boolean isForce,final DialogCallBack dialogcallback){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout_version_update, null);
+        View ok = view.findViewById(R.id.ok);
+        View cancel = view.findViewById(R.id.cancel);
+        if(isForce){
+            ok.setVisibility(View.GONE);
+        }
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogcallback.CancleDown();
+                dialog.dismiss();
+            }
+        });
 
-
-
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogcallback.OkDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+    }
 
     private static void setDialog() {
         //  Window dialogSubscribeWindow = dialog.getWindow();

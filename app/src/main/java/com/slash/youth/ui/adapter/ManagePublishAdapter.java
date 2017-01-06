@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.domain.ManagerMyPublishTaskBean;
 import com.slash.youth.domain.MyCollectionBean;
 import com.slash.youth.domain.SetBean;
@@ -19,6 +20,7 @@ import com.slash.youth.ui.holder.MySkillManageHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -64,17 +66,14 @@ public class ManagePublishAdapter extends SlashBaseAdapter<ManagerMyPublishTaskB
     }
 
      private void showDialog() {
-        DialogUtils.showDialogFive(mySkillManageActivity, "是否删除该任务", "", new DialogUtils.DialogCallBack() {
+        DialogUtils.showDialogFive(mySkillManageActivity, "删除", "是否删除该任务", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 if(index!=-1){
                 ManagerMyPublishTaskBean.DataBean.ListBean listBean = managePublishList.get(index);
                 int type = listBean.getType();
                 long tid = listBean.getTid();
-                managePublishList.remove(index);
-                notifyDataSetChanged();
                 MyManager.onDeleteManagerMyPublishTaskItem(new onAddMyCollectionList(),type,tid);
-
                 }
             }
 
@@ -92,7 +91,18 @@ public class ManagePublishAdapter extends SlashBaseAdapter<ManagerMyPublishTaskB
             if(rescode == 0){
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                LogKit.d("status:"+status);
+                switch (status){
+                    case 0://删除失败
+                        ToastUtils.shortToast("删除失败");
+                        break;
+                    case 1://删除成功
+                        managePublishList.remove(index);
+                        notifyDataSetChanged();
+                        break;
+                    case 2://在架上无法删除
+                        ToastUtils.shortToast("在架上无法删除");
+                        break;
+                }
             }
         }
 
@@ -101,6 +111,4 @@ public class ManagePublishAdapter extends SlashBaseAdapter<ManagerMyPublishTaskB
             LogKit.d("result:"+result);
         }
     }
-
-
 }

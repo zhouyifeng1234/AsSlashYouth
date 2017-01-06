@@ -734,6 +734,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     public void chat(View view) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId",String.valueOf(myUid));
+        intentChatActivity.putExtra("anonymity",String.valueOf(anonymity));
         userInfoActivity.startActivity(intentChatActivity);
     }
 

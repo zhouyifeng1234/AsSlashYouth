@@ -13,6 +13,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -31,8 +32,8 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
     ImageView iv_search_person;
     TextView tv_search_person_name;
     TextView tv_time;
-
     private ArrayList<SearchAllBean.DataBean.UserListBean> userList;
+    private TextView over;
 
     public SearchUserHolder(ArrayList<SearchAllBean.DataBean.UserListBean> userList) {
         this.userList = userList;
@@ -51,21 +52,19 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
         tv_zhiye2 = (TextView) mRootView.findViewById(R.id.tv_zhiye2);
         tv_zhiye3 = (TextView) mRootView.findViewById(R.id.tv_zhiye3);
         tv_time = (TextView) mRootView.findViewById(R.id.tv_time);
+        over = (TextView) mRootView.findViewById(R.id.tv_over);
         return mRootView;
     }
 
     @Override
     public void refreshView(SearchAllBean.DataBean.UserListBean userListBean, final int position) {
+        String name = userListBean.getName();
         String avatar = userListBean.getAvatar();
-        if(avatar!=null){
+
+        if(avatar!=null&&avatar.equals("")){
             BitmapKit.bindImage(iv_search_person, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
-
-        String name = userListBean.getName();
         tv_search_person_name.setText(name);
-
-        String userPosition = userListBean.getPosition();
-        tv_search_person_position.setText(userPosition);
 
         int isauth = userListBean.getIsauth();
         switch (isauth){
@@ -84,7 +83,6 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
                 SearchAllBean.DataBean.UserListBean userBean = userList.get(position);
                 long uid = userBean.getUid();
                 ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),uid,"   ");
-
             }
         });
     }
@@ -100,9 +98,10 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
                 switch (status){
                     case 1:
                         iv_jiahao.setVisibility(View.GONE);
+                        over.setVisibility(View.VISIBLE);
                         break;
                     case 0:
-                        LogKit.d("status:"+status);
+                        ToastUtils.shortToast("申请失败");
                         break;
                 }
             }

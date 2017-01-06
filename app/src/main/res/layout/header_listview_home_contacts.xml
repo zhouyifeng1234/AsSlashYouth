@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
-                        android:text="加我的"
+                        android:text="+我"
                         android:textColor="#CCCCCC"
                         android:textSize="14sp"/>
 
@@ -220,7 +220,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
-                        android:text="我加的"
+                        android:text="我+"
                         android:textColor="#CCCCCC"
                         android:textSize="14sp"/>
                 </LinearLayout>

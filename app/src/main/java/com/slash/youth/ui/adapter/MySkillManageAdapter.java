@@ -20,6 +20,7 @@ import com.slash.youth.ui.holder.MySkillManageHolder;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -63,15 +64,13 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
     }
 
     private void showDialog() {
-        DialogUtils.showDialogFive(mySkillManageActivity, "删除", "是否删除该技能", new DialogUtils.DialogCallBack() {
+        DialogUtils.showDialogFive(mySkillManageActivity,"删除","是否删除该任务",new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 if(index!=-1){
-                SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(index);
-                long id = listBean.getId();
-                skillManageList.remove(index);
-                notifyDataSetChanged();
-                MyManager.onDeteleSkillManagerItem(new onAddMyCollectionList(),id);
+                    SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(index);
+                    long id = listBean.getId();
+                    MyManager.onDeteleSkillManagerItem(new onAddMyCollectionList(),id);
                 }
             }
 
@@ -89,7 +88,15 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
             if(rescode == 0){
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                LogKit.d("status:"+status);
+                switch (status){
+                    case 1://ok
+                        skillManageList.remove(index);
+                        notifyDataSetChanged();
+                        break;
+                    case 0:
+                        ToastUtils.shortToast("删除失败");
+                        break;
+                }
             }
         }
 
@@ -98,7 +105,4 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
             LogKit.d("result:"+result);
         }
     }
-
-
-
 }

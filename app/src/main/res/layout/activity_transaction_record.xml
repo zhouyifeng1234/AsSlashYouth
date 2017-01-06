@@ -12,13 +12,40 @@
 
         <include layout="@layout/usertitlebar" />
 
-        <ListView
-            android:id="@+id/lv"
-            android:scrollbars="none"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="match_parent">
+            <!--清单列表-->
+            <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                android:id="@+id/refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
-        </ListView>
+                <include layout="@layout/refresh_head" />
+
+                <com.slash.youth.ui.view.widge.PullableDownListView
+                    android:id="@+id/lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:layout_marginTop="7dp">
+
+                </com.slash.youth.ui.view.widge.PullableDownListView>
+                <include
+                    android:id="@+id/more"
+                    layout="@layout/load_more" />
+            </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+
+            <TextView
+                android:id="@+id/tv_none"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="暂无数据!"/>
+
+        </FrameLayout>
+
     </LinearLayout>
 </layout>

@@ -15,6 +15,7 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -39,17 +40,33 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
 
     @Override
     public void refreshView(FreeTimeDemandBean.DataBean.ListBean data) {
-        long starttime = data.getStarttime();
-        String startData = TimeUtils.getData(starttime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + startData);
-        mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
-
+        int anonymity = data.getAnonymity();
+        String name = data.getName();
         String avatar = data.getAvatar();
-        if (avatar != null && avatar.equals("")) {
-            BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                if(avatar!=null&&avatar.equals("")){
+                    BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                }
+                itemHomeDemandServiceBinding.tvName.setText(name);
+                break;
+            case 0://匿名
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                itemHomeDemandServiceBinding.tvName.setText(anonymityName);
+                break;
         }
 
+        long starttime = data.getStarttime();
+        String startData = TimeUtils.getData(starttime);
+
+        mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+
+        if(avatar!=null&&!avatar.equals("")){
         int isauth = data.getIsauth();
+       
         switch (isauth) {
             case 0:
                 itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.GONE);
@@ -62,14 +79,12 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         String title = data.getTitle();
         itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
 
-        String name = data.getName();
-        itemHomeDemandServiceBinding.tvName.setText(name);
-
         long quote = data.getQuote();
         String quoteString = FirstPagerManager.QUOTE + quote + "元";
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
 
         int pattern = data.getPattern();
+        
         switch (pattern) {
             case 0:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
@@ -80,6 +95,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         }
 
         int instalment = data.getInstalment();
+        
         switch (instalment) {
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
@@ -98,6 +114,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+    
         itemHomeDemandServiceBinding.tvDistance.setText("距离 " + distance + "KM");
     }
 }
