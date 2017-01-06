@@ -295,6 +295,11 @@ public class DemandDetailModel extends BaseObservable {
                     setBottomBtnDemandVisibility(View.GONE);
                 }
                 setDemandTitle(demand.title);
+                if (demand.uid == LoginManager.currentLoginUserId) {
+                    setTopTitle("需求详情");
+                } else {
+                    setTopTitle(demand.title);
+                }
                 String starttimeStr = "";
                 if (demand.starttime != 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
@@ -1145,6 +1150,18 @@ public class DemandDetailModel extends BaseObservable {
     private int shareLayerVisibility = View.GONE;
 
     private int demandDetailLocationVisibility;
+
+    private String topTitle;
+
+    @Bindable
+    public String getTopTitle() {
+        return topTitle;
+    }
+
+    public void setTopTitle(String topTitle) {
+        this.topTitle = topTitle;
+        notifyPropertyChanged(BR.topTitle);
+    }
 
     @Bindable
     public int getDemandDetailLocationVisibility() {

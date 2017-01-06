@@ -1,14 +1,15 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityReplacePhoneBinding;
 import com.slash.youth.domain.SendPinResultBean;
-import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PhoneNumUtils;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -30,11 +31,21 @@ public class ReplacePhoneModel extends BaseObservable {
     //点击验证
     public void validate(View view) {
         String phoneNumber = activityReplacePhoneBinding.etActivityLoginVerificationPhone.getText().toString();
-        if (!phoneNumber.isEmpty()) {
-            LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(),phoneNumber);
-        } else {
+        if (TextUtils.isEmpty(phoneNumber)) {
             ToastUtils.shortCenterToast("未填写手机号码");
+            return;
         }
+        boolean isCorrect = PhoneNumUtils.checkPhoneNum(phoneNumber);
+        if (!isCorrect) {
+            ToastUtils.shortToast("请输入正确的手机号码");
+        } else {
+            LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(), phoneNumber);
+        }
+//        if (!phoneNumber.isEmpty()) {
+//            LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(), phoneNumber);
+//        } else {
+//            ToastUtils.shortCenterToast("未填写手机号码");
+//        }
     }
 
     //获取验证码

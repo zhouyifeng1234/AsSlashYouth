@@ -51,6 +51,7 @@ public class ServiceDetailModel extends BaseObservable {
     private LinearLayout mLlServiceRecommend;
     long serviceId;
     boolean isFromDetail;
+    String[] optionalPriceUnit;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -65,6 +66,7 @@ public class ServiceDetailModel extends BaseObservable {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
         isFromDetail = mActivity.getIntent().getBooleanExtra("isFromDetail", false);//用来判断是否是从详情页中的推荐跳转过来的
         LogKit.v("serviceId:" + serviceId);
+        optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
         getServiceDetailData();
     }
 
@@ -386,7 +388,19 @@ public class ServiceDetailModel extends BaseObservable {
                         setBottomBtnDemandVisibility(View.VISIBLE);
                     }
                     setTitle(service.title);
-                    setQuote("¥" + (int) service.quote + "元");
+                    if (service.uid == LoginManager.currentLoginUserId) {
+                        setTopTitle("服务详情");
+                    } else {
+                        setTopTitle(service.title);
+                    }
+                    if (service.quoteunit == 9) {
+                        setQuote("¥" + (int) service.quote + "元");
+                    } else if (service.quoteunit > 0 && service.quoteunit < 9) {
+                        String quoteunitStr = optionalPriceUnit[service.quoteunit - 1];
+                        setQuote("¥" + (int) service.quote + "元/" + quoteunitStr);
+                    } else {//这种情况应该不存在
+                        setQuote("¥" + (int) service.quote + "元");
+                    }
                     if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_USER_DEFINED) {//自定义时间
                         //时间:9月18日 8:30-9月19日 8:30
                         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
@@ -641,6 +655,18 @@ public class ServiceDetailModel extends BaseObservable {
     private String serviceUserPlace;
 
     private int shareLayerVisibility = View.GONE;
+
+    private String topTitle;
+
+    @Bindable
+    public String getTopTitle() {
+        return topTitle;
+    }
+
+    public void setTopTitle(String topTitle) {
+        this.topTitle = topTitle;
+        notifyPropertyChanged(BR.topTitle);
+    }
 
     @Bindable
     public int getShareLayerVisibility() {

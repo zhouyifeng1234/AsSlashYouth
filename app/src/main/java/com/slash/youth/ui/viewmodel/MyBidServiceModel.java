@@ -310,10 +310,21 @@ public class MyBidServiceModel extends BaseObservable {
                 //服务标题，布局文件中有两个地方需要设置
                 setServiceTitle(service.title);
                 //闲置时间
-                SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 hh:mm");
-                String starttimeStr = sdfIdleTime.format(service.starttime);
-                String endtimeStr = sdfIdleTime.format(service.endtime);
-                setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                int timetype = service.timetype;
+                if (timetype == 0) {
+                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
+                    String starttimeStr = sdfIdleTime.format(service.starttime);
+                    String endtimeStr = sdfIdleTime.format(service.endtime);
+                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                } else if (timetype == 1) {
+                    setIdleTime("闲置时间:下班后");
+                } else if (timetype == 2) {
+                    setIdleTime("闲置时间:周末");
+                } else if (timetype == 3) {
+                    setIdleTime("闲置时间:下班后及周末");
+                } else if (timetype == 4) {
+                    setIdleTime("闲置时间:随时");
+                }
                 //报价 这里不能使用服务详情接口返回的报价
                 quoteunit = service.quoteunit;
 //                CommonUtils.getHandler().post(new Runnable() {
@@ -353,8 +364,11 @@ public class MyBidServiceModel extends BaseObservable {
                 //纠纷处理方式（似乎协商处理就显示）
                 if (service.bp == 2) {//协商
                     setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyBidServiceBinding.tvBpText.setText("协商处理纠纷");
                 } else if (service.bp == 1) {//平台
-                    setBpConsultVisibility(View.INVISIBLE);
+//                    setBpConsultVisibility(View.INVISIBLE);
+                    setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyBidServiceBinding.tvBpText.setText("平台处理纠纷");
                 }
 
                 loadDataTimes++;

@@ -28,6 +28,7 @@ import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PhoneNumUtils;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.socialize.UMAuthListener;
@@ -140,7 +141,6 @@ public class ActivityLoginModel extends BaseObservable {
         mActivity.startActivity(intentChatActivity);
     }
 
-
     /**
      * 登录按钮点击事件
      *
@@ -151,6 +151,11 @@ public class ActivityLoginModel extends BaseObservable {
         String pin = mActivityLoginBinding.etActivityLoginVerificationCode.getText().toString();
         if (TextUtils.isEmpty(phoenNum) || TextUtils.isEmpty(pin)) {
             ToastUtils.shortToast("手机号或者验证码不能为空");
+            return;
+        }
+        boolean isCorrect = PhoneNumUtils.checkPhoneNum(phoenNum);
+        if (!isCorrect) {
+            ToastUtils.shortToast("请输入正确的手机号码");
             return;
         }
         LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
@@ -245,7 +250,6 @@ public class ActivityLoginModel extends BaseObservable {
 //        intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentChatActivity);
 
-
     }
 
     /**
@@ -267,6 +271,11 @@ public class ActivityLoginModel extends BaseObservable {
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
             ToastUtils.shortToast("请输入手机号");
+            return;
+        }
+        boolean isCorrect = PhoneNumUtils.checkPhoneNum(phoenNum);
+        if (!isCorrect) {
+            ToastUtils.shortToast("请输入正确的手机号码");
             return;
         }
         LogKit.v(phoenNum);
