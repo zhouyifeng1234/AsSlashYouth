@@ -2,7 +2,6 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -21,9 +20,11 @@ import com.slash.youth.utils.DistanceUtils;
  * Created by zhouyifeng on 2016/10/12.
  */
 public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.ListBean> {
+
     private ItemHomeDemandServiceModel mItemHomeDemandServiceModel;
     private ItemHomeDemandServiceBinding itemHomeDemandServiceBinding;
     private Activity mActivity;
+
     public HomeServiceHolder(Activity mActivity) {
         this.mActivity = mActivity;
     }
