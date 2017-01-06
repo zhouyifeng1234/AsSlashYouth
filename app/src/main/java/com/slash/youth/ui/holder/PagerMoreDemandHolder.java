@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -49,7 +50,7 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(avatar!=null&&avatar.equals("")){
+                if(TextUtils.isEmpty(avatar)){//http://121.42.145.178/file/v1/api/download?fileId=group1/M00/00/07/eBtfY1hafHmAO_V9AAAo2cGFwKk.ccbb06
                     BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 }
                 itemHomeDemandServiceBinding.tvName.setText(name);
@@ -113,6 +114,6 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

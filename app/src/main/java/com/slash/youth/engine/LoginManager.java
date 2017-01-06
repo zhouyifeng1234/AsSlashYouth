@@ -16,6 +16,7 @@ import com.slash.youth.http.protocol.LoginoutProtocol;
 import com.slash.youth.http.protocol.PhoneLoginpProtocol;
 import com.slash.youth.http.protocol.ThirdPartyLoginProtocol;
 import com.slash.youth.http.protocol.TokenLoginProtocol;
+import com.slash.youth.http.protocol.UpdatePhoneVerificationCodeProtocol;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -33,7 +34,7 @@ import java.util.Map;
  * Created by Administrator on 2016/8/31.
  */
 public class LoginManager {
-    public static long currentLoginUserId;//实际应该在登录状态中获取
+    public static long currentLoginUserId = 10003;//实际应该在登录状态中获取
     public static String currentLoginUserName;
     public static String currentLoginUserAvatar;
     public static String currentLoginUserPhone;
@@ -69,9 +70,15 @@ public class LoginManager {
         checkPhoneVerificationCodeProtocol.getDataFromServer(checkPhoneVerificationCode);
     }
 
+    //变更手机页
+    public static void UpdatePhoneVerificationCodeProtocol(BaseProtocol.IResultExecutor onUpdatePhoneVerificationCodeProtocol,String phoneNum, String pin) {
+        UpdatePhoneVerificationCodeProtocol updatePhoneVerificationCodeProtocol = new UpdatePhoneVerificationCodeProtocol(phoneNum, pin);
+        updatePhoneVerificationCodeProtocol.getDataFromServer(onUpdatePhoneVerificationCodeProtocol);
+    }
+
 
     /**
-     * 手机号登录
+     * 手机号登录u
      *
      * @param phone
      * @param pin

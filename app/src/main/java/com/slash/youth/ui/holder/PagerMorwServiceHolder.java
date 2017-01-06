@@ -118,6 +118,6 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

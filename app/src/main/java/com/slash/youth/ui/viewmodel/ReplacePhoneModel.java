@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.databinding.ActivityReplacePhoneBinding;
@@ -30,7 +31,7 @@ public class ReplacePhoneModel extends BaseObservable {
     //点击验证
     public void validate(View view) {
         String phoneNumber = activityReplacePhoneBinding.etActivityLoginVerificationPhone.getText().toString();
-        if (!phoneNumber.isEmpty()) {
+        if (!TextUtils.isEmpty(phoneNumber)) {
             LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(),phoneNumber);
         } else {
             ToastUtils.shortCenterToast("未填写手机号码");

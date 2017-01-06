@@ -2,6 +2,7 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import com.slash.youth.databinding.PullToRefreshListviewBinding;
@@ -44,6 +45,7 @@ public class PullToRefreshListViewModel extends BaseObservable {
     private int listsize;
     private SearchActivity currentActivity;
     private String searchType;
+    private PagerMoreServiceAdapter pagerHomeServiceAdapter;
 
     public PullToRefreshListViewModel(PullToRefreshListviewBinding pullToRefreshListviewBinding,boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity) {
         this.pullToRefreshListviewBinding = pullToRefreshListviewBinding;
@@ -137,7 +139,7 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 List<FreeTimeMoreServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
                 arrayListService.addAll(list);
-                PagerMoreServiceAdapter pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
+                pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
                 pullToRefreshListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
             }
         }

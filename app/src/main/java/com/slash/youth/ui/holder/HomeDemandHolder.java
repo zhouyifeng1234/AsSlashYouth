@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -93,6 +94,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         }
 
         int instalment = data.getInstalment();
+        itemHomeDemandServiceBinding.tvInstalment.setText("一次性支付");
         switch (instalment){
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
@@ -103,7 +105,9 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         }
 
         String place = data.getPlace();
-        itemHomeDemandServiceBinding.tvLocation.setText(place);
+        if(!TextUtils.isEmpty(place)){
+            itemHomeDemandServiceBinding.tvLocation.setText(place);
+        }
 
         double lat = data.getLat();
         double lng = data.getLng();
@@ -111,6 +115,6 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

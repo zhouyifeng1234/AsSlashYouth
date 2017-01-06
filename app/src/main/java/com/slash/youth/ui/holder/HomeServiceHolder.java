@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -20,11 +21,9 @@ import com.slash.youth.utils.DistanceUtils;
  * Created by zhouyifeng on 2016/10/12.
  */
 public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.ListBean> {
-
     private ItemHomeDemandServiceModel mItemHomeDemandServiceModel;
     private ItemHomeDemandServiceBinding itemHomeDemandServiceBinding;
     private Activity mActivity;
-
     public HomeServiceHolder(Activity mActivity) {
         this.mActivity = mActivity;
     }
@@ -80,14 +79,19 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         }
 
         String title = data.getTitle();
-        itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
-
+        if(!TextUtils.isEmpty(title)){
+            itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
+        }
 
         long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
         if (quoteunit >= 1 && quoteunit <= 9) {
-            String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit - 1];
-            itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+            if(quote == 0){
+                itemHomeDemandServiceBinding.tvQuote.setText("服务方报价");
+            }else {
+                String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit - 1];
+                itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+            }
         }
 
         int pattern = data.getPattern();
@@ -101,6 +105,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         }
 
         int instalment = data.getInstalment();
+        itemHomeDemandServiceBinding.tvInstalment.setText("分期支付");
         switch (instalment) {
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
@@ -111,7 +116,9 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         }
 
         String place = data.getPlace();
-        itemHomeDemandServiceBinding.tvLocation.setText(place);
+        if(!TextUtils.isEmpty(place)){
+            itemHomeDemandServiceBinding.tvLocation.setText(place);
+        }
 
         //目标经纬度
         double lat = data.getLat();
@@ -120,6 +127,6 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<" + distance + "KM");
+        itemHomeDemandServiceBinding.tvDistance.setText("距离" + distance + "KM");
     }
 }

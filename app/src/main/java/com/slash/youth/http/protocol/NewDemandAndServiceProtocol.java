@@ -42,10 +42,7 @@ public class NewDemandAndServiceProtocol extends BaseProtocol<NewDemandAandServi
         if(limit>0&&limit<=20){
             params.addBodyParameter("limit", String.valueOf(limit));
         }
-
-        if(anonymity==1||anonymity == 0){
-            params.addBodyParameter("anonymity", String.valueOf(anonymity));
-        }
+        params.addBodyParameter("anonymity", String.valueOf(anonymity));
     }
 
     @Override

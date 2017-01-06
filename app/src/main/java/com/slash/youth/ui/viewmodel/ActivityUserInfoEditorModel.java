@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.graphics.Color;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -101,20 +102,20 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     private void setUserView() {
         //头像的路径
-        if (avatar != null) {
+        if (!TextUtils.isEmpty(avatar)) {
 
             BitmapKit.bindImage(activityUserinfoEditorBinding.ivHead, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         //姓名
-        if (name != null) {
+        if (!TextUtils.isEmpty(name)) {
             activityUserinfoEditorBinding.etUsername.setText(name);
         }
         //手机号码
-        if (phone != null) {
+        if (!TextUtils.isEmpty(phone)) {
             activityUserinfoEditorBinding.tvUserphone.setText(phone);
         }
         //所在地
-        if (province.equals(city) && city != null && province != null) {
+        if (province.equals(city) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(province)) {
             activityUserinfoEditorBinding.tvLocation.setText(province);
         } else {
             activityUserinfoEditorBinding.tvLocation.setText(province + "" + city);
@@ -142,7 +143,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         activityUserinfoEditorBinding.tvProfession.setText(position);
 
         //行业方向
-        if(industry!=null&&direction!=null&&industry!=""&&direction!=""){
+        if(!TextUtils.isEmpty(industry)&&!TextUtils.isEmpty(direction)){
             activityUserinfoEditorBinding.tvDirection.setText(industry + "|" + direction);
         }
         //技能标签
@@ -151,7 +152,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         skillLabelList.clear();
         skillLabelList.addAll(lists);
 
-        if (tag != "" && tag != null) {
+        if (!TextUtils.isEmpty(tag)) {
             activityUserinfoEditorBinding.llSkilllabelContainer.removeAllViews();
             String[] split = tag.split(",");
             for (String textTag : split) {

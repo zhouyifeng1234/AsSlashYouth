@@ -122,7 +122,8 @@ public class GlobalConstants {
 
         //手机验证码验证
         public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/pin";
-//        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/pin";
+        //变更手机号
+        public static final String UPDATE_VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/update/phone";
 
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
