@@ -7,8 +7,12 @@ import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -28,6 +32,7 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
@@ -58,6 +63,7 @@ public class DemandDetailModel extends BaseObservable {
     SlashDateTimePicker sdtpBidDemandStarttime;
     private LinearLayout mLlDemandRecommend;
     boolean isFromDetail;
+    long demandUserId;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -283,9 +289,25 @@ public class DemandDetailModel extends BaseObservable {
             public void execute(DemandDetailBean dataBean) {
                 demandDetailBean = dataBean;
                 DemandDetailBean.Demand demand = dataBean.data.demand;
+                demandUserId = demand.uid;
                 if (LoginManager.currentLoginUserId == demand.uid) {//需求者视角
                     setTopShareBtnVisibility(View.GONE);
                     setTopDemandBtnVisibility(View.VISIBLE);
+                    int status = demand.status;
+                    if (status == 0 || status == 1) {
+                        setUpdateBtnVisibility(View.VISIBLE);
+                        setOffShelfBtnVisibility(View.VISIBLE);
+                        setRemarkBtnVisibility(View.GONE);
+                    } else if (status == 2) {
+                        setUpdateBtnVisibility(View.GONE);
+                        setOffShelfBtnVisibility(View.GONE);
+                        setRemarkBtnVisibility(View.VISIBLE);
+                    } else {
+                        setUpdateBtnVisibility(View.GONE);
+                        setOffShelfBtnVisibility(View.GONE);
+                        setRemarkBtnVisibility(View.GONE);
+                    }
+
                     setBottomBtnServiceVisibility(View.GONE);
                     setBottomBtnDemandVisibility(View.VISIBLE);
                 } else {//服务者视角
@@ -360,6 +382,17 @@ public class DemandDetailModel extends BaseObservable {
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
                 setDemandDesc(demand.desc);
+                //设置备注
+                if (TextUtils.isEmpty(demand.remark)) {
+                    setRemarksVisibility(View.GONE);
+                } else {
+                    setRemarksVisibility(View.VISIBLE);
+//                    setDemandRemark("\\u3000\\u3000\\u3000\\u3000" + demand.remark);
+                    SpannableStringBuilder span = new SpannableStringBuilder("备注:" + demand.remark);
+                    span.setSpan(new ForegroundColorSpan(0xff31C5E4), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    span.setSpan(new AbsoluteSizeSpan(CommonUtils.dip2px(15)), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    mActivityDemandDetailBinding.tvDemandRemark.setText(span);
+                }
                 //详情图片
                 String[] picFileIds = demand.pic.split(",");
                 //如果demand.pic为""空字符喘，picFileIds的length也是1
@@ -694,6 +727,53 @@ public class DemandDetailModel extends BaseObservable {
         }, demandId + "", "1", "0");
     }
 
+    /**
+     * 添加备注
+     *
+     * @param v
+     */
+    public void addRemarks(View v) {
+//        ToastUtils.shortToast("添加备注");
+        setAddRemarksLayerVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 关闭添加备注浮层
+     *
+     * @param v
+     */
+    public void closeAddRemarksLayer(View v) {
+        setAddRemarksLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 输入完备注内容以后，确定添加备注
+     *
+     * @param v
+     */
+    public void sureAddRemarks(View v) {
+        final String remarks = mActivityDemandDetailBinding.etDemandRemarks.getText().toString();
+        if (TextUtils.isEmpty(remarks)) {
+            ToastUtils.shortToast("请输入备注信息");
+            return;
+        }
+        DemandEngine.setDemandRemark(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                setAddRemarksLayerVisibility(View.GONE);
+                SpannableStringBuilder span = new SpannableStringBuilder("备注:" + remarks);
+                span.setSpan(new ForegroundColorSpan(0xff31C5E4), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                span.setSpan(new AbsoluteSizeSpan(CommonUtils.dip2px(15)), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                mActivityDemandDetailBinding.tvDemandRemark.setText(span);
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("设置需求备注失败:" + result);
+            }
+        }, demandId + "", remarks);
+    }
+
     //跳转到个人信息界面
     public void gotoUserInfo(View v) {
         ToastUtils.shortToast("跳转至个人信息界面");
@@ -701,7 +781,11 @@ public class DemandDetailModel extends BaseObservable {
 
     //打开聊天功能
     public void haveAChat(View v) {
-        ToastUtils.shortToast("聊一聊");
+
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", demandUserId);
+        mActivity.startActivity(intentChatActivity);
+
     }
 
     //收藏需求
@@ -1152,6 +1236,73 @@ public class DemandDetailModel extends BaseObservable {
     private int demandDetailLocationVisibility;
 
     private String topTitle;
+    private int addRemarksLayerVisibility = View.GONE;
+    private String demandRemark;
+    private int remarksVisibility;
+
+    private int updateBtnVisibility;
+    private int remarkBtnVisibility;
+    private int offShelfBtnVisibility;
+
+    @Bindable
+    public int getUpdateBtnVisibility() {
+        return updateBtnVisibility;
+    }
+
+    public void setUpdateBtnVisibility(int updateBtnVisibility) {
+        this.updateBtnVisibility = updateBtnVisibility;
+        notifyPropertyChanged(BR.updateBtnVisibility);
+    }
+
+    @Bindable
+    public int getRemarkBtnVisibility() {
+        return remarkBtnVisibility;
+    }
+
+    public void setRemarkBtnVisibility(int remarkBtnVisibility) {
+        this.remarkBtnVisibility = remarkBtnVisibility;
+        notifyPropertyChanged(BR.remarkBtnVisibility);
+    }
+
+    @Bindable
+    public int getOffShelfBtnVisibility() {
+        return offShelfBtnVisibility;
+    }
+
+    public void setOffShelfBtnVisibility(int offShelfBtnVisibility) {
+        this.offShelfBtnVisibility = offShelfBtnVisibility;
+        notifyPropertyChanged(BR.offShelfBtnVisibility);
+    }
+
+    @Bindable
+    public int getRemarksVisibility() {
+        return remarksVisibility;
+    }
+
+    public void setRemarksVisibility(int remarksVisibility) {
+        this.remarksVisibility = remarksVisibility;
+        notifyPropertyChanged(BR.remarksVisibility);
+    }
+
+    @Bindable
+    public String getDemandRemark() {
+        return demandRemark;
+    }
+
+    public void setDemandRemark(String demandRemark) {
+        this.demandRemark = demandRemark;
+        notifyPropertyChanged(BR.demandRemark);
+    }
+
+    @Bindable
+    public int getAddRemarksLayerVisibility() {
+        return addRemarksLayerVisibility;
+    }
+
+    public void setAddRemarksLayerVisibility(int addRemarksLayerVisibility) {
+        this.addRemarksLayerVisibility = addRemarksLayerVisibility;
+        notifyPropertyChanged(BR.addRemarksLayerVisibility);
+    }
 
     @Bindable
     public String getTopTitle() {

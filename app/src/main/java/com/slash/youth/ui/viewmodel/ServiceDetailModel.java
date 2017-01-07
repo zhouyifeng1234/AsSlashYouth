@@ -26,6 +26,7 @@ import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
@@ -52,6 +53,7 @@ public class ServiceDetailModel extends BaseObservable {
     long serviceId;
     boolean isFromDetail;
     String[] optionalPriceUnit;
+    long serviceUserId;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -109,7 +111,9 @@ public class ServiceDetailModel extends BaseObservable {
 
     //聊一聊
     public void haveAChat(View v) {
-
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", serviceId);
+        mActivity.startActivity(intentChatActivity);
     }
 
     //收藏服务
@@ -371,7 +375,7 @@ public class ServiceDetailModel extends BaseObservable {
                     LogKit.v("service data:" + dataBean.data.service.title);
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
-
+                    serviceUserId = service.uid;
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角
                         setTopServiceBtnVisibility(View.VISIBLE);

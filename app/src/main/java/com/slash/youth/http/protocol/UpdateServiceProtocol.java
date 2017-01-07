@@ -76,11 +76,13 @@ public class UpdateServiceProtocol extends BaseProtocol<CommonResultBean> {
             jo.put("anonymity", anonymity);
             jo.put("desc", desc);
             jo.put("timetype", timetype);
-            JSONArray jaPic = new JSONArray();
-            for (String picUrl : listPic) {
-                jaPic.put(picUrl);
+            if (listPic.size() > 0) {
+                JSONArray jaPic = new JSONArray();
+                for (String picUrl : listPic) {
+                    jaPic.put(picUrl);
+                }
+                jo.put("pic", jaPic);
             }
-            jo.put("pic", jaPic);
             jo.put("instalment", instalment);
             jo.put("bp", bp);
             jo.put("pattern", pattern);

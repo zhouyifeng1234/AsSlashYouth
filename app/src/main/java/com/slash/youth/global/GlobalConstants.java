@@ -194,6 +194,8 @@ public class GlobalConstants {
         public static final String GET_DEMAND_DESC = SERVER_HOST_DEMAND + "descget";
         //十五、[需求]-设置需求描述信息
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
+        //十五、[需求]-设置需求备注信息
+        public static final String SET_DEMAND_REMARK = SERVER_HOST_DEMAND + "setremark";
         //十六、[需求]-需求方获取意向单列表
         public static final String GET_DEMAND_PURPOSE_LIST = SERVER_HOST_DEMAND + "purposelist";
         //十七、[需求]-需求方申请退款

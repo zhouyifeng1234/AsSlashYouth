@@ -128,8 +128,12 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.setText(demand.desc);
         //回填开始时间
         startTime = demand.starttime;
-        SimpleDateFormat sdfStartTime = new SimpleDateFormat("MM月dd日-hh:mm");
-        setStartTimeStr(sdfStartTime.format(startTime));
+        if (startTime > 0) {
+            SimpleDateFormat sdfStartTime = new SimpleDateFormat("MM月dd日-HH:mm");
+            setStartTimeStr(sdfStartTime.format(startTime));
+            setDeleteStartTimeIconVisibility(View.VISIBLE);
+            setSetStartTimeBtnVisibility(View.GONE);
+        }
         //回填图片
         String[] picFileIds = demand.pic.split(",");
         final String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
