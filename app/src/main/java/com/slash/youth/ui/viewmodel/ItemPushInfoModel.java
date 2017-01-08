@@ -7,6 +7,11 @@ import android.databinding.Bindable;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemPushInfoBinding;
 import com.slash.youth.domain.PushInfoBean;
+import com.slash.youth.domain.UserInfoBean;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.BitmapKit;
 
 /**
  * Created by zhouyifeng on 2016/11/22.
@@ -15,6 +20,8 @@ public class ItemPushInfoModel extends BaseObservable {
     ItemPushInfoBinding mItemPushInfoBinding;
     Activity mActivity;
     PushInfoBean mPushInfoBean;
+    String username;
+    String avatar;
 
     public ItemPushInfoModel(ItemPushInfoBinding itemPushInfoBinding, Activity activity, PushInfoBean pushInfoBean) {
         this.mItemPushInfoBinding = itemPushInfoBinding;
@@ -26,14 +33,48 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void initData() {
+        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                username = uinfo.name;
+                avatar = uinfo.avatar;
+                setPushUserInfo();
+            }
 
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, mPushInfoBean.senderUserId, "0");
     }
 
     private void initView() {
-        setPushText(mPushInfoBean.pushText);
+
+    }
+
+    private void setPushUserInfo() {
+        BitmapKit.bindImage(mItemPushInfoBinding.ivPushAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+        setPushName(username);
+        if (mPushInfoBean.msg_type == PushInfoBean.CHAT_TEXT_MSG) {
+            setPushText(mPushInfoBean.pushText);
+        } else {
+            setPushText(username + mPushInfoBean.pushText);
+        }
     }
 
     private String pushText;
+    private String pushName;
+
+    @Bindable
+    public String getPushName() {
+        return pushName;
+    }
+
+    public void setPushName(String pushName) {
+        this.pushName = pushName;
+        notifyPropertyChanged(BR.pushName);
+    }
 
     @Bindable
     public String getPushText() {

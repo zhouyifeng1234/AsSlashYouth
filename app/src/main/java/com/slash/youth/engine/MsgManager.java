@@ -21,6 +21,7 @@ import com.slash.youth.http.protocol.AgreeAddFriendProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ConversationListProtocol;
 import com.slash.youth.http.protocol.GetIsChangeContactProtocol;
+import com.slash.youth.http.protocol.RefreshRongTokenProtocol;
 import com.slash.youth.http.protocol.RejectAddFriendProtocol;
 import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.http.protocol.SetChangeContactProtocol;
@@ -105,7 +106,7 @@ public class MsgManager {
                     Looper.loop();
                     return;
                 }
-                getRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
+                refreshRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
                     @Override
                     public void execute(RongTokenBean dataBean) {
                         String rongToken = dataBean.data.token;
@@ -114,7 +115,7 @@ public class MsgManager {
 
                     @Override
                     public void executeResultError(String result) {
-                        ToastUtils.shortToast("重新获取融云token失败:" + result);
+                        ToastUtils.shortToast("刷新融云token失败:" + result);
                     }
                 }, LoginManager.currentLoginUserId + "", "111");//暂时phone参数随便传
             }
@@ -220,7 +221,9 @@ public class MsgManager {
                                     } else {
                                         //消息推送的顶部弹框提示
                                         PushInfoBean pushInfoBean = new PushInfoBean();
+                                        pushInfoBean.senderUserId = senderUserId;
                                         pushInfoBean.pushText = textMessage.getContent();
+                                        pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
                                         displayPushInfo(pushInfoBean);
                                     }
                                 } else {
@@ -229,6 +232,28 @@ public class MsgManager {
                                         mChatOtherCmdListener.doOtherCmd(message, left);
                                     } else {
                                         //消息推送的顶部弹框提示
+                                        PushInfoBean pushInfoBean = new PushInfoBean();
+                                        pushInfoBean.senderUserId = senderUserId;
+                                        String content = textMessage.getContent();
+                                        if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                                            pushInfoBean.pushText = "请求添加您为好友";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                                            pushInfoBean.pushText = "分享了一个任务";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                                            pushInfoBean.pushText = "分享了个人名片";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                                            pushInfoBean.pushText = "请求交换联系方式";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+                                            pushInfoBean.pushText = "同意添加您为好友";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+                                            pushInfoBean.pushText = "拒绝添加您为好友";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+                                            pushInfoBean.pushText = "同意交换联系方式";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+                                            pushInfoBean.pushText = "拒绝交换联系方式";
+                                        }
+                                        pushInfoBean.msg_type = PushInfoBean.CHAT_OTHER_TEXT_CMD_MSG;
+                                        displayPushInfo(pushInfoBean);
                                     }
                                 }
                             }
@@ -243,6 +268,11 @@ public class MsgManager {
                                     mChatPicListener.dispayPic(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
+                                    PushInfoBean pushInfoBean = new PushInfoBean();
+                                    pushInfoBean.senderUserId = senderUserId;
+                                    pushInfoBean.pushText = "向您发送了一张图片";
+                                    pushInfoBean.msg_type = PushInfoBean.CHAT_IMG_MSG;
+                                    displayPushInfo(pushInfoBean);
                                 }
                             }
                         });
@@ -256,6 +286,11 @@ public class MsgManager {
                                     mChatVoiceListener.loadVoice(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
+                                    PushInfoBean pushInfoBean = new PushInfoBean();
+                                    pushInfoBean.senderUserId = senderUserId;
+                                    pushInfoBean.pushText = "向您发送了一段语音";
+                                    pushInfoBean.msg_type = PushInfoBean.CHAT_VOICE_MSG;
+                                    displayPushInfo(pushInfoBean);
                                 }
                             }
                         });
@@ -302,7 +337,6 @@ public class MsgManager {
                     }
                 }
             }
-
             return false;
         }
     }
@@ -544,6 +578,18 @@ public class MsgManager {
     public static void getRongToken(BaseProtocol.IResultExecutor onGetRongTokenFinished, String uid, String phone) {
         RongTokenProtocol rongTokenProtocol = new RongTokenProtocol(uid, phone);
         rongTokenProtocol.getDataFromServer(onGetRongTokenFinished);
+    }
+
+    /**
+     * 更新融云token
+     *
+     * @param onRefreshRongTokenFinished
+     * @param uid
+     * @param phone
+     */
+    public static void refreshRongToken(BaseProtocol.IResultExecutor onRefreshRongTokenFinished, String uid, String phone) {
+        RefreshRongTokenProtocol refreshRongTokenProtocol = new RefreshRongTokenProtocol(uid, phone);
+        refreshRongTokenProtocol.getDataFromServer(onRefreshRongTokenFinished);
     }
 
     /**

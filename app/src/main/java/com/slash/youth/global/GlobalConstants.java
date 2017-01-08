@@ -132,6 +132,8 @@ public class GlobalConstants {
         public static final String THIRD_PARTY_LOGIN = SERVER_HOST + "auth/v1/login/thirdParty";
         //获取融云token
         public static final String GET_RONG_TOEKN = SERVER_HOST + "auth/v1/rongToken";
+        //更新融云token
+        public static final String REFRESH_RONG_TOKEN = SERVER_HOST + "auth/v1/rongToken/update";
         //登录后完善信息 设置头像
         public static final String LOGIN_SET_AVATAR = SERVER_HOST_MY_USERINFO + "/" + "vcard/avatar/set";
         //登录后完善信息 设置真实姓名
