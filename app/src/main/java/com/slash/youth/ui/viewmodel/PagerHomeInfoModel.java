@@ -55,6 +55,7 @@ public class PagerHomeInfoModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
+        listConversation.clear();
         MsgManager.getConversationList(new BaseProtocol.IResultExecutor<ConversationListBean>() {
             @Override
             public void execute(ConversationListBean dataBean) {

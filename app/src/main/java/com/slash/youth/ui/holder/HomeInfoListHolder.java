@@ -11,6 +11,7 @@ import com.slash.youth.databinding.ItemListviewHomeInfoBinding;
 import com.slash.youth.domain.ChatTaskInfoBean;
 import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemHomeInfoModel;
 import com.slash.youth.utils.BitmapKit;
@@ -86,7 +87,24 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
                             if (TextUtils.isEmpty(extra)) {
                                 mItemHomeInfoModel.setLastMsg(textMessage.getContent());
                             } else {
-
+                                String content = textMessage.getContent();
+                                if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                                    mItemHomeInfoModel.setLastMsg("对方请求添加您为好友");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                                    mItemHomeInfoModel.setLastMsg("对方分享了一个任务");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                                    mItemHomeInfoModel.setLastMsg("对方分享了个人名片");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                                    mItemHomeInfoModel.setLastMsg("对方请求交换联系方式");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+                                    mItemHomeInfoModel.setLastMsg("对方同意添加您为好友");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+                                    mItemHomeInfoModel.setLastMsg("对方拒绝添加您为好友");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+                                    mItemHomeInfoModel.setLastMsg("对方同意交换联系方式");
+                                } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+                                    mItemHomeInfoModel.setLastMsg("对方拒绝交换联系方式");
+                                }
                             }
                         } else if (objectName.equals("RC:ImgMsg")) {
                             mItemHomeInfoModel.setLastMsg("有图片消息");
