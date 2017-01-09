@@ -5,8 +5,11 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -20,15 +23,21 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ImageLoader;
+import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.finalteam.galleryfinal.widget.GFImageView;
 import io.rong.imlib.RongIMClient;
 
 
 /**
  * Created by zhouyifeng on 2016/8/31.
  */
-public class SlashApplication extends Application {
+public class SlashApplication extends android.support.multidex.MultiDexApplication {
     private static Context context;
     private static int mainThreadId;
     private static Handler handler;
@@ -139,6 +148,43 @@ public class SlashApplication extends Application {
 //        LogKit.v("currentLatitude:" + currentLatitude);
 //        LogKit.v("currentLongitude:" + currentLongitude);
 
+        //初始化GalleryFinal
+//        ThemeConfig theme = ThemeConfig.CYAN;
+        ThemeConfig theme = new ThemeConfig.Builder().setTitleBarTextColor(0xffffffff).setTitleBarBgColor(0xff31C5E4).setTitleBarIconColor(0xffffffff).build();
+        ImageLoader imageloader = new XUtilsImageLoader();
+        CoreConfig coreConfig = new CoreConfig.Builder(context, imageloader, theme).build();
+        GalleryFinal.init(coreConfig);
+    }
+
+    public class XUtilsImageLoader implements cn.finalteam.galleryfinal.ImageLoader {
+
+        private Bitmap.Config mImageConfig;
+
+        public XUtilsImageLoader() {
+            this(Bitmap.Config.RGB_565);
+        }
+
+        public XUtilsImageLoader(Bitmap.Config config) {
+            this.mImageConfig = config;
+        }
+
+        @Override
+        public void displayImage(Activity activity, String path, GFImageView imageView, Drawable defaultDrawable, int width, int height) {
+            ImageOptions options = new ImageOptions.Builder()
+                    .setLoadingDrawable(defaultDrawable)
+                    .setFailureDrawable(defaultDrawable)
+                    .setConfig(mImageConfig)
+                    .setSize(width, height)
+                    .setCrop(true)
+                    .setUseMemCache(false)
+                    .build();
+            x.image().bind(imageView, "file://" + path, options);
+
+        }
+
+        @Override
+        public void clearMemoryCache() {
+        }
     }
 
 
@@ -159,6 +205,11 @@ public class SlashApplication extends Application {
         return null;
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     public static Context getContext() {
         return context;

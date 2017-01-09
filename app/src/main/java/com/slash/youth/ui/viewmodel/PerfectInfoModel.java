@@ -27,6 +27,8 @@ import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
+import cn.finalteam.galleryfinal.FunctionConfig;
+
 /**
  * Created by zhouyifeng on 2016/9/12.
  */
@@ -94,6 +96,34 @@ public class PerfectInfoModel extends BaseObservable {
     public void openCamera(View v) {
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mActivity.startActivityForResult(intentCamera, 0);
+
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(5).setEnableCamera(true).build();
+//        GalleryFinal.openGalleryMuti(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+//            @Override
+//            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+//
+//            }
+//
+//            @Override
+//            public void onHanlderFailure(int requestCode, String errorMsg) {
+//
+//            }
+//        });
+
+//        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+//            @Override
+//            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+//                PhotoInfo photoInfo = resultList.get(0);
+//                LogKit.v("photoInfo.getPhotoPath()" + photoInfo.getPhotoPath());
+//                LogKit.v("photoInfo.getWidth()" + photoInfo.getWidth());
+//                LogKit.v("photoInfo.getHeight()" + photoInfo.getHeight());
+//            }
+//
+//            @Override
+//            public void onHanlderFailure(int requestCode, String errorMsg) {
+//
+//            }
+//        });
     }
 
     String phonenum;
