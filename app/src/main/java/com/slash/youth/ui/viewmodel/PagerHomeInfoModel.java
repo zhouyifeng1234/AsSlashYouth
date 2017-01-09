@@ -61,6 +61,10 @@ public class PagerHomeInfoModel extends BaseObservable {
             public void execute(ConversationListBean dataBean) {
                 listConversation = dataBean.data.list;
                 if (listConversation != null) {
+                    for (int i = 0; i < listConversation.size(); i++) {
+                        ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
+                        MsgManager.conversationUidList.add(conversationInfo.uid);
+                    }
                     setConversationList();
                 }
             }

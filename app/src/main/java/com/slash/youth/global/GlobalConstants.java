@@ -269,9 +269,12 @@ public class GlobalConstants {
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";
         //二、[消息系统]-设置手机交换标识  聊天中设置已经交换过手机号的标识
         public static final String SET_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/set";
-        //三、[消息系统]-获得会话列表
+        //五、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
-
+        //六、[消息系统]-更新会话列表
+        public static final String SET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/set";
+        //七、[消息系统]-删除会话列表
+        public static final String DEL_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/del";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";

@@ -20,11 +20,13 @@ import com.slash.youth.http.protocol.AddFriendStatusProtocol;
 import com.slash.youth.http.protocol.AgreeAddFriendProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ConversationListProtocol;
+import com.slash.youth.http.protocol.DelConversationListProtocol;
 import com.slash.youth.http.protocol.GetIsChangeContactProtocol;
 import com.slash.youth.http.protocol.RefreshRongTokenProtocol;
 import com.slash.youth.http.protocol.RejectAddFriendProtocol;
 import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.http.protocol.SetChangeContactProtocol;
+import com.slash.youth.http.protocol.SetConversationListProtocol;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
@@ -37,6 +39,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imlib.RongIMClient;
@@ -60,6 +63,8 @@ public class MsgManager {
     public static final String CHAT_CMD_REFUSE_CHANGE_CONTACT = "refuseChangeContact";
 
     public static final String CHAT_TASK_INFO = "taskInfo";
+
+    public static ArrayList<Long> conversationUidList = new ArrayList<Long>();
 
     private static ChatTextListener mChatTextListener;
     private static ChatPicListener mChatPicListener;
@@ -560,7 +565,7 @@ public class MsgManager {
 
 
     /**
-     * 三、[消息系统]-获得会话列表
+     * 五、[消息系统]-获得会话列表
      *
      * @param onGetConversationListFinished
      * @param offset                        请求偏移量
@@ -569,6 +574,22 @@ public class MsgManager {
     public static void getConversationList(BaseProtocol.IResultExecutor onGetConversationListFinished, String offset, String limit) {
         ConversationListProtocol conversationListProtocol = new ConversationListProtocol(offset, limit);
         conversationListProtocol.getDataFromServer(onGetConversationListFinished);
+    }
+
+    /**
+     * 六、[消息系统]-更新会话列表
+     *
+     * @param onSetConversationListFinished
+     * @param conversationUidList
+     */
+    public static void setConversationList(BaseProtocol.IResultExecutor onSetConversationListFinished, ArrayList<Long> conversationUidList) {
+        SetConversationListProtocol setConversationListProtocol = new SetConversationListProtocol(conversationUidList);
+        setConversationListProtocol.getDataFromServer(onSetConversationListFinished);
+    }
+
+    public static void delConversationList(BaseProtocol.IResultExecutor onDelConversationListFinished, ArrayList<Long> conversationUidList) {
+        DelConversationListProtocol delConversationListProtocol = new DelConversationListProtocol(conversationUidList);
+        delConversationListProtocol.getDataFromServer(onDelConversationListFinished);
     }
 
     /**
