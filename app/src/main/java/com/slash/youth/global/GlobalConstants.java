@@ -122,7 +122,8 @@ public class GlobalConstants {
 
         //手机验证码验证
         public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/pin";
-//        public static final String VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/pin";
+        //变更手机号
+        public static final String UPDATE_VERIFICATION_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/update/phone";
 
         //手机号登录
         public static final String PHONE_NUMBER_LOGIN = SERVER_HOST + "auth/v1/login/phone";
@@ -516,11 +517,91 @@ public class GlobalConstants {
     }
 
     //web的路径
-    public static final class WebPath {//http://114.215.83.138/#!/banner
-        public static final String WEB_PATH_HOST = "http://114.215.83.138/#!/";
-        public static final String WEB_INFLUENCE = WEB_PATH_HOST + "integral&nav=1";
-        public static final String WEB_COMMON_QUESTION = WEB_PATH_HOST + "program?type=program&nav=1";
-        public static final String WEB_CONTACT_US = WEB_PATH_HOST + "program?type=contact";
-        public static final String WEB_BANNER = WEB_PATH_HOST + "banner&nav=1";
+    public static final class WebPath {
+        public static final String WEB_PATH_HOST = "http://web.slashyounger.com/#!";
+        public static final String WEB_INFLUENCE = WEB_PATH_HOST + "/integral?nav=1";
+        public static final String WEB_COMMON_QUESTION = WEB_PATH_HOST + "/program?nav=1";
+        public static final String WEB_CONTACT_US = WEB_PATH_HOST + "/program?nav=1";
+        public static final String WEB_BANNER = WEB_PATH_HOST + "/banner?nav=1";
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
