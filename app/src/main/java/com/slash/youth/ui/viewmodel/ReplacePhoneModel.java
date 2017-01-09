@@ -31,6 +31,7 @@ public class ReplacePhoneModel extends BaseObservable {
     //点击验证
     public void validate(View view) {
         String phoneNumber = activityReplacePhoneBinding.etActivityLoginVerificationPhone.getText().toString();
+       
         if (TextUtils.isEmpty(phoneNumber)) {
             ToastUtils.shortCenterToast("未填写手机号码");
             return;
