@@ -63,7 +63,7 @@ public class PagerHomeInfoModel extends BaseObservable {
                 if (listConversation != null) {
                     for (int i = 0; i < listConversation.size(); i++) {
                         ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
-                        MsgManager.conversationUidList.add(conversationInfo.uid);
+                        MsgManager.conversationUidList.add(conversationInfo.uid + "");
                     }
                     setConversationList();
                 }
@@ -76,9 +76,17 @@ public class PagerHomeInfoModel extends BaseObservable {
         }, conversationListOffset + "", conversationListLimit + "");
     }
 
-    private void setConversationList() {
-        mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(new HomeInfoListAdapter(listConversation));
+    HomeInfoListAdapter homeInfoListAdapter;
+
+    public void setConversationList() {
+        if (homeInfoListAdapter == null) {
+            homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
+            mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
+        } else {
+            homeInfoListAdapter.notifyDataSetChanged();
+        }
     }
+
 
     //跳转到我的任务界面
     public void gotoMyTask(View v) {

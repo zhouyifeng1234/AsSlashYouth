@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.http.protocol.AddFriendProtocol;
@@ -27,7 +28,10 @@ import com.slash.youth.http.protocol.RejectAddFriendProtocol;
 import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.http.protocol.SetChangeContactProtocol;
 import com.slash.youth.http.protocol.SetConversationListProtocol;
+import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
+import com.slash.youth.ui.viewmodel.PagerHomeInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
@@ -63,8 +67,6 @@ public class MsgManager {
     public static final String CHAT_CMD_REFUSE_CHANGE_CONTACT = "refuseChangeContact";
 
     public static final String CHAT_TASK_INFO = "taskInfo";
-
-    public static ArrayList<Long> conversationUidList = new ArrayList<Long>();
 
     private static ChatTextListener mChatTextListener;
     private static ChatPicListener mChatPicListener;
@@ -213,6 +215,11 @@ public class MsgManager {
 
             } else {//聊天消息
                 if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//判断是单聊消息
+                    CommonUtils.getHandler().post(new Runnable() {
+                        public void run() {
+                            updateConversationList(senderUserId);
+                        }
+                    });
                     if (objectName.equals("RC:TxtMsg")) {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
@@ -343,6 +350,42 @@ public class MsgManager {
                 }
             }
             return false;
+        }
+    }
+
+    public static ArrayList<String> conversationUidList = new ArrayList<String>();
+
+    public static void updateConversationList(String senderUserId) {
+        int index = conversationUidList.indexOf(senderUserId);
+        if (index != 0) {
+            if (index > 0) {//会话列表中本来就存在，但是不在第一个，要提取到第一个
+                conversationUidList.remove(senderUserId);
+            }
+            conversationUidList.add(0, senderUserId);
+            //会话列表顺序发生了变化，需要调用更新接口
+            ArrayList<Long> updateConversationUidList = new ArrayList<Long>();
+            updateConversationUidList.add(Long.parseLong(senderUserId));
+            setConversationList(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("跟新会话列表失败");
+                }
+            }, updateConversationUidList);
+        }
+        //页面展示上的更新
+        if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
+            HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
+            PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
+            if (index != 0) {//列表顺序发生了变化，需要重新调用接口获取列表
+                pagerHomeInfoModel.getDataFromServer();
+            } else {//重新设置列表数据，主要用来更新最近一条消息的展示
+                pagerHomeInfoModel.setConversationList();
+            }
         }
     }
 
