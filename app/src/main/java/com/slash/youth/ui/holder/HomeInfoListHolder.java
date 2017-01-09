@@ -52,6 +52,7 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
         if (data.uid == 1000) {
             mItemHomeInfoModel.setUsername("斜杠小助手");
             mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.slash_helper_square);
+            mItemHomeInfoModel.setAddVVisibility(View.GONE);
         } else {
             mItemHomeInfoModel.setUsername(data.name);
             BitmapKit.bindImage(mItemListviewHomeInfoBinding.ivInfoConversationAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + data.avatar);
