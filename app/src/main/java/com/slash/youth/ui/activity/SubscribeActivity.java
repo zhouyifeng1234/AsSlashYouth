@@ -430,8 +430,10 @@ public class SubscribeActivity extends Activity {
                 addTableView(tvThirdSkilllabelName);
             }
         }else {//此时二级标签
-            no_custom_f1 = clickSecondSkillLabelBean.getF1();
-            no_custom_f2 = clickSecondSkillLabelBean.getId();
+            if(clickSecondSkillLabelBean!=null){
+                no_custom_f1 = clickSecondSkillLabelBean.getF1();
+                no_custom_f2 = clickSecondSkillLabelBean.getId();
+            }
         }
 
         if(listThirdUserCustomSkilllabelName.size()!=0){//自定义总的集合，再分类刷选

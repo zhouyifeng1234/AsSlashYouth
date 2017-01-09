@@ -537,7 +537,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 //技能描述
                 skilldescrib = uinfo.getDesc();
                 //技能描述
-                if (!skilldescrib.isEmpty()&&skilldescrib!=null&&skilldescrib!="") {
+                if (!TextUtils.isEmpty(skilldescrib)) {
                     activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
                 }
             } else {

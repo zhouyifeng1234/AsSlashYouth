@@ -9,7 +9,6 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
 import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeMoreDemandBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.global.SlashApplication;
@@ -17,7 +16,6 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
