@@ -66,7 +66,7 @@ public class ReplacePhoneActivity extends Activity implements View.OnClickListen
                 }
                 if(!phone.isEmpty()&&!code.isEmpty()){
                     //保存手机号码
-                    LoginManager.checkPhoneVerificationCode(new onCheckPhoneVerificationCode(), phone, code);
+                    LoginManager.UpdatePhoneVerificationCodeProtocol(new onCheckPhoneVerificationCode(), phone, code);
                 }
                 finish();
                 break;
@@ -77,8 +77,19 @@ public class ReplacePhoneActivity extends Activity implements View.OnClickListen
     public class onCheckPhoneVerificationCode implements BaseProtocol.IResultExecutor<SendPinResultBean> {
         @Override
         public void execute(SendPinResultBean dataBean) {
-            intent.putExtra("phone",phone);
-            setResult(RESULT_OK,intent);
+            int rescode = dataBean.rescode;
+            switch (rescode){
+                case 0:
+                    intent.putExtra("phone",phone);
+                    setResult(RESULT_OK,intent);
+                    break;
+                case 1:
+                    LogKit.d("返回失败");
+                    break;
+                case 2:
+                    LogKit.d("参数错误");
+                    break;
+            }
         }
 
         @Override
@@ -87,7 +98,4 @@ public class ReplacePhoneActivity extends Activity implements View.OnClickListen
             ToastUtils.shortToast("验证码不正确，请重新验证");
         }
     }
-
-
-
 }

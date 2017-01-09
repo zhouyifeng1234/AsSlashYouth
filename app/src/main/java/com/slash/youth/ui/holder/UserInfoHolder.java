@@ -19,14 +19,13 @@ import com.slash.youth.ui.viewmodel.ItemUserInfoModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zss on 2016/11/1.
  */
 public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean.ListBean> {
-
-
     private ItemUserinfoBinding itemUserinfoBinding;
 
     @Override
@@ -111,6 +110,6 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         double currentLatitude = SlashApplication.getCurrentLatitude();
         double currentLongitude = SlashApplication.getCurrentLongitude();
         double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemUserinfoBinding.tvDistance.setText("<"+distance+"KM");
+        itemUserinfoBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

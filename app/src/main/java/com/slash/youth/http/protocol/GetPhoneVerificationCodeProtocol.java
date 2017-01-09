@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.StringUtils;
 
 import org.xutils.http.RequestParams;
 
@@ -11,7 +12,7 @@ import org.xutils.http.RequestParams;
  * Created by zhouyifeng on 2016/9/10.
  */
 public class GetPhoneVerificationCodeProtocol extends BaseProtocol<SendPinResultBean> {
-    String mPhoneNum;
+     String mPhoneNum;
 
     public GetPhoneVerificationCodeProtocol(String phoneNum) {
         this.mPhoneNum = phoneNum;

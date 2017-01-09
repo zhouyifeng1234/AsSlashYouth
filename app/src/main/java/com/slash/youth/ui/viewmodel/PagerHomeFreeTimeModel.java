@@ -60,6 +60,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private HomeServiceAdapter homeServiceAdapter;
     private View listMoreView;
 
+
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
@@ -69,6 +70,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         initFootView();
         initListener();
     }
+
 
     //添加脚布局
     private void initFootView() {
@@ -287,30 +289,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         }
     }
 
-    private int demandButtonVisibility;
-    private int serviceButtonVisibility;
-
-    @Bindable
-    public int getDemandButtonVisibility() {
-        return demandButtonVisibility;
-    }
-
-    public void setDemandButtonVisibility(int demandButtonVisibility) {
-        this.demandButtonVisibility = demandButtonVisibility;
-        notifyPropertyChanged(BR.demandButtonVisibility);
-    }
-
-    @Bindable
-    public int getServiceButtonVisibility() {
-        return serviceButtonVisibility;
-    }
-
-    public void setServiceButtonVisibility(int serviceButtonVisibility) {
-        this.serviceButtonVisibility = serviceButtonVisibility;
-        notifyPropertyChanged(BR.serviceButtonVisibility);
-    }
-
-
     public void gotoSearchActivity(View v) {
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         mActivity.startActivity(intentSearchActivity);
@@ -388,9 +366,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<String> {
         @Override
         public void execute(String data) {
-
             listAdvImageUrl.add(data);
-
         }
 
         @Override
@@ -405,6 +381,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeDemandBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
+                //隐藏加载页面
+
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
                 listDemandBean.addAll(list);
@@ -428,6 +406,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeServiceBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
+                //隐藏加载页面
+
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
@@ -454,6 +434,29 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         intentFirstPagerMoreActivity.putExtra("isDemand", mIsDisplayDemandList);
         intentFirstPagerMoreActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentFirstPagerMoreActivity);
+    }
+
+    private int demandButtonVisibility;
+    private int serviceButtonVisibility;
+
+    @Bindable
+    public int getDemandButtonVisibility() {
+        return demandButtonVisibility;
+    }
+
+    public void setDemandButtonVisibility(int demandButtonVisibility) {
+        this.demandButtonVisibility = demandButtonVisibility;
+        notifyPropertyChanged(BR.demandButtonVisibility);
+    }
+
+    @Bindable
+    public int getServiceButtonVisibility() {
+        return serviceButtonVisibility;
+    }
+
+    public void setServiceButtonVisibility(int serviceButtonVisibility) {
+        this.serviceButtonVisibility = serviceButtonVisibility;
+        notifyPropertyChanged(BR.serviceButtonVisibility);
     }
 
 }

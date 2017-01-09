@@ -146,7 +146,7 @@ public class FirstPagerDemandModel extends BaseObservable {
                     activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
                     switch (position){
                         case 0:
-                            pullToRefreshListViewModel.isauth = -1;
+                            pullToRefreshListViewModel.isauth = 0;
                             break;
                         case 1:
                             pullToRefreshListViewModel.isauth = 1;
@@ -161,7 +161,12 @@ public class FirstPagerDemandModel extends BaseObservable {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 sexAdapter.setCheckItem(position);
-                activityFirstPagerMoreBinding.dropDownMenu.setTabText(position == 0 ? demadHeaders[2] : sorts[position]);
+                if(isDemand){
+                    activityFirstPagerMoreBinding.dropDownMenu.setTabText(position == 0 ? demadHeaders[3] : sorts[position]);
+                }else {
+                    activityFirstPagerMoreBinding.dropDownMenu.setTabText(position == 0 ? demadHeaders[2] : sorts[position]);
+                }
+
                 activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
                 switch (position){
                     case 0:

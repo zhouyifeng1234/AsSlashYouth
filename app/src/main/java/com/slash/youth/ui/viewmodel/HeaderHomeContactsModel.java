@@ -80,8 +80,8 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     private void initData() {
         getFriendRecommendData();
-        ContactsManager.getAddMeList(new onGetCareMeList(), 0, 20, GlobalConstants.HttpUrl.CARE_ME_PERSON);
-        ContactsManager.getAddMeList(new onGetAddMeList(), 0, 20, GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST + "/addmelist");
+       // ContactsManager.getAddMeList(new onGetCareMeList(), 0, 20, GlobalConstants.HttpUrl.CARE_ME_PERSON);
+        //ContactsManager.getAddMeList(new onGetAddMeList(), 0, 20, GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST + "/addmelist");
     }
 
     private View createRecommendHorizontalSpace() {
@@ -169,6 +169,9 @@ public class HeaderHomeContactsModel extends BaseObservable {
         public void execute(PersonRelationBean dataBean) {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
+                //隐藏加载页面
+                listener.OnRelationLoadData(true);
+
                 PersonRelationBean.DataBean data = dataBean.getData();
                 info = data.getInfo();
                 addMeFriendCount = info.getAddMeFriendCount();
@@ -194,6 +197,9 @@ public class HeaderHomeContactsModel extends BaseObservable {
         public void execute(RecommendFriendBean dataBean) {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
+                //隐藏加载页面
+                listener.OnRecommendLoadData(true);
+
                 RecommendFriendBean.DataBean data = dataBean.getData();
                 List<RecommendFriendBean.DataBean.ListBean> list = data.getList();
                 for (RecommendFriendBean.DataBean.ListBean listBean : list) {
@@ -268,5 +274,16 @@ public class HeaderHomeContactsModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
         }
+    }
+
+    //监听数据获取
+    public interface OnLoadDataListener{
+        void OnRecommendLoadData(boolean MyRecommendFriendRecode);
+        void OnRelationLoadData(boolean personRelationRecode);
+    }
+
+    private OnLoadDataListener listener;
+    public void setOnLoadDataListener(OnLoadDataListener listener) {
+        this.listener = listener;
     }
 }

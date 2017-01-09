@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.sip.SipSession;
 import android.os.Build;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -105,6 +106,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private  int friendStatus;
     private int attentionStatus;
     private int relationshipscount;
+    private int  myAnonymity = 2;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag,int anonymity
@@ -206,21 +208,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
-
-
     private void listener() {
-        if(isauth == 0){
-            activityUserinfoBinding.tvUserinfoApproval.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
-                    intentApprovalActivity.putExtra("careertype",careertype);
-                    intentApprovalActivity.putExtra("Uid",uid);
-                    userInfoActivity.startActivity(intentApprovalActivity);
-                }
-            });
-        }
-
         //最新任务点击事件
         activityUserinfoBinding.lvUserinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -253,10 +241,8 @@ public class ActivityUserInfoModel extends BaseObservable {
         if(otherUid == LoginManager.currentLoginUserId){//自己看自己
             MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
             MyManager.getOtherPersonInfo(new onGetMyUidPersonInfo(),otherUid,anonymity);
-            uid =  LoginManager.currentLoginUserId;
-            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),uid,offset,limit,anonymity);
+            UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),LoginManager.currentLoginUserId,offset,limit,myAnonymity);//自己看自己全部展示
             isOther = false;
-
             activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
@@ -281,7 +267,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
         }
     }
-
     //最新任务
     public class onGetNewDemandAndServiceList implements BaseProtocol.IResultExecutor<NewDemandAandServiceBean> {
         @Override
@@ -392,30 +377,27 @@ public class ActivityUserInfoModel extends BaseObservable {
         myUid = uinfo.getId();
         //用户头像
         avatar = uinfo.getAvatar();
-        if(!avatar.isEmpty()){
+        if(!TextUtils.isEmpty(avatar)){
             BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD+"?fileId="+avatar);
         }
         //用户姓名
         name = uinfo.getName();
         activityUserinfoBinding.tvUserinfoUsername.setText(name);
-        if(!name.isEmpty()){
+        if(!TextUtils.isEmpty(name)){
             onNameListener.OnNameListener(name,myUid,company);
         }else {
             activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
         }
-
 
         //是否认证
         isauth = uinfo.getIsauth();
         if(isauth == 1){
             //认证过的
             activityUserinfoBinding.ivUserinfoV.setVisibility(View.VISIBLE);
-            activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.GONE);
         }else if(isauth == 0){
             //非认证
             if(!isOther){
                 activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
-                activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
             }
         }
 
@@ -531,13 +513,13 @@ public class ActivityUserInfoModel extends BaseObservable {
         myUid = uinfo.getId();
         //用户头像
         avatar = uinfo.getAvatar();
-        if (!avatar.isEmpty()) {
+        if (!TextUtils.isEmpty(avatar)) {
             BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         //用户姓名
         name = uinfo.getName();
         activityUserinfoBinding.tvUserinfoUsername.setText(name);
-        if (!name.isEmpty()) {
+        if (!TextUtils.isEmpty(name)) {
             onNameListener.OnNameListener(name, myUid,company);
         } else {
             activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
@@ -548,11 +530,9 @@ public class ActivityUserInfoModel extends BaseObservable {
         if (isauth == 1) {
             //认证过的
             activityUserinfoBinding.ivUserinfoV.setVisibility(View.VISIBLE);
-            activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.GONE);
         } else if (isauth == 0) {
             //非认证
             activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
-            activityUserinfoBinding.tvUserinfoApproval.setVisibility(View.VISIBLE);
         }
 
         //身份,斜杠 斜杠身份  没填写斜杠身份时，显示暂未填写 ,如果有的话，就填写
@@ -578,7 +558,7 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //技能描述
         desc = uinfo.getDesc();
-        if (desc != null||desc!="") {
+        if (!TextUtils.isEmpty(desc)) {
             activityUserinfoBinding.tvDescTitle.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
         }else{
@@ -588,7 +568,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         //方向
         direction = uinfo.getDirection();
         industry = uinfo.getIndustry();
-        if(direction!=null&&industry!=null&&direction!=""&&industry!=""){
+        if(!TextUtils.isEmpty(direction)&&!TextUtils.isEmpty(industry)){
             activityUserinfoBinding.tvProfession.setText(industry + "|" + direction);
         }
 
@@ -605,17 +585,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             place = city;
         }
         activityUserinfoBinding.tvPlace.setText(place);
-
-
-    }
-    //去认证
-    public void OpenApprovalActivtity(View view) {
-        if(!isOther){
-            Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
-            intentApprovalActivity.putExtra("careertype",careertype);
-            intentApprovalActivity.putExtra("Uid",uid);
-            userInfoActivity.startActivity(intentApprovalActivity);
-        }
     }
 
     //接口回调
@@ -900,5 +869,4 @@ public class ActivityUserInfoModel extends BaseObservable {
             LogKit.d("result:"+result);
         }
     }
-
 }

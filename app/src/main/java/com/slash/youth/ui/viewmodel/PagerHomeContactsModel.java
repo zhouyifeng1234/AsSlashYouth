@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.sip.SipSession;
@@ -15,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewHomeContactsBinding;
 import com.slash.youth.databinding.PagerHomeContactsBinding;
@@ -48,14 +50,37 @@ public class PagerHomeContactsModel extends BaseObservable {
     private HomeContactsVisitorAdapter homeContactsVisitorAdapter;
     private int listSize;
     private HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding;
+    private int updatePager = View.GONE;
+    private HeaderHomeContactsModel headerHomeContactsModel;
 
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initListView();
         initView();
         initData();
         listener();
+    }
+
+    //显示加载页面
+    private void displayLoadLayer() {
+        setUpdatePager(View.VISIBLE);
+    }
+
+    //隐藏加载页面
+    public void hideLoadLayer() {
+        setUpdatePager(View.GONE);
+    }
+
+    @Bindable
+    public int getUpdatePager() {
+        return updatePager;
+    }
+
+    public void setUpdatePager(int updatePager) {
+        this.updatePager = updatePager;
+        notifyPropertyChanged(BR.updatePager);
     }
 
     private void initListView() {
@@ -88,7 +113,7 @@ public class PagerHomeContactsModel extends BaseObservable {
 
     private void initView() {
         headerListviewHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_home_contacts, null, false);
-        HeaderHomeContactsModel headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding,mActivity);
+        headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding,mActivity);
         headerListviewHomeContactsBinding.setHeaderHomeContactsModel(headerHomeContactsModel);
         View vContactsHeader = headerListviewHomeContactsBinding.getRoot();
         mPagerHomeContactsBinding.lvHomeContactsVisitor.addHeaderView(vContactsHeader);
@@ -119,12 +144,20 @@ public class PagerHomeContactsModel extends BaseObservable {
             }
         });
 
-        //访客列表没有数据
-        if(listSize == 0){
-            View rl = mPagerHomeContactsBinding.more.findViewById(R.id.rl_progress);
-            rl.setVisibility(View.GONE);
-            headerListviewHomeContactsBinding.tvNone.setVisibility(View.VISIBLE);
-        }
+        //隐藏加载页面
+        headerHomeContactsModel.setOnLoadDataListener(new HeaderHomeContactsModel.OnLoadDataListener() {
+            @Override
+            public void OnRecommendLoadData(boolean MyRecommendFriendRecode) {
+                setUpdatePager(MyRecommendFriendRecode?View.GONE:View.VISIBLE);
+                listener.OnShowLoadPager(MyRecommendFriendRecode);
+            }
+
+            @Override
+            public void OnRelationLoadData(boolean personRelationRecode) {
+                setUpdatePager(personRelationRecode?View.GONE:View.VISIBLE);
+                listener.OnShowLoadPager(personRelationRecode);
+            }
+        });
     }
 
     //获取我的访客的列表
@@ -133,10 +166,20 @@ public class PagerHomeContactsModel extends BaseObservable {
         public void execute(HomeContactsVisitorBean dataBean) {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
+                //隐藏加载页面
+                hideLoadLayer();
+
                 HomeContactsVisitorBean.DataBean data = dataBean.getData();
                 List<HomeContactsVisitorBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
                 listHomeContactsVisitorBean.addAll(list);
+
+                //访客列表没有数据
+                if(listSize == 0){
+                    View rl = mPagerHomeContactsBinding.more.findViewById(R.id.rl_progress);
+                    rl.setVisibility(View.GONE);
+                    headerListviewHomeContactsBinding.tvNone.setVisibility(View.VISIBLE);
+                }
             }
             //设置访客列表数据
             homeContactsVisitorAdapter = new HomeContactsVisitorAdapter(listHomeContactsVisitorBean);
@@ -154,4 +197,16 @@ public class PagerHomeContactsModel extends BaseObservable {
         intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentSearchActivity);
     }
+
+    //监听
+    public interface OnLoadPagerListener{
+        void OnShowLoadPager(boolean isShow);
+    }
+
+    private OnLoadPagerListener listener;
+    public void setOnShowLoadPagerListener(OnLoadPagerListener listener) {
+        this.listener = listener;
+    }
+
+
 }

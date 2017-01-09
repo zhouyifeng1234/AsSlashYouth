@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -43,9 +44,9 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
-        switch (anonymity) {
+        switch (anonymity){
             case 1://实名
-                if (avatar != null && avatar.equals("")) {
+                if(avatar!=null&&avatar.equals("")){
                     BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 }
                 itemHomeDemandServiceBinding.tvName.setText(name);
@@ -60,61 +61,58 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
 
         long starttime = data.getStarttime();
         String startData = TimeUtils.getData(starttime);
-
+        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME+startData);
         mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
 
-        if (avatar != null && !avatar.equals("")) {
-            int isauth = data.getIsauth();
-
-            switch (isauth) {
-                case 0:
-                    itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.GONE);
-                    break;
-                case 1:
-                    itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.VISIBLE);
-                    break;
-            }
-
-            String title = data.getTitle();
-            itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
-
-            long quote = data.getQuote();
-            String quoteString = FirstPagerManager.QUOTE + quote + "元";
-            itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
-
-            int pattern = data.getPattern();
-
-            switch (pattern) {
-                case 0:
-                    itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
-                    break;
-                case 1:
-                    itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
-                    break;
-            }
-
-            int instalment = data.getInstalment();
-
-            switch (instalment) {
-                case 0:
-                    itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
-                    break;
-                case 1:
-                    itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
-                    break;
-            }
-
-            String place = data.getPlace();
-            itemHomeDemandServiceBinding.tvLocation.setText(place);
-
-            double lat = data.getLat();
-            double lng = data.getLng();
-
-            double currentLatitude = SlashApplication.getCurrentLatitude();
-            double currentLongitude = SlashApplication.getCurrentLongitude();
-            double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-
-            itemHomeDemandServiceBinding.tvDistance.setText("距离 " + distance + "KM");
+        int isauth = data.getIsauth();
+        switch (isauth){
+            case 0:
+                itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.GONE);
+                break;
+            case 1:
+                itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.VISIBLE);
+                break;
         }
+
+        String title = data.getTitle();
+        itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
+
+        long quote = data.getQuote();
+        String quoteString = FirstPagerManager.QUOTE + quote + "元";
+        itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+
+        int pattern = data.getPattern();
+        switch (pattern){
+            case 0:
+                itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
+                break;
+            case 1:
+                itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
+                break;
+        }
+
+        int instalment = data.getInstalment();
+        itemHomeDemandServiceBinding.tvInstalment.setText("一次性支付");
+        switch (instalment){
+            case 0:
+                itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
+                break;
+            case 1:
+                itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
+                break;
+        }
+
+        String place = data.getPlace();
+        if(!TextUtils.isEmpty(place)){
+            itemHomeDemandServiceBinding.tvLocation.setText(place);
+        }
+
+        double lat = data.getLat();
+        double lng = data.getLng();
+
+        double currentLatitude = SlashApplication.getCurrentLatitude();
+        double currentLongitude = SlashApplication.getCurrentLongitude();
+        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+        itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

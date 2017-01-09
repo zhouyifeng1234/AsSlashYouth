@@ -3,12 +3,14 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.net.sip.SipSession;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
@@ -41,7 +43,7 @@ import java.util.List;
  * Created by zhouyifeng on 2016/10/11.
  */
 public class PagerHomeMyModel extends BaseObservable {
-    PagerHomeMyBinding mPagerHomeMyBinding;
+    private PagerHomeMyBinding mPagerHomeMyBinding;
     Activity mActivity;
     //   float totalExpertMarks = 2000;
     float expertⅠMaxMarks = 1000;
@@ -73,16 +75,39 @@ public class PagerHomeMyModel extends BaseObservable {
     private String unit = "元";
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
     private String desc;
+    private  RotateAnimation raExpertMarksMaker;
+    private int loadLayerVisibility = View.GONE;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initData();
         initAnimation();
         initView();
         listener();
     }
-    RotateAnimation raExpertMarksMaker;
+
+
+    //刚进入页面
+    private void displayLoadLayer() {
+        setLoadLayerVisibility(View.VISIBLE);
+    }
+
+    //数据加载完毕后
+    private void hideLoadLayer() {
+        setLoadLayerVisibility(View.GONE);
+    }
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     private void initAnimation() {
         raExpertMarksMaker = new RotateAnimation(0, expertMarksProgress, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -235,7 +260,10 @@ public class PagerHomeMyModel extends BaseObservable {
 
         int expertlevel = myinfo.getExpertlevel();//对应的等级
         List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
-        if(expertlevels.size()!=0){
+        if(expertlevel!=0){
+            expertMarks = (float) expertlevels.get(expertlevel-1);
+        }
+       /* if(expertlevels.size()!=0){
             for (int i = 0; i < expertlevels.size(); i++) {
                 if(i==0){
                     expertⅠMaxMarks = (float) expertlevels.get(0);
@@ -251,8 +279,7 @@ public class PagerHomeMyModel extends BaseObservable {
                     expertⅣMaxMarks = (float) expertlevels.get(3);
                 }
             }
-            expertMarks = (float) expertlevels.get(expertlevel-1);
-        }
+        }*/
     }
 
     private void setExpertMarks() {
@@ -364,6 +391,7 @@ public class PagerHomeMyModel extends BaseObservable {
         public void execute(MyFirstPageBean dataBean) {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
+                hideLoadLayer();
                 MyFirstPageBean.DataBean data = dataBean.getData();
                 myinfo = data.getMyinfo();
                 setMyInfoData();
@@ -382,5 +410,17 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("influence","influence");
         mActivity.startActivity(intentCommonQuestionActivity);
+    }
+
+    private int myloadLayerVisibility = View.GONE;
+
+   @Bindable
+    public int getMyloadLayerVisibility() {
+        return myloadLayerVisibility;
+    }
+
+    public void setMyloadLayerVisibility(int myloadLayerVisibility) {
+        this.myloadLayerVisibility = myloadLayerVisibility;
+        notifyPropertyChanged(BR.myloadLayerVisibility);
     }
 }
