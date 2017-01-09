@@ -65,6 +65,7 @@ public class PagerHomeInfoModel extends BaseObservable {
             public void execute(ConversationListBean dataBean) {
                 listConversation.clear();
                 listConversation = dataBean.data.list;
+                homeInfoListAdapter=null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
                 if (listConversation != null) {
                     for (int i = 0; i < listConversation.size(); i++) {
                         MsgManager.conversationUidList.clear();
@@ -135,6 +136,13 @@ public class PagerHomeInfoModel extends BaseObservable {
                 }
             });
 
+        } else {
+            if (homeInfoListAdapter == null) {
+                homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
+                mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
+            } else {
+                homeInfoListAdapter.notifyDataSetChanged();
+            }
         }
     }
 
