@@ -212,7 +212,23 @@ public class MsgManager {
             if (senderUserId == "100") {//系统推送账号
 
             } else if (senderUserId == "1000") {//斜杠小助手
-
+                CommonUtils.getHandler().post(new Runnable() {
+                    public void run() {
+                        updateConversationList(senderUserId);
+                        //目前还不知道后台斜杠小助手发送过来的内容是什么格式，暂时认为它是"RC:TxtMsg"，其中的content就是内容
+                        if (mChatTextListener != null && targetId.equals(senderUserId)) {
+                            mChatTextListener.displayText(message, left);
+                        } else {
+                            //消息推送的顶部弹框提示
+                            PushInfoBean pushInfoBean = new PushInfoBean();
+                            pushInfoBean.senderUserId = senderUserId;
+//                            pushInfoBean.pushText = textMessage.getContent();
+                            pushInfoBean.pushText = "斜杠小助手向您发送了一条消息";
+                            pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
+                            displayPushInfo(pushInfoBean);
+                        }
+                    }
+                });
             } else {//聊天消息
                 if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//判断是单聊消息
                     CommonUtils.getHandler().post(new Runnable() {

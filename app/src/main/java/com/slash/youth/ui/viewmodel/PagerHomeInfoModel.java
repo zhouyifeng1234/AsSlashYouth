@@ -79,6 +79,15 @@ public class PagerHomeInfoModel extends BaseObservable {
     HomeInfoListAdapter homeInfoListAdapter;
 
     public void setConversationList() {
+        //这里当做listConversation中的数据是全部的会话列表数据，MsgManager.conversationUidList中就是全部会话的uid，并且是按时间顺序排列的
+        if (!MsgManager.conversationUidList.contains("1000")) {
+            ConversationListBean conversationListBean = new ConversationListBean();
+            ConversationListBean.ConversationInfo conversationInfo = conversationListBean.new ConversationInfo();
+            conversationInfo.uid = 1000;
+            conversationInfo.uts = System.currentTimeMillis();
+            listConversation.add(conversationInfo);
+            MsgManager.conversationUidList.add("1000");
+        }
         if (homeInfoListAdapter == null) {
             homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
             mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);

@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
 import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.UserInfoBean;
@@ -33,20 +34,25 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void initData() {
-        UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
-            @Override
-            public void execute(UserInfoBean dataBean) {
-                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                username = uinfo.name;
-                avatar = uinfo.avatar;
-                setPushUserInfo();
-            }
+        if (mPushInfoBean.senderUserId.equals("1000")) {
+            username = "斜杠小助手";
+            setPushUserInfo();
+        } else {
+            UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+                @Override
+                public void execute(UserInfoBean dataBean) {
+                    UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                    username = uinfo.name;
+                    avatar = uinfo.avatar;
+                    setPushUserInfo();
+                }
 
-            @Override
-            public void executeResultError(String result) {
+                @Override
+                public void executeResultError(String result) {
 
-            }
-        }, mPushInfoBean.senderUserId, "0");
+                }
+            }, mPushInfoBean.senderUserId, "0");
+        }
     }
 
     private void initView() {
@@ -54,7 +60,11 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void setPushUserInfo() {
-        BitmapKit.bindImage(mItemPushInfoBinding.ivPushAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+        if(mPushInfoBean.senderUserId.equals("1000")){
+            mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.slash_helper_square);
+        }else {
+            BitmapKit.bindImage(mItemPushInfoBinding.ivPushAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+        }
         setPushName(username);
         if (mPushInfoBean.msg_type == PushInfoBean.CHAT_TEXT_MSG) {
             setPushText(mPushInfoBean.pushText);
