@@ -528,6 +528,7 @@ public class GlobalConstants {
         public static final String WEB_BANNER_1 = WEB_PATH_HOST + "/banner?nav=1";
         public static final String WEB_BANNER_2 = "http://dwz.cn/51UmP8 ";
         public static final String WEB_BANNER_3 = "http://dwz.cn/51Un80";
+
     }
 
 }

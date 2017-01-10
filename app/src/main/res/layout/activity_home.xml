@@ -46,11 +46,12 @@
                         android:id="@+id/iv_freetime_icon"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/home_xianshi_btn"/>
+                        android:src="@mipmap/icon_idle_hours_press"/>
                     <TextView
+                        android:id="@+id/tv_free_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="闲时"
+                        android:text="首页"
                         android:textSize="10sp"/>
 
                 </LinearLayout>
@@ -68,6 +69,7 @@
                         android:layout_height="25dp"
                         android:src="@mipmap/home_message_btn"/>
                     <TextView
+                        android:id="@+id/tv_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="信息"
@@ -94,11 +96,12 @@
                         android:id="@+id/iv_contacts_icon"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/home_renmai_btn"/>
+                        android:src="@mipmap/icon_contacts_moren"/>
                     <TextView
+                        android:id="@+id/tv_contact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="人脉"
+                        android:text="圈子"
                         android:textSize="10sp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -116,6 +119,7 @@
                         android:layout_height="25dp"
                         android:src="@mipmap/home_wode_btn"/>
                     <TextView
+                        android:id="@+id/tv_my"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="我的"

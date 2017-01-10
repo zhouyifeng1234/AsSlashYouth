@@ -63,16 +63,37 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private HomeServiceAdapter homeServiceAdapter;
     private View listMoreView;
     private int advImageUrlIndex;
-
+    private int freeTimeLoadingPager = View.GONE;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initView();
         initScrollView();
         initData();
         initFootView();
         initListener();
+    }
+
+    //显示加载页面
+    private void displayLoadLayer() {
+        setFreeTimeLoadingPager(View.VISIBLE);
+    }
+
+    //隐藏加载页面
+    public void hideLoadLayer() {
+        setFreeTimeLoadingPager(View.GONE);
+    }
+
+    @Bindable
+    public int getFreeTimeLoadingPager() {
+        return freeTimeLoadingPager;
+    }
+
+    public void setFreeTimeLoadingPager(int freeTimeLoadingPager) {
+        this.freeTimeLoadingPager = freeTimeLoadingPager;
+        notifyPropertyChanged(BR.freeTimeLoadingPager);
     }
 
     //添加脚布局
@@ -99,7 +120,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
         @Override
         public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-
         }
     }
 
@@ -288,7 +308,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 clickMore();
             }
         });
-
     }
 
     private void initBanner(int advImageUrlIndex) {
@@ -357,7 +376,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         listAdvImageUrl.add("http://img0.imgtn.bdimg.com/it/u=938096994,3074232342&fm=21&gp=0.jpg");
         listAdvImageUrl.add("http://img1.imgtn.bdimg.com/it/u=1794894692,1423685501&fm=21&gp=0.jpg");*/
 
-
         //FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_ONE);
         // FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_THREE);
         //FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_TWO);
@@ -405,7 +423,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeDemandBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
-                //隐藏加载页面
 
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
@@ -413,6 +430,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                 pagerHomeFreetimeBinding.lvHomeDemandAndService
                         .setAdapter(homeDemandAndDemandAdapter);
+
+                //隐藏加载页面
+                hideLoadLayer();
             }
         }
 
@@ -430,7 +450,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeServiceBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
-                //隐藏加载页面
 
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
@@ -439,6 +458,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                 pagerHomeFreetimeBinding.lvHomeDemandAndService
                         .setAdapter(homeServiceAdapter);
+
+                //隐藏加载页面
+                hideLoadLayer();
             }
         }
 
@@ -482,5 +504,4 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         this.serviceButtonVisibility = serviceButtonVisibility;
         notifyPropertyChanged(BR.serviceButtonVisibility);
     }
-
 }

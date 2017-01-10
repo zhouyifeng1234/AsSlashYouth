@@ -63,8 +63,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private int limit = 10;
     private int type = -1;
     private Activity mActivity;
-    private ArrayList<Long> careMeUidList = new ArrayList<>();
-    private ArrayList<Long> addMeUidList = new ArrayList<>();
     private int myFansLocalCount;
     private int myFollowLocalCount;
     private int myAddFriendLocalCount;
@@ -143,24 +141,29 @@ public class HeaderHomeContactsModel extends BaseObservable {
     public void careMe(View view) {
         openContactsCareActivity(ContactsManager.CARE_ME);
         type = 1;
+
+        mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
     }
 
     //我关注
     public void myCare(View view) {
         openContactsCareActivity(ContactsManager.MY_CARE);
         type = 2;
+        mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.GONE);
     }
 
     //加我的
     public void addMe(View view) {
         openContactsCareActivity(ContactsManager.ADD_ME);
         type = 3;
+        mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.GONE);
     }
 
     //我加的
     public void myAdd(View view) {
         openContactsCareActivity(ContactsManager.MY_ADD);
         type = 4;
+        mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.GONE);
     }
 
     //人脉潜能
