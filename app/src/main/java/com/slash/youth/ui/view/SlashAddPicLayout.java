@@ -24,6 +24,11 @@ import com.slash.youth.utils.ToastUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * Created by zhouyifeng on 2016/9/26.
@@ -161,6 +166,7 @@ public class SlashAddPicLayout extends LinearLayout {
 
         @Override
         public void onClick(View v) {
+            /*
             Intent intentAddPicture = new Intent();
             intentAddPicture.setType("image/*");
             intentAddPicture.setAction(Intent.ACTION_GET_CONTENT);
@@ -173,6 +179,67 @@ public class SlashAddPicLayout extends LinearLayout {
 //            intentAddPicture.putExtra("aspectY", 1);
 //            intentAddPicture.putExtra("return-data", true);
             mActivity.startActivityForResult(intentAddPicture, 10);
+            */
+
+            int canSelectImgCount = 5 - listFilePath.size();
+            if (canSelectImgCount > 0) {
+                FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(canSelectImgCount).setEnableCamera(true).build();
+                GalleryFinal.openGalleryMuti(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+                    @Override
+                    public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                        for (PhotoInfo photoInfo : resultList) {
+                            Bitmap bitmap = null;
+                            try {
+                                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                                bitmapOptions.inJustDecodeBounds = true;
+                                BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                                int outWidth = bitmapOptions.outWidth;
+                                int outHeight = bitmapOptions.outHeight;
+                                LogKit.v("outWidth:" + outWidth);
+                                LogKit.v("outHeight:" + outHeight);
+                                if (outWidth <= 0 || outHeight <= 0) {
+                                    ToastUtils.shortToast("请选择图片文件");
+                                    return;
+                                }
+                                int scale = 1;
+                                int widthScale = outWidth / compressPicMaxWidth;
+                                int heightScale = outHeight / compressPicMaxHeight;
+                                if (widthScale > heightScale) {
+                                    scale = widthScale;
+                                } else {
+                                    scale = heightScale;
+                                }
+                                bitmapOptions.inJustDecodeBounds = false;
+                                bitmapOptions.inSampleSize = scale;
+                                bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+
+                                String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                                File cacheDir = new File(picCachePath);
+                                if (!cacheDir.exists()) {
+                                    cacheDir.mkdir();
+                                }
+                                final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+
+                                listFilePath.add(tempFile.getAbsolutePath());
+                                addPic();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            } finally {
+                                if (bitmap != null) {
+                                    bitmap.recycle();
+                                    bitmap = null;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onHanlderFailure(int requestCode, String errorMsg) {
+
+                    }
+                });
+            }
         }
     }
 
