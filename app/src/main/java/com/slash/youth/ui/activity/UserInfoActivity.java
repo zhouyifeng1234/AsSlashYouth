@@ -11,17 +11,11 @@ import android.widget.PopupWindow;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
-import com.slash.youth.domain.FansBean;
-import com.slash.youth.domain.FriendStatusBean;
-import com.slash.youth.domain.OtherInfoBean;
-import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
-import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 import com.umeng.socialize.UMShareAPI;
 
 /**
@@ -78,7 +72,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 case 1://实名
                     break;
                 case 0://匿名
-                    activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
+                    activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.anonymity_avater);
                     break;
             }
         } else {

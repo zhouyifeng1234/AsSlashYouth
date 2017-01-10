@@ -7,14 +7,10 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
-import com.slash.youth.databinding.ItemListviewHomeDemandBinding;
 import com.slash.youth.domain.FreeTimeMoreServiceBean;
-import com.slash.youth.domain.SearchItemDemandBean;
-import com.slash.youth.domain.SearchServiceItemBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -56,7 +52,7 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
                 itemHomeDemandServiceBinding.tvName.setText(name);
                 break;
             case 0://匿名
-                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
                 itemHomeDemandServiceBinding.tvName.setText(anonymityName);

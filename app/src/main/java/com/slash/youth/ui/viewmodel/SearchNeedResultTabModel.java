@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
@@ -39,7 +40,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private View areaView;
     private String demands[] = {"不限","线上","线下"};
     private String users[] = {"全部用户","认证用户"};
-    private String sorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+    private String sorts[] = {"最新发布","回复时间最近","价格最高","离我最近"};
     private GirdDropDownAdapter  demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListView userListView;
@@ -51,8 +52,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     private SearchActivityCityLocationBinding searchCityLocationBinding;
     private  ArrayList<String> headerLists = new ArrayList<>();
-    private String[] demadHeaders ={"需求类型", "用户类型", "苏州", "排序"};
-    private String[] serviceHeaders ={"需求类型", "苏州", "排序"};
+    private String[] demadHeaders ={"需求方式", "用户类型", "全国", "排序"};
+    private String[] serviceHeaders ={"需求方式", "全国", "排序"};
     private String[] personHeaders ={"认证"};
     private String[] headers;
     private ListView demandView;
@@ -68,6 +69,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private int startHeight;
     private int startY;
     private int startIndex;
+    private HeaderLocationCityInfoModel headerLocationCityInfoModel;
 
     public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding,String tag) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
@@ -230,9 +232,11 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,currentActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
+        Intent intent = currentActivity.getIntent();
+        intent.putExtra("locationType",1);
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
-        // HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding);
-        //headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
+        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,currentActivity);
+        headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
 
         ImageView ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
@@ -369,17 +373,37 @@ public class SearchNeedResultTabModel extends BaseObservable  {
 
     //关闭地点选择
     private void listener() {
+        //点击列表
         if(searchActivityCityLocationModel!=null){
             searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
                 @Override
                 public void OnClick(String cityName) {
-                    pullToRefreshListTabViewModel.city = cityName;
-                    pullToRefreshListTabViewModel.getData(searchType);
-                    mSearchNeedResultTabBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
-                    mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
+                    closeCity(cityName);
+                    headerLocationCityInfoModel.saveCity(cityName);
                 }
             });
         }
+
+        //点击当前定位城市
+        if(headerLocationCityInfoModel!=null){
+            headerLocationCityInfoModel.setOnCityClickCListener(new HeaderLocationCityInfoModel.OnCityClickCListener() {
+                @Override
+                public void OnSearchCityClick(String city) {
+                    closeCity(city);
+                }
+
+                @Override
+                public void OnMoreCityClick(String city) {
+                }
+            });
+        }
+    }
+
+    private void closeCity(String cityName) {
+        pullToRefreshListTabViewModel.city = cityName;
+        pullToRefreshListTabViewModel.getData(searchType);
+        mSearchNeedResultTabBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
+        mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
     }
 }
 

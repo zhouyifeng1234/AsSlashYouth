@@ -50,7 +50,7 @@ public class ToastUtils {
 
     public static void shortCenterToast(String text,int messageColor, int duration) {
         Toast  toast = Toast.makeText(CommonUtils.getApplication(),
-                text, Toast.LENGTH_LONG);
+                text, duration);
         toast.setGravity(Gravity.CENTER, 0, 0);
         View view = toast.getView();
         if(view!=null){
@@ -58,7 +58,7 @@ public class ToastUtils {
            // message.setBackgroundResource(background);
             message.setTextColor(messageColor);
         }
-        toast.setDuration(duration);
+      //  toast.setDuration(duration);
         toast.show();
 
     }

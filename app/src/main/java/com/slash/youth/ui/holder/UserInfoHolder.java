@@ -1,16 +1,12 @@
 package com.slash.youth.ui.holder;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
-import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.ItemUserinfoBinding;
 import com.slash.youth.domain.NewDemandAandServiceBean;
-import com.slash.youth.domain.NewTaskUserInfoBean;
-import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -19,7 +15,6 @@ import com.slash.youth.ui.viewmodel.ItemUserInfoModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -50,7 +45,7 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
                 itemUserinfoBinding.tvName.setText(name);
                 break;
             case 0://匿名
-                itemUserinfoBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                itemUserinfoBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
                 itemUserinfoBinding.tvName.setText(anonymityName);

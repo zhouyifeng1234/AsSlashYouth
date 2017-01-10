@@ -26,6 +26,7 @@ public class MyAccountModel extends BaseObservable {
     private ActivityMyAccountBinding activityMyAccountBinding;
     private String unit = "元";
     private MyAccountActivity myAccountActivity;
+    private String currentMoney;
 
     public MyAccountModel(ActivityMyAccountBinding activityMyAccountBinding, MyAccountActivity myAccountActivity) {
         this.activityMyAccountBinding = activityMyAccountBinding;
@@ -49,9 +50,9 @@ public class MyAccountModel extends BaseObservable {
 
                     //提现金额
                     double currentmoney = data1.getCurrentmoney();
-                    String currentMoney = CountUtils.DecimalFormat(currentmoney);
-                    activityMyAccountBinding.currentMoney.setText(currentMoney+unit);
-                    activityMyAccountBinding.tvWithdrawals.setText(currentMoney+unit);
+                    currentMoney = CountUtils.DecimalFormat(currentmoney);
+                    activityMyAccountBinding.currentMoney.setText(currentMoney +unit);
+                    activityMyAccountBinding.tvWithdrawals.setText(currentMoney +unit);
 
                     //冻结金额
                     double freezemoney = data1.getFreezemoney();
@@ -82,6 +83,7 @@ public class MyAccountModel extends BaseObservable {
     //提现
     public void withdrawals(View view){
         Intent intentWithdrawalsActivity = new Intent(CommonUtils.getContext(), WithdrawalsActivity.class);
+        intentWithdrawalsActivity.putExtra("currentMoney",currentMoney);
         intentWithdrawalsActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);
     }

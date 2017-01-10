@@ -193,12 +193,9 @@ public class SearchActivityCityLocationModel extends BaseObservable {
         searchActivityCityLocationBinding.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String city = searchActivityCityLocationBinding.tv.getText().toString();
                 listener.OnClick(cityName);
             }
         });
-
-
     }
 
     //显示中间的字

@@ -61,7 +61,7 @@
                         android:maxLines="1"
                         android:textColor="#CCCCCC"
                         android:background="@null"
-                        android:hint="请输入提现金额，最多可提12,800元"
+                        android:hint="请输入提现金额，最多可提0元"
                         />
                 </LinearLayout>
                 <View

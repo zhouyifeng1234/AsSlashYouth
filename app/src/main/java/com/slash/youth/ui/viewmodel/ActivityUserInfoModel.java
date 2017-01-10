@@ -1,37 +1,23 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.graphics.Color;
-import android.net.sip.SipSession;
-import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
-import com.slash.youth.databinding.ActivityUserinfoHeardListviewBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
-import com.slash.youth.databinding.FloatViewBinding;
 import com.slash.youth.domain.FansBean;
-import com.slash.youth.domain.FreeTimeDemandBean;
-import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.domain.FriendStatusBean;
 import com.slash.youth.domain.NewDemandAandServiceBean;
-import com.slash.youth.domain.NewTaskUserInfoBean;
 import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.SetBean;
-import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.engine.LoginManager;
@@ -39,26 +25,20 @@ import com.slash.youth.engine.MyManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
-import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.UserInfoAdapter;
-import com.slash.youth.ui.view.PullableListView.MyListener;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
-import org.xutils.x;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UnknownFormatConversionException;
 
 /**
  * Created by acer on 2016/11/1.
@@ -262,7 +242,7 @@ public class ActivityUserInfoModel extends BaseObservable {
                 case 0://匿名
                     activityUserinfoBinding.lvUserinfo.setVisibility(View.GONE);
                     activityUserinfoBinding.llTaskTitle.setVisibility(View.GONE);
-                    activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.default_avatar_1);
+                    activityUserinfoBinding.ivUserinfoUsericon.setImageResource(R.mipmap.anonymity_avater);
                     break;
             }
         }

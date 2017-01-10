@@ -53,6 +53,9 @@ public class PagerHomeContactsModel extends BaseObservable {
     private int updatePager = View.GONE;
     private HeaderHomeContactsModel headerHomeContactsModel;
 
+    public static int getBaseDataFinishedCount = 0;
+    public static int getBaseDataTotalCount = 0;
+
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
         this.mActivity = activity;
@@ -124,6 +127,7 @@ public class PagerHomeContactsModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
+        getBaseDataTotalCount++;
         ContactsManager.getMyVisitorList(new onGetMyVisitorList(),offset,limit);
     }
 
@@ -144,21 +148,18 @@ public class PagerHomeContactsModel extends BaseObservable {
             }
         });
 
-        //隐藏加载页面
         headerHomeContactsModel.setOnLoadDataListener(new HeaderHomeContactsModel.OnLoadDataListener() {
             @Override
             public void OnRecommendLoadData(boolean MyRecommendFriendRecode) {
                 setUpdatePager(MyRecommendFriendRecode?View.GONE:View.VISIBLE);
-                listener.OnShowLoadPager(MyRecommendFriendRecode);
             }
 
             @Override
             public void OnRelationLoadData(boolean personRelationRecode) {
                 setUpdatePager(personRelationRecode?View.GONE:View.VISIBLE);
-                listener.OnShowLoadPager(personRelationRecode);
             }
         });
-    }
+}
 
     //获取我的访客的列表
     public class onGetMyVisitorList implements BaseProtocol.IResultExecutor<HomeContactsVisitorBean> {
@@ -167,7 +168,10 @@ public class PagerHomeContactsModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if(rescode == 0){
                 //隐藏加载页面
-                hideLoadLayer();
+                getBaseDataFinishedCount++;
+                if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
+                    hideLoadLayer();
+                }
 
                 HomeContactsVisitorBean.DataBean data = dataBean.getData();
                 List<HomeContactsVisitorBean.DataBean.ListBean> list = data.getList();
@@ -197,16 +201,4 @@ public class PagerHomeContactsModel extends BaseObservable {
         intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentSearchActivity);
     }
-
-    //监听
-    public interface OnLoadPagerListener{
-        void OnShowLoadPager(boolean isShow);
-    }
-
-    private OnLoadPagerListener listener;
-    public void setOnShowLoadPagerListener(OnLoadPagerListener listener) {
-        this.listener = listener;
-    }
-
-
 }

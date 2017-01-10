@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipSession;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,14 +15,23 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
+import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.ui.activity.CityLocationActivity;
+import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by zss on 2016/10/18.
@@ -29,27 +39,26 @@ import java.util.ArrayList;
 public class HeaderLocationCityInfoModel extends BaseObservable {
    private  HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private Intent intent;
-    private CityLocationActivity cityLocationActivity;
-    private String[] cityNames = new String[3];
+    private Activity mActivity;
+    private  ArrayList<String> cityLists = new ArrayList<>();
+    private  ArrayList<String> currenty_access_lists = new ArrayList<>();
     private String currentyCity;
+    private int locationType;
+    private String fileName ="data/data/com.slash.youth";
+    private File file = new File(fileName, "CurrentyCity.text");
 
-    public HeaderLocationCityInfoModel(HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding, Intent intent, CityLocationActivity cityLocationActivity) {
+    public HeaderLocationCityInfoModel(HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding, Intent intent, Activity mActivity) {
         this.headerListviewLocationCityInfoListBinding = headerListviewLocationCityInfoListBinding;
         this.intent = intent;
-        this.cityLocationActivity = cityLocationActivity;
+        this.mActivity = mActivity;
         initData();
         initView();
         listener();
     }
 
-
     private void initData() {
         currentyCity = SpUtils.getString("currentyCity", "");
-
-
-        cityNames[0] = "城市1";
-        cityNames[1] = "城市2";
-        cityNames[2] = "城市3";
+        initCityData();
     }
 
     private void initView() {
@@ -57,11 +66,62 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
             setCurrentLocation(currentyCity);
         }
 
-        if (cityNames.length!=0) {
-            for (String cityName : cityNames) {
+        //集合不为空就获取城市数据
+        if (currenty_access_lists.size()!=0) {
+            for (String cityName : currenty_access_lists) {
                 TextView textView = getTextView(cityName);
                 headerListviewLocationCityInfoListBinding.llCityContainer.addView(textView);
             }
+        }
+
+        locationType = intent.getIntExtra("locationType", -1);
+    }
+
+    //保存最近访问的城市
+    public void saveCity(String city) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+            bw.write(city);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //读取最近访问的城市
+    private void initCityData() {
+        cityLists.clear();
+        currenty_access_lists.clear();
+        //存储集合
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line= br.readLine())!=null){
+                if(TextUtils.isEmpty(line)){
+                    continue;
+                }
+                cityLists.add(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //倒序，最多取3个
+        Collections.reverse(cityLists);
+        if(cityLists.size()!=0){
+            if(cityLists.size()<3&&cityLists.size()>=0){
+                for (String city : cityLists) {
+                    currenty_access_lists.add(city);
+                }
+            }else if(cityLists.size()>=3){
+                for (int i = 0; i < 3; i++) {
+                    String city = cityLists.get(i);
+                    currenty_access_lists.add(city);
+                }
+            }
+        }else {
+            LogKit.d("没有最近访问的城市");
         }
     }
 
@@ -71,13 +131,22 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
             @Override
             public void onClick(View v) {
                 String cityName = headerListviewLocationCityInfoListBinding.tvCurrentCity.getText().toString();
-                intent.putExtra("currentCityAccess",cityName);
-                cityLocationActivity.setResult(Constants.CURRENT_ACCESS_CITY,intent);
-                cityLocationActivity.finish();
+                switch (locationType){
+                    case 0://首页更多
+                        listener.OnMoreCityClick(cityName);
+                        break;
+                    case 1://搜索
+                        listener.OnSearchCityClick(cityName);
+                        break;
+                    case -1://个人编辑
+                        intent.putExtra("currentCityAccess",cityName);
+                        mActivity.setResult(Constants.CURRENT_ACCESS_CITY,intent);
+                        mActivity.finish();
+                        break;
+                }
             }
         });
     }
-
 
     @NonNull
     private TextView getTextView(String text) {
@@ -101,11 +170,20 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         @Override
         public void onClick(View v) {
             String cityName = ((TextView)v).getText().toString();
-           intent.putExtra("currentCityAccess",cityName);
-            cityLocationActivity.setResult(Constants.CURRENT_ACCESS_CITY,intent);
-            cityLocationActivity.finish();
+            switch (locationType){
+                case 0://首页更多
+                    listener.OnMoreCityClick(cityName);
+                    break;
+                case 1://搜索
+                    listener.OnSearchCityClick(cityName);
+                    break;
+                case -1://个人编辑
+                    intent.putExtra("currentCityAccess",cityName);
+                    mActivity.setResult(Constants.CURRENT_ACCESS_CITY,intent);
+                    mActivity.finish();
+                    break;
+            }
         }
-
     }
 
     //设置当前定位
@@ -113,15 +191,15 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         headerListviewLocationCityInfoListBinding.tvCurrentCity.setText(location);
     }
 
-
-    //存放经常访问的城市
-    public void setCurrentAccessCity(String cityName){
-        ArrayList<String> cityLists = new ArrayList<>();
-        cityLists.add(cityName);
-
+    //监听回调返回键
+    public interface OnCityClickCListener{
+        void OnSearchCityClick(String city);
+        void OnMoreCityClick(String city);
     }
 
-
-
+    private OnCityClickCListener listener;
+    public void setOnCityClickCListener(OnCityClickCListener listener) {
+        this.listener = listener;
+    }
 
 }

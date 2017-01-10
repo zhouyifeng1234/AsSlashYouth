@@ -214,6 +214,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     //设置斜杠身份
     public void editorIdentity(View view) {
         Intent editorIdentityActivity = new Intent(CommonUtils.getContext(), EditorIdentityActivity.class);
+        editorIdentityActivity.putExtra("editorIdentity",slashIdentity);
         userinfoEditorActivity.startActivityForResult(editorIdentityActivity, Constants.USERINFO_IDENTITY);
     }
 
@@ -437,7 +438,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 isChange = true;
             }
         });
-
         return editext;
     }
 
@@ -448,7 +448,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 textView = s.toString();
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -493,11 +492,16 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             if (rescode == 0) {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-
-                LogKit.d("status:" + status);
+                switch (status){
+                    case 0:
+                        LogKit.d("保存成功");
+                        break;
+                    case 1:
+                        LogKit.d("保存失败");
+                        break;
+                }
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);

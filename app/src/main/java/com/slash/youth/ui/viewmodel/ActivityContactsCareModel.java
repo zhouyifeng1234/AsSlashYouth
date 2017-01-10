@@ -43,11 +43,13 @@ public class ActivityContactsCareModel extends BaseObservable {
     private int i = -1;
     private  ContactsCareActivity contactsCareActivity;
     private int listSize;
+    private int titleType;
 
-    public ActivityContactsCareModel(ActivityContactsCareBinding activityContactsCareBinding, String title, ContactsCareActivity contactsCareActivity) {
+    public ActivityContactsCareModel(ActivityContactsCareBinding activityContactsCareBinding, String title, ContactsCareActivity contactsCareActivity,int type) {
         this.activityContactsCareBinding = activityContactsCareBinding;
         this.contactsCareActivity = contactsCareActivity;
         this.title = title;
+        this.titleType = type;
         initListView();
         initData();
         initView();
@@ -117,6 +119,7 @@ public class ActivityContactsCareModel extends BaseObservable {
 
     private void initView() {
         activityContactsCareBinding.tvContactsTitle.setText(title);
+
     }
 
     private void listener() {

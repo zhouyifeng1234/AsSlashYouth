@@ -58,7 +58,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
                 itemHomeDemandServiceBinding.tvName.setText(name);
                 break;
             case 0://匿名
-                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
                 itemHomeDemandServiceBinding.tvName.setText(anonymityName);

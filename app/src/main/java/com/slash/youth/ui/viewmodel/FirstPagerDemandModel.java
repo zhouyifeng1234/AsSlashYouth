@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
@@ -48,7 +49,7 @@ public class FirstPagerDemandModel extends BaseObservable {
     private ListView userView;
     private View contentView;
     private String tag = "";
-    private SearchActivityCityLocationBinding searchCityLocationBinding;
+    public  SearchActivityCityLocationBinding searchCityLocationBinding;
     private int constellationPosition = 0;
     private View constellationView;
     private PullToRefreshListviewBinding pullToRefreshListviewBinding;
@@ -61,6 +62,8 @@ public class FirstPagerDemandModel extends BaseObservable {
     private int startY;
     private int index;
     private int startIndex;
+    private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
+    private HeaderLocationCityInfoModel headerLocationCityInfoModel;
 
     public FirstPagerDemandModel(ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding, boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity) {
             this.activityFirstPagerMoreBinding = activityFirstPagerMoreBinding;
@@ -73,9 +76,9 @@ public class FirstPagerDemandModel extends BaseObservable {
 
     private void initData() {
         if(isDemand){
-            demadHeaders =new String[]{"需求类型", "用户类型", "苏州", "排序"};
+            demadHeaders =new String[]{"需求方式", "用户类型", "全国", "排序"};
         }else {
-            demadHeaders =new String[]{"需求类型", "苏州", "排序"};
+            demadHeaders =new String[]{"需求方式", "全国", "排序"};
         }
     }
 
@@ -195,9 +198,11 @@ public class FirstPagerDemandModel extends BaseObservable {
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
-        HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
-     // HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,);
-       // headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
+        Intent intent = firstPagerMoreActivity.getIntent();
+        intent.putExtra("locationType",0);
+        headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
+        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,firstPagerMoreActivity);
+        headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
 
         ImageView ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
@@ -321,14 +326,33 @@ public class FirstPagerDemandModel extends BaseObservable {
     }
 
     private void listener() {
+        //点击条目，获取的城市
         searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
             @Override
             public void OnClick(String cityName) {
-                pullToRefreshListViewModel.city = cityName;
-                pullToRefreshListViewModel.getData(isDemand);
-                activityFirstPagerMoreBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
-                activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
+                setCurrentyCity(cityName);
+                headerLocationCityInfoModel.saveCity(cityName);
+            }
+        });
+        //点击定位当前城市
+        headerLocationCityInfoModel.setOnCityClickCListener(new HeaderLocationCityInfoModel.OnCityClickCListener() {
+            @Override
+            public void OnSearchCityClick(String city) {
+
+            }
+
+            @Override
+            public void OnMoreCityClick(String city) {
+                setCurrentyCity(city);
             }
         });
     }
+
+    public void setCurrentyCity(String cityName) {
+        pullToRefreshListViewModel.city = cityName;
+        pullToRefreshListViewModel.getData(isDemand);
+        activityFirstPagerMoreBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
+        activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
+    }
+
 }
