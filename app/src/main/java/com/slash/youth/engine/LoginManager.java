@@ -2,7 +2,6 @@ package com.slash.youth.engine;
 
 import android.app.Activity;
 
-import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
@@ -34,7 +33,7 @@ import java.util.Map;
  * Created by Administrator on 2016/8/31.
  */
 public class LoginManager {
-    public static long currentLoginUserId = 10000;//实际应该在登录状态中获取
+    public static long currentLoginUserId;//实际应该在登录状态中获取
     public static String currentLoginUserName;
     public static String currentLoginUserAvatar;
     public static String currentLoginUserPhone;
@@ -65,13 +64,13 @@ public class LoginManager {
     }
 
     //验证手机上收到的验证码
-    public static void checkPhoneVerificationCode(BaseProtocol.IResultExecutor checkPhoneVerificationCode,String phoneNum, String pin) {
+    public static void checkPhoneVerificationCode(BaseProtocol.IResultExecutor checkPhoneVerificationCode, String phoneNum, String pin) {
         CheckPhoneVerificationCodeProtocol checkPhoneVerificationCodeProtocol = new CheckPhoneVerificationCodeProtocol(phoneNum, pin);
         checkPhoneVerificationCodeProtocol.getDataFromServer(checkPhoneVerificationCode);
     }
 
     //变更手机页
-    public static void UpdatePhoneVerificationCodeProtocol(BaseProtocol.IResultExecutor onUpdatePhoneVerificationCodeProtocol,String phoneNum, String pin) {
+    public static void UpdatePhoneVerificationCodeProtocol(BaseProtocol.IResultExecutor onUpdatePhoneVerificationCodeProtocol, String phoneNum, String pin) {
         UpdatePhoneVerificationCodeProtocol updatePhoneVerificationCodeProtocol = new UpdatePhoneVerificationCodeProtocol(phoneNum, pin);
         updatePhoneVerificationCodeProtocol.getDataFromServer(onUpdatePhoneVerificationCodeProtocol);
     }
@@ -234,17 +233,16 @@ public class LoginManager {
     };
 
     //版本检测
-    public static void checkVersion(BaseProtocol.IResultExecutor onCheckVersion,int type,long code) {
-        CheckVersionProtocol checkVersionProtocol = new CheckVersionProtocol(type,code);
+    public static void checkVersion(BaseProtocol.IResultExecutor onCheckVersion, int type, long code) {
+        CheckVersionProtocol checkVersionProtocol = new CheckVersionProtocol(type, code);
         checkVersionProtocol.getDataFromServer(onCheckVersion);
     }
 
     //登出
-    public static void logout(BaseProtocol.IResultExecutor onLogout,String token) {
+    public static void logout(BaseProtocol.IResultExecutor onLogout, String token) {
         LoginoutProtocol loginoutProtocol = new LoginoutProtocol(token);
         loginoutProtocol.getDataFromServer(onLogout);
     }
-
 
 
 }
