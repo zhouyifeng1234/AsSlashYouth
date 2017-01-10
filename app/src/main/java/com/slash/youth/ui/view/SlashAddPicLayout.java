@@ -159,8 +159,8 @@ public class SlashAddPicLayout extends LinearLayout {
         }
     }
 
-    private static final int compressPicMaxWidth = CommonUtils.dip2px(91);
-    private static final int compressPicMaxHeight = CommonUtils.dip2px(91);
+    private static final float compressPicMaxWidth = CommonUtils.dip2px(91);
+    private static final float compressPicMaxHeight = CommonUtils.dip2px(91);
 
     public class AddPicClickListener implements OnClickListener {
 
@@ -202,8 +202,8 @@ public class SlashAddPicLayout extends LinearLayout {
                                     return;
                                 }
                                 int scale = 1;
-                                int widthScale = outWidth / compressPicMaxWidth;
-                                int heightScale = outHeight / compressPicMaxHeight;
+                                int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                                int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
                                 if (widthScale > heightScale) {
                                     scale = widthScale;
                                 } else {
@@ -272,8 +272,8 @@ public class SlashAddPicLayout extends LinearLayout {
                             return;
                         }
                         int scale = 1;
-                        int widthScale = outWidth / compressPicMaxWidth;
-                        int heightScale = outHeight / compressPicMaxHeight;
+                        int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                        int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
                         if (widthScale > heightScale) {
                             scale = widthScale;
                         } else {

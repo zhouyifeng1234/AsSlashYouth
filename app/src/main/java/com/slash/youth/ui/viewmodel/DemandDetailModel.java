@@ -595,7 +595,8 @@ public class DemandDetailModel extends BaseObservable {
         int intrinsicHeight = topDrawable.getIntrinsicHeight();
         topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
         mActivityDemandDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
-        mActivityDemandDetailBinding.tvCollection.setText("取消收藏");
+//        mActivityDemandDetailBinding.tvCollection.setText("取消收藏");
+        mActivityDemandDetailBinding.tvCollection.setText("收藏");
     }
 
     /**

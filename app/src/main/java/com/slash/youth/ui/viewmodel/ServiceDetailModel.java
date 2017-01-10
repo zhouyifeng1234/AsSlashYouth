@@ -595,7 +595,8 @@ public class ServiceDetailModel extends BaseObservable {
         int intrinsicHeight = topDrawable.getIntrinsicHeight();
         topDrawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
         mActivityServiceDetailBinding.tvCollection.setCompoundDrawables(null, topDrawable, null, null);
-        mActivityServiceDetailBinding.tvCollection.setText("取消收藏");
+//        mActivityServiceDetailBinding.tvCollection.setText("取消收藏");
+        mActivityServiceDetailBinding.tvCollection.setText("收藏");
     }
 
     /**

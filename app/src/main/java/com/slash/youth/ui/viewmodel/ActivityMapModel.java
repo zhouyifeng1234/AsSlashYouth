@@ -32,7 +32,7 @@ public class ActivityMapModel extends BaseObservable {
 //        initNearLocationData();
     }
 
-    public void initNearLocationData(ArrayList<NearLocationBean> listNearLocation) {
+    public void initNearLocationData(final ArrayList<NearLocationBean> listNearLocation) {
         //TODO 附近地点数据可由地图API获取，第一个为我的当前位置
 //        ArrayList<NearLocationBean> listNearLocation = new ArrayList<NearLocationBean>();
 //        listNearLocation.add(new NearLocationBean("我的位置", "苏州工业园区", "0.50KM"));//第一个为我的当前位置

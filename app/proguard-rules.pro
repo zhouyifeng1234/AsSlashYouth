@@ -42,3 +42,9 @@
     @android.webkit.JavascriptInterface <methods>;
 }
 #ping++相关
+
+#GalleryFinal相关
+-keep class cn.finalteam.galleryfinal.widget.*{*;}
+-keep class cn.finalteam.galleryfinal.widget.crop.*{*;}
+-keep class cn.finalteam.galleryfinal.widget.zoonview.*{*;}
+#GalleryFinal相关
