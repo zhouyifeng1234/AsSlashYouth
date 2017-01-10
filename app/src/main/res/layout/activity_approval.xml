@@ -249,7 +249,7 @@
             android:textSize="15dp"
             android:drawablePadding="15dp"
             android:drawableLeft="@drawable/shape_approval_tv_left"
-            android:text="认证后轻松发服务"/>
+            android:text="认证后发布信任度更高"/>
 
 
         <TextView
@@ -261,7 +261,7 @@
             android:textSize="15dp"
             android:drawablePadding="15dp"
             android:drawableLeft="@drawable/shape_approval_tv_left"
-            android:text="奖励300积分"/>
+            android:text="优先获得需求推荐资格"/>
 
         <TextView
             android:layout_marginLeft="30dp"
@@ -272,7 +272,7 @@
             android:textSize="15dp"
             android:drawablePadding="15dp"
             android:drawableLeft="@drawable/shape_approval_tv_left"
-            android:text="您发的任务获得优先推荐资格"/>
+            android:text="优先获得好友推荐资格"/>
 
     </LinearLayout>
 </layout>

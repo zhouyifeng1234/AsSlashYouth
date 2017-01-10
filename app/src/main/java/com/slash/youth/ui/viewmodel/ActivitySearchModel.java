@@ -49,7 +49,7 @@ public class ActivitySearchModel extends BaseObservable {
     private ActivitySearchBinding mActivitySearchBinding;
     private SearchHistoryListAdapter adapter;
     private String searchText = "";
-    private ArrayList<ItemSearchBean> search_contentlist = new ArrayList<>();
+    public static ArrayList<ItemSearchBean> search_contentlist = new ArrayList<>();
     private ArrayList<String> list = new ArrayList<>();
     private String fileName ="data/data/com.slash.youth";
     private File file = new File(fileName, "SearchHistory.text");

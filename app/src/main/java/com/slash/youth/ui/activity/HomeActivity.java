@@ -3,6 +3,7 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.slash.youth.R;
@@ -41,6 +42,7 @@ public class HomeActivity extends Activity {
         currentCheckedPager = new HomeFreeTimePager(this);
         activityHomeBinding.flActivityHomePager.addView(currentCheckedPager.getRootView());
         currentCheckedPageNo = PAGE_FREETIME;
+        activityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#31c5e4"));
     }
 
 //    public void getData(View v) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -43,6 +44,7 @@ import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,16 +56,19 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public Activity mActivity;
     private ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
     private ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
+    private ArrayList<Bitmap> bannerList = new ArrayList<>();
     public boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
     private int limit = 10;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
     private HomeServiceAdapter homeServiceAdapter;
     private View listMoreView;
-
+    private int advImageUrlIndex;
+    private int freeTimeLoadingPager = View.GONE;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
+        displayLoadLayer();
         initView();
         initScrollView();
         initData();
@@ -71,6 +76,25 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         initListener();
     }
 
+    //显示加载页面
+    private void displayLoadLayer() {
+        setFreeTimeLoadingPager(View.VISIBLE);
+    }
+
+    //隐藏加载页面
+    public void hideLoadLayer() {
+        setFreeTimeLoadingPager(View.GONE);
+    }
+
+    @Bindable
+    public int getFreeTimeLoadingPager() {
+        return freeTimeLoadingPager;
+    }
+
+    public void setFreeTimeLoadingPager(int freeTimeLoadingPager) {
+        this.freeTimeLoadingPager = freeTimeLoadingPager;
+        notifyPropertyChanged(BR.freeTimeLoadingPager);
+    }
 
     //添加脚布局
     private void initFootView() {
@@ -96,7 +120,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
         @Override
         public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-
         }
     }
 
@@ -117,7 +140,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 //        x.image().clearCacheFiles();
         getDataFromServer();
 //        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
-        vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
+      //  vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
+        vpAdvStartIndex = 100000000 - 100000000 % bannerList.size();
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
             @Override
@@ -131,9 +155,12 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             }
 
             @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                int advImageUrlIndex = position % listAdvImageUrl.size();
-                String advImageUrl = listAdvImageUrl.get(advImageUrlIndex);//实际广告图片应该根据该URL来加载
+            public Object instantiateItem(ViewGroup container, final int position) {
+                //int advImageUrlIndex = position % listAdvImageUrl.size();
+                //String advImageUrl = listAdvImageUrl.get(advImageUrlIndex);//实际广告图片应该根据该URL来加载
+
+                advImageUrlIndex = position % bannerList.size();
+                Bitmap roundedBitmap = bannerList.get(advImageUrlIndex);
 
                 CardView cardView = new CardView(CommonUtils.getContext());
                 cardView.setCardBackgroundColor(Color.TRANSPARENT);
@@ -153,7 +180,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 //                Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
 //                ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
 
-                x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
+             /*  x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
                     @Override
                     public void onSuccess(Drawable result) {
                         LogKit.v("Load banner pic onSuccess");
@@ -177,8 +204,19 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     public void onFinished() {
                         LogKit.v("Load banner pic onFinished");
                     }
-                });
+                });*/
+
+                ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
                 ivHomeFreetimeAdv.setScaleType(ImageView.ScaleType.FIT_XY);
+                ivHomeFreetimeAdv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //在这里 0，青年 1
+                        //点击的时候，到banner页面
+                        initBanner(advImageUrlIndex);
+                    }
+                });
+
                 cardView.addView(ivHomeFreetimeAdv);
 
                 container.addView(cardView);
@@ -231,8 +269,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         CommonUtils.getHandler().removeCallbacks(homeVpAdvChange);
-                        //点击的时候，到banner页面
-                        initBanner();
                         break;
                     case MotionEvent.ACTION_UP:
                         CommonUtils.getHandler().postDelayed(homeVpAdvChange, 2000);
@@ -272,12 +308,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 clickMore();
             }
         });
-
     }
 
-    private void initBanner() {
+    private void initBanner(int advImageUrlIndex) {
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
-        intentCommonQuestionActivity.putExtra("banner", "banner");
+        intentCommonQuestionActivity.putExtra("bannerIndex", advImageUrlIndex);
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
@@ -324,15 +359,22 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
+        Bitmap banner1 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner);
+        Bitmap banner2 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner2);
+        Bitmap banner3 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner3);
+        bannerList.add(banner1);
+        bannerList.add(banner2);
+        bannerList.add(banner3);
+
         //模拟数据 首页广告条图片URL
-        listAdvImageUrl.add("http://pic33.nipic.com/20130916/3420027_192919547000_2.jpg");
+       /* listAdvImageUrl.add("http://pic33.nipic.com/20130916/3420027_192919547000_2.jpg");
         listAdvImageUrl.add("http://b.hiphotos.baidu.com/album/s%3D1600%3Bq%3D90/sign=4f04be8ab8014a90853e42bb99470263/b8389b504fc2d562d426d1d5e61190ef76c66cdf.jpg?v=tbs");
         listAdvImageUrl.add("http://pic36.nipic.com/20131128/11748057_141932278338_2.jpg");
         listAdvImageUrl.add("http://img5.imgtn.bdimg.com/it/u=2033765348,1346395611&fm=21&gp=0.jpg");
         listAdvImageUrl.add("http://img1.imgtn.bdimg.com/it/u=1659898221,3810685472&fm=21&gp=0.jpg");
         listAdvImageUrl.add("http://pic44.nipic.com/20140721/11624852_001107119409_2.jpg");
         listAdvImageUrl.add("http://img0.imgtn.bdimg.com/it/u=938096994,3074232342&fm=21&gp=0.jpg");
-        listAdvImageUrl.add("http://img1.imgtn.bdimg.com/it/u=1794894692,1423685501&fm=21&gp=0.jpg");
+        listAdvImageUrl.add("http://img1.imgtn.bdimg.com/it/u=1794894692,1423685501&fm=21&gp=0.jpg");*/
 
         //FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_ONE);
         // FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement(),GlobalConstants.HttpUrl.FIRST_PAHER_ADVERTISEMENT_THREE);
@@ -381,7 +423,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeDemandBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
-                //隐藏加载页面
 
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
@@ -389,6 +430,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                 pagerHomeFreetimeBinding.lvHomeDemandAndService
                         .setAdapter(homeDemandAndDemandAdapter);
+
+                //隐藏加载页面
+                hideLoadLayer();
             }
         }
 
@@ -406,7 +450,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeServiceBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
-                //隐藏加载页面
 
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
@@ -415,6 +458,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                 pagerHomeFreetimeBinding.lvHomeDemandAndService
                         .setAdapter(homeServiceAdapter);
+
+                //隐藏加载页面
+                hideLoadLayer();
             }
         }
 
@@ -458,5 +504,4 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         this.serviceButtonVisibility = serviceButtonVisibility;
         notifyPropertyChanged(BR.serviceButtonVisibility);
     }
-
 }

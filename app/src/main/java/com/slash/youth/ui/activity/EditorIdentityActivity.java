@@ -32,7 +32,7 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
         super.onCreate(savedInstanceState);
         intent = getIntent();
         activityEditorIdentityBinding = DataBindingUtil.setContentView(this, R.layout.activity_editor_identity);
-        editorIdentityModel = new EditorIdentityModel(activityEditorIdentityBinding,this);
+        editorIdentityModel = new EditorIdentityModel(activityEditorIdentityBinding,this,intent);
         activityEditorIdentityBinding.setEditorIdentityModel(editorIdentityModel);
         initView();
         back();

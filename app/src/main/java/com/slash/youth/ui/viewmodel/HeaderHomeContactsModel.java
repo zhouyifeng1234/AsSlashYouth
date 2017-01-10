@@ -27,9 +27,11 @@ import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.ContactsCareActivity;
 import com.slash.youth.ui.adapter.ContactsCareAdapter;
+import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -61,27 +63,37 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private int limit = 10;
     private int type = -1;
     private Activity mActivity;
-    private ArrayList<Long> careMeUidList = new ArrayList<>();
-    private ArrayList<Long> addMeUidList = new ArrayList<>();
+    private int myFansLocalCount;
+    private int myFollowLocalCount;
+    private int myAddFriendLocalCount;
+    private int addMeFriendLocalCount;
 
 
     public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding, Activity mActivity) {
         this.mHeaderListviewHomeContactsBinding = headerListviewHomeContactsBinding;
         this.mActivity = mActivity;
+        initLocalData();
         initView();
         initData();
+    }
+
+    //获取本地的数据
+    private void initLocalData() {
+        myFansLocalCount = SpUtils.getInt("myFansCount", -1);
+        myFollowLocalCount = SpUtils.getInt("myFollowCount", -1);
+        myAddFriendLocalCount = SpUtils.getInt("myAddFriendCount", -1);
+        addMeFriendLocalCount = SpUtils.getInt("addMeFriendCount", -1);
     }
 
     private void initView() {
         mHeaderListviewHomeContactsBinding.hsvHomeContactsRecommend.setHorizontalScrollBarEnabled(false);
         //获取首页的信息
+        PagerHomeContactsModel.getBaseDataTotalCount++;
         ContactsManager.getPersonRelationFirstPage(new onPersonRelationFirstPage());
     }
 
     private void initData() {
         getFriendRecommendData();
-       // ContactsManager.getAddMeList(new onGetCareMeList(), 0, 20, GlobalConstants.HttpUrl.CARE_ME_PERSON);
-        //ContactsManager.getAddMeList(new onGetAddMeList(), 0, 20, GlobalConstants.HttpUrl.MY_FRIEND_LIST_HOST + "/addmelist");
     }
 
     private View createRecommendHorizontalSpace() {
@@ -94,6 +106,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     public void getFriendRecommendData() {
         listFriendRecommendBean.clear();
+        PagerHomeContactsModel.getBaseDataTotalCount++;
         ContactsManager.getMyRecommendFriendList(new onGetMyRecommendFriendList(), limit);
     }
 
@@ -128,22 +141,29 @@ public class HeaderHomeContactsModel extends BaseObservable {
     public void careMe(View view) {
         openContactsCareActivity(ContactsManager.CARE_ME);
         type = 1;
+
+        mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
     }
 
     //我关注
     public void myCare(View view) {
         openContactsCareActivity(ContactsManager.MY_CARE);
+        type = 2;
+        mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.GONE);
     }
 
     //加我的
     public void addMe(View view) {
         openContactsCareActivity(ContactsManager.ADD_ME);
         type = 3;
+        mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.GONE);
     }
 
     //我加的
     public void myAdd(View view) {
         openContactsCareActivity(ContactsManager.MY_ADD);
+        type = 4;
+        mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.GONE);
     }
 
     //人脉潜能
@@ -159,6 +179,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private void openContactsCareActivity(String title) {
         Intent intentContactsCareActivity = new Intent(CommonUtils.getContext(), ContactsCareActivity.class);
         intentContactsCareActivity.putExtra("title", title);
+        intentContactsCareActivity.putExtra("type", type);
         mActivity.startActivity(intentContactsCareActivity);
     }
 
@@ -170,7 +191,10 @@ public class HeaderHomeContactsModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
                 //隐藏加载页面
-                listener.OnRelationLoadData(true);
+                PagerHomeContactsModel.getBaseDataFinishedCount++;
+                if(PagerHomeContactsModel.getBaseDataFinishedCount >= PagerHomeContactsModel.getBaseDataTotalCount){
+                    listener.OnRelationLoadData(true);
+                }
 
                 PersonRelationBean.DataBean data = dataBean.getData();
                 info = data.getInfo();
@@ -183,6 +207,27 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 mHeaderListviewHomeContactsBinding.tvMyCare.setText(String.valueOf(myFollowCount));
                 mHeaderListviewHomeContactsBinding.tvMyAdd.setText(String.valueOf(myAddFriendCount));
                 mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
+
+                //保存一下在本地
+                if(myFansLocalCount!=-1&&myFansCount!=myFansLocalCount){
+                    mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
+                    SpUtils.setInt("myFansCount",myFansCount);
+                }
+
+                if(myFollowLocalCount!=-1&&myFansCount!=myFansLocalCount){
+                    mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
+                    SpUtils.setInt("myFollowCount",myFollowCount);
+                }
+
+                if(myAddFriendLocalCount!=-1&&myAddFriendLocalCount!=myAddFriendCount){
+                    mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
+                    SpUtils.setInt("myAddFriendCount",myAddFriendCount);
+                }
+
+               if(addMeFriendLocalCount!=-1&&addMeFriendLocalCount!=addMeFriendCount){
+                   mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
+                   SpUtils.setInt("addMeFriendCount",addMeFriendCount);
+               }
             }
         }
         @Override
@@ -198,7 +243,10 @@ public class HeaderHomeContactsModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
                 //隐藏加载页面
-                listener.OnRecommendLoadData(true);
+                PagerHomeContactsModel.getBaseDataFinishedCount++;
+                if(PagerHomeContactsModel.getBaseDataFinishedCount >= PagerHomeContactsModel.getBaseDataTotalCount){
+                    listener.OnRecommendLoadData(true);
+                }
 
                 RecommendFriendBean.DataBean data = dataBean.getData();
                 List<RecommendFriendBean.DataBean.ListBean> list = data.getList();
@@ -215,66 +263,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
         }
     }
 
-    //获取关注我的和加我的uid
-    public class onGetAddMeList implements BaseProtocol.IResultExecutor<ContactsBean> {
-        @Override
-        public void execute(ContactsBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                ContactsBean.DataBean data = dataBean.getData();
-                List<ContactsBean.DataBean.ListBean> list = data.getList();
-                for (ContactsBean.DataBean.ListBean listBean : list) {
-                    long uid = listBean.getUid();
-                    addMeUidList.add(uid);
-                    ArrayList<Long> addMe = IOUtils.getDateFromLocal("addMe");
-
-                    if (addMe.equals(addMeUidList)) {
-                        //相等没有跟新
-                        mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
-                    } else {
-                        //不等，更新啦
-                        mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
-                        IOUtils.saveDate2Local("addMe", addMeUidList);
-                    }
-                    careMeUidList.clear();
-                }
-            }
-        }
-
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
-    }
-
-    //关注我的
-    public class onGetCareMeList implements BaseProtocol.IResultExecutor<ContactsBean> {
-        @Override
-        public void execute(ContactsBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                ContactsBean.DataBean data = dataBean.getData();
-                List<ContactsBean.DataBean.ListBean> list = data.getList();
-                for (ContactsBean.DataBean.ListBean listBean : list) {
-                    long uid = listBean.getUid();
-                    careMeUidList.add(uid);
-                    ArrayList<Long> careMe = IOUtils.getDateFromLocal("careMe");
-                    if (careMeUidList.equals(careMe)) {
-                        mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.GONE);
-                    } else {
-                        mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
-                        IOUtils.saveDate2Local("careMe", careMeUidList);
-                    }
-                    careMeUidList.clear();
-                }
-            }
-        }
-
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
-    }
 
     //监听数据获取
     public interface OnLoadDataListener{

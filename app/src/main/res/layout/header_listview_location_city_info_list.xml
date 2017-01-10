@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
-            android:text="当前定位"
+            android:text="当前城市"
             android:textColor="#333333"
             android:textSize="15dp"/>
 
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="最近访问"
+            android:text="我的足记"
             android:textColor="#666666"
             android:textSize="13.5sp"/>
 

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -23,8 +24,10 @@ public class WithdrawalsActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String currentMoney = intent.getStringExtra("currentMoney");
         layoutWithdrawalsBinding = DataBindingUtil.setContentView(this, R.layout.layout_withdrawals);
-        WithdrawalsModel withdrawalsModel = new WithdrawalsModel(layoutWithdrawalsBinding,this);
+        WithdrawalsModel withdrawalsModel = new WithdrawalsModel(layoutWithdrawalsBinding,this,currentMoney);
         layoutWithdrawalsBinding.setWithdrawalsModel(withdrawalsModel);
 
         listener();
@@ -39,7 +42,6 @@ public class WithdrawalsActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();

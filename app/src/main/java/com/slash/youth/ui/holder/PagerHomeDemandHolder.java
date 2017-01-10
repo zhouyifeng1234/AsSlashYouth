@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
-import com.slash.youth.databinding.ItemListviewHomeDemandBinding;
-import com.slash.youth.domain.DemandBean;
 import com.slash.youth.domain.SearchItemDemandBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
@@ -49,7 +47,7 @@ public class PagerHomeDemandHolder extends BaseHolder<SearchItemDemandBean.DataB
                 itemHomeDemandServiceBinding.tvName.setText(name);
                 break;
             case 0://匿名
-                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.default_avatar_1);
+                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
                 itemHomeDemandServiceBinding.tvName.setText(anonymityName);

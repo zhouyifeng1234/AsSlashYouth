@@ -1,10 +1,12 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,17 +47,30 @@ public class EditorIdentityModel extends BaseObservable {
     private int width = 0;
     private  int index = 0;
     private int spec;
+    private Intent intent;
 
-    public EditorIdentityModel(ActivityEditorIdentityBinding activityEditorIdentityBinding, EditorIdentityActivity editorIdentityActivity) {
+    public EditorIdentityModel(ActivityEditorIdentityBinding activityEditorIdentityBinding, EditorIdentityActivity editorIdentityActivity,Intent intent) {
         this.activityEditorIdentityBinding = activityEditorIdentityBinding;
         this.editorIdentityActivity = editorIdentityActivity;
+        this.intent = intent;
         initData();
         initView();
 
     }
 
     private void initData() {
-
+        newSkillLabelList.clear();
+        String editorIdentity = intent.getStringExtra("editorIdentity");
+        if(!TextUtils.isEmpty(editorIdentity)){
+            if(editorIdentity.contains("/")){
+                String[] split = editorIdentity.split("/");
+                for (String identity : split) {
+                    newSkillLabelList.add(identity);
+                }
+            }else {
+                newSkillLabelList.add(editorIdentity);
+            }
+        }
     }
 
     private void initView() {

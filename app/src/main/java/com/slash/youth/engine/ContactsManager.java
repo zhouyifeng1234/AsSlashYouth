@@ -29,10 +29,10 @@ public class ContactsManager {
     public static  final int FOLLOW_STATUS_ALREADY_ERROR = 2;//已经关注过错误
     public static  final int FOLLOW_STATUS_UNKNOWN_ERROR = 3;//服务端错误
     public static  final int FOLLOW_STATUS_NOT_EXIST_ERROR = 4;//关注关系不存在错误
-    public static  final String CARE_ME = "关注我的";
-    public static  final String MY_CARE = "我关注";
-    public static  final String ADD_ME = "加我的";
-    public static  final String MY_ADD = "我加的";
+    public static  final String CARE_ME = "关注";
+    public static  final String MY_CARE = "粉丝";
+    public static  final String ADD_ME = "好友请求";
+    public static  final String MY_ADD = "我的请求";
     public static String ADD_FRIEND = "加好友";
     public static String IS_FRIEND = "解除好友";
     public static String ADD_FRIEND_APPLICATION = "已申请";

@@ -25,19 +25,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/logo_xuni"
+                android:src="@mipmap/ic_launcher_salsh"
                 />
 
-            <TextView
-                android:layout_marginRight="64dp"
-                android:layout_marginTop="65dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333333"
-                android:text="斜杠青年V2.0"/>
-
         </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:text="斜杠青年V1.1.0"/>
 
         <LinearLayout
             android:layout_marginTop="22dp"

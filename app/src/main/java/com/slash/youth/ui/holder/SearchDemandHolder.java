@@ -10,7 +10,6 @@ import com.slash.youth.engine.SearchManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -56,7 +55,7 @@ public class SearchDemandHolder  extends SearchViewHolder<SearchAllBean.DataBean
                 tv_item_listview_home_demand_username.setText(demandListBean.getName());
                 break;
             case 0://匿名
-                iv_item_listview_home_demand_avatar.setImageResource(R.mipmap.default_avatar_1);
+                iv_item_listview_home_demand_avatar.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
                 tv_item_listview_home_demand_username.setText(anonymityName);

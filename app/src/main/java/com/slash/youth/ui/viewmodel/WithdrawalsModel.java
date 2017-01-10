@@ -35,11 +35,19 @@ public class WithdrawalsModel extends BaseObservable {
     private double amount;
     private String number;
     public static int type;
+    private String currentMoney;
 
-    public WithdrawalsModel(LayoutWithdrawalsBinding layoutWithdrawalsBinding, WithdrawalsActivity withdrawalsActivity) {
+    public WithdrawalsModel(LayoutWithdrawalsBinding layoutWithdrawalsBinding, WithdrawalsActivity withdrawalsActivity,String currentMoney) {
         this.layoutWithdrawalsBinding = layoutWithdrawalsBinding;
         this.withdrawalsActivity = withdrawalsActivity;
+        this.currentMoney = currentMoney;
+        initView();
         listener();
+    }
+
+    //初始化
+    private void initView() {
+        layoutWithdrawalsBinding.etDollar.setHint("请输入提现金额，最多可提"+currentMoney+"元");
     }
 
     private void listener() {
@@ -125,7 +133,6 @@ public class WithdrawalsModel extends BaseObservable {
         }
     }
 
-
     //确定
     public void hintSure(View view){
         if( amount == 0){
@@ -134,17 +141,7 @@ public class WithdrawalsModel extends BaseObservable {
             if(number.isEmpty()){
                 ToastUtils.shortToast("请填写账号");
             }else {
-                switch (type){
-                    case 1:
-                        withdrawalsActivity.finish();
-                        break;
-                    case 2:
-                        layoutWithdrawalsBinding.flHint.setVisibility(View.GONE);
-                        break;
-                    default:
-                        showDialog();
-                        break;
-                }
+                showDialog();
             }
         }
     }

@@ -525,7 +525,10 @@ public class GlobalConstants {
         public static final String WEB_INFLUENCE = WEB_PATH_HOST + "/integral?nav=1";
         public static final String WEB_COMMON_QUESTION = WEB_PATH_HOST + "/program?nav=1";
         public static final String WEB_CONTACT_US = WEB_PATH_HOST + "/program?nav=1";
-        public static final String WEB_BANNER = WEB_PATH_HOST + "/banner?nav=1";
+        public static final String WEB_BANNER_1 = WEB_PATH_HOST + "/banner?nav=1";
+        public static final String WEB_BANNER_2 = "http://dwz.cn/51UmP8 ";
+        public static final String WEB_BANNER_3 = "http://dwz.cn/51Un80";
+
     }
 
 }

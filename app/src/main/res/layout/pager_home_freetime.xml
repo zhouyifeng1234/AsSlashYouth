@@ -33,7 +33,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:onClick="@{pagerHomeFreeTimeModel.displayServiceList}"
-                        android:src="@mipmap/switch_button"
+                        android:src="@mipmap/switch_service_button"
                         android:visibility="@{pagerHomeFreeTimeModel.demandButtonVisibility}"/>
                     <ImageView
                         android:id="@+id/iv_home_freetime_service"
@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:onClick="@{pagerHomeFreeTimeModel.displayDemanList}"
-                        android:src="@mipmap/switch_service_button"
+                        android:src="@mipmap/switch_button"
                         android:visibility="@{pagerHomeFreeTimeModel.serviceButtonVisibility}"/>
                 </FrameLayout>
 
@@ -151,7 +151,35 @@
         </LinearLayout>
 
         <!--加载页面-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="@{pagerHomeFreeTimeModel.freeTimeLoadingPager}"
+            >
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
 
 
     </FrameLayout>

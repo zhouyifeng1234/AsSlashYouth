@@ -257,8 +257,8 @@ public class MySettingModel extends BaseObservable {
     //退出程序
     public void finishApp(View view){
         currentTime = TimeUtils.getCurrentTime();
-        final String logout = "您的账号于"+currentTime+"在 一台设备登录。如非本人操作，则密 码可能已泄露，建议前往我的—设置 修改密码。";
-        DialogUtils.showDialogLogout(mySettingActivity, "下线通知", logout, new DialogUtils.DialogCallBack() {
+       // final String logout = "您的账号于"+currentTime+"在 一台设备登录。如非本人操作，则密 码可能已泄露，建议前往我的—设置 修改密码。";
+        DialogUtils.showDialogLogout(mySettingActivity, "退出登录","真的要退出登录吗？", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 logout(LoginManager.token);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Color;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -86,20 +87,29 @@ public class ActivityHomeModel extends BaseObservable {
      */
     public void changePager(View v) {
         mActivityHomeBinding.flActivityHomePager.removeAllViews();
+        mActivityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#000000"));
+        mActivityHomeBinding.tvContact.setTextColor(Color.parseColor("#000000"));
+        mActivityHomeBinding.tvInfo.setTextColor(Color.parseColor("#000000"));
+        mActivityHomeBinding.tvMy.setTextColor(Color.parseColor("#000000"));
+
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
-                setBottomTabIcon(R.mipmap.home_xianshi_btn, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
+                setBottomTabIcon(R.mipmap.icon_idle_hours_press, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
                 HomeActivity.currentCheckedPager = new HomeFreeTimePager(mActivity);
                 mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("freetime");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_FREETIME;
+
+                mActivityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#31c5e4"));
                 break;
             case R.id.ll_activity_home_info:
-                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
                 HomeActivity.currentCheckedPager = new HomeInfoPager(mActivity);
                 mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("info");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_INFO;
+
+                mActivityHomeBinding.tvInfo.setTextColor(Color.parseColor("#31c5e4"));
                 break;
             case R.id.ll_activity_home_contacts:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_press, R.mipmap.home_wode_btn);
@@ -107,13 +117,17 @@ public class ActivityHomeModel extends BaseObservable {
                 mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("contacts");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_CONTACTS;
+
+                mActivityHomeBinding.tvContact.setTextColor(Color.parseColor("#31c5e4"));
                 break;
             case R.id.ll_activity_home_my:
-                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.icon_my_center_press);
+                setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.icon_my_center_press);
                 HomeActivity.currentCheckedPager = new HomeMyPager(mActivity);
                 mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("my");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_MY;
+
+                mActivityHomeBinding.tvMy.setTextColor(Color.parseColor("#31c5e4"));
                 break;
         }
     }

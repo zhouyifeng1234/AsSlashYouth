@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15sp"
-                        android:text="148"
+                        android:text="0"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
                     <TextView
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
-                        android:text="关注我的"
+                        android:text="关注"
                         android:textColor="#CCCCCC"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15sp"
-                        android:text="148"
+                        android:text="0"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
                     <TextView
@@ -132,13 +132,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
-                        android:text="我关注的"
+                        android:text="粉丝"
                         android:textColor="#CCCCCC"
                         android:textSize="14sp"/>
 
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/view_red_spot2"
                     android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
@@ -168,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15sp"
-                        android:text="148"
+                        android:text="0"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
                     <TextView
@@ -183,7 +184,7 @@
                 </LinearLayout>
 
                 <View
-                    android:id="@+id/view_red_spot2"
+                    android:id="@+id/view_red_spot3"
                     android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
@@ -213,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15sp"
-                        android:text="148"
+                        android:text="0"
                         android:textColor="#666666"
                         android:textSize="15sp"/>
                     <TextView
@@ -227,6 +228,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/view_red_spot4"
                     android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="8dp"

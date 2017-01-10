@@ -55,7 +55,7 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
                 tv_item_listview_home_demand_username.setText(name);
                 break;
             case 0://匿名
-                iv_item_listview_home_service_avatar.setImageResource(R.mipmap.default_avatar_1);
+                iv_item_listview_home_service_avatar.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
                 tv_item_listview_home_demand_username.setText(anonymityName);

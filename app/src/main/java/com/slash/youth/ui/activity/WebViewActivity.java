@@ -37,11 +37,13 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private String questionTitle  = "常见问题";
     private String influenceTitle  = "影响力";
-    private String bannerTitle  = "只有你能决定你有多优秀";
+    private String bannerTitle_1  = "只有你能决定你有多优秀";
+    private String bannerTitle_2  = "斜杠青年创业故事";
+    private String bannerTitle_3  = "互联网行业岗位故事全纪录";
     private FrameLayout fl;
     private String influence;
     private String commonQuestion;
-    private String banner;
+    private int bannerIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,20 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         if(commonQuestion !=null){
             webUrl = GlobalConstants.WebPath.WEB_COMMON_QUESTION;
         }
-        banner = intent.getStringExtra("banner");
-        if(banner!=null){
-            webUrl = GlobalConstants.WebPath.WEB_BANNER;
+
+        bannerIndex = intent.getIntExtra("bannerIndex", -1);
+        if(bannerIndex !=-1){
+            switch (bannerIndex){
+                case 0:
+                    webUrl =GlobalConstants.WebPath.WEB_BANNER_1;
+                    break;
+                case 1:
+                    webUrl =GlobalConstants.WebPath.WEB_BANNER_2;
+                    break;
+                case 2:
+                    webUrl =GlobalConstants.WebPath.WEB_BANNER_3;
+                    break;
+            }
         }
 
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
@@ -75,8 +88,19 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         if(commonQuestion!=null){
             title.setText(questionTitle);
         }
-        if(banner!=null){
-            title.setText(bannerTitle);
+
+        if(bannerIndex !=-1){
+            switch (bannerIndex){
+                case 0:
+                    title.setText(bannerTitle_1);
+                    break;
+                case 1:
+                    title.setText(bannerTitle_2);
+                    break;
+                case 2:
+                    title.setText(bannerTitle_3);
+                    break;
+            }
         }
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
