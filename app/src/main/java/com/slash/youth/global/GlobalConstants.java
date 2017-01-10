@@ -133,6 +133,8 @@ public class GlobalConstants {
         public static final String THIRD_PARTY_LOGIN = SERVER_HOST + "auth/v1/login/thirdParty";
         //获取融云token
         public static final String GET_RONG_TOEKN = SERVER_HOST + "auth/v1/rongToken";
+        //更新融云token
+        public static final String REFRESH_RONG_TOKEN = SERVER_HOST + "auth/v1/rongToken/update";
         //登录后完善信息 设置头像
         public static final String LOGIN_SET_AVATAR = SERVER_HOST_MY_USERINFO + "/" + "vcard/avatar/set";
         //登录后完善信息 设置真实姓名
@@ -195,6 +197,8 @@ public class GlobalConstants {
         public static final String GET_DEMAND_DESC = SERVER_HOST_DEMAND + "descget";
         //十五、[需求]-设置需求描述信息
         public static final String SET_DEMAND_DESC = SERVER_HOST_DEMAND + "descset";
+        //十五、[需求]-设置需求备注信息
+        public static final String SET_DEMAND_REMARK = SERVER_HOST_DEMAND + "setremark";
         //十六、[需求]-需求方获取意向单列表
         public static final String GET_DEMAND_PURPOSE_LIST = SERVER_HOST_DEMAND + "purposelist";
         //十七、[需求]-需求方申请退款
@@ -265,9 +269,12 @@ public class GlobalConstants {
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";
         //二、[消息系统]-设置手机交换标识  聊天中设置已经交换过手机号的标识
         public static final String SET_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/set";
-        //三、[消息系统]-获得会话列表
+        //五、[消息系统]-获得会话列表
         public static final String GET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/get";
-
+        //六、[消息系统]-更新会话列表
+        public static final String SET_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/set";
+        //七、[消息系统]-删除会话列表
+        public static final String DEL_CONVERSATION_LIST = SERVER_HOST_MESSAGE_SYSTEM + "chatlist/del";
 
         //十六、[需求]-技能标签(一 二 三 级的技能标签)
         public static final String SKILLLABEL = SERVER_HOST_SKILLLABEL + "static/tag/sys_tag.json";

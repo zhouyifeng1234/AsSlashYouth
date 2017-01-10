@@ -20,6 +20,9 @@ import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -73,7 +76,11 @@ public class PerfectInfoActivity extends Activity {
                     String fileId = dataBean.data.fileId;
                     mPerfectInfoModel.setUploadAvatarFileId(fileId);
                     mPerfectInfoModel.setIsUploadAvatar(true);
-                    mPerfectInfoModel.setAvatarFileThumb(fileThumb);
+                    //页面上显示头像，直接加载本地缓存的图片
+                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                    ImageOptions imageOptions = builder.build();
+                    builder.setCircular(true);
+                    x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, fileThumb.toURI().toString(), imageOptions);
                 }
 
                 @Override

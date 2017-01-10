@@ -11,6 +11,7 @@ import com.slash.youth.databinding.ItemListviewHomeInfoBinding;
 import com.slash.youth.domain.ChatTaskInfoBean;
 import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemHomeInfoModel;
 import com.slash.youth.utils.BitmapKit;
@@ -48,13 +49,21 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
 
     @Override
     public void refreshView(ConversationListBean.ConversationInfo data) {
-        mItemHomeInfoModel.setUsername(data.name);
-        BitmapKit.bindImage(mItemListviewHomeInfoBinding.ivInfoConversationAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + data.avatar);
-        if (data.isAuth == 1) {
-            mItemHomeInfoModel.setAddVVisibility(View.VISIBLE);
-        } else {
+        if (data.uid == 1000) {
+            mItemHomeInfoModel.setUsername("斜杠小助手");
+            mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.slash_helper_square);
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
+        } else {
+            mItemHomeInfoModel.setUsername(data.name);
+            BitmapKit.bindImage(mItemListviewHomeInfoBinding.ivInfoConversationAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + data.avatar);
+            if (data.isAuth == 1) {
+                mItemHomeInfoModel.setAddVVisibility(View.VISIBLE);
+            } else {
+                mItemHomeInfoModel.setAddVVisibility(View.GONE);
+            }
+            mItemHomeInfoModel.setCompanyAndPosition("(" + data.company + "," + data.position + ")");
         }
+
         RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, data.uid + "", new RongIMClient.ResultCallback<Integer>() {
             @Override
             public void onSuccess(Integer integer) {
@@ -72,7 +81,7 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
 
             }
         });
-        mItemHomeInfoModel.setCompanyAndPosition("(" + data.company + "," + data.position + ")");
+
         RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, data.uid + "", 1, new RongIMClient.ResultCallback<List<Message>>() {
             @Override
             public void onSuccess(List<Message> messages) {
@@ -80,18 +89,77 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
                     if (messages.size() > 0) {
                         Message message = messages.get(0);
                         String objectName = message.getObjectName();
-                        if (objectName.equals("RC:TxtMsg")) {
-                            TextMessage textMessage = (TextMessage) message.getContent();
-                            String extra = textMessage.getExtra();
-                            if (TextUtils.isEmpty(extra)) {
-                                mItemHomeInfoModel.setLastMsg(textMessage.getContent());
-                            } else {
-
+                        Message.MessageDirection messageDirection = message.getMessageDirection();
+                        if (messageDirection == Message.MessageDirection.SEND) {
+                            //自己发送的消息
+                            //如果是向斜杠小助手发送消息，只能发送文本，所以和下面的发送文本消息的处理方式是一样的
+                            if (objectName.equals("RC:TxtMsg")) {
+                                TextMessage textMessage = (TextMessage) message.getContent();
+                                String extra = textMessage.getExtra();
+                                if (TextUtils.isEmpty(extra)) {
+                                    mItemHomeInfoModel.setLastMsg(textMessage.getContent());
+                                } else {
+                                    String content = textMessage.getContent();
+                                    if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                                        mItemHomeInfoModel.setLastMsg("您请求添加对方为好友");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                                        mItemHomeInfoModel.setLastMsg("您向对方分享了一个任务");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                                        mItemHomeInfoModel.setLastMsg("您向对方分享了个人名片");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                                        mItemHomeInfoModel.setLastMsg("您请求与对方交换联系方式");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+                                        mItemHomeInfoModel.setLastMsg("您同意添加对方为好友");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+                                        mItemHomeInfoModel.setLastMsg("您拒绝添加对方为好友");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+                                        mItemHomeInfoModel.setLastMsg("您同意与对方交换联系方式");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+                                        mItemHomeInfoModel.setLastMsg("您拒绝与对方交换联系方式");
+                                    }
+                                }
+                            } else if (objectName.equals("RC:ImgMsg")) {
+                                mItemHomeInfoModel.setLastMsg("有图片消息");
+                            } else if (objectName.equals("RC:VcMsg")) {
+                                mItemHomeInfoModel.setLastMsg("有语音消息");
                             }
-                        } else if (objectName.equals("RC:ImgMsg")) {
-                            mItemHomeInfoModel.setLastMsg("有图片消息");
-                        } else if (objectName.equals("RC:VcMsg")) {
-                            mItemHomeInfoModel.setLastMsg("有语音消息");
+                        } else if (messageDirection == Message.MessageDirection.RECEIVE) {
+                            //接收到的消息
+                            if (message.getSenderUserId().equals("1000")) {
+                                //斜杠小助手向我发送的消息
+                                mItemHomeInfoModel.setLastMsg("斜杠小助手向您发送了一条消息");
+                                return;
+                            }
+                            if (objectName.equals("RC:TxtMsg")) {
+                                TextMessage textMessage = (TextMessage) message.getContent();
+                                String extra = textMessage.getExtra();
+                                if (TextUtils.isEmpty(extra)) {
+                                    mItemHomeInfoModel.setLastMsg(textMessage.getContent());
+                                } else {
+                                    String content = textMessage.getContent();
+                                    if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                                        mItemHomeInfoModel.setLastMsg("对方请求添加您为好友");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                                        mItemHomeInfoModel.setLastMsg("对方分享了一个任务");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                                        mItemHomeInfoModel.setLastMsg("对方分享了个人名片");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                                        mItemHomeInfoModel.setLastMsg("对方请求交换联系方式");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+                                        mItemHomeInfoModel.setLastMsg("对方同意添加您为好友");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+                                        mItemHomeInfoModel.setLastMsg("对方拒绝添加您为好友");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+                                        mItemHomeInfoModel.setLastMsg("对方同意交换联系方式");
+                                    } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+                                        mItemHomeInfoModel.setLastMsg("对方拒绝交换联系方式");
+                                    }
+                                }
+                            } else if (objectName.equals("RC:ImgMsg")) {
+                                mItemHomeInfoModel.setLastMsg("有图片消息");
+                            } else if (objectName.equals("RC:VcMsg")) {
+                                mItemHomeInfoModel.setLastMsg("有语音消息");
+                            }
                         }
                     }
                 }

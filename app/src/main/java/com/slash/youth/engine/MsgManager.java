@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.http.protocol.AddFriendProtocol;
@@ -20,11 +21,17 @@ import com.slash.youth.http.protocol.AddFriendStatusProtocol;
 import com.slash.youth.http.protocol.AgreeAddFriendProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ConversationListProtocol;
+import com.slash.youth.http.protocol.DelConversationListProtocol;
 import com.slash.youth.http.protocol.GetIsChangeContactProtocol;
+import com.slash.youth.http.protocol.RefreshRongTokenProtocol;
 import com.slash.youth.http.protocol.RejectAddFriendProtocol;
 import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.http.protocol.SetChangeContactProtocol;
+import com.slash.youth.http.protocol.SetConversationListProtocol;
+import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
+import com.slash.youth.ui.viewmodel.PagerHomeInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
@@ -36,6 +43,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imlib.RongIMClient;
@@ -105,7 +113,7 @@ public class MsgManager {
                     Looper.loop();
                     return;
                 }
-                getRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
+                refreshRongToken(new BaseProtocol.IResultExecutor<RongTokenBean>() {
                     @Override
                     public void execute(RongTokenBean dataBean) {
                         String rongToken = dataBean.data.token;
@@ -114,7 +122,7 @@ public class MsgManager {
 
                     @Override
                     public void executeResultError(String result) {
-                        ToastUtils.shortToast("重新获取融云token失败:" + result);
+                        ToastUtils.shortToast("刷新融云token失败:" + result);
                     }
                 }, LoginManager.currentLoginUserId + "", "111");//暂时phone参数随便传
             }
@@ -204,9 +212,30 @@ public class MsgManager {
             if (senderUserId == "100") {//系统推送账号
 
             } else if (senderUserId == "1000") {//斜杠小助手
-
+                CommonUtils.getHandler().post(new Runnable() {
+                    public void run() {
+                        updateConversationList(senderUserId);
+                        //目前还不知道后台斜杠小助手发送过来的内容是什么格式，暂时认为它是"RC:TxtMsg"，其中的content就是内容
+                        if (mChatTextListener != null && targetId.equals(senderUserId)) {
+                            mChatTextListener.displayText(message, left);
+                        } else {
+                            //消息推送的顶部弹框提示
+                            PushInfoBean pushInfoBean = new PushInfoBean();
+                            pushInfoBean.senderUserId = senderUserId;
+//                            pushInfoBean.pushText = textMessage.getContent();
+                            pushInfoBean.pushText = "斜杠小助手向您发送了一条消息";
+                            pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
+                            displayPushInfo(pushInfoBean);
+                        }
+                    }
+                });
             } else {//聊天消息
                 if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//判断是单聊消息
+                    CommonUtils.getHandler().post(new Runnable() {
+                        public void run() {
+                            updateConversationList(senderUserId);
+                        }
+                    });
                     if (objectName.equals("RC:TxtMsg")) {
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
@@ -220,7 +249,9 @@ public class MsgManager {
                                     } else {
                                         //消息推送的顶部弹框提示
                                         PushInfoBean pushInfoBean = new PushInfoBean();
+                                        pushInfoBean.senderUserId = senderUserId;
                                         pushInfoBean.pushText = textMessage.getContent();
+                                        pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
                                         displayPushInfo(pushInfoBean);
                                     }
                                 } else {
@@ -229,6 +260,28 @@ public class MsgManager {
                                         mChatOtherCmdListener.doOtherCmd(message, left);
                                     } else {
                                         //消息推送的顶部弹框提示
+                                        PushInfoBean pushInfoBean = new PushInfoBean();
+                                        pushInfoBean.senderUserId = senderUserId;
+                                        String content = textMessage.getContent();
+                                        if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
+                                            pushInfoBean.pushText = "请求添加您为好友";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
+                                            pushInfoBean.pushText = "分享了一个任务";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
+                                            pushInfoBean.pushText = "分享了个人名片";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+                                            pushInfoBean.pushText = "请求交换联系方式";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
+                                            pushInfoBean.pushText = "同意添加您为好友";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
+                                            pushInfoBean.pushText = "拒绝添加您为好友";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
+                                            pushInfoBean.pushText = "同意交换联系方式";
+                                        } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT)) {
+                                            pushInfoBean.pushText = "拒绝交换联系方式";
+                                        }
+                                        pushInfoBean.msg_type = PushInfoBean.CHAT_OTHER_TEXT_CMD_MSG;
+                                        displayPushInfo(pushInfoBean);
                                     }
                                 }
                             }
@@ -243,6 +296,11 @@ public class MsgManager {
                                     mChatPicListener.dispayPic(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
+                                    PushInfoBean pushInfoBean = new PushInfoBean();
+                                    pushInfoBean.senderUserId = senderUserId;
+                                    pushInfoBean.pushText = "向您发送了一张图片";
+                                    pushInfoBean.msg_type = PushInfoBean.CHAT_IMG_MSG;
+                                    displayPushInfo(pushInfoBean);
                                 }
                             }
                         });
@@ -256,6 +314,11 @@ public class MsgManager {
                                     mChatVoiceListener.loadVoice(message, left);
                                 } else {
                                     //消息推送的顶部弹框提示
+                                    PushInfoBean pushInfoBean = new PushInfoBean();
+                                    pushInfoBean.senderUserId = senderUserId;
+                                    pushInfoBean.pushText = "向您发送了一段语音";
+                                    pushInfoBean.msg_type = PushInfoBean.CHAT_VOICE_MSG;
+                                    displayPushInfo(pushInfoBean);
                                 }
                             }
                         });
@@ -302,8 +365,43 @@ public class MsgManager {
                     }
                 }
             }
-
             return false;
+        }
+    }
+
+    public static ArrayList<String> conversationUidList = new ArrayList<String>();
+
+    public static void updateConversationList(String senderUserId) {
+        int index = conversationUidList.indexOf(senderUserId);
+        if (index != 0) {
+            if (index > 0) {//会话列表中本来就存在，但是不在第一个，要提取到第一个
+                conversationUidList.remove(senderUserId);
+            }
+            conversationUidList.add(0, senderUserId);
+            //会话列表顺序发生了变化，需要调用更新接口
+            ArrayList<Long> updateConversationUidList = new ArrayList<Long>();
+            updateConversationUidList.add(Long.parseLong(senderUserId));
+            setConversationList(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("跟新会话列表失败");
+                }
+            }, updateConversationUidList);
+        }
+        //页面展示上的更新
+        if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
+            HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
+            PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
+            if (index != 0) {//列表顺序发生了变化，需要重新调用接口获取列表
+                pagerHomeInfoModel.getDataFromServer();
+            } else {//重新设置列表数据，主要用来更新最近一条消息的展示
+                pagerHomeInfoModel.setConversationList();
+            }
         }
     }
 
@@ -526,7 +624,7 @@ public class MsgManager {
 
 
     /**
-     * 三、[消息系统]-获得会话列表
+     * 五、[消息系统]-获得会话列表
      *
      * @param onGetConversationListFinished
      * @param offset                        请求偏移量
@@ -538,12 +636,40 @@ public class MsgManager {
     }
 
     /**
+     * 六、[消息系统]-更新会话列表
+     *
+     * @param onSetConversationListFinished
+     * @param conversationUidList
+     */
+    public static void setConversationList(BaseProtocol.IResultExecutor onSetConversationListFinished, ArrayList<Long> conversationUidList) {
+        SetConversationListProtocol setConversationListProtocol = new SetConversationListProtocol(conversationUidList);
+        setConversationListProtocol.getDataFromServer(onSetConversationListFinished);
+    }
+
+    public static void delConversationList(BaseProtocol.IResultExecutor onDelConversationListFinished, ArrayList<Long> conversationUidList) {
+        DelConversationListProtocol delConversationListProtocol = new DelConversationListProtocol(conversationUidList);
+        delConversationListProtocol.getDataFromServer(onDelConversationListFinished);
+    }
+
+    /**
      * 获取融云token，暂时不去调用更新融云token接口（如果融云token失效，应该去调用更新融云token接口，但是调用后融云token并没有更新）
      * 需要传入的手机号参数，随便传一个就能成功，所以暂时先传一个假数据
      */
     public static void getRongToken(BaseProtocol.IResultExecutor onGetRongTokenFinished, String uid, String phone) {
         RongTokenProtocol rongTokenProtocol = new RongTokenProtocol(uid, phone);
         rongTokenProtocol.getDataFromServer(onGetRongTokenFinished);
+    }
+
+    /**
+     * 更新融云token
+     *
+     * @param onRefreshRongTokenFinished
+     * @param uid
+     * @param phone
+     */
+    public static void refreshRongToken(BaseProtocol.IResultExecutor onRefreshRongTokenFinished, String uid, String phone) {
+        RefreshRongTokenProtocol refreshRongTokenProtocol = new RefreshRongTokenProtocol(uid, phone);
+        refreshRongTokenProtocol.getDataFromServer(onRefreshRongTokenFinished);
     }
 
     /**

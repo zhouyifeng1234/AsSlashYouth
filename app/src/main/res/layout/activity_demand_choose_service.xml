@@ -65,6 +65,7 @@
                     </View>
 
                     <android.support.v7.widget.CardView
+                        android:onClick="@{demandChooseServiceModel.gotoDemandDetail}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"

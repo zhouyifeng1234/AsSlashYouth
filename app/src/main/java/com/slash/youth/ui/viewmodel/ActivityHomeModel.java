@@ -14,6 +14,7 @@ import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.pager.HomeContactsPager;
@@ -88,23 +89,31 @@ public class ActivityHomeModel extends BaseObservable {
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
                 setBottomTabIcon(R.mipmap.home_xianshi_btn, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
-                mActivityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(mActivity).getRootView());
+                HomeActivity.currentCheckedPager = new HomeFreeTimePager(mActivity);
+                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("freetime");
+                HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_FREETIME;
                 break;
             case R.id.ll_activity_home_info:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.home_renmai_btn, R.mipmap.home_wode_btn);
-                mActivityHomeBinding.flActivityHomePager.addView(new HomeInfoPager(mActivity).getRootView());
+                HomeActivity.currentCheckedPager = new HomeInfoPager(mActivity);
+                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("info");
+                HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_INFO;
                 break;
             case R.id.ll_activity_home_contacts:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_press, R.mipmap.home_wode_btn);
-                mActivityHomeBinding.flActivityHomePager.addView(new HomeContactsPager(mActivity).getRootView());
+                HomeActivity.currentCheckedPager = new HomeContactsPager(mActivity);
+                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("contacts");
+                HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_CONTACTS;
                 break;
             case R.id.ll_activity_home_my:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.home_renmai_btn, R.mipmap.icon_my_center_press);
-                mActivityHomeBinding.flActivityHomePager.addView(new HomeMyPager(mActivity).getRootView());
+                HomeActivity.currentCheckedPager = new HomeMyPager(mActivity);
+                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
                 LogKit.v("my");
+                HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_MY;
                 break;
         }
     }

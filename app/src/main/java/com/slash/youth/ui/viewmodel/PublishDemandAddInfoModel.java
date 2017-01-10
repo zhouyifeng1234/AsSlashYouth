@@ -87,7 +87,9 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         }
         mSallSkillLabels.reloadSkillLabels(reloadTagsName, reloadTags);
         //回填报价
-        mActivityPublishDemandAddinfoBinding.etDemandQuote.setText(demand.quote + "");
+        if (demand.quote > 0) {
+            mActivityPublishDemandAddinfoBinding.etDemandQuote.setText(demand.quote + "");
+        }
         //回填分期开关
         RelativeLayout.LayoutParams layoutParams
                 = (RelativeLayout.LayoutParams) mActivityPublishDemandAddinfoBinding.ivPublishDemandInstalmentHandle.getLayoutParams();

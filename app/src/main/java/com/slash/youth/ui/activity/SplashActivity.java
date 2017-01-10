@@ -3,11 +3,8 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,23 +18,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.slash.youth.R;
-import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.DialogVersionUpdateBinding;
-import com.slash.youth.domain.FreeTimeMoreDemandBean;
 import com.slash.youth.domain.TokenLoginResultBean;
 import com.slash.youth.domain.VersionBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.http.protocol.CheckVersionProtocol;
-import com.slash.youth.ui.adapter.PagerMoreDemandtAdapter;
 import com.slash.youth.ui.view.fly.RandomLayout;
-import com.slash.youth.ui.viewmodel.DialogSearchCleanModel;
 import com.slash.youth.ui.viewmodel.DialogVersionUpdateModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.DialogUtils;
-import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PackageUtil;
 import com.slash.youth.utils.SpUtils;
@@ -48,12 +37,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.Closeable;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * Created by zhouyifeng on 2016/12/11.
@@ -115,24 +99,33 @@ public class SplashActivity extends Activity {
                         startActivity(intentHomeActivity);
                         finish();
                     } else {
-                        gotoLoginActivity();
+//                        gotoLoginActivity();
+                        gotoGuidActivity();
                     }
                 }
 
                 @Override
                 public void executeResultError(String result) {
                     LogKit.v("token登录失败");
-                    gotoLoginActivity();
+//                    gotoLoginActivity();
+                    gotoGuidActivity();
                 }
             });
         } else {
-            gotoLoginActivity();
+//            gotoLoginActivity();
+            gotoGuidActivity();
         }
     }
 
-    private void gotoLoginActivity() {
-        Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
-        startActivity(intentLoginActivity);
+//    private void gotoLoginActivity() {
+//        Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
+//        startActivity(intentLoginActivity);
+//        finish();
+//    }
+
+    private void gotoGuidActivity() {
+        Intent intentGuidActivity = new Intent(CommonUtils.getContext(), GuidActivity.class);
+        startActivity(intentGuidActivity);
         finish();
     }
 
@@ -163,8 +156,8 @@ public class SplashActivity extends Activity {
                 long id = data.getId();
 
                 String url = data.getUrl();//下载路径
-                if(!SpUtils.getString("downloadurl","none").equals("none")){
-                    SpUtils.setString("downloadurl",url);
+                if (!SpUtils.getString("downloadurl", "none").equals("none")) {
+                    SpUtils.setString("downloadurl", url);
                 }
 
                 url = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";
@@ -244,59 +237,59 @@ public class SplashActivity extends Activity {
         params.setAutoRename(true);//断点下载
         params.setSaveFilePath("/mnt/sdcard/demo.apk");
 
-        x.http().get(params,  new Callback.ProgressCallback<File>(){
-            @Override
-            public void onSuccess(File result) {
-                if(mDialog!=null && mDialog.isShowing()){
-                    mDialog.dismiss();
+        x.http().get(params, new Callback.ProgressCallback<File>() {
+                    @Override
+                    public void onSuccess(File result) {
+                        if (mDialog != null && mDialog.isShowing()) {
+                            mDialog.dismiss();
+                        }
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Uri data = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
+                        intent.setDataAndType(data, "application/vnd.android.package-archive");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        if (mDialog != null && mDialog.isShowing()) {
+                            mDialog.dismiss();
+                            ToastUtils.shortToast("更新失败");
+                        }
+                        LogKit.d("更新失败");
+                        ex.printStackTrace();
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+                    }
+
+                    @Override
+                    public void onFinished() {
+                    }
+
+                    @Override
+                    public void onWaiting() {
+                    }
+
+                    @Override
+                    public void onStarted() {
+                        mDialog = new ProgressDialog(SplashActivity.this);
+                        mDialog.setCancelable(false);
+                        mDialog.setMessage("正在下载中...");
+                        mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        mDialog.setProgress(0);
+                        mDialog.show();
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isDownloading) {
+                        mDialog.setMax((int) total);
+                        int progress = (int) (current * 100 / total);
+                        mDialog.setProgress(progress);
+                    }
                 }
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                Uri data = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
-                intent.setDataAndType(data, "application/vnd.android.package-archive");
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                if(mDialog!=null && mDialog.isShowing()){
-                    mDialog.dismiss();
-                    ToastUtils.shortToast("更新失败");
-                }
-                LogKit.d("更新失败");
-                ex.printStackTrace();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
-            public void onFinished() {
-            }
-
-            @Override
-            public void onWaiting() {
-            }
-
-            @Override
-            public void onStarted() {
-                mDialog = new ProgressDialog(SplashActivity.this);
-                mDialog.setCancelable(false);
-                mDialog.setMessage("正在下载中...");
-                mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mDialog.setProgress(0);
-                mDialog.show();
-            }
-
-            @Override
-            public void onLoading(long total, long current, boolean isDownloading) {
-                mDialog.setMax((int)total);
-                int progress = (int) (current*100 / total);
-                mDialog.setProgress(progress);
-            }
-        }
-      );
+        );
     }
 }

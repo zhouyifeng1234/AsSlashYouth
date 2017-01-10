@@ -27,10 +27,7 @@ import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
-
-import java.io.File;
+import cn.finalteam.galleryfinal.FunctionConfig;
 
 /**
  * Created by zhouyifeng on 2016/9/12.
@@ -99,6 +96,34 @@ public class PerfectInfoModel extends BaseObservable {
     public void openCamera(View v) {
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mActivity.startActivityForResult(intentCamera, 0);
+
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(5).setEnableCamera(true).build();
+//        GalleryFinal.openGalleryMuti(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+//            @Override
+//            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+//
+//            }
+//
+//            @Override
+//            public void onHanlderFailure(int requestCode, String errorMsg) {
+//
+//            }
+//        });
+
+//        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+//            @Override
+//            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+//                PhotoInfo photoInfo = resultList.get(0);
+//                LogKit.v("photoInfo.getPhotoPath()" + photoInfo.getPhotoPath());
+//                LogKit.v("photoInfo.getWidth()" + photoInfo.getWidth());
+//                LogKit.v("photoInfo.getHeight()" + photoInfo.getHeight());
+//            }
+//
+//            @Override
+//            public void onHanlderFailure(int requestCode, String errorMsg) {
+//
+//            }
+//        });
     }
 
     String phonenum;
@@ -114,11 +139,62 @@ public class PerfectInfoModel extends BaseObservable {
             LoginManager.loginSetAvatar(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
                 public void execute(CommonResultBean dataBean) {
-                    //页面上显示头像，直接加载本地缓存的图片
-                    ImageOptions.Builder builder = new ImageOptions.Builder();
-                    ImageOptions imageOptions = builder.build();
-                    builder.setCircular(true);
-                    x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, getAvatarFileThumb().toURI().toString(), imageOptions);
+                    //头像设置成功后才能继续下面的操作
+                    phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
+                    pin = mActivityPerfectInfoBinding.etActivityPerfectInfoVerificationCode.getText().toString();
+                    realname = mActivityPerfectInfoBinding.etActivityPerfectInfoRealname.getText().toString();
+
+                    if (isThirdLogin) {//三方登录
+                        //再次调用手机号登录接口
+                        if (TextUtils.isEmpty(phonenum)) {
+                            ToastUtils.shortToast("手机号不能为空");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(pin)) {
+                            ToastUtils.shortToast("验证码不能为空");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(realname)) {
+                            ToastUtils.shortToast("真实姓名不能为空");
+                            return;
+                        }
+
+                        LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
+                            @Override
+                            public void execute(PhoneLoginResultBean dataBean) {
+                                //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
+                                if (dataBean.data == null) {
+                                    ToastUtils.shortToast("登录失败:" + dataBean.rescode);
+                                    return;
+                                }
+                                String rongToken = dataBean.data.rongToken;//融云token
+                                String token = dataBean.data.token;
+                                long uid = dataBean.data.uid;
+                                if (dataBean.rescode == 11) {
+                                    MsgManager.connectRongCloud(rongToken);
+                                    savaLoginState(uid, token, rongToken);
+                                    setRealname();
+                                } else if (dataBean.rescode == 0) {
+                                    ToastUtils.shortToast("该手机号已经被注册过");
+                                } else {
+                                    ToastUtils.shortToast("登录失败:" + dataBean.rescode);
+                                }
+                            }
+
+                            @Override
+                            public void executeResultError(String result) {
+                                //这里不会执行
+                            }
+                        }, phonenum, pin, _3ptoken, userInfo);
+
+                    } else {//手机号登录
+                        //设置真实姓名
+                        if (TextUtils.isEmpty(realname)) {
+                            ToastUtils.shortToast("真实姓名不能为空");
+                            return;
+                        }
+                        setRealname();
+                    }
                 }
 
                 @Override
@@ -127,62 +203,6 @@ public class PerfectInfoModel extends BaseObservable {
                     ToastUtils.shortToast("设置头像失败：" + result);
                 }
             }, getUploadAvatarFileId());
-        }
-
-        phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
-        pin = mActivityPerfectInfoBinding.etActivityPerfectInfoVerificationCode.getText().toString();
-        realname = mActivityPerfectInfoBinding.etActivityPerfectInfoRealname.getText().toString();
-
-        if (isThirdLogin) {//三方登录
-            //再次调用手机号登录接口
-            if (TextUtils.isEmpty(phonenum)) {
-                ToastUtils.shortToast("手机号不能为空");
-                return;
-            }
-            if (TextUtils.isEmpty(pin)) {
-                ToastUtils.shortToast("验证码不能为空");
-                return;
-            }
-            if (TextUtils.isEmpty(realname)) {
-                ToastUtils.shortToast("真实姓名不能为空");
-                return;
-            }
-
-            LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
-                @Override
-                public void execute(PhoneLoginResultBean dataBean) {
-                    //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
-                    if (dataBean.data == null) {
-                        ToastUtils.shortToast("登录失败:" + dataBean.rescode);
-                        return;
-                    }
-                    String rongToken = dataBean.data.rongToken;//融云token
-                    String token = dataBean.data.token;
-                    long uid = dataBean.data.uid;
-                    if (dataBean.rescode == 11) {
-                        MsgManager.connectRongCloud(rongToken);
-                        savaLoginState(uid, token, rongToken);
-                        setRealname();
-                    } else if (dataBean.rescode == 0) {
-                        ToastUtils.shortToast("该手机号已经被注册过");
-                    } else {
-                        ToastUtils.shortToast("登录失败:" + dataBean.rescode);
-                    }
-                }
-
-                @Override
-                public void executeResultError(String result) {
-                    //这里不会执行
-                }
-            }, phonenum, pin, _3ptoken, userInfo);
-
-        } else {//手机号登录
-            //设置真实姓名
-            if (TextUtils.isEmpty(realname)) {
-                ToastUtils.shortToast("真实姓名不能为空");
-                return;
-            }
-            setRealname();
         }
     }
 
@@ -249,17 +269,6 @@ public class PerfectInfoModel extends BaseObservable {
 
     private boolean isUploadAvatar = false;
     private String uploadAvatarFileId;
-    private File avatarFileThumb;
-
-    @Bindable
-    public File getAvatarFileThumb() {
-        return avatarFileThumb;
-    }
-
-    public void setAvatarFileThumb(File avatarFileThumb) {
-        this.avatarFileThumb = avatarFileThumb;
-        notifyPropertyChanged(BR.avatarFileThumb);
-    }
 
     @Bindable
     public String getUploadAvatarFileId() {

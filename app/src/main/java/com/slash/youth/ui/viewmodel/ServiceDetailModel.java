@@ -26,6 +26,7 @@ import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
@@ -51,6 +52,8 @@ public class ServiceDetailModel extends BaseObservable {
     private LinearLayout mLlServiceRecommend;
     long serviceId;
     boolean isFromDetail;
+    String[] optionalPriceUnit;
+    long serviceUserId;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -65,6 +68,7 @@ public class ServiceDetailModel extends BaseObservable {
         serviceId = mActivity.getIntent().getLongExtra("serviceId", -1);
         isFromDetail = mActivity.getIntent().getBooleanExtra("isFromDetail", false);//用来判断是否是从详情页中的推荐跳转过来的
         LogKit.v("serviceId:" + serviceId);
+        optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
         getServiceDetailData();
     }
 
@@ -107,7 +111,9 @@ public class ServiceDetailModel extends BaseObservable {
 
     //聊一聊
     public void haveAChat(View v) {
-
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", serviceId);
+        mActivity.startActivity(intentChatActivity);
     }
 
     //收藏服务
@@ -369,7 +375,7 @@ public class ServiceDetailModel extends BaseObservable {
                     LogKit.v("service data:" + dataBean.data.service.title);
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
-
+                    serviceUserId = service.uid;
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角
                         setTopServiceBtnVisibility(View.VISIBLE);
@@ -386,7 +392,19 @@ public class ServiceDetailModel extends BaseObservable {
                         setBottomBtnDemandVisibility(View.VISIBLE);
                     }
                     setTitle(service.title);
-                    setQuote("¥" + (int) service.quote + "元");
+                    if (service.uid == LoginManager.currentLoginUserId) {
+                        setTopTitle("服务详情");
+                    } else {
+                        setTopTitle(service.title);
+                    }
+                    if (service.quoteunit == 9) {
+                        setQuote("¥" + (int) service.quote + "元");
+                    } else if (service.quoteunit > 0 && service.quoteunit < 9) {
+                        String quoteunitStr = optionalPriceUnit[service.quoteunit - 1];
+                        setQuote("¥" + (int) service.quote + "元/" + quoteunitStr);
+                    } else {//这种情况应该不存在
+                        setQuote("¥" + (int) service.quote + "元");
+                    }
                     if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_USER_DEFINED) {//自定义时间
                         //时间:9月18日 8:30-9月19日 8:30
                         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
@@ -641,6 +659,18 @@ public class ServiceDetailModel extends BaseObservable {
     private String serviceUserPlace;
 
     private int shareLayerVisibility = View.GONE;
+
+    private String topTitle;
+
+    @Bindable
+    public String getTopTitle() {
+        return topTitle;
+    }
+
+    public void setTopTitle(String topTitle) {
+        this.topTitle = topTitle;
+        notifyPropertyChanged(BR.topTitle);
+    }
 
     @Bindable
     public int getShareLayerVisibility() {

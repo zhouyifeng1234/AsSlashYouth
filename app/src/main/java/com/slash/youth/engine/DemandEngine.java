@@ -29,6 +29,7 @@ import com.slash.youth.http.protocol.ServicePartyCompleteProtocol;
 import com.slash.youth.http.protocol.ServicePartyConfirmServantProtocol;
 import com.slash.youth.http.protocol.ServicePartyRejectProtocol;
 import com.slash.youth.http.protocol.SetDemandDescProtocol;
+import com.slash.youth.http.protocol.SetDemandRemarkProtocol;
 import com.slash.youth.http.protocol.UpdateDemandProtocol;
 
 import java.util.ArrayList;
@@ -223,6 +224,17 @@ public class DemandEngine {
         setDemandDescProtocol.getDataFromServer(onSetDemandDescFinished);
     }
 
+    /**
+     * 十五、[需求]-设置需求备注信息
+     *
+     * @param onSetRemarkdFinished
+     * @param id                   需求ID
+     * @param remark               需求备注 长度小于4096，该接口只能在服务方未确认前修改，服务方一旦确认该接口设置失效
+     */
+    public static void setDemandRemark(BaseProtocol.IResultExecutor onSetRemarkdFinished, String id, String remark) {
+        SetDemandRemarkProtocol setDemandRemarkProtocol = new SetDemandRemarkProtocol(id, remark);
+        setDemandRemarkProtocol.getDataFromServer(onSetRemarkdFinished);
+    }
 
     /**
      * 十六、[需求]-需求方获取意向单列表

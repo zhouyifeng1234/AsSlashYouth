@@ -704,6 +704,7 @@ public class ChatModel extends BaseObservable {
 //                mLlChatContent.addView(createMySendVoiceView(Uri.fromFile(voiceFile), duration));
 //                mLlChatContent.addView(createMySendVoiceView(vocMsg.getUri(), duration));
                 deleteTmpRecordingFile();
+                MsgManager.updateConversationList(targetId);//更新会话列表
             }
         }, new RongIMClient.ResultCallback<Message>() {
             @Override
@@ -741,7 +742,7 @@ public class ChatModel extends BaseObservable {
             //发送消息的回调
             @Override
             public void onSuccess(Integer integer) {
-
+                MsgManager.updateConversationList(targetId);//更新会话列表
             }
 
             @Override
@@ -826,6 +827,7 @@ public class ChatModel extends BaseObservable {
                 LogKit.v("发送成功");
                 ImageMessage imageMessage1 = (ImageMessage) message.getContent();
                 LogKit.v(imageMessage1.getRemoteUri().toString());
+                MsgManager.updateConversationList(targetId);//更新会话列表
             }
 
             @Override
@@ -878,6 +880,7 @@ public class ChatModel extends BaseObservable {
                                     //ToastUtils.shortToast("send add friend success");
                                     View infoView = createInfoView("您已发送添加好友请求");
                                     mLlChatContent.addView(infoView);
+                                    MsgManager.updateConversationList(targetId);//更新会话列表
                                 }
 
                                 @Override
@@ -962,6 +965,7 @@ public class ChatModel extends BaseObservable {
                                 View infoView = createInfoView("您已发送交换手机号请求");
                                 mLlChatContent.addView(infoView);
                                 isSendChangeContack = true;
+                                MsgManager.updateConversationList(targetId);//更新会话列表
                             }
 
                             @Override
@@ -1018,6 +1022,7 @@ public class ChatModel extends BaseObservable {
                 listSendMsg.add(sendMessageBean);
 
                 mLlChatContent.addView(myShareTaskView);
+                MsgManager.updateConversationList(targetId);//更新会话列表
             }
 
             @Override
@@ -1058,6 +1063,7 @@ public class ChatModel extends BaseObservable {
                 listSendMsg.add(sendMessageBean);
 
                 mLlChatContent.addView(mySendBusinessCardView);
+                MsgManager.updateConversationList(targetId);//更新会话列表
             }
 
             @Override
@@ -1087,6 +1093,7 @@ public class ChatModel extends BaseObservable {
 
                 View changeContactWayInfoView = createChangeContactWayInfoView(targetName, otherPhone);
                 mLlChatContent.addView(changeContactWayInfoView);
+                MsgManager.updateConversationList(targetId);//更新会话列表
                 //设置手机号交换标识
                 MsgManager.setChangeContact(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                     @Override
@@ -1127,6 +1134,7 @@ public class ChatModel extends BaseObservable {
 
                 View infoView = createInfoView("您已拒绝和对方交换联系方式");
                 mLlChatContent.addView(infoView);
+                MsgManager.updateConversationList(targetId);//更新会话列表
             }
 
             @Override
@@ -1162,6 +1170,7 @@ public class ChatModel extends BaseObservable {
 
                             View infoView = createInfoView("您已同意添加对方为好友");
                             mLlChatContent.addView(infoView);
+                            MsgManager.updateConversationList(targetId);//更新会话列表
                         }
 
                         @Override
@@ -1213,6 +1222,7 @@ public class ChatModel extends BaseObservable {
 
                             View infoView = createInfoView("您已拒绝添加对方为好友");
                             mLlChatContent.addView(infoView);
+                            MsgManager.updateConversationList(targetId);//更新会话列表
                         }
 
                         @Override

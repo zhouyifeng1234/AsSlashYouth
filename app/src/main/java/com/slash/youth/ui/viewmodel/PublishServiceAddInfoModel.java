@@ -350,6 +350,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
             setPriceUnit("元");
         }
         quoteunit = value + 1;
+        mActivityPublishServiceAddinfoBinding.tvChooseQuoteunit.setText(mChoosePriceUnit);
     }
 
     private int offlineItemVisibility = View.GONE;

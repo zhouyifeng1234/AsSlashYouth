@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
@@ -23,6 +24,7 @@ import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -82,6 +84,12 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    public void gotoDemandDetail(View v) {
+        Intent intentDeamndDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+        intentDeamndDetailActivity.putExtra("demandId", tid);
+        mActivity.startActivity(intentDeamndDetailActivity);
     }
 
 

@@ -743,7 +743,7 @@ public class MyPublishServiceModel extends BaseObservable {
                 //闲置时间
                 int timetype = service.timetype;
                 if (timetype == 0) {
-                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 hh:mm");
+                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
                     String starttimeStr = sdfIdleTime.format(service.starttime);
                     String endtimeStr = sdfIdleTime.format(service.endtime);
                     setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
@@ -820,10 +820,13 @@ public class MyPublishServiceModel extends BaseObservable {
                 //纠纷处理方式（似乎协商处理就显示）
                 if (service.bp == 2) {//协商
                     setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyPublishServiceBinding.tvBpText.setText("协商处理纠纷");
                     //回填修改条件中的纠纷处理方式
                     checkConsultProcessing(null);
                 } else if (service.bp == 1) {//平台
-                    setBpConsultVisibility(View.INVISIBLE);
+//                    setBpConsultVisibility(View.INVISIBLE);
+                    setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyPublishServiceBinding.tvBpText.setText("平台处理纠纷");
                     //回填修改条件中的纠纷处理方式
                     checkPlatformProcessing(null);
                 }

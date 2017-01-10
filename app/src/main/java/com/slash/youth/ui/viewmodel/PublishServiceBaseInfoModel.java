@@ -129,13 +129,14 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
             timetype = 0;
             starttime = service.starttime;
             endtime = service.endtime;
-            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
             starttimeStr = sdf.format(starttime);
             endtimeStr = sdf.format(endtime);
 //            mActivityPublishServiceBaseinfoBinding.tvServiceStarttime.setText(starttimeStr);
 //            mActivityPublishServiceBaseinfoBinding.tvServiceEndtime.setText(endtimeStr);
-            mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText(starttimeStr + "-" + endtimeStr);
+            mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText(starttimeStr + " " + endtimeStr);
             mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
+            setDeleteCustomTimeIconVisibility(View.VISIBLE);
         } else if (service.timetype == SERVICE_TIMETYPE_AFTER_WORK) {//下班后
             checkIdleTimeAfterWork(null);
         } else if (service.timetype == SERVICE_TIMETYPE_WEEKEND) {//周末
@@ -424,7 +425,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         setDeleteCustomTimeIconVisibility(View.VISIBLE);
         setSetStartTimeAndEndTimeLayerVisibility(View.GONE);
         timetype = SERVICE_TIMETYPE_USER_DEFINED;
-        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText(starttimeStr + "-" + endtimeStr);
+        mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setText(starttimeStr + " " + endtimeStr);
         mActivityPublishServiceBaseinfoBinding.tvPublicServiceTime.setTextColor(0xff333333);
         setIdleTimeItemBg(R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected, R.drawable.shape_idletime_label_bg_unselected);
     }

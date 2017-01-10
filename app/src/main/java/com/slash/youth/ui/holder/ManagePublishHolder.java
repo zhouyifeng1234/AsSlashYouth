@@ -30,7 +30,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
     private ItemManagePublishModel itemManagePublishModel;
     private int action = -1;
 
-    public ManagePublishHolder( MySkillManageActivity mySkillManageActivity,ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList) {
+    public ManagePublishHolder(MySkillManageActivity mySkillManageActivity, ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList) {
         this.mySkillManageActivity = mySkillManageActivity;
         this.managePublishList = managePublishList;
         myActivityTitle = SpUtils.getString("myActivityTitle", "");
@@ -39,22 +39,22 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
     @Override
     public View initView() {
         itemManagePublishHolderBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_manage_publish_holder, null, false);
-        itemManagePublishModel = new ItemManagePublishModel(mySkillManageActivity,managePublishList,itemManagePublishHolderBinding);
+        itemManagePublishModel = new ItemManagePublishModel(mySkillManageActivity, managePublishList, itemManagePublishHolderBinding);
         itemManagePublishHolderBinding.setItemManagePublishModel(itemManagePublishModel);
         return itemManagePublishHolderBinding.getRoot();
     }
 
     @Override
     public void refreshView(ManagerMyPublishTaskBean.DataBean.ListBean data) {
-        setView(myActivityTitle,data);
+        setView(myActivityTitle, data);
 
         String avatar = data.getAvatar();
-        if(avatar!=null){
-            BitmapKit.bindImage(itemManagePublishHolderBinding.ivAvater,GlobalConstants.HttpUrl.IMG_DOWNLOAD+"?fileId="+avatar);
+        if (avatar != null) {
+            BitmapKit.bindImage(itemManagePublishHolderBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
         int isAuth = data.getIsAuth();
-        switch (isAuth){
+        switch (isAuth) {
             case 1:
                 itemManagePublishHolderBinding.ivManageMyPublishTaskV.setVisibility(View.VISIBLE);
                 break;
@@ -72,10 +72,21 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         double quote = data.getQuote();
         //单位
         int quoteUnit = data.getQuoteUnit();
-        itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT+quote+"/"+MyManager.unitArr[quoteUnit]);
+        if (data.getType() == 1) {//需求
+            itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
+        } else {//服务
+            if (quoteUnit == 9) {
+                itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
+            } else if (quoteUnit > 0 && quoteUnit < 9) {
+                itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote + "/" + MyManager.unitArr[quoteUnit - 1]);
+            } else {//这种情况应该不存在
+                itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
+            }
+        }
+
 
         int instalment = data.getInstalment();
-        switch (instalment){
+        switch (instalment) {
             case 1:
                 itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
                 itemManagePublishHolderBinding.tvManageMyPublishType.setText(MyManager.INSTALMENT);
@@ -90,31 +101,31 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         long endtime = data.getEndtime();
         String startData = TimeUtils.getData(starttime);
         String endData = TimeUtils.getData(endtime);
-        switch (type){
+        switch (type) {
             case 1://需求
-                if(starttime == 0){
+                if (starttime == 0) {
                     itemManagePublishHolderBinding.tvManageMyPublishTime.setVisibility(View.GONE);
-                }else {
+                } else {
                     itemManagePublishHolderBinding.tvManageMyPublishTime.setVisibility(View.VISIBLE);
-                    itemManagePublishHolderBinding.tvManageMyPublishTime.setText(MyManager.TASK_TIME+startData);
+                    itemManagePublishHolderBinding.tvManageMyPublishTime.setText(MyManager.TASK_TIME + startData);
                 }
                 break;
             case 2://服务
                 itemManagePublishHolderBinding.tvManageMyPublishTime.setVisibility(View.VISIBLE);
-                itemManagePublishHolderBinding.tvManageMyPublishTime.setText(MyManager.TASK_TIME+startData+"-"+endData);
+                itemManagePublishHolderBinding.tvManageMyPublishTime.setText(MyManager.TASK_TIME + startData + "-" + endData);
                 break;
         }
     }
 
     //设置界面
-    private void setView(String myActivityTitle,ManagerMyPublishTaskBean.DataBean.ListBean data) {
-           switch (myActivityTitle){
+    private void setView(String myActivityTitle, ManagerMyPublishTaskBean.DataBean.ListBean data) {
+        switch (myActivityTitle) {
             case MyManager.SKILL_MANAGER:
                 itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.PUBLISH);
-              break;
+                break;
             case MyManager.MAANAGER_MY_PUBLISH_TASK:
                 int status = data.getStatus();
-                switch (status){
+                switch (status) {
                     case 0://不在架上,那我就需要把它上架
                         itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
                         itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));
@@ -135,7 +146,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         itemManagePublishHolderBinding.ivDeleteSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             listener.OnDeleteClick(position);
+                listener.OnDeleteClick(position);
             }
         });
 
@@ -145,11 +156,11 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
             public void onClick(View v) {
 
                 String text = itemManagePublishHolderBinding.tvMyBtn.getText().toString();
-                if(text.equals(MyManager.UP)){
+                if (text.equals(MyManager.UP)) {
                     action = 1;
                     itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
                     itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
-                }else if(text.equals(MyManager.DOWN)){
+                } else if (text.equals(MyManager.DOWN)) {
                     action = 0;
                     itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
                     itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));
@@ -157,19 +168,20 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
 
                 ManagerMyPublishTaskBean.DataBean.ListBean listBean = managePublishList.get(position);
                 long id = listBean.getId();
-                if (action!=-1) {
-                    itemManagePublishModel.UpAndDown(id,action);
+                if (action != -1) {
+                    itemManagePublishModel.UpAndDown(id, action);
                 }
             }
         });
 
     }
 
-    public interface OnDeleteClickListener{
+    public interface OnDeleteClickListener {
         void OnDeleteClick(int position);
     }
 
     private OnDeleteClickListener listener;
+
     public void setOnCBacklickListener(OnDeleteClickListener listener) {
         this.listener = listener;
     }

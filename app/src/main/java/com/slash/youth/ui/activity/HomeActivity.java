@@ -1,23 +1,28 @@
 package com.slash.youth.ui.activity;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
 
 public class HomeActivity extends Activity {
+
+    public static final int PAGE_FREETIME = 0;//首页闲时
+    public static final int PAGE_INFO = 1;//首页消息
+    public static final int PAGE_CONTACTS = 2;//首页人脉
+    public static final int PAGE_MY = 3;//首页我的
+
+    public static int currentCheckedPageNo;
+    public static BaseHomePager currentCheckedPager;
 
     private ActivityHomeBinding activityHomeBinding;
 
@@ -33,8 +38,9 @@ public class HomeActivity extends Activity {
         activityHomeBinding.flActivityHomePager.removeAllViews();
 //        TextView tv = new TextView(this);
 //        tv.setText("Text");
-        activityHomeBinding.flActivityHomePager.addView(new HomeFreeTimePager(this).getRootView());
-
+        currentCheckedPager = new HomeFreeTimePager(this);
+        activityHomeBinding.flActivityHomePager.addView(currentCheckedPager.getRootView());
+        currentCheckedPageNo = PAGE_FREETIME;
     }
 
 //    public void getData(View v) {
@@ -57,7 +63,7 @@ public class HomeActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == UserInfoEngine.MY_USER_EDITOR){
+        if (requestCode == UserInfoEngine.MY_USER_EDITOR) {
             activityHomeBinding.flActivityHomePager.removeAllViews();
             activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
         }
