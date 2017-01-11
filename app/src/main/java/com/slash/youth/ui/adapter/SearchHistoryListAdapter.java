@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.domain.ItemSearchBean;
+import com.slash.youth.domain.SearchHistoryEntity;
+import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.SearchContentHolder;
@@ -27,11 +29,13 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
 
     private ArrayList<ItemSearchBean> arrayList;
     private SearchContentHolder searchContentHolder;
+    private SearchHistoryEntityDao searchHistoryEntityDao;
     private  SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
 
-    public SearchHistoryListAdapter(ArrayList<ItemSearchBean> listData) {
+    public SearchHistoryListAdapter(ArrayList<ItemSearchBean> listData, SearchHistoryEntityDao searchHistoryEntityDao) {
         super(listData);
         this.arrayList = listData;
+        this.searchHistoryEntityDao = searchHistoryEntityDao;
     }
     @Override
     public ArrayList<ItemSearchBean> onLoadMore() {
@@ -53,8 +57,15 @@ public class SearchHistoryListAdapter extends SlashBaseAdapter<ItemSearchBean> {
                 if(index == (arrayList.size()-1)){
                     currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.GONE);
                 }
+
                 arrayList.remove(index);
                 notifyDataSetChanged();
+
+                searchHistoryEntityDao.deleteAll();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    String item = arrayList.get(i).getItem();
+                    searchHistoryEntityDao.insert(new SearchHistoryEntity(i,item));
+                }
             }
         });
     }

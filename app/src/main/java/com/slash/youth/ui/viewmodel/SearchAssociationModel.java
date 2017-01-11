@@ -12,6 +12,8 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.DialogPasswordBinding;
 import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.SearchListviewAssociationBinding;
+import com.slash.youth.gen.SearchHistoryEntityDao;
+import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DialogUtils;
 
@@ -20,10 +22,13 @@ import com.slash.youth.utils.DialogUtils;
  */
 public class SearchAssociationModel extends BaseObservable {
     private SearchListviewAssociationBinding searchListviewAssociationBinding;
+    private SearchHistoryEntityDao searchHistoryEntityDao;
+    private SearchHistoryListAdapter adapter;
 
-    public SearchAssociationModel(SearchListviewAssociationBinding searchListviewAssociationBinding) {
+    public SearchAssociationModel(SearchListviewAssociationBinding searchListviewAssociationBinding, SearchHistoryEntityDao searchHistoryEntityDao,SearchHistoryListAdapter adapter) {
         this.searchListviewAssociationBinding = searchListviewAssociationBinding;
-
+        this.searchHistoryEntityDao = searchHistoryEntityDao;
+        this.adapter = adapter;
     }
 
     //显示对话框
@@ -33,7 +38,7 @@ public class SearchAssociationModel extends BaseObservable {
         //数据绑定填充视图
         DialogSearchCleanBinding dialogSearchCleanBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_search_clean, null, false);
         //创建数据模型
-        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding);
+        DialogSearchCleanModel dialogSearchCleanModel = new DialogSearchCleanModel(dialogSearchCleanBinding,searchHistoryEntityDao,adapter);
         //绑定数据模型
         dialogSearchCleanBinding.setDialogSearchCleanModel(dialogSearchCleanModel);
         //设置布局

@@ -1,19 +1,10 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.databinding.tool.reflection.Callable;
-import android.net.sip.SipAudioCall;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityResultAllBinding;
@@ -22,24 +13,13 @@ import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.databinding.SearchListviewAssociationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.databinding.SearchPagerFirstBinding;
+import com.slash.youth.gen.DaoSession;
+import com.slash.youth.gen.SearchHistoryEntityDao;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ActivitySearchModel;
-import com.slash.youth.ui.viewmodel.SearchActivityHotServiceModel;
-import com.slash.youth.ui.viewmodel.SearchNeedResultTabModel;
 import com.slash.youth.ui.viewmodel.SearchPagerFirstModel;
-import com.slash.youth.ui.viewmodel.SearchResultAllModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.game.UMGameAgent;
-import com.umeng.analytics.social.UMPlatformData;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.utils.Log;
 
-import java.util.Map;
 
 
 /**
@@ -56,14 +36,18 @@ public class SearchActivity extends Activity {
     private SearchPagerFirstModel searchPagerFirstModel;
     public SearchListviewAssociationBinding searchListviewAssociationBinding;
     public static int titleHeight;
+    public  SearchHistoryEntityDao searchHistoryEntityDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化获取数据库
+        searchHistoryEntityDao = SlashApplication.getInstances().getDaoSession().getSearchHistoryEntityDao();
+
         CommonUtils.setCurrentActivity(this);
         //加载搜索框页面
         activitySearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_search);
-        ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding,this);
+        ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding,this,searchHistoryEntityDao);
         activitySearchBinding.setActivitySearchModel(activitySearchModel);
         CommonUtils.setCurrentActivity(SearchActivity.this);
 

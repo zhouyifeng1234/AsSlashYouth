@@ -38,7 +38,6 @@ public class ReportTAActivity extends Activity implements View.OnClickListener {
     listener();
     }
 
-
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
@@ -54,13 +53,10 @@ public class ReportTAActivity extends Activity implements View.OnClickListener {
             case R.id.iv_userinfo_back:
                 finish();
                 break;
-
             case R.id.tv_userinfo_save:
                 reportTAModel.sendData();
                 finish();
                 break;
         }
-
     }
-
 }
