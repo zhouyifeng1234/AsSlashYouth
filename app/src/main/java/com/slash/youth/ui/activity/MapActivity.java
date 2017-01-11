@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMapBinding;
 import com.slash.youth.domain.NearLocationBean;
+import com.slash.youth.ui.holder.MapNearLocationHolder;
 import com.slash.youth.ui.viewmodel.ActivityMapModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -201,7 +204,8 @@ public class MapActivity extends Activity {
                             for (int i = 0; i < poiItems.size(); i++) {
                                 PoiItem poiItem = poiItems.get(i);
                                 LogKit.v("getDistance:" + poiItem.getDistance() + "    getTitle:" + poiItem.getTitle() + "    getSnippet:" + poiItem.getSnippet());
-                                mListNearLocation.add(new NearLocationBean(poiItem.getTitle(), poiItem.getSnippet(), convertMeterToKM(poiItem.getDistance())));
+                                LatLonPoint latLonPoint = poiItem.getLatLonPoint();
+                                mListNearLocation.add(new NearLocationBean(poiItem.getTitle(), poiItem.getSnippet(), convertMeterToKM(poiItem.getDistance()), latLonPoint.getLatitude(), latLonPoint.getLongitude()));
                             }
 //                            aMap.clear();// 清理之前的图标
 //                            PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
@@ -262,6 +266,28 @@ public class MapActivity extends Activity {
         });
         mMap.setOnCameraChangeListener(new SlashOnCameraChangeListener());
         mActivityMapBinding.ivbtnActivityMapCurrentLocation.setOnClickListener(new CurrentLocationClickListener());
+        mActivityMapBinding.lvActivityMapNearLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    MapNearLocationHolder.ivPoiChecked.setImageResource(R.mipmap.no_jihuo_poi_icon);
+                    ImageView ivPoiChecked = (ImageView) view.findViewById(R.id.iv_poi_checked);
+                    ivPoiChecked.setImageResource(R.mipmap.jihuo_icon);
+                }
+
+                NearLocationBean nearLocationBean = mListNearLocation.get(position);
+                LogKit.v("lat:" + nearLocationBean.lat + "  lng:" + nearLocationBean.lng);
+                mCurrentLatlng = new LatLng(nearLocationBean.lat, nearLocationBean.lng);
+                mCurrentAddress = nearLocationBean.address;
+
+                isMoveByGestures = false;
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLatlng, mapZoom));
+                mListNearLocation = new ArrayList<NearLocationBean>();
+                //首先添加由定位或得的当前位置信息
+                mListNearLocation.add(nearLocationBean);
+                getNearPoi(nearLocationBean.lat, nearLocationBean.lng);
+            }
+        });
     }
 
     private void addToSearchList(String keyword) {
@@ -314,9 +340,10 @@ public class MapActivity extends Activity {
     }
 
     private TextView createKeyWordPoiTextView(String title, final PoiItem poiItem) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
-        params.setMargins(CommonUtils.dip2px(11), CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+//        params.setMargins(CommonUtils.dip2px(11), CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
         TextView tvKeywordPoi = new TextView(CommonUtils.getContext());
+        tvKeywordPoi.setPadding(CommonUtils.dip2px(11), CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
         tvKeywordPoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +357,7 @@ public class MapActivity extends Activity {
 
                 mListNearLocation = new ArrayList<NearLocationBean>();
                 //首先添加由定位或得的当前位置信息
-                mListNearLocation.add(new NearLocationBean(poiItem.getTitle(), poiItem.getSnippet(), "0.00KM"));
+                mListNearLocation.add(new NearLocationBean(poiItem.getTitle(), poiItem.getSnippet(), "0.00KM", poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude()));
                 getNearPoi(poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude());
             }
         });
@@ -468,7 +495,7 @@ public class MapActivity extends Activity {
                     LogKit.v("getAddress:" + mCurrentAddress + "  getAoiName:" + mCurrentAoiName);
                     mListNearLocation = new ArrayList<NearLocationBean>();
                     //首先添加由定位或得的当前位置信息
-                    mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM"));
+                    mListNearLocation.add(new NearLocationBean("当前位置(" + mCurrentAoiName + ")", mCurrentAddress, "0.00KM", currentLatitude, currentLongitude));
 
                     //相关周边POI搜索
                     getNearPoi(currentLatitude, currentLongitude);

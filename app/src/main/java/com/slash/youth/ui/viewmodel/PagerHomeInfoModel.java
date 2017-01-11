@@ -66,14 +66,15 @@ public class PagerHomeInfoModel extends BaseObservable {
                 listConversation.clear();
                 listConversation = dataBean.data.list;
                 homeInfoListAdapter = null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
-                if (listConversation != null) {
-                    MsgManager.conversationUidList.clear();
-                    for (int i = 0; i < listConversation.size(); i++) {
-                        ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
-                        MsgManager.conversationUidList.add(conversationInfo.uid + "");
-                    }
-                    setConversationList();
+                if (listConversation == null) {
+                    listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
                 }
+                MsgManager.conversationUidList.clear();
+                for (int i = 0; i < listConversation.size(); i++) {
+                    ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
+                    MsgManager.conversationUidList.add(conversationInfo.uid + "");
+                }
+                setConversationList();
             }
 
             @Override

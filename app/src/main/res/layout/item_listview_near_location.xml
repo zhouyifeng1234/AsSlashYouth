@@ -20,19 +20,19 @@
                 android:layout_marginTop="9dp"
             >
                 <TextView
-                    android:textColor="#333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{itemNearLocationModel.nearName}"
+                    android:textColor="#333333"
                     android:textSize="14.5sp"/>
 
                 <TextView
-                    android:textColor="#cccccc"
-                    android:textSize="14.5sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="@{itemNearLocationModel.nearDistance}"/>
+                    android:text="@{itemNearLocationModel.nearDistance}"
+                    android:textColor="#cccccc"
+                    android:textSize="14.5sp"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -42,20 +42,21 @@
                 android:layout_marginTop="11dp"
             >
                 <TextView
-                    android:textColor="#cccccc"
-                    android:textSize="13.5sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{itemNearLocationModel.nearAddress}"/>
+                    android:text="@{itemNearLocationModel.nearAddress}"
+                    android:textColor="#cccccc"
+                    android:textSize="13.5sp"/>
 
-                <ImageButton
+                <ImageView
+                    android:id="@+id/iv_poi_checked"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"
-                    android:src="@mipmap/jihuo_icon"
+                    android:src="@mipmap/no_jihuo_poi_icon"
                 />
-
+                <!--android:src="@mipmap/jihuo_icon"-->
             </RelativeLayout>
 
 

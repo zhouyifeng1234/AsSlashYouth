@@ -167,6 +167,16 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
         ImageLoader imageloader = new XUtilsImageLoader();
         CoreConfig coreConfig = new CoreConfig.Builder(context, imageloader, theme).build();
         GalleryFinal.init(coreConfig);
+
+        Runtime runtime = Runtime.getRuntime();
+        long maxMemory = runtime.maxMemory();
+        LogKit.v("heapinfo--maxMemory:" + maxMemory / (1024 * 1024));
+
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        int largeMemoryClass = activityManager.getLargeMemoryClass();
+        int memoryClass = activityManager.getMemoryClass();
+        LogKit.v("heapinfo--activityManager.getLargeMemoryClass():" + largeMemoryClass);
+        LogKit.v("heapinfo--activityManager.getMemoryClass():" + memoryClass);
     }
 
 
