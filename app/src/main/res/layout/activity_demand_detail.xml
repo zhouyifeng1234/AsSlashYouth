@@ -560,7 +560,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_demand_detail_picbox_1"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_1"
@@ -584,6 +585,7 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_2"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp">
@@ -610,6 +612,7 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_3"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp">
@@ -645,6 +648,7 @@
                             >
 
                                 <FrameLayout
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_4"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp">
@@ -671,6 +675,7 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_5"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp">
@@ -697,6 +702,7 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_6"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp"
@@ -1889,6 +1895,15 @@
             </FrameLayout>
 
         </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_view_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:visibility="@{demandDetailModel.viewPicVisibility}">
+
+        </android.support.v4.view.ViewPager>
 
     </FrameLayout>
 
