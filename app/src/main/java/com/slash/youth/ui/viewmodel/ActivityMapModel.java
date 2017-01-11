@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -22,9 +23,14 @@ public class ActivityMapModel extends BaseObservable {
     private int llMapInfoVisible = View.VISIBLE;
     private int svSearchListVisible = View.INVISIBLE;
 
-    public ActivityMapModel(ActivityMapBinding activityMapBinding, MapActivity activity) {
+    SQLiteDatabase mapReadableDB;
+    SQLiteDatabase mapWritableDB;
+
+    public ActivityMapModel(ActivityMapBinding activityMapBinding, MapActivity activity, SQLiteDatabase mapReadableDB, SQLiteDatabase mapWritableDB) {
         this.mActivityMapBinding = activityMapBinding;
         this.mActivity = activity;
+        this.mapReadableDB = mapReadableDB;
+        this.mapWritableDB = mapWritableDB;
         initView();
     }
 
@@ -79,5 +85,38 @@ public class ActivityMapModel extends BaseObservable {
         } else {
             mActivity.finish();
         }
+    }
+
+    /**
+     * 取消清除历史搜索记录
+     *
+     * @param v
+     */
+    public void cancelDelAll(View v) {
+        setDelSearchHisLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 确定清除历史搜索记录
+     *
+     * @param v
+     */
+    public void okDelAll(View v) {
+        mapWritableDB.execSQL("delete from map_search_his");
+        setLlMapInfoVisible(View.VISIBLE);
+        setSvSearchListVisible(View.INVISIBLE);
+        setDelSearchHisLayerVisibility(View.GONE);
+    }
+
+    public int delSearchHisLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getDelSearchHisLayerVisibility() {
+        return delSearchHisLayerVisibility;
+    }
+
+    public void setDelSearchHisLayerVisibility(int delSearchHisLayerVisibility) {
+        this.delSearchHisLayerVisibility = delSearchHisLayerVisibility;
+        notifyPropertyChanged(BR.delSearchHisLayerVisibility);
     }
 }

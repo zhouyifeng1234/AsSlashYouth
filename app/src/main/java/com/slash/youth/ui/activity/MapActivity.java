@@ -85,13 +85,12 @@ public class MapActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        CommonUtils.setCurrentActivity(this);
-        mActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
-        mActivityMapModel = new ActivityMapModel(mActivityMapBinding, this);
-        mActivityMapBinding.setActivityMapModel(mActivityMapModel);
-
         MapSqlDBHelper mapSqlDBHelper = new MapSqlDBHelper();
         mapReadableDB = mapSqlDBHelper.getMapReadableDB();
         mapWritableDB = mapSqlDBHelper.getMapWritableDB();
+        mActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
+        mActivityMapModel = new ActivityMapModel(mActivityMapBinding, this, mapReadableDB, mapWritableDB);
+        mActivityMapBinding.setActivityMapModel(mActivityMapModel);
 
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.mapview_activity_map);
@@ -375,6 +374,7 @@ public class MapActivity extends Activity {
     private void addToHistoryList() {
         mActivityMapBinding.llActivityMapSearchlist.removeAllViews();
         Cursor cursor = mapReadableDB.rawQuery("select * from map_search_his order by id desc limit 20", null);
+        int hisItemCount = 0;
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -385,29 +385,33 @@ public class MapActivity extends Activity {
             View vDividerKeywordPoi = createDividerKeywordPoi();
             mActivityMapBinding.llActivityMapSearchlist.addView(searchHisItem);
             mActivityMapBinding.llActivityMapSearchlist.addView(vDividerKeywordPoi);
+            hisItemCount++;
         }
         if (cursor != null) {
             cursor.close();
             cursor = null;
         }
-        //添加历史列表最下面的“清楚搜索历史记录”条目
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
-        TextView tvKeywordPoi = new TextView(CommonUtils.getContext());
-        tvKeywordPoi.setPadding(0, CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
-        tvKeywordPoi.setLayoutParams(params);
-        tvKeywordPoi.setText("清楚搜索历史记录");
-        tvKeywordPoi.setTextColor(0xff999999);
-        tvKeywordPoi.setTextSize(16.5f);
-        tvKeywordPoi.setGravity(Gravity.CENTER);
-        tvKeywordPoi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapWritableDB.execSQL("delete from map_search_his");
-                mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
-                mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
-            }
-        });
-        mActivityMapBinding.llActivityMapSearchlist.addView(tvKeywordPoi);
+        if (hisItemCount > 0) {
+            //添加历史列表最下面的“清楚搜索历史记录”条目
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+            TextView tvDelSearchHis = new TextView(CommonUtils.getContext());
+            tvDelSearchHis.setPadding(0, CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
+            tvDelSearchHis.setLayoutParams(params);
+            tvDelSearchHis.setText("清楚搜索历史记录");
+            tvDelSearchHis.setTextColor(0xff999999);
+            tvDelSearchHis.setTextSize(16.5f);
+            tvDelSearchHis.setGravity(Gravity.CENTER);
+            tvDelSearchHis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActivityMapModel.setDelSearchHisLayerVisibility(View.VISIBLE);
+                }
+            });
+            mActivityMapBinding.llActivityMapSearchlist.addView(tvDelSearchHis);
+        } else {
+            mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
+            mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
+        }
     }
 
 
