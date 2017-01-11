@@ -25,16 +25,11 @@ public class SheildModel extends BaseObservable {
     private void initData() {
         sheildList.add(new SheildPersonBean());
         sheildList.add(new SheildPersonBean());
-        sheildList.add(new SheildPersonBean());
-        sheildList.add(new SheildPersonBean());
-        sheildList.add(new SheildPersonBean());
     }
 
     private void initView() {
         sheildAdapter = new SheildAdapter(sheildList);
         activitySheildBinding.lvSheild.setAdapter(sheildAdapter);
-
     }
-
 
 }

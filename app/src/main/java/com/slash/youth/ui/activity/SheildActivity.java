@@ -61,7 +61,5 @@ public class SheildActivity extends Activity implements View.OnClickListener {
 
                 break;
         }
-
-
     }
 }

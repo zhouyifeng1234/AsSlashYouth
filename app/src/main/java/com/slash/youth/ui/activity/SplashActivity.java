@@ -164,7 +164,7 @@ public class SplashActivity extends Activity {
                 int forceupdate = data.getForceupdate();//是否强制更新 0表示不强制，1表示强制
                 long NetVersionCode = data.getCode();//服务端更新的版本
                 // 检测版本更新
-                if (NetVersionCode > versionCode) {
+                if (2 > versionCode) {
                     //需要更新
                     showVersionUpdateDialog(forceupdate, url);
                 } else {
@@ -235,7 +235,10 @@ public class SplashActivity extends Activity {
         //在后端下载APK,xUtuils
         RequestParams params = new RequestParams(url);
         params.setAutoRename(true);//断点下载
-        params.setSaveFilePath("/mnt/sdcard/demo.apk");
+        File file = new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk");
+        String absolutePath = file.getAbsolutePath();
+        //params.setSaveFilePath("/mnt/sdcard/SlashYouth.apk");
+        params.setSaveFilePath(absolutePath);
 
         x.http().get(params, new Callback.ProgressCallback<File>() {
                     @Override
@@ -244,11 +247,13 @@ public class SplashActivity extends Activity {
                             mDialog.dismiss();
                         }
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
+            installApk(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
+
+                       /* Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Uri data = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
                         intent.setDataAndType(data, "application/vnd.android.package-archive");
-                        startActivity(intent);
+                        startActivity(intent);*/
                     }
 
                     @Override
@@ -285,11 +290,25 @@ public class SplashActivity extends Activity {
 
                     @Override
                     public void onLoading(long total, long current, boolean isDownloading) {
-                        mDialog.setMax((int) total);
+                      /* mDialog.setMax((int) total);
+                        mDialog.setProgress((int)current);*/
+
+                        mDialog.setMax(100);
                         int progress = (int) (current * 100 / total);
                         mDialog.setProgress(progress);
+
                     }
                 }
         );
+    }
+
+    // 安装APK的方法
+    public void installApk(File file) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        Uri data = Uri.fromFile(file);
+        intent.setDataAndType(data, "application/vnd.android.package-archive");
+        startActivity(intent);
     }
 }

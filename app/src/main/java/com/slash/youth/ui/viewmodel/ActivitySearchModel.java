@@ -18,8 +18,10 @@ import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.domain.SearchAssociativeBean;
+import com.slash.youth.domain.SearchHistoryEntity;
 import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.engine.SearchManager;
+import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SearchAssociativeProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
@@ -39,6 +41,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,16 +54,18 @@ public class ActivitySearchModel extends BaseObservable {
     private String searchText = "";
     public static ArrayList<ItemSearchBean> search_contentlist = new ArrayList<>();
     private ArrayList<String> list = new ArrayList<>();
-    private String fileName ="data/data/com.slash.youth";
-    private File file = new File(fileName, "SearchHistory.text");
+  /*  private String fileName ="data/data/com.slash.youth";
+    private File file = new File(fileName, "SearchHistory.text");*/
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     private int offset = 0;
     private int limit = 5;
     private SearchActivity searchActivity;
+    private SearchHistoryEntityDao searchHistoryEntityDao;
 
-    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding,SearchActivity searchActivity) {
+    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding,SearchActivity searchActivity,SearchHistoryEntityDao searchHistoryEntityDao) {
         this.mActivitySearchBinding = activitySearchBinding;
         this.searchActivity = searchActivity;
+        this.searchHistoryEntityDao = searchHistoryEntityDao;
 
         etSearchListener();
         getSearchContentData(searchText, offset, limit);
@@ -70,10 +75,11 @@ public class ActivitySearchModel extends BaseObservable {
     //点击直接搜索框,搜索历史
     public void etSearch(View v) {
         currentActivity.changeView(4);
-        SearchAssociationModel searchDialogModel = new SearchAssociationModel(currentActivity.searchListviewAssociationBinding);
+        SearchAssociationModel searchDialogModel = new SearchAssociationModel(currentActivity.searchListviewAssociationBinding,searchHistoryEntityDao,adapter);
         currentActivity.searchListviewAssociationBinding.setSearchAssociationModel(searchDialogModel);
         //加载搜索框历史的数据
-        initSearchHistoryData();
+        //initSearchHistoryData();
+        showHistoryData();
     }
 
     //点击搜索
@@ -98,7 +104,11 @@ public class ActivitySearchModel extends BaseObservable {
             default:
                 if (StringUtils.isSearchContent(searchText)) {
                     //联网搜索,并且根据字符搜索
-                    saveHistory(searchText);
+                    //saveHistory(searchText);
+                    //保存在数据库
+                    saveHistoryData(searchText);
+
+
                     showSearchAllReasultView(searchText);
                 } else {
                     ToastUtils.shortToast("输入有效字符");
@@ -133,7 +143,8 @@ public class ActivitySearchModel extends BaseObservable {
         int textLength = searchText.length();
         switch (textLength) {
             case 0:
-                showHistory();
+                //showHistory();
+                showHistoryData();
                 break;
             case 1:
                 if (RegexUtils.isChz(searchText)) {
@@ -166,7 +177,7 @@ public class ActivitySearchModel extends BaseObservable {
         });
     }
 
-    //保存搜索的记录
+   /* //保存搜索的记录
     private void saveHistory(String text) {
         try {
             //BufferedWriter  bw = new BufferedWriter(new FileWriter(file));
@@ -177,11 +188,46 @@ public class ActivitySearchModel extends BaseObservable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+
+    //保存数据在数据库
+    private void saveHistoryData(String text) {
+        long count = searchHistoryEntityDao.count();
+        SearchHistoryEntity searchHistoryEntity = new SearchHistoryEntity(count+1,text);
+        searchHistoryEntityDao.insert(searchHistoryEntity);
     }
 
-    private void showHistory() {
-        initSearchHistoryData();
+    //读取数据库
+    private void showHistoryData() {
+    search_contentlist.clear();
+    List<SearchHistoryEntity> SearchHistoryList = searchHistoryEntityDao.loadAll();
+        Collections.reverse(SearchHistoryList);
+        if(SearchHistoryList.size()!=0){
+            if(SearchHistoryList.size()<5&&SearchHistoryList.size()>=0){
+                for (SearchHistoryEntity searchHistoryEntity : SearchHistoryList) {
+                    String searchHistory = searchHistoryEntity.getSearchHistory();
+                    search_contentlist.add(new ItemSearchBean(searchHistory,true));
+                }
+            }else {
+                for (int i = 0; i < 5; i++) {
+                    SearchHistoryEntity searchHistoryEntity = SearchHistoryList.get(i);
+                    String searchHistory = searchHistoryEntity.getSearchHistory();
+                    search_contentlist.add(new ItemSearchBean(searchHistory,true));
+                }
+            }
+        }else {
+            LogKit.d("没有搜索历史记录");
+        }
+
+        adapter = new SearchHistoryListAdapter(search_contentlist,searchHistoryEntityDao);
+        currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
+        onItemClick();
     }
+
+    //显示历史数据
+  /*  private void showHistory() {
+        initSearchHistoryData();
+    }*/
 
     //直接搜索结果
     private void showSearchAllReasultView(String text) {
@@ -191,7 +237,7 @@ public class ActivitySearchModel extends BaseObservable {
     }
 
     //加载搜索历史的数据
-    private void initSearchHistoryData() {
+   /* private void initSearchHistoryData() {
         //存储集合
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -227,7 +273,7 @@ public class ActivitySearchModel extends BaseObservable {
         adapter = new SearchHistoryListAdapter(search_contentlist);
         currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
         onItemClick();
-    }
+    }*/
 
     //获取搜索联想词
     private void getSearchContentData(String text, int offset, int limit) {
@@ -252,7 +298,7 @@ public class ActivitySearchModel extends BaseObservable {
             if(list.size() == 0){
                 currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.GONE);
             }
-            adapter = new SearchHistoryListAdapter(search_contentlist);
+            adapter = new SearchHistoryListAdapter(search_contentlist,searchHistoryEntityDao);
             currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
             onItemClick();
         }

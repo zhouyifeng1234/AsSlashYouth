@@ -31,7 +31,6 @@ public class Constants {
     public static final int  SUMBIT_ONE_SKILL_MANAGER =14;
     //技能管理-添加一个技能模板
     public static final int  ADD_ONE_SKILL_MANAGER =15;
-
     //我的-技能管理
     public static final String  MY_TITLE_SKILL_MANAGER ="技能管理";
     //我的-管理我发布的任务
@@ -42,11 +41,4 @@ public class Constants {
     public static final int  MY_SETTING_TAKE_PHOTO= 0;
     //设置-相册
     public static final int  MY_SETTING_TAKE_ABLEM= 1;
-
-
-
-
-
-
-
 }

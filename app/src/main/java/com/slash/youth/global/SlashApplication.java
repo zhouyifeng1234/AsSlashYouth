@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.WindowManager;
 
 import com.pingplusplus.android.PingppLog;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.gen.DaoMaster;
+import com.slash.youth.gen.DaoSession;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.DistanceUtils;
@@ -43,6 +46,11 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     private static Handler handler;
     private static Application application;
 
+    private SQLiteDatabase db;
+    private DaoMaster mDaoMaster;
+    private DaoSession mDaoSession;
+    public static SlashApplication instances;
+
     static {
         //友盟社会化组件三方平台相关AppKey
         PlatformConfig.setWeixin(GlobalConstants.ThirdAppId.APPID_WECHAT, GlobalConstants.ThirdAppId.AppSecret_WECHAT);
@@ -52,10 +60,15 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
 
     private static double currentLatitude;
     private static double currentLongitude;
+    private DaoMaster.DevOpenHelper mHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //设置数据库
+        instances = this;
+        setDatabase();
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -166,6 +179,11 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
         LogKit.v("heapinfo--activityManager.getMemoryClass():" + memoryClass);
     }
 
+
+    public static SlashApplication getInstances(){
+        return instances;
+    }
+
     public class XUtilsImageLoader implements cn.finalteam.galleryfinal.ImageLoader {
 
         private Bitmap.Config mImageConfig;
@@ -252,5 +270,29 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
 
     public static double getCurrentLongitude() {
         return currentLongitude;
+    }
+
+    /**
+     * 设置greenDao
+     */
+    private void setDatabase() {
+        // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
+        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
+        // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
+        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
+
+        mHelper = new DaoMaster.DevOpenHelper(this.getApplicationContext(), "notes-db", null);
+        db = mHelper.getWritableDatabase();
+        // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
+        mDaoMaster = new DaoMaster(db);
+        mDaoSession = mDaoMaster.newSession();
+    }
+
+    public DaoSession getDaoSession() {
+        return mDaoSession;
+    }
+
+    public SQLiteDatabase getDb() {
+        return db;
     }
 }
