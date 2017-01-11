@@ -73,6 +73,11 @@ public class ActivityMapModel extends BaseObservable {
     }
 
     public void goBack(View v) {
-        mActivity.finish();
+        if (svSearchListVisible == View.VISIBLE) {
+            setLlMapInfoVisible(View.VISIBLE);
+            setSvSearchListVisible(View.INVISIBLE);
+        } else {
+            mActivity.finish();
+        }
     }
 }

@@ -6,7 +6,6 @@ package com.slash.youth.pay;
 public class Alipay {
 
     public static String getOrderInfoFromServer() {
-
         return null;
     }
 }

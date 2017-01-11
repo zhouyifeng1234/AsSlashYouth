@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class MapSqlDBHelper extends SQLiteOpenHelper {
 
-    public MapSqlDBHelper(String name) {
-        super(CommonUtils.getContext(), name, null, 1);
+    public MapSqlDBHelper() {
+        super(CommonUtils.getContext(), "map.db", null, 1);
     }
 
     @Override
@@ -19,9 +19,8 @@ public class MapSqlDBHelper extends SQLiteOpenHelper {
                 "  id INTEGER PRIMARY KEY AUTOINCREMENT, \n" +
                 "  name VARCHAR,   \n" +
                 "  address VARCHAR, \n" +
-                "  distance VARCHAR  \n" +
-                "  lat double \n" +
-                "  lng double \n" +
+                "  lat double,\n" +
+                "  lng double\n" +
                 ")";
         db.execSQL(sqlCreateMapSearchHisTable);
     }
@@ -31,11 +30,11 @@ public class MapSqlDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public SQLiteDatabase getReadableDB() {
+    public SQLiteDatabase getMapReadableDB() {
         return getReadableDatabase();
     }
 
-    public SQLiteDatabase getWritableDB() {
+    public SQLiteDatabase getMapWritableDB() {
         return getWritableDatabase();
     }
 }
