@@ -157,6 +157,7 @@ public class MyBidServiceModel extends BaseObservable {
         commentInfo.putLong("tid", tid);
         commentInfo.putInt("type", 2);
         commentInfo.putLong("suid", suid);
+        commentInfo.putLong("duid", duid);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);

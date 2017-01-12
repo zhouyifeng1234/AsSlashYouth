@@ -241,6 +241,7 @@ public class MyBidDemandModel extends BaseObservable {
         commentInfo.putLong("tid", tid);
         commentInfo.putInt("type", type);
         commentInfo.putLong("suid", innerDemandCardInfo.suid);
+        commentInfo.putLong("duid", innerDemandCardInfo.uid);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);

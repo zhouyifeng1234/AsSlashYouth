@@ -39,6 +39,7 @@ public class CommentModel extends BaseObservable {
     long tid;//任务ID（需求or服务ID）
     int type;//需求服务类型 1需求 2服务
     long suid;//服务者UID
+    long duid;//需求者ID
 
     boolean isCompleteComment = false;
 
@@ -57,6 +58,7 @@ public class CommentModel extends BaseObservable {
         tid = commentInfo.getLong("tid");
         type = commentInfo.getInt("type");
         suid = commentInfo.getLong("suid");
+        duid = commentInfo.getLong("duid");
 
         MyTaskEngine.getCommentStatus(new BaseProtocol.IResultExecutor<CommentStatusBean>() {
             @Override
