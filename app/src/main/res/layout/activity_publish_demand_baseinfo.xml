@@ -322,6 +322,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:background="@android:color/transparent"
                                 android:hint="不填表示随时可以开始"
+                                android:onClick="@{publishDemandbaseInfoModel.setStartTime}"
                                 android:text="@{publishDemandbaseInfoModel.startTimeStr}"
                                 android:textColorHint="#CCCCCC"
                                 android:textSize="13sp"/>

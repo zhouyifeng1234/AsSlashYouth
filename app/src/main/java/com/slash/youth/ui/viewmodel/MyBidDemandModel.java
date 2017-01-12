@@ -242,6 +242,10 @@ public class MyBidDemandModel extends BaseObservable {
         commentInfo.putInt("type", type);
         commentInfo.putLong("suid", innerDemandCardInfo.suid);
         commentInfo.putLong("duid", innerDemandCardInfo.uid);
+        commentInfo.putString("dAvatarUrl", dAvatarUrl);
+        commentInfo.putString("sAvatarUrl", sAvatarUrl);
+        commentInfo.putString("dname", dname);
+        commentInfo.putString("sname", sname);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);
@@ -372,6 +376,8 @@ public class MyBidDemandModel extends BaseObservable {
         hideLoadLayer();
     }
 
+    String dAvatarUrl;
+    String dname;
 
     /**
      * 获取需求方方用户信息
@@ -381,12 +387,14 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                dAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivDemandUserAvatar, dAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setDemandUserIsAuthVisibility(View.GONE);
                 } else {
                     setDemandUserIsAuthVisibility(View.VISIBLE);
                 }
+                dname = uinfo.name;
                 setDemandUsername("需求方:" + uinfo.name);
 
                 LogKit.v("需求方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
@@ -399,6 +407,9 @@ public class MyBidDemandModel extends BaseObservable {
         }, innerDemandCardInfo.uid + "", "0");
     }
 
+    String sAvatarUrl;
+    String sname;
+
     /**
      * 获取服务方用户信息
      */
@@ -407,12 +418,14 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                sAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                BitmapKit.bindImage(mActivityMyBidDemandBinding.ivServiceUserAvatar, sAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setServiceUserIsAuthVisibility(View.GONE);
                 } else {
                     setServiceUserIsAuthVisibility(View.VISIBLE);
                 }
+                sname = uinfo.name;
                 setServiceUsername("服务方:" + uinfo.name);
 
                 LogKit.v("服务方用户信息，dataBean.data.uinfo.id:" + dataBean.data.uinfo.id);
