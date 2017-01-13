@@ -114,6 +114,7 @@ public class ChatModel extends BaseObservable {
 
     private int getBaseDataFinishedCount = 0;
     private int getBaseDataTotalCount = 0;
+    ChatCmdShareTaskBean chatCmdShareTaskBean;
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -156,6 +157,7 @@ public class ChatModel extends BaseObservable {
                 if (chatCmdName.equals("sendBusinessCard")) {
                     sendBusinessCard();
                 } else if (chatCmdName.equals("sendShareTask")) {
+                    chatCmdShareTaskBean = (ChatCmdShareTaskBean) mActivity.getIntent().getSerializableExtra("chatCmdShareTaskBean");
                     sendShareTask();
                 }
             }
@@ -995,12 +997,6 @@ public class ChatModel extends BaseObservable {
      * 发送任务分享
      */
     public void sendShareTask() {
-        ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
-        chatCmdShareTaskBean.uid = LoginManager.currentLoginUserId;
-        chatCmdShareTaskBean.avatar = "";
-        chatCmdShareTaskBean.title = "";
-        chatCmdShareTaskBean.quote = 10;
-        chatCmdShareTaskBean.type = 1;//服务或者需求
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdShareTaskBean);
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK);

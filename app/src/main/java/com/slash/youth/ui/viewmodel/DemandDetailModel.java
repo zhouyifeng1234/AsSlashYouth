@@ -634,7 +634,7 @@ public class DemandDetailModel extends BaseObservable {
         shareTitle = getUsername() + "发布了需求《" + getDemandTitle() + "》";
         shareContent = "赶紧来抢单吧";
         shareAvatar = new UMImage(CommonUtils.getContext(), avatarUrl);
-        shareUrl = ShareUtils.DETAIL_SHARE + "?nav=1&param=1&oid=" + demandId + "&favei=1&cid=" + LoginManager.currentLoginUserId;
+        shareUrl = ShareUtils.DETAIL_SHARE + "?nav=1&param=1&oid=" + demandId + "&favei=1&cid=" + LoginManager.currentLoginUserId + "&share=visit";
     }
 
     public void goBack(View v) {

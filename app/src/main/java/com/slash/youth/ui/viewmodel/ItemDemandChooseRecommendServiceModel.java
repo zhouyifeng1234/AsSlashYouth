@@ -9,8 +9,10 @@ import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemDemandChooseRecommendServiceBinding;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -23,18 +25,21 @@ public class ItemDemandChooseRecommendServiceModel extends BaseObservable {
     ItemDemandChooseRecommendServiceBinding mItemDemandChooseRecommendServiceBinding;
     Activity mActivity;
     RecommendServiceUserBean.ServiceUserInfo serviceUserInfo;
+    long serviceUserId;
+    ChatCmdShareTaskBean chatCmdShareTaskBean;
 
-    public ItemDemandChooseRecommendServiceModel(ItemDemandChooseRecommendServiceBinding itemDemandChooseRecommendServiceBinding, Activity activity, RecommendServiceUserBean.ServiceUserInfo serviceUserInfo) {
+    public ItemDemandChooseRecommendServiceModel(ItemDemandChooseRecommendServiceBinding itemDemandChooseRecommendServiceBinding, Activity activity, RecommendServiceUserBean.ServiceUserInfo serviceUserInfo, ChatCmdShareTaskBean chatCmdShareTaskBean) {
         this.mItemDemandChooseRecommendServiceBinding = itemDemandChooseRecommendServiceBinding;
         this.mActivity = activity;
         this.serviceUserInfo = serviceUserInfo;
+        this.chatCmdShareTaskBean = chatCmdShareTaskBean;
 
         initData();
         initView();
     }
 
     private void initData() {
-
+        serviceUserId = serviceUserInfo.uid;
     }
 
     private void initView() {
@@ -70,7 +75,11 @@ public class ItemDemandChooseRecommendServiceModel extends BaseObservable {
      * @param v
      */
     public void invitation(View v) {
-
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", serviceUserId + "");
+        intentChatActivity.putExtra("chatCmdName", "sendShareTask");
+        intentChatActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
+        mActivity.startActivity(intentChatActivity);
     }
 
     /**
