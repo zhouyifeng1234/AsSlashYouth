@@ -14,14 +14,18 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommentBinding;
 import com.slash.youth.domain.CommentResultBean;
 import com.slash.youth.domain.CommentStatusBean;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 /**
  * 当服务方顺利完成需求方的任务之后，需求方对服务方评价F
@@ -39,6 +43,11 @@ public class CommentModel extends BaseObservable {
     long tid;//任务ID（需求or服务ID）
     int type;//需求服务类型 1需求 2服务
     long suid;//服务者UID
+    long duid;//需求者ID
+    String dAvatarUrl;//需求方头像fileId
+    String sAvatarUrl;//服务方头像fileId
+    String dname;//需求放名字
+    String sname;//服务方名字
 
     boolean isCompleteComment = false;
 
@@ -57,6 +66,12 @@ public class CommentModel extends BaseObservable {
         tid = commentInfo.getLong("tid");
         type = commentInfo.getInt("type");
         suid = commentInfo.getLong("suid");
+        duid = commentInfo.getLong("duid");
+        dAvatarUrl = commentInfo.getString("dAvatarUrl");
+        sAvatarUrl = commentInfo.getString("sAvatarUrl");
+        dname = commentInfo.getString("dname");
+        sname = commentInfo.getString("sname");
+        initShareInfo();
 
         MyTaskEngine.getCommentStatus(new BaseProtocol.IResultExecutor<CommentStatusBean>() {
             @Override
@@ -101,6 +116,23 @@ public class CommentModel extends BaseObservable {
 
     private void initView() {
 
+    }
+
+    String shareTitle;
+    String shareContent;
+    UMImage shareAvatar;
+    String shareUrl;
+
+    private void initShareInfo() {
+        if (LoginManager.currentLoginUserId == duid) {
+            shareTitle = dname + "与" + sname + "已经成功牵手";
+            shareAvatar = new UMImage(CommonUtils.getContext(), dAvatarUrl);
+        } else {
+            shareTitle = sname + "与" + dname + "已经成功牵手";
+            shareAvatar = new UMImage(CommonUtils.getContext(), sAvatarUrl);
+        }
+        shareContent = "牵手的过程是这样的...";
+        shareUrl = ShareUtils.STORY_SHARE + "?nav=1&cid=" + LoginManager.currentLoginUserId + "&type=" + type + "&tid=" + tid;
     }
 
     /**
@@ -245,7 +277,7 @@ public class CommentModel extends BaseObservable {
     public void shareToWeChat(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
     }
 
@@ -257,7 +289,7 @@ public class CommentModel extends BaseObservable {
     public void shareToWeChatCircle(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
     }
 
@@ -269,7 +301,7 @@ public class CommentModel extends BaseObservable {
     public void shareToQQ(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         } else {
             ToastUtils.shortToast("请先安装qq客户端");
         }
@@ -281,7 +313,7 @@ public class CommentModel extends BaseObservable {
      * @param v
      */
     public void shareToQZone(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
     }
 
     private UMShareListener umShareListener = new UMShareListener() {

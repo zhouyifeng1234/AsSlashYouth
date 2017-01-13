@@ -254,6 +254,7 @@
                                 android:visibility="@{serviceDetailModel.offlineItemVisibility}"
                             >
                                 <TextView
+                                    android:id="@+id/tv_online_offline_label"
                                     android:layout_width="30dp"
                                     android:layout_height="16dp"
                                     android:layout_gravity="center_vertical"
@@ -270,6 +271,7 @@
                                     android:layout_marginLeft="8dp"
                                     android:onClick="@{serviceDetailModel.openServiceDetailLocation}"
                                     android:orientation="horizontal"
+                                    android:visibility="@{serviceDetailModel.serviceDetailLocationVisibility}"
                                 >
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -408,7 +410,8 @@
                                         android:layout_width="15sp"
                                         android:layout_height="15sp"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@mipmap/xz_icon"/>
+                                        android:src="@mipmap/xz_icon"
+                                        android:visibility="gone"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -416,7 +419,8 @@
                                         android:layout_marginLeft="5dp"
                                         android:text="@{serviceDetailModel.taskcount}"
                                         android:textColor="#666666"
-                                        android:textSize="13sp"/>
+                                        android:textSize="13sp"
+                                        android:visibility="gone"/>
                                     <!--顺利成交单数9/12-->
                                     <ImageView
                                         android:layout_width="15dp"
@@ -524,7 +528,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_1"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{serviceDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_service_detail_pic_1"
@@ -550,7 +555,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_2"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{serviceDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_service_detail_pic_2"
@@ -576,7 +582,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_3"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{serviceDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_service_detail_pic_3"
@@ -611,7 +618,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_4"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{serviceDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_service_detail_pic_4"
@@ -637,7 +645,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_5"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{serviceDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_service_detail_pic_5"
@@ -664,6 +673,7 @@
                                     android:id="@+id/fl_service_detail_picbox_6"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp"
+                                    android:onClick="@{serviceDetailModel.openViewPic}"
                                 >
 
                                     <ImageView
@@ -1198,6 +1208,15 @@
             </FrameLayout>
 
         </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_view_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:visibility="@{serviceDetailModel.viewPicVisibility}">
+
+        </android.support.v4.view.ViewPager>
 
     </FrameLayout>
 

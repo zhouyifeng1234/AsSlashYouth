@@ -2,7 +2,6 @@ package com.slash.youth.engine;
 
 import android.app.Activity;
 
-import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CheckPhoneVerificationCodeProtocol;
@@ -10,6 +9,7 @@ import com.slash.youth.http.protocol.CheckVersionProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.LoginGetTagProtocol;
 import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
+import com.slash.youth.http.protocol.LoginSetIndustryAndDirectionProtocol;
 import com.slash.youth.http.protocol.LoginSetRealnameProtocol;
 import com.slash.youth.http.protocol.LoginSetTagProtocol;
 import com.slash.youth.http.protocol.LoginoutProtocol;
@@ -65,13 +65,13 @@ public class LoginManager {
     }
 
     //验证手机上收到的验证码
-    public static void checkPhoneVerificationCode(BaseProtocol.IResultExecutor checkPhoneVerificationCode,String phoneNum, String pin) {
+    public static void checkPhoneVerificationCode(BaseProtocol.IResultExecutor checkPhoneVerificationCode, String phoneNum, String pin) {
         CheckPhoneVerificationCodeProtocol checkPhoneVerificationCodeProtocol = new CheckPhoneVerificationCodeProtocol(phoneNum, pin);
         checkPhoneVerificationCodeProtocol.getDataFromServer(checkPhoneVerificationCode);
     }
 
     //变更手机页
-    public static void UpdatePhoneVerificationCodeProtocol(BaseProtocol.IResultExecutor onUpdatePhoneVerificationCodeProtocol,String phoneNum, String pin) {
+    public static void UpdatePhoneVerificationCodeProtocol(BaseProtocol.IResultExecutor onUpdatePhoneVerificationCodeProtocol, String phoneNum, String pin) {
         UpdatePhoneVerificationCodeProtocol updatePhoneVerificationCodeProtocol = new UpdatePhoneVerificationCodeProtocol(phoneNum, pin);
         updatePhoneVerificationCodeProtocol.getDataFromServer(onUpdatePhoneVerificationCodeProtocol);
     }
@@ -134,7 +134,16 @@ public class LoginManager {
     }
 
     /**
-     * 登录后 完善技能标签,设置用户的技能标签
+     * 登录后 完善技能标签,设置行业和方向（一级和二级标签）
+     */
+    public static void loginSetIndustryAndDirection(BaseProtocol.IResultExecutor onSetTagFinished, String industry, String direction) {
+        LoginSetIndustryAndDirectionProtocol loginSetIndustryAndDirectionProtocol = new LoginSetIndustryAndDirectionProtocol(industry, direction);
+        loginSetIndustryAndDirectionProtocol.getDataFromServer(onSetTagFinished);
+    }
+
+
+    /**
+     * 登录后 完善技能标签,设置用户的技能标签（三级标签）
      *
      * @param onSetTagFinished
      * @param listTag
@@ -234,17 +243,16 @@ public class LoginManager {
     };
 
     //版本检测
-    public static void checkVersion(BaseProtocol.IResultExecutor onCheckVersion,int type,long code) {
-        CheckVersionProtocol checkVersionProtocol = new CheckVersionProtocol(type,code);
+    public static void checkVersion(BaseProtocol.IResultExecutor onCheckVersion, int type, long code) {
+        CheckVersionProtocol checkVersionProtocol = new CheckVersionProtocol(type, code);
         checkVersionProtocol.getDataFromServer(onCheckVersion);
     }
 
     //登出
-    public static void logout(BaseProtocol.IResultExecutor onLogout,String token) {
+    public static void logout(BaseProtocol.IResultExecutor onLogout, String token) {
         LoginoutProtocol loginoutProtocol = new LoginoutProtocol(token);
         loginoutProtocol.getDataFromServer(onLogout);
     }
-
 
 
 }

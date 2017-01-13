@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.PagerAdapter;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -15,6 +16,8 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -41,11 +44,13 @@ import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -395,6 +400,10 @@ public class DemandDetailModel extends BaseObservable {
                 }
                 //详情图片
                 String[] picFileIds = demand.pic.split(",");
+                for (String fileId : picFileIds) {
+                    listViewPicFileIds.add(fileId);
+                }
+                mActivityDemandDetailBinding.vpViewPic.setAdapter(new ViewPicPagerAdapter());
                 //如果demand.pic为""空字符喘，picFileIds的length也是1
                 if (picFileIds.length <= 0 || TextUtils.isEmpty(demand.pic)) {//这种情况应该不存在，因为至少传一张图片
                     mActivityDemandDetailBinding.llDemandDetailPicLine1.setVisibility(View.GONE);
@@ -444,6 +453,8 @@ public class DemandDetailModel extends BaseObservable {
         }, demandId + "");
     }
 
+    String avatarUrl;
+
     /**
      * 获取需求发布者的信息
      *
@@ -454,7 +465,8 @@ public class DemandDetailModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityDemandDetailBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                BitmapKit.bindImage(mActivityDemandDetailBinding.ivDemandUserAvatar, avatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setIsAuthVisibility(View.INVISIBLE);
                 } else if (uinfo.isauth == 1) {//已认证
@@ -474,6 +486,8 @@ public class DemandDetailModel extends BaseObservable {
                 if (uid != LoginManager.currentLoginUserId) {
                     getRecommendDemandData(uid);//获取相似需求推荐
                 }
+
+                initShareInfo();
             }
 
             @Override
@@ -611,6 +625,18 @@ public class DemandDetailModel extends BaseObservable {
         mActivityDemandDetailBinding.tvCollection.setText("收藏");
     }
 
+    String shareTitle;
+    String shareContent;
+    UMImage shareAvatar;
+    String shareUrl;
+
+    private void initShareInfo() {
+        shareTitle = getUsername() + "发布了需求《" + getDemandTitle() + "》";
+        shareContent = "赶紧来抢单吧";
+        shareAvatar = new UMImage(CommonUtils.getContext(), avatarUrl);
+        shareUrl = ShareUtils.DETAIL_SHARE + "?nav=1&param=1&oid=" + demandId + "&favei=1&cid=" + LoginManager.currentLoginUserId;
+    }
+
     public void goBack(View v) {
         mActivity.finish();
     }
@@ -648,7 +674,7 @@ public class DemandDetailModel extends BaseObservable {
     public void shareToWeChat(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
     }
 
@@ -660,7 +686,7 @@ public class DemandDetailModel extends BaseObservable {
     public void shareToWeChatCircle(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
     }
 
@@ -672,7 +698,7 @@ public class DemandDetailModel extends BaseObservable {
     public void shareToQQ(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         } else {
             ToastUtils.shortToast("请先安装qq客户端");
         }
@@ -684,7 +710,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToQZone(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
     }
 
 
@@ -1198,6 +1224,73 @@ public class DemandDetailModel extends BaseObservable {
         return ratio;
     }
 
+    /**
+     * 点击图片查看大图
+     *
+     * @param v
+     */
+    public void openViewPic(View v) {
+        int currentViewIndex;
+        switch (v.getId()) {
+            case R.id.fl_demand_detail_picbox_1:
+                currentViewIndex = 0;
+                break;
+            case R.id.fl_demand_detail_picbox_2:
+                currentViewIndex = 1;
+                break;
+            case R.id.fl_demand_detail_picbox_3:
+                currentViewIndex = 2;
+                break;
+            case R.id.fl_demand_detail_picbox_4:
+                currentViewIndex = 3;
+                break;
+            case R.id.fl_demand_detail_picbox_5:
+                currentViewIndex = 4;
+                break;
+            default:
+                currentViewIndex = 5;
+                break;
+        }
+        mActivityDemandDetailBinding.vpViewPic.setCurrentItem(currentViewIndex);
+        setViewPicVisibility(View.VISIBLE);
+    }
+
+    ArrayList<String> listViewPicFileIds = new ArrayList<String>();
+
+    private class ViewPicPagerAdapter extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+            return listViewPicFileIds.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+            ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
+            String fileId = listViewPicFileIds.get(position);
+            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+            ivViewPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setViewPicVisibility(View.GONE);
+                }
+            });
+            container.addView(ivViewPic);
+            return ivViewPic;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    }
+
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
     private int bottomBtnDemandVisibility;//需求者视角的底部按钮是否显示隐藏
     private int topShareBtnVisibility;//服务者视角的顶部分享按钮是否可见
@@ -1244,6 +1337,18 @@ public class DemandDetailModel extends BaseObservable {
     private int updateBtnVisibility;
     private int remarkBtnVisibility;
     private int offShelfBtnVisibility;
+
+    private int viewPicVisibility = View.GONE;
+
+    @Bindable
+    public int getViewPicVisibility() {
+        return viewPicVisibility;
+    }
+
+    public void setViewPicVisibility(int viewPicVisibility) {
+        this.viewPicVisibility = viewPicVisibility;
+        notifyPropertyChanged(BR.viewPicVisibility);
+    }
 
     @Bindable
     public int getUpdateBtnVisibility() {

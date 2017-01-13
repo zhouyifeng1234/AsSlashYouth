@@ -193,17 +193,22 @@
             android:name=".ui.activity.PerfectInfoActivity"
             android:label="用户首次登录后完善信息页面"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.activity.ChooseSkillActivity"
             android:label="登录后完善技能标签页面"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".ui.activity.MapActivity"></activity>
+        <activity
+            android:name=".ui.activity.MapActivity"
+            android:windowSoftInputMode="adjustPan"
+        >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.PublishDemandActivity"></activity>
         <activity android:name=".ui.activity.SearchActivity"></activity>
         <activity android:name=".ui.activity.PublishServiceActivity"/>

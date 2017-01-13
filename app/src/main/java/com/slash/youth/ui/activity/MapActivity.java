@@ -1,12 +1,15 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -43,6 +46,7 @@ import com.slash.youth.ui.holder.MapNearLocationHolder;
 import com.slash.youth.ui.viewmodel.ActivityMapModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.MapSqlDBHelper;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -74,12 +78,18 @@ public class MapActivity extends Activity {
     private boolean isMoveByGestures = false;
     GeocodeSearch geocoderSearch;
 
+    SQLiteDatabase mapReadableDB;
+    SQLiteDatabase mapWritableDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        CommonUtils.setCurrentActivity(this);
+        MapSqlDBHelper mapSqlDBHelper = new MapSqlDBHelper();
+        mapReadableDB = mapSqlDBHelper.getMapReadableDB();
+        mapWritableDB = mapSqlDBHelper.getMapWritableDB();
         mActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map);
-        mActivityMapModel = new ActivityMapModel(mActivityMapBinding, this);
+        mActivityMapModel = new ActivityMapModel(mActivityMapBinding, this, mapReadableDB, mapWritableDB);
         mActivityMapBinding.setActivityMapModel(mActivityMapModel);
 
         //获取地图控件引用
@@ -161,6 +171,14 @@ public class MapActivity extends Activity {
         mMapView.onDestroy();
         mLocationClient.stopLocation();//停止定位后，本地定位服务并不会被销毁
         mLocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务。
+        if (mapReadableDB != null) {
+            mapReadableDB.close();
+            mapReadableDB = null;
+        }
+        if (mapWritableDB != null) {
+            mapWritableDB.close();
+            mapWritableDB = null;
+        }
     }
 
     @Override
@@ -183,7 +201,6 @@ public class MapActivity extends Activity {
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，实现地图生命周期管理
         mMapView.onSaveInstanceState(outState);
     }
-
 
     public class SlashServicePOISearchListener implements PoiSearch.OnPoiSearchListener {
 
@@ -264,11 +281,25 @@ public class MapActivity extends Activity {
 
             }
         });
+        mActivityMapBinding.etActivityMapSearchKeyword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyword = mActivityMapBinding.etActivityMapSearchKeyword.getText().toString();
+                if (TextUtils.isEmpty(keyword)) {
+                    mActivityMapModel.setLlMapInfoVisible(View.INVISIBLE);
+                    mActivityMapModel.setSvSearchListVisible(View.VISIBLE);
+                    addToHistoryList();
+                }
+            }
+        });
         mMap.setOnCameraChangeListener(new SlashOnCameraChangeListener());
         mActivityMapBinding.ivbtnActivityMapCurrentLocation.setOnClickListener(new CurrentLocationClickListener());
         mActivityMapBinding.lvActivityMapNearLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position >= mListNearLocation.size()) {
+                    return;
+                }
                 if (position > 0) {
                     MapNearLocationHolder.ivPoiChecked.setImageResource(R.mipmap.no_jihuo_poi_icon);
                     ImageView ivPoiChecked = (ImageView) view.findViewById(R.id.iv_poi_checked);
@@ -284,6 +315,7 @@ public class MapActivity extends Activity {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLatlng, mapZoom));
                 mListNearLocation = new ArrayList<NearLocationBean>();
                 //首先添加由定位或得的当前位置信息
+                nearLocationBean.distance = "0.00KM";
                 mListNearLocation.add(nearLocationBean);
                 getNearPoi(nearLocationBean.lat, nearLocationBean.lng);
             }
@@ -339,6 +371,50 @@ public class MapActivity extends Activity {
         poiSearch.searchPOIAsyn();
     }
 
+    private void addToHistoryList() {
+        mActivityMapBinding.llActivityMapSearchlist.removeAllViews();
+        Cursor cursor = mapReadableDB.rawQuery("select * from map_search_his order by id desc limit 20", null);
+        int hisItemCount = 0;
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("id"));
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            String address = cursor.getString(cursor.getColumnIndex("address"));
+            double lat = cursor.getDouble(cursor.getColumnIndex("lat"));
+            double lng = cursor.getDouble(cursor.getColumnIndex("lng"));
+            LinearLayout searchHisItem = createSearchHisItem(id, name, address, lat, lng);
+            View vDividerKeywordPoi = createDividerKeywordPoi();
+            mActivityMapBinding.llActivityMapSearchlist.addView(searchHisItem);
+            mActivityMapBinding.llActivityMapSearchlist.addView(vDividerKeywordPoi);
+            hisItemCount++;
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
+        if (hisItemCount > 0) {
+            //添加历史列表最下面的“清楚搜索历史记录”条目
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+            TextView tvDelSearchHis = new TextView(CommonUtils.getContext());
+            tvDelSearchHis.setPadding(0, CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
+            tvDelSearchHis.setLayoutParams(params);
+            tvDelSearchHis.setText("清楚搜索历史记录");
+            tvDelSearchHis.setTextColor(0xff999999);
+            tvDelSearchHis.setTextSize(16.5f);
+            tvDelSearchHis.setGravity(Gravity.CENTER);
+            tvDelSearchHis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActivityMapModel.setDelSearchHisLayerVisibility(View.VISIBLE);
+                }
+            });
+            mActivityMapBinding.llActivityMapSearchlist.addView(tvDelSearchHis);
+        } else {
+            mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
+            mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
+        }
+    }
+
+
     private TextView createKeyWordPoiTextView(String title, final PoiItem poiItem) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
 //        params.setMargins(CommonUtils.dip2px(11), CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
@@ -354,6 +430,8 @@ public class MapActivity extends Activity {
                 mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
                 mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
                 mActivityMapBinding.etActivityMapSearchKeyword.setText("");
+                //添加到搜索历史当中
+                mapWritableDB.execSQL("insert into map_search_his(name,address,lat,lng) values(?,?,?,?)", new Object[]{poiItem.getTitle(), poiItem.getSnippet(), poiLatLonPoint.getLatitude(), poiLatLonPoint.getLongitude()});
 
                 mListNearLocation = new ArrayList<NearLocationBean>();
                 //首先添加由定位或得的当前位置信息
@@ -366,6 +444,58 @@ public class MapActivity extends Activity {
         tvKeywordPoi.setTextColor(0xff333333);
         tvKeywordPoi.setTextSize(16.5f);
         return tvKeywordPoi;
+    }
+
+    private LinearLayout createSearchHisItem(final int id, final String name, final String address, final double lat, final double lng) {
+        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(-1, -2);
+        final LinearLayout llItemHis = new LinearLayout(CommonUtils.getContext());
+        llItemHis.setOrientation(LinearLayout.HORIZONTAL);
+        llItemHis.setLayoutParams(llParams);
+
+        LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(0, -2);
+        tvParams.weight = 1;
+        TextView tvKeywordPoi = new TextView(CommonUtils.getContext());
+        tvKeywordPoi.setPadding(CommonUtils.dip2px(11), CommonUtils.dip2px(20), 0, CommonUtils.dip2px(20));
+        tvKeywordPoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng latlng = new LatLng(lat, lng);
+                isMoveByGestures = false;
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, mapZoom));
+                mActivityMapModel.setLlMapInfoVisible(View.VISIBLE);
+                mActivityMapModel.setSvSearchListVisible(View.INVISIBLE);
+                mActivityMapBinding.etActivityMapSearchKeyword.setText("");
+
+                mListNearLocation = new ArrayList<NearLocationBean>();
+                //首先添加由定位或得的当前位置信息
+                mListNearLocation.add(new NearLocationBean(name, address, "0.00KM", lat, lng));
+                getNearPoi(lat, lng);
+            }
+        });
+        tvKeywordPoi.setLayoutParams(tvParams);
+        tvKeywordPoi.setText(name);
+        tvKeywordPoi.setTextColor(0xff333333);
+        tvKeywordPoi.setTextSize(16.5f);
+
+        LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(-2, -2);
+        ivParams.gravity = Gravity.CENTER_VERTICAL;
+        ivParams.rightMargin = CommonUtils.dip2px(11);
+        ImageView ivDelHis = new ImageView(CommonUtils.getContext());
+        ivDelHis.setLayoutParams(ivParams);
+        ivDelHis.setImageResource(R.mipmap.close_icon);
+        ivDelHis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapWritableDB.execSQL("delete from map_search_his where id=?", new Object[]{id});
+
+                LinearLayout llHistoryItems = (LinearLayout) llItemHis.getParent();
+                llHistoryItems.removeView(llItemHis);
+            }
+        });
+
+        llItemHis.addView(tvKeywordPoi);
+        llItemHis.addView(ivDelHis);
+        return llItemHis;
     }
 
     private View createDividerKeywordPoi() {

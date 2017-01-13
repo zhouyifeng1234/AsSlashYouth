@@ -46,8 +46,10 @@
                         android:layout_width="62dp"
                         android:layout_height="62dp">
                         <ImageView
+                            android:id="@+id/iv_service_user_avatar"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:onClick="@{itemDemandChooseServiceModel.gotoUserInfoPager}"
                             android:src="@mipmap/assistant_icon"
                         />
                         <ImageView
@@ -176,6 +178,7 @@
                             android:src="@mipmap/negotiation_icon"/>
 
                         <TextView
+                            android:id="@+id/tv_bp_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"

@@ -560,7 +560,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_demand_detail_picbox_1"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_1"
@@ -586,7 +587,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_demand_detail_picbox_2"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_2"
@@ -612,7 +614,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_demand_detail_picbox_3"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_3"
@@ -647,7 +650,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_demand_detail_picbox_4"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_4"
@@ -673,7 +677,8 @@
                                 <FrameLayout
                                     android:id="@+id/fl_demand_detail_picbox_5"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_5"
@@ -700,6 +705,7 @@
                                     android:id="@+id/fl_demand_detail_picbox_6"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                 >
 
                                     <ImageView
@@ -1099,11 +1105,12 @@
 
                     <EditText
                         android:id="@+id/et_bid_demand_quote"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="11dp"
                         android:background="@android:color/transparent"
+                        android:gravity="right"
                         android:inputType="number"
                         android:text=""
                         android:textColor="#CCCCCC"
@@ -1889,6 +1896,15 @@
             </FrameLayout>
 
         </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_view_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:visibility="@{demandDetailModel.viewPicVisibility}">
+
+        </android.support.v4.view.ViewPager>
 
     </FrameLayout>
 

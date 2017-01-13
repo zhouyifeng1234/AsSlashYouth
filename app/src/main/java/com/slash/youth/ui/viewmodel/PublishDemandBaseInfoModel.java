@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -185,7 +186,9 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
     }
 
     public void setStartTime(View v) {
-        setChooseDateTimeLayerVisibility(View.VISIBLE);
+        if (TextUtils.isEmpty(startTimeStr)) {
+            setChooseDateTimeLayerVisibility(View.VISIBLE);
+        }
     }
 
     public void deleteStartTime(View v) {

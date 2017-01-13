@@ -6,9 +6,12 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.slash.youth.BR;
@@ -33,11 +36,13 @@ import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -198,7 +203,7 @@ public class ServiceDetailModel extends BaseObservable {
     public void shareToWeChat(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
     }
 
@@ -210,7 +215,7 @@ public class ServiceDetailModel extends BaseObservable {
     public void shareToWeChatCircle(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
     }
 
@@ -222,7 +227,7 @@ public class ServiceDetailModel extends BaseObservable {
     public void shareToQQ(View v) {
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
-            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+            new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         } else {
             ToastUtils.shortToast("请先安装qq客户端");
         }
@@ -234,7 +239,7 @@ public class ServiceDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToQZone(View v) {
-        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withText("Good").withTargetUrl("https://www.baidu.com/").setCallback(umShareListener).share();
+        new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
@@ -435,7 +440,10 @@ public class ServiceDetailModel extends BaseObservable {
                         displayTags(tags[0], tags[1], tags[2]);
                     }
                     if (service.pattern == 0) {//线上
-                        setOfflineItemVisibility(View.GONE);
+//                        setOfflineItemVisibility(View.GONE);
+                        setOfflineItemVisibility(View.VISIBLE);
+                        mActivityServiceDetailBinding.tvOnlineOfflineLabel.setText("线上");
+                        setServiceDetailLocationVisibility(View.GONE);
                     } else if (service.pattern == 1) {//线下
                         setOffShelfLogoVisibility(View.VISIBLE);
                         setOfflinePlace("约定地点:" + service.place != null ? service.place : "");//约定地点:星湖街328号星湖广场
@@ -453,6 +461,10 @@ public class ServiceDetailModel extends BaseObservable {
                     setServiceDesc(service.desc);
                     //服务相关图片
                     String[] picFileIds = service.pic.split(",");
+                    for (String fileId : picFileIds) {
+                        listViewPicFileIds.add(fileId);
+                    }
+                    mActivityServiceDetailBinding.vpViewPic.setAdapter(new ViewPicPagerAdapter());
                     //如果service.pic为""空字符喘，picFileIds的length也是1
                     if (picFileIds.length <= 0 || TextUtils.isEmpty(service.pic)) {//这种情况应该不存在，因为至少传一张图片
                         mActivityServiceDetailBinding.llServiceDetailPicline1.setVisibility(View.GONE);
@@ -499,6 +511,8 @@ public class ServiceDetailModel extends BaseObservable {
         }
     }
 
+    String avatarUrl;
+
     /**
      * 获取服务发布者的个人信息
      *
@@ -509,7 +523,8 @@ public class ServiceDetailModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceUserAvatar, avatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setIsAuthVisibility(View.INVISIBLE);
                 } else if (uinfo.isauth == 1) {//已认证
@@ -529,6 +544,8 @@ public class ServiceDetailModel extends BaseObservable {
                 if (uid != LoginManager.currentLoginUserId) {
                     getRecommendServiceData(uid);//获取相似服务推荐
                 }
+
+                initShareInfo();
             }
 
             @Override
@@ -611,6 +628,18 @@ public class ServiceDetailModel extends BaseObservable {
         mActivityServiceDetailBinding.tvCollection.setText("收藏");
     }
 
+    String shareTitle;
+    String shareContent;
+    UMImage shareAvatar;
+    String shareUrl;
+
+    private void initShareInfo() {
+        shareTitle = getUsername() + "发布了服务《" + getTitle() + "》";
+        shareContent = "赶紧来预约吧";
+        shareAvatar = new UMImage(CommonUtils.getContext(), avatarUrl);
+        shareUrl = ShareUtils.DETAIL_SHARE + "?nav=1&param=2&oid=" + serviceId + "&favei=1&cid=" + LoginManager.currentLoginUserId;
+    }
+
     /**
      * 显示相似服务推荐的数据，只有需求者视角才需要
      */
@@ -635,6 +664,74 @@ public class ServiceDetailModel extends BaseObservable {
             mLlServiceRecommend.addView(itemView);
         }
     }
+
+    /**
+     * 点击图片查看大图
+     *
+     * @param v
+     */
+    public void openViewPic(View v) {
+        int currentViewIndex;
+        switch (v.getId()) {
+            case R.id.fl_service_detail_picbox_1:
+                currentViewIndex = 0;
+                break;
+            case R.id.fl_service_detail_picbox_2:
+                currentViewIndex = 1;
+                break;
+            case R.id.fl_service_detail_picbox_3:
+                currentViewIndex = 2;
+                break;
+            case R.id.fl_service_detail_picbox_4:
+                currentViewIndex = 3;
+                break;
+            case R.id.fl_service_detail_picbox_5:
+                currentViewIndex = 4;
+                break;
+            default:
+                currentViewIndex = 5;
+                break;
+        }
+        mActivityServiceDetailBinding.vpViewPic.setCurrentItem(currentViewIndex);
+        setViewPicVisibility(View.VISIBLE);
+    }
+
+    ArrayList<String> listViewPicFileIds = new ArrayList<String>();
+
+    private class ViewPicPagerAdapter extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+            return listViewPicFileIds.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+            ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
+            String fileId = listViewPicFileIds.get(position);
+            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+            ivViewPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setViewPicVisibility(View.GONE);
+                }
+            });
+            container.addView(ivViewPic);
+            return ivViewPic;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    }
+
 
     private int topShareBtnVisibility;
     private int topServiceBtnVisibility;
@@ -662,6 +759,30 @@ public class ServiceDetailModel extends BaseObservable {
     private int shareLayerVisibility = View.GONE;
 
     private String topTitle;
+
+    private int viewPicVisibility = View.GONE;
+
+    private int serviceDetailLocationVisibility;
+
+    @Bindable
+    public int getServiceDetailLocationVisibility() {
+        return serviceDetailLocationVisibility;
+    }
+
+    public void setServiceDetailLocationVisibility(int serviceDetailLocationVisibility) {
+        this.serviceDetailLocationVisibility = serviceDetailLocationVisibility;
+        notifyPropertyChanged(BR.serviceDetailLocationVisibility);
+    }
+
+    @Bindable
+    public int getViewPicVisibility() {
+        return viewPicVisibility;
+    }
+
+    public void setViewPicVisibility(int viewPicVisibility) {
+        this.viewPicVisibility = viewPicVisibility;
+        notifyPropertyChanged(BR.viewPicVisibility);
+    }
 
     @Bindable
     public String getTopTitle() {

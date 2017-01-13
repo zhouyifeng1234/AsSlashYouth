@@ -141,8 +141,10 @@ public class GlobalConstants {
         public static final String LOGIN_SET_REAL_NAME = SERVER_HOST_MY_USERINFO + "/" + "/vcard/name/set";
         //登录后完善 获取技能标签
         public static final String LOGNI_GET_TAG = SERVER_HOST + "static/tag/sys_tag.json";
-        //登录后完善 设置技能标签
+        //登录后完善 设置技能标签(三级标签)
         public static final String LOGIN_SET_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
+        //登录后 完善技能标签,设置行业和方向（一级和二级标签）
+        public static final String LOGIN_SET_INDUSTRY_DIRECTION=SERVER_HOST_MY_USERINFO+"/vcard/industry/set";
 
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";

@@ -863,11 +863,12 @@
 
                     <EditText
                         android:id="@+id/et_service_update_quote"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="11dp"
                         android:background="@android:color/transparent"
+                        android:gravity="right"
                         android:inputType="number"
                         android:text=""
                         android:textColor="#CCCCCC"

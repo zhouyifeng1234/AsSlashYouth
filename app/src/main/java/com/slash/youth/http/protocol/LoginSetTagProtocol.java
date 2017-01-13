@@ -15,6 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
+ * 登录后 完善技能标签,设置用户的技能标签（三级标签）
+ * <p/>
  * Created by zhouyifeng on 2016/12/15.
  */
 public class LoginSetTagProtocol extends BaseProtocol<CommonResultBean> {

@@ -11,8 +11,11 @@ import com.slash.youth.databinding.ItemDemandChooseServiceBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandPurposeListBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
@@ -56,7 +59,7 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
             mItemDemandChooseServiceBinding.ivPurposeIsauthIcon.setVisibility(View.INVISIBLE);
         }
 
-        mItemDemandChooseServiceBinding.tvPurposeQuote.setText(mDemandChooseServiceBean.quote + "元");
+        mItemDemandChooseServiceBinding.tvPurposeQuote.setText((int) mDemandChooseServiceBean.quote + "元");
         mItemDemandChooseServiceBinding.tvPurposeName.setText(mDemandChooseServiceBean.name);
         mItemDemandChooseServiceBinding.tvCompanyProfessionInfo.setText(mDemandChooseServiceBean.company + mDemandChooseServiceBean.profession);
         //显示每一期的分期比例
@@ -76,6 +79,15 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
                 instalmentratioStr += ratio + "%";
             }
         }
+        //加载头像
+        BitmapKit.bindImage(mItemDemandChooseServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mDemandChooseServiceBean.avatar);
+        //纠纷处理方式
+        if (mDemandChooseServiceBean.bp == 1) {//1平台方式
+            mItemDemandChooseServiceBinding.tvBpText.setText("平台处理纠纷");
+        } else {//2协商方式
+            mItemDemandChooseServiceBinding.tvBpText.setText("协商处理纠纷");
+        }
+
         mItemDemandChooseServiceBinding.tvPurposeInstalmentratio.setText(instalmentratioStr);
         if (mDemandChooseServiceBean.status == 1) {
             mItemDemandChooseServiceBinding.tvPurposeChoose.setText("选择Ta");
@@ -116,6 +128,17 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
 
             }
         }, tid + "", mDemandChooseServiceBean.uid + "");
+    }
+
+    /**
+     * 跳转到用户个人信息页面
+     *
+     * @param v
+     */
+    public void gotoUserInfoPager(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", mDemandChooseServiceBean.uid);
+        mActivty.startActivity(intentUserInfoActivity);
     }
 
 }

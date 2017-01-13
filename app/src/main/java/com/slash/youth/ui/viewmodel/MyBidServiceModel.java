@@ -157,6 +157,11 @@ public class MyBidServiceModel extends BaseObservable {
         commentInfo.putLong("tid", tid);
         commentInfo.putInt("type", 2);
         commentInfo.putLong("suid", suid);
+        commentInfo.putLong("duid", duid);
+        commentInfo.putString("dAvatarUrl", dAvatarUrl);
+        commentInfo.putString("sAvatarUrl", sAvatarUrl);
+        commentInfo.putString("dname", dname);
+        commentInfo.putString("sname", sname);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);
@@ -497,6 +502,9 @@ public class MyBidServiceModel extends BaseObservable {
         return itemServiceFlowLogBinding.getRoot();
     }
 
+    String dAvatarUrl;
+    String dname;
+
     /**
      * 获取需求者信息
      */
@@ -505,12 +513,14 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                dAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivDemandUserAvatar, dAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setDemandUserIsAuthVisibility(View.GONE);
                 } else {
                     setDemandUserIsAuthVisibility(View.VISIBLE);
                 }
+                dname = uinfo.name;
                 setDemandUsername("需求方:" + uinfo.name);
 
                 LogKit.v("需求方信息 uinfo.id:" + uinfo.id);
@@ -528,6 +538,9 @@ public class MyBidServiceModel extends BaseObservable {
         }, duid + "", "0");
     }
 
+    String sAvatarUrl;
+    String sname;
+
     /**
      * 获取服务者信息
      */
@@ -536,12 +549,14 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                 sAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                BitmapKit.bindImage(mActivityMyBidServiceBinding.ivServiceUserAvatar, sAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setServiceUserIsAuthVisibility(View.GONE);
                 } else {
                     setServiceUserIsAuthVisibility(View.VISIBLE);
                 }
+                sname = uinfo.name;
                 setServiceUsername("服务方:" + uinfo.name);
 
                 LogKit.v("服务方信息 uinfo.id:" + uinfo.id);
