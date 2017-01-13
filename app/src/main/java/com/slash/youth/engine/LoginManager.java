@@ -9,6 +9,7 @@ import com.slash.youth.http.protocol.CheckVersionProtocol;
 import com.slash.youth.http.protocol.GetPhoneVerificationCodeProtocol;
 import com.slash.youth.http.protocol.LoginGetTagProtocol;
 import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
+import com.slash.youth.http.protocol.LoginSetIndustryAndDirectionProtocol;
 import com.slash.youth.http.protocol.LoginSetRealnameProtocol;
 import com.slash.youth.http.protocol.LoginSetTagProtocol;
 import com.slash.youth.http.protocol.LoginoutProtocol;
@@ -133,7 +134,16 @@ public class LoginManager {
     }
 
     /**
-     * 登录后 完善技能标签,设置用户的技能标签
+     * 登录后 完善技能标签,设置行业和方向（一级和二级标签）
+     */
+    public static void loginSetIndustryAndDirection(BaseProtocol.IResultExecutor onSetTagFinished, String industry, String direction) {
+        LoginSetIndustryAndDirectionProtocol loginSetIndustryAndDirectionProtocol = new LoginSetIndustryAndDirectionProtocol(industry, direction);
+        loginSetIndustryAndDirectionProtocol.getDataFromServer(onSetTagFinished);
+    }
+
+
+    /**
+     * 登录后 完善技能标签,设置用户的技能标签（三级标签）
      *
      * @param onSetTagFinished
      * @param listTag

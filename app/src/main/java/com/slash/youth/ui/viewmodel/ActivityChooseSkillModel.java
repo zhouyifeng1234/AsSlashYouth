@@ -259,45 +259,56 @@ public class ActivityChooseSkillModel extends BaseObservable {
             return;
         }
 
-        ArrayList<String> listTag = new ArrayList<String>();
+        final ArrayList<String> listTag = new ArrayList<String>();//这里存放三级标签
 
         AllSkillLablesBean.Tag_1 tag_1 = tag1Arr[chooseTag1Index];
 //        String choosedTag1 = tag_1.f1 + "-" + tag_1.f2 + "-" + tag_1.tag;
         String choosedTag1 = tag_1.tag;
-        listTag.add(choosedTag1);
+//        listTag.add(choosedTag1);
 
         AllSkillLablesBean.Tag_2 tag_2 = tag2Arr[chooseTag2Index];
 //        String choosedTag2 = tag_2.f1 + "-" + tag_2.f2 + "-" + tag_2.tag;
         String choosedTag2 = tag_2.tag;
-        listTag.add(choosedTag2);
+//        listTag.add(choosedTag2);
 
         for (AllSkillLablesBean.Tag_3 tag_3 : choosedThirdLabels) {
 //            String choosedTag3 = tag_3.f1 + "-" + tag_3.f2 + "-" + tag_3.tag;
             String choosedTag3 = tag_3.tag;
             listTag.add(choosedTag3);
         }
-
-        LoginManager.loginSetTag(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+        //调用设置行业和方向的接口（一级和二级标签）
+        LoginManager.loginSetIndustryAndDirection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
-                Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                mActivity.startActivity(intentHomeActivity);
-                if (LoginActivity.activity != null) {
-                    LoginActivity.activity.finish();
-                    LoginActivity.activity = null;
-                }
-                if (PerfectInfoActivity.activity != null) {
-                    PerfectInfoActivity.activity.finish();
-                    PerfectInfoActivity.activity = null;
-                }
-                mActivity.finish();
+                //设置行业和方向成功，继续设置三级标签
+                LoginManager.loginSetTag(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                    @Override
+                    public void execute(CommonResultBean dataBean) {
+                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+                        mActivity.startActivity(intentHomeActivity);
+                        if (LoginActivity.activity != null) {
+                            LoginActivity.activity.finish();
+                            LoginActivity.activity = null;
+                        }
+                        if (PerfectInfoActivity.activity != null) {
+                            PerfectInfoActivity.activity.finish();
+                            PerfectInfoActivity.activity = null;
+                        }
+                        mActivity.finish();
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        ToastUtils.shortToast("设置用户技能标签失败:" + result);
+                    }
+                }, listTag);
             }
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("设置用户技能标签失败");
+                ToastUtils.shortToast("设置行业和方向失败:" + result);
             }
-        }, listTag);
+        }, choosedTag1, choosedTag2);
     }
 
     private AllSkillLablesBean.Tag_1[] tag1Arr;

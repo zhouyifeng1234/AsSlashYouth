@@ -22,10 +22,13 @@ import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -195,13 +198,19 @@ public class DemandChooseServiceModel extends BaseObservable {
                 String startTimeStr = getDateTimeString(dataBean.starttime, "开始时间:yyyy年MM月dd日 HH:mm");
                 setStartTime(startTimeStr);
 
-                setQuote(dataBean.quote + "元");
+                if (dataBean.quote <= 0) {
+                    setQuote("服务方报价");
+                } else {
+                    setQuote((int) dataBean.quote + "元");
+                }
 
                 if (dataBean.instalment == 1) {
                     setIsInstalmentVisibility(View.VISIBLE);
                 } else {
                     setIsInstalmentVisibility(View.GONE);
                 }
+                //设置头像(这是我发布的需求任务的意向单列表，这页面只有我能看到，所以当前登录者就是需求发布者)
+                BitmapKit.bindImage(mActivityDemandChooseServiceBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + LoginManager.currentLoginUserAvatar);
 
                 //这里不需要做判断，因为当前页面只可能是“预约中”状态
 //                String stateText = getBigStateTextByStatusCode(dataBean.status);

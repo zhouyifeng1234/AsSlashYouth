@@ -585,10 +585,10 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
-                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_2"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_2"
@@ -612,10 +612,10 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
-                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_3"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_3"
@@ -648,10 +648,10 @@
                             >
 
                                 <FrameLayout
-                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_4"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_4"
@@ -675,10 +675,10 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
-                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_5"
                                     android:layout_width="97dp"
-                                    android:layout_height="97dp">
+                                    android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}">
 
                                     <ImageView
                                         android:id="@+id/iv_demand_detail_pic_5"
@@ -702,10 +702,10 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"/>
                                 <FrameLayout
-                                    android:onClick="@{demandDetailModel.openViewPic}"
                                     android:id="@+id/fl_demand_detail_picbox_6"
                                     android:layout_width="97dp"
                                     android:layout_height="97dp"
+                                    android:onClick="@{demandDetailModel.openViewPic}"
                                 >
 
                                     <ImageView
@@ -1105,11 +1105,12 @@
 
                     <EditText
                         android:id="@+id/et_bid_demand_quote"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="11dp"
                         android:background="@android:color/transparent"
+                        android:gravity="right"
                         android:inputType="number"
                         android:text=""
                         android:textColor="#CCCCCC"

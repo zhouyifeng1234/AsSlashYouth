@@ -1,6 +1,7 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
@@ -10,7 +11,9 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemDemandChooseRecommendServiceBinding;
 import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
+import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/27.
@@ -68,6 +71,17 @@ public class ItemDemandChooseRecommendServiceModel extends BaseObservable {
      */
     public void invitation(View v) {
 
+    }
+
+    /**
+     * 跳转到用户个人信息页面
+     *
+     * @param v
+     */
+    public void gotoUserInfoPager(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", serviceUserInfo.uid);
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     private int authVisibility = View.GONE;
