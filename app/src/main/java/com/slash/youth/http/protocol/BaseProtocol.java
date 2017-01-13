@@ -96,7 +96,8 @@ abstract public class BaseProtocol<T> {
         params.addHeader("Date", date);
         params.addHeader("Authorization", authorizationStr);
         //跳过验证
-        params.addHeader("uid", LoginManager.currentLoginUserId + "");
+       // params.addHeader("uid", LoginManager.currentLoginUserId + "");
+        params.addHeader("uid",  "10000");
         params.addHeader("pass", "1");
         params.addHeader("token", LoginManager.token);
         params.addHeader("Content-Type", "application/json");

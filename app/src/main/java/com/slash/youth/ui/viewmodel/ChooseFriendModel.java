@@ -160,5 +160,4 @@ public class ChooseFriendModel  extends BaseObservable{
             LogKit.d("result:"+result);
         }
     }
-
 }

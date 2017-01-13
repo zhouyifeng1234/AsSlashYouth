@@ -16,7 +16,6 @@ import com.slash.youth.utils.CommonUtils;
  */
 public class HomeFreeTimePager extends BaseHomePager {
 
-
     public HomeFreeTimePager(Activity activity) {
         super(activity);
     }

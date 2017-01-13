@@ -85,18 +85,10 @@ public class DialogUtils  {
         dialog.show();
     }
 
-    public static void showDialogFour(Context context,int imageView,String title,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+    public static void showDialogFour(Context context,final DialogCallUnderStandBack dialogCallUnderStandBack){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_fouth, null);
         View understand = view.findViewById(R.id.understand);
-        if (imageView!=-1) {
-            ImageView src = (ImageView) view.findViewById(R.id.iv);
-            src.setImageResource(imageView);
-        }
-        TextView text1 = (TextView) view.findViewById(R.id.tv_content);
-        TextView text2 = (TextView) view.findViewById(R.id.tv_title);
-        text2.setText(title);
-        text1.setText(content);
         dialogBuilder.setView(view);
         dialog = dialogBuilder.create();
         understand.setOnClickListener(new View.OnClickListener() {

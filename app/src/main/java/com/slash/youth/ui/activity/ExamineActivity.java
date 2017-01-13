@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityExamineCertificatesBinding;
 import com.slash.youth.ui.viewmodel.ExamineCertificatesModel;
+import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zss on 2016/11/6.
@@ -18,7 +19,6 @@ import com.slash.youth.ui.viewmodel.ExamineCertificatesModel;
 public class ExamineActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private ActivityExamineCertificatesBinding activityExamineCertificatesBinding;
-    private Bitmap bitmap;
     private int type;
     private int cardType;
     private String photoUri;
@@ -29,13 +29,12 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if(intent!=null) {
-            bitmap = intent.getParcelableExtra("bitmap");
             type = intent.getIntExtra("careertype", -1);
             cardType = intent.getIntExtra("cardType", -1);
            photoUri = intent.getStringExtra("photoUri");
         }
         activityExamineCertificatesBinding = DataBindingUtil.setContentView(this, R.layout.activity_examine_certificates);
-        ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding,this,bitmap,type,cardType,photoUri);
+        ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding,this,type,cardType,photoUri);
         activityExamineCertificatesBinding.setExamineCertificatesModel(examineCertificatesModel);
         listener();
     }
@@ -55,8 +54,4 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
-
-
-
 }

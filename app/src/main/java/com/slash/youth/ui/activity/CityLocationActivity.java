@@ -126,6 +126,7 @@ public class CityLocationActivity extends Activity {
 
     private void initData() {
         database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
+       // database = SQLiteDatabase.openOrCreateDatabase(DBManager.databasePath, null);
         citys = getCity();
         province = getProvince();
         database.close();

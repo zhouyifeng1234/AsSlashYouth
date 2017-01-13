@@ -25,6 +25,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.adapter.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 
 import java.util.ArrayList;
@@ -216,9 +217,11 @@ public class SearchNeedResultTabModel extends BaseObservable  {
             });
         }
 
+        headerLists.clear();
         for (String header : headers) {
-            headerLists.add(header);
+                headerLists.add(header);
         }
+
         mSearchNeedResultTabBinding.dropDownMenu.setDropDownMenu(headerLists, popupViews, contentView);
 
         if(SpUtils.getString("searchType", "").equals(SearchManager.HOT_SEARCH_PERSON)){
@@ -367,6 +370,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
                 }
                 mSearchNeedResultTabBinding.dropDownMenu.removeView();
+                headerLists.clear();
+                popupViews.clear();
             }
         });
     }

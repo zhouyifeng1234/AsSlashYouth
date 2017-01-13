@@ -59,8 +59,8 @@ import java.util.HashMap;
 public class SubscribeActivity extends Activity {
     public ActivitySubscribeBinding mActivitySubscribeBinding;
     private LinearLayout mLlCheckedLabels;
-    public String checkedFirstLabel = "未选择";
-    public String checkedSecondLabel = "未选择";
+    public String checkedFirstLabel;
+    public String checkedSecondLabel;
     private String titleText = "请选择";
     private String tabTitle = "已选项";
     private ArrayList<SkillLabelBean> listThirdSkilllabelName = new ArrayList();
@@ -94,6 +94,11 @@ public class SubscribeActivity extends Activity {
     private int no_custom_f1;
     private int no_custom_f2;
     private SkillLabelBean clickSecondSkillLabelBean;
+    private String industry;
+    private String direction;
+    private SkillLabelBean secondSkillLabelBean;
+    private SkillLabelBean industrySkillLabelBean;
+    private int showItemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +190,14 @@ public class SubscribeActivity extends Activity {
             ArrayList<SkillLabelGetBean.DataBean> data = getDateFromLocal("userSkillLabel");
             getUserSkillLabelArrayList(data);
              postThridSkillLabel();*/
-//            updataThridMenu();
         }
+        //一级标签
+        industry = getIntent().getStringExtra("industry");
+        //二级标签
+        direction = getIntent().getStringExtra("direction");
+
+        checkedFirstLabel =  industry;
+       checkedSecondLabel = direction;
     }
 
     //获取用户自定义标签的集合
@@ -243,27 +254,42 @@ public class SubscribeActivity extends Activity {
             }
         }
         //获取默认的一级id,展示二级
-        SkillLabelBean skillLabelBean = listFirstSkilllabelName.get(0);
-        int firstId = skillLabelBean.getId();
+        for (int i = 0; i < listFirstSkilllabelName.size(); i++) {
+            String tag = listFirstSkilllabelName.get(i).getTag();
+            if(tag.equals(industry)){
+                industrySkillLabelBean = listFirstSkilllabelName.get(i);
+                mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(industry);
+                ActivitySubscribeModel.mNpChooseMainLabels.setValue(i);
+            }
+        }
+        int firstId = industrySkillLabelBean.getId();
         //第一次展示页面，二级默认为设计页面
         getCommnSkillLabel(firstId);
         subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
-        postSecondSkillLabel();
+      // postSecondSkillLabel();
+
         //第一次展示页面，三级默认为品牌设计页面
         commnThirdSkillLabel.clear();
-        SkillLabelBean secondSkillLabelBean = commnSkilllabel.get(0);
+        for (int i = 0; i < commnSkilllabel.size(); i++) {
+            String tag = commnSkilllabel.get(i).getTag();
+            if(tag.equals(direction)){
+                secondSkillLabelBean = commnSkilllabel.get(i);
+                SubscribeSecondSkilllabelHolder.clickItemPosition = i;
+            }
+        }
+
+        postSecondSkillLabel();
         secondId = secondSkillLabelBean.getId();
         int f1 = secondSkillLabelBean.getF1();
         getCommnThirdSkillLabel(f1,secondId);
     }
 
     private void postSecondSkillLabel() {
-        SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.post(new Runnable() {
             @Override
             public void run() {
-                View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.getChildAt(0);
+                View lvActivitySubscribeSecondSkilllableListFirstChild = mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.getChildAt(SubscribeSecondSkilllabelHolder.clickItemPosition);
                 SubscribeSecondSkilllabelHolder tag = (SubscribeSecondSkilllabelHolder) lvActivitySubscribeSecondSkilllableListFirstChild.getTag();
                 lastClickItemModel = tag.mItemSubscribeSecondSkilllabelModel;
             }
@@ -277,21 +303,19 @@ public class SubscribeActivity extends Activity {
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (lastClickItemModel != null) {
-                    lastClickItemModel.setSecondSkilllabelColor(0xff333333);
+
+                int size = listCheckedLabelName.size();
+                if(size!=0){
+                    clickSecondSkillLabelBean = commnSkilllabel.get(position);
+                    String clickSecondSkillLabelTag = clickSecondSkillLabelBean.getTag();
+                    if(clickSecondSkillLabelTag.equals(direction)){
+                        chooseThridSkillLabelLiist(view, position);
+                    }else {
+                        ToastUtils.shortCenterToast("只能选择同一类型的标签");
+                    }
+                }else {//为0
+                    chooseThridSkillLabelLiist(view, position);
                 }
-                SubscribeSecondSkilllabelHolder subscribeSecondSkilllabelHolder = (SubscribeSecondSkilllabelHolder) view.getTag();
-                ItemSubscribeSecondSkilllabelModel itemSubscribeSecondSkilllabelModel = subscribeSecondSkilllabelHolder.mItemSubscribeSecondSkilllabelModel;
-                itemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
-                subscribeSecondSkilllabelHolder.clickItemPosition = position;
-                lastClickItemModel = itemSubscribeSecondSkilllabelModel;
-                checkedSecondLabel = itemSubscribeSecondSkilllabelModel.getSecondSkilllabelName();
-                clickSecondSkillLabelBean = commnSkilllabel.get(position);
-                int f1 = clickSecondSkillLabelBean.getF1();
-                int secondId =  clickSecondSkillLabelBean.getId();
-                //根据条目点击事件跳转到三级条目
-                getCommnThirdSkillLabel(f1, secondId);
-                 postThridSkillLabel();
             }
         });
 
@@ -299,21 +323,58 @@ public class SubscribeActivity extends Activity {
         activitySubscribeModel.setOnOkChooseMainLabelListener(new ActivitySubscribeModel.OnOkChooseMainLabelListener() {
             @Override
             public void OnOkChooseMainLabelListener(int tagId) {
+                int size = listCheckedLabelName.size();
                 SkillLabelBean skillLabelBean = listFirstSkilllabelName.get(tagId);
-                int firstId = skillLabelBean.getId();
-                //默认的一级标签的id,跳转到二级
-                getCommnSkillLabel(firstId);
-                subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
-                mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
-                postSecondSkillLabel();
-                //并默认跳转到对应的三级
-                SkillLabelBean secondSkillLabelBean = commnSkilllabel.get(0);
-                int f1 = secondSkillLabelBean.getF1();
-                int id = secondSkillLabelBean.getId();
-                getCommnThirdSkillLabel(f1,id);
-                postThridSkillLabel();
+                String tag = skillLabelBean.getTag();
+                if(size!=0){
+                    if(tag.equals(industry)){
+                        chooseSecondSkillLabelList(skillLabelBean);
+
+                    }else {
+                        ToastUtils.shortCenterToast("只能选择同一类型的标签");
+                    }
+                }else {
+                    chooseSecondSkillLabelList(skillLabelBean);
+                }
             }
         });
+    }
+
+    private void chooseSecondSkillLabelList(SkillLabelBean skillLabelBean) {
+        int firstId = skillLabelBean.getId();
+        //默认的一级标签的id,跳转到二级
+        getCommnSkillLabel(firstId);
+        subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
+        mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
+        postSecondSkillLabel();
+        //并默认跳转到对应的三级
+        SkillLabelBean secondSkillLabelBean = commnSkilllabel.get(0);
+        int f1 = secondSkillLabelBean.getF1();
+        int id = secondSkillLabelBean.getId();
+        getCommnThirdSkillLabel(f1,id);
+        postThridSkillLabel();
+    }
+
+    private void chooseThridSkillLabelLiist(View view, int position) {
+        if (lastClickItemModel != null) {
+            lastClickItemModel.setSecondSkilllabelColor(0xff333333);
+        }
+
+        SubscribeSecondSkilllabelHolder subscribeSecondSkilllabelHolder = (SubscribeSecondSkilllabelHolder) view.getTag();
+        ItemSubscribeSecondSkilllabelModel itemSubscribeSecondSkilllabelModel = subscribeSecondSkilllabelHolder.mItemSubscribeSecondSkilllabelModel;
+
+        itemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff31c5e4);
+
+        subscribeSecondSkilllabelHolder.clickItemPosition = position;
+
+        lastClickItemModel = itemSubscribeSecondSkilllabelModel;
+        checkedSecondLabel = itemSubscribeSecondSkilllabelModel.getSecondSkilllabelName();
+        clickSecondSkillLabelBean = commnSkilllabel.get(position);
+        int f1 = clickSecondSkillLabelBean.getF1();
+        int secondId =  clickSecondSkillLabelBean.getId();
+        //根据条目点击事件跳转到三级条目
+        getCommnThirdSkillLabel(f1, secondId);
+        postThridSkillLabel();
     }
 
     //获取三级的集合
@@ -416,7 +477,6 @@ public class SubscribeActivity extends Activity {
     private void updateLableView() {
         skillLabelLineWidth = 0;//每次刷新数据就赋值为0
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
-
         //非自定义标签
         if(commnThirdSkillLabel.size()!=0){
             for (int i = 0; i < commnThirdSkillLabel.size(); i++) {

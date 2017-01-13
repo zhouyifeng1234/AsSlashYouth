@@ -35,7 +35,5 @@ public class SubscribeSecondSkilllabelHolder extends BaseHolder<SkillLabelBean> 
         } else {
             mItemSubscribeSecondSkilllabelModel.setSecondSkilllabelColor(0xff333333);
         }
-
     }
-
 }

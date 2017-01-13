@@ -22,6 +22,7 @@ public class SearchManager {
     public static final String SEARCH_ITEM_BOTTOM_SERVICE = "查看更多服务";
     public static final String SEARCH_ITEM_TITLE_PERSON = "找人";
     public static final String SEARCH_ITEM_BOTTOM_PERSON = "查看更多人脉";
+    public static final String NOTHING = "暂无结果";
 
     //[搜索]-联想词搜索
     public static void getSearchAssociativeTag(BaseProtocol.IResultExecutor getSearchAssociativeTag, String searchTag, int offset, int limit) {

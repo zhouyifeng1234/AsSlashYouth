@@ -346,19 +346,40 @@
 
                 </RelativeLayout>
 
-                <Button
-                    android:id="@+id/btn_okChooseMainLabel"
-                    android:layout_width="333dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/dalei_ok_icon"
-                    android:onClick="@{activitySubscribeModel.okChooseMainLabel}"
-                    android:text="确定"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                />
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_cannelChooseMainLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/btn1"
+                        android:onClick="@{activitySubscribeModel.cannelChooseMainLabel}"
+                        android:text="取消"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        />
+                    <Button
+                        android:id="@+id/btn_okChooseMainLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/btn_next_step"
+                        android:onClick="@{activitySubscribeModel.okChooseMainLabel}"
+                        android:text="确定"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        />
+
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>

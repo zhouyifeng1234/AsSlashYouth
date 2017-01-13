@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.net.sip.SipSession;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -78,16 +79,16 @@ public class PagerHomeMyModel extends BaseObservable {
     private  RotateAnimation raExpertMarksMaker;
     private int loadLayerVisibility = View.GONE;
 
+
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
         this.mActivity = activity;
-        displayLoadLayer();
+      //  displayLoadLayer();
         initData();
         initAnimation();
         initView();
         listener();
     }
-
 
     //刚进入页面
     private void displayLoadLayer() {
@@ -159,7 +160,6 @@ public class PagerHomeMyModel extends BaseObservable {
         setExpertMarks();
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
     }
-
 
     private String careertypeString ="自雇者";
     //设置我的数据
@@ -263,7 +263,7 @@ public class PagerHomeMyModel extends BaseObservable {
         if(expertlevel!=0){
             expertMarks = (float) expertlevels.get(expertlevel-1);
         }
-       /* if(expertlevels.size()!=0){
+        if(expertlevels.size()!=0){
             for (int i = 0; i < expertlevels.size(); i++) {
                 if(i==0){
                     expertⅠMaxMarks = (float) expertlevels.get(0);
@@ -279,7 +279,7 @@ public class PagerHomeMyModel extends BaseObservable {
                     expertⅣMaxMarks = (float) expertlevels.get(3);
                 }
             }
-        }*/
+        }
     }
 
     private void setExpertMarks() {

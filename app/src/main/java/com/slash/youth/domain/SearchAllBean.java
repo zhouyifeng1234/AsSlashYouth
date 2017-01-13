@@ -246,7 +246,7 @@ public class SearchAllBean {
             private int isonline;
             private String avatar;
             private String city;
-            private int cts;
+            private long cts;
             private long endtime;
             private long id;
             private int instalment;
@@ -313,11 +313,11 @@ public class SearchAllBean {
                 this.city = city;
             }
 
-            public int getCts() {
+            public long getCts() {
                 return cts;
             }
 
-            public void setCts(int cts) {
+            public void setCts(long cts) {
                 this.cts = cts;
             }
 

@@ -42,11 +42,6 @@ public class ReplacePhoneModel extends BaseObservable {
         } else {
             LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(), phoneNumber);
         }
-//        if (!phoneNumber.isEmpty()) {
-//            LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(), phoneNumber);
-//        } else {
-//            ToastUtils.shortCenterToast("未填写手机号码");
-//        }
     }
 
     //获取验证码

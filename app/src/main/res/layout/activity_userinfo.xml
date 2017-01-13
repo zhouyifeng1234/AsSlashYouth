@@ -523,7 +523,7 @@
                                         android:textSize="15dp"
                                         android:textColor="#31C5E4"
                                         android:layout_centerVertical="true"
-                                        android:text="技能描述" />
+                                        android:text="个人简介" />
                                 </RelativeLayout>
 
                                 <View

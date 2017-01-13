@@ -32,7 +32,7 @@ import java.util.List;
 public class DropDownMenu extends LinearLayout {
 
     //顶部菜单布局
-    private LinearLayout tabMenuView;
+    private  LinearLayout tabMenuView;
     //底部容器，包含popupMenuViews，maskView
     private FrameLayout containerView;
     //弹出菜单父布局

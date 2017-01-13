@@ -164,7 +164,7 @@ public class SplashActivity extends Activity {
                 int forceupdate = data.getForceupdate();//是否强制更新 0表示不强制，1表示强制
                 long NetVersionCode = data.getCode();//服务端更新的版本
                 // 检测版本更新
-                if (2 > versionCode) {
+                if (NetVersionCode > versionCode) {
                     //需要更新
                     showVersionUpdateDialog(forceupdate, url);
                 } else {

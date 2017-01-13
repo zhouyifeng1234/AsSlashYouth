@@ -195,8 +195,6 @@ public class SlashAddPicLayout extends LinearLayout {
                                 BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
                                 int outWidth = bitmapOptions.outWidth;
                                 int outHeight = bitmapOptions.outHeight;
-                                LogKit.v("outWidth:" + outWidth);
-                                LogKit.v("outHeight:" + outHeight);
                                 if (outWidth <= 0 || outHeight <= 0) {
                                     ToastUtils.shortToast("请选择图片文件");
                                     return;

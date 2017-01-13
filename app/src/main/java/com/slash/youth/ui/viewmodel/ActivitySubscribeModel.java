@@ -11,9 +11,11 @@ import android.widget.NumberPicker;
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivitySubscribeBinding;
 import com.slash.youth.domain.SkillLabelBean;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,8 +27,8 @@ import java.util.Map;
 public class ActivitySubscribeModel extends BaseObservable {
     ActivitySubscribeBinding mActivitySubscribeBinding;
     SubscribeActivity mActivity;
-    private NumberPicker mNpChooseMainLabels;
-    String[] mainLabelsArr;
+    public static NumberPicker mNpChooseMainLabels;
+    public   String[] mainLabelsArr;
     private Iterator iter;
     private Map.Entry entry;
     private int value;
@@ -91,25 +93,35 @@ public class ActivitySubscribeModel extends BaseObservable {
         mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(mActivity.checkedFirstLabel);
     }
 
+    //取消
+   public void cannelChooseMainLabel(View view){
+       setRlChooseMainLabelVisible(View.GONE);
+   }
+
     public void submitChooseSkillLabel(View v) {
-        Intent intentResult = new Intent();
-        Bundle bundleCheckedLabelsData = new Bundle();
-        bundleCheckedLabelsData.putString("checkedFirstLabel", mActivity.checkedFirstLabel);
-        bundleCheckedLabelsData.putString("checkedSecondLabel", mActivity.checkedSecondLabel);
-        bundleCheckedLabelsData.putStringArrayList("listCheckedLabelName", mActivity.listCheckedLabelName);
-        bundleCheckedLabelsData.putStringArrayList("listCheckedLabelTag", mActivity.listCheckedLabelTag);
-        SubscribeActivity.saveListCheckedLabelName = mActivity.listCheckedLabelName;
-        intentResult.putExtra("bundleCheckedLabelsData", bundleCheckedLabelsData);
-        if (isEditor) {
-            mActivity.setResult(Activity.RESULT_OK, intentResult);
-        } else {
-            if (isPublish) {
-                mActivity.setResult(10, intentResult);
+        int size = mActivity.listCheckedLabelName.size();
+        if(size!=0){
+            Intent intentResult = new Intent();
+            Bundle bundleCheckedLabelsData = new Bundle();
+            bundleCheckedLabelsData.putString("checkedFirstLabel", mActivity.checkedFirstLabel);
+            bundleCheckedLabelsData.putString("checkedSecondLabel", mActivity.checkedSecondLabel);
+            bundleCheckedLabelsData.putStringArrayList("listCheckedLabelName", mActivity.listCheckedLabelName);
+            bundleCheckedLabelsData.putStringArrayList("listCheckedLabelTag", mActivity.listCheckedLabelTag);
+            SubscribeActivity.saveListCheckedLabelName = mActivity.listCheckedLabelName;
+            intentResult.putExtra("bundleCheckedLabelsData", bundleCheckedLabelsData);
+            if (isEditor) {
+                mActivity.setResult(Activity.RESULT_OK, intentResult);
             } else {
-                mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
+                if (isPublish) {
+                    mActivity.setResult(10, intentResult);
+                } else {
+                    mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
+                }
             }
+            mActivity.finish();
+        }else {
+            ToastUtils.shortCenterToast("请填写技能标签");
         }
-        mActivity.finish();
     }
 
     public void goBack(View v) {
@@ -130,5 +142,4 @@ public class ActivitySubscribeModel extends BaseObservable {
     public void setOnOkChooseMainLabelListener(OnOkChooseMainLabelListener listener) {
         this.listener = listener;
     }
-
 }
