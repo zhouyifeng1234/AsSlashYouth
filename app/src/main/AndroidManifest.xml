@@ -2,6 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.slash.youth">
+
     <!-- 友盟统计权限 -->
     <uses-sdk
         android:minSdkVersion="8"

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,9 @@ import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,7 +55,6 @@ public class UserinfoEditorActivity extends Activity {
         activityUserInfoEditorModel = new ActivityUserInfoEditorModel(activityUserinfoEditorBinding,myId,this);
         activityUserinfoEditorBinding.setActivityUserInfoEditorModel(activityUserInfoEditorModel);
         back();
-
     }
 
     private void back() {
@@ -65,6 +68,7 @@ public class UserinfoEditorActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Constants.USERINFO_PHONE:
                 if (resultCode == RESULT_OK) {
@@ -91,37 +95,6 @@ public class UserinfoEditorActivity extends Activity {
                     }
                 }
                 break;
-            case Constants.USERINFO_IMAGVIEW_TAKE_PHOTO:
-            if (resultCode == RESULT_OK) {
-                Bundle bundle = data.getExtras();
-                Bitmap bitmap = (Bitmap) bundle.get("data");
-                Bitmap photo = BitmapKit.zoomBitmap(bitmap, 48, 48);
-                activityUserinfoEditorBinding.ivHead.setImageBitmap(photo);
-                WriteFile(photo, fileName);
-                filename = fileName.getAbsolutePath();
-                pathFile.add(filename);
-                String takePhotoFilePath = pathFile.get(0);
-                activityUserInfoEditorModel.avatar = takePhotoFilePath;
-            }
-                break;
-            case Constants.USERINFO_SKILLLABEL_ALBUM:
-            if(resultCode == RESULT_OK){
-                Uri uri = data.getData();
-                try {
-                    Bitmap bitmap_album= BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                    Bitmap  photo_album  = BitmapKit.zoomBitmap(bitmap_album, 48, 48);
-                    activityUserinfoEditorBinding.ivHead.setImageBitmap(photo_album);
-                    WriteFile(photo_album,file);
-                    filename = file.getAbsolutePath();
-                    path.add(filename);
-                    String filePath = path.get(0);
-                    activityUserInfoEditorModel.avatar = filePath;
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            break;
             case Constants.USERINFO_SKILLLABEL:
                 if (resultCode == RESULT_OK) {
                     Bundle bundleCheckedLabelsData = data.getBundleExtra("bundleCheckedLabelsData");
@@ -158,7 +131,7 @@ public class UserinfoEditorActivity extends Activity {
             String currentCityAccess = data.getStringExtra("currentCityAccess");
             activityUserinfoEditorBinding.tvLocation.setText(currentCityAccess);
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private void WriteFile(Bitmap bitmap,File file) {

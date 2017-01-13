@@ -68,7 +68,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
-        displayLoadLayer();
+        //displayLoadLayer();
         initView();
         initScrollView();
         initData();

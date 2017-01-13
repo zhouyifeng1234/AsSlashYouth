@@ -107,8 +107,6 @@ public class ActivitySearchModel extends BaseObservable {
                     //saveHistory(searchText);
                     //保存在数据库
                     saveHistoryData(searchText);
-
-
                     showSearchAllReasultView(searchText);
                 } else {
                     ToastUtils.shortToast("输入有效字符");

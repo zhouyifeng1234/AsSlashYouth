@@ -61,7 +61,7 @@ public class SearchResultAlAdapter extends  SearchAllAdapter{
 
     @Override
     public SearchViewHolder getMoreHolder(int position, int type) {
-        searchMoreHolder = new SearchMoreHolder(type);
+        searchMoreHolder = new SearchMoreHolder(type,userListBeen,serviceListBeen,demandListBeen);
         clickMore();
         return searchMoreHolder;
     }
@@ -71,7 +71,6 @@ public class SearchResultAlAdapter extends  SearchAllAdapter{
             @Override
             public void OnMoreClick(int position) {
                 int itemViewType = getItemViewType(position);
-
               switch (itemViewType){
                     case SearchAllAdapter.searchMore:
                          SpUtils.setString("searchType", SearchManager.HOT_SEARCH_DEMEND);

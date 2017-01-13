@@ -5,6 +5,7 @@ import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.http.protocol.AddMyCollectionItemProtocol;
 import com.slash.youth.http.protocol.AddSkillTempletProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.CheckoutAuthProcessProtocol;
 import com.slash.youth.http.protocol.CheckoutAuthProtocol;
 import com.slash.youth.http.protocol.DeleteMyCollectionItemProtocol;
 import com.slash.youth.http.protocol.DeleteMyPublishTaskItemProtocol;
@@ -46,7 +47,6 @@ public class MyManager {
     public static final String   RES_INVALID_PARAMS="参数错误";
     public static String[] unitArr = {"次","个","幅","份","单","小时","分钟","天","其他"};
 
-
     //我的模块,首页获取我的个人信息
     public static void getMyUserinfo(BaseProtocol.IResultExecutor onGetMyUserinfo) {
         MyFirstPageProtocol myFirstPageProtocol = new MyFirstPageProtocol();
@@ -70,6 +70,12 @@ public class MyManager {
     public static void  checkoutAuth(BaseProtocol.IResultExecutor onCheckoutAuth,int type,int cardtype,String url) {
         CheckoutAuthProtocol checkoutAuthProtocol = new CheckoutAuthProtocol(type,cardtype,url);
         checkoutAuthProtocol.getDataFromServer(onCheckoutAuth);
+    }
+
+    //认证流程
+    public static void  checkoutAuthProcess(BaseProtocol.IResultExecutor onCheckoutAuthProcess) {
+        CheckoutAuthProcessProtocol checkoutAuthProcessProtocol = new CheckoutAuthProcessProtocol();
+        checkoutAuthProcessProtocol.getDataFromServer(onCheckoutAuthProcess);
     }
 
     //我的收藏

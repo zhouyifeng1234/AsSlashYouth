@@ -14,6 +14,7 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import org.xutils.x;
 
@@ -25,18 +26,15 @@ import java.io.File;
 public class ExamineCertificatesModel extends BaseObservable {
     private ActivityExamineCertificatesBinding activityExamineCertificatesBinding;
     private ExamineActivity examineActivity;
-    private Bitmap bitmap;
     private int type;
     private int cardType;
     private String photoUri;
-    private String fileName;
 
     public ExamineCertificatesModel(ActivityExamineCertificatesBinding activityExamineCertificatesBinding,
-                                    ExamineActivity examineActivity, Bitmap bitmap,int type,int cardType,String photoUri) {
+                                    ExamineActivity examineActivity,int type,int cardType,String photoUri) {
         this.activityExamineCertificatesBinding = activityExamineCertificatesBinding;
         this.examineActivity = examineActivity;
         this.cardType = cardType;
-        this.bitmap = bitmap;
         this.type = type;
         this.photoUri = photoUri;
         initView();
@@ -44,37 +42,12 @@ public class ExamineCertificatesModel extends BaseObservable {
     }
 
     private void initView() {
-        if(bitmap!=null){
-            Bitmap photo = BitmapKit.zoomBitmap(bitmap, 220, 200);
-            activityExamineCertificatesBinding.ivCertificates.setImageBitmap(photo);
-        }else {
-            switch (cardType){
-                case 1://工牌
-                    fileName = "sin";
-                    break;
-                case 2://在职证明
-                    fileName = "incumbeny_certification";
-                    break;
-                case 3://邮箱后台
-                    fileName = "mail";
-                    break;
-                case 4://名片
-                    fileName = "business_card";
-                    break;
-           }
-        x.image().bind(activityExamineCertificatesBinding.ivCertificates,new File(CommonUtils.getApplication().getCacheDir(), fileName).toURI().toString());
-        }
-
+        x.image().bind(activityExamineCertificatesBinding.ivCertificates,photoUri);
     }
 
     //提交审核
     public void examine(View view){
-     if(bitmap!=null){
-         MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
-     }else {
-         String photoUri = new File(CommonUtils.getApplication().getCacheDir(), fileName).toURI().toString();
-         MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
-     }
+        MyManager.checkoutAuth(new onCheckoutAuth(),type, cardType,photoUri);
     }
 
     //重新上传
@@ -90,7 +63,18 @@ public class ExamineCertificatesModel extends BaseObservable {
             if(rescode == 0){
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                LogKit.d("status:"+status);
+                switch (status){
+                    case 0:
+                        LogKit.d("status:"+status+"上传成功");
+                        examineActivity.finish();
+                        break;
+                    case 1:
+                        ToastUtils.shortCenterToast("上传图片失败");
+                        break;
+                    default:
+                        LogKit.d("status:"+status);
+                        break;
+                }
             }
         }
 

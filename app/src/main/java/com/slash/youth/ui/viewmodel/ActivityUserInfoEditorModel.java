@@ -3,11 +3,14 @@ package com.slash.youth.ui.viewmodel;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,6 +24,7 @@ import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.domain.UserInfoItemBean;
+import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -40,11 +44,23 @@ import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import org.xutils.common.util.DensityUtil;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.PhotoEditActivity;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * Created by zss on 2016/10/31.
@@ -56,7 +72,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private boolean checked;
     private String setLocation;
     private HashMap<String, String> paramsMap = new HashMap<>();
-    private HashMap<String, String[]> paramsMaps = new HashMap<>();
     private String textView;
     private String[] slashIdentitys;
     private String editext;
@@ -80,7 +95,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String slashIdentity;
     private int isauth;
     private WarpLinearLayout llSkilllabelContainer;
-    private boolean isChange;
+    private   boolean isChange = false;
+    private MyFirstPageBean.DataBean.MyinfoBean myinfo;
+    private UserInfoItemBean.DataBean.UinfoBean uinfo;
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
@@ -103,8 +120,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private void setUserView() {
         //头像的路径
         if (!TextUtils.isEmpty(avatar)) {
-
-            BitmapKit.bindImage(activityUserinfoEditorBinding.ivHead, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+            BitmapKit.bindImage(activityUserinfoEditorBinding.ibClickAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         //姓名
         if (!TextUtils.isEmpty(name)) {
@@ -146,6 +162,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         if(!TextUtils.isEmpty(industry)&&!TextUtils.isEmpty(direction)){
             activityUserinfoEditorBinding.tvDirection.setText(industry + "|" + direction);
         }
+
         //技能标签
         skillLabels = tag.split(",");
         List<String> lists = Arrays.asList(skillLabels);
@@ -173,7 +190,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         return textViewTag;
     }
 
-    public void closeUploadPic(View v) {
+    public  void closeUploadPic(View v) {
         setUploadPicLayerVisibility(View.GONE);
     }
     private int uploadPicLayerVisibility = View.GONE;
@@ -194,21 +211,127 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //照相
     public void photoGraph(View view){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        userinfoEditorActivity.startActivityForResult(intent,Constants.USERINFO_IMAGVIEW_TAKE_PHOTO );
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+        GalleryFinal.openCamera(21, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                Bitmap bitmap = null;
+                try {
+                    PhotoInfo photoInfo = resultList.get(0);
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmapOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                    int outWidth = bitmapOptions.outWidth;
+                    int outHeight = bitmapOptions.outHeight;
+                    if (outWidth <= 0 || outHeight <= 0) {
+                        ToastUtils.shortToast("请选择图片文件");
+                        return;
+                    }
+                    int scale = 1;
+                    int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                    int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
+                    if (widthScale > heightScale) {
+                        scale = widthScale;
+                    } else {
+                        scale = heightScale;
+                    }
+                    bitmapOptions.inJustDecodeBounds = false;
+                    bitmapOptions.inSampleSize = scale;
+                    bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+
+                    String picCachePath = userinfoEditorActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                    File cacheDir = new File(picCachePath);
+                    if (!cacheDir.exists()) {
+                        cacheDir.mkdir();
+                    }
+                    final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+
+                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                    ImageOptions imageOptions = builder.build();
+                    avatar = tempFile.toURI().toString();
+                    x.image().bind( activityUserinfoEditorBinding.ibClickAvatar, tempFile.toURI().toString(), imageOptions);
+
+                    setUploadPicLayerVisibility(View.GONE);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                        bitmap = null;
+                    }
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
     }
 
+    private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
+    private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
+
     public void getAlbumPic(View view){
-        //去相册里面调用图片
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image*//**//*");//相片类型
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 48);
-        intent.putExtra("outputY", 48);
-        userinfoEditorActivity.startActivityForResult(intent,Constants.USERINFO_SKILLLABEL_ALBUM );
+        //第三方
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                Bitmap bitmap = null;
+                try {
+                    PhotoInfo photoInfo = resultList.get(0);
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmapOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                    int outWidth = bitmapOptions.outWidth;
+                    int outHeight = bitmapOptions.outHeight;
+                    if (outWidth <= 0 || outHeight <= 0) {
+                        ToastUtils.shortToast("请选择图片文件");
+                        return;
+                    }
+                    int scale = 1;
+                    int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                    int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
+                    if (widthScale > heightScale) {
+                        scale = widthScale;
+                    } else {
+                        scale = heightScale;
+                    }
+                    bitmapOptions.inJustDecodeBounds = false;
+                    bitmapOptions.inSampleSize = scale;
+                    bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+
+                    String picCachePath = userinfoEditorActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                    File cacheDir = new File(picCachePath);
+                    if (!cacheDir.exists()) {
+                        cacheDir.mkdir();
+                    }
+                    final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+
+                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                    ImageOptions imageOptions = builder.build();
+                    avatar = tempFile.toURI().toString();
+                    x.image().bind( activityUserinfoEditorBinding.ibClickAvatar, tempFile.toURI().toString(), imageOptions);
+
+                    setUploadPicLayerVisibility(View.GONE);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                        bitmap = null;
+                    }
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
     }
 
     //设置斜杠身份
@@ -235,6 +358,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     public void skillLabel(View view) {
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         intentSubscribeActivity.putExtra("isEditor", true);
+        intentSubscribeActivity.putExtra("industry", industry);
+        intentSubscribeActivity.putExtra("direction", direction);
         intentSubscribeActivity.putStringArrayListExtra("addedTagsName", skillLabelList);
         intentSubscribeActivity.putStringArrayListExtra("addedTags", skillLabelList);
         userinfoEditorActivity.startActivityForResult(intentSubscribeActivity, Constants.USERINFO_SKILLLABEL);
@@ -268,32 +393,73 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //点击保存
     public void save(View view) {
-        //认证过的
-       if(isauth == 1){
-           if(isChange){//没有改动直接保存
-               savePersonInfo();
-               userinfoEditorActivity.finish();
-           }else {//有改动并且认证过，就显示弹框
-               showDialog();
-           }
-       }else {
-           //没有认证过
-           savePersonInfo();
-           userinfoEditorActivity.finish();
-       }
+         name = activityUserinfoEditorBinding.etUsername.getText().toString();//必填
+         skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
+        company = activityUserinfoEditorBinding.tvCompany.getText().toString();
+        position = activityUserinfoEditorBinding.tvProfession.getText().toString();
+        setLocation = activityUserinfoEditorBinding.tvLocation.getText().toString();
+        direction = activityUserinfoEditorBinding.tvDirection.getText().toString();
+        //监听斜杠身份
+        slashIdentity = activityUserinfoEditorBinding.tvIdentity.getText().toString();
+
+        if(name.equals(myinfo.getName())&&avatar.equals(myinfo.getAvatar())&&phone.equals(myinfo.getPhone())&&
+                setLocation.equals(myinfo.getCity())&&slashIdentity.equals(myinfo.getIdentity())&&position.equals(myinfo.getPosition())&&
+                skilldescrib.equals(uinfo.getDesc())){
+            isChange = false;
+        }else {
+            isChange = true;
+        }
+
+        //三级标签
+        ArrayList<String> listCheckedLabelName = SubscribeActivity.saveListCheckedLabelName;
+        if(skillLabelList.size() == listCheckedLabelName.size()){//三级标签
+            Collections.sort(skillLabelList);
+            Collections.sort(listCheckedLabelName);
+            if (!listCheckedLabelName.contains(skillLabelList)){
+                isChange = true;
+            }
+        }else {
+            isChange = true;
+        }
+
+        //一级标签
+        String tvDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
+        String direction = myinfo.getIndustry() + "|" + myinfo.getDirection();
+        if(direction.equals(tvDirection) ){
+            isChange = false;
+        }else {
+            isChange = true;
+        }
+
+        if(TextUtils.isEmpty(name)){
+           ToastUtils.shortCenterToast("请填写姓名");
+        }else {
+            //认证过的
+            if(isauth == 1){
+                if(isChange){//有改动并且认证过，就显示弹框
+                    showDialog();
+                }else {//没有改动直接保存
+                    savePersonInfo();
+                    userinfoEditorActivity.finish();
+                }
+            }else {
+                //没有认证过
+                savePersonInfo();
+                userinfoEditorActivity.finish();
+            }
+        }
     }
 
     private void showDialog() {
         DialogUtils.showDialogHint(userinfoEditorActivity, "提示", "修改后，您将成为非认证用户，请再次认证", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
-                savePersonInfo();
-                userinfoEditorActivity.finish();
+                LogKit.d("取消删除");
             }
-
             @Override
             public void CancleDown() {
-                LogKit.d("取消删除");
+                savePersonInfo();
+                userinfoEditorActivity.finish();
             }
         });
     }
@@ -393,7 +559,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                     checked = isChecked;
                     setCompanyAndPosition(!checked);
                 }
-                isChange = true;
             }
         });
 
@@ -404,8 +569,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         setLocation = textChangeListener(activityUserinfoEditorBinding.tvLocation);
         //行业 方向
         direction = textChangeListener(activityUserinfoEditorBinding.tvDirection);
-        //监听shenf
-        slashIdentity = activityUserinfoEditorBinding.tvIdentity.getText().toString();
     }
 
     private void setCompanyAndPosition(boolean isChecked) {
@@ -414,6 +577,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             activityUserinfoEditorBinding.viewPosition.setVisibility(View.GONE);
             activityUserinfoEditorBinding.rlPosition.setVisibility(View.GONE);
             activityUserinfoEditorBinding.viewCompany.setVisibility(View.GONE);
+            activityUserinfoEditorBinding.tvCompany.setText("");
+            activityUserinfoEditorBinding.tvProfession.setText("");
         } else {
             activityUserinfoEditorBinding.rlCompany.setVisibility(View.VISIBLE);
             activityUserinfoEditorBinding.viewPosition.setVisibility(View.VISIBLE);
@@ -435,7 +600,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             @Override
             public void afterTextChanged(Editable s) {
                 editext = s.toString();
-                isChange = true;
             }
         });
         return editext;
@@ -454,7 +618,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             @Override
             public void afterTextChanged(Editable s) {
                 textView = s.toString();
-                isChange = true;
             }
         });
         return textView;
@@ -508,7 +671,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }
     }
 
-
     //获取个人信息的接口
     public class OnGetMyUserinfo implements BaseProtocol.IResultExecutor<MyFirstPageBean> {
         @Override
@@ -516,7 +678,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
                 MyFirstPageBean.DataBean data = dataBean.getData();
-                MyFirstPageBean.DataBean.MyinfoBean myinfo = data.getMyinfo();
+                myinfo = data.getMyinfo();
                 setUserInfoEditor(myinfo);
                 setUserView();
             } else {
@@ -537,7 +699,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
                 UserInfoItemBean.DataBean data = dataBean.getData();
-                UserInfoItemBean.DataBean.UinfoBean uinfo = data.getUinfo();
+                uinfo = data.getUinfo();
                 //技能描述
                 skilldescrib = uinfo.getDesc();
                 //技能描述
@@ -548,7 +710,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 LogKit.d("rescode=" + rescode);
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);

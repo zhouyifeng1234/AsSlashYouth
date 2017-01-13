@@ -79,7 +79,6 @@ public class SearchActivity extends Activity {
 
         //默认首页,page=0
         changeView(mPage);
-
     }
 
     //切换页面
@@ -138,6 +137,7 @@ public class SearchActivity extends Activity {
                     case 5:
                         changeView(3);
                         mPage = 1;
+                        listener.OnBackClick();
                         break;
                 }
                 if (activitySearchBinding.etActivitySearchAssociation.getText() != null) {

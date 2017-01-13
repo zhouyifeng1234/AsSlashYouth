@@ -372,9 +372,9 @@ public class GlobalConstants {
         public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" + "/list";
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //十四，[我的]-[用户中心]-认证
-        public static final String MY_CHECKOUT_AUTH = SERVER_HOST + "/real/auth";
+        public static final String MY_CHECKOUT_AUTH = "http://121.42.145.178/uinfo/v1/api" + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态
-        // public static final String MY_CHECKOUT_AUTH_SRATUS = SERVER_HOST +"/real/status";
+         public static final String MY_CHECKOUT_AUTH_SRATUS = "http://121.42.145.178/uinfo/v1/api"  +"/real/status";
         //十六，[我的]-[用户中心]-登出
         public static final String MY_LOGOUT = SERVER_HOST + "auth/v1/logout";
 

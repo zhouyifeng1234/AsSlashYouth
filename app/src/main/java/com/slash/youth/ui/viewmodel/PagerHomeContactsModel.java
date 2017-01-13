@@ -59,7 +59,7 @@ public class PagerHomeContactsModel extends BaseObservable {
     public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
         this.mActivity = activity;
-        displayLoadLayer();
+      //  displayLoadLayer();
         initListView();
         initView();
         initData();
