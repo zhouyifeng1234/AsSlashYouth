@@ -84,13 +84,14 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
                             android:clipChildren="false"
                             >
                             <android.support.v4.view.ViewPager
                                 android:id="@+id/vp_home_freetime_adv"
                                 android:layout_width="match_parent"
                                 android:layout_height="159dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginLeft="21dp"
                                 android:layout_marginRight="21dp"
                                 android:clipChildren="false">
@@ -117,7 +118,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="9dp"
-                                android:text="猜你喜欢"
+                                android:text="猜 你 喜 欢"
                                 android:textColor="#666666"
                                 android:textSize="14sp"/>
                             <View
@@ -130,7 +131,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginRight="11dp"
                                 android:onClick="@{pagerHomeFreeTimeModel.more}"
-                                android:text="查看更多"
+                                android:text="查 看 更 多"
                                 android:textColor="#31C5E4"
                                 android:textSize="14dp"/>
                         </LinearLayout>
@@ -159,8 +160,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
-            android:visibility="@{pagerHomeFreeTimeModel.freeTimeLoadingPager}"
+            android:visibility="gone"
             >
+
+          <!--  android:visibility="@{pagerHomeFreeTimeModel.freeTimeLoadingPager}"-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
