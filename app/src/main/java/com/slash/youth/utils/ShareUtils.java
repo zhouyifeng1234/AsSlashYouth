@@ -6,8 +6,8 @@ package com.slash.youth.utils;
 public class ShareUtils {
 
     /**
-     * 2.详情页面：param：1 需求2服务，oid：服务or需求id，favei：只限分享出去之后使用1,cid: 当前查看用户的id
-     * http://web.slashyounger.com/#!/detail?param=2&oid=319&favei=1&cid=10002
+     * 2.详情页面：param：1 需求2服务，oid：服务or需求id，favei：只限分享出去之后使用1,cid: 当前查看用户的id, share: visit分享使用（必须为visit）
+     * http://web.slashyounger.com/#!/detail?param=1&share=2&oid=488&cid=10000&favei=1&share=visit
      */
     public static final String DETAIL_SHARE = "http://web.slashyounger.com/#!/detail";
 

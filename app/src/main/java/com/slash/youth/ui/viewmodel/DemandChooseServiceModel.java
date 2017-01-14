@@ -17,6 +17,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandChooseServiceBinding;
 import com.slash.youth.databinding.ItemDemandChooseRecommendServiceBinding;
 import com.slash.youth.databinding.ItemDemandChooseServiceBinding;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.DemandPurposeListBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
@@ -46,6 +47,7 @@ public class DemandChooseServiceModel extends BaseObservable {
     long tid;//需求ID
     int type;//取值范围只能是: 1需求 2服务
     int roleid;//表示是'我抢的单子' 还是 '我发布的任务' 1发布者 2抢单者
+    ChatCmdShareTaskBean chatCmdShareTaskBean;
 
     public DemandChooseServiceModel(ActivityDemandChooseServiceBinding activityDemandChooseServiceBinding, Activity activity) {
         this.mActivityDemandChooseServiceBinding = activityDemandChooseServiceBinding;
@@ -142,7 +144,7 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     private View inflateItemDemandChooseRecommendService(RecommendServiceUserBean.ServiceUserInfo serviceUserInfo) {
         ItemDemandChooseRecommendServiceBinding itemDemandChooseRecommendServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_choose_recommend_service, null, false);
-        ItemDemandChooseRecommendServiceModel itemDemandChooseRecommendServiceModel = new ItemDemandChooseRecommendServiceModel(itemDemandChooseRecommendServiceBinding, mActivity, serviceUserInfo);
+        ItemDemandChooseRecommendServiceModel itemDemandChooseRecommendServiceModel = new ItemDemandChooseRecommendServiceModel(itemDemandChooseRecommendServiceBinding, mActivity, serviceUserInfo, chatCmdShareTaskBean);
         itemDemandChooseRecommendServiceBinding.setItemDemandChooseRecommendServiceModel(itemDemandChooseRecommendServiceModel);
         return itemDemandChooseRecommendServiceBinding.getRoot();
     }
@@ -216,6 +218,14 @@ public class DemandChooseServiceModel extends BaseObservable {
 //                String stateText = getBigStateTextByStatusCode(dataBean.status);
 //                setBigState(stateText);
                 setBigState("预约中");
+                //需求分享实体，可以分享给推荐的优秀服务者
+                chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+                chatCmdShareTaskBean.uid = LoginManager.currentLoginUserId;
+                chatCmdShareTaskBean.avatar = LoginManager.currentLoginUserAvatar;
+                chatCmdShareTaskBean.title = dataBean.title;
+                chatCmdShareTaskBean.quote = getQuote();
+                chatCmdShareTaskBean.type = 1;//服务或者需求
+
                 getDemandChooseServiceList();
             }
 

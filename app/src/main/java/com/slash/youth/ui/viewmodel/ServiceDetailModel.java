@@ -637,7 +637,7 @@ public class ServiceDetailModel extends BaseObservable {
         shareTitle = getUsername() + "发布了服务《" + getTitle() + "》";
         shareContent = "赶紧来预约吧";
         shareAvatar = new UMImage(CommonUtils.getContext(), avatarUrl);
-        shareUrl = ShareUtils.DETAIL_SHARE + "?nav=1&param=2&oid=" + serviceId + "&favei=1&cid=" + LoginManager.currentLoginUserId;
+        shareUrl = ShareUtils.DETAIL_SHARE + "?nav=1&param=2&oid=" + serviceId + "&favei=1&cid=" + LoginManager.currentLoginUserId + "&share=visit";
     }
 
     /**
