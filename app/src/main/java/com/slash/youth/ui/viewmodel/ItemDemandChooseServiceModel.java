@@ -87,6 +87,12 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
                 instalmentratioStr += ratio + "%";
             }
         }
+        if (TextUtils.isEmpty(instalmentratioStr) || instalmentratioStr.equals("100%")) {
+            mItemDemandChooseServiceBinding.tvPurposeInstalmentratio.setVisibility(View.INVISIBLE);
+            mItemDemandChooseServiceBinding.tvInstalmentLabelText.setText("不分期");
+        } else {
+            mItemDemandChooseServiceBinding.tvPurposeInstalmentratio.setText(instalmentratioStr);
+        }
         //加载头像
         BitmapKit.bindImage(mItemDemandChooseServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mDemandChooseServiceBean.avatar);
         //纠纷处理方式
@@ -96,7 +102,6 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
             mItemDemandChooseServiceBinding.tvBpText.setText("协商处理纠纷");
         }
 
-        mItemDemandChooseServiceBinding.tvPurposeInstalmentratio.setText(instalmentratioStr);
         if (mDemandChooseServiceBean.status == 1) {
             mItemDemandChooseServiceBinding.tvPurposeChoose.setText("选择Ta");
         } else if (mDemandChooseServiceBean.status == 2) {

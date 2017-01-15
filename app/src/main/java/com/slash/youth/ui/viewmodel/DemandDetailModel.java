@@ -40,6 +40,7 @@ import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -382,7 +383,7 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm");//发布时间:9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日发布");//发布时间:9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
@@ -803,7 +804,10 @@ public class DemandDetailModel extends BaseObservable {
 
     //跳转到个人信息界面
     public void gotoUserInfo(View v) {
-        ToastUtils.shortToast("跳转至个人信息界面");
+//        ToastUtils.shortToast("跳转至个人信息界面");
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", demandUserId);
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     //打开聊天功能

@@ -48,3 +48,16 @@
 -keep class cn.finalteam.galleryfinal.widget.crop.*{*;}
 -keep class cn.finalteam.galleryfinal.widget.zoonview.*{*;}
 #GalleryFinal相关
+
+#友盟统计相关
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keep public class com.slash.youth.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+#友盟统计相关

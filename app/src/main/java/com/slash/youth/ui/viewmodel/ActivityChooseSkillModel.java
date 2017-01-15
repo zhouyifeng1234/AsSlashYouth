@@ -77,7 +77,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
         //先获取本地的标签缓存
         allSkillLablesBean = getTagCache();
         if (allSkillLablesBean != null) {
-
+            firstLoadLabels();
         } else {
             LoginManager.loginGetTag(new BaseProtocol.IResultExecutor<String>() {
                 @Override
@@ -89,6 +89,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
                     LogKit.v("setTagCache 33333");
                     if (allSkillLablesBean == null) {
                         ToastUtils.shortToast("allSkillLablesBean null");
+                    } else {
+                        firstLoadLabels();
                     }
                 }
 
@@ -98,6 +100,27 @@ public class ActivityChooseSkillModel extends BaseObservable {
                 }
             });
         }
+    }
+
+    /**
+     * 刚进入页面的时候，显示标签
+     */
+    private void firstLoadLabels() {
+        chooseTag1Index = 0;
+        chooseTag2Index = 0;
+
+        Collection<AllSkillLablesBean.Tag_1> tag1Coll = allSkillLablesBean.mapTag_1.values();
+        tag1Arr = new AllSkillLablesBean.Tag_1[tag1Coll.size()];
+        tag1Coll.toArray(tag1Arr);
+
+        AllSkillLablesBean.Tag_1 tag_1 = tag1Arr[chooseTag1Index];
+        Collection<AllSkillLablesBean.Tag_2> tag2Coll = tag_1.mapTag_2.values();
+        tag2Arr = new AllSkillLablesBean.Tag_2[tag2Coll.size()];
+        tag2Coll.toArray(tag2Arr);
+
+        setChoosedMainLabel(tag1Arr[chooseTag1Index].tag);
+        setChoosedSecondLabel(tag2Arr[chooseTag2Index].tag);
+        setThirdSkillLabels();
     }
 
     private AllSkillLablesBean getTagCache() {

@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zhouyifeng on 2017/1/6.
@@ -43,7 +45,26 @@ public class GuidActivity extends Activity {
     }
 
     private void initListener() {
+        mVpGuidPagers.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {//第二个引导页
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.CLICK_PAGE_TWO);
+                } else if (position == 2) {//第三个引导页
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.CLICK_PAGE_THREE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private class GuidPagerAdapter extends PagerAdapter {

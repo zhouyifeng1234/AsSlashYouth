@@ -33,6 +33,7 @@ import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
@@ -268,7 +269,9 @@ public class ServiceDetailModel extends BaseObservable {
     }
 
     public void gotoUserInfo(View v) {
-
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", serviceUserId);
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     private void displayTags(String tag1, String tag2, String tag3) {
@@ -454,7 +457,7 @@ public class ServiceDetailModel extends BaseObservable {
                         setInstalmentItemVisibility(View.VISIBLE);
                     }
                     //发布时间:9月18日 8:30
-                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("发布时间:MM月dd日 hh:mm");
+                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("发布时间:yyyy年MM月dd日发布");
                     String publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
                     setPublishDatetime(publicDatetimeStr);
                     //服务描述

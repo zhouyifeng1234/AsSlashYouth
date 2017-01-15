@@ -123,11 +123,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="70dp"
-                android:background="@drawable/dalei_ok_icon"
+                android:background="@mipmap/experience_btn_bg"
                 android:onClick="@{perfectInfoModel.okPerfectInfo}"
                 android:text="下一步"
                 android:textColor="#ffffff"
                 android:textSize="14.5sp"/>
+            <!--android:background="@drawable/dalei_ok_icon"-->
 
         </LinearLayout>
 

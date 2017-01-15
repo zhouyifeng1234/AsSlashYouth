@@ -635,9 +635,13 @@ public class MapActivity extends Activity {
                     Log.e("AmapError", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
-                    ToastUtils.shortToast("location Error, ErrCode:"
-                            + aMapLocation.getErrorCode() + ", errInfo:"
-                            + aMapLocation.getErrorInfo());
+//                    ToastUtils.shortToast("location Error, ErrCode:"
+//                            + aMapLocation.getErrorCode() + ", errInfo:"
+//                            + aMapLocation.getErrorInfo());
+                    int errorCode = aMapLocation.getErrorCode();
+                    if (errorCode == 12) {
+                        ToastUtils.shortToast("缺少定位权限，请到手机的设置中心开启定位权限");
+                    }
                 }
             }
 

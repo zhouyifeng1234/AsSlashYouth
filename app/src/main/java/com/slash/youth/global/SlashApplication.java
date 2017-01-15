@@ -18,10 +18,14 @@ import com.pingplusplus.android.PingppLog;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.gen.DaoMaster;
 import com.slash.youth.gen.DaoSession;
+import com.slash.youth.ui.activity.GuidActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.utils.ActivityUtils;
+import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -90,11 +94,17 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
             @Override
             public void onActivityResumed(Activity activity) {
                 LogKit.v("onActivityResumed");
+                MobclickAgent.onResume(activity);
+
+                if (activity instanceof GuidActivity) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.CLICK_PAGE_ONE);
+                }
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
                 LogKit.v("onActivityPaused");
+                MobclickAgent.onPause(activity);
             }
 
             @Override
@@ -180,7 +190,7 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     }
 
 
-    public static SlashApplication getInstances(){
+    public static SlashApplication getInstances() {
         return instances;
     }
 

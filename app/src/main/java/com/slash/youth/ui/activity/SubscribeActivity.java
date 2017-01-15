@@ -49,7 +49,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.channels.SelectionKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -159,6 +158,7 @@ public class SubscribeActivity extends Activity {
                     getSkillLabelAllArrayList(arrayList);
                     postThridSkillLabel();
                 }
+
                 @Override
                 public void executeResultError(String result) {
                     LogKit.d("result : " + result);
@@ -179,6 +179,7 @@ public class SubscribeActivity extends Activity {
                         LogKit.d("rescode :" + rescode);
                     }
                 }
+
                 @Override
                 public void executeResultError(String result) {
                     LogKit.d("result :" + result);
@@ -196,8 +197,8 @@ public class SubscribeActivity extends Activity {
         //二级标签
         direction = getIntent().getStringExtra("direction");
 
-        checkedFirstLabel =  industry;
-       checkedSecondLabel = direction;
+        checkedFirstLabel = industry;
+        checkedSecondLabel = direction;
     }
 
     //获取用户自定义标签的集合
@@ -211,19 +212,19 @@ public class SubscribeActivity extends Activity {
             int userid = bean.getId();
             String userSkillLabel = bean.getTags();
 
-            if(userSkillLabel!=""||userSkillLabel!=null){
-              if(userSkillLabel.contains("_")){
-                  String[] thirdSkillNames = userSkillLabel.split("_");
-                  for (String thirdSkillName : thirdSkillNames) {
-                      if (thirdSkillName != null) {
-                          skillLabelBean = new SkillLabelBean( userf1, userf2, userid,thirdSkillName);
-                          listThirdUserCustomSkilllabelName.add(skillLabelBean);
-                      }
-                  }
-              }else {//不包含，就是一个标签
-                  skillLabelBean = new SkillLabelBean( userf1, userf2, userid,userSkillLabel);
-                  listThirdUserCustomSkilllabelName.add(skillLabelBean);
-              }
+            if (userSkillLabel != "" || userSkillLabel != null) {
+                if (userSkillLabel.contains("_")) {
+                    String[] thirdSkillNames = userSkillLabel.split("_");
+                    for (String thirdSkillName : thirdSkillNames) {
+                        if (thirdSkillName != null) {
+                            skillLabelBean = new SkillLabelBean(userf1, userf2, userid, thirdSkillName);
+                            listThirdUserCustomSkilllabelName.add(skillLabelBean);
+                        }
+                    }
+                } else {//不包含，就是一个标签
+                    skillLabelBean = new SkillLabelBean(userf1, userf2, userid, userSkillLabel);
+                    listThirdUserCustomSkilllabelName.add(skillLabelBean);
+                }
             }
         }
     }
@@ -238,51 +239,63 @@ public class SubscribeActivity extends Activity {
 
             //一级标签集合
             if (f1 == 0 && f2 == 0) {
-                SkillLabelBean skillLabelBean = new SkillLabelBean( f1, f2, id,tag);
+                SkillLabelBean skillLabelBean = new SkillLabelBean(f1, f2, id, tag);
                 listFirstSkilllabelName.add(skillLabelBean);
                 listener.OnListener(listFirstSkilllabelName);
             }
 
             //二级标签集合
             if (f1 != 0 && f2 == 0) {
-                listSkilllabel.add(new SkillLabelBean(f1, f2, id,tag));
+                listSkilllabel.add(new SkillLabelBean(f1, f2, id, tag));
             }
 
             //三级标签集合
             if (f1 != 0 && f2 != 0) {
-                listThirdSkilllabelName.add(new SkillLabelBean( f1, f2, id,tag));
+                listThirdSkilllabelName.add(new SkillLabelBean(f1, f2, id, tag));
             }
         }
         //获取默认的一级id,展示二级
         for (int i = 0; i < listFirstSkilllabelName.size(); i++) {
             String tag = listFirstSkilllabelName.get(i).getTag();
-            if(tag.equals(industry)){
+            if (tag.equals(industry)) {
                 industrySkillLabelBean = listFirstSkilllabelName.get(i);
                 mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(industry);
                 ActivitySubscribeModel.mNpChooseMainLabels.setValue(i);
             }
         }
-        int firstId = industrySkillLabelBean.getId();
+        int firstId = 0;
+        if (industrySkillLabelBean == null) {
+            firstId = listFirstSkilllabelName.get(0).getId();
+        } else {
+            firstId = industrySkillLabelBean.getId();
+        }
         //第一次展示页面，二级默认为设计页面
         getCommnSkillLabel(firstId);
         subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
-      // postSecondSkillLabel();
+        // postSecondSkillLabel();
 
         //第一次展示页面，三级默认为品牌设计页面
         commnThirdSkillLabel.clear();
         for (int i = 0; i < commnSkilllabel.size(); i++) {
             String tag = commnSkilllabel.get(i).getTag();
-            if(tag.equals(direction)){
+            if (tag.equals(direction)) {
                 secondSkillLabelBean = commnSkilllabel.get(i);
                 SubscribeSecondSkilllabelHolder.clickItemPosition = i;
             }
         }
 
         postSecondSkillLabel();
-        secondId = secondSkillLabelBean.getId();
-        int f1 = secondSkillLabelBean.getF1();
-        getCommnThirdSkillLabel(f1,secondId);
+        int f1;
+        if (secondSkillLabelBean == null) {
+            secondId = commnSkilllabel.get(0).getId();
+            f1 = commnSkilllabel.get(0).getF1();
+        } else {
+            secondId = secondSkillLabelBean.getId();
+            f1 = secondSkillLabelBean.getF1();
+        }
+
+        getCommnThirdSkillLabel(f1, secondId);
     }
 
     private void postSecondSkillLabel() {
@@ -305,15 +318,15 @@ public class SubscribeActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 int size = listCheckedLabelName.size();
-                if(size!=0){
+                if (size != 0) {
                     clickSecondSkillLabelBean = commnSkilllabel.get(position);
                     String clickSecondSkillLabelTag = clickSecondSkillLabelBean.getTag();
-                    if(clickSecondSkillLabelTag.equals(direction)){
+                    if (clickSecondSkillLabelTag.equals(direction)) {
                         chooseThridSkillLabelLiist(view, position);
-                    }else {
+                    } else {
                         ToastUtils.shortCenterToast("只能选择同一类型的标签");
                     }
-                }else {//为0
+                } else {//为0
                     chooseThridSkillLabelLiist(view, position);
                 }
             }
@@ -326,14 +339,14 @@ public class SubscribeActivity extends Activity {
                 int size = listCheckedLabelName.size();
                 SkillLabelBean skillLabelBean = listFirstSkilllabelName.get(tagId);
                 String tag = skillLabelBean.getTag();
-                if(size!=0){
-                    if(tag.equals(industry)){
+                if (size != 0) {
+                    if (tag.equals(industry)) {
                         chooseSecondSkillLabelList(skillLabelBean);
 
-                    }else {
+                    } else {
                         ToastUtils.shortCenterToast("只能选择同一类型的标签");
                     }
-                }else {
+                } else {
                     chooseSecondSkillLabelList(skillLabelBean);
                 }
             }
@@ -351,7 +364,7 @@ public class SubscribeActivity extends Activity {
         SkillLabelBean secondSkillLabelBean = commnSkilllabel.get(0);
         int f1 = secondSkillLabelBean.getF1();
         int id = secondSkillLabelBean.getId();
-        getCommnThirdSkillLabel(f1,id);
+        getCommnThirdSkillLabel(f1, id);
         postThridSkillLabel();
     }
 
@@ -371,19 +384,19 @@ public class SubscribeActivity extends Activity {
         checkedSecondLabel = itemSubscribeSecondSkilllabelModel.getSecondSkilllabelName();
         clickSecondSkillLabelBean = commnSkilllabel.get(position);
         int f1 = clickSecondSkillLabelBean.getF1();
-        int secondId =  clickSecondSkillLabelBean.getId();
+        int secondId = clickSecondSkillLabelBean.getId();
         //根据条目点击事件跳转到三级条目
         getCommnThirdSkillLabel(f1, secondId);
         postThridSkillLabel();
     }
 
     //获取三级的集合
-    private void getCommnThirdSkillLabel(int f1,int secondId) {
+    private void getCommnThirdSkillLabel(int f1, int secondId) {
         commnThirdSkillLabel.clear();
         for (SkillLabelBean labelBean : listThirdSkilllabelName) {
-          int F1 = labelBean.getF1();
+            int F1 = labelBean.getF1();
             int f2 = labelBean.getF2();
-            if (f1==F1&&f2 == secondId) {
+            if (f1 == F1 && f2 == secondId) {
                 commnThirdSkillLabel.add(labelBean);
             }
         }
@@ -397,8 +410,8 @@ public class SubscribeActivity extends Activity {
             int f21 = skillLabelBean.getF2();
             int id1 = skillLabelBean.getId();
             String tag1 = skillLabelBean.getTag();
-            if (firstId == f11&&f21 == 0) {
-                commnSkilllabel.add(new SkillLabelBean( f11, f21, id1,tag1));
+            if (firstId == f11 && f21 == 0) {
+                commnSkilllabel.add(new SkillLabelBean(f11, f21, id1, tag1));
             }
         }
     }
@@ -478,7 +491,7 @@ public class SubscribeActivity extends Activity {
         skillLabelLineWidth = 0;//每次刷新数据就赋值为0
         mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.removeAllViews();
         //非自定义标签
-        if(commnThirdSkillLabel.size()!=0){
+        if (commnThirdSkillLabel.size() != 0) {
             for (int i = 0; i < commnThirdSkillLabel.size(); i++) {
                 SkillLabelBean skillLabelBean = commnThirdSkillLabel.get(i);
                 no_custom_f1 = skillLabelBean.getF1();
@@ -489,27 +502,27 @@ public class SubscribeActivity extends Activity {
                 //测量标签TextView的宽度并判断是否换行
                 addTableView(tvThirdSkilllabelName);
             }
-        }else {//此时二级标签
-            if(clickSecondSkillLabelBean!=null){
+        } else {//此时二级标签
+            if (clickSecondSkillLabelBean != null) {
                 no_custom_f1 = clickSecondSkillLabelBean.getF1();
                 no_custom_f2 = clickSecondSkillLabelBean.getId();
             }
         }
 
-        if(listThirdUserCustomSkilllabelName.size()!=0){//自定义总的集合，再分类刷选
+        if (listThirdUserCustomSkilllabelName.size() != 0) {//自定义总的集合，再分类刷选
             //用户自定义标签
             for (int i = 0; i < listThirdUserCustomSkilllabelName.size(); i++) {
                 SkillLabelBean skillLabelBean = listThirdUserCustomSkilllabelName.get(i);
                 int f1 = skillLabelBean.getF1();
                 int f2 = skillLabelBean.getF2();
-                if(no_custom_f1 ==f1&&no_custom_f2 == f2){
+                if (no_custom_f1 == f1 && no_custom_f2 == f2) {
                     addTableView(getUseCostomLableView(skillLabelBean.getTag(), skillLabelBean));
                 }
             }
         }
 
-        View addLableView = getAddLableView(no_custom_f1,no_custom_f2);
-        if(addLableView!=null){
+        View addLableView = getAddLableView(no_custom_f1, no_custom_f2);
+        if (addLableView != null) {
             addTableView(addLableView);
         }
 
@@ -552,7 +565,7 @@ public class SubscribeActivity extends Activity {
         LinearLayout.LayoutParams llParamsForSkillLabel = new LinearLayout.LayoutParams(-2, -2);
         llParamsForSkillLabel.rightMargin = CommonUtils.dip2px(labelRightMargin);//边距
         TextView tvThirdSkilllabelName = new TextView(CommonUtils.getContext());
-       // tvThirdSkilllabelName.setTag("label_" + i);
+        // tvThirdSkilllabelName.setTag("label_" + i);
         tvThirdSkilllabelName.setTag(skillLabelBean.getF1() + "-" + skillLabelBean.getF2() + "-" + skillLabelBean.getTag());
         tvThirdSkilllabelName.setOnClickListener(new CheckThirdLabelListener());
         tvThirdSkilllabelName.setLayoutParams(llParamsForSkillLabel);
@@ -730,9 +743,9 @@ public class SubscribeActivity extends Activity {
                     @Override
                     public void OnOkDialogClick(String text) {
                         if (text != null) {
-                           SkillLabelBean skillLabelBean = new SkillLabelBean( f1, f2, -1,text);
+                            SkillLabelBean skillLabelBean = new SkillLabelBean(f1, f2, -1, text);
                             listThirdUserCustomSkilllabelName.add(skillLabelBean);
-                             saveDate2Local("userCostom",listThirdUserCustomSkilllabelName);
+                            saveDate2Local("userCostom", listThirdUserCustomSkilllabelName);
                             updateLableView();
                             //增加自定义标签保存在网络
                             saveAddInternet(f1, f2, text);
@@ -769,6 +782,7 @@ public class SubscribeActivity extends Activity {
                         break;
                 }
             }
+
             @Override
             public void executeResultError(String result) {
                 LogKit.d("result :" + result);
