@@ -224,7 +224,8 @@ public class DemandChooseServiceModel extends BaseObservable {
                 chatCmdShareTaskBean.avatar = LoginManager.currentLoginUserAvatar;
                 chatCmdShareTaskBean.title = dataBean.title;
                 chatCmdShareTaskBean.quote = getQuote();
-                chatCmdShareTaskBean.type = 1;//服务或者需求
+                chatCmdShareTaskBean.type = type;//服务或者需求
+                chatCmdShareTaskBean.tid = tid;
 
                 getDemandChooseServiceList();
             }

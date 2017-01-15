@@ -644,8 +644,9 @@
             android:layout_height="match_parent"
             android:background="#55000000"
             android:clickable="true"
-            android:visibility="@{publishServiceAddInfoModel.choosePriceUnitLayerVisibility}"
+            android:visibility="gone"
         >
+            <!--android:visibility="@{publishServiceAddInfoModel.choosePriceUnitLayerVisibility}"-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

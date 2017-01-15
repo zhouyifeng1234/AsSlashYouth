@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.net.sip.SipSession;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.slash.youth.BR;
-import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.engine.LoginManager;
@@ -21,12 +18,12 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ApprovalActivity;
+import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.ui.activity.MyAccountActivity;
 import com.slash.youth.ui.activity.MyCollectionActivity;
 import com.slash.youth.ui.activity.MyHelpActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.MySkillManageActivity;
-import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.ui.activity.WebViewActivity;
@@ -35,8 +32,6 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.LogKit;
-
-import org.xutils.x;
 
 import java.util.List;
 
@@ -76,16 +71,15 @@ public class PagerHomeMyModel extends BaseObservable {
     private String unit = "元";
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
     private String desc;
-    private  RotateAnimation raExpertMarksMaker;
+    private RotateAnimation raExpertMarksMaker;
     private int loadLayerVisibility = View.GONE;
 
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
         this.mActivity = activity;
-      //  displayLoadLayer();
+        //  displayLoadLayer();
         initData();
-        initAnimation();
         initView();
         listener();
     }
@@ -119,6 +113,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     private void initView() {
         mPagerHomeMyBinding.svPagerHomeMy.setVerticalScrollBarEnabled(false);
+    }
+
+    private void initScoreView() {
         mPagerHomeMyBinding.flHomeMyExpertMarksMaker.startAnimation(raExpertMarksMaker);
         mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.setTotalProgressAngle(expertMarksProgress);
         mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.post(new Runnable() {
@@ -127,8 +124,6 @@ public class PagerHomeMyModel extends BaseObservable {
                 mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.initRingProgressDraw();
             }
         });
-        initExpertMarksProgress();
-
     }
 
     private void initExpertMarksProgress() {
@@ -138,7 +133,7 @@ public class PagerHomeMyModel extends BaseObservable {
                 for (int i = 0; i < 120; i++) {
                     try {
                         long startMill = System.currentTimeMillis();
-                        final float displayMarks = expertMarks / 120 * (i + 1);
+                        final float displayMarks = expertMarks * (i + 1) / 120;
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
@@ -156,12 +151,12 @@ public class PagerHomeMyModel extends BaseObservable {
         }).start();
     }
 
-    private void  initData() {
-        setExpertMarks();
+    private void initData() {
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
     }
 
-    private String careertypeString ="自雇者";
+    private String careertypeString = "自雇者";
+
     //设置我的数据
     private void setMyInfoData() {
         //描述详情
@@ -171,7 +166,7 @@ public class PagerHomeMyModel extends BaseObservable {
         //金额
         double amount = myinfo.getAmount();
         String totalMoney = CountUtils.DecimalFormat(amount);
-        mPagerHomeMyBinding.tvAmount.setText(totalMoney+unit);
+        mPagerHomeMyBinding.tvAmount.setText(totalMoney + unit);
         //用户的id
         id = myinfo.getId();
         //姓名
@@ -179,16 +174,16 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvName.setText(name);
         //是否认证
         isauth = myinfo.getIsauth();
-        if(isauth == 1){  //认证过的
+        if (isauth == 1) {  //认证过的
             mPagerHomeMyBinding.ivV.setVisibility(View.VISIBLE);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.GONE);
-        }else if(isauth == 0){    //非认证
+        } else if (isauth == 0) {    //非认证
             mPagerHomeMyBinding.ivV.setVisibility(View.GONE);
             mPagerHomeMyBinding.tvMyApproval.setVisibility(View.VISIBLE);
         }
         //头像
         avatar = myinfo.getAvatar();
-        if(!avatar.isEmpty()&&avatar!=""){
+        if (!avatar.isEmpty() && avatar != "") {
             BitmapKit.bindImage(mPagerHomeMyBinding.ivAssistantIcon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
@@ -196,95 +191,100 @@ public class PagerHomeMyModel extends BaseObservable {
         industry = myinfo.getIndustry();
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
-        if(industry!=null&&direction!=null&&direction!=""&&industry!=""){
-            mPagerHomeMyBinding.tvIndustry.setText(industry+" | "+direction);
+        if (industry != null && direction != null && direction != "" && industry != "") {
+            mPagerHomeMyBinding.tvIndustry.setText(industry + " | " + direction);
         }
 
         //职业类型
         careertype = myinfo.getCareertype();
-        if(careertype == 1){//固定职业者
+        if (careertype == 1) {//固定职业者
             //公司
             company = myinfo.getCompany();
             //技术专家
             position = myinfo.getPosition();
-            String companyAndPosition = company +"-"+ position;
-            if(!company.isEmpty()){
+            String companyAndPosition = company + "-" + position;
+            if (!company.isEmpty()) {
                 mPagerHomeMyBinding.tvMyUserInfoCompany.setText(companyAndPosition);
-            }else {
+            } else {
                 mPagerHomeMyBinding.tvMyUserInfoCompany.setText("暂未填写职务信息");
             }
-        }else if(careertype == 2){//自由职业者
+        } else if (careertype == 2) {//自由职业者
             mPagerHomeMyBinding.tvMyUserInfoCompany.setText(careertypeString);
         }
 
         //城市    //省份
         city = myinfo.getCity();
         province = myinfo.getProvince();
-        if(!city.equals(province)){
-            place = province +""+ city;
-        }else {
+        if (!city.equals(province)) {
+            place = province + "" + city;
+        } else {
             place = city;
         }
 
         //粉丝数
         fanscount = myinfo.getFanscount();
-        mPagerHomeMyBinding.tvFansCount.setText("粉丝数"+ fanscount);
+        mPagerHomeMyBinding.tvFansCount.setText("粉丝数" + fanscount);
         mPagerHomeMyBinding.pbProgressbarFans.setProgress(fanscount);
         //粉丝比率
         fansratio = myinfo.getFansratio();
-        mPagerHomeMyBinding.tvFansRadio.setText(fansratio+"%");
-        mPagerHomeMyBinding.tvOverFansCount.setText("超过平台"+fansratio+"%"+"的用户");
+        mPagerHomeMyBinding.tvFansRadio.setText(fansratio + "%");
+        mPagerHomeMyBinding.tvOverFansCount.setText("超过平台" + fansratio + "%" + "的用户");
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
         mPagerHomeMyBinding.pbProgressbarTask.setProgress(achievetaskcount);
-        mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("顺利成交"+achievetaskcount+"单");
-        mPagerHomeMyBinding.tvMyTask.setText(achievetaskcount+"");
-        mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共"+totoltaskcount+"单任务");
+        mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
+        mPagerHomeMyBinding.tvMyTask.setText(achievetaskcount + "");
+        mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
         mPagerHomeMyBinding.pbProgressbarService.setProgress(averageservicepoint);
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
-        mPagerHomeMyBinding.tvServicePoint1.setText("服务力"+ userservicepoint +"星");
-        mPagerHomeMyBinding.tvAverageServicePoint.setText(userservicepoint+"");
-        mPagerHomeMyBinding.tvUserServicePoint.setText("---平台平均服务力为"+averageservicepoint+"星");
+        mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
+        mPagerHomeMyBinding.tvAverageServicePoint.setText(userservicepoint + "");
+        mPagerHomeMyBinding.tvUserServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
 
         //数量,网络获取的分数
         int expertscore = myinfo.getExpertscore();//超过多少个用户
-        mPagerHomeMyBinding.tvLeastMark.setText(expertscore+"");
+        mPagerHomeMyBinding.tvLeastMark.setText(expertscore + "");
         //超出用户的百分比
         double expertratio = myinfo.getExpertratio();
         int v = (int) (expertratio * 100);
-        mPagerHomeMyBinding.tvOver.setText(v+"%");
+        mPagerHomeMyBinding.tvOver.setText(v + "%");
 
         int expertlevel = myinfo.getExpertlevel();//对应的等级
         List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
-        if(expertlevel!=0){
-            expertMarks = (float) expertlevels.get(expertlevel-1);
-        }
-        if(expertlevels.size()!=0){
+//        if (expertlevel != 0) {
+//            expertMarks = (float) expertlevels.get(expertlevel - 1);
+//        }
+        expertMarks = myinfo.getExpertscore();
+        if (expertlevels.size() != 0) {
             for (int i = 0; i < expertlevels.size(); i++) {
-                if(i==0){
+                if (i == 0) {
                     expertⅠMaxMarks = (float) expertlevels.get(0);
                 }
-                if(i==1){
+                if (i == 1) {
                     expertⅡMaxMarks = (float) expertlevels.get(1);
                 }
 
-                if(i==2) {
+                if (i == 2) {
                     expertⅢMaxMarks = (float) expertlevels.get(2);
                 }
-                if(i==3) {
+                if (i == 3) {
                     expertⅣMaxMarks = (float) expertlevels.get(3);
                 }
             }
         }
+        setExpertMarks();
+        initAnimation();
+        initScoreView();
+        initExpertMarksProgress();
     }
 
     private void setExpertMarks() {
-       // expertMarks = 2000;//这个数据实际应该从服务端获取
-        //     expertMarksProgress = expertMarks / totalExpertMarks * 360;
+//        expertMarks = 2000;//这个数据实际应该从服务端获取
+//             expertMarksProgress = expertMarks / totalExpertMarks * 360;
         if (expertMarks >= 0 && expertMarks <= expertⅠMaxMarks) {
             expertMarksProgress = expertMarks / expertⅠMaxMarks * 90;
         } else if (expertMarks <= expertⅡMaxMarks) {
@@ -297,9 +297,9 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     //认证
-    public void identificate(View view){
+    public void identificate(View view) {
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
-        intentApprovalActivity.putExtra("careertype",careertype);
+        intentApprovalActivity.putExtra("careertype", careertype);
         intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
         mActivity.startActivityForResult(intentApprovalActivity, UserInfoEngine.MY_USER_EDITOR);
     }
@@ -310,7 +310,7 @@ public class PagerHomeMyModel extends BaseObservable {
             @Override
             public void onClick(View v) {
                 Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
-                intentApprovalActivity.putExtra("careertype",careertype);
+                intentApprovalActivity.putExtra("careertype", careertype);
                 intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
                 mActivity.startActivity(intentApprovalActivity);
             }
@@ -318,53 +318,53 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     //编辑点击事件
-    public void editor(View view){
-     Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
-        intentUserinfoEditorActivity.putExtra("phone",phone);
-        intentUserinfoEditorActivity.putExtra("myUinfo",myinfo);
-        intentUserinfoEditorActivity.putExtra("myId",id);
+    public void editor(View view) {
+        Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+        intentUserinfoEditorActivity.putExtra("phone", phone);
+        intentUserinfoEditorActivity.putExtra("myUinfo", myinfo);
+        intentUserinfoEditorActivity.putExtra("myId", id);
         mActivity.startActivityForResult(intentUserinfoEditorActivity, UserInfoEngine.MY_USER_EDITOR);
     }
 
     //个人信息页面
-    public void personInfo(View view){
+    public void personInfo(View view) {
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-        intentUserInfoActivity.putExtra("phone",phone);
-        intentUserInfoActivity.putExtra("skillTag",tag);
-        intentUserInfoActivity.putExtra("Uid",LoginManager.currentLoginUserId);
+        intentUserInfoActivity.putExtra("phone", phone);
+        intentUserInfoActivity.putExtra("skillTag", tag);
+        intentUserInfoActivity.putExtra("Uid", LoginManager.currentLoginUserId);
         mActivity.startActivity(intentUserInfoActivity);
     }
 
     //我的账户
-    public void  myAccount(View view){
+    public void myAccount(View view) {
         Intent intentMyAccountActivity = new Intent(CommonUtils.getContext(), MyAccountActivity.class);
         intentMyAccountActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyAccountActivity);
     }
 
     //技能管理
-    public void skillManage(View view){
+    public void skillManage(View view) {
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
-        intentMySkillManageActivity.putExtra("Title",Constants.MY_TITLE_SKILL_MANAGER);
+        intentMySkillManageActivity.putExtra("Title", Constants.MY_TITLE_SKILL_MANAGER);
         intentMySkillManageActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySkillManageActivity);
     }
 
     //设置
-    public void mySetting(View view){
+    public void mySetting(View view) {
         Intent intentMySettingActivity = new Intent(CommonUtils.getContext(), MySettingActivity.class);
         intentMySettingActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySettingActivity);
     }
 
     //第三方
-    public void myThirdParty(View view){
+    public void myThirdParty(View view) {
         Intent intentThridPartyActivity = new Intent(CommonUtils.getContext(), BindThridPartyActivity.class);
         mActivity.startActivity(intentThridPartyActivity);
     }
 
     //发布 managePublish
-    public void managePublish(View view){
+    public void managePublish(View view) {
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
         intentMySkillManageActivity.putExtra("Title", Constants.MY_TITLE_MANAGER_MY_PUBLISH);
         intentMySkillManageActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -372,14 +372,14 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     //帮助
-    public void help(View view){
+    public void help(View view) {
         Intent intentMyHelpActivity = new Intent(CommonUtils.getContext(), MyHelpActivity.class);
         intentMyHelpActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyHelpActivity);
     }
 
     //我的收藏
-    public void collection(View view){
+    public void collection(View view) {
         Intent intentMyCollectionActivity = new Intent(CommonUtils.getContext(), MyCollectionActivity.class);
         intentMyCollectionActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyCollectionActivity);
@@ -390,13 +390,13 @@ public class PagerHomeMyModel extends BaseObservable {
         @Override
         public void execute(MyFirstPageBean dataBean) {
             int rescode = dataBean.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 hideLoadLayer();
                 MyFirstPageBean.DataBean data = dataBean.getData();
                 myinfo = data.getMyinfo();
                 setMyInfoData();
-            }else {
-                LogKit.d("rescode : "+rescode);
+            } else {
+                LogKit.d("rescode : " + rescode);
             }
         }
 
@@ -406,15 +406,15 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     //点击问号，影响力
-    public void influence(View view){
+    public void influence(View view) {
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
-        intentCommonQuestionActivity.putExtra("influence","influence");
+        intentCommonQuestionActivity.putExtra("influence", "influence");
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
     private int myloadLayerVisibility = View.GONE;
 
-   @Bindable
+    @Bindable
     public int getMyloadLayerVisibility() {
         return myloadLayerVisibility;
     }

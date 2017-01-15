@@ -1,18 +1,17 @@
 package com.slash.youth.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
+
 import com.slash.youth.R;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DBManager {
     private final int BUFFER_SIZE = 1024;
@@ -21,7 +20,7 @@ public class DBManager {
     public static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"
             + PACKAGE_NAME;  //在手机里存放数据库的位置
-   // public static File databasePath = this.context.getDatabasePath(PACKAGE_NAME+"/"+DB_NAME);
+    // public static File databasePath = this.context.getDatabasePath(PACKAGE_NAME+"/"+DB_NAME);
 
 
      /* public static final String DB_PATH = "/data"
@@ -36,7 +35,7 @@ public class DBManager {
 
     public DBManager(Context context) {
         this.context = context;
-       // path = this.context.getDatabasePath(DB_NAME).getAbsoluteFile().toString();
+        // path = this.context.getDatabasePath(DB_NAME).getAbsoluteFile().toString();
 
     }
 
@@ -50,23 +49,23 @@ public class DBManager {
     private SQLiteDatabase openDatabase(String dbfile) {
         File file = new File(dbfile);
         try {
-           // if (!(file.exists())) {
+            if (!(file.exists())) {
                 InputStream isr = this.context.getResources().openRawResource(
                         R.raw.province_city_zone);
 
-              //  InputStream isr = this.context.getAssets().open(DB_NAME);
+                //  InputStream isr = this.context.getAssets().open(DB_NAME);
 
                 FileOutputStream fos = new FileOutputStream(dbfile);
                 byte[] buffer = new byte[BUFFER_SIZE];
                 int count = 0;
                 while ((count = isr.read(buffer)) > 0) {
                     fos.write(buffer, 0, count);
-             //   }
-                fos.close();
-                isr.close();
+                }
+                IOUtils.close(fos);
+                IOUtils.close(isr);
             }
 
-            database = SQLiteDatabase.openOrCreateDatabase(dbfile,null);
+            database = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 
             return database;
         } catch (FileNotFoundException e) {
@@ -78,8 +77,9 @@ public class DBManager {
         }
         return database;
     }
+
     public void closeDatabase() {
-        if(database != null){
+        if (database != null) {
             this.database.close();
         }
     }

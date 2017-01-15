@@ -49,6 +49,7 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
     //打开聊天界面 聊一聊
     public void haveAChat(View v) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", mDemandChooseServiceBean.uid + "");
         mActivty.startActivity(intentChatActivity);
     }
 
@@ -61,7 +62,14 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
 
         mItemDemandChooseServiceBinding.tvPurposeQuote.setText((int) mDemandChooseServiceBean.quote + "元");
         mItemDemandChooseServiceBinding.tvPurposeName.setText(mDemandChooseServiceBean.name);
-        mItemDemandChooseServiceBinding.tvCompanyProfessionInfo.setText(mDemandChooseServiceBean.company + mDemandChooseServiceBean.profession);
+        mItemDemandChooseServiceBinding.tvCompanyProfessionInfo.setText(mDemandChooseServiceBean.company + mDemandChooseServiceBean.position);
+        LogKit.v("company:" + mDemandChooseServiceBean.company + "  profession:" + mDemandChooseServiceBean.position);
+        if (TextUtils.isEmpty(mDemandChooseServiceBean.industry) || TextUtils.isEmpty(mDemandChooseServiceBean.direction)) {
+            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + mDemandChooseServiceBean.direction);
+        } else {
+            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + "|" + mDemandChooseServiceBean.direction);
+        }
+
         //显示每一期的分期比例
         String[] instalmentratioArray = mDemandChooseServiceBean.instalment.split(",");
         String instalmentratioStr = "";

@@ -253,6 +253,9 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         if (demandDesc.length() <= 0) {
             ToastUtils.shortToast("请输入需求描述");
             return;
+        } else if (demandDesc.length() < 5) {
+            ToastUtils.shortToast("需求描述必须是5-300字之间");
+            return;
         } else if (demandDesc.length() > 300) {
             ToastUtils.shortToast("需求描述不能超过300字");
             return;

@@ -12,5 +12,6 @@ public class ChatCmdShareTaskBean implements Serializable {
     public String title;
     public String quote;
     public int type;
+    public long tid;
 
 }

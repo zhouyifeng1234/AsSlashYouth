@@ -81,7 +81,11 @@ public class RingScoreView extends View {
             public void run() {
                 for (int i = 0; i < 120; i++) {
                     try {
-                        progressSweepAngle += (totalProgressAngle / 120);
+                        if (i != 119) {
+                            progressSweepAngle += (totalProgressAngle / 120);
+                        } else {
+                            progressSweepAngle = totalProgressAngle;
+                        }
                         long startMill = System.currentTimeMillis();
                         postInvalidate();
                         long endMill = System.currentTimeMillis();

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMyShareTaskBinding;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
@@ -18,11 +19,13 @@ public class ChatMyShareTaskModel extends BaseObservable {
     ItemChatMyShareTaskBinding mItemChatMyShareTaskBinding;
     Activity mActivity;
     boolean mIsRead;
+    ChatCmdShareTaskBean chatCmdShareTaskBean;
 
-    public ChatMyShareTaskModel(ItemChatMyShareTaskBinding itemChatMyShareTaskBinding, Activity activity, boolean isRead) {
+    public ChatMyShareTaskModel(ItemChatMyShareTaskBinding itemChatMyShareTaskBinding, Activity activity, boolean isRead, ChatCmdShareTaskBean chatCmdShareTaskBean) {
         this.mItemChatMyShareTaskBinding = itemChatMyShareTaskBinding;
         this.mActivity = activity;
         this.mIsRead = isRead;
+        this.chatCmdShareTaskBean = chatCmdShareTaskBean;
 
         initData();
         initView();
@@ -45,5 +48,10 @@ public class ChatMyShareTaskModel extends BaseObservable {
         } else {
             mItemChatMyShareTaskBinding.tvChatMsgReadStatus.setText("未读");
         }
+
+        BitmapKit.bindImage(mItemChatMyShareTaskBinding.ivShareTaskAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + chatCmdShareTaskBean.avatar);
+        mItemChatMyShareTaskBinding.tvShareTaskTitle.setText(chatCmdShareTaskBean.title);
+        mItemChatMyShareTaskBinding.tvShareTaskQuote.setText(chatCmdShareTaskBean.quote);
+
     }
 }
