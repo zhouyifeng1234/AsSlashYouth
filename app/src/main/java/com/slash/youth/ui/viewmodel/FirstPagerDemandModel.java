@@ -69,7 +69,7 @@ public class FirstPagerDemandModel extends BaseObservable {
             this.firstPagerMoreActivity = firstPagerMoreActivity;
         initData();
         initView();
-        //listener();//;;;;;;;;;
+        listener();
     }
 
     private void initData() {
@@ -95,7 +95,7 @@ public class FirstPagerDemandModel extends BaseObservable {
 
        searchCityLocationBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.search_activity_city_location, null, false);
         constellationView = searchCityLocationBinding.getRoot();
-        //setSearchArea(constellationView);//;;;;;;;;;;;;
+        setSearchArea(constellationView);
 
         final ListView sortView = new ListView(firstPagerMoreActivity);
         sortView.setDividerHeight(0);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -133,7 +134,7 @@ public class PagerHomeMyModel extends BaseObservable {
                 for (int i = 0; i < 120; i++) {
                     try {
                         long startMill = System.currentTimeMillis();
-                        final float displayMarks = expertMarks / 120 * (i + 1);
+                        final float displayMarks = expertMarks * (i + 1) / 120;
                         CommonUtils.getHandler().post(new Runnable() {
                             @Override
                             public void run() {
