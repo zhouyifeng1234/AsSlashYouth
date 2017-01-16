@@ -42,7 +42,6 @@ public class FirstPagerDemandModel extends BaseObservable {
     private String sorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
     private String[] demadHeaders;
     private List<View> popupViews = new ArrayList<>();
-    private HashMap<String, Integer> mHashFirstLetterIndex;
     private GirdDropDownAdapter demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListDropDownAdapter sexAdapter;
@@ -50,7 +49,6 @@ public class FirstPagerDemandModel extends BaseObservable {
     private View contentView;
     private String tag = "";
     public  SearchActivityCityLocationBinding searchCityLocationBinding;
-    private int constellationPosition = 0;
     private View constellationView;
     private PullToRefreshListviewBinding pullToRefreshListviewBinding;
     private PullToRefreshListViewModel pullToRefreshListViewModel;
@@ -71,7 +69,7 @@ public class FirstPagerDemandModel extends BaseObservable {
             this.firstPagerMoreActivity = firstPagerMoreActivity;
         initData();
         initView();
-        listener();
+        //listener();//;;;;;;;;;
     }
 
     private void initData() {
@@ -97,7 +95,7 @@ public class FirstPagerDemandModel extends BaseObservable {
 
        searchCityLocationBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.search_activity_city_location, null, false);
         constellationView = searchCityLocationBinding.getRoot();
-        setSearchArea(constellationView);
+        //setSearchArea(constellationView);//;;;;;;;;;;;;
 
         final ListView sortView = new ListView(firstPagerMoreActivity);
         sortView.setDividerHeight(0);

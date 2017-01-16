@@ -44,7 +44,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private  ArrayList<SkillLabelBean> listThirdSkilllabelName = new ArrayList();
     private int secondId;
     private int firstId;
-    private String text = "未选择";
+    private String text = "请点击";
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding,
                                          ActivitySearchBinding mActivitySearchBinding) {
@@ -76,6 +76,10 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     public void setRlChooseMainLabelVisible(int rlChooseMainLabelVisible) {
         this.rlChooseMainLabelVisible = rlChooseMainLabelVisible;
         notifyPropertyChanged(BR.rlChooseMainLabelVisible);
+    }
+
+    public void cannelChooseMainLabel(View view){
+        setRlChooseMainLabelVisible(View.GONE);
     }
 
     //获取从后台所有的技能标签数据
@@ -314,6 +318,12 @@ public class SearchActivityHotServiceModel extends BaseObservable {
         });
         //点击事件
         searchActivityHotServiceBinding.tvOpenChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setRlChooseMainLabelVisible(View.VISIBLE);
+            }
+        });
+        searchActivityHotServiceBinding.ivbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setRlChooseMainLabelVisible(View.VISIBLE);

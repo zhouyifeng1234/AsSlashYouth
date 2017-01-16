@@ -2,10 +2,12 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMySettingBinding;
 import com.slash.youth.domain.ContactsBean;
@@ -56,6 +58,7 @@ public class MySettingModel extends BaseObservable {
     private String SET_OK ="设置成功";
     private String SET_FAIL = "设置失败";
     private String currentTime;
+    private int logoutDialogVisibility = View.GONE;
 
     public MySettingModel(ActivityMySettingBinding activityMySettingBinding,MySettingActivity mySettingActivity) {
         this.activityMySettingBinding = activityMySettingBinding;
@@ -65,6 +68,16 @@ public class MySettingModel extends BaseObservable {
     }
 
     private void initView() {
+    }
+
+    @Bindable
+    public int getLogoutDialogVisibility() {
+        return logoutDialogVisibility;
+    }
+
+    public void setLogoutDialogVisibility(int logoutDialogVisibility) {
+        this.logoutDialogVisibility = logoutDialogVisibility;
+        notifyPropertyChanged(BR.logoutDialogVisibility);
     }
 
     private void initData() {
@@ -256,7 +269,9 @@ public class MySettingModel extends BaseObservable {
 
     //退出程序
     public void finishApp(View view){
-        currentTime = TimeUtils.getCurrentTime();
+        setLogoutDialogVisibility(View.VISIBLE);
+
+       /* currentTime = TimeUtils.getCurrentTime();
        // final String logout = "您的账号于"+currentTime+"在 一台设备登录。如非本人操作，则密 码可能已泄露，建议前往我的—设置 修改密码。";
         DialogUtils.showDialogLogout(mySettingActivity, "退出登录","真的要退出登录吗？", new DialogUtils.DialogCallBack() {
             @Override
@@ -268,7 +283,18 @@ public class MySettingModel extends BaseObservable {
             public void CancleDown() {
                 LogKit.d("cannel");
             }
-        });
+        });*/
+    }
+
+    //确认
+    public void sure(View view){
+
+        logout(LoginManager.token);
+    }
+
+    //取消
+    public void cannel(View view){
+        setLogoutDialogVisibility(View.GONE);
     }
 
     //登录退出的接口
@@ -282,11 +308,13 @@ public class MySettingModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             switch (rescode){
                 case 0:
+                    setLogoutDialogVisibility(View.GONE);
                     Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
                     mySettingActivity.startActivity(intentLoginActivity);
                     mySettingActivity.finish();
                     break;
                 case 1:
+                    setLogoutDialogVisibility(View.GONE);
                     LogKit.d("退出失败");
                     ToastUtils.shortToast("退出失败");
                     break;

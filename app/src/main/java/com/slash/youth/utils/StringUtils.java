@@ -25,6 +25,14 @@ public class StringUtils {
 		return matcher.matches();
 	}
 
+	//纯数字 "[0-9]+"
+	public static boolean isSearchNumberContent(String text) {
+		String check = "[0-9]+";
+		Pattern regex = Pattern.compile(check);
+		Matcher matcher = regex.matcher(text);
+		return matcher.matches();
+	}
+
 	public static String getLongToDate(long lo){
 		Date date = new Date(lo);
 		SimpleDateFormat sd = new SimpleDateFormat("yyyyMMddHHmmss");
