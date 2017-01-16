@@ -203,31 +203,41 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 myAddFriendCount = info.getMyAddFriendCount();
                 myFollowCount = info.getMyFollowCount();
                 myFansCount = info.getMyFansCount();
-                mHeaderListviewHomeContactsBinding.tvCareMe.setText(String.valueOf(myFansCount));
-                mHeaderListviewHomeContactsBinding.tvMyCare.setText(String.valueOf(myFollowCount));
+
+                mHeaderListviewHomeContactsBinding.tvCareMe.setText(String.valueOf(myFollowCount));
+                mHeaderListviewHomeContactsBinding.tvMyCare.setText(String.valueOf(myFansCount));
                 mHeaderListviewHomeContactsBinding.tvMyAdd.setText(String.valueOf(myAddFriendCount));
                 mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
 
+
+
                 //保存一下在本地
-                if(myFansLocalCount!=-1&&myFansCount!=myFansLocalCount){
-                    mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
-                    SpUtils.setInt("myFansCount",myFansCount);
+                if(myFollowLocalCount!=-1){
+                    if(myFansCount!=myFansLocalCount){
+                        mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
+                        SpUtils.setInt("myFansCount",myFansCount);
+                    }
                 }
 
-                if(myFollowLocalCount!=-1&&myFansCount!=myFansLocalCount){
-                    mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
-                    SpUtils.setInt("myFollowCount",myFollowCount);
+                if(myFansLocalCount!=-1){
+                    if(myFansCount!=myFansLocalCount){
+                        mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
+                        SpUtils.setInt("myFollowCount",myFollowCount);
+                    }
+                }
+                if(myAddFriendCount!=-1){
+                    if(myAddFriendLocalCount!=myAddFriendCount){
+                        mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
+                        SpUtils.setInt("myAddFriendCount",myAddFriendCount);
+                    }
                 }
 
-                if(myAddFriendLocalCount!=-1&&myAddFriendLocalCount!=myAddFriendCount){
-                    mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
-                    SpUtils.setInt("myAddFriendCount",myAddFriendCount);
+                if(addMeFriendCount!=-1){
+                    if(addMeFriendLocalCount!=addMeFriendCount){
+                        mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
+                        SpUtils.setInt("addMeFriendCount",addMeFriendCount);
+                    }
                 }
-
-               if(addMeFriendLocalCount!=-1&&addMeFriendLocalCount!=addMeFriendCount){
-                   mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
-                   SpUtils.setInt("addMeFriendCount",addMeFriendCount);
-               }
             }
         }
         @Override

@@ -130,12 +130,12 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int follow = data.getFollow();
                 switch (follow) {
                     case 1://1表示我是他的粉丝，0表示无关系 ==我关注他
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
                         attentionStatus = 1;
                         LogKit.d("我关注过他");
                         break;
                     case 0://无关系
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
                         attentionStatus = 0;
                         LogKit.d("我没有关注过他");
                         break;
@@ -776,8 +776,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status){
-                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注成功
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
                         attentionStatus = 1;
                         break;
                     case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
@@ -810,8 +810,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status){
-                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                    case ContactsManager.FOLLOW_STATUS_SUCCESS://取消关注成功
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
                         attentionStatus = 0;
                         break;
                     case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
