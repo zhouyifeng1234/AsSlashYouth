@@ -188,7 +188,7 @@ public class PagerHomeMyModel extends BaseObservable {
         }
         //头像
         avatar = myinfo.getAvatar();
-        if(!avatar.isEmpty()&&avatar!=""){
+        if(!TextUtils.isEmpty(avatar)){
             BitmapKit.bindImage(mPagerHomeMyBinding.ivAssistantIcon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
@@ -196,8 +196,8 @@ public class PagerHomeMyModel extends BaseObservable {
         industry = myinfo.getIndustry();
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
-        if(industry!=null&&direction!=null&&direction!=""&&industry!=""){
-            mPagerHomeMyBinding.tvIndustry.setText(industry+" | "+direction);
+        if(!TextUtils.isEmpty(direction)){
+            mPagerHomeMyBinding.tvIndustry.setText(direction);
         }
 
         //职业类型

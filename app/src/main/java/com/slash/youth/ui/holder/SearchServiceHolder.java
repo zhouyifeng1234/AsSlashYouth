@@ -81,7 +81,11 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
         }
 
         int quoteunit = demandListBean.getQuoteunit();
-       tv_quote.setText(FirstPagerManager.QUOTE+demandListBean.getQuote()+FirstPagerManager.QUOTEUNITS[quoteunit]);
+        if(quoteunit>=1&&quoteunit<=8){
+            tv_quote.setText(FirstPagerManager.QUOTE+demandListBean.getQuote()+"元/"+FirstPagerManager.QUOTEUNITS[quoteunit-1]);
+        }else {
+            tv_quote.setText(FirstPagerManager.QUOTE+demandListBean.getQuote()+"元");
+        }
 
         if(demandListBean.getPattern() == 0){
            tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_UP);

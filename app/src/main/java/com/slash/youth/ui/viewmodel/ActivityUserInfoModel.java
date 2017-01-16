@@ -411,14 +411,17 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //技能描述
         desc = uinfo.getDesc();
-        if(desc!=null){
+        if(!TextUtils.isEmpty(desc)){
             activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
         }
 
         //方向
         direction = uinfo.getDirection();
         industry = uinfo.getIndustry();
-        activityUserinfoBinding.tvProfession.setText(industry+"|"+direction);
+        if(!TextUtils.isEmpty(direction)){
+            activityUserinfoBinding.tvProfession.setText(direction);
+        }
+
 
         //专家  用户身份，是否是专家，专家几级,默认是不显示
         expert = uinfo.getExpert();
@@ -442,7 +445,7 @@ public class ActivityUserInfoModel extends BaseObservable {
        otherUinfo = uinfo;
         //   技能标签
         String tag = uinfo.getTag();
-        if(tag!=""&&tag!=null){
+        if(!TextUtils.isEmpty(tag)){
             String[] split = tag.split(",");
             for (String textTag : split) {
                 textViewTag = new TextView(CommonUtils.getContext());

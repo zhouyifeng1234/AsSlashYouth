@@ -1,6 +1,7 @@
 package com.slash.youth.ui.holder;
 
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
     @Override
     public void refreshView(ContactsBean.DataBean.ListBean data) {
         String avatar = data.getAvatar();
-        if(avatar!=null){
+        if(!TextUtils.isEmpty(avatar)){
             BitmapKit.bindImage(ivAddMe, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
@@ -87,10 +88,10 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
         uid = data.getUid();
         long uts = data.getUts();
 
-        if(industry!=null&&direction!=null&&industry!=""&&direction!=""){
-        tvDirection.setText(industry+"|"+direction);
+        if(!TextUtils.isEmpty(direction)){
+        tvDirection.setText(direction);
         }
-        if(company!=null&&position!=null&&company!=""&&position!=""){
+        if(!TextUtils.isEmpty(company)&&!TextUtils.isEmpty(position)){
             tvPosition.setText(company+" "+position);
         }
 

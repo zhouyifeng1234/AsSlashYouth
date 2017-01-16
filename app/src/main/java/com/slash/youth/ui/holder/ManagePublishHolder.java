@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -78,7 +79,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         String endData = TimeUtils.getData(endtime);
 
         String avatar = data.getAvatar();
-        if (avatar != null) {
+        if (!TextUtils.isEmpty(avatar)) {
             BitmapKit.bindImage(itemManagePublishHolderBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
@@ -122,7 +123,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 }
 
                 if (quoteUnit == 9) {
-                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
+                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote+"元");
                 } else if (quoteUnit > 0 && quoteUnit < 9) {
                     itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote + "/" + MyManager.unitArr[quoteUnit - 1]);
                 } else {//这种情况应该不存在

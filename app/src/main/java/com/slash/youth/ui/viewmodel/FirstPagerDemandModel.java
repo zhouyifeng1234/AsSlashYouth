@@ -76,7 +76,7 @@ public class FirstPagerDemandModel extends BaseObservable {
         if(isDemand){
             demadHeaders =new String[]{"需求方式", "用户类型", "全国", "排序"};
         }else {
-            demadHeaders =new String[]{"需求方式", "全国", "排序"};
+            demadHeaders =new String[]{"服务方式", "全国", "排序"};
         }
     }
 

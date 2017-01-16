@@ -54,7 +54,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private SearchActivityCityLocationBinding searchCityLocationBinding;
     private  ArrayList<String> headerLists = new ArrayList<>();
     private String[] demadHeaders ={"需求方式", "用户类型", "全国", "排序"};
-    private String[] serviceHeaders ={"需求方式", "全国", "排序"};
+    private String[] serviceHeaders ={"服务方式", "全国", "排序"};
     private String[] personHeaders ={"认证"};
     private String[] headers;
     private ListView demandView;
