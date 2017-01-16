@@ -13,8 +13,12 @@ import com.slash.youth.http.protocol.FreeTimeServiceListProtocol;
  */
 public class FirstPagerManager {
     public static final String  PATTERN_UP ="线上";
+    public static final String  DEMAND_INSTALMENT ="一次性到帐";
+    public static final String  SERVICE_INSTALMENT ="分期到帐";
+    public static final String  DEMAND_QUOTE ="服务方报价";
     public static final String  PATTERN_DOWN ="线下";
     public static final String  FREE_TIME ="闲置时间:";
+    public static final String  ANY_TIME ="随时";
     public static final String  START_TIME ="开始时间:";
     public static final String[] QUOTEUNITS = {"次","个","幅","份","单","小时","分钟","天","其他"};
     public static final String  QUOTE ="报价:¥";

@@ -2,6 +2,7 @@ package com.slash.youth.engine;
 
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.FileUploadProtocol;
+import com.slash.youth.http.protocol.LoginSetAvatarProtocol;
 import com.slash.youth.http.protocol.LoginUserHomeInfoProtocol;
 import com.slash.youth.http.protocol.LoginUserInfoProtocol;
 import com.slash.youth.http.protocol.NewDemandAndServiceProtocol;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * Created by zhouyifeng on 2016/12/1.
  */
 public class UserInfoEngine {
-    public static final String TASK_TIME_TITLE = "任务时间:";
+    public static final String ANY_TIME = "随时";
     public static final int  MY_USER_EDITOR = 123;
 
     /**
@@ -66,6 +67,13 @@ public class UserInfoEngine {
     public static void uploadFile(BaseProtocol.IResultExecutor onUploadFileFinished, String filePath) {
         FileUploadProtocol fileUploadProtocol = new FileUploadProtocol(filePath);
         fileUploadProtocol.getDataFromServer(onUploadFileFinished);
+    }
+
+    //设置头像
+   // LoginSetAvatarProtocol
+    public static void setAvater(BaseProtocol.IResultExecutor onUploadFileFinished, String filePath){
+        LoginSetAvatarProtocol loginSetAvatarProtocol = new LoginSetAvatarProtocol(filePath);
+        loginSetAvatarProtocol.getDataFromServer(onUploadFileFinished);
     }
 
     //保存斜杠身份
