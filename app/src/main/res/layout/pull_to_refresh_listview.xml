@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
+            android:background="#edf1f2"
             android:layout_marginTop="7dp">
 
         </com.slash.youth.ui.view.PullableListView.PullableListView>

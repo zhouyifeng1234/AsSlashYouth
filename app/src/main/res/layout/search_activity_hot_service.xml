@@ -35,7 +35,7 @@
                 android:textSize="14.5sp"/>
 
             <ImageButton
-                android:id="@+id/ivbtn_activity_search_main_categories"
+                android:id="@+id/ivbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -51,8 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/ivbtn_activity_search_main_categories"
-                android:text="为选择"
+                android:layout_toLeftOf="@id/ivbtn"
+                android:text="请选择"
                 android:textColor="#333333"
                 android:textSize="14.5sp"/>
 
@@ -135,18 +135,41 @@
 
                 </RelativeLayout>
 
-                <Button
-                    android:layout_width="333dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/dalei_ok_icon"
-                    android:onClick="@{searchActivityHotServiceModel.okChooseMainLabel}"
-                    android:text="确定"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="45dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/dalei_ok_icon"
+                        android:onClick="@{searchActivityHotServiceModel.cannelChooseMainLabel}"
+                        android:text="取消"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="45dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/dalei_ok_icon"
+                        android:onClick="@{searchActivityHotServiceModel.okChooseMainLabel}"
+                        android:text="确定"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        />
+
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </FrameLayout>
