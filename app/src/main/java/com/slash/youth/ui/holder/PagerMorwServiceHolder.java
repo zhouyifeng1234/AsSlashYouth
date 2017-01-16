@@ -89,8 +89,14 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
 
        long quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
-        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit];
-        itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        if(quoteunit>=1&&quoteunit<=8){
+            String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit-1];
+            itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        }else {
+            String quoteString = FirstPagerManager.QUOTE + quote +"元";
+            itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        }
+
 
         int pattern = data.getPattern();
         String city = data.getPlace();

@@ -74,9 +74,17 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
                         break;
                 }
                 break;
+
+
             case 2://服务
-                String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit];
-                itemUserinfoBinding.tvQuote.setText(quoteString);
+                if(quoteunit>=1&&quoteunit<=8){
+                    String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit-1];
+                    itemUserinfoBinding.tvQuote.setText(quoteString);
+
+                }else {
+                    String quoteString = FirstPagerManager.QUOTE + quote + "元";
+                    itemUserinfoBinding.tvQuote.setText(quoteString);
+                }
 
                 int timetype = data.getTimetype();
                 itemUserinfoBinding.ivTime.setVisibility(View.VISIBLE);

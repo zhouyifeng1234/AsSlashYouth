@@ -41,6 +41,7 @@
                 android:paddingLeft="8dp"
                 android:textSize="14.5sp"/>
             <Button
+                android:id="@+id/btnSendpinText"
                 android:onClick="@{replacePhoneModel.validate}"
                 android:layout_width="60dp"
                 android:layout_height="35dp"

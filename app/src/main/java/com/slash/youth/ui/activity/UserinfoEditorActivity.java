@@ -39,12 +39,6 @@ import java.util.ArrayList;
 public class UserinfoEditorActivity extends Activity {
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private ActivityUserInfoEditorModel activityUserInfoEditorModel;
-    private File file = new File(Environment.getExternalStorageDirectory()+"/001.jpg");
-    private File fileName = new File(Environment.getExternalStorageDirectory()+"/002.jpg");
-    private  ArrayList<String> path = new ArrayList<>();
-    private  ArrayList<String> pathFile = new ArrayList<>();
-    private String filename;
-    private StringBuffer sb = new StringBuffer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

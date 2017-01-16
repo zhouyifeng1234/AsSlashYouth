@@ -66,7 +66,7 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         itemMySkillManageBinding.tvSkillManagerTitle.setText(title);
 
         double quote = data.getQuote();
-        itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote);
+        itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote+"元");
 
         int timetype = data.getTimetype();//闲时类型
             itemMySkillManageBinding.ivTime.setVisibility(View.VISIBLE);

@@ -130,12 +130,12 @@ public class ActivityUserInfoModel extends BaseObservable {
                 int follow = data.getFollow();
                 switch (follow) {
                     case 1://1表示我是他的粉丝，0表示无关系 ==我关注他
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
                         attentionStatus = 1;
                         LogKit.d("我关注过他");
                         break;
                     case 0://无关系
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
                         attentionStatus = 0;
                         LogKit.d("我没有关注过他");
                         break;
@@ -411,14 +411,17 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //技能描述
         desc = uinfo.getDesc();
-        if(desc!=null){
+        if(!TextUtils.isEmpty(desc)){
             activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
         }
 
         //方向
         direction = uinfo.getDirection();
         industry = uinfo.getIndustry();
-        activityUserinfoBinding.tvProfession.setText(industry+"|"+direction);
+        if(!TextUtils.isEmpty(direction)){
+            activityUserinfoBinding.tvProfession.setText(direction);
+        }
+
 
         //专家  用户身份，是否是专家，专家几级,默认是不显示
         expert = uinfo.getExpert();
@@ -442,7 +445,7 @@ public class ActivityUserInfoModel extends BaseObservable {
        otherUinfo = uinfo;
         //   技能标签
         String tag = uinfo.getTag();
-        if(tag!=""&&tag!=null){
+        if(!TextUtils.isEmpty(tag)){
             String[] split = tag.split(",");
             for (String textTag : split) {
                 textViewTag = new TextView(CommonUtils.getContext());
@@ -773,8 +776,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status){
-                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
+                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注成功
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
                         attentionStatus = 1;
                         break;
                     case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:
@@ -807,8 +810,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status){
-                    case ContactsManager.FOLLOW_STATUS_SUCCESS://关注or取消关注成功
-                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.yi_attention_icon);
+                    case ContactsManager.FOLLOW_STATUS_SUCCESS://取消关注成功
+                        activityUserinfoBinding.ivCare.setImageResource(R.mipmap.attention_icon);
                         attentionStatus = 0;
                         break;
                     case ContactsManager.FOLLOW_STATUS_ALREADY_ERROR:

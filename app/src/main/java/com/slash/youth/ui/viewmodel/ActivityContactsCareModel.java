@@ -100,11 +100,11 @@ public class ActivityContactsCareModel extends BaseObservable {
         switch (title){
             case ContactsManager.CARE_ME:
                 type=1;
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.CARE_ME_PERSON);
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_CARE_PERSON);
                 break;
             case ContactsManager.MY_CARE:
                 type=2;
-                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.MY_CARE_PERSON);
+                ContactsManager.getAddMeList(new onGetAddMeList(),offset,limit,GlobalConstants.HttpUrl.CARE_ME_PERSON);
                 break;
             case ContactsManager.ADD_ME:
                 type = 3;

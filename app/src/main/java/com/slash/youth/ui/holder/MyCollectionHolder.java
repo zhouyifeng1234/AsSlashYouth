@@ -94,7 +94,11 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
                 }
 
                 int quoteunit = data.getQuoteunit();
-                itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote+FirstPagerManager.QUOTEUNITS[quoteunit]);
+                if(quoteunit>=1&&quoteunit<=8){
+                    itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote+"元/"+FirstPagerManager.QUOTEUNITS[quoteunit-1]);
+                }else {
+                    itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote+"元");
+                }
 
                 itemMyCollectionBinding.ivTime.setVisibility(View.VISIBLE);
                 int timetype = data.getTimetype();

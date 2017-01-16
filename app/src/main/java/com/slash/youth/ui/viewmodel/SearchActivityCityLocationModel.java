@@ -127,7 +127,6 @@ public class SearchActivityCityLocationModel extends BaseObservable {
                 }
             }
         }
-
     }
 
     //获取城市

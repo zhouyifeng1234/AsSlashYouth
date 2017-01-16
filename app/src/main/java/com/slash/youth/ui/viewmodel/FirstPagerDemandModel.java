@@ -69,14 +69,14 @@ public class FirstPagerDemandModel extends BaseObservable {
             this.firstPagerMoreActivity = firstPagerMoreActivity;
         initData();
         initView();
-        //listener();//;;;;;;;;;
+        listener();
     }
 
     private void initData() {
         if(isDemand){
             demadHeaders =new String[]{"需求方式", "用户类型", "全国", "排序"};
         }else {
-            demadHeaders =new String[]{"需求方式", "全国", "排序"};
+            demadHeaders =new String[]{"服务方式", "全国", "排序"};
         }
     }
 
@@ -95,7 +95,7 @@ public class FirstPagerDemandModel extends BaseObservable {
 
        searchCityLocationBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.search_activity_city_location, null, false);
         constellationView = searchCityLocationBinding.getRoot();
-        //setSearchArea(constellationView);//;;;;;;;;;;;;
+        setSearchArea(constellationView);
 
         final ListView sortView = new ListView(firstPagerMoreActivity);
         sortView.setDividerHeight(0);
