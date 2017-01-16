@@ -73,6 +73,7 @@
 
                 <include layout="@layout/refresh_head"/>
                 <com.slash.youth.ui.view.PullableSrcollView.PullableScrollView
+                    android:id="@+id/scrollView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#edf1f2">

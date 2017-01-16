@@ -47,6 +47,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#edf1f2"
         app:ddmenuTextSize="15sp"
         app:ddtextUnselectedColor="@color/drop_down_unselected"
         app:ddtextSelectedColor="@color/drop_down_selected"

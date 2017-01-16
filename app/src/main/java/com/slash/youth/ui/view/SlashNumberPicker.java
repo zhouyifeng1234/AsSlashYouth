@@ -1,6 +1,7 @@
 package com.slash.youth.ui.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.View;

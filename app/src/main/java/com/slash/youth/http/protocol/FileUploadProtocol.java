@@ -3,6 +3,7 @@ package com.slash.youth.http.protocol;
 import com.google.gson.Gson;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.common.util.KeyValue;
 import org.xutils.http.RequestParams;

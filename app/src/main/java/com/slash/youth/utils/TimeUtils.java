@@ -12,7 +12,7 @@ public class TimeUtils {
     private static long currentTime;
     private static String pattern1 = "mm分钟之前";
     private static String pattern2 = "HH:mm";
-    private static String pattern3 = "MM月dd日hh:mm";
+    private static String pattern3 = "MM月dd日HH:mm";
     private static String pattern4 = "MM/dd/yyyy HH:mm:ss";
     private static String pattern5 = "yyyy年MM月dd日 HH:mm";
 

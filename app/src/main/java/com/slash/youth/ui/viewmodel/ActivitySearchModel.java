@@ -54,8 +54,6 @@ public class ActivitySearchModel extends BaseObservable {
     private String searchText = "";
     public static ArrayList<ItemSearchBean> search_contentlist = new ArrayList<>();
     private ArrayList<String> list = new ArrayList<>();
-  /*  private String fileName ="data/data/com.slash.youth";
-    private File file = new File(fileName, "SearchHistory.text");*/
     private SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
     private int offset = 0;
     private int limit = 5;
@@ -69,7 +67,6 @@ public class ActivitySearchModel extends BaseObservable {
 
         etSearchListener();
         getSearchContentData(searchText, offset, limit);
-
     }
 
     //点击直接搜索框,搜索历史
@@ -77,8 +74,6 @@ public class ActivitySearchModel extends BaseObservable {
         currentActivity.changeView(4);
         SearchAssociationModel searchDialogModel = new SearchAssociationModel(currentActivity.searchListviewAssociationBinding,searchHistoryEntityDao,adapter);
         currentActivity.searchListviewAssociationBinding.setSearchAssociationModel(searchDialogModel);
-        //加载搜索框历史的数据
-        //initSearchHistoryData();
         showHistoryData();
     }
 
@@ -108,9 +103,12 @@ public class ActivitySearchModel extends BaseObservable {
                     //保存在数据库
                     saveHistoryData(searchText);
                     showSearchAllReasultView(searchText);
-                } else {
+                } else if(!StringUtils.isSearchNumberContent(searchText)){
+                    saveHistoryData(searchText);
+                    showSearchAllReasultView(searchText);
+                }else {
                     ToastUtils.shortToast("输入有效字符");
-                }
+        }
                 break;
         }
     }
@@ -130,8 +128,6 @@ public class ActivitySearchModel extends BaseObservable {
             public void afterTextChanged(Editable s) {
                 searchText = s.toString();
                 showSearchHistroy(searchText);
-               // getSearchContentData(searchText, offset, limit);
-               // showSearchHistroy(searchText);
             }
         });
     }
@@ -141,7 +137,6 @@ public class ActivitySearchModel extends BaseObservable {
         int textLength = searchText.length();
         switch (textLength) {
             case 0:
-                //showHistory();
                 showHistoryData();
                 break;
             case 1:
@@ -174,19 +169,6 @@ public class ActivitySearchModel extends BaseObservable {
             }
         });
     }
-
-   /* //保存搜索的记录
-    private void saveHistory(String text) {
-        try {
-            //BufferedWriter  bw = new BufferedWriter(new FileWriter(file));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-            bw.write(text);
-            bw.newLine();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     //保存数据在数据库
     private void saveHistoryData(String text) {
@@ -222,11 +204,6 @@ public class ActivitySearchModel extends BaseObservable {
         onItemClick();
     }
 
-    //显示历史数据
-  /*  private void showHistory() {
-        initSearchHistoryData();
-    }*/
-
     //直接搜索结果
     private void showSearchAllReasultView(String text) {
         currentActivity.changeView(3);
@@ -234,50 +211,11 @@ public class ActivitySearchModel extends BaseObservable {
         currentActivity.activityResultAllBinding.setSearchResultAllModel(searchResultAllModel);
     }
 
-    //加载搜索历史的数据
-   /* private void initSearchHistoryData() {
-        //存储集合
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line= br.readLine())!=null){
-                if(TextUtils.isEmpty(line)){
-                    continue;
-                }
-                list.add(line);
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //倒序，最多取5个
-        Collections.reverse(list);
-        search_contentlist.clear();
-        if(list.size()!=0){
-            if(list.size()<5&&list.size()>=0){
-                for (String text : list) {
-                    search_contentlist.add(new ItemSearchBean(text,true));
-                }
-            }else {
-                for (int i = 0; i < 5; i++) {
-                    String text = list.get(i);
-                    search_contentlist.add(new ItemSearchBean(text,true));
-                }
-            }
-        }else {
-            LogKit.d("没有搜索历史记录");
-        }
-
-        adapter = new SearchHistoryListAdapter(search_contentlist);
-        currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
-        onItemClick();
-    }*/
-
     //获取搜索联想词
     private void getSearchContentData(String text, int offset, int limit) {
         String etText = mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
-        if(text!=null&&text!=""&&etText!=null){
-            SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(), text, offset, limit);
+        if(!TextUtils.isEmpty(etText)){
+            SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(), etText, offset, limit);
         }
     }
 

@@ -51,6 +51,24 @@ public class MyCollectionBean {
             private String title;
             private int type;
             private long uid;
+            private int quoteunit;
+            private int timetype;
+
+            public int getTimetype() {
+                return timetype;
+            }
+
+            public void setTimetype(int timetype) {
+                this.timetype = timetype;
+            }
+
+            public int getQuoteunit() {
+                return quoteunit;
+            }
+
+            public void setQuoteunit(int quoteunit) {
+                this.quoteunit = quoteunit;
+            }
 
             public String getAvatar() {
                 return avatar;

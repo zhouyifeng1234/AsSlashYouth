@@ -122,7 +122,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
             if(searchCityLocationBinding==null){
                 searchCityLocationBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.search_activity_city_location, null, false);
                 areaView = searchCityLocationBinding.getRoot();
-                setSearchArea(areaView);
+                //setSearchArea(areaView);//;;;;;;;;;;;;;;;;
             }
         }
 

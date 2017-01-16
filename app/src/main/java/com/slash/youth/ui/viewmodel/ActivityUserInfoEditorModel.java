@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillManagerBean;
@@ -247,11 +248,12 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                     final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
 
+                    DemandEngine.uploadFile(new onUploadFile(),tempFile.getAbsolutePath());
+
                     ImageOptions.Builder builder = new ImageOptions.Builder();
                     ImageOptions imageOptions = builder.build();
                     avatar = tempFile.toURI().toString();
                     x.image().bind( activityUserinfoEditorBinding.ibClickAvatar, tempFile.toURI().toString(), imageOptions);
-
                     setUploadPicLayerVisibility(View.GONE);
 
                 } catch (Exception ex) {
@@ -311,6 +313,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                     final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
 
+                    DemandEngine.uploadFile(new onUploadFile(),tempFile.getAbsolutePath());
+
                     ImageOptions.Builder builder = new ImageOptions.Builder();
                     ImageOptions imageOptions = builder.build();
                     avatar = tempFile.toURI().toString();
@@ -365,9 +369,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         userinfoEditorActivity.startActivityForResult(intentSubscribeActivity, Constants.USERINFO_SKILLLABEL);
     }
 
-    //下载图片信息
-    public void uploadPhoto(String filename) {
-        UserInfoEngine.uploadFile(new onUploadFile(), filename);
+    //上传图片信息
+    public void uploadPhoto(String fileId) {
+        UserInfoEngine.setAvater(new onSetAvater(),fileId);
     }
 
     private String uploadFail = "上传照片失败";
@@ -380,9 +384,35 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             if (rescode == 0) {
                 UploadFileResultBean.Data data = dataBean.data;
                 String fileId = data.fileId;
-                LogKit.d("图片路径" + fileId);
+                if (!TextUtils.isEmpty(fileId)) {
+                    uploadPhoto(fileId);
+                }
             } else {
                 LogKit.d(uploadFail);
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.v("上传头像失败：" + result);
+            ToastUtils.shortToast("上传头像失败：" + result);
+        }
+    }
+
+    public class onSetAvater implements BaseProtocol.IResultExecutor<CommonResultBean> {
+        @Override
+        public void execute(CommonResultBean dataBean) {
+            int rescode = dataBean.rescode;
+            if(rescode == 0){
+                CommonResultBean.Data data = dataBean.data;
+                int status = data.status;
+                switch (status){
+                    case 1:
+                        LogKit.d("设置成功");
+                        break;
+                    case 0:
+                        LogKit.d("设置失败");
+                        break;
+                }
             }
         }
         @Override
@@ -393,7 +423,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //点击保存
     public void save(View view) {
-         name = activityUserinfoEditorBinding.etUsername.getText().toString();//必填
+
          skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
         company = activityUserinfoEditorBinding.tvCompany.getText().toString();
         position = activityUserinfoEditorBinding.tvProfession.getText().toString();
@@ -465,10 +495,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void savePersonInfo() {
-        //保存图片路径
-        if (avatar != "" && avatar != null) {
-            uploadPhoto(avatar);
-        }
+
 
         //保存姓名，技能描述，职业类型
         name = activityUserinfoEditorBinding.etUsername.getText().toString();

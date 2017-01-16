@@ -127,6 +127,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     int vpAdvStartIndex;
 
     private void initView() {
+        pagerHomeFreetimeBinding.scrollView.smoothScrollTo(0,0);
+
         mIsDisplayDemandList = SpUtils.getBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, true);
         if (mIsDisplayDemandList) {
             displayDemanList();

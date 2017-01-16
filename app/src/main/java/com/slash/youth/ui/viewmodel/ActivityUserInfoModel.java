@@ -255,8 +255,15 @@ public class ActivityUserInfoModel extends BaseObservable {
             if(rescode == 0){
                 NewDemandAandServiceBean.DataBean data = dataBean.getData();
                 List<NewDemandAandServiceBean.DataBean.ListBean> list = data.getList();
-                listSize = list.size();
-                userInfoListView.addAll(list);
+                for (NewDemandAandServiceBean.DataBean.ListBean listBean : list) {
+                    int anonymity = listBean.getAnonymity();
+                    if(anonymity == 1){
+                        userInfoListView.add(listBean);
+                    }
+                }
+
+                listSize = userInfoListView.size();
+               // userInfoListView.addAll(list);
                 userInfoAdapter = new UserInfoAdapter(userInfoListView);
                activityUserinfoBinding.lvUserinfo.setAdapter(userInfoAdapter);
             }
@@ -324,7 +331,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         myUninfo =  uinfo;
         //   技能标签
         String tag = uinfo.getTag();
-        if(tag!=""&&tag!=null){
+        if(!TextUtils.isEmpty(tag)){
             String[] split = tag.split(",");
             for (String textTag : split) {
                 skillLabelList.add(textTag);

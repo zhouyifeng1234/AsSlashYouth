@@ -16,6 +16,7 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
@@ -40,19 +41,13 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
 
     @Override
     public void refreshView(FreeTimeServiceBean.DataBean.ListBean data) {
-       /* long starttime = data.getStarttime();
-        long endtime = data.getEndtime();
-        String startData = TimeUtils.getData(starttime);
-        String endData = TimeUtils.getData(endtime);*/
-        // mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME + "" + startData);
-
         int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(avatar!=null&&avatar.equals("")){
+                if(!TextUtils.isEmpty(avatar)){
                     BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 }
                 itemHomeDemandServiceBinding.tvName.setText(name);
@@ -67,8 +62,16 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
 
         int timetype = data.getTimetype();
         itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
-        mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        if(timetype == 0){
+            long starttime = data.getStarttime();
+            long endtime = data.getEndtime();
+            String startData = TimeUtils.getData(starttime);
+            String endData = TimeUtils.getData(endtime);
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(startData+"-"+endData);
+        }else {
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
+            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        }
 
         int isauth = data.getIsauth();
         switch (isauth) {
@@ -89,25 +92,40 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         int quoteunit = data.getQuoteunit();
         if (quoteunit >= 1 && quoteunit <= 9) {
             if(quote == 0){
-                itemHomeDemandServiceBinding.tvQuote.setText("服务方报价");
+                itemHomeDemandServiceBinding.tvQuote.setText(FirstPagerManager.DEMAND_QUOTE);
             }else {
                 String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit - 1];
                 itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
             }
         }
 
+        //目标经纬度
+        double lat = data.getLat();
+        double lng = data.getLng();
+        String place = data.getPlace();
         int pattern = data.getPattern();
         switch (pattern) {
             case 0:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
+
+                itemHomeDemandServiceBinding.tvLocation.setText("全国");
                 break;
             case 1:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
+
+                if(!TextUtils.isEmpty(place)){
+                    itemHomeDemandServiceBinding.tvLocation.setText(place);
+                }
+                //用户的经纬度
+                double currentLatitude = SlashApplication.getCurrentLatitude();
+                double currentLongitude = SlashApplication.getCurrentLongitude();
+                double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+                itemHomeDemandServiceBinding.tvDistance.setText("距离" + distance + "KM");
                 break;
         }
 
         int instalment = data.getInstalment();
-        itemHomeDemandServiceBinding.tvInstalment.setText("分期支付");
+        itemHomeDemandServiceBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);
         switch (instalment) {
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
@@ -116,19 +134,5 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
                 break;
         }
-
-        String place = data.getPlace();
-        if(!TextUtils.isEmpty(place)){
-            itemHomeDemandServiceBinding.tvLocation.setText(place);
-        }
-
-        //目标经纬度
-        double lat = data.getLat();
-        double lng = data.getLng();
-        //用户的经纬度
-        double currentLatitude = SlashApplication.getCurrentLatitude();
-        double currentLongitude = SlashApplication.getCurrentLongitude();
-        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("距离" + distance + "KM");
     }
 }

@@ -50,7 +50,7 @@ public class DBManager {
     private SQLiteDatabase openDatabase(String dbfile) {
         File file = new File(dbfile);
         try {
-           // if (!(file.exists())) {
+            if (!(file.exists())) {
                 InputStream isr = this.context.getResources().openRawResource(
                         R.raw.province_city_zone);
 
@@ -61,7 +61,7 @@ public class DBManager {
                 int count = 0;
                 while ((count = isr.read(buffer)) > 0) {
                     fos.write(buffer, 0, count);
-             //   }
+                }
                 fos.close();
                 isr.close();
             }

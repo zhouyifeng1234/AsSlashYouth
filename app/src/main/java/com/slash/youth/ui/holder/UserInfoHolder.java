@@ -1,6 +1,8 @@
 package com.slash.youth.ui.holder;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.tool.ext.ExtKt;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -15,6 +17,7 @@ import com.slash.youth.ui.viewmodel.ItemUserInfoModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -34,14 +37,74 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
     @Override
     public void refreshView(NewDemandAandServiceBean.DataBean.ListBean data) {
         int anonymity = data.getAnonymity();
+        long starttime =  data.getStarttime();
+        String startData = TimeUtils.getData(starttime);
+        long endtime = data.getEndtime();
+        String endData = TimeUtils.getData(endtime);
+
+        int instalment = data.getInstalment();
+
+        long quote = data.getQuote();
+        int quoteunit = data.getQuoteunit();
+
+        int type = data.getType();
+        switch (type){
+            case 1://需求
+
+                if(starttime == 0&&endtime == 0){
+                    itemUserinfoBinding.tvTime.setText(UserInfoEngine.ANY_TIME);
+                }else {
+                    itemUserinfoBinding.tvTime.setText(FirstPagerManager.START_TIME+startData);
+                }
+
+                if(quote>0){
+                    String demandQuote = FirstPagerManager.QUOTE + quote +"元";
+                    itemUserinfoBinding.tvQuote.setText(demandQuote);
+                }else {
+                    itemUserinfoBinding.tvQuote.setText(FirstPagerManager.DEMAND_QUOTE);
+                }
+
+                itemUserinfoBinding.tvInstalment.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                switch (instalment){
+                    case 0:
+                        itemUserinfoBinding.tvInstalment.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        itemUserinfoBinding.tvInstalment.setVisibility(View.GONE);
+                        break;
+                }
+                break;
+            case 2://服务
+                String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit];
+                itemUserinfoBinding.tvQuote.setText(quoteString);
+
+                int timetype = data.getTimetype();
+                itemUserinfoBinding.ivTime.setVisibility(View.VISIBLE);
+                if(timetype == 0){
+                    itemUserinfoBinding.tvTime.setText(startData+"-"+endData);
+                }else {
+                    itemUserinfoBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype]);
+                }
+
+                itemUserinfoBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);
+                switch (instalment){
+                    case 0:
+                        itemUserinfoBinding.tvInstalment.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        itemUserinfoBinding.tvInstalment.setVisibility(View.VISIBLE);
+                        break;
+                }
+                break;
+        }
+
+        // int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(avatar!=null&&avatar.equals("")){
-                    BitmapKit.bindImage(itemUserinfoBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-                }
+                BitmapKit.bindImage(itemUserinfoBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 itemUserinfoBinding.tvName.setText(name);
                 break;
             case 0://匿名
@@ -51,12 +114,6 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
                 itemUserinfoBinding.tvName.setText(anonymityName);
                 break;
         }
-
-        long starttime = data.getStarttime();
-        long endtime = data.getEndtime();
-        String startData = TimeUtils.getData(starttime);
-        String endData = TimeUtils.getData(endtime);
-        itemUserinfoBinding.tvTime.setText(UserInfoEngine.TASK_TIME_TITLE+startData+"-"+endData);
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -71,40 +128,26 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         String title = data.getTitle();
         itemUserinfoBinding.tvTitle.setText(title);
 
-        long quote = data.getQuote();
-        int quoteunit = data.getQuoteunit();
-        String quoteString = FirstPagerManager.QUOTE + quote +"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit];
-        itemUserinfoBinding.tvQuote.setText(quoteString);
-
         int pattern = data.getPattern();
-        switch (pattern){
-            case 0:
-                itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
-                break;
-            case 1:
-                itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
-                break;
-        }
-
-        int instalment = data.getInstalment();
-        switch (instalment){
-            case 0:
-                itemUserinfoBinding.tvInstalment.setVisibility(View.GONE);
-                break;
-            case 1:
-                itemUserinfoBinding.tvInstalment.setVisibility(View.VISIBLE);
-                break;
-        }
-
         String place = data.getPlace();
-        itemUserinfoBinding.tvLocation.setText(place);
-
         //用户的经纬度
         double lat = data.getLat();
         double lng = data.getLng();
-        double currentLatitude = SlashApplication.getCurrentLatitude();
-        double currentLongitude = SlashApplication.getCurrentLongitude();
-        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemUserinfoBinding.tvDistance.setText("距离"+distance+"KM");
+
+        switch (pattern){
+            case 0:
+                itemUserinfoBinding.tvLocation.setText("全国");
+                itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
+                break;
+            case 1:
+                itemUserinfoBinding.tvLocation.setText(place);
+                itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
+                double currentLatitude = SlashApplication.getCurrentLatitude();
+                double currentLongitude = SlashApplication.getCurrentLongitude();
+                double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+                itemUserinfoBinding.tvDistance.setText("距离"+distance+"KM");
+                break;
+        }
+
     }
 }

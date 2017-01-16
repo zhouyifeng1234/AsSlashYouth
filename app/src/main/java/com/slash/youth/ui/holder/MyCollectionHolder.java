@@ -6,11 +6,15 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMyCollectionBinding;
 import com.slash.youth.domain.MyCollectionBean;
+import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ItemMyCollectionModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -38,22 +42,67 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
 
     @Override
     public void refreshView(MyCollectionBean.DataBean.ListBean data) {
+
         String avatar = data.getAvatar();
         if(avatar!=null){
             BitmapKit.bindImage(itemMyCollectionBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
-        long cts = data.getCts();//收藏时间
-        String time = TimeUtils.getTime(cts);
-        itemMyCollectionBinding.tvTime.setText(MyManager.START_TIME+time);
-
         int instalment = data.getInstalment();//1表示支持分期 0表示不支持分期
-        switch (instalment){
+
+        int quote = data.getQuote();//0表示对方报价
+
+        int type = data.getType();//1需求 2服务
+
+        long cts = data.getCts();//收藏时间
+        long starttime = data.getStarttime();
+        String startTime = TimeUtils.getTime(starttime);
+
+        switch (type){
             case 1:
-                itemMyCollectionBinding.tvFenqi.setVisibility(View.VISIBLE);
+                itemMyCollectionBinding.tvFenqi.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                switch (instalment){
+                    case 1:
+                        itemMyCollectionBinding.tvFenqi.setVisibility(View.GONE);
+                        break;
+                    case 0:
+                        itemMyCollectionBinding.tvFenqi.setVisibility(View.VISIBLE);
+                        break;
+                }
+
+                if(quote <=0){
+                    itemMyCollectionBinding.tvMyCollectionQuote.setText(FirstPagerManager.DEMAND_QUOTE);
+                }else {
+                    itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote);
+                }
+
+                if(starttime<=0){
+                    itemMyCollectionBinding.tvTime.setText(FirstPagerManager.ANY_TIME);
+                }else {
+                    itemMyCollectionBinding.tvTime.setText(MyManager.START_TIME+startTime);
+                }
                 break;
-            case 0:
-                itemMyCollectionBinding.tvFenqi.setVisibility(View.GONE);
+            case 2:
+                itemMyCollectionBinding.tvFenqi.setText(FirstPagerManager.SERVICE_INSTALMENT);
+                switch (instalment){
+                    case 1:
+                        itemMyCollectionBinding.tvFenqi.setVisibility(View.VISIBLE);
+                        break;
+                    case 0:
+                        itemMyCollectionBinding.tvFenqi.setVisibility(View.GONE);
+                        break;
+                }
+
+                int quoteunit = data.getQuoteunit();
+                itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote+FirstPagerManager.QUOTEUNITS[quoteunit]);
+
+                itemMyCollectionBinding.ivTime.setVisibility(View.VISIBLE);
+                int timetype = data.getTimetype();
+               if(timetype == 0){
+                   itemMyCollectionBinding.tvTime.setText(startTime);
+               }else {
+                   itemMyCollectionBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype]);
+               }
                 break;
         }
 
@@ -70,13 +119,6 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
         String name = data.getName();
         itemMyCollectionBinding.tvName.setText(name);
 
-        int quote = data.getQuote();//0表示对方报价
-        itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote);
-
-
-        long starttime = data.getStarttime();//任务开始时间 0表示未设置
-        String time1 = TimeUtils.getTime(starttime);
-
         String title = data.getTitle();//需求或者服务标题
         itemMyCollectionBinding.tvTitle.setText(title);
 
@@ -91,7 +133,7 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
         }
 
         long tid = data.getTid(); //需求或者服务ID
-        int type = data.getType();//1需求 2服务
+
         long uid = data.getUid();
     }
 
