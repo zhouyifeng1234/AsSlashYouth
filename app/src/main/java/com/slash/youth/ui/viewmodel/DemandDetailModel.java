@@ -814,7 +814,7 @@ public class DemandDetailModel extends BaseObservable {
     public void haveAChat(View v) {
 
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-        intentChatActivity.putExtra("targetId", demandUserId);
+        intentChatActivity.putExtra("targetId", demandUserId + "");
         mActivity.startActivity(intentChatActivity);
 
     }

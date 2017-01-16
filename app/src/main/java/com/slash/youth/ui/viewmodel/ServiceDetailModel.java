@@ -118,7 +118,7 @@ public class ServiceDetailModel extends BaseObservable {
     //聊一聊
     public void haveAChat(View v) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-        intentChatActivity.putExtra("targetId", serviceId);
+        intentChatActivity.putExtra("targetId", serviceId + "");
         mActivity.startActivity(intentChatActivity);
     }
 
