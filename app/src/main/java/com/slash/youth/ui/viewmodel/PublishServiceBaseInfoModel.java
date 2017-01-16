@@ -273,6 +273,9 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         if (desc.length() <= 0) {
             ToastUtils.shortToast("请输入服务描述");
             return;
+        } else if (desc.length() < 5) {
+            ToastUtils.shortToast("服务描述必须是5-300字之间");
+            return;
         } else if (desc.length() > 300) {
             ToastUtils.shortToast("服务描述不能超过300字");
             return;

@@ -16,6 +16,8 @@ import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by zhouyifeng on 2016/10/18.
  */
@@ -62,6 +64,10 @@ public class PublishDemandSuccessModel extends BaseObservable {
             setPublishSuccessHintVisibility(View.VISIBLE);
         }
         mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVerticalScrollBarEnabled(false);
+
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("展示有效期至yyyy年MM月dd日24:00");
+        String displayValidityDatetime = simpleDateFormat.format(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
+        mActivityPublishDemandSuccessBinding.tvDisplayValidityDatetime.setText(displayValidityDatetime);
     }
 
     public void closeSuccessActivity(View v) {

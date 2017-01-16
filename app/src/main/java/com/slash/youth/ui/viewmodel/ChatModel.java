@@ -63,6 +63,8 @@ import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
@@ -1010,7 +1012,7 @@ public class ChatModel extends BaseObservable {
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
 
-                View myShareTaskView = createMyShareTaskView(false);
+                View myShareTaskView = createMyShareTaskView(false, chatCmdShareTaskBean);
 
 
                 View vReadStatus = myShareTaskView.findViewById(R.id.tv_chat_msg_read_status);
@@ -1356,16 +1358,20 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherShareTaskView(ChatCmdShareTaskBean chatCmdShareTaskBean) {
         ItemChatOtherShareTaskBinding itemChatOtherShareTaskBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_share_task, null, false);
-        ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity, targetAvatar);
+        ChatOtherShareTaskModel chatOtherShareTaskModel = new ChatOtherShareTaskModel(itemChatOtherShareTaskBinding, mActivity, targetAvatar, chatCmdShareTaskBean);
         itemChatOtherShareTaskBinding.setChatOtherShareTaskModel(chatOtherShareTaskModel);
-        return itemChatOtherShareTaskBinding.getRoot();
+        View shareTaskView = itemChatOtherShareTaskBinding.getRoot();
+        shareTaskView.setOnClickListener(new ShareTaskClickListener(chatCmdShareTaskBean));
+        return shareTaskView;
     }
 
-    private View createMyShareTaskView(boolean isRead) {
+    private View createMyShareTaskView(boolean isRead, ChatCmdShareTaskBean chatCmdShareTaskBean) {
         ItemChatMyShareTaskBinding itemChatMyShareTaskBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_share_task, null, false);
-        ChatMyShareTaskModel chatMyShareTaskModel = new ChatMyShareTaskModel(itemChatMyShareTaskBinding, mActivity, isRead);
+        ChatMyShareTaskModel chatMyShareTaskModel = new ChatMyShareTaskModel(itemChatMyShareTaskBinding, mActivity, isRead, chatCmdShareTaskBean);
         itemChatMyShareTaskBinding.setChatMyShareTaskModel(chatMyShareTaskModel);
-        return itemChatMyShareTaskBinding.getRoot();
+        View shareView = itemChatMyShareTaskBinding.getRoot();
+        shareView.setOnClickListener(new ShareTaskClickListener(chatCmdShareTaskBean));
+        return shareView;
     }
 
     private View createOtherSendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
@@ -1578,6 +1584,7 @@ public class ChatModel extends BaseObservable {
         if (objectName.equals("RC:TxtMsg")) {
             TextMessage textMessage = (TextMessage) message.getContent();
             String extra = textMessage.getExtra();
+            Gson gson = new Gson();
             //接收聊天的文本消息
             if (TextUtils.isEmpty(extra)) {
                 View myTextView = createMyTextView(textMessage.getContent(), isRead, null, null);
@@ -1593,7 +1600,8 @@ public class ChatModel extends BaseObservable {
                     View infoView = createInfoView("您已发送添加好友请求");
                     mLlChatContent.addView(infoView, 0);
                 } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
-                    View myShareTaskView = createMyShareTaskView(isRead);
+                    ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(extra, ChatCmdShareTaskBean.class);
+                    View myShareTaskView = createMyShareTaskView(isRead, chatCmdShareTaskBean);
                     if (!isRead) {
                         View vReadStatus = myShareTaskView.findViewById(R.id.tv_chat_msg_read_status);
                         SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
@@ -1837,6 +1845,27 @@ public class ChatModel extends BaseObservable {
                 IOUtils.close(fis);
             }
             relatedTaskFiles.delete();
+        }
+    }
+
+    private class ShareTaskClickListener implements View.OnClickListener {
+        ChatCmdShareTaskBean chatCmdShareTaskBean;
+
+        public ShareTaskClickListener(ChatCmdShareTaskBean chatCmdShareTaskBean) {
+            this.chatCmdShareTaskBean = chatCmdShareTaskBean;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (chatCmdShareTaskBean.type == 1) {//需求
+                Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                intentDemandDetailActivity.putExtra("demandId", chatCmdShareTaskBean.tid);
+                mActivity.startActivity(intentDemandDetailActivity);
+            } else {//服务
+                Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                intentServiceDetailActivity.putExtra("serviceId", chatCmdShareTaskBean.tid);
+                mActivity.startActivity(intentServiceDetailActivity);
+            }
         }
     }
 

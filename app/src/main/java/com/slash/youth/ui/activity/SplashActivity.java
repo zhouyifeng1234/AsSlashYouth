@@ -32,6 +32,7 @@ import com.slash.youth.utils.PackageUtil;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -53,6 +54,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MobclickAgent.setScenarioType(CommonUtils.getContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
         ImageView ivSplash = new ImageView(CommonUtils.getContext());
         ivSplash.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ViewGroup.LayoutParams ll = new RandomLayout.LayoutParams(-1, -1);
@@ -247,7 +249,7 @@ public class SplashActivity extends Activity {
                             mDialog.dismiss();
                         }
 
-            installApk(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
+                        installApk(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
 
                        /* Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -267,7 +267,13 @@ public class ActivityLoginModel extends BaseObservable {
         SpUtils.setString("rongToken", rongToken);
     }
 
+    boolean isSendPin = false;
+
     public void sendPhoneVerificationCode(View v) {
+        if (isSendPin) {
+            return;
+        }
+
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
             ToastUtils.shortToast("请输入手机号");
@@ -283,12 +289,17 @@ public class ActivityLoginModel extends BaseObservable {
         LoginManager.getPhoneVerificationCode(new BaseProtocol.IResultExecutor<SendPinResultBean>() {
             @Override
             public void execute(SendPinResultBean dataBean) {
-                ToastUtils.shortToast("获取验证码成功");
+//                ToastUtils.shortToast("获取验证码成功");
+                ToastUtils.shortToast("验证码已发送，请查收");
+                isSendPin = true;
+                pinSecondsCount = 61;
+                CommonUtils.getHandler().post(new PinCountDown());
             }
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("获取验证码失败");
+//                ToastUtils.shortToast("获取验证码失败");
+                ToastUtils.shortToast("验证码发送失败");
             }
         }, phoenNum);
     }
@@ -554,5 +565,22 @@ public class ActivityLoginModel extends BaseObservable {
             //这里不会执行
         }
     };
+
+    int pinSecondsCount;
+
+    private class PinCountDown implements Runnable {
+
+        @Override
+        public void run() {
+            pinSecondsCount--;
+            if (pinSecondsCount < 0) {
+                mActivityLoginBinding.btnSendpinText.setText("验证码");
+                isSendPin = false;
+            } else {
+                mActivityLoginBinding.btnSendpinText.setText(pinSecondsCount + "S");
+                CommonUtils.getHandler().postDelayed(new PinCountDown(), 1000);
+            }
+        }
+    }
 
 }
