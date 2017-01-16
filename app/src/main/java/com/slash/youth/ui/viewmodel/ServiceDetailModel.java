@@ -36,9 +36,11 @@ import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -117,6 +119,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     //聊一聊
     public void haveAChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_CHAT);
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", serviceId + "");
         mActivity.startActivity(intentChatActivity);
@@ -124,6 +127,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     //收藏服务
     public void collectService(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_COLLECT);
         if (isCollectionService) {//已经收藏过了，点击取消收藏
             MyTaskEngine.cancelCollection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
@@ -157,7 +161,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     //立即抢单（抢服务）
     public void grabService(View v) {
-
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_ORDER);
         ServiceEngine.appointmentService(new BaseProtocol.IResultExecutor<AppointmentServiceResultBean>() {
             @Override
             public void execute(AppointmentServiceResultBean dataBean) {
@@ -194,6 +198,13 @@ public class ServiceDetailModel extends BaseObservable {
      */
     public void cancelShare(View v) {
         setShareLayerVisibility(View.GONE);
+    }
+
+    /**
+     * 斜杠好友分享，分享给我们APP中的好友
+     */
+    public void shareToSlashFriend() {
+
     }
 
     /**
@@ -269,6 +280,7 @@ public class ServiceDetailModel extends BaseObservable {
     }
 
     public void gotoUserInfo(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL);
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("Uid", serviceUserId);
         mActivity.startActivity(intentUserInfoActivity);

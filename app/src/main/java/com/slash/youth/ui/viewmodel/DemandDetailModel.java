@@ -44,9 +44,11 @@ import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -646,12 +648,14 @@ public class DemandDetailModel extends BaseObservable {
     public void shareDemand(View v) {
 //        ToastUtils.shortToast("Share Demand");
         openShareLayer();
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE);
     }
 
     //底部分享按钮的操作，需求者视角的时候从才会显示
     public void shareDemandBottom(View v) {
 //        ToastUtils.shortToast("Share Demand Bottom");\
         openShareLayer();
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE);
     }
 
     private void openShareLayer() {
@@ -665,6 +669,14 @@ public class DemandDetailModel extends BaseObservable {
      */
     public void cancelShare(View v) {
         setShareLayerVisibility(View.GONE);
+    }
+
+
+    /**
+     * 斜杠好友分享，分享给我们APP中的好友
+     */
+    public void shareToSlashFriend() {
+
     }
 
     /**
@@ -717,6 +729,7 @@ public class DemandDetailModel extends BaseObservable {
 
     //修改需求内容，会跳转到发布需求的页面，并在发布需求页面自动填充已有的内容
     public void updateDemand(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_MODIFY);
         Intent intentPublishDemandBaseInfo = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
 //        intentPublishDemandBaseInfo.putExtra("update", "update");
         intentPublishDemandBaseInfo.putExtra("demandDetailBean", demandDetailBean);
@@ -730,6 +743,7 @@ public class DemandDetailModel extends BaseObservable {
 
     //下架需求操作
     public void offShelfDemand(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_UNSHELVE);
 //        DemandEngine.cancelDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
 //            @Override
 //            public void execute(CommonResultBean dataBean) {
@@ -780,6 +794,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void sureAddRemarks(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_REMARK);
         final String remarks = mActivityDemandDetailBinding.etDemandRemarks.getText().toString();
         if (TextUtils.isEmpty(remarks)) {
             ToastUtils.shortToast("请输入备注信息");
@@ -805,6 +820,7 @@ public class DemandDetailModel extends BaseObservable {
     //跳转到个人信息界面
     public void gotoUserInfo(View v) {
 //        ToastUtils.shortToast("跳转至个人信息界面");
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE);
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("Uid", demandUserId);
         mActivity.startActivity(intentUserInfoActivity);
@@ -812,7 +828,7 @@ public class DemandDetailModel extends BaseObservable {
 
     //打开聊天功能
     public void haveAChat(View v) {
-
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_CHAT);
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", demandUserId + "");
         mActivity.startActivity(intentChatActivity);
@@ -821,6 +837,7 @@ public class DemandDetailModel extends BaseObservable {
 
     //收藏需求
     public void collectDemand(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_COLLECT);
         if (isCollectionDemand) {//已经收藏过了，点击取消收藏
             MyTaskEngine.cancelCollection(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
@@ -1109,6 +1126,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void bidDemand(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE);
         double bidQuote;
         String bidQuoteStr = mActivityDemandDetailBinding.etBidDemandQuote.getText().toString();
         try {

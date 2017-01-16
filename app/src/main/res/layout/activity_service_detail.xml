@@ -1086,6 +1086,31 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{serviceDetailModel.shareToSlashFriend}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/slash_share_logo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:text="斜杠好友"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:onClick="@{serviceDetailModel.shareToWeChat}"
                         android:orientation="vertical">
 
@@ -1162,7 +1187,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="@{serviceDetailModel.shareToQZone}"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -1180,8 +1206,10 @@
 
                     </LinearLayout>
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" android:layout_weight="1"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

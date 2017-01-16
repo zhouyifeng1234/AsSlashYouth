@@ -9,15 +9,15 @@ public class CustomEventAnalyticsUtils {
         public static String CLICK_PAGE_ONE = "CLICK_PAGE_ONE";//查看宣传页1
         public static String CLICK_PAGE_THREE = "CLICK_PAGE_THREE";//查看宣传页3
         public static String CLICK_PAGE_TWO = "CLICK_PAGE_TWO";//查看宣传页2
-        public static String IDLE_TIME_ACCESS_REQUIREMENT;//访问需求
-        public static String IDLE_TIME_ACCESS_SERVICE;//访问服务
+        public static String IDLE_TIME_ACCESS_REQUIREMENT;//访问需求,首页 需求、服务的切换按钮
+        public static String IDLE_TIME_ACCESS_SERVICE;//访问服务,首页 需求、服务的切换按钮
         public static String IDLE_TIME_CLICK_BANNER_ONE;//点击banner1
         public static String IDLE_TIME_CLICK_BANNER_THREE;//点击banner3
         public static String IDLE_TIME_CLICK_BANNER_TWO;//点击banner2
         public static String IDLE_TIME_CLICK_BOTTOM_MORE;//点击底部查看更多
-        public static String IDLE_TIME_CLICK_REQUIREMENT_DETAIL;//查看需求详情
+        public static String IDLE_TIME_CLICK_REQUIREMENT_DETAIL = "IDLE_TIME_CLICK_REQUIREMENT_DETAIL";//查看需求详情
         public static String IDLE_TIME_CLICK_RIGHT_MORE;//点击右侧查看更多
-        public static String IDLE_TIME_CLICK_SERVICE_DETAIL;//查看服务详情
+        public static String IDLE_TIME_CLICK_SERVICE_DETAIL = "IDLE_TIME_CLICK_SERVICE_DETAIL";//查看服务详情
         public static String IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_DISTACE_NAEREST;//更多需求-排序-距离最近
         public static String IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_PRICE_HIGHEST;//更多需求-排序-价格最高
         public static String IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_RELEASE_TIME_NEAREST;//更多需求-排序-发布时间最近
@@ -34,34 +34,34 @@ public class CustomEventAnalyticsUtils {
         public static String IDLE_TIME_PERSON_MESSAGE_CHAT;//个人信息-聊一聊
         public static String IDLE_TIME_PERSON_MESSAGE_FOCUS_TA;//个人信息-关注TA
         public static String IDLE_TIME_PERSON_MESSAGE_RECOMMEND_FRIEND;//个人信息-推荐给好友
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_CHAT;//需求详情-聊一聊
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_COLLECT;//需求详情-收藏
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_CHAT = "IDLE_TIME_REQUIREMENT_DETAIL_CHAT";//需求详情-聊一聊
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_COLLECT = "IDLE_TIME_REQUIREMENT_DETAIL_COLLECT";//需求详情-收藏
         public static String IDLE_TIME_REQUIREMENT_DETAIL_DISPUTE_CONDUCT_BEHIND_QUESTION;//需求详情-纠纷处理后面问号
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE;//需求详情-进入个人信息
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE;//需求详情-立即抢单
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE;//需求详情-立即分享
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE = "IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE";//需求详情-进入个人信息
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE";//需求详情-立即抢单
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE";//需求详情-立即分享
         public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_FRIEND;//需求详情-立即分享-好友
         public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_QQ;//需求详情-立即分享-QQ
         public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_WECHAT;//需求详情-立即分享-微信
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_MODIFY;//需求详情-修改
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_MODIFY = "IDLE_TIME_REQUIREMENT_DETAIL_MODIFY";//需求详情-修改
         public static String IDLE_TIME_REQUIREMENT_DETAIL_RECOMMEND_FRIEND;//需求详情-推荐给好友
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_REMARK;//需求详情-备注
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_REMARK = "IDLE_TIME_REQUIREMENT_DETAIL_REMARK";//需求详情-备注
         public static String IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_ALL_REQUIREMENT;//更多需求-需求类型-全部需求
         public static String IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_OFFLINE_REQUIREMENT;//更多需求-需求类型-线下需求
         public static String IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_ONLINE_REQUIREMENT;//更多需求-需求类型-线上需求
         public static String IDLE_TIME_REQUIREMENT_DETAIL_SHELVE;//需求详情-上架
         public static String IDLE_TIME_REQUIREMENT_DETAIL_SLASH_FREE_COMMISSION_ACTIVITY;//需求详情-斜杠零佣金活动
         public static String IDLE_TIME_REQUIREMENT_DETAIL_SLASH_SERVICE;//需求详情-斜杠客服
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_UNSHELVE;//需求详情-下架
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_UNSHELVE = "IDLE_TIME_REQUIREMENT_DETAIL_UNSHELVE";//需求详情-下架
         public static String IDLE_TIME_SEARCH_CLICK_PERSON_SEARCH;//搜索-点击搜人后搜索
         public static String IDLE_TIME_SEARCH_CLICK_SERVICE_SEARCH;//搜索-点击服务后搜索
         public static String IDLE_TIME_SEARCH_CLICKC_REQUIREMENT_SEARCH;//搜索-点击需求后搜索
         public static String IDLE_TIME_SEARCH_DIRECT_SEARCH;//搜索-直接综合搜索
-        public static String IDLE_TIME_SERVICE_DETAIL_CHAT;//服务详情-聊一聊
-        public static String IDLE_TIME_SERVICE_DETAIL_COLLECT;//服务详情-收藏
+        public static String IDLE_TIME_SERVICE_DETAIL_CHAT = "IDLE_TIME_SERVICE_DETAIL_CHAT";//服务详情-聊一聊
+        public static String IDLE_TIME_SERVICE_DETAIL_COLLECT = "IDLE_TIME_SERVICE_DETAIL_COLLECT";//服务详情-收藏
         public static String IDLE_TIME_SERVICE_DETAIL_DISPUTE_CONDUCT_BEHIND_QUESTION;//服务详情-纠纷处理后面问号
-        public static String IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL;//服务详情-进入个人信息
-        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_ORDER;//服务详情-立即预约
+        public static String IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL = "IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL";//服务详情-进入个人信息
+        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_ORDER = "IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_ORDER";//服务详情-立即预约
         public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE;//服务详情-立即分享
         public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_FRIEND;//服务详情-立即分享-好友
         public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_QQ;//服务详情-立即分享-QQ
