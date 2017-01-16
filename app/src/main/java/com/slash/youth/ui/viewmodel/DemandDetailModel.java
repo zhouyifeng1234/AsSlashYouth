@@ -675,7 +675,7 @@ public class DemandDetailModel extends BaseObservable {
     /**
      * 斜杠好友分享，分享给我们APP中的好友
      */
-    public void shareToSlashFriend() {
+    public void shareToSlashFriend(View v) {
 
     }
 
