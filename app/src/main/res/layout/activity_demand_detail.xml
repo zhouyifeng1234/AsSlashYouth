@@ -781,6 +781,7 @@
                                     android:layout_height="15dp"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
+                                    android:onClick="@{demandDetailModel.viewBpExplain}"
                                     android:src="@mipmap/question_mark_icon"/>
                             </LinearLayout>
 
@@ -915,7 +916,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:orientation="horizontal"
-                        android:visibility="gone">
+                    >
 
                         <ImageView
                             android:layout_width="18dp"
@@ -928,7 +929,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
-                            android:text="推荐需求"
+                            android:text="相似需求推荐"
                             android:textColor="#bd333333"
                             android:textSize="12sp"/>
 

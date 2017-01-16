@@ -19,6 +19,8 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by zhouyifeng on 2016/10/27.
  */
@@ -64,11 +66,14 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
         mItemDemandChooseServiceBinding.tvPurposeName.setText(mDemandChooseServiceBean.name);
         mItemDemandChooseServiceBinding.tvCompanyProfessionInfo.setText(mDemandChooseServiceBean.company + mDemandChooseServiceBean.position);
         LogKit.v("company:" + mDemandChooseServiceBean.company + "  profession:" + mDemandChooseServiceBean.position);
-        if (TextUtils.isEmpty(mDemandChooseServiceBean.industry) || TextUtils.isEmpty(mDemandChooseServiceBean.direction)) {
-            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + mDemandChooseServiceBean.direction);
-        } else {
-            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + "|" + mDemandChooseServiceBean.direction);
-        }
+//        if (TextUtils.isEmpty(mDemandChooseServiceBean.industry) || TextUtils.isEmpty(mDemandChooseServiceBean.direction)) {
+//            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + mDemandChooseServiceBean.direction);
+//        } else {
+//            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + "|" + mDemandChooseServiceBean.direction);
+//        }
+        SimpleDateFormat sdfBidStarttime = new SimpleDateFormat("01月19日 15:45");
+        String bidStarttime = sdfBidStarttime.format(mDemandChooseServiceBean.starttime);
+        mItemDemandChooseServiceBinding.tvBidDemandStarttime.setText(bidStarttime);
 
         //显示每一期的分期比例
         String[] instalmentratioArray = mDemandChooseServiceBean.instalment.split(",");

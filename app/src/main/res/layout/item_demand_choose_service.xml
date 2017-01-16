@@ -96,14 +96,23 @@
                             android:textColor="#666666"
                             android:textSize="12sp"/>
 
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_industry_direction"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="7dp"-->
+                            <!--android:text="IT互联网｜市场商务"-->
+                            <!--android:textColor="#666666"-->
+                            <!--android:textSize="12sp"/>-->
                         <TextView
-                            android:id="@+id/tv_industry_direction"
+                            android:id="@+id/tv_bid_demand_starttime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
-                            android:text="IT互联网｜市场商务"
+                            android:text="01月19日 15:45"
                             android:textColor="#666666"
                             android:textSize="12sp"/>
+
 
                     </LinearLayout>
 

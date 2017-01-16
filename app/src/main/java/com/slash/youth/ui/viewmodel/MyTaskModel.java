@@ -37,6 +37,8 @@ import java.util.ArrayList;
  */
 public class MyTaskModel extends BaseObservable {
 
+    public static final int REFRESH_TASK_LIST_STATUS = 100;
+
     private static final int LOAD_DATA_TYPE_LOAD = 0;//首次加载数据
     private static final int LOAD_DATA_TYPE_REFRESH = 1;//刷新数据
     private static final int LOAD_DATA_TYPE_MORE = 2;//加载更多数据
@@ -138,7 +140,7 @@ public class MyTaskModel extends BaseObservable {
                             case 5:
                                 Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
                                 intentDemandChooseServiceActivity.putExtras(taskInfo);
-                                mActivity.startActivity(intentDemandChooseServiceActivity);
+                                mActivity.startActivityForResult(intentDemandChooseServiceActivity, REFRESH_TASK_LIST_STATUS);
                                 break;
                             case 6:
                             case 7:
@@ -146,20 +148,20 @@ public class MyTaskModel extends BaseObservable {
                             case 9:
                                 Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
                                 intentMyPublishDemandActivity.putExtras(taskInfo);
-                                mActivity.startActivity(intentMyPublishDemandActivity);
+                                mActivity.startActivityForResult(intentMyPublishDemandActivity, REFRESH_TASK_LIST_STATUS);
                                 break;
                             default:
                                 //其它情况应该跳转到需求详情页
                                 //这里有疑问，是跳到需求详情页还是四个圈的页面，暂时先写成四个圈的页面
                                 Intent intentMyPublishDemandActivity2 = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
                                 intentMyPublishDemandActivity2.putExtras(taskInfo);
-                                mActivity.startActivity(intentMyPublishDemandActivity2);
+                                mActivity.startActivityForResult(intentMyPublishDemandActivity2, REFRESH_TASK_LIST_STATUS);
                                 break;
                         }
                     } else if (myTaskBean.type == 2) {//我发的服务
                         Intent intentMyPublishServiceActivity = new Intent(CommonUtils.getContext(), MyPublishServiceActivity.class);
                         intentMyPublishServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
-                        mActivity.startActivity(intentMyPublishServiceActivity);
+                        mActivity.startActivityForResult(intentMyPublishServiceActivity, REFRESH_TASK_LIST_STATUS);
                     }
 
                 } else if (myTaskBean.roleid == 2) {//抢单者
@@ -172,20 +174,20 @@ public class MyTaskModel extends BaseObservable {
                             case 9:
                                 Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
                                 intentMyBidDemandActivity.putExtras(taskInfo);
-                                mActivity.startActivity(intentMyBidDemandActivity);
+                                mActivity.startActivityForResult(intentMyBidDemandActivity, REFRESH_TASK_LIST_STATUS);
                                 break;
                             default:
                                 //其它情况应该跳转到需求详情页
                                 //这里有疑问，是跳到需求详情页还是四个圈的页面，暂时先写成四个圈的页面
                                 Intent intentMyBidDemandActivity2 = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
                                 intentMyBidDemandActivity2.putExtras(taskInfo);
-                                mActivity.startActivity(intentMyBidDemandActivity2);
+                                mActivity.startActivityForResult(intentMyBidDemandActivity2, REFRESH_TASK_LIST_STATUS);
                                 break;
                         }
                     } else if (myTaskBean.type == 2) {//我抢的服务(我预约的服务)
                         Intent intentMyBidServiceActivity = new Intent(CommonUtils.getContext(), MyBidServiceActivity.class);
                         intentMyBidServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
-                        mActivity.startActivity(intentMyBidServiceActivity);
+                        mActivity.startActivityForResult(intentMyBidServiceActivity, REFRESH_TASK_LIST_STATUS);
                     }
                 }
             }
@@ -586,6 +588,12 @@ public class MyTaskModel extends BaseObservable {
         currentLoadDataType = LOAD_DATA_TYPE_LOAD;
         getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, offset, pageSize);
         setOpenTaskVisibility(View.GONE);
+    }
+
+    public void backRefreshTaskListStatus() {
+        initData();
+        initListener();
+        initView();
     }
 
     private int openTaskVisibility = View.GONE;
