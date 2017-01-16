@@ -66,9 +66,11 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1428,8 +1430,9 @@ public class ChatModel extends BaseObservable {
     }
 
     public void openUploadPic(View v) {
-        hideSoftInputMethod();
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_UPLOAD_PICTURE_PLUS);
 
+        hideSoftInputMethod();
         setUploadPicLayerVisibility(View.VISIBLE);
     }
 
@@ -1469,6 +1472,7 @@ public class ChatModel extends BaseObservable {
 
     //交换联系方式
     public void sendChangeContact(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_TELEPHONE);
         sendChangeContact();
     }
 
@@ -1478,10 +1482,12 @@ public class ChatModel extends BaseObservable {
     }
 
     public void switchVoiceInput(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE);
         switchVoiceInput();
     }
 
     public void switchTextInput(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE);
         switchTextInput();
     }
 

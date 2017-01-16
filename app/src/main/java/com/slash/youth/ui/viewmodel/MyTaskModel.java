@@ -25,8 +25,10 @@ import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.adapter.MyTaskAdapter;
 import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -117,6 +119,8 @@ public class MyTaskModel extends BaseObservable {
                     isMoveListView = false;
                     return;
                 }
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON);
+
                 MyTaskBean myTaskBean = listMyTask.get(position);
 
                 Bundle taskInfo = new Bundle();

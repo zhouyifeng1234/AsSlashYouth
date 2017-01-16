@@ -15,6 +15,8 @@ import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +52,18 @@ public class PagerHomeInfoModel extends BaseObservable {
         mPagerHomeInfoBinding.lvPagerHomeInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 ConversationListBean.ConversationInfo conversationInfo = listConversation.get(position);
                 long uid = conversationInfo.uid;
+                if (uid == 1000) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_SLASH_SIGNPICS);
+                } else {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_OTHER_CHAT);
+                }
                 Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
                 intentChatActivity.putExtra("targetId", uid + "");
                 mActivity.startActivity(intentChatActivity);
+
             }
         });
     }
@@ -150,11 +159,15 @@ public class PagerHomeInfoModel extends BaseObservable {
 
     //跳转到我的任务界面
     public void gotoMyTask(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_MY_MISSON);
+
         Intent intentMyTaskActivity = new Intent(CommonUtils.getContext(), MyTaskActivity.class);
         mActivity.startActivity(intentMyTaskActivity);
     }
 
     public void gotoSearchActivity(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_SEARCH);
+
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         mActivity.startActivity(intentSearchActivity);
     }

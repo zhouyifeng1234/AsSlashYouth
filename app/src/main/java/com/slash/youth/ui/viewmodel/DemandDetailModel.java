@@ -25,6 +25,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
 import com.slash.youth.databinding.ItemDetailRecommendDemandBinding;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DetailRecommendDemandList;
@@ -38,6 +39,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.DemandDetailLocationActivity;
+import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
@@ -45,6 +47,7 @@ import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -332,9 +335,9 @@ public class DemandDetailModel extends BaseObservable {
                 }
                 String starttimeStr = "";
                 if (demand.starttime != 0) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
                     starttimeStr = sdf.format(demand.starttime);
-                    setDemandStartTime("开始:" + starttimeStr);
+                    setDemandStartTime(starttimeStr);
                 } else {
                     setDemandStartTime("随时");
                 }
@@ -346,7 +349,7 @@ public class DemandDetailModel extends BaseObservable {
                     //填写抢单浮层中的报价
                     mActivityDemandDetailBinding.etBidDemandQuote.setText("");
                 } else {
-                    setQuote("¥" + (int) demand.quote + "元");
+                    setQuote((int) demand.quote + "元");
                     //填写抢单浮层中的报价
                     mActivityDemandDetailBinding.etBidDemandQuote.setText((int) demand.quote + "");
                 }
@@ -385,7 +388,7 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日发布");//发布时间:9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("yyyy年MM月dd日发布");//9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
@@ -456,7 +459,8 @@ public class DemandDetailModel extends BaseObservable {
         }, demandId + "");
     }
 
-    String avatarUrl;
+    String avatarUrl;//第三方分享中用到的头像地址，全路径
+    String demandUserAvatar;//需求者头像地址fileId，非全路径，只是头像地址的fileId
 
     /**
      * 获取需求发布者的信息
@@ -468,6 +472,7 @@ public class DemandDetailModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                demandUserAvatar = uinfo.avatar;
                 avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
                 BitmapKit.bindImage(mActivityDemandDetailBinding.ivDemandUserAvatar, avatarUrl);
                 if (uinfo.isauth == 0) {//未认证
@@ -676,7 +681,18 @@ public class DemandDetailModel extends BaseObservable {
      * 斜杠好友分享，分享给我们APP中的好友
      */
     public void shareToSlashFriend(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_FRIEND);
 
+        Intent intentMyFriendActivity = new Intent(CommonUtils.getContext(), MyFriendActivtiy.class);
+        ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+        chatCmdShareTaskBean.uid = demandUserId;
+        chatCmdShareTaskBean.avatar = demandUserAvatar;
+        chatCmdShareTaskBean.title = getDemandTitle();
+        chatCmdShareTaskBean.quote = getQuote();
+        chatCmdShareTaskBean.type = 1;
+        chatCmdShareTaskBean.tid = demandId;
+        intentMyFriendActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
+        mActivity.startActivity(intentMyFriendActivity);
     }
 
     /**
@@ -685,6 +701,8 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToWeChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_RECOMMEND_FRIEND);
+
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
@@ -697,6 +715,8 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToWeChatCircle(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_WECHAT);
+
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
@@ -709,6 +729,8 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToQQ(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_QQ);
+
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
@@ -1313,6 +1335,38 @@ public class DemandDetailModel extends BaseObservable {
         }
     }
 
+    /**
+     * 点击斜杠客服，与小助手聊天
+     *
+     * @param v
+     */
+    public void chatToSlashHelper(View v) {
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", "1000");
+        mActivity.startActivity(intentChatActivity);
+    }
+
+    final String ZeroCommissionContentText = "零佣金承诺及顺利成交保证金是什么？\n斜杠青年倡导“人才开放共享”理念，承诺在双方用户交易过程中，不收取任何佣金。\n" +
+            "\n" +
+            "本服务平台将实际交易金额的5%计提为“顺利成交保证金”，任务顺利完成并且服务、需求双方评价分享后，平台将以交易金额的2.5%奖励形式返还给双方。\n" +
+            "\n" +
+            "如果任务并未顺利成交，已经开始的“服务阶段”对应的“顺利成交保证金”将，不予退还，存放奖金池 用于活动基金；未开始“服务阶段”对应的“顺利成交保证金”将退还给需求方。上述“服务阶段”是指双方用户达成的“分期到账”后各期对应的服务阶段。";
+    final String ZeroCommissionContentTitle = "零佣金活动？";
+
+    /**
+     * 点击零佣金活动，查看内容
+     *
+     * @param v
+     */
+    public void viewZeroCommissionContent(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+                LogKit.d("close viewZeroCommissionContent");
+            }
+        }, ZeroCommissionContentText, ZeroCommissionContentTitle);
+    }
+
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
     private int bottomBtnDemandVisibility;//需求者视角的底部按钮是否显示隐藏
     private int topShareBtnVisibility;//服务者视角的顶部分享按钮是否可见
@@ -1321,7 +1375,7 @@ public class DemandDetailModel extends BaseObservable {
 
     private String demandTitle;//需求标题
     private String demandStartTime;//需求开始时间 开始:9月18日 8:30
-    private String quote;//报价 ¥300元
+    private String quote;//报价 300元
     private String viewCount;//浏览量 300人浏览
 
     private int offlineItemVisibility;

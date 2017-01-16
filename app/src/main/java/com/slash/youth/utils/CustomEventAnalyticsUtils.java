@@ -40,11 +40,11 @@ public class CustomEventAnalyticsUtils {
         public static String IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE = "IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE";//需求详情-进入个人信息
         public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE";//需求详情-立即抢单
         public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE";//需求详情-立即分享
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_FRIEND;//需求详情-立即分享-好友
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_QQ;//需求详情-立即分享-QQ
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_WECHAT;//需求详情-立即分享-微信
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_FRIEND = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_FRIEND";//需求详情-立即分享-好友
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_QQ = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_QQ";//需求详情-立即分享-QQ
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_WECHAT = "IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_SHARE_WECHAT";//需求详情-立即分享-微信
         public static String IDLE_TIME_REQUIREMENT_DETAIL_MODIFY = "IDLE_TIME_REQUIREMENT_DETAIL_MODIFY";//需求详情-修改
-        public static String IDLE_TIME_REQUIREMENT_DETAIL_RECOMMEND_FRIEND;//需求详情-推荐给好友
+        public static String IDLE_TIME_REQUIREMENT_DETAIL_RECOMMEND_FRIEND = "IDLE_TIME_REQUIREMENT_DETAIL_RECOMMEND_FRIEND";//需求详情-推荐给好友
         public static String IDLE_TIME_REQUIREMENT_DETAIL_REMARK = "IDLE_TIME_REQUIREMENT_DETAIL_REMARK";//需求详情-备注
         public static String IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_ALL_REQUIREMENT;//更多需求-需求类型-全部需求
         public static String IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_OFFLINE_REQUIREMENT;//更多需求-需求类型-线下需求
@@ -62,26 +62,26 @@ public class CustomEventAnalyticsUtils {
         public static String IDLE_TIME_SERVICE_DETAIL_DISPUTE_CONDUCT_BEHIND_QUESTION;//服务详情-纠纷处理后面问号
         public static String IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL = "IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL";//服务详情-进入个人信息
         public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_ORDER = "IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_ORDER";//服务详情-立即预约
-        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE;//服务详情-立即分享
-        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_FRIEND;//服务详情-立即分享-好友
-        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_QQ;//服务详情-立即分享-QQ
-        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_WECHAT;//服务详情-立即分享-微信
-        public static String IDLE_TIME_SERVICE_DETAIL_RECOMMEND_FRIEND;//服务详情-推荐给好友
+        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE = "IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE";//服务详情-立即分享
+        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_FRIEND = "IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_FRIEND";//服务详情-立即分享-好友
+        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_QQ = "IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_QQ";//服务详情-立即分享-QQ
+        public static String IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_WECHAT = "IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_WECHAT";//服务详情-立即分享-微信
+        public static String IDLE_TIME_SERVICE_DETAIL_RECOMMEND_FRIEND = "IDLE_TIME_SERVICE_DETAIL_RECOMMEND_FRIEND";//服务详情-推荐给好友
         public static String IDLE_TIME_SERVICE_DETAIL_REMARK;//服务详情-备注
-        public static String IDLE_TIME_SERVICE_DETAIL_REVISE;//服务详情-修改
+        public static String IDLE_TIME_SERVICE_DETAIL_REVISE = "IDLE_TIME_SERVICE_DETAIL_REVISE";//服务详情-修改
         public static String IDLE_TIME_SERVICE_DETAIL_SHELVE;//服务详情-上架
         public static String IDLE_TIME_SERVICE_DETAIL_SLASH_FREE_COMMISSION_ACTIVITY;//服务详情-斜杠零佣金活动
         public static String IDLE_TIME_SERVICE_DETAIL_SLASH_SERVICE;//服务详情-斜杠客服
-        public static String IDLE_TIME_SERVICE_DETAIL_UNSHELVE;//服务详情-下架
+        public static String IDLE_TIME_SERVICE_DETAIL_UNSHELVE = "IDLE_TIME_SERVICE_DETAIL_UNSHELVE";//服务详情-下架
         public static String MESSAGE_CHAT_CLICK_CALL;//聊天中点击拨打电话
-        public static String MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE;//聊天中点击切换文字和语音
-        public static String MESSAGE_CHAT_CLICK_TELEPHONE;//聊天中点击换电话
-        public static String MESSAGE_CHAT_CLICK_UPLOAD_PICTURE_PLUS;//聊天中点击上传图片的加号
-        public static String MESSAGE_CLICK_MY_MISSON;//点击我的任务
-        public static String MESSAGE_CLICK_OTHER_CHAT;//点击其他聊天
-        public static String MESSAGE_CLICK_SEARCH;//点击搜索
-        public static String MESSAGE_CLICK_SLASH_SIGNPICS;//点击斜杠小助手
-        public static String MESSAGE_MY_MISSON_CLICK_MISSON;//我的任务-点击某任务
+        public static String MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE = "MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE";//聊天中点击切换文字和语音
+        public static String MESSAGE_CHAT_CLICK_TELEPHONE = "MESSAGE_CHAT_CLICK_TELEPHONE";//聊天中点击换电话
+        public static String MESSAGE_CHAT_CLICK_UPLOAD_PICTURE_PLUS = "MESSAGE_CHAT_CLICK_UPLOAD_PICTURE_PLUS";//聊天中点击上传图片的加号
+        public static String MESSAGE_CLICK_MY_MISSON = "MESSAGE_CLICK_MY_MISSON";//点击我的任务
+        public static String MESSAGE_CLICK_OTHER_CHAT = "MESSAGE_CLICK_OTHER_CHAT";//点击其他聊天
+        public static String MESSAGE_CLICK_SEARCH = "MESSAGE_CLICK_SEARCH";//点击搜索
+        public static String MESSAGE_CLICK_SLASH_SIGNPICS = "MESSAGE_CLICK_SLASH_SIGNPICS";//点击斜杠小助手
+        public static String MESSAGE_MY_MISSON_CLICK_MISSON = "MESSAGE_MY_MISSON_CLICK_MISSON";//我的任务-点击某任务
         public static String MESSAGE_MY_MISSON_CLICK_MISSON_ACCEPT;//我的任务-点击某任务-接受
         public static String MESSAGE_MY_MISSON_CLICK_MISSON_AGREEN_REFUND;//我的任务-点击某任务-同意退款
         public static String MESSAGE_MY_MISSON_CLICK_MISSON_APPEAL;//我的任务-点击某任务-申诉

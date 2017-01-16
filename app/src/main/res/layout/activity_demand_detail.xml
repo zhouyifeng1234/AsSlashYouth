@@ -33,9 +33,12 @@
                 />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:text="@{demandDetailModel.topTitle}"
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>
@@ -837,7 +840,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="《斜杠零佣金活动》"
+                                    android:onClick="@{demandDetailModel.viewZeroCommissionContent}"
+                                    android:text="斜杠零佣金活动"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>
                             </LinearLayout>
@@ -895,6 +899,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
+                                    android:onClick="@{demandDetailModel.chatToSlashHelper}"
                                     android:text="斜杠客服"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>

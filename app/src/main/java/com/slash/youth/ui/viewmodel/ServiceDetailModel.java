@@ -19,6 +19,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityServiceDetailBinding;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.AppointmentServiceResultBean;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DetailRecommendServiceList;
 import com.slash.youth.domain.ServiceDetailBean;
@@ -30,6 +31,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
@@ -91,6 +93,7 @@ public class ServiceDetailModel extends BaseObservable {
 
     //修改服务
     public void updateService(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_REVISE);
 
         mActivity.finish();
         if (PublishServiceSucceddActivity.activity != null) {
@@ -104,6 +107,8 @@ public class ServiceDetailModel extends BaseObservable {
 
     //下架服务
     public void offShelfService(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_UNSHELVE);
+
         MyTaskEngine.upAndDownTask(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -179,11 +184,13 @@ public class ServiceDetailModel extends BaseObservable {
 
     //分享服务（顶部需求者视角看到的分享按钮）
     public void shareService(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE);
         openShareLayer();
     }
 
     //底部服务者视角看到的分享按钮
     public void shareServiceBottom(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE);
         openShareLayer();
     }
 
@@ -204,7 +211,18 @@ public class ServiceDetailModel extends BaseObservable {
      * 斜杠好友分享，分享给我们APP中的好友
      */
     public void shareToSlashFriend(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_FRIEND);
 
+        Intent intentMyFriendActivity = new Intent(CommonUtils.getContext(), MyFriendActivtiy.class);
+        ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+        chatCmdShareTaskBean.uid = serviceUserId;
+        chatCmdShareTaskBean.avatar = serviceUserAvatar;
+        chatCmdShareTaskBean.title = getTitle();
+        chatCmdShareTaskBean.quote = getQuote();
+        chatCmdShareTaskBean.type = 2;
+        chatCmdShareTaskBean.tid = serviceId;
+        intentMyFriendActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
+        mActivity.startActivity(intentMyFriendActivity);
     }
 
     /**
@@ -213,6 +231,8 @@ public class ServiceDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToWeChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_RECOMMEND_FRIEND);
+
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
@@ -225,6 +245,8 @@ public class ServiceDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToWeChatCircle(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_WECHAT);
+
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
@@ -237,6 +259,8 @@ public class ServiceDetailModel extends BaseObservable {
      * @param v
      */
     public void shareToQQ(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_IMMEDIATELY_SHARE_QQ);
+
         UMShareAPI mShareAPI = UMShareAPI.get(mActivity);
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.QQ)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QQ).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
@@ -526,7 +550,8 @@ public class ServiceDetailModel extends BaseObservable {
         }
     }
 
-    String avatarUrl;
+    String avatarUrl;//三方分享中用到的头像地址，全路径
+    String serviceUserAvatar;//服务者头像地址fileId，非全路径，只是头像地址的fileId
 
     /**
      * 获取服务发布者的个人信息
@@ -538,6 +563,7 @@ public class ServiceDetailModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                serviceUserAvatar = uinfo.avatar;
                 avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
                 BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceUserAvatar, avatarUrl);
                 if (uinfo.isauth == 0) {//未认证
