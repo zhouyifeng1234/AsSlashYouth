@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -15,6 +16,7 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -46,7 +48,7 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(avatar!=null&&avatar.equals("")){
+                if(!TextUtils.isEmpty(avatar)){
                     BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 }
                 itemHomeDemandServiceBinding.tvName.setText(name);
@@ -59,12 +61,18 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
                 break;
         }
 
-        long starttime = data.getStarttime();
-        long endtime = data.getEndtime();
-        String startData = TimeUtils.getData(starttime);
-        String endData = TimeUtils.getData(endtime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.FREE_TIME+""+startData+"-"+endData);
-        mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        int timetype = data.getTimetype();
+        itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
+        if(timetype == 0){
+            long starttime = data.getStarttime();
+            long endtime = data.getEndtime();
+            String startData = TimeUtils.getData(starttime);
+            String endData = TimeUtils.getData(endtime);
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(startData+"-"+endData);
+        }else {
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
+            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        }
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -85,16 +93,32 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
 
         int pattern = data.getPattern();
+        String city = data.getPlace();
+
+        //目标经纬度
+        double lat = data.getLat();
+        double lng = data.getLng();
         switch (pattern){
-            case 0:
-                itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
-                break;
             case 1:
+                itemHomeDemandServiceBinding.tvLocation.setText(city);
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
+                break;
+            case 0:
+                itemHomeDemandServiceBinding.tvLocation.setText("全国");
+                itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
                 break;
         }
 
+        if(pattern == 1){
+            //用户的经纬度
+            double currentLatitude = SlashApplication.getCurrentLatitude();
+            double currentLongitude = SlashApplication.getCurrentLongitude();
+            double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+            itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
+        }
+
         int instalment = data.getInstalment();
+        itemHomeDemandServiceBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);
         switch (instalment){
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
@@ -103,17 +127,5 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
                 break;
         }
-
-        String city = data.getPlace();
-         itemHomeDemandServiceBinding.tvLocation.setText(city);
-
-        //目标经纬度
-        double lat = data.getLat();
-        double lng = data.getLng();
-        //用户的经纬度
-        double currentLatitude = SlashApplication.getCurrentLatitude();
-        double currentLongitude = SlashApplication.getCurrentLongitude();
-        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

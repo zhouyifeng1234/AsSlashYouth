@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 

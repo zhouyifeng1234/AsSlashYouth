@@ -1,5 +1,6 @@
 package com.slash.youth.ui.holder;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
         String name = userListBean.getName();
         String avatar = userListBean.getAvatar();
 
-        if(avatar!=null&&avatar.equals("")){
+        if(!TextUtils.isEmpty(avatar)){
             BitmapKit.bindImage(iv_search_person, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         tv_search_person_name.setText(name);

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.domain.SearchAllBean;
+import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.utils.BitmapKit;
@@ -25,6 +26,7 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
     TextView tv_pay;
     TextView tv_line;
     ImageView iv_authentication;
+    private ImageView iv_time;
 
     @Override
     public View initView() {
@@ -37,6 +39,7 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
         tv_quote= (TextView)mRootView.findViewById(R.id.tv_quote);
         tv_line= (TextView) mRootView.findViewById(R.id.tv_line);
         tv_pay= (TextView) mRootView.findViewById(R.id.tv_pay);
+        iv_time = (ImageView) mRootView.findViewById(R.id.iv_time);
         return mRootView;
     }
 
@@ -49,9 +52,7 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(avatar!=null&&avatar.equals("")){
-                    BitmapKit.bindImage(iv_item_listview_home_service_avatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-                }
+                BitmapKit.bindImage(iv_item_listview_home_service_avatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 tv_item_listview_home_demand_username.setText(name);
                 break;
             case 0://匿名
@@ -70,9 +71,17 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
 
        tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
         long starttime = demandListBean.getStarttime();
-        String startData = TimeUtils.getTime(starttime);
-        tv_item_listview_home_demand_date.setText("任务时间:"+startData);
-       tv_quote.setText("报价：￥"+demandListBean.getQuote());
+        int timetype = demandListBean.getTimetype();
+        iv_time.setVisibility(View.VISIBLE);
+        if(timetype == 0){
+            String startData = TimeUtils.getTime(starttime);
+            tv_item_listview_home_demand_date.setText(startData);
+        }else {
+            tv_item_listview_home_demand_date.setText(FirstPagerManager.TIMETYPES[timetype]);
+        }
+
+        int quoteunit = demandListBean.getQuoteunit();
+       tv_quote.setText(FirstPagerManager.QUOTE+demandListBean.getQuote()+FirstPagerManager.QUOTEUNITS[quoteunit]);
 
         if(demandListBean.getPattern() == 0){
            tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_UP);
@@ -81,6 +90,7 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
         }
 
         //1开启 0关闭
+        tv_pay.setText(FirstPagerManager.SERVICE_INSTALMENT);
         if(demandListBean.getInstalment() == 1){
            tv_pay.setVisibility(View.VISIBLE);
         }else if(demandListBean.getInstalment() == 0){

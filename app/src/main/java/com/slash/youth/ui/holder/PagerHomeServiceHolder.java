@@ -42,9 +42,7 @@ public class PagerHomeServiceHolder extends BaseHolder<SearchServiceItemBean.Dat
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(avatar!=null&&avatar.equals("")){
-                    BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-                }
+                BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 itemHomeDemandServiceBinding.tvName.setText(name);
                 break;
             case 0://匿名
@@ -55,12 +53,18 @@ public class PagerHomeServiceHolder extends BaseHolder<SearchServiceItemBean.Dat
                 break;
         }
 
-        long starttime = data.getStarttime();
-        long endtime = data.getEndtime();
-        String startData = TimeUtils.getData(starttime);
-        String endData = TimeUtils.getData(endtime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.FREE_TIME+""+startData+"-"+endData);
-        mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        int timetype = data.getTimetype();
+        itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
+        if(timetype == 0){
+            long starttime = data.getStarttime();
+            long endtime = data.getEndtime();
+            String startData = TimeUtils.getData(starttime);
+            String endData = TimeUtils.getData(endtime);
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(startData+"-"+endData);
+        }else {
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
+            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        }
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -81,16 +85,28 @@ public class PagerHomeServiceHolder extends BaseHolder<SearchServiceItemBean.Dat
         itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
 
         int pattern = data.getPattern();
+        String place = data.getPlace();
+        //目标经纬度
+        double lat = data.getLat();
+        double lng = data.getLng();
         switch (pattern){
             case 0:
+                itemHomeDemandServiceBinding.tvLocation.setText("全国");
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
                 break;
             case 1:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
+                itemHomeDemandServiceBinding.tvLocation.setText(place);
+                //用户的经纬度
+                double currentLatitude = SlashApplication.getCurrentLatitude();
+                double currentLongitude = SlashApplication.getCurrentLongitude();
+                double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+                itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
                 break;
         }
 
         int instalment = data.getInstalment();
+        itemHomeDemandServiceBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);
         switch (instalment){
             case 0:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
@@ -99,17 +115,5 @@ public class PagerHomeServiceHolder extends BaseHolder<SearchServiceItemBean.Dat
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
                 break;
         }
-
-        String place = data.getPlace();
-        itemHomeDemandServiceBinding.tvLocation.setText(place);
-
-        //目标经纬度
-        double lat = data.getLat();
-        double lng = data.getLng();
-        //用户的经纬度
-        double currentLatitude = SlashApplication.getCurrentLatitude();
-        double currentLongitude = SlashApplication.getCurrentLongitude();
-        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("<"+distance+"KM");
     }
 }

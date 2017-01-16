@@ -16,6 +16,7 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -47,7 +48,7 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         //匿名，实名
         switch (anonymity){
             case 1://实名
-                if(TextUtils.isEmpty(avatar)){//http://121.42.145.178/file/v1/api/download?fileId=group1/M00/00/07/eBtfY1hafHmAO_V9AAAo2cGFwKk.ccbb06
+                if(!TextUtils.isEmpty(avatar)){
                     BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 }
                 itemHomeDemandServiceBinding.tvName.setText(name);
@@ -61,9 +62,13 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         }
 
         long starttime = data.getStarttime();
-        String startData = TimeUtils.getData(starttime);
-        mItemHomeDemandServiceModel.setDemandOrServiceTime(startData);
-        mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        if(starttime == 0){
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.ANY_TIME);
+        }else {
+            String startData = TimeUtils.getData(starttime);
+            mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.START_TIME+startData);
+            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
+        }
 
         int isauth = data.getIsauth();
         switch (isauth){
@@ -79,38 +84,42 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
 
         long quote = data.getQuote();
-        String quoteString = FirstPagerManager.QUOTE + quote + "元";
-        itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        if(quote == 0){
+            itemHomeDemandServiceBinding.tvQuote.setText(FirstPagerManager.DEMAND_QUOTE);
+        }else {
+            String quoteString = FirstPagerManager.QUOTE + quote + "元";
+            itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
+        }
 
         int pattern = data.getPattern();
+        String city = data.getCity();
+        double lat = data.getLat();
+        double lng = data.getLng();
         switch (pattern){
             case 0:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
+              if(!TextUtils.isEmpty(city)){
+                  itemHomeDemandServiceBinding.tvLocation.setText(city);
+              }
                 break;
             case 1:
                 itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
+                double currentLatitude = SlashApplication.getCurrentLatitude();
+                double currentLongitude = SlashApplication.getCurrentLongitude();
+                double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+                itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
                 break;
         }
 
         int instalment = data.getInstalment();
+        itemHomeDemandServiceBinding.tvInstalment.setText(FirstPagerManager.DEMAND_INSTALMENT);
         switch (instalment){
             case 0:
-                itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
-                break;
-            case 1:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
                 break;
+            case 1:
+                itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
+                break;
         }
-
-        String city = data.getCity();
-        String location = data.getLocation();
-        itemHomeDemandServiceBinding.tvLocation.setText(city);
-
-        double lat = data.getLat();
-        double lng = data.getLng();
-        double currentLatitude = SlashApplication.getCurrentLatitude();
-        double currentLongitude = SlashApplication.getCurrentLongitude();
-        double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-        itemHomeDemandServiceBinding.tvDistance.setText("距离"+distance+"KM");
     }
 }

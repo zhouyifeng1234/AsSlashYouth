@@ -2,12 +2,14 @@ package com.slash.youth.ui.holder;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMySkillManageBinding;
 import com.slash.youth.domain.SkillManagerBean;
+import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.activity.MySkillManageActivity;
@@ -16,6 +18,7 @@ import com.slash.youth.ui.viewmodel.ItemMySkillManageModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
 
@@ -50,13 +53,14 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         public void refreshView(SkillManagerBean.DataBean.ListBean data) {
             setView(myActivityTitle);
             String pic = data.getPic();
-            if(pic!=null&&pic.contains(",")){
-                split = pic.split(",");
+            if(!TextUtils.isEmpty(pic)){
+                if(pic.contains(",")){
+                    split = pic.split(",");
+                    BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + split[0]);
+                }else {
+                    BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic);
+                }
             }
-
-            if(pic!=null){
-          //  BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + split[0]);
-        }
 
         String title = data.getTitle();
         itemMySkillManageBinding.tvSkillManagerTitle.setText(title);
@@ -65,17 +69,16 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote);
 
         int timetype = data.getTimetype();//闲时类型
-        switch (timetype){
-            case 0:
-                long starttime = data.getStarttime();
-               long  timeMillis = System.currentTimeMillis();
-                long endtime = data.getEndtime();
-                if (starttime >timeMillis&&endtime>starttime) {
-                    String startData = TimeUtils.getData(starttime);
-                    String endData = TimeUtils.getData(endtime);
-                    itemMySkillManageBinding.tvSkillMamagerTime.setText(MyManager.TASK_TIME+startData+"-"+endData);
-                }
-                break;
+            itemMySkillManageBinding.ivTime.setVisibility(View.VISIBLE);
+        if(timetype == 0){
+            long starttime = data.getStarttime();
+            long  timeMillis = System.currentTimeMillis();
+            long endtime = data.getEndtime();
+            String startData = TimeUtils.getData(starttime);
+            String endData = TimeUtils.getData(endtime);
+            itemMySkillManageBinding.tvSkillMamagerTime.setText(MyManager.TASK_TIME+startData+"-"+endData);
+        } else {
+            itemMySkillManageBinding.tvSkillMamagerTime.setText(FirstPagerManager.TIMETYPES[timetype]);
         }
 
         int anonymity = data.getAnonymity();//1实名0匿名
