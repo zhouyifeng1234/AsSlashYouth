@@ -503,19 +503,6 @@
                                 android:layout_height="170dp"
                                 android:layout_centerInParent="true">
 
-                                <FrameLayout
-                                    android:layout_width="135dp"
-                                    android:layout_height="135dp"
-                                    android:layout_centerInParent="true">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="bottom|center_horizontal"
-                                        android:src="@mipmap/rhythmic_bg"/>
-
-                                </FrameLayout>
-
                                 <com.slash.youth.ui.view.RingScoreView
                                     android:id="@+id/rsv_home_my_expert_marks_progress"
                                     android:layout_width="135dp"
@@ -552,6 +539,18 @@
                                         android:background="@drawable/shape_home_my_expert_marks_point"/>
 
                                 </RelativeLayout>
+                                <FrameLayout
+                                    android:layout_width="135dp"
+                                    android:layout_height="135dp"
+                                    android:layout_centerInParent="true">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="bottom|center_horizontal"
+                                        android:src="@mipmap/rhythmic_bg"/>
+
+                                </FrameLayout>
                                 <FrameLayout
                                     android:id="@+id/fl_home_my_expert_marks_maker"
                                     android:layout_width="140dp"

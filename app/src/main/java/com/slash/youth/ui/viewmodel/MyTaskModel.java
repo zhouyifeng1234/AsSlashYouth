@@ -596,6 +596,15 @@ public class MyTaskModel extends BaseObservable {
         initView();
     }
 
+    /**
+     * 隐藏筛选
+     *
+     * @param v
+     */
+    public void hideFilterTask(View v) {
+        setOpenTaskVisibility(View.GONE);
+    }
+
     private int openTaskVisibility = View.GONE;
     private int myTaskListVisibility = View.GONE;
     private int noTaskVisibility = View.GONE;

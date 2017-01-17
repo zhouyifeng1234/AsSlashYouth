@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.amap.api.maps2d.model.LatLng;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityServiceDetailBinding;
@@ -31,6 +32,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
@@ -64,6 +66,7 @@ public class ServiceDetailModel extends BaseObservable {
     boolean isFromDetail;
     String[] optionalPriceUnit;
     long serviceUserId;
+    LatLng serviceLatLng;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -300,7 +303,9 @@ public class ServiceDetailModel extends BaseObservable {
     };
 
     public void openServiceDetailLocation(View v) {
-
+        Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
+        intentDemandDetailLocationActivity.putExtra("demandLatLng", serviceLatLng);
+        mActivity.startActivity(intentDemandDetailLocationActivity);
     }
 
     public void gotoUserInfo(View v) {
@@ -419,6 +424,7 @@ public class ServiceDetailModel extends BaseObservable {
                     LogKit.v("service data:" + dataBean.data.service.title);
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
+                    serviceLatLng = new LatLng(service.lat, service.lng);
                     serviceUserId = service.uid;
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角

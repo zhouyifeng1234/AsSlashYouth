@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.amap.api.maps2d.model.LatLng;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailBinding;
@@ -75,6 +76,7 @@ public class DemandDetailModel extends BaseObservable {
     private LinearLayout mLlDemandRecommend;
     boolean isFromDetail;
     long demandUserId;
+    LatLng demandLatLng;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -300,6 +302,7 @@ public class DemandDetailModel extends BaseObservable {
             public void execute(DemandDetailBean dataBean) {
                 demandDetailBean = dataBean;
                 DemandDetailBean.Demand demand = dataBean.data.demand;
+                demandLatLng = new LatLng(demand.lat, demand.lng);
                 demandUserId = demand.uid;
                 if (LoginManager.currentLoginUserId == demand.uid) {//需求者视角
                     setTopShareBtnVisibility(View.GONE);
@@ -894,7 +897,7 @@ public class DemandDetailModel extends BaseObservable {
     //定位需求详情中的地址
     public void openDemandDetailLocation(View v) {
         Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
-//        intentDemandDetailLocationActivity.putExtra("demandLatLng", demandLatLng);
+        intentDemandDetailLocationActivity.putExtra("demandLatLng", demandLatLng);
         mActivity.startActivity(intentDemandDetailLocationActivity);
     }
 
