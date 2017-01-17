@@ -1,22 +1,17 @@
 package com.slash.youth.ui.viewmodel;
 
-import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.os.Build;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 
-import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChooseFriendBinding;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.MyFriendListBean;
-import com.slash.youth.domain.PersonRelationBean;
-import com.slash.youth.domain.SetBean;
-import com.slash.youth.domain.SlashFriendBean;
 import com.slash.youth.engine.ContactsManager;
-import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.ChooseFriendAdapter;
@@ -33,9 +28,9 @@ import java.util.List;
 /**
  * Created by zss on 2016/11/2.
  */
-public class ChooseFriendModel  extends BaseObservable{
+public class ChooseFriendModel extends BaseObservable {
     private ActivityChooseFriendBinding activityChooseFriendBinding;
-    private  ArrayList<MyFriendListBean.DataBean.ListBean> friendArrayList = new ArrayList<>();
+    private ArrayList<MyFriendListBean.DataBean.ListBean> friendArrayList = new ArrayList<>();
     private ArrayList<Character> letterList = new ArrayList<>();
     private LocationCityFirstLetterAdapter locationCityFirstLetterAdapter;
     private ChooseFriendAdapter chooseFriendAdapter;
@@ -45,11 +40,14 @@ public class ChooseFriendModel  extends BaseObservable{
     private int limit = 20;
     private int listSize;
     private boolean sendFriend;
+    Activity mActivity;
+    ChatCmdShareTaskBean chatCmdShareTaskBean;
 
-    public ChooseFriendModel(ActivityChooseFriendBinding activityChooseFriendBinding,MyFriendActivtiy chooseFriendActivtiy,boolean sendFriend) {
+    public ChooseFriendModel(Activity activity, ActivityChooseFriendBinding activityChooseFriendBinding, MyFriendActivtiy chooseFriendActivtiy, boolean sendFriend) {
         this.activityChooseFriendBinding = activityChooseFriendBinding;
         this.chooseFriendActivtiy = chooseFriendActivtiy;
         this.sendFriend = sendFriend;
+        this.mActivity = activity;
         initListView();
         initData();
         initView();
@@ -70,7 +68,7 @@ public class ChooseFriendModel  extends BaseObservable{
                 public void run() {
                     offset = 0;
                     friendArrayList.clear();
-                    ContactsManager.getMyFriendList(new onMyFriendList(),offset,limit);
+                    ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -82,11 +80,11 @@ public class ChooseFriendModel  extends BaseObservable{
                 @Override
                 public void run() {
                     //如果加载到最后一页，需要调用setLoadToLast()方法
-                    if(listSize < limit){//说明到最后一页啦
+                    if (listSize < limit) {//说明到最后一页啦
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
-                    }else {//不是最后一页
+                    } else {//不是最后一页
                         offset += limit;
-                        ContactsManager.getMyFriendList(new onMyFriendList(),offset,limit);
+                        ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
                 }
@@ -95,7 +93,8 @@ public class ChooseFriendModel  extends BaseObservable{
     }
 
     private void initData() {
-        ContactsManager.getMyFriendList(new onMyFriendList(),offset,limit);
+        chatCmdShareTaskBean = (ChatCmdShareTaskBean) mActivity.getIntent().getSerializableExtra("chatCmdShareTaskBean");
+        ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
 
         for (char cha = 'A'; cha <= 'Z'; cha++) {
             letterList.add(cha);
@@ -111,14 +110,24 @@ public class ChooseFriendModel  extends BaseObservable{
         activityChooseFriendBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(sendFriend){
-                    showSendDialog(position);
-                }else {
-                    MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
-                    long uid = listBean.getUid();
-                    Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-                    intentUserInfoActivity.putExtra("Uid", uid);
-                    chooseFriendActivtiy.startActivity(intentUserInfoActivity);
+                if (chatCmdShareTaskBean == null) {
+                    if (sendFriend) {
+                        showSendDialog(position);
+                    } else {
+                        MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
+                        long uid = listBean.getUid();
+                        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                        intentUserInfoActivity.putExtra("Uid", uid);
+                        chooseFriendActivtiy.startActivity(intentUserInfoActivity);
+                    }
+                } else {
+                    //进行斜杠好友分享任务（需求或者服务）
+                    long friendUid = friendArrayList.get(position).getUid();
+                    Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+                    intentChatActivity.putExtra("targetId", friendUid + "");
+                    intentChatActivity.putExtra("chatCmdName", "sendShareTask");
+                    intentChatActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
+                    mActivity.startActivity(intentChatActivity);
                 }
             }
         });
@@ -127,7 +136,7 @@ public class ChooseFriendModel  extends BaseObservable{
     private void showSendDialog(int position) {
         MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
         String name = listBean.getName();
-        DialogUtils.showDialogFive(chooseFriendActivtiy, "发给"+name, "", new DialogUtils.DialogCallBack() {
+        DialogUtils.showDialogFive(chooseFriendActivtiy, "发给" + name, "", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 LogKit.d("OK");
@@ -146,7 +155,7 @@ public class ChooseFriendModel  extends BaseObservable{
         @Override
         public void execute(MyFriendListBean dataBean) {
             int rescode = dataBean.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 MyFriendListBean.DataBean data = dataBean.getData();
                 List<MyFriendListBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
@@ -161,9 +170,10 @@ public class ChooseFriendModel  extends BaseObservable{
             }
 
         }
+
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 }

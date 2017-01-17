@@ -20,4 +20,5 @@ public class MyPublishServiceActivity extends Activity {
         MyPublishServiceModel myPublishServiceModel = new MyPublishServiceModel(activityMyPublishServiceBinding, this);
         activityMyPublishServiceBinding.setMyPublishServiceModel(myPublishServiceModel);
     }
+
 }

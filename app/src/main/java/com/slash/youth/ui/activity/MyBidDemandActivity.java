@@ -21,4 +21,5 @@ public class MyBidDemandActivity extends Activity {
         MyBidDemandModel myBidDemandModel = new MyBidDemandModel(activityMyBidDemandBinding, this);
         activityMyBidDemandBinding.setMyBidDemandModel(myBidDemandModel);
     }
+
 }

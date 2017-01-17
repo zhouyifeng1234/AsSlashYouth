@@ -342,6 +342,9 @@ public class MsgManager {
                                     OutputStreamWriter osw = null;
                                     BufferedWriter bw = null;
                                     try {
+                                        if (relatedTaskFiles.exists()) {
+                                            relatedTaskFiles.delete();
+                                        }
                                         relatedTaskFiles.createNewFile();
 
                                         String jsonData = commandMessage.getData();

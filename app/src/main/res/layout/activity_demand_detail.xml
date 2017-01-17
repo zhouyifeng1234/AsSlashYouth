@@ -33,9 +33,12 @@
                 />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:text="@{demandDetailModel.topTitle}"
                     android:textColor="#ffffff"
                     android:textSize="17sp"/>
@@ -778,6 +781,7 @@
                                     android:layout_height="15dp"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
+                                    android:onClick="@{demandDetailModel.viewBpExplain}"
                                     android:src="@mipmap/question_mark_icon"/>
                             </LinearLayout>
 
@@ -837,7 +841,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="《斜杠零佣金活动》"
+                                    android:onClick="@{demandDetailModel.viewZeroCommissionContent}"
+                                    android:text="斜杠零佣金活动"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>
                             </LinearLayout>
@@ -895,6 +900,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
+                                    android:onClick="@{demandDetailModel.chatToSlashHelper}"
                                     android:text="斜杠客服"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>
@@ -910,7 +916,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:orientation="horizontal"
-                        android:visibility="gone">
+                    >
 
                         <ImageView
                             android:layout_width="18dp"
@@ -923,7 +929,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
-                            android:text="推荐需求"
+                            android:text="相似需求推荐"
                             android:textColor="#bd333333"
                             android:textSize="12sp"/>
 
@@ -1025,7 +1031,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="3dp"
                         android:text="分享至其他平台获得更多服务机会"
-                        android:textColor="#66FFFFFF"
+                        android:textColor="#bdFFFFFF"
                         android:textSize="12sp"/>
 
                 </LinearLayout>
@@ -1713,6 +1719,31 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{demandDetailModel.shareToSlashFriend}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/slash_share_logo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:text="斜杠好友"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:onClick="@{demandDetailModel.shareToWeChat}"
                         android:orientation="vertical">
 
@@ -1789,7 +1820,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="@{demandDetailModel.shareToQZone}"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -1807,8 +1839,10 @@
 
                     </LinearLayout>
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" android:layout_weight="1"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -1903,7 +1937,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#000000"
-            android:visibility="@{demandDetailModel.viewPicVisibility}">
+            android:visibility="@{demandDetailModel.viewPicVisibility}"
+        >
+
 
         </android.support.v4.view.ViewPager>
 

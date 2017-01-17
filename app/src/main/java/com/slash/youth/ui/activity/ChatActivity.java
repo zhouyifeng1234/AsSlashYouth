@@ -32,6 +32,7 @@ public class ChatActivity extends Activity {
         ActivityChatBinding activityChatBinding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
         mChatModel = new ChatModel(activityChatBinding, this);
         activityChatBinding.setChatModel(mChatModel);
+
     }
 
     @Override

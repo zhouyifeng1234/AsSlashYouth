@@ -66,9 +66,11 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -170,6 +172,10 @@ public class ChatModel extends BaseObservable {
                 chatTaskInfoBean.type = taskInfoBundle.getInt("type");
                 chatTaskInfoBean.title = taskInfoBundle.getString("title");
                 sendRelatedTaskInfo(chatTaskInfoBean);
+
+                mActivityChatBinding.flRelatedTaskLine.setVisibility(View.VISIBLE);
+                LogKit.v("chatTaskInfoBean.title:" + chatTaskInfoBean.title);
+                setRelatedTaskTitle("相关任务:" + chatTaskInfoBean.title);
             } else {//如果进入界面时没有带上任务，就检测本地是否有对方发送过来的相关任务
                 displayRelatedTask();
             }
@@ -1428,8 +1434,9 @@ public class ChatModel extends BaseObservable {
     }
 
     public void openUploadPic(View v) {
-        hideSoftInputMethod();
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_UPLOAD_PICTURE_PLUS);
 
+        hideSoftInputMethod();
         setUploadPicLayerVisibility(View.VISIBLE);
     }
 
@@ -1469,6 +1476,7 @@ public class ChatModel extends BaseObservable {
 
     //交换联系方式
     public void sendChangeContact(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_TELEPHONE);
         sendChangeContact();
     }
 
@@ -1478,10 +1486,12 @@ public class ChatModel extends BaseObservable {
     }
 
     public void switchVoiceInput(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE);
         switchVoiceInput();
     }
 
     public void switchTextInput(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_SWITCH_CHARACTER_VOICE);
         switchTextInput();
     }
 
@@ -1831,10 +1841,15 @@ public class ChatModel extends BaseObservable {
                 br = new BufferedReader(isr);
                 String jsonData = br.readLine();
                 LogKit.v("relatedTask jsonData:" + jsonData);
-                Gson gson = new Gson();
-                ChatTaskInfoBean chatTaskInfoBean = gson.fromJson(jsonData, ChatTaskInfoBean.class);
-                LogKit.v("chatTaskInfoBean.title:" + chatTaskInfoBean.title);
-                setRelatedTaskTitle("相关任务:" + chatTaskInfoBean.title);
+                if (TextUtils.isEmpty(jsonData)) {
+                    mActivityChatBinding.flRelatedTaskLine.setVisibility(View.GONE);
+                } else {
+                    mActivityChatBinding.flRelatedTaskLine.setVisibility(View.VISIBLE);
+                    Gson gson = new Gson();
+                    ChatTaskInfoBean chatTaskInfoBean = gson.fromJson(jsonData, ChatTaskInfoBean.class);
+                    LogKit.v("chatTaskInfoBean.title:" + chatTaskInfoBean.title);
+                    setRelatedTaskTitle("相关任务:" + chatTaskInfoBean.title);
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -1845,6 +1860,8 @@ public class ChatModel extends BaseObservable {
                 IOUtils.close(fis);
             }
             relatedTaskFiles.delete();
+        } else {
+            mActivityChatBinding.flRelatedTaskLine.setVisibility(View.GONE);
         }
     }
 

@@ -250,12 +250,13 @@
                             android:layout_marginTop="15dp"
                             android:background="#E5E5E5"/>
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
                             android:layout_marginRight="14dp"
-                            android:layout_marginTop="17dp">
+                            android:layout_marginTop="17dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -266,16 +267,20 @@
 
                             <EditText
                                 android:id="@+id/et_publish_service_title"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
+                                android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="请输入5-20个字"
+                                android:lines="1"
                                 android:maxLength="20"
+                                android:maxLines="1"
                                 android:textColorHint="#CCCCCC"
                                 android:textSize="14sp"/>
 
-                        </RelativeLayout>
+                        </LinearLayout>
 
                         <FrameLayout
                             android:layout_width="match_parent"

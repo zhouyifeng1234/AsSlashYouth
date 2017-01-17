@@ -32,27 +32,40 @@
                     android:src="@mipmap/nav_back"
                 />
 
-                <LinearLayout
-                    android:layout_width="191dp"
+                <TextView
+                    android:gravity="center"
+                    android:layout_marginRight="40dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@{myBidServiceModel.serviceTitle}"
-                        android:textColor="#ffffff"
-                        android:textSize="17sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="订单"
-                        android:textColor="#ffffff"
-                        android:textSize="17sp"/>
-                </LinearLayout>
+                    android:layout_marginLeft="40dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{myBidServiceModel.serviceTitle}"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp"/>
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="191dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:orientation="horizontal">-->
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:ellipsize="end"-->
+                <!--android:maxLines="1"-->
+                <!--android:text="@{myBidServiceModel.serviceTitle}"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="17sp"/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="订单"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="17sp"/>-->
+                <!--</LinearLayout>-->
 
             </RelativeLayout>
 
@@ -253,6 +266,7 @@
                                     android:orientation="vertical"
                                     android:visibility="@{myBidServiceModel.bpConsultVisibility}">
                                     <ImageView
+                                        android:id="@+id/iv_bp_icon"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"

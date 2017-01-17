@@ -2,12 +2,10 @@ package com.slash.youth.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
@@ -15,14 +13,28 @@ import com.slash.youth.R;
 /**
  * Created by zss on 2016/10/28.
  */
-public class DialogUtils  {
+public class DialogUtils {
 
     private static AlertDialog dialog;
 
 
-    public static void showDialogOne(Context context,final DialogCallUnderStandBack dialogCallUnderStandBack){
+    public static void showDialogOne(Context context, final DialogCallUnderStandBack dialogCallUnderStandBack, String text, String title) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout, null);
+        LinearLayout llTextContent = (LinearLayout) view.findViewById(R.id.ll_text_content);
+        TextView tvTextContent = (TextView) view.findViewById(R.id.tv_text_content);
+        if (!TextUtils.isEmpty(text)) {
+            tvTextContent.setText(text);
+            llTextContent.setVisibility(View.GONE);
+            tvTextContent.setVisibility(View.VISIBLE);
+        } else {
+            llTextContent.setVisibility(View.VISIBLE);
+            tvTextContent.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(title)) {
+            TextView tvToastTitle = (TextView) view.findViewById(R.id.tv_toast_title);
+            tvToastTitle.setText(title);
+        }
         ImageButton understand = (ImageButton) view.findViewById(R.id.ib_close);
       /*  TextView text1 = (TextView) view.findViewById(R.id.tv_content);
         TextView text2 = (TextView) view.findViewById(R.id.tv_time_title);
@@ -43,7 +55,7 @@ public class DialogUtils  {
         dialog.show();
     }
 
-    public static void showDialogSecond(Context context,String title,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+    public static void showDialogSecond(Context context, String title, String content, final DialogCallUnderStandBack dialogCallUnderStandBack) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_second, null);
         View understand = view.findViewById(R.id.understand);
@@ -64,7 +76,7 @@ public class DialogUtils  {
         dialog.show();
     }
 
-    public static void showDialogThree(Context context,String title,String content,final DialogCallUnderStandBack dialogCallUnderStandBack){
+    public static void showDialogThree(Context context, String title, String content, final DialogCallUnderStandBack dialogCallUnderStandBack) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_third, null);
         View understand = view.findViewById(R.id.iv_chacha);
@@ -85,7 +97,7 @@ public class DialogUtils  {
         dialog.show();
     }
 
-    public static void showDialogFour(Context context,final DialogCallUnderStandBack dialogCallUnderStandBack){
+    public static void showDialogFour(Context context, final DialogCallUnderStandBack dialogCallUnderStandBack) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_fouth, null);
         View understand = view.findViewById(R.id.understand);
@@ -102,7 +114,7 @@ public class DialogUtils  {
         dialog.show();
     }
 
-    public static void showDialogFive(Context context,String title,String content,final DialogCallBack dialogcallback){
+    public static void showDialogFive(Context context, String title, String content, final DialogCallBack dialogcallback) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_five, null);
         View ok = view.findViewById(R.id.ok);
@@ -133,7 +145,7 @@ public class DialogUtils  {
 
     }
 
-    public static void showDialogHint(Context context,String title,String content,final DialogCallBack dialogcallback){
+    public static void showDialogHint(Context context, String title, String content, final DialogCallBack dialogcallback) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_five, null);
         View ok = view.findViewById(R.id.ok);
@@ -164,7 +176,7 @@ public class DialogUtils  {
 
     }
 
-    public static void showDialogLogout(Context context,String title,String content,final DialogCallBack dialogcallback){
+    public static void showDialogLogout(Context context, String title, String content, final DialogCallBack dialogcallback) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_logout, null);
         View ok = view.findViewById(R.id.ok);
@@ -195,12 +207,12 @@ public class DialogUtils  {
 
     }
 
-    public static void showDialogVersionUpdate(Context context,boolean isForce,final DialogCallBack dialogcallback){
+    public static void showDialogVersionUpdate(Context context, boolean isForce, final DialogCallBack dialogcallback) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.toast_layout_version_update, null);
         View ok = view.findViewById(R.id.ok);
         View cancel = view.findViewById(R.id.cancel);
-        if(isForce){
+        if (isForce) {
             ok.setVisibility(View.GONE);
         }
         dialogBuilder.setView(view);
@@ -238,6 +250,7 @@ public class DialogUtils  {
 
     public interface DialogCallBack {
         abstract void OkDown();
+
         abstract void CancleDown();
     }
 

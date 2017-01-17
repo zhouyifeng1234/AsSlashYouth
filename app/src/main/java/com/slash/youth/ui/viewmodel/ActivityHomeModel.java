@@ -156,6 +156,7 @@ public class ActivityHomeModel extends BaseObservable {
         //修改为第二版发布需求页面
         Intent intentPublishDemandBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandBaseInfoActivity.class);
         mActivity.startActivity(intentPublishDemandBaseInfoActivity);
+        setChooseServiceAndDemandLayerVisibility(View.GONE);
 
         //测试用，直接跳转到需求详情页
 //        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
@@ -176,6 +177,7 @@ public class ActivityHomeModel extends BaseObservable {
 
         Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
         mActivity.startActivity(intentPublishServiceBaseInfoActivity);
+        setChooseServiceAndDemandLayerVisibility(View.GONE);
 
         //测试用，直接跳转到需求详情页
 //        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);

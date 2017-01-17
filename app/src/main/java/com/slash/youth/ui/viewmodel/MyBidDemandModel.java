@@ -129,6 +129,11 @@ public class MyBidDemandModel extends BaseObservable {
     public void havaAChat(View v) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", innerDemandCardInfo.uid + "");//对方的uid
+        Bundle taskInfoBundle = new Bundle();
+        taskInfoBundle.putLong("tid", tid);
+        taskInfoBundle.putInt("type", 1);
+        taskInfoBundle.putString("title", getDemandTitle());
+        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
         mActivity.startActivity(intentChatActivity);
     }
 
@@ -256,6 +261,17 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(DemandFlowLogList dataBean) {
                 listLogInfo = dataBean.data.list;
+                if (listLogInfo == null || listLogInfo.size() <= 0) {
+                    DemandFlowLogList demandFlowLogList = new DemandFlowLogList();
+                    DemandFlowLogList.LogInfo logInfo2 = demandFlowLogList.new LogInfo();
+                    logInfo2.cts = System.currentTimeMillis();
+                    logInfo2.action = "需求方发布了需求";
+                    DemandFlowLogList.LogInfo logInfo = demandFlowLogList.new LogInfo();
+                    logInfo.action = "开始支付";
+                    logInfo.cts = System.currentTimeMillis() + 100;
+                    listLogInfo.add(logInfo2);
+                    listLogInfo.add(logInfo);
+                }
                 setDemandFlowLogItemData();
             }
 
@@ -340,10 +356,10 @@ public class MyBidDemandModel extends BaseObservable {
         //设置详细信息
         getDemandUserInfo();//获取需求方的个人信息
         getServiceUserInfo();//获取服务方的个人信息
-        setDemandTitle(innerDemandCardInfo.title);
+        setDemandTitle(innerDemandCardInfo.title + "订单");
         SimpleDateFormat sdfStarttime = new SimpleDateFormat("开始时间:yyyy年MM月dd日 HH:mm");
         setStarttime(sdfStarttime.format(innerDemandCardInfo.starttime));
-        setQuote(innerDemandCardInfo.quote + "元");
+        setQuote((int) innerDemandCardInfo.quote + "元");
         if (innerDemandCardInfo.instalment == 1) {//分期
             setInstalmentVisibility(View.VISIBLE);
             String[] ratios = innerDemandCardInfo.instalmentratio.split(",");
@@ -365,9 +381,11 @@ public class MyBidDemandModel extends BaseObservable {
         if (innerDemandCardInfo.bp == 2) {//协商
 //            setBpConsultVisibility(View.VISIBLE);
             mActivityMyBidDemandBinding.tvBpText.setText("协商处理纠纷");
+            mActivityMyBidDemandBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
         } else { //1 平台
 //            setBpConsultVisibility(View.GONE);
             mActivityMyBidDemandBinding.tvBpText.setText("平台处理纠纷");
+            mActivityMyBidDemandBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
         }
 
         displayStatusButton();

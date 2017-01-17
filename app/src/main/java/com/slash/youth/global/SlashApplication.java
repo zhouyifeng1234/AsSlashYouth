@@ -18,8 +18,10 @@ import com.pingplusplus.android.PingppLog;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.gen.DaoMaster;
 import com.slash.youth.gen.DaoSession;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.GuidActivity;
 import com.slash.youth.ui.activity.LoginActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -98,6 +100,10 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
 
                 if (activity instanceof GuidActivity) {
                     MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.CLICK_PAGE_ONE);
+                } else if (activity instanceof DemandDetailActivity) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_REQUIREMENT_DETAIL);
+                } else if (activity instanceof ServiceDetailActivity) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_SERVICE_DETAIL);
                 }
             }
 

@@ -184,7 +184,7 @@ public class PagerHomeMyModel extends BaseObservable {
         }
         //头像
         avatar = myinfo.getAvatar();
-        if(!TextUtils.isEmpty(avatar)){
+        if (!TextUtils.isEmpty(avatar)) {
             BitmapKit.bindImage(mPagerHomeMyBinding.ivAssistantIcon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
@@ -192,7 +192,7 @@ public class PagerHomeMyModel extends BaseObservable {
         industry = myinfo.getIndustry();
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
-        if(!TextUtils.isEmpty(direction)){
+        if (!TextUtils.isEmpty(direction)) {
             mPagerHomeMyBinding.tvIndustry.setText(direction);
         }
 

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -13,14 +14,23 @@ import com.slash.youth.ui.viewmodel.MyTaskModel;
  */
 public class MyTaskActivity extends Activity {
 
+    private MyTaskModel mMyTaskModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
+
         super.onCreate(savedInstanceState);
 
         ActivityMyTaskBinding activityMyTaskBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_task);
-        MyTaskModel myTaskModel = new MyTaskModel(activityMyTaskBinding, this);
-        activityMyTaskBinding.setMyTaskModel(myTaskModel);
+        mMyTaskModel = new MyTaskModel(activityMyTaskBinding, this);
+        activityMyTaskBinding.setMyTaskModel(mMyTaskModel);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MyTaskModel.REFRESH_TASK_LIST_STATUS) {
+            mMyTaskModel.backRefreshTaskListStatus();
+        }
     }
 }

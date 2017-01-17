@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChooseFriendBinding;
 import com.slash.youth.ui.viewmodel.ChooseFriendModel;
@@ -18,7 +19,7 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
 
     private TextView title;
     private ActivityChooseFriendBinding activityChooseFriendBinding;
-    private String titleString  = "我的好友";
+    private String titleString = "我的好友";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
         Intent intent = getIntent();
         boolean sendFriend = intent.getBooleanExtra("sendFriend", false);
         activityChooseFriendBinding = DataBindingUtil.setContentView(this, R.layout.activity_choose_friend);
-        ChooseFriendModel chooseFriendModel = new ChooseFriendModel(activityChooseFriendBinding,this,sendFriend);
+        ChooseFriendModel chooseFriendModel = new ChooseFriendModel(this, activityChooseFriendBinding, this, sendFriend);
         activityChooseFriendBinding.setChooseFriendModel(chooseFriendModel);
 
         listener();
@@ -41,7 +42,7 @@ public class MyFriendActivtiy extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();
                 break;

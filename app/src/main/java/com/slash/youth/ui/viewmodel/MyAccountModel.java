@@ -9,15 +9,11 @@ import com.slash.youth.domain.MyAccountBean;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.MyAccountProtocol;
 import com.slash.youth.ui.activity.MyAccountActivity;
-import com.slash.youth.ui.activity.TransactionRecordActivity;
-import com.slash.youth.ui.activity.UserinfoEditorActivity;
 import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SetDataUtils;
-import com.slash.youth.utils.ToastUtils;
 
 /**
  * Created by zss on 2016/11/6.
@@ -40,63 +36,64 @@ public class MyAccountModel extends BaseObservable {
             @Override
             public void execute(MyAccountBean dataBean) {
                 int rescode = dataBean.getRescode();
-                if(rescode == 0){
+                if (rescode == 0) {
                     MyAccountBean.DataBean data = dataBean.getData();
                     MyAccountBean.DataBean.DataBean1 data1 = data.getData();
                     //总的余额
                     double totalmoney = data1.getTotalmoney();
                     String totalMoney = CountUtils.DecimalFormat(totalmoney);
-                    activityMyAccountBinding.totalMoney.setText(totalMoney+unit);
+                    activityMyAccountBinding.totalMoney.setText(totalMoney + unit);
 
                     //提现金额
                     double currentmoney = data1.getCurrentmoney();
                     currentMoney = CountUtils.DecimalFormat(currentmoney);
-                    activityMyAccountBinding.currentMoney.setText(currentMoney +unit);
-                    activityMyAccountBinding.tvWithdrawals.setText(currentMoney +unit);
+                    activityMyAccountBinding.currentMoney.setText(currentMoney + unit);
+                    activityMyAccountBinding.tvWithdrawals.setText(currentMoney + unit);
 
                     //冻结金额
                     double freezemoney = data1.getFreezemoney();
-                    String freezeMoney= CountUtils.DecimalFormat(freezemoney);
-                    activityMyAccountBinding.freezeMoney.setText(freezeMoney+unit);
+                    String freezeMoney = CountUtils.DecimalFormat(freezemoney);
+                    activityMyAccountBinding.freezeMoney.setText(freezeMoney + unit);
 
                     //总的收入
                     double totalincome = data1.getTotalincome();
-                    String totaLincome= CountUtils.DecimalFormat(totalincome);
-                    activityMyAccountBinding.totalincome.setText(totaLincome+unit);
+                    String totaLincome = CountUtils.DecimalFormat(totalincome);
+                    activityMyAccountBinding.totalincome.setText(totaLincome + unit);
 
                     //总支出金额
                     double totaloutlay = data1.getTotaloutlay();
-                    String totalOutLay= CountUtils.DecimalFormat(totaloutlay);
-                    activityMyAccountBinding.totaloutlay.setText(totalOutLay+unit);
+                    String totalOutLay = CountUtils.DecimalFormat(totaloutlay);
+                    activityMyAccountBinding.totaloutlay.setText(totalOutLay + unit);
 
-                }else {
-                    LogKit.d("rescode ="+rescode);
+                } else {
+                    LogKit.d("rescode =" + rescode);
                 }
             }
+
             @Override
             public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+                LogKit.d("result:" + result);
             }
         });
     }
 
     //提现
-    public void withdrawals(View view){
+    public void withdrawals(View view) {
         Intent intentWithdrawalsActivity = new Intent(CommonUtils.getContext(), WithdrawalsActivity.class);
-        intentWithdrawalsActivity.putExtra("currentMoney",currentMoney);
+        intentWithdrawalsActivity.putExtra("currentMoney", currentMoney);
         intentWithdrawalsActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);
     }
 
     //提示
     public void hint(View view) {
-       DialogUtils.showDialogOne(myAccountActivity, new DialogUtils.DialogCallUnderStandBack() {
-           @Override
-           public void OkDown() {
-             LogKit.d("canncel");
+        DialogUtils.showDialogOne(myAccountActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+                LogKit.d("canncel");
 
-           }
-       });
+            }
+        }, "", "");
     }
 
 }

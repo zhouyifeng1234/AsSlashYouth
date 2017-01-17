@@ -128,7 +128,11 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         //回填描述
         mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.setText(demand.desc);
         //回填开始时间
-        startTime = demand.starttime;
+        if (demand.starttime <= 0) {
+            startTime = -1;
+        } else {
+            startTime = demand.starttime;
+        }
         if (startTime > 0) {
             SimpleDateFormat sdfStartTime = new SimpleDateFormat("MM月dd日-HH:mm");
             setStartTimeStr(sdfStartTime.format(startTime));
