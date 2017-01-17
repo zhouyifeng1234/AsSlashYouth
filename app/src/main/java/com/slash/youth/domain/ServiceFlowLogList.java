@@ -14,9 +14,9 @@ public class ServiceFlowLogList {
     }
 
     public class LogInfo {
-        public String action = "假数据";//日志动作
-        public long cts = 1582992455870l;//日志记录时间
-        public int did;//需求唯一ID
-        public int id;//流程seqid
+        public String action;
+        public long cts;
+        public int did;
+        public int id;
     }
 }

@@ -142,6 +142,11 @@ public class MyBidServiceModel extends BaseObservable {
     public void havaAChat(View v) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", suid + "");//对方的uid
+        Bundle taskInfoBundle = new Bundle();
+        taskInfoBundle.putLong("tid", tid);
+        taskInfoBundle.putInt("type", 2);
+        taskInfoBundle.putString("title", getServiceTitle());
+        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
         mActivity.startActivity(intentChatActivity);
     }
 
@@ -313,7 +318,7 @@ public class MyBidServiceModel extends BaseObservable {
             public void execute(ServiceDetailBean dataBean) {
                 ServiceDetailBean.Service service = dataBean.data.service;
                 //服务标题，布局文件中有两个地方需要设置
-                setServiceTitle(service.title);
+                setServiceTitle(service.title + "订单");
                 //闲置时间
                 int timetype = service.timetype;
                 if (timetype == 0) {
@@ -337,9 +342,9 @@ public class MyBidServiceModel extends BaseObservable {
 //                    public void run() {
                 if (orderQuote != -1) {
                     if (quoteunit == 9) {
-                        setQuote(orderQuote + "元");
+                        setQuote((int) orderQuote + "元");
                     } else if (quoteunit > 0 && quoteunit < 9) {
-                        setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
+                        setQuote((int) orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
                     }
                 }
 //                    }
@@ -370,10 +375,12 @@ public class MyBidServiceModel extends BaseObservable {
                 if (service.bp == 2) {//协商
                     setBpConsultVisibility(View.VISIBLE);
                     mActivityMyBidServiceBinding.tvBpText.setText("协商处理纠纷");
+                    mActivityMyBidServiceBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
                 } else if (service.bp == 1) {//平台
 //                    setBpConsultVisibility(View.INVISIBLE);
                     setBpConsultVisibility(View.VISIBLE);
                     mActivityMyBidServiceBinding.tvBpText.setText("平台处理纠纷");
+                    mActivityMyBidServiceBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
                 }
 
                 loadDataTimes++;
@@ -422,9 +429,9 @@ public class MyBidServiceModel extends BaseObservable {
 //                    public void run() {
                 if (quoteunit != -1) {
                     if (quoteunit == 9) {
-                        setQuote(orderQuote + "元");
+                        setQuote((int) orderQuote + "元");
                     } else if (quoteunit > 0 && quoteunit < 9) {
-                        setQuote(orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
+                        setQuote((int) orderQuote + "元/" + optionalPriceUnit[quoteunit - 1]);
                     }
                 }
 //                    }
@@ -467,15 +474,17 @@ public class MyBidServiceModel extends BaseObservable {
             public void execute(ServiceFlowLogList dataBean) {
                 logInfoList = dataBean.data.list;
 
-                //由于目前服务流程日志接口没有返回数据，用一些假数据代替
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
-                logInfoList.add(new ServiceFlowLogList().new LogInfo());
+                if (logInfoList == null || logInfoList.size() <= 0) {
+                    ServiceFlowLogList serviceFlowLogList = new ServiceFlowLogList();
+                    ServiceFlowLogList.LogInfo logInfo2 = serviceFlowLogList.new LogInfo();
+                    logInfo2.cts = System.currentTimeMillis();
+                    logInfo2.action = "需求方预约了服务";
+                    ServiceFlowLogList.LogInfo logInfo = serviceFlowLogList.new LogInfo();
+                    logInfo.action = "开始支付";
+                    logInfo.cts = System.currentTimeMillis() + 100;
+                    logInfoList.add(logInfo2);
+                    logInfoList.add(logInfo);
+                }
 
                 setServiceFlowLogItemData();
             }
@@ -549,7 +558,7 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                 sAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+                sAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
                 BitmapKit.bindImage(mActivityMyBidServiceBinding.ivServiceUserAvatar, sAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setServiceUserIsAuthVisibility(View.GONE);

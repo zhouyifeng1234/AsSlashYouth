@@ -133,6 +133,7 @@
                     android:background="#E5E5E5"
                 />
                 <FrameLayout
+                    android:id="@+id/fl_related_task_line"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView

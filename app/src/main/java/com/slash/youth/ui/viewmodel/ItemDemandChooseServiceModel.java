@@ -3,10 +3,12 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemDemandChooseServiceBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandPurposeListBean;
@@ -30,12 +32,14 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
     Activity mActivty;
     DemandPurposeListBean.PurposeInfo mDemandChooseServiceBean;
     long tid;//需求ID
+    String demandTitle;//需求标题
 
-    public ItemDemandChooseServiceModel(ItemDemandChooseServiceBinding itemDemandChooseServiceBinding, Activity activty, DemandPurposeListBean.PurposeInfo demandChooseServiceBean, long tid) {
+    public ItemDemandChooseServiceModel(ItemDemandChooseServiceBinding itemDemandChooseServiceBinding, Activity activty, DemandPurposeListBean.PurposeInfo demandChooseServiceBean, long tid, String demandTitle) {
         this.mItemDemandChooseServiceBinding = itemDemandChooseServiceBinding;
         this.mActivty = activty;
         this.mDemandChooseServiceBean = demandChooseServiceBean;
         this.tid = tid;
+        this.demandTitle = demandTitle;
         initData();
         initView();
     }
@@ -52,6 +56,11 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
     public void haveAChat(View v) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", mDemandChooseServiceBean.uid + "");
+        Bundle taskInfoBundle = new Bundle();
+        taskInfoBundle.putLong("tid", tid);
+        taskInfoBundle.putInt("type", 1);
+        taskInfoBundle.putString("title", demandTitle);
+        intentChatActivity.putExtra("taskInfo", taskInfoBundle);
         mActivty.startActivity(intentChatActivity);
     }
 
@@ -102,8 +111,10 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
         BitmapKit.bindImage(mItemDemandChooseServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mDemandChooseServiceBean.avatar);
         //纠纷处理方式
         if (mDemandChooseServiceBean.bp == 1) {//1平台方式
+            mItemDemandChooseServiceBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
             mItemDemandChooseServiceBinding.tvBpText.setText("平台处理纠纷");
         } else {//2协商方式
+            mItemDemandChooseServiceBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
             mItemDemandChooseServiceBinding.tvBpText.setText("协商处理纠纷");
         }
 

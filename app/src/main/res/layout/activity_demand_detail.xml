@@ -1031,7 +1031,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="3dp"
                         android:text="分享至其他平台获得更多服务机会"
-                        android:textColor="#66FFFFFF"
+                        android:textColor="#bdFFFFFF"
                         android:textSize="12sp"/>
 
                 </LinearLayout>

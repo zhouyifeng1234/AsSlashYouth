@@ -32,7 +32,8 @@
                     android:layout_alignParentRight="true"
                     android:text="@{itemNearLocationModel.nearDistance}"
                     android:textColor="#cccccc"
-                    android:textSize="14.5sp"/>
+                    android:textSize="14.5sp"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
             <RelativeLayout

@@ -288,7 +288,8 @@
                                 android:layout_marginTop="3dp"
                                 android:text="展示有效期至2016年6月28日24:00"
                                 android:textColor="#999999"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp"
+                                android:visibility="gone"/>
                         </LinearLayout>
 
                     </FrameLayout>

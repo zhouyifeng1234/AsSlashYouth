@@ -172,6 +172,10 @@ public class ChatModel extends BaseObservable {
                 chatTaskInfoBean.type = taskInfoBundle.getInt("type");
                 chatTaskInfoBean.title = taskInfoBundle.getString("title");
                 sendRelatedTaskInfo(chatTaskInfoBean);
+
+                mActivityChatBinding.flRelatedTaskLine.setVisibility(View.VISIBLE);
+                LogKit.v("chatTaskInfoBean.title:" + chatTaskInfoBean.title);
+                setRelatedTaskTitle("相关任务:" + chatTaskInfoBean.title);
             } else {//如果进入界面时没有带上任务，就检测本地是否有对方发送过来的相关任务
                 displayRelatedTask();
             }
@@ -1837,10 +1841,15 @@ public class ChatModel extends BaseObservable {
                 br = new BufferedReader(isr);
                 String jsonData = br.readLine();
                 LogKit.v("relatedTask jsonData:" + jsonData);
-                Gson gson = new Gson();
-                ChatTaskInfoBean chatTaskInfoBean = gson.fromJson(jsonData, ChatTaskInfoBean.class);
-                LogKit.v("chatTaskInfoBean.title:" + chatTaskInfoBean.title);
-                setRelatedTaskTitle("相关任务:" + chatTaskInfoBean.title);
+                if (TextUtils.isEmpty(jsonData)) {
+                    mActivityChatBinding.flRelatedTaskLine.setVisibility(View.GONE);
+                } else {
+                    mActivityChatBinding.flRelatedTaskLine.setVisibility(View.VISIBLE);
+                    Gson gson = new Gson();
+                    ChatTaskInfoBean chatTaskInfoBean = gson.fromJson(jsonData, ChatTaskInfoBean.class);
+                    LogKit.v("chatTaskInfoBean.title:" + chatTaskInfoBean.title);
+                    setRelatedTaskTitle("相关任务:" + chatTaskInfoBean.title);
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -1851,6 +1860,8 @@ public class ChatModel extends BaseObservable {
                 IOUtils.close(fis);
             }
             relatedTaskFiles.delete();
+        } else {
+            mActivityChatBinding.flRelatedTaskLine.setVisibility(View.GONE);
         }
     }
 

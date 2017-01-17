@@ -137,7 +137,7 @@ public class DemandChooseServiceModel extends BaseObservable {
 
     private View inflateItemDemandChooseService(DemandPurposeListBean.PurposeInfo demandChooseServiceBean) {
         ItemDemandChooseServiceBinding itemDemandChooseServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_choose_service, null, false);
-        ItemDemandChooseServiceModel itemDemandChooseServiceModel = new ItemDemandChooseServiceModel(itemDemandChooseServiceBinding, mActivity, demandChooseServiceBean, tid);
+        ItemDemandChooseServiceModel itemDemandChooseServiceModel = new ItemDemandChooseServiceModel(itemDemandChooseServiceBinding, mActivity, demandChooseServiceBean, tid, title);
         itemDemandChooseServiceBinding.setItemDemandChooseServiceModel(itemDemandChooseServiceModel);
         return itemDemandChooseServiceBinding.getRoot();
     }
@@ -195,7 +195,7 @@ public class DemandChooseServiceModel extends BaseObservable {
                 }
 
                 setUsername(dataBean.name);
-                setTitle(dataBean.title);
+                setTitle(dataBean.title + "订单");
 
                 String startTimeStr = getDateTimeString(dataBean.starttime, "开始时间:yyyy年MM月dd日 HH:mm");
                 setStartTime(startTimeStr);

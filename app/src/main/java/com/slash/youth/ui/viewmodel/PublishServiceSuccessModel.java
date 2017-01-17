@@ -88,7 +88,7 @@ public class PublishServiceSuccessModel extends BaseObservable {
         }
         mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVerticalScrollBarEnabled(false);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("展示有效期至yyyy年MM月dd日24:00");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("展示有效期至yyyy年MM月dd日HH:mm");
         String displayValidityDatetime = simpleDateFormat.format(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
         mActivityPublishServiceSuccessBinding.tvDisplayValidityDatetime.setText(displayValidityDatetime);
     }

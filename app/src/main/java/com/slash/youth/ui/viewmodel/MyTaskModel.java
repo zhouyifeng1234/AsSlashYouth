@@ -103,7 +103,7 @@ public class MyTaskModel extends BaseObservable {
     }
 
     private void setMyHistoryTaskData() {
-        setMyTaskTypeText("任务");
+        setMyTaskTypeText("历史任务");
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
             mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);

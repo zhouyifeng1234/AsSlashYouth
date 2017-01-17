@@ -70,4 +70,5 @@ public class HomeActivity extends Activity {
             activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
         }
     }
+
 }
