@@ -42,6 +42,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     private double lng;
     private double lat;
     DemandDetailBean demandDetailBean;
+    boolean isCheckedSlashProtocol = true;
 
     public PublishDemandAddInfoModel(ActivityPublishDemandAddinfoBinding activityPublishDemandAddinfoBinding, Activity activity) {
         this.mActivityPublishDemandAddinfoBinding = activityPublishDemandAddinfoBinding;
@@ -294,6 +295,19 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mActivityPublishDemandAddinfoBinding.ivPlatformProcessingIcon.setImageResource(R.mipmap.default_btn);
         mActivityPublishDemandAddinfoBinding.ivConsultProcessingIcon.setImageResource(R.mipmap.pitchon_btn);
         checkedDisputeHandingTypeIndex = 1;
+    }
+
+    /**
+     * @param v
+     */
+    public void checkSlashProtocol(View v) {
+        if (isCheckedSlashProtocol) {
+            isCheckedSlashProtocol = false;
+            mActivityPublishDemandAddinfoBinding.ivSlashProtocolCheckedIcon.setImageResource(R.mipmap.no_checked_icon);
+        } else {
+            isCheckedSlashProtocol = true;
+            mActivityPublishDemandAddinfoBinding.ivSlashProtocolCheckedIcon.setImageResource(R.mipmap.checked_icon);
+        }
     }
 
     private int offlineItemVisibility = View.GONE;
