@@ -82,6 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+                        <!--banner-->
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -99,7 +100,7 @@
 
                             </android.support.v4.view.ViewPager>
                         </FrameLayout>
-
+                        <!--标题-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="39dp"
@@ -136,7 +137,48 @@
                                 android:textColor="#31C5E4"
                                 android:textSize="14dp"/>
                         </LinearLayout>
+                        <!--缺省页-->
+                        <RelativeLayout
+                            android:id="@+id/rl_home_default_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="330dp"
+                           >
 
+                            <LinearLayout
+                                android:layout_centerInParent="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@mipmap/home_default_image"/>
+                                <TextView
+                                    android:layout_marginTop="16dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#666666"
+                                    android:gravity="center"
+                                    android:layout_gravity="center"
+                                    android:textSize="17dp"
+                                    android:text="暂无内容"/>
+                                <TextView
+                                    android:layout_marginTop="11dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="去别处转转，稍后再来吧"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textSize="14dp"
+                                    android:textColor="#CCCCCC"/>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                        <!--列表-->
                         <com.slash.youth.ui.view.ListviewForScrollView
                             android:id="@+id/lv_home_demand_and_service"
                             android:layout_width="match_parent"
@@ -150,7 +192,9 @@
                         </com.slash.youth.ui.view.ListviewForScrollView>
 
                     </LinearLayout>
+
                 </com.slash.youth.ui.view.PullableSrcollView.PullableScrollView>
+
                 <include layout="@layout/load_more"/>
             </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
 

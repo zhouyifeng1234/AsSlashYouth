@@ -120,6 +120,9 @@ public class RevisePassWordModel extends BaseObservable {
                         LogKit.d("设置失败");
                         ToastUtils.shortCenterToast("修改失败");
                         break;
+                    case 2:
+                        ToastUtils.shortCenterToast("修改失败,新密码和原密码一样");
+                        break;
                 }
             }
         }

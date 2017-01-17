@@ -55,26 +55,77 @@
             >
         </ListView>-->
 
-        <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
-            android:id="@+id/refresh_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
+        <!--列表-->
+            <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                android:id="@+id/refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
-            <include layout="@layout/refresh_head" />
+                <include layout="@layout/refresh_head" />
 
-            <com.slash.youth.ui.view.PullableListView.PullableListView
-                android:id="@+id/lv"
+                <com.slash.youth.ui.view.PullableListView.PullableListView
+                    android:id="@+id/lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:divider="@drawable/list_contacts_divider"
+                    android:dividerHeight="1dp"
+                    android:layout_marginTop="7dp">
+
+                </com.slash.youth.ui.view.PullableListView.PullableListView>
+
+                <include layout="@layout/load_more" />
+            </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+        <!--缺省页-->
+            <RelativeLayout
+                android:id="@+id/rl_home_default_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:divider="@drawable/list_contacts_divider"
-                android:dividerHeight="1dp"
-                android:layout_marginTop="7dp">
+                >
 
-            </com.slash.youth.ui.view.PullableListView.PullableListView>
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_marginTop="181dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/contact_default_image"
+                       />
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_marginTop="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#666666"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textSize="17dp"
+                        android:text="暂无粉丝"/>
+                    <TextView
+                        android:id="@+id/tv_content"
+                        android:layout_marginTop="11dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="竟然一个粉丝都没有，快出去喊喊口号"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="14dp"
+                        android:textColor="#CCCCCC"/>
 
-            <include layout="@layout/load_more" />
-        </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+        </FrameLayout>
      </android.support.v7.widget.CardView>
 
 </LinearLayout>

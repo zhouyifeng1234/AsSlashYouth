@@ -109,11 +109,17 @@ public class UserinfoEditorActivity extends Activity {
                                 }
                             }
                         }
-                        //第一级技能标签 //第二级技能标签
-                        String checkFirstLabel = bundleCheckedLabelsData.getString("checkedFirstLabel", "未选择");
-                        String checkedSecondLabel = bundleCheckedLabelsData.getString("checkedSecondLabel", "未选择");
-                        if (checkFirstLabel != null && checkedSecondLabel != null) {
-                            activityUserinfoEditorBinding.tvDirection.setText(checkFirstLabel + "|" + checkedSecondLabel);
+                        int size = listCheckedLabelName.size();
+                        if(size!=0){
+                            //第一级技能标签 //第二级技能标签
+                            String checkFirstLabel = bundleCheckedLabelsData.getString("checkedFirstLabel", "未选择");
+                            String checkedSecondLabel = bundleCheckedLabelsData.getString("checkedSecondLabel", "未选择");
+                            if (checkFirstLabel != null && checkedSecondLabel != null) {
+                                activityUserinfoEditorBinding.tvDirection.setText(checkedSecondLabel);
+                            }
+                        }else {
+                            activityUserinfoEditorBinding.tvDirection.setText("");
+                            activityUserinfoEditorBinding.llSkilllabelContainer.removeAllViews();
                         }
                     }
                 }

@@ -34,13 +34,15 @@ public class ActivitySubscribeModel extends BaseObservable {
     private int value;
     private boolean isEditor;
     private boolean isPublish;
+    private boolean isAddSkill;
 
     public ActivitySubscribeModel(ActivitySubscribeBinding activitySubscribeBinding, SubscribeActivity activity,
-                                  boolean isEditor) {
+                                  boolean isEditor,boolean isAddSkill) {
         this.mActivitySubscribeBinding = activitySubscribeBinding;
         this.isEditor = isEditor;
         this.mActivity = activity;
         this.isPublish = mActivity.getIntent().getBooleanExtra("isPublish", false);
+        this.isAddSkill = isAddSkill;
         initView();
     }
 
@@ -99,29 +101,25 @@ public class ActivitySubscribeModel extends BaseObservable {
    }
 
     public void submitChooseSkillLabel(View v) {
-        int size = mActivity.listCheckedLabelName.size();
-        if(size!=0){
-            Intent intentResult = new Intent();
-            Bundle bundleCheckedLabelsData = new Bundle();
-            bundleCheckedLabelsData.putString("checkedFirstLabel", mActivity.checkedFirstLabel);
-            bundleCheckedLabelsData.putString("checkedSecondLabel", mActivity.checkedSecondLabel);
-            bundleCheckedLabelsData.putStringArrayList("listCheckedLabelName", mActivity.listCheckedLabelName);
-            bundleCheckedLabelsData.putStringArrayList("listCheckedLabelTag", mActivity.listCheckedLabelTag);
-            SubscribeActivity.saveListCheckedLabelName = mActivity.listCheckedLabelName;
-            intentResult.putExtra("bundleCheckedLabelsData", bundleCheckedLabelsData);
-            if (isEditor) {
-                mActivity.setResult(Activity.RESULT_OK, intentResult);
+        Intent intentResult = new Intent();
+        Bundle bundleCheckedLabelsData = new Bundle();
+        bundleCheckedLabelsData.putString("checkedFirstLabel", mActivity.checkedFirstLabel);
+        bundleCheckedLabelsData.putString("checkedSecondLabel", mActivity.checkedSecondLabel);
+        bundleCheckedLabelsData.putStringArrayList("listCheckedLabelName", mActivity.listCheckedLabelName);
+        bundleCheckedLabelsData.putStringArrayList("listCheckedLabelTag", mActivity.listCheckedLabelTag);
+        SubscribeActivity.saveListCheckedLabelName = mActivity.listCheckedLabelName;
+        intentResult.putExtra("bundleCheckedLabelsData", bundleCheckedLabelsData);
+        if (isEditor) {
+            mActivity.setResult(Activity.RESULT_OK, intentResult);
+        }  else {
+            if (isPublish) {
+                mActivity.setResult(10, intentResult);
             } else {
-                if (isPublish) {
-                    mActivity.setResult(10, intentResult);
-                } else {
-                    mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
-                }
+                mActivity.setResult(Constants.SKILL_MANAGER_ADD_LABEL, intentResult);
             }
-            mActivity.finish();
-        }else {
-            ToastUtils.shortCenterToast("请填写技能标签");
         }
+
+        mActivity.finish();
     }
 
     public void goBack(View v) {

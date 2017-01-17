@@ -144,8 +144,6 @@ public class MyManager {
         updateSkillTempletProtocol.getDataFromServer(onUpdateSkillTemplet);
     }
 
-
-
     public static final String WITHDRAWALS_SUCCESS="提现申请成功，请以最终银行交易为准";
     public static final String WITHDRAWALS_FAIL_BALANCE_LEASE="钱包可提现余额不足";
     public static final String WITHDRAWALS_FAIL_PASSWORD_ERROR="交易密码错误";

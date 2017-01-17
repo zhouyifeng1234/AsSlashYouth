@@ -66,20 +66,21 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         itemMySkillManageBinding.tvSkillManagerTitle.setText(title);
 
         double quote = data.getQuote();
-        itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote+"元");
+        int quoteunit = data.getQuoteunit();
+        itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote+"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit-1]);
 
-        int timetype = data.getTimetype();//闲时类型
-            itemMySkillManageBinding.ivTime.setVisibility(View.VISIBLE);
-        if(timetype == 0){
-            long starttime = data.getStarttime();
+       /* int timetype = data.getTimetype();//闲时类型
+            itemMySkillManageBinding.ivTime.setVisibility(View.VISIBLE);*/
+       /* if(timetype == 0){
+           // long starttime = data.getStarttime();
             long  timeMillis = System.currentTimeMillis();
             long endtime = data.getEndtime();
             String startData = TimeUtils.getData(starttime);
             String endData = TimeUtils.getData(endtime);
             itemMySkillManageBinding.tvSkillMamagerTime.setText(MyManager.TASK_TIME+startData+"-"+endData);
         } else {
-            itemMySkillManageBinding.tvSkillMamagerTime.setText(FirstPagerManager.TIMETYPES[timetype]);
-        }
+            itemMySkillManageBinding.tvSkillMamagerTime.setText(FirstPagerManager.TIMETYPES[timetype-1]);
+        }*/
 
         int anonymity = data.getAnonymity();//1实名0匿名
         String desc = data.getDesc();//长度小于4096字节 服务端默认取值为""
@@ -104,7 +105,6 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         int loop = data.getLoop();
         int pattern = data.getPattern();
         String place = data.getPlace();
-        int quoteunit = data.getQuoteunit();
         String remark = data.getRemark();
         long uid = data.getUid();
         long uts = data.getUts();

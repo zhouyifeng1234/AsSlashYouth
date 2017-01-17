@@ -151,7 +151,7 @@
                                     android:textSize="13dp"
                                     android:textColor="#60A7B6"
                                     android:textColorHint="#60A7B6"
-                                    android:maxEms="5"
+                                    android:maxLines="1"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
                                     android:layout_alignParentRight="true"
@@ -403,6 +403,10 @@
                                     android:hint="请填写"
                                     android:textSize="13dp"
                                     android:cursorVisible="true"
+                                    android:maxLines="1"
+                                    android:maxEms="15"
+                                    android:minEms="2"
+                                    android:ellipsize="end"
                                     android:background="@null"
                                     android:textColor="#60A7B6"
                                     android:textColorHint="#60A7B6"
@@ -443,6 +447,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:hint="请填写"
+                                    android:maxLines="1"
+                                    android:minEms="2"
+                                    android:maxEms="10"
+                                    android:ellipsize="end"
                                     android:cursorVisible="true"
                                     android:background="@null"
                                     android:layout_centerVertical="true"
@@ -494,7 +502,7 @@
                                     android:textSize="15dp"
                                     android:textColor="#31C5E4"
                                     android:layout_centerVertical="true"
-                                    android:text="技能描述"/>
+                                    android:text="个人简介"/>
                             </RelativeLayout>
                             <View
                                 android:layout_width="match_parent"
@@ -511,16 +519,7 @@
                                 android:orientation="vertical"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="15dp">
-                                <TextView
-                                    android:visibility="gone"
-                                    android:id="@+id/tv_et_hiht"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="请输入技能描述，50字内"
-                                    android:textSize="13dp"
-                                    android:textColor="#999999"
-                                    />
+
                                 <EditText
                                     android:id="@+id/et_skilldescribe"
                                     android:layout_width="wrap_content"
@@ -537,8 +536,7 @@
                                     android:maxLines="4"
                                     android:maxEms="50"
                                     android:lineSpacingExtra="2dp"
-                                    android:hint="请输入技能描述，50字内
-                                    例：从事UI设计行业5年，具有丰富的设计经验..."/>
+                                    android:hint="请输入技能描述，50字内\n 例：从事UI设计行业5年，具有丰富的设计经验..."/>
                             </LinearLayout>
                             <View
                                 android:layout_width="match_parent"

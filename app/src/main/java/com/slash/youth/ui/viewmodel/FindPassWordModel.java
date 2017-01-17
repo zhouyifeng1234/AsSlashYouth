@@ -43,7 +43,7 @@ public class FindPassWordModel extends BaseObservable {
     public Map<String, String> surePassWordMap = new HashMap<>();
     private String toastText = "两次输入的密码不一致,请重新输入密码";
 
-    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding,FindPassWordActivity findPassWordActivity) {
+    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding, FindPassWordActivity findPassWordActivity) {
         this.activityFindPasswordBinding = activityFindPasswordBinding;
         this.findPassWordActivity = findPassWordActivity;
         listener();
@@ -51,12 +51,12 @@ public class FindPassWordModel extends BaseObservable {
 
     private void listener() {
         getCtretePassWord(activityFindPasswordBinding.etSetNewPassword);
-         getSurePassWord(activityFindPasswordBinding.etSureNewPassword);
+        getSurePassWord(activityFindPasswordBinding.etSureNewPassword);
     }
 
     private void getCtretePassWord(EditText v) {
         v.addTextChangedListener(new TextWatcher() {
-           @Override
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
@@ -66,9 +66,9 @@ public class FindPassWordModel extends BaseObservable {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String  setPassWord =  s.toString();
-                if(setPassWord.length() == 6){
-                    createPassWordMap.put("createPassWord",setPassWord);
+                String setPassWord = s.toString();
+                if (setPassWord.length() == 6) {
+                    createPassWordMap.put("createPassWord", setPassWord);
                 }
             }
 
@@ -87,13 +87,13 @@ public class FindPassWordModel extends BaseObservable {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String  setPassWord =  s.toString();
-                if(setPassWord.length() == 6){
-                    surePassWordMap.put("surePassWord",setPassWord);
+                String setPassWord = s.toString();
+                if (setPassWord.length() == 6) {
+                    surePassWordMap.put("surePassWord", setPassWord);
                     //判断2次密码是否一致
                     String createPassWord = createPassWordMap.get("createPassWord");
                     String surePassWord = surePassWordMap.get("surePassWord");
-                    if(!createPassWord.equals(surePassWord)) {
+                    if (!createPassWord.equals(surePassWord)) {
                         ToastUtils.shortCenterToast(toastText);
                         createPassWordMap.clear();
                         surePassWordMap.clear();
@@ -104,25 +104,25 @@ public class FindPassWordModel extends BaseObservable {
     }
 
     //点击拍照
-    public  void photo(View view) {
+    public void photo(View view) {
         setUploadPicLayerVisibility(View.VISIBLE);
     }
 
     //照相
-    public void photoGraph(View view){
+    public void photoGraph(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_PHOTO);
         setUploadPicLayerVisibility(View.GONE);
     }
 
     //相册
-    public void getAlbumPic(View view){
-        Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+    public void getAlbumPic(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");//相片类型
         intent.putExtra("crop", "true");
-        intent.putExtra("aspectX",1);
-        intent.putExtra("aspectY",1);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
         intent.putExtra("outputX", 250);
         intent.putExtra("outputY", 100);
         findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_ABLEM);
@@ -135,6 +135,7 @@ public class FindPassWordModel extends BaseObservable {
     }
 
     private int uploadPicLayerVisibility = View.GONE;
+
     @Bindable
     public int getUploadPicLayerVisibility() {
         return uploadPicLayerVisibility;
@@ -146,45 +147,75 @@ public class FindPassWordModel extends BaseObservable {
     }
 
     //设置密码
-    public void setPassWord(String oldpass,String newpass){
-        SetPassWordProtocol setPassWordProtocol = new SetPassWordProtocol(oldpass,newpass);
+    public void setPassWord(String oldpass, String newpass) {
+        SetPassWordProtocol setPassWordProtocol = new SetPassWordProtocol(oldpass, newpass);
         setPassWordProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<SetBean>() {
             @Override
             public void execute(SetBean dataBean) {
                 int rescode = dataBean.rescode;
-                if(rescode == 0){
+                if (rescode == 0) {
                     SetBean.DataBean data = dataBean.getData();
                     int status = data.getStatus();
-                    switch (status){
+                    switch (status) {
                         case 1:
                             LogKit.d("设置成功");
-
+                            ToastUtils.shortCenterToast("密码设置成功");
+                            findPassWordActivity.finish();
                             break;
                         case 2:
                             LogKit.d("设置失败");
+                            ToastUtils.shortCenterToast("密码设置失败");
                             break;
                     }
                 }
             }
+
             @Override
             public void executeResultError(String result) {
-                 LogKit.d("result:"+result);
+                LogKit.d("result:" + result);
             }
         });
     }
 
-    //创建密码
-    public void createPassWord(String passWord,String url){
-        ContactsManager.onCreatePassWord(new onCreatePassWord(),passWord,url);
+    //创建密码，需要后台审核
+    public void createPassWord(String passWord, String url) {
+        ContactsManager.onCreatePassWord(new onCreatePassWord(), passWord, url);
     }
 
     //找回交易密码
-    public void findPassWord(String passWord,String url){
-        ContactsManager.onFindPassWord(new onCreatePassWord(),passWord,url);
+    public void findPassWord(String passWord, String url) {
+        ContactsManager.onFindPassWord(new onFindPassWord(), passWord, url);
     }
 
     //创建交易密码
     public class onCreatePassWord implements BaseProtocol.IResultExecutor<SetBean> {
+        @Override
+        public void execute(SetBean dataBean) {
+            int rescode = dataBean.rescode;
+            if (rescode == 0) {
+                SetBean.DataBean data = dataBean.getData();
+                int status = data.getStatus();
+                switch (status) {
+                    case 1:
+                        ToastUtils.shortCenterToast("提交成功,后台审核中");
+                        findPassWordActivity.finish();
+                        break;
+                    case 0:
+                        LogKit.d("设置失败");
+                        ToastUtils.shortCenterToast("设置失败");
+                        break;
+                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
+
+    //找回交易密码
+    public class onFindPassWord implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
         public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
@@ -193,12 +224,11 @@ public class FindPassWordModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case 1:
-                        LogKit.d("设置成功");
-                        ToastUtils.shortCenterToast("设置成功");
+                        ToastUtils.shortCenterToast("找回交易密码成功，后台审核中");
+                        findPassWordActivity.finish();
                         break;
                     case 0:
-                        LogKit.d("设置失败");
-                        ToastUtils.shortCenterToast("设置失败");
+                        ToastUtils.shortCenterToast("找回交易密码失败");
                         break;
                 }
             }

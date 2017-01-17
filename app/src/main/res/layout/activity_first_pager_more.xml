@@ -42,23 +42,32 @@
  </RelativeLayout>
 
 
-    <com.slash.youth.ui.view.DropDownMenu
-        android:id="@+id/dropDownMenu"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#edf1f2"
-        app:ddmenuTextSize="15sp"
-        app:ddtextUnselectedColor="@color/drop_down_unselected"
-        app:ddtextSelectedColor="@color/drop_down_selected"
-        app:dddividerColor="@color/gray"
-        app:ddunderlineColor="@color/gray"
-        app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
-        app:ddmaskColor="@color/mask_color"
-        app:ddmenuBackgroundColor="@color/white"
-        app:ddmenuUnselectedIcon="@mipmap/free_play">
+        android:layout_height="match_parent">
 
-    </com.slash.youth.ui.view.DropDownMenu>
+
+
+        <com.slash.youth.ui.view.DropDownMenu
+            android:id="@+id/dropDownMenu"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            app:ddmenuTextSize="15sp"
+            app:ddtextUnselectedColor="@color/drop_down_unselected"
+            app:ddtextSelectedColor="@color/drop_down_selected"
+            app:dddividerColor="@color/gray"
+            app:ddunderlineColor="@color/gray"
+            app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
+            app:ddmaskColor="@color/mask_color"
+            app:ddmenuBackgroundColor="@color/white"
+            app:ddmenuUnselectedIcon="@mipmap/free_play">
+
+        </com.slash.youth.ui.view.DropDownMenu>
+
+    </FrameLayout>
+
 
     <!--<ListView
         android:id="@+id/lv_more"

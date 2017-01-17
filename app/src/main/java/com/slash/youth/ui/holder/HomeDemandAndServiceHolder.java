@@ -1,12 +1,15 @@
 package com.slash.youth.ui.holder;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
+import com.slash.youth.databinding.ItemDemandLayoutBinding;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
 import com.slash.youth.domain.FreeTimeMoreServiceBean;
+import com.slash.youth.ui.viewmodel.ItemDemandModel;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.CommonUtils;
 

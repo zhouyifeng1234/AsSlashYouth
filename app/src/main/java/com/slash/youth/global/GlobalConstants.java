@@ -397,8 +397,8 @@ public class GlobalConstants {
         public static final String UPLOAD_PHOTO = "http://121.42.145.178/file/v1/api" + "/upload";
         // 五、[设置]-设置新的交易密码
         public static final String SET_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/set";
-        //六、[设置]-创建交易密码
-        public static final String CREATE_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/create";
+        //六、[设置]-创建交易密码，需要后台审核
+        public static final String CREATE_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/createwithcheck";
         //八、[设置]-找回交易密码
         public static final String FIND_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/findback";
 
@@ -432,6 +432,7 @@ public class GlobalConstants {
         public static final String SKILL_MANAGE_LIST = SKILL_MANAGE_HOST + "/list";
         public static final String SKILL_MANAGE_DELETE = SKILL_MANAGE_HOST + "/del";
         public static final String ADD_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/add";
+        public static final String UPDATE_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/update";
         public static final String GET_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/one";
 
         //[我的人脉]-人脉首页

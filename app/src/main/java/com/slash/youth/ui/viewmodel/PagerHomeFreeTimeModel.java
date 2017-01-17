@@ -425,14 +425,19 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeDemandBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
-
+                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
-                listDemandBean.addAll(list);
-                homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
-                pagerHomeFreetimeBinding.lvHomeDemandAndService
-                        .setAdapter(homeDemandAndDemandAdapter);
-
+                listsize= list.size();
+                if(list.size() == 0){
+                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    listDemandBean.addAll(list);
+                    homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
+                    pagerHomeFreetimeBinding.lvHomeDemandAndService
+                            .setAdapter(homeDemandAndDemandAdapter);
+                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
                 //隐藏加载页面
                 hideLoadLayer();
             }
@@ -452,14 +457,19 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void execute(FreeTimeServiceBean data) {
             int rescode = data.getRescode();
             if (rescode == 0) {
-
+                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
-                listServiceBean.addAll(list);
-                homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
-                pagerHomeFreetimeBinding.lvHomeDemandAndService
-                        .setAdapter(homeServiceAdapter);
+                if(list.size() == 0){
+                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    listServiceBean.addAll(list);
+                    homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
+                    pagerHomeFreetimeBinding.lvHomeDemandAndService
+                            .setAdapter(homeServiceAdapter);
+                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
 
                 //隐藏加载页面
                 hideLoadLayer();

@@ -127,9 +127,14 @@ public class MyCollectionModel extends BaseObservable  {
                 MyCollectionBean.DataBean data = dataBean.getData();
                 List<MyCollectionBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
-                collectionList.addAll(list);
-                myCollectionAdapter = new MyCollectionAdapter(collectionList,myCollectionActivity);
-                activityMyCollectionBinding.lv.setAdapter(myCollectionAdapter);
+                if(listSize == 0){
+                    activityMyCollectionBinding.rlCollectionDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    collectionList.addAll(list);
+                    myCollectionAdapter = new MyCollectionAdapter(collectionList,myCollectionActivity);
+                    activityMyCollectionBinding.lv.setAdapter(myCollectionAdapter);
+                    activityMyCollectionBinding.rlCollectionDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override

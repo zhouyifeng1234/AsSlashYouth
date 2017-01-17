@@ -76,11 +76,11 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
                     itemMyCollectionBinding.tvMyCollectionQuote.setText(MyManager.QOUNT+quote);
                 }
 
-                if(starttime<=0){
+               /* if(starttime<=0){
                     itemMyCollectionBinding.tvTime.setText(FirstPagerManager.ANY_TIME);
                 }else {
                     itemMyCollectionBinding.tvTime.setText(MyManager.START_TIME+startTime);
-                }
+                }*/
                 break;
             case 2:
                 itemMyCollectionBinding.tvFenqi.setText(FirstPagerManager.SERVICE_INSTALMENT);
@@ -103,9 +103,9 @@ public class MyCollectionHolder extends BaseHolder<MyCollectionBean.DataBean.Lis
                 itemMyCollectionBinding.ivTime.setVisibility(View.VISIBLE);
                 int timetype = data.getTimetype();
                if(timetype == 0){
-                   itemMyCollectionBinding.tvTime.setText(startTime);
+                  // itemMyCollectionBinding.tvTime.setText(startTime);
                }else {
-                   itemMyCollectionBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype]);
+                   itemMyCollectionBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype-1]);
                }
                 break;
         }

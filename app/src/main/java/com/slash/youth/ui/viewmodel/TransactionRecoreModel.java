@@ -63,12 +63,16 @@ public class TransactionRecoreModel extends BaseObservable {
                 TransactionRecoreBean.DataBean data = dataBean.getData();
                 List<TransactionRecoreBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
-                arrayList.addAll(list);
-                recordAdapter = new RecordAdapter(arrayList);
-                activityTransactionRecordBinding.lv.setAdapter(recordAdapter);
+                if(listSize == 0){
+                    activityTransactionRecordBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    arrayList.addAll(list);
+                    recordAdapter = new RecordAdapter(arrayList);
+                    activityTransactionRecordBinding.lv.setAdapter(recordAdapter);
+                    activityTransactionRecordBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
                 if(listSize == 0){
                     activityTransactionRecordBinding.refreshView.setVisibility(View.GONE);
-                    activityTransactionRecordBinding.tvNone.setVisibility(View.VISIBLE);
                 }
             }else {
                 LogKit.d("rescode: "+rescode);

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
+import com.slash.youth.databinding.ItemDemandLayoutBinding;
 import com.slash.youth.databinding.ItemManagePublishHolderBinding;
 import com.slash.youth.domain.ManagerMyPublishTaskBean;
 import com.slash.youth.engine.FirstPagerManager;
@@ -51,6 +52,8 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
     public void refreshView(ManagerMyPublishTaskBean.DataBean.ListBean data) {
         setView(myActivityTitle, data);
 
+        int instalment = data.getInstalment();
+
         String title = data.getTitle();
         itemManagePublishHolderBinding.tvManageMyPublishTaskTitle.setText(title);
 
@@ -67,7 +70,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         String name = data.getName();
         itemManagePublishHolderBinding.tvManageMyPublishName.setText(name);
 
-        int instalment = data.getInstalment();
+
 
         double quote = data.getQuote();
         //单位
@@ -86,6 +89,11 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         int type = data.getType();
         switch (type){
             case 1://需求
+
+                if(instalment == 0){
+                    itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                }
+
                 itemManagePublishHolderBinding.ivTime.setVisibility(View.GONE);
                 itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
                 switch (instalment) {
@@ -103,14 +111,18 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                     itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
                 }
 
-                if(starttime <=0){
+               /* if(starttime <=0){
                     itemManagePublishHolderBinding.tvManageMyPublishTime.setText(FirstPagerManager.ANY_TIME);
                 }else {
                     itemManagePublishHolderBinding.tvManageMyPublishTime.setText(MyManager.START_TIME + startData);
-                }
+                }*/
 
                 break;
             case 2://服务
+                if(instalment == 1){
+                    itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager. SERVICE_INSTALMENT);
+                }
+
                 itemManagePublishHolderBinding.ivTime.setVisibility(View.VISIBLE);
                 itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
                 switch (instalment) {
@@ -132,9 +144,9 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
 
                 int timetype = data.getTimetype();
                 if(timetype == 0){
-                    itemManagePublishHolderBinding.tvManageMyPublishTime.setText( startData + "-" + endData);
+                   // itemManagePublishHolderBinding.tvManageMyPublishTime.setText( startData + "-" + endData);
                 }else {
-                    itemManagePublishHolderBinding.tvManageMyPublishTime.setText(FirstPagerManager.TIMETYPES[timetype]);
+                    itemManagePublishHolderBinding.tvManageMyPublishTime.setText(FirstPagerManager.TIMETYPES[timetype-1]);
                 }
                 break;
         }

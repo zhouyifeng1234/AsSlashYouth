@@ -56,7 +56,7 @@ public class UpdateSkillTempletProtocol extends BaseProtocol<SetBean> {
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.ADD_SKILL_TEMPLET;
+        return GlobalConstants.HttpUrl.UPDATE_SKILL_TEMPLET;
     }
 
     @Override

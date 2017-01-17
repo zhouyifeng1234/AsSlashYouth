@@ -13,6 +13,8 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.databinding.ActivityMySkillManageBinding;
 import com.slash.youth.domain.SkillManagerBean;
+import com.slash.youth.engine.MyManager;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.adapter.MySkillManageAdapter;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.ui.viewmodel.MySkillManageModel;
@@ -23,6 +25,7 @@ import com.slash.youth.utils.SpUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zss on 2016/11/3.
@@ -36,6 +39,8 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
     private MySkillManageModel mySkillManageModel;
     private int skillListId=-1;
     private int i = 0;
+    private int offset = 0;
+    private int limit = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +97,19 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
         title.setText(titleName);
     }
 
-    @Override
+   @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Constants.SUMBIT_ONE_SKILL_MANAGER){
-            SkillManagerBean.DataBean.ListBean sumbitNewTemplet = (SkillManagerBean.DataBean.ListBean) data.getSerializableExtra("sumbitNewTemplet");
-            mySkillManageModel.skillManageList.add(i,sumbitNewTemplet);
-            MySkillManageAdapter  mySkillManageAdapter = new MySkillManageAdapter(mySkillManageModel.skillManageList,this,mySkillManageModel.skillManageList);
-            activityMySkillManageBinding.lv.setAdapter(mySkillManageAdapter);
+        switch (resultCode){
+            case Constants.SUMBIT_ONE_SKILL_MANAGER://创建新的模版
+                mySkillManageModel.skillManageList.clear();
+                mySkillManageModel.getdata(titleName);
+                 break;
+            case Constants.UPDATE_SKILL_MANAGER_ONE://修改模板
+                mySkillManageModel.skillManageList.clear();
+                mySkillManageModel.getdata(titleName);
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }
