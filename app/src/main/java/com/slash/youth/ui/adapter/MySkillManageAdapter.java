@@ -33,11 +33,15 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
     private ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList;
     private MySkillManageHolder mySkillManageHolder;
     private int index = -1;
+    private String avater;
+    private String name;
 
-    public MySkillManageAdapter(ArrayList<SkillManagerBean.DataBean.ListBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList) {
+    public MySkillManageAdapter(ArrayList<SkillManagerBean.DataBean.ListBean> listData, MySkillManageActivity mySkillManageActivity,ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList,String avater,String name) {
         super(listData);
         this.mySkillManageActivity = mySkillManageActivity;
         this.skillManageList = skillManageList;
+        this.avater = avater;
+        this.name = name;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class MySkillManageAdapter extends SlashBaseAdapter<SkillManagerBean.Data
 
     @Override
     public BaseHolder getHolder(int position) {
-        mySkillManageHolder = new MySkillManageHolder( mySkillManageActivity, skillManageList);
+        mySkillManageHolder = new MySkillManageHolder( mySkillManageActivity, skillManageList,avater,name);
         deleteItem();
         return mySkillManageHolder;
     }

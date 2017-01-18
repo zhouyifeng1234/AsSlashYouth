@@ -55,7 +55,7 @@ public class SkillManagerBean {
             private int pattern;
             private String pic;
             private String place;
-            private double quote;
+            private int quote;
             private int quoteunit;
             private String remark;
             private long starttime;
@@ -64,6 +64,41 @@ public class SkillManagerBean {
             private String title;
             private long uid;
             private long uts;
+            private String name;
+            private int  status;
+            private int isonline;
+
+            public int getQuote() {
+                return quote;
+            }
+
+            public void setQuote(int quote) {
+                this.quote = quote;
+            }
+
+            public int getIsonline() {
+                return isonline;
+            }
+
+            public void setIsonline(int isonline) {
+                this.isonline = isonline;
+            }
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
 
             public int getAnonymity() {
                 return anonymity;
@@ -185,13 +220,7 @@ public class SkillManagerBean {
                 this.place = place;
             }
 
-            public double getQuote() {
-                return quote;
-            }
 
-            public void setQuote(double quote) {
-                this.quote = quote;
-            }
 
             public int getQuoteunit() {
                 return quoteunit;

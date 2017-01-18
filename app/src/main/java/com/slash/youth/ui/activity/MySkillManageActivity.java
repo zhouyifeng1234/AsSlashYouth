@@ -47,8 +47,10 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         titleName = intent.getStringExtra("Title");
+        String avater = intent.getStringExtra("avater");
+        String name = intent.getStringExtra("name");
         activityMySkillManageBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_skill_manage);
-        mySkillManageModel = new MySkillManageModel(activityMySkillManageBinding,this,intent.getStringExtra("Title"));
+        mySkillManageModel = new MySkillManageModel(activityMySkillManageBinding,this,intent.getStringExtra("Title"),avater,name);
         activityMySkillManageBinding.setMySkillManageModel(mySkillManageModel);
         listener(titleName);
     }

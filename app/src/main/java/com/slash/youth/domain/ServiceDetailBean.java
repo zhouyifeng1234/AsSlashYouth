@@ -6,6 +6,14 @@ import java.io.Serializable;
  * Created by zhouyifeng on 2016/11/30.
  */
 public class ServiceDetailBean implements Serializable {
+
+    public ServiceDetailBean(int i){
+        this.data=new Data();
+        this.data.service=new Service();
+    }
+    public ServiceDetailBean(){
+
+    }
     public int rescode;
     public Data data;
 

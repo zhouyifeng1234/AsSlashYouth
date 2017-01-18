@@ -116,6 +116,8 @@ public class UserinfoEditorActivity extends Activity {
                             String checkedSecondLabel = bundleCheckedLabelsData.getString("checkedSecondLabel", "未选择");
                             if (checkFirstLabel != null && checkedSecondLabel != null) {
                                 activityUserinfoEditorBinding.tvDirection.setText(checkedSecondLabel);
+                                activityUserInfoEditorModel.industry = checkFirstLabel;
+                                activityUserInfoEditorModel.direction =  checkedSecondLabel;
                             }
                         }else {
                             activityUserinfoEditorBinding.tvDirection.setText("");

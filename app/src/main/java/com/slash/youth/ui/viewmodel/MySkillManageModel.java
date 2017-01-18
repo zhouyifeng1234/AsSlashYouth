@@ -48,11 +48,15 @@ public class MySkillManageModel extends BaseObservable  {
     private int offset = 0;
     private int limit = 20;
     private int listsize;
+    private String avater;
+    private String name;
 
-    public MySkillManageModel(ActivityMySkillManageBinding activityMySkillManageBinding,MySkillManageActivity mySkillManageActivity,String titleName) {
+    public MySkillManageModel(ActivityMySkillManageBinding activityMySkillManageBinding,MySkillManageActivity mySkillManageActivity,String titleName,String avater,String name) {
         this.activityMySkillManageBinding = activityMySkillManageBinding;
         this.mySkillManageActivity = mySkillManageActivity;
         this.titleName = titleName;
+        this.avater = avater;
+        this.name = name;
         initListView();
         initData();
         listener();
@@ -194,7 +198,7 @@ public class MySkillManageModel extends BaseObservable  {
                     activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                 }else {
                     skillManageList.addAll(list);
-                    mySkillManageAdapter = new MySkillManageAdapter(skillManageList,mySkillManageActivity,skillManageList);
+                    mySkillManageAdapter = new MySkillManageAdapter(skillManageList,mySkillManageActivity,skillManageList,avater,name);
                     activityMySkillManageBinding.lv.setAdapter(mySkillManageAdapter);
                     activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 }

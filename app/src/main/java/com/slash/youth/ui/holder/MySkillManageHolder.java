@@ -8,13 +8,16 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMySkillManageBinding;
+import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.viewmodel.ItemMySkillManageModel;
+import com.slash.youth.ui.viewmodel.PagerHomeMyModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
@@ -34,10 +37,14 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
     private final String myActivityTitle;
     private ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList;
     private String[] split;
+    private String avater;
+    private String name;
 
-    public MySkillManageHolder( MySkillManageActivity mySkillManageActivity,ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList) {
+    public MySkillManageHolder( MySkillManageActivity mySkillManageActivity,ArrayList<SkillManagerBean.DataBean.ListBean> skillManageList,String avater,String name) {
         this.mySkillManageActivity = mySkillManageActivity;
         this.skillManageList = skillManageList;
+        this.avater = avater;
+        this.name =name;
         myActivityTitle = SpUtils.getString("myActivityTitle", "");
     }
 
@@ -52,14 +59,9 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         @Override
         public void refreshView(SkillManagerBean.DataBean.ListBean data) {
             setView(myActivityTitle);
-            String pic = data.getPic();
-            if(!TextUtils.isEmpty(pic)){
-                if(pic.contains(",")){
-                    split = pic.split(",");
-                    BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + split[0]);
-                }else {
-                    BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + pic);
-                }
+
+            if (!TextUtils.isEmpty(avater)) {
+                BitmapKit.bindImage(itemMySkillManageBinding.ivPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avater);
             }
 
         String title = data.getTitle();
@@ -69,32 +71,8 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         int quoteunit = data.getQuoteunit();
         itemMySkillManageBinding.tvSkillManagerQuote.setText(MyManager.QOUNT+quote+"元"+"/"+FirstPagerManager.QUOTEUNITS[quoteunit-1]);
 
-       /* int timetype = data.getTimetype();//闲时类型
-            itemMySkillManageBinding.ivTime.setVisibility(View.VISIBLE);*/
-       /* if(timetype == 0){
-           // long starttime = data.getStarttime();
-            long  timeMillis = System.currentTimeMillis();
-            long endtime = data.getEndtime();
-            String startData = TimeUtils.getData(starttime);
-            String endData = TimeUtils.getData(endtime);
-            itemMySkillManageBinding.tvSkillMamagerTime.setText(MyManager.TASK_TIME+startData+"-"+endData);
-        } else {
-            itemMySkillManageBinding.tvSkillMamagerTime.setText(FirstPagerManager.TIMETYPES[timetype-1]);
-        }*/
-
         int anonymity = data.getAnonymity();//1实名0匿名
         String desc = data.getDesc();//长度小于4096字节 服务端默认取值为""
-
-        int instalment = data.getInstalment();
-        switch (instalment){
-            case 1:
-                itemMySkillManageBinding.tvFenqi.setVisibility(View.VISIBLE);
-                break;
-            case 0:
-                itemMySkillManageBinding.tvFenqi.setVisibility(View.GONE);
-                break;
-        }
-
         String tag = data.getTag();
         int count = data.getCount();
         long id = data.getId();
@@ -108,6 +86,8 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         String remark = data.getRemark();
         long uid = data.getUid();
         long uts = data.getUts();
+
+        itemMySkillManageBinding.tvName.setText(name);
     }
 
     //设置界面
@@ -117,10 +97,11 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
                 itemMySkillManageBinding.tvMyBtn.setText(MyManager.PUBLISH);
               break;
         }
+
     }
 
     @Override
-    public void setData(SkillManagerBean.DataBean.ListBean data, final int position) {
+    public void setData(final SkillManagerBean.DataBean.ListBean data, final int position) {
         super.setData(data, position);
         //点击删除
         itemMySkillManageBinding.ivDeleteSkill.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +116,13 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
             @Override
             public void onClick(View v) {
             SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(position);
+
+            ServiceDetailBean serviceDetailBean = new ServiceDetailBean(1);
+            ServiceDetailBean.Service service = serviceDetailBean.data.service;
+
+            setBean(listBean, service);
             Intent intentPublishServiceBaseInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceBaseInfoActivity.class);
-            intentPublishServiceBaseInfoActivity.putExtra("skillManagerItemBean",listBean);
+            intentPublishServiceBaseInfoActivity.putExtra("serviceDetailBean",serviceDetailBean);
             mySkillManageActivity.startActivityForResult(intentPublishServiceBaseInfoActivity, Constants.SKILL_MANAGER_PUBLISH_SERVICE);
             }
         });
@@ -151,4 +137,28 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         this.listener = listener;
     }
 
+    private void setBean(SkillManagerBean.DataBean.ListBean listBean, ServiceDetailBean.Service service) {
+       service.anonymity = listBean.getAnonymity();
+      service.bp = listBean.getBp();
+      service.cts = listBean.getCts();
+       service.desc = listBean.getDesc();
+      service.endtime = listBean.getEndtime();
+        service.id = listBean.getId();
+       service.instalment = listBean.getInstalment();
+       service.iscomment = listBean.getIscomment();
+      service.isonline = listBean.getIsonline();
+     service.lat = listBean.getLat();
+      service.lng = listBean.getLng();
+     service.loop = listBean.getLoop();
+       service.pattern = listBean.getPattern();
+       service.pic = listBean.getPic();
+      service.place = listBean.getPlace();
+        service.quoteunit = listBean.getQuoteunit();
+        service.starttime = listBean.getStarttime();
+       service.status = listBean.getStatus();
+       service.title= listBean.getTitle();
+       service.tag= listBean.getTag();
+       service.uid = listBean.getUid();
+        service.quote = listBean.getQuote();
+    }
 }
