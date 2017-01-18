@@ -5,7 +5,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.DetailRecommendServiceProtocol;
 import com.slash.youth.http.protocol.GetServiceFlowLogProtocol;
-import com.slash.youth.http.protocol.IsRectifyProtocol;
+import com.slash.youth.http.protocol.ServiceIsRectifyProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.RecommendDemandUserProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
@@ -282,7 +282,7 @@ public class ServiceEngine {
      * @param soid                       服务订单ID
      */
     public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String soid) {
-        IsRectifyProtocol isRectifyProtocol = new IsRectifyProtocol(soid);
+        ServiceIsRectifyProtocol isRectifyProtocol = new ServiceIsRectifyProtocol(soid);
         isRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
     }
 

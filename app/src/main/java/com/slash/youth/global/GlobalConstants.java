@@ -225,6 +225,8 @@ public class GlobalConstants {
         public static final String GET_DETAIL_RECOMMEND_DEMAND = RECOMMEND_DEMAND_HOST + "/more";
         //获取需求的分期信息
         public static final String GET_DEMAND_INSTALMENT_LIST = SERVER_HOST_DEMAND + "instalmentlist";
+        //二十四、[需求]-查询是否延期支付过
+        public static final String DEMAND_IS_RECTIFY = SERVER_HOST_DEMAND + "isrectify";
 
         //一、[服务]-发布服务-
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
@@ -269,7 +271,7 @@ public class GlobalConstants {
         //二、[推荐]-服务详情中更多服务列表
         public static final String GET_DETAIL_RECOMMEND_SERVICE = RECOMMEND_SERVICE_HOST + "/more";
         //十七、[服务]-查询是否延期支付过
-        public static final String IS_RECTIFY = SERVER_HOST_SERVICE + "isrectify";
+        public static final String SERVICE_IS_RECTIFY = SERVER_HOST_SERVICE + "isrectify";
 
         //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";

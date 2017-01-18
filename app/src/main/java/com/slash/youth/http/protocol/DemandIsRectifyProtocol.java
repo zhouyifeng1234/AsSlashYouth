@@ -7,26 +7,26 @@ import com.slash.youth.global.GlobalConstants;
 import org.xutils.http.RequestParams;
 
 /**
- * 十七、[服务]-查询是否延期支付过
+ * 二十四、[需求]-查询是否延期支付过
  * <p/>
  * Created by zhouyifeng on 2017/1/18.
  */
-public class IsRectifyProtocol extends BaseProtocol<CommonResultBean> {
+public class DemandIsRectifyProtocol extends BaseProtocol<CommonResultBean> {
 
-    private String soid;//服务订单ID
+    private String id;//需求ID
 
-    public IsRectifyProtocol(String soid) {
-        this.soid = soid;
+    public DemandIsRectifyProtocol(String id) {
+        this.id = id;
     }
 
     @Override
     public String getUrlString() {
-        return GlobalConstants.HttpUrl.IS_RECTIFY;
+        return GlobalConstants.HttpUrl.DEMAND_IS_RECTIFY;
     }
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("soid", soid);
+        params.addBodyParameter("id", id);
     }
 
     @Override

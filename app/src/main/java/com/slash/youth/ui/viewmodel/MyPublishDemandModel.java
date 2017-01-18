@@ -463,14 +463,29 @@ public class MyPublishDemandModel extends BaseObservable {
                                     }
                                 } else {//最后一期
                                     if (instalmentInfo.status == 1) {
-                                        DemandEngine
+                                        DemandEngine.getRectifyStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                                            @Override
+                                            public void execute(CommonResultBean dataBean) {
+                                                if (dataBean.data.status == 1) {
+                                                    setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                                } else {
+                                                    setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void executeResultError(String result) {
+                                                LogKit.v("获取延期支付状态失败:" + result);
+                                                ToastUtils.shortToast("获取延期支付状态失败:" + result);
+                                            }
+                                        }, tid + "");
 
 
-                                        if (innerDemandCardInfo.rectify == 1) {
-                                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
-                                        } else {
-                                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
-                                        }
+//                                        if (innerDemandCardInfo.rectify == 1) {
+//                                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+//                                        } else {
+//                                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
+//                                        }
                                     } else {
                                         setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                                     }

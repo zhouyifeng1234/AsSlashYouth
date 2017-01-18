@@ -7,6 +7,7 @@ import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
 import com.slash.youth.http.protocol.DemandInstalmentListProtocol;
+import com.slash.youth.http.protocol.DemandIsRectifyProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
@@ -21,7 +22,6 @@ import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
 import com.slash.youth.http.protocol.InterventionProtocol;
-import com.slash.youth.http.protocol.IsRectifyProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
@@ -380,8 +380,14 @@ public class DemandEngine {
         demandInstalmentListProtocol.getDataFromServer(onGetInstalmentListFinished);
     }
 
-    public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String soid) {
-        IsRectifyProtocol isRectifyProtocol = new IsRectifyProtocol(soid);
-        isRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
+    /**
+     * 二十四、[需求]-查询是否延期支付过
+     *
+     * @param onGetRectifyStatusFinished
+     * @param id                         需求ID
+     */
+    public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String id) {
+        DemandIsRectifyProtocol demandIsRectifyProtocol = new DemandIsRectifyProtocol(id);
+        demandIsRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
     }
 }
