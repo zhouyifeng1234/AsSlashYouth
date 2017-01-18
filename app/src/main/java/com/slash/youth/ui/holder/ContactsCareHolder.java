@@ -46,7 +46,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
 
     @Override
     public View initView() {
-        View itemView = View.inflate(CommonUtils.getContext(), R.layout.item_contacts_care, null);
+        View itemView = View.inflate(CommonUtils.getContext(), R.layout.item_contacts_care_new, null);
         ivAddMe = (ImageView) itemView.findViewById(R.id.iv_addme_icon);
         ivAddMeV = (ImageView) itemView.findViewById(R.id.iv_addme_v);
         iv = (ImageView) itemView.findViewById(R.id.iv);

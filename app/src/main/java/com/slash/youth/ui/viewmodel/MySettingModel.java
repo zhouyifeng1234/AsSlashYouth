@@ -288,8 +288,11 @@ public class MySettingModel extends BaseObservable {
 
     //确认
     public void sure(View view){
-
         logout(LoginManager.token);
+        setLogoutDialogVisibility(View.GONE);
+        Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
+        mySettingActivity.startActivity(intentLoginActivity);
+        mySettingActivity.finish();
     }
 
     //取消
@@ -308,10 +311,7 @@ public class MySettingModel extends BaseObservable {
             int rescode = dataBean.getRescode();
             switch (rescode){
                 case 0:
-                    setLogoutDialogVisibility(View.GONE);
-                    Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
-                    mySettingActivity.startActivity(intentLoginActivity);
-                    mySettingActivity.finish();
+                   ToastUtils.shortToast("退出成功");
                     break;
                 case 1:
                     setLogoutDialogVisibility(View.GONE);
