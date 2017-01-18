@@ -24,9 +24,9 @@ import java.util.List;
  */
 public class ThirdPartyModel extends BaseObservable {
     private ActivityMyThridPartyBinding activityMyThridPartyBinding;
-    private boolean isWinxinBing;
-    private boolean isQQBing;
-    private boolean isWinboBing;
+    private boolean isWinxinBing = false;
+    private boolean isQQBing = false;
+    private boolean isWinboBing = false;
     private BindThridPartyActivity bindThridPartyActivity;
     private final LoginManager loginManager;
 
@@ -34,32 +34,25 @@ public class ThirdPartyModel extends BaseObservable {
         this.activityMyThridPartyBinding = activityMyThridPartyBinding;
         this.bindThridPartyActivity = bindThridPartyActivity;
         loginManager = new LoginManager();
+        initData();
         initView();
     }
 
-    private void initView() {
-       if(SpUtils.getBoolean("isWinxin",false)){
+    private void initData() {
+        bindPlatform(LoginManager.token);
+    }
+
+    private void initView(){
+        if(isWinxinBing){
             activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
-           isWinxinBing = true;
         }else {
             activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
-           isWinxinBing = false;
         }
 
-        if(SpUtils.getBoolean("isQQ",false)){
+        if(isQQBing){
             activityMyThridPartyBinding.tvQQBinding.setText("解绑");
-            isQQBing = true;
         }else {
             activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
-            isQQBing = false;
-        }
-
-        if(SpUtils.getBoolean("isWinbo",false)){
-            activityMyThridPartyBinding.tvWeiboBinding.setText("解绑");
-            isWinboBing = true;
-        }else {
-            activityMyThridPartyBinding.tvWeiboBinding.setText("去绑定");
-            isWinboBing = false;
         }
     }
 
@@ -70,13 +63,22 @@ public class ThirdPartyModel extends BaseObservable {
             @Override
             public void execute(GetBindBean dataBean) {
                 int rescode = dataBean.getRescode();
-                GetBindBean.DataBean data = dataBean.getData();
-                List<String> platforms = data.getPlatforms();
-                for (String platform : platforms) {
-                LogKit.d("绑定的平台"+platform);
+                if(rescode == 0){
+                    GetBindBean.DataBean data = dataBean.getData();
+                    List<String> platforms = data.getPlatforms();
+                    for (String platform : platforms) {
+                        if(platform.equals("1")){
+                            isWinxinBing = true;
+                        }else if(platform.equals("2")){
+                            isQQBing = true;
+
+                        }else if(platform.equals("3")){
+                            isWinboBing = true;
+                        }
+                    }
+                    initView();
                 }
             }
-
             @Override
             public void executeResultError(String result) {
                 LogKit.d("result:"+result);
@@ -122,6 +124,7 @@ public class ThirdPartyModel extends BaseObservable {
 
     //微信
     public void weixin(View view){
+
         if(isWinxinBing){
             if(SpUtils.getString("WEIXIN_token", "").equals("")){
                 loginManager.authorizateWEIXIN(bindThridPartyActivity);

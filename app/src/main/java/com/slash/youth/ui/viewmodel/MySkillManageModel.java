@@ -59,6 +59,7 @@ public class MySkillManageModel extends BaseObservable  {
     }
     //加载listView
     private void initListView() {
+        skillManageList.clear();
         PullToRefreshLayout ptrl = activityMySkillManageBinding.refreshView;
         ptrl.setOnRefreshListener(new MySkillManageListListener());
     }
@@ -118,6 +119,7 @@ public class MySkillManageModel extends BaseObservable  {
                         long skillListId = listBean.getId();
                         Intent intentMyAddSkillActivity = new Intent(CommonUtils.getContext(), MyAddSkillActivity.class);
                         intentMyAddSkillActivity.putExtra("skillListId",skillListId);
+                        intentMyAddSkillActivity.putExtra("position",position);
                         intentMyAddSkillActivity.putExtra("skillTemplteType", Constants.UPDATE_SKILL_MANAGER_ONE);
                         mySkillManageActivity.startActivityForResult(intentMyAddSkillActivity, Constants.UPDATE_SKILL_MANAGER_ONE);
                     }
@@ -162,9 +164,15 @@ public class MySkillManageModel extends BaseObservable  {
                 ManagerMyPublishTaskBean.DataBean data = dataBean.getData();
                  list = data.getList();
                 listsize = list.size();
-                managePublishList.addAll(list);
-                managePublishAdapter = new ManagePublishAdapter(managePublishList,mySkillManageActivity, managePublishList);
-                activityMySkillManageBinding.lv.setAdapter(managePublishAdapter);
+                if(list.size() == 0){
+                    activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    activityMySkillManageBinding.tvTitle.setText("暂无任务");
+                }else {
+                    managePublishList.addAll(list);
+                    managePublishAdapter = new ManagePublishAdapter(managePublishList, mySkillManageActivity, managePublishList);
+                    activityMySkillManageBinding.lv.setAdapter(managePublishAdapter);
+                    activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override
@@ -182,9 +190,14 @@ public class MySkillManageModel extends BaseObservable  {
                 SkillManagerBean.DataBean data = dataBean.getData();
                 List<SkillManagerBean.DataBean.ListBean> list = data.getList();
                 listsize = list.size();
-                skillManageList.addAll(list);
-                mySkillManageAdapter = new MySkillManageAdapter(skillManageList,mySkillManageActivity,skillManageList);
-                activityMySkillManageBinding.lv.setAdapter(mySkillManageAdapter);
+                if(listsize == 0){
+                    activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    skillManageList.addAll(list);
+                    mySkillManageAdapter = new MySkillManageAdapter(skillManageList,mySkillManageActivity,skillManageList);
+                    activityMySkillManageBinding.lv.setAdapter(mySkillManageAdapter);
+                    activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override

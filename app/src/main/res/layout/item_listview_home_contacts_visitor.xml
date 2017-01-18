@@ -55,6 +55,9 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="3dp"
                     android:text="百度阿里集团首席ui设计师"
+                    android:maxLines="1"
+                    android:maxEms="10"
+                    android:ellipsize="end"
                     android:textColor="#999999"
                     android:textSize="12sp"/>
 

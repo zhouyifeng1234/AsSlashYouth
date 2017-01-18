@@ -66,8 +66,8 @@
                         >
                         <ImageView
                             android:id="@+id/iv_time"
-                            android:visibility="gone"
                             android:layout_marginRight="5dp"
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/time_icon"/>
@@ -112,17 +112,16 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="73dp"
+                        android:layout_marginRight="10dp"
                         android:textColor="#FF7333"
                         android:textSize="13sp"/>
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                <!--    <View android:layout_width="0dp" android:layout_height="0dp"
+                        android:layout_weight="1"/>-->
 
                     <!--线上-->
                     <TextView
                         android:id="@+id/tv_pattern"
-                        android:visibility="gone"
-                        android:layout_marginRight="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="16dp"
                         android:layout_gravity="center_vertical"
@@ -134,7 +133,6 @@
                         android:textSize="12sp"/>
                     <!--需求方，一次性支付,服务方，分期支付-->
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/tv_instalment"
                         android:layout_width="wrap_content"
                         android:layout_height="16dp"
@@ -144,6 +142,7 @@
                         android:background="@drawable/shape_rounded_demand_service_maker_bg"
                         android:paddingLeft="2dp"
                         android:paddingRight="2dp"
+                        android:text="一次性支付"
                         android:textColor="#31C5E4"
                         android:textSize="12sp"/>
 

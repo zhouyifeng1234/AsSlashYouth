@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +98,7 @@ public class SubscribeActivity extends Activity {
     private String direction;
     private SkillLabelBean secondSkillLabelBean;
     private SkillLabelBean industrySkillLabelBean;
-    private int showItemPosition;
+    private boolean isAddSkill = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class SubscribeActivity extends Activity {
             mActivitySubscribeBinding.tvSubscribeTitle.setText(titleText);
             mActivitySubscribeBinding.tvTitleTwo.setText(tabTitle);
         }
-        activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this, isEditor);
+        activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this, isEditor,isAddSkill);
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
 
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
@@ -179,18 +180,17 @@ public class SubscribeActivity extends Activity {
                         LogKit.d("rescode :" + rescode);
                     }
                 }
-
                 @Override
                 public void executeResultError(String result) {
                     LogKit.d("result :" + result);
                 }
             });
         } else {
-          /*  ArrayList<SkillLabelAllBean> arrayList = getDateFromLocal("skillLabel");
+            ArrayList<SkillLabelAllBean> arrayList = getDateFromLocal("skillLabel");
             getSkillLabelAllArrayList(arrayList);
             ArrayList<SkillLabelGetBean.DataBean> data = getDateFromLocal("userSkillLabel");
             getUserSkillLabelArrayList(data);
-             postThridSkillLabel();*/
+             postThridSkillLabel();
         }
         //一级标签
         industry = getIntent().getStringExtra("industry");
@@ -212,7 +212,7 @@ public class SubscribeActivity extends Activity {
             int userid = bean.getId();
             String userSkillLabel = bean.getTags();
 
-            if (userSkillLabel != "" || userSkillLabel != null) {
+            if (!TextUtils.isEmpty(userSkillLabel)) {
                 if (userSkillLabel.contains("_")) {
                     String[] thirdSkillNames = userSkillLabel.split("_");
                     for (String thirdSkillName : thirdSkillNames) {
@@ -269,6 +269,7 @@ public class SubscribeActivity extends Activity {
         } else {
             firstId = industrySkillLabelBean.getId();
         }
+
         //第一次展示页面，二级默认为设计页面
         getCommnSkillLabel(firstId);
         subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
@@ -316,7 +317,6 @@ public class SubscribeActivity extends Activity {
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 int size = listCheckedLabelName.size();
                 if (size != 0) {
                     clickSecondSkillLabelBean = commnSkilllabel.get(position);

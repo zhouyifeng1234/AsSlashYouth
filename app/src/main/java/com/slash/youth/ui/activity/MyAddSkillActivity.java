@@ -13,6 +13,7 @@ import com.slash.youth.databinding.ActivityMyAddSkillBinding;
 import com.slash.youth.ui.viewmodel.MyAddSkillModel;
 import com.slash.youth.utils.Constants;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -32,8 +33,9 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
         Intent intent = getIntent();
         long skillListId = intent.getLongExtra("skillListId", -1);
         int skillTemplteType = intent.getIntExtra("skillTemplteType", -1);
+        int position = intent.getIntExtra("position", -1);
         activityMyAddSkillBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_add_skill);
-        myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding, this, skillListId,skillTemplteType);
+        myAddSkillModel = new MyAddSkillModel(activityMyAddSkillBinding, this, skillListId,skillTemplteType,position);
         activityMyAddSkillBinding.setMyAddSkillModel(myAddSkillModel);
         listener();
     }
@@ -64,6 +66,7 @@ public class MyAddSkillActivity extends Activity implements View.OnClickListener
                     myAddSkillModel.sallAddedSkilllabels.listTotalAddedTags.clear();
                     myAddSkillModel.sallAddedSkilllabels.removeAllViews();
                     myAddSkillModel.sallAddedSkilllabels.getAddLabelsResult(data);
+
                     break;
             }
         }

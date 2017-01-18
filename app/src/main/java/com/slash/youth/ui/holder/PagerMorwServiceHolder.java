@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
+import com.slash.youth.databinding.ItemDemandLayoutBinding;
 import com.slash.youth.databinding.ItemHomeDemandServiceBinding;
 import com.slash.youth.domain.FreeTimeMoreServiceBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.viewmodel.ItemDemandModel;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -27,6 +29,8 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
     private ItemHomeDemandServiceModel mItemHomeDemandServiceModel;
     private ItemHomeDemandServiceBinding itemHomeDemandServiceBinding;
     private Activity mActivity;
+    private ItemDemandLayoutBinding itemDemandLayoutBinding;
+    private ItemDemandModel itemDemandModel;
 
     public PagerMorwServiceHolder(Activity mActivity) {
         this.mActivity = mActivity;
@@ -34,15 +38,97 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
 
     @Override
     public View initView() {
-        itemHomeDemandServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_home_demand_service, null, false);
+       /* itemHomeDemandServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_home_demand_service, null, false);
         mItemHomeDemandServiceModel = new ItemHomeDemandServiceModel(itemHomeDemandServiceBinding);
         itemHomeDemandServiceBinding.setItemHomeDemandServiceModel(mItemHomeDemandServiceModel);
-        return itemHomeDemandServiceBinding.getRoot();
+        return itemHomeDemandServiceBinding.getRoot();*/
+
+        itemDemandLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_layout, null, false);
+        itemDemandModel = new ItemDemandModel(itemDemandLayoutBinding);
+        itemDemandLayoutBinding.setItemDemandModel(itemDemandModel);
+        return itemDemandLayoutBinding.getRoot();
     }
 
     @Override
     public void refreshView(FreeTimeMoreServiceBean.DataBean.ListBean data) {
         int anonymity = data.getAnonymity();
+        String name = data.getName();
+        String avatar = data.getAvatar();
+        //匿名，实名
+        switch (anonymity){
+            case 1://实名
+                BitmapKit.bindImage(itemDemandLayoutBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+                itemDemandModel.setName(name);
+                break;
+            case 0://匿名
+                itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
+                String firstName = name.substring(0, 1);
+                String anonymityName = firstName + "xx";
+                itemDemandModel.setName(anonymityName );
+                break;
+        }
+
+        int isauth = data.getIsauth();
+        switch (isauth){
+            case 0:
+                itemDemandModel.setIsAuthVisivity(View.GONE);
+                break;
+            case 1:
+                itemDemandModel.setIsAuthVisivity(View.VISIBLE);
+                break;
+        }
+
+        String title = data.getTitle();
+        itemDemandModel.setTitle(title);
+
+        long quote = data.getQuote();
+        String quoteString = FirstPagerManager.QUOTE + quote + "元";
+        itemDemandModel.setQuote(quoteString);
+
+        int pattern = data.getPattern();
+        String place = data.getPlace();
+        double lat = data.getLat();
+        double lng = data.getLng();
+        switch (pattern){
+            case 0:
+                itemDemandModel.setPattern(FirstPagerManager.PATTERN_UP);
+                itemDemandModel.setPlace("全国");
+                break;
+            case 1:
+                itemDemandModel.setPattern(FirstPagerManager.PATTERN_DOWN);
+
+                if(!TextUtils.isEmpty(place)){
+                    itemDemandModel.setPlace(place);
+                }
+                double currentLatitude = SlashApplication.getCurrentLatitude();
+                double currentLongitude = SlashApplication.getCurrentLongitude();
+                double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
+                itemDemandModel.setDistance("距离"+distance+"KM");
+                break;
+        }
+
+        int instalment = data.getInstalment();
+        itemDemandModel.setInstalment(FirstPagerManager.DEMAND_INSTALMENT);
+        switch (instalment){
+            case 0:
+                itemDemandModel.setInstalmentVisibility(View.VISIBLE);
+                break;
+            case 1:
+                itemDemandModel.setInstalmentVisibility(View.GONE);
+                break;
+        }
+
+        int timetype = data.getTimetype();
+        itemDemandModel.setTimeVisibility(View.VISIBLE);
+        if(timetype!=0){
+            itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype-1]);
+        }
+
+
+
+
+
+      /*  int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
@@ -132,6 +218,6 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
             case 1:
                 itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
                 break;
-        }
+        }*/
     }
 }

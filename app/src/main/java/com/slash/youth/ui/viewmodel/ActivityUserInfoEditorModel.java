@@ -73,9 +73,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private boolean checked;
     private String setLocation;
     private HashMap<String, String> paramsMap = new HashMap<>();
-    private String textView;
     private String[] slashIdentitys;
-    private String editext;
     private String company;
     private String position;
     private String direction;
@@ -98,7 +96,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private WarpLinearLayout llSkilllabelContainer;
     private   boolean isChange = false;
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
-    private UserInfoItemBean.DataBean.UinfoBean uinfo;
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
@@ -112,13 +109,16 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private void initData() {
         llSkilllabelContainer = activityUserinfoEditorBinding.llSkilllabelContainer;
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
-        MyManager.getMySelfPersonInfo(new OnGetSelfPersonInfo());
     }
 
     private void initView() {
     }
 
     private void setUserView() {
+
+        if (!TextUtils.isEmpty(skilldescrib)) {
+            activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
+        }
         //头像的路径
         if (!TextUtils.isEmpty(avatar)) {
             BitmapKit.bindImage(activityUserinfoEditorBinding.ibClickAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
@@ -161,7 +161,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
         //行业方向
         if(!TextUtils.isEmpty(industry)&&!TextUtils.isEmpty(direction)){
-            activityUserinfoEditorBinding.tvDirection.setText(industry + "|" + direction);
+            activityUserinfoEditorBinding.tvDirection.setText(direction);
         }
 
         //技能标签
@@ -423,7 +423,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //点击保存
     public void save(View view) {
-
          skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
         company = activityUserinfoEditorBinding.tvCompany.getText().toString();
         position = activityUserinfoEditorBinding.tvProfession.getText().toString();
@@ -431,10 +430,11 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         direction = activityUserinfoEditorBinding.tvDirection.getText().toString();
         //监听斜杠身份
         slashIdentity = activityUserinfoEditorBinding.tvIdentity.getText().toString();
+        name = activityUserinfoEditorBinding.etUsername.getText().toString();
 
         if(name.equals(myinfo.getName())&&avatar.equals(myinfo.getAvatar())&&phone.equals(myinfo.getPhone())&&
                 setLocation.equals(myinfo.getCity())&&slashIdentity.equals(myinfo.getIdentity())&&position.equals(myinfo.getPosition())&&
-                skilldescrib.equals(uinfo.getDesc())){
+                skilldescrib.equals(myinfo.getDesc())){
             isChange = false;
         }else {
             isChange = true;
@@ -463,20 +463,40 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
         if(TextUtils.isEmpty(name)){
            ToastUtils.shortCenterToast("请填写姓名");
+        }else if(name.length()>=6){
+            ToastUtils.shortCenterToast("姓名最多5个字");
         }else {
-            //认证过的
-            if(isauth == 1){
-                if(isChange){//有改动并且认证过，就显示弹框
-                    showDialog();
-                }else {//没有改动直接保存
-                    savePersonInfo();
-                    userinfoEditorActivity.finish();
-                }
+        if(company.length()<=1||company.length()>=16){
+        ToastUtils.shortCenterToast("公司名字数2~15");
+        }else {
+            if(position.length()<2||position.length()>10){
+                ToastUtils.shortCenterToast("公司职位名字数2~10");
             }else {
-                //没有认证过
-                savePersonInfo();
-                userinfoEditorActivity.finish();
+                if(skilldescrib.length()>50){
+                    ToastUtils.shortCenterToast("个人简介字数不超过50");
+                }else {
+                    int size = listCheckedLabelName.size();
+                    if(size==0){
+                        ToastUtils.shortCenterToast("请填写技能标签");
+                    }else {
+                        //认证过的
+                        if(isauth == 1){
+                            if(isChange){//有改动并且认证过，就显示弹框
+                                showDialog();
+                            }else {//没有改动直接保存
+                                savePersonInfo();
+                                userinfoEditorActivity.finish();
+                            }
+                        }else {
+                            //没有认证过
+                            savePersonInfo();
+                            userinfoEditorActivity.finish();
+                        }
+
+                    }
+                }
             }
+        }
         }
     }
 
@@ -495,8 +515,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void savePersonInfo() {
-
-
         //保存姓名，技能描述，职业类型
         name = activityUserinfoEditorBinding.etUsername.getText().toString();
         skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
@@ -576,9 +594,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void listener() {
-        //监听名字和描述信息和职业类型的变化
-        name = editxetChangeListener(activityUserinfoEditorBinding.etUsername);
-        skilldescrib = editxetChangeListener(activityUserinfoEditorBinding.etSkilldescribe);
         activityUserinfoEditorBinding.rbOfficeWorker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -588,14 +603,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 }
             }
         });
-
-        //监听公司和职位
-        company = textChangeListener(activityUserinfoEditorBinding.tvCompany);
-        position = textChangeListener(activityUserinfoEditorBinding.tvProfession);
-        //设置所在地
-        setLocation = textChangeListener(activityUserinfoEditorBinding.tvLocation);
-        //行业 方向
-        direction = textChangeListener(activityUserinfoEditorBinding.tvDirection);
     }
 
     private void setCompanyAndPosition(boolean isChecked) {
@@ -612,42 +619,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             activityUserinfoEditorBinding.rlPosition.setVisibility(View.VISIBLE);
             activityUserinfoEditorBinding.viewCompany.setVisibility(View.VISIBLE);
         }
-    }
-
-    //Editext的监听
-    private String editxetChangeListener(EditText et) {
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editext = s.toString();
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                editext = s.toString();
-            }
-        });
-        return editext;
-    }
-
-    //textview 的监听
-    private String textChangeListener(TextView tv) {
-        tv.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                textView = s.toString();
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                textView = s.toString();
-            }
-        });
-        return textView;
     }
 
     //设置协议 参数String
@@ -719,30 +690,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }
     }
 
-    //获取个人信息的接口
-    public class OnGetSelfPersonInfo implements BaseProtocol.IResultExecutor<UserInfoItemBean> {
-        @Override
-        public void execute(UserInfoItemBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                UserInfoItemBean.DataBean data = dataBean.getData();
-                uinfo = data.getUinfo();
-                //技能描述
-                skilldescrib = uinfo.getDesc();
-                //技能描述
-                if (!TextUtils.isEmpty(skilldescrib)) {
-                    activityUserinfoEditorBinding.etSkilldescribe.setText(skilldescrib);
-                }
-            } else {
-                LogKit.d("rescode=" + rescode);
-            }
-        }
-        @Override
-        public void executeResultError(String result) {
-            LogKit.d("result:" + result);
-        }
-    }
-
     //获取数据
     private void setUserInfoEditor(MyFirstPageBean.DataBean.MyinfoBean myinfo) {
         avatar = myinfo.getAvatar();
@@ -758,5 +705,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
         isauth = myinfo.getIsauth();
+        skilldescrib = myinfo.getDesc();
     }
 }

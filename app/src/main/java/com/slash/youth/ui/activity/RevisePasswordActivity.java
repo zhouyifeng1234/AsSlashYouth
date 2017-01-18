@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -55,7 +56,7 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
                 String oldpass = revisePassWordModel.oldPassWordMap.get("oldpass");
                 String newpass = revisePassWordModel.newPassWordMap.get("newpass");
                 String surepass = revisePassWordModel.surePassWordMap.get("surepass");
-                if(oldpass!=null &&newpass!=null && surepass!=null){
+                if(!TextUtils.isEmpty(oldpass) &&!TextUtils.isEmpty(newpass) && !TextUtils.isEmpty(surepass)){
                     if(newpass.equals(surepass)){
                         revisePassWordModel.setNewPassWord(oldpass,newpass);
                     }else {

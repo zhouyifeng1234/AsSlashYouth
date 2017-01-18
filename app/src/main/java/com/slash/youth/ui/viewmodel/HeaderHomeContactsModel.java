@@ -79,10 +79,10 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //获取本地的数据
     private void initLocalData() {
-        myFansLocalCount = SpUtils.getInt("myFansCount", -1);
-        myFollowLocalCount = SpUtils.getInt("myFollowCount", -1);
-        myAddFriendLocalCount = SpUtils.getInt("myAddFriendCount", -1);
-        addMeFriendLocalCount = SpUtils.getInt("addMeFriendCount", -1);
+        myFansLocalCount = SpUtils.getInt("myFansCount", 0);
+        myFollowLocalCount = SpUtils.getInt("myFollowCount", 0);
+        myAddFriendLocalCount = SpUtils.getInt("myAddFriendCount", 0);
+        addMeFriendLocalCount = SpUtils.getInt("addMeFriendCount", 0);
     }
 
     private void initView() {

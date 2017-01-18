@@ -12,7 +12,6 @@
             android:layout_height="39dp"
             android:text="查看更多"
             android:textSize="14dp"
-            android:background="#ffffff"
             android:textColor="#31C5E4"
             android:gravity="center"/>
 

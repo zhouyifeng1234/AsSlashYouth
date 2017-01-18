@@ -8,25 +8,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
-        android:id="@+id/refresh_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
-        <include layout="@layout/refresh_head" />
+        <!--列表-->
+        <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <com.slash.youth.ui.view.PullableListView.PullableListView
-            android:id="@+id/lv"
+            <include layout="@layout/refresh_head" />
+            <com.slash.youth.ui.view.PullableListView.PullableListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:background="#edf1f2"
+                android:layout_marginTop="7dp">
+
+            </com.slash.youth.ui.view.PullableListView.PullableListView>
+
+            <include layout="@layout/load_more" />
+        </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+
+        <!--缺省页-->
+        <RelativeLayout
+            android:id="@+id/rl_home_default_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:background="#edf1f2"
-            android:layout_marginTop="7dp">
+            >
 
-        </com.slash.youth.ui.view.PullableListView.PullableListView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_marginTop="143dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/home_default_image"/>
+                <TextView
+                    android:layout_marginTop="21dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="17dp"
+                    android:text="暂无内容"/>
+                <TextView
+                    android:layout_marginTop="11dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="去别处转转，稍后再来吧"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="14dp"
+                    android:textColor="#CCCCCC"/>
 
-        <include layout="@layout/load_more" />
-    </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+            </LinearLayout>
 
+        </RelativeLayout>
+
+    </FrameLayout>
 </LinearLayout>
 </layout>

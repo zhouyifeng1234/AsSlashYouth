@@ -26,7 +26,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
 
     @Override
     public View initView() {
-        View view = View.inflate(CommonUtils.getContext(), R.layout.item_choose_slash_friend, null);
+        View view = View.inflate(CommonUtils.getContext(), R.layout.item_choose_slash_friend_new, null);
         friendName = (TextView) view.findViewById(R.id.tv_friend_name);
         friendV = (ImageView) view.findViewById(R.id.iv_friend_v);
         tvdirection = (TextView) view.findViewById(R.id.tv_direction);

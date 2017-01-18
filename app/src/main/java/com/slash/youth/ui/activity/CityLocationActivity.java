@@ -72,7 +72,7 @@ public class CityLocationActivity extends Activity {
     private int city_id;
     private Intent intent;
     private android.os.Handler mHanler = new android.os.Handler();
-     public static HashMap<String, String> map = new HashMap<>();
+    public static HashMap<String, String> map = new HashMap<>();
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private int startY;
     private ImageView ivLocationCityFirstLetterListHeader;
@@ -86,13 +86,13 @@ public class CityLocationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         intent = getIntent();
+        intent = getIntent();
 
         mActivityCityLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_city_location);
         mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding, this);
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
-         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
+        headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
         HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
@@ -126,7 +126,7 @@ public class CityLocationActivity extends Activity {
 
     private void initData() {
         database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
-       // database = SQLiteDatabase.openOrCreateDatabase(DBManager.databasePath, null);
+        // database = SQLiteDatabase.openOrCreateDatabase(DBManager.databasePath, null);
         citys = getCity();
         province = getProvince();
         database.close();
@@ -196,7 +196,7 @@ public class CityLocationActivity extends Activity {
                     String name = cur.getString(cur.getColumnIndex("ProName"));
                     int id = cur.getInt(cur.getColumnIndex("ProId"));
                     CityClassBean city = new CityClassBean("", 0);
-                     // System.out.println(name);
+                    // System.out.println(name);
                     city.city_name = name;
                     city.city_id = id;
                     taxicity.add(city);
@@ -284,7 +284,7 @@ public class CityLocationActivity extends Activity {
                             }
                         }
                     }
-                mActivityCityLocationBinding.lvActivityCityLocationSearchList.setAdapter(new LocationCitySearchListAdapter(listSearchCity));
+                    mActivityCityLocationBinding.lvActivityCityLocationSearchList.setAdapter(new LocationCitySearchListAdapter(listSearchCity));
                 }
             }
         });
@@ -296,9 +296,9 @@ public class CityLocationActivity extends Activity {
                 String cityName = listSearchCity.get(position);
                 for (int i = 0; i < listCityInfo.size(); i++) {
                     String city = listCityInfo.get(i).getCityName();
-                     if(city.equals(cityName)){
-                         index = i;
-                     }
+                    if(city.equals(cityName)){
+                        index = i;
+                    }
                 }
                 mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(index + mActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
                 mActivityCityLocationModel.setSearchCityListVisible(View.INVISIBLE);
@@ -365,7 +365,7 @@ public class CityLocationActivity extends Activity {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         int  rawY = (int )event.getRawY();
-                       int   moveY =  rawY - startY;
+                        int   moveY =  rawY - startY;
                         //对应的字母
                         int count = moveY / itemHeight;
                         int moveIndex =  startIndex+count;

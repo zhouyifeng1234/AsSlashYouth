@@ -138,9 +138,14 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 FreeTimeMoreServiceBean.DataBean dataBean  = data.getData();
                 List<FreeTimeMoreServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
-                arrayListService.addAll(list);
-                pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
-                pullToRefreshListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
+                if( listsize == 0){
+                    pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    arrayListService.addAll(list);
+                    pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
+                    pullToRefreshListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
+                    pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override
@@ -158,9 +163,14 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 FreeTimeMoreDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeMoreDemandBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
-                arrayListDemand.addAll(list);
-                pagerHomeDemandtAdapter = new PagerMoreDemandtAdapter(arrayListDemand,firstPagerMoreActivity);
-                pullToRefreshListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
+                if(listsize == 0){
+                    pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    arrayListDemand.addAll(list);
+                    pagerHomeDemandtAdapter = new PagerMoreDemandtAdapter(arrayListDemand,firstPagerMoreActivity);
+                    pullToRefreshListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
+                    pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override

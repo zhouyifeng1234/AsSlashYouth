@@ -144,11 +144,33 @@ public class ActivityContactsCareModel extends BaseObservable {
                 ContactsBean.DataBean data = dataBean.getData();
                 List<ContactsBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
-                contactsLists.addAll(list);
-            }
-            contactsCareAdapter = new ContactsCareAdapter(contactsLists,type);
-            activityContactsCareBinding.lv.setAdapter(contactsCareAdapter);
 
+                switch (type){
+                    case 1:
+                        activityContactsCareBinding.tvTitle.setText("暂无关注");
+                        activityContactsCareBinding.tvContent.setText("你还没有关注过任何人哦，赶紧去关注吧");
+                        break;
+                    case 2:
+                        activityContactsCareBinding.tvTitle.setText("暂无粉丝");
+                        activityContactsCareBinding.tvContent.setText("竟然一个粉丝都没有，快出去喊喊口号");
+                        break;
+                    case 3:
+                        activityContactsCareBinding.tvTitle.setText("暂无好友申请");
+                        activityContactsCareBinding.tvContent.setText("快去寻觅自己的好友吧");
+                        break;
+                    case 4:
+                        activityContactsCareBinding.tvTitle.setText("还未发出过好友申请");
+                        activityContactsCareBinding.tvContent.setText("呜呜，这么多优秀的人你都看不到");
+                        break;
+                }
+                activityContactsCareBinding.rlHomeDefaultImage.setVisibility(listSize == 0?View.VISIBLE:View.GONE);
+
+                if(listSize!=0){
+                    contactsLists.addAll(list);
+                    contactsCareAdapter = new ContactsCareAdapter(contactsLists,type);
+                    activityContactsCareBinding.lv.setAdapter(contactsCareAdapter);
+                }
+            }
         }
         @Override
         public void executeResultError(String result) {

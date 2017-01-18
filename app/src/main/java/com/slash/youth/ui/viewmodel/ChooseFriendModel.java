@@ -159,10 +159,16 @@ public class ChooseFriendModel extends BaseObservable {
                 MyFriendListBean.DataBean data = dataBean.getData();
                 List<MyFriendListBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
-                friendArrayList.addAll(list);
+                if(listSize ==0){
+                    activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    friendArrayList.addAll(list);
+                    chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
+                    activityChooseFriendBinding.lv.setAdapter(chooseFriendAdapter);
+                    activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
-            chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
-            activityChooseFriendBinding.lv.setAdapter(chooseFriendAdapter);
+
         }
 
         @Override

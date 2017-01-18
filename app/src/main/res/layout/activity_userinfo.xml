@@ -135,7 +135,7 @@
                                                 android:paddingRight="3dp"
                                                 android:paddingTop="1dp"
                                                 android:paddingBottom="1dp"
-                                                android:text="专家4级"
+                                                android:text="专家0级"
                                                 android:layout_alignParentRight="true"
                                                 android:layout_marginRight="30dp"
                                                 android:textColor="#31C5E4"
@@ -194,7 +194,7 @@
                                                         android:paddingRight="3dp"
                                                         android:paddingTop="3dp"
                                                         android:paddingBottom="3dp"
-                                                        android:text="专家4级"
+                                                        android:text="专家0级"
                                                         android:textColor="#31C5E4"
                                                         android:textSize="12dp"
                                                         android:layout_marginLeft="11dp"
@@ -541,11 +541,6 @@
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="15dp">
 
-                                    <TextView
-                                        android:id="@+id/tv_desc_title"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="暂无描述"/>
 
                                     <TextView
                                         android:id="@+id/tv_userinfo_skilldescribe"
@@ -705,7 +700,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
-                            android:text="暂无任务"/>
+                            />
                     </LinearLayout>
 
                 </com.slash.youth.ui.view.PullableSrcollView.PullableDownScrollView>

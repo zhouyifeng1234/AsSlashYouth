@@ -168,9 +168,14 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 SearchItemDemandBean.DataBean data = dataBean.getData();
                 List<SearchItemDemandBean.DataBean.ListBean> list = data.getList();
                 listsize= list.size();
-                arrayListDemand.addAll(list);
-                pagerHomeDemandtAdapter = new PagerSearchDemandtAdapter(arrayListDemand);
-                pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
+                if(listsize == 0){
+                    pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    arrayListDemand.addAll(list);
+                    pagerHomeDemandtAdapter = new PagerSearchDemandtAdapter(arrayListDemand);
+                    pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
+                    pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override
@@ -189,9 +194,14 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 SearchServiceItemBean.DataBean data = dataBean.getData();
                 List<SearchServiceItemBean.DataBean.ListBean> list = data.getList();
                 listsize= list.size();
-                arrayListService.addAll(list);
-                pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
-                pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
+                if(listsize == 0){
+                    pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
+                    arrayListService.addAll(list);
+                    pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
+                    pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
+                    pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override
@@ -210,9 +220,14 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 SearchUserItemBean.DataBean data = dataBean.getData();
                 List<SearchUserItemBean.DataBean.ListBean> list = data.getList();
                 listsize= list.size();
+                if(listsize == 0){
+                    pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                }else {
                 arryListUser.addAll(list);
                 pagerSearchPersonAdapter = new PagerSearchPersonAdapter(arryListUser);
                 pullToRefreshTabListviewBinding.lv.setAdapter(pagerSearchPersonAdapter);
+                pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
             }
         }
         @Override
