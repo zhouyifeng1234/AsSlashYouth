@@ -17,6 +17,7 @@ import com.slash.youth.databinding.ItemDemandFlowLogBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandFlowLogList;
+import com.slash.youth.domain.DemandInstalmentListBean;
 import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
@@ -465,16 +466,46 @@ public class MyBidDemandModel extends BaseObservable {
                 LogKit.v("--------------待确认--------------------");
                 break;
             case 7:/*进行中*/
-                if (innerDemandCardInfo.instalmentcurr == 0) {
-                    fid = 1;
-                } else {
-                    fid = innerDemandCardInfo.instalmentcurr;
-                }
-                if (innerDemandCardInfo.instalmentcurrfinish == 0) {
-                    setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
-                } else {
-                    setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
-                }
+                //通过instalmentlist接口获取分期比例
+                DemandEngine.getDemandInstalmentList(new BaseProtocol.IResultExecutor<DemandInstalmentListBean>() {
+                    @Override
+                    public void execute(DemandInstalmentListBean dataBean) {
+                        ArrayList<DemandInstalmentListBean.InstalmentInfo> instalmentInfoList = dataBean.data.list;
+                        int totalInstalment = instalmentInfoList.size();//总的分期数
+                        for (int i = 0; i < totalInstalment; i++) {
+                            DemandInstalmentListBean.InstalmentInfo instalmentInfo = instalmentInfoList.get(i);
+                            if (instalmentInfo.status != 2) {
+                                fid = instalmentInfo.id;
+                                innerDemandCardInfo.instalmentcurr = instalmentInfo.id;
+                                //status  0表示未开始  1表示服务方完成  2表示需求方确认此分期完成
+                                if (instalmentInfo.status == 0) {
+                                    setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                } else {
+                                    setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        LogKit.v("获取需求分期信息失败:" + result);
+                        ToastUtils.shortToast("获取需求分期信息失败:" + result);
+                    }
+                }, tid + "");
+
+
+//                if (innerDemandCardInfo.instalmentcurr == 0) {
+//                    fid = 1;
+//                } else {
+//                    fid = innerDemandCardInfo.instalmentcurr;
+//                }
+//                if (innerDemandCardInfo.instalmentcurrfinish == 0) {
+//                    setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+//                } else {
+//                    setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
                 break;
             case 9:/*申请退款*/
                 setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);

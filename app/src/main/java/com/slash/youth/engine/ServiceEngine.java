@@ -5,6 +5,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.DetailRecommendServiceProtocol;
 import com.slash.youth.http.protocol.GetServiceFlowLogProtocol;
+import com.slash.youth.http.protocol.IsRectifyProtocol;
 import com.slash.youth.http.protocol.PublishServiceProtocol;
 import com.slash.youth.http.protocol.RecommendDemandUserProtocol;
 import com.slash.youth.http.protocol.ServiceConfirmCompleteProtocol;
@@ -272,6 +273,17 @@ public class ServiceEngine {
     public static void getDetailRecommendService(BaseProtocol.IResultExecutor onGetRecommendDataFinished, String id, String limit) {
         DetailRecommendServiceProtocol detailRecommendServiceProtocol = new DetailRecommendServiceProtocol(id, limit);
         detailRecommendServiceProtocol.getDataFromServer(onGetRecommendDataFinished);
+    }
+
+    /**
+     * 十七、[服务]-查询是否延期支付过
+     *
+     * @param onGetRectifyStatusFinished
+     * @param soid                       服务订单ID
+     */
+    public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String soid) {
+        IsRectifyProtocol isRectifyProtocol = new IsRectifyProtocol(soid);
+        isRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
     }
 
 }

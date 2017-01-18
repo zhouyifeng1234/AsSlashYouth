@@ -6,6 +6,7 @@ import com.slash.youth.http.protocol.CancelDemandProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
+import com.slash.youth.http.protocol.DemandInstalmentListProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
@@ -20,6 +21,7 @@ import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
 import com.slash.youth.http.protocol.InterventionProtocol;
+import com.slash.youth.http.protocol.IsRectifyProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
@@ -365,5 +367,21 @@ public class DemandEngine {
     public static void getDetailRecommendDemand(BaseProtocol.IResultExecutor onGetRecommendDataFinished, String id, String limit) {
         DetailRecommendDemandProtocol detailRecommendDemandProtocol = new DetailRecommendDemandProtocol(id, limit);
         detailRecommendDemandProtocol.getDataFromServer(onGetRecommendDataFinished);
+    }
+
+    /**
+     * 获取需求的分期信息
+     *
+     * @param onGetInstalmentListFinished
+     * @param id                          需求ID
+     */
+    public static void getDemandInstalmentList(BaseProtocol.IResultExecutor onGetInstalmentListFinished, String id) {
+        DemandInstalmentListProtocol demandInstalmentListProtocol = new DemandInstalmentListProtocol(id);
+        demandInstalmentListProtocol.getDataFromServer(onGetInstalmentListFinished);
+    }
+
+    public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String soid) {
+        IsRectifyProtocol isRectifyProtocol = new IsRectifyProtocol(soid);
+        isRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
     }
 }

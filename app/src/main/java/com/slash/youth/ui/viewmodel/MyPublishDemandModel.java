@@ -18,6 +18,7 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DelayPayBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandFlowLogList;
+import com.slash.youth.domain.DemandInstalmentListBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.UserInfoBean;
@@ -295,7 +296,6 @@ public class MyPublishDemandModel extends BaseObservable {
                 innerDemandCardInfo.rectify = taskinfo.rectify;//是否使用过延期付款  1使用过，0未使用过
                 innerDemandCardInfo.status = taskinfo.status;//使用我的任务中的status定义
 
-
                 //通过调用需求详情接口补充一些信息，bp、suid、iscomment
                 getDemandDetail();
             }
@@ -443,28 +443,75 @@ public class MyPublishDemandModel extends BaseObservable {
                 setStatusButtonsVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
                 break;
             case 7:
-                int totalInstalmentCount = innerDemandCardInfo.instalmentratio.split(",").length;//总的分期数
-                int instalmentcurr = innerDemandCardInfo.instalmentcurr;
-                if (instalmentcurr == 0) {
-                    instalmentcurr = 1;
-                }
-                if (instalmentcurr < totalInstalmentCount) {//不是最后一期
-                    if (innerDemandCardInfo.instalmentcurrfinish == 1) {
-                        setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
-                    } else {
-                        setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
-                    }
-                } else {//最后一期
-                    if (innerDemandCardInfo.instalmentcurrfinish == 1) {
-                        if (innerDemandCardInfo.rectify == 1) {
-                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
-                        } else {
-                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
+                //通过instalmentlist接口获取分期比例
+                DemandEngine.getDemandInstalmentList(new BaseProtocol.IResultExecutor<DemandInstalmentListBean>() {
+                    @Override
+                    public void execute(DemandInstalmentListBean dataBean) {
+                        ArrayList<DemandInstalmentListBean.InstalmentInfo> instalmentInfoList = dataBean.data.list;
+                        int totalInstalment = instalmentInfoList.size();//总的分期数
+                        for (int i = 0; i < totalInstalment; i++) {
+                            DemandInstalmentListBean.InstalmentInfo instalmentInfo = instalmentInfoList.get(i);
+                            if (instalmentInfo.status != 2) {
+                                innerDemandCardInfo.instalmentcurr = instalmentInfo.id;
+                                int instalmentcurr = instalmentInfo.id;
+
+                                if (instalmentcurr < totalInstalment) {//不是最后一期
+                                    if (instalmentInfo.status == 1) {
+                                        setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                    } else {
+                                        setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                                    }
+                                } else {//最后一期
+                                    if (instalmentInfo.status == 1) {
+                                        DemandEngine
+
+
+                                        if (innerDemandCardInfo.rectify == 1) {
+                                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                        } else {
+                                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
+                                        }
+                                    } else {
+                                        setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                                    }
+                                }
+
+
+                                break;
+                            }
                         }
-                    } else {
-                        setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                     }
-                }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        LogKit.v("获取需求分期信息失败:" + result);
+                        ToastUtils.shortToast("获取需求分期信息失败:" + result);
+                    }
+                }, tid + "");
+
+
+//                int totalInstalmentCount = innerDemandCardInfo.instalmentratio.split(",").length;//总的分期数
+//                int instalmentcurr = innerDemandCardInfo.instalmentcurr;
+//                if (instalmentcurr == 0) {
+//                    instalmentcurr = 1;
+//                }
+//                if (instalmentcurr < totalInstalmentCount) {//不是最后一期
+//                    if (innerDemandCardInfo.instalmentcurrfinish == 1) {
+//                        setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+//                    } else {
+//                        setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+//                    }
+//                } else {//最后一期
+//                    if (innerDemandCardInfo.instalmentcurrfinish == 1) {
+//                        if (innerDemandCardInfo.rectify == 1) {
+//                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+//                        } else {
+//                            setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
+//                        }
+//                    } else {
+//                        setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+//                    }
+//                }
                 break;
             case 8:
                 if (innerDemandCardInfo.isComment == 0) {

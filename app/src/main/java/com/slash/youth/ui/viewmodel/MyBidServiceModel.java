@@ -615,9 +615,27 @@ public class MyBidServiceModel extends BaseObservable {
                                 if (instalmentInfo.status == 1) {
                                     setConfirmFinishVisibility(View.VISIBLE);
                                     if (fid == totalInstalment) {//如果是最后一期
-                                        if (myTaskBean.rectify != 1) {//还没有延过期
-                                            setRectifyVisibility(View.VISIBLE);
-                                        }
+
+                                        //获取是否延期支付过
+                                        ServiceEngine.getRectifyStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                                            @Override
+                                            public void execute(CommonResultBean dataBean) {
+                                                if (dataBean.data.status != 1) {//还没有延过期
+                                                    setRectifyVisibility(View.VISIBLE);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void executeResultError(String result) {
+                                                LogKit.v("获取延期支付状态失败:" + result);
+                                                ToastUtils.shortToast("获取延期支付状态失败:" + result);
+                                            }
+                                        }, soid + "");
+
+
+//                                        if (myTaskBean.rectify != 1) {//还没有延过期
+//                                            setRectifyVisibility(View.VISIBLE);
+//                                        }
                                     }
                                 }
                                 break;
