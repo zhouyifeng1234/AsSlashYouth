@@ -204,7 +204,8 @@ public class ItemMyTaskModel extends BaseObservable {
      */
     public void displayCurrentBigStatusAndButtons(int status, int type, int roleid) {
         if (status == 1) {//已发布
-            setStatusText("预约中");
+//            setStatusText("预约中");
+            setStatusText("待抢单");
             mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
 
             if (type == 1) {//当前任务是需求
@@ -246,7 +247,8 @@ public class ItemMyTaskModel extends BaseObservable {
             }
 
         } else if (status == 4) {//待选择
-            setStatusText("预约中");
+//            setStatusText("预约中");
+            setStatusText("待抢单");
             mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
 
             if (type == 1) {//当前任务是需求
@@ -260,7 +262,8 @@ public class ItemMyTaskModel extends BaseObservable {
             }
 
         } else if (status == 5) {//待确认
-            setStatusText("预约中");
+//            setStatusText("预约中");
+            setStatusText("待抢单");
             if (type == 1) {//当前任务是需求
                 if (roleid == 1) {//需求发布者
                     displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);

@@ -28,6 +28,7 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
+import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -48,6 +49,7 @@ public class DemandChooseServiceModel extends BaseObservable {
     int type;//取值范围只能是: 1需求 2服务
     int roleid;//表示是'我抢的单子' 还是 '我发布的任务' 1发布者 2抢单者
     ChatCmdShareTaskBean chatCmdShareTaskBean;
+    Bundle taskInfo;
 
     public DemandChooseServiceModel(ActivityDemandChooseServiceBinding activityDemandChooseServiceBinding, Activity activity) {
         this.mActivityDemandChooseServiceBinding = activityDemandChooseServiceBinding;
@@ -62,7 +64,7 @@ public class DemandChooseServiceModel extends BaseObservable {
     ArrayList<RecommendServiceUserBean.ServiceUserInfo> listDemandChooseRecommendService = new ArrayList<RecommendServiceUserBean.ServiceUserInfo>();
 
     private void initData() {
-        Bundle taskInfo = mActivity.getIntent().getExtras();
+        taskInfo = mActivity.getIntent().getExtras();
         tid = taskInfo.getLong("tid");
         type = taskInfo.getInt("type");
         roleid = taskInfo.getInt("roleid");
@@ -187,6 +189,13 @@ public class DemandChooseServiceModel extends BaseObservable {
             @Override
             public void execute(MyTaskItemBean myTaskItemBean) {
                 MyTaskBean dataBean = myTaskItemBean.data.taskinfo;
+                if (!(dataBean.status == 1 || dataBean.status == 4 || dataBean.status == 5)) {
+                    Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
+                    intentMyPublishDemandActivity.putExtras(taskInfo);
+                    mActivity.startActivity(intentMyPublishDemandActivity);
+                    mActivity.finish();
+                    return;
+                }
                 //设置是否显示+V
                 if (dataBean.isauth == 1) {
                     setIsAuthVisibility(View.VISIBLE);
@@ -243,6 +252,7 @@ public class DemandChooseServiceModel extends BaseObservable {
             public void execute(DemandPurposeListBean dataBean) {
                 listDemandChooseService = dataBean.data.purpose.list;
                 addDemandChooseServiceItems();
+                hideLoadLayer();//在这里显示就可以了，优秀服务方推荐列表再慢慢显示
                 getDemandChooseRecommendServiceList();
             }
 
@@ -259,7 +269,6 @@ public class DemandChooseServiceModel extends BaseObservable {
             public void execute(RecommendServiceUserBean dataBean) {
                 listDemandChooseRecommendService = dataBean.data.list;
                 addDemandChooseRecommendServiceItems();
-                hideLoadLayer();
             }
 
             @Override

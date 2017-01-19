@@ -144,7 +144,7 @@ public class GlobalConstants {
         //登录后完善 设置技能标签(三级标签)
         public static final String LOGIN_SET_TAG = SERVER_HOST_MY_USERINFO + "/vcard/tag/set";
         //登录后 完善技能标签,设置行业和方向（一级和二级标签）
-        public static final String LOGIN_SET_INDUSTRY_DIRECTION=SERVER_HOST_MY_USERINFO+"/vcard/industry/set";
+        public static final String LOGIN_SET_INDUSTRY_DIRECTION = SERVER_HOST_MY_USERINFO + "/vcard/industry/set";
 
         //一、[需求]-我的任务列表
         public static final String GET_MY_TASK_LIST = SERVER_HOST_MY_TASK_LIST + "list";
@@ -226,6 +226,12 @@ public class GlobalConstants {
         public static final String GET_RECOMMEND_SERVICE_USER = SERVICE_USER_RECOMMEND + "/list";
         //二、[推荐]-需求详情页推荐更多需求列表
         public static final String GET_DETAIL_RECOMMEND_DEMAND = RECOMMEND_DEMAND_HOST + "/more";
+        //获取需求的分期信息
+        public static final String GET_DEMAND_INSTALMENT_LIST = SERVER_HOST_DEMAND + "instalmentlist";
+        //二十四、[需求]-查询是否延期支付过
+        public static final String DEMAND_IS_RECTIFY = SERVER_HOST_DEMAND + "isrectify";
+        //需求流程中服务方修改抢单信息
+        public static final String DEMAND_UPDATE_BID = SERVER_HOST_DEMAND + "updatebid";
 
         //一、[服务]-发布服务-
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
@@ -269,6 +275,8 @@ public class GlobalConstants {
         public static final String GET_RECOMMEND_DEMAND_USER = DEMAND_USER_RECOMMEND + "/list";
         //二、[推荐]-服务详情中更多服务列表
         public static final String GET_DETAIL_RECOMMEND_SERVICE = RECOMMEND_SERVICE_HOST + "/more";
+        //十七、[服务]-查询是否延期支付过
+        public static final String SERVICE_IS_RECTIFY = SERVER_HOST_SERVICE + "isrectify";
 
         //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";
@@ -377,7 +385,7 @@ public class GlobalConstants {
         //十四，[我的]-[用户中心]-认证
         public static final String MY_CHECKOUT_AUTH = "http://121.42.145.178/uinfo/v1/api" + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态
-         public static final String MY_CHECKOUT_AUTH_SRATUS = "http://121.42.145.178/uinfo/v1/api"  +"/real/status";
+        public static final String MY_CHECKOUT_AUTH_SRATUS = "http://121.42.145.178/uinfo/v1/api" + "/real/status";
         //十六，[我的]-[用户中心]-登出
         public static final String MY_LOGOUT = SERVER_HOST + "auth/v1/logout";
 
