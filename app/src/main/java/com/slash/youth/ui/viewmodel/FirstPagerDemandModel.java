@@ -39,7 +39,10 @@ public class FirstPagerDemandModel extends BaseObservable {
     private boolean isDemand = true;
     private String demands[] = {"不限","线上","线下"};
     private String users[] = {"全部用户","认证用户"};
-    private String sorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+   // private String sorts[] = {"综合评价最高（默认）","最新发布","离我最近"};
+    private String sorts[];
+   // private String demadsorts[] = {"最新发布(默认)","回复时间最近","价格最高","离我最近"};
+    //private String servicesorts[] = {"综合性评价最高（默认）","最新发布","离我最近"};
     private String[] demadHeaders;
     private List<View> popupViews = new ArrayList<>();
     private GirdDropDownAdapter demandAdapter;
@@ -75,8 +78,10 @@ public class FirstPagerDemandModel extends BaseObservable {
     private void initData() {
         if(isDemand){
             demadHeaders =new String[]{"需求方式", "用户类型", "全国", "排序"};
+            sorts = new String[]{"最新发布(默认)","回复时间最近","价格最高","离我最近"};
         }else {
             demadHeaders =new String[]{"服务方式", "全国", "排序"};
+            sorts = new String[]{"综合性评价最高（默认）","最新发布","离我最近"};
         }
     }
 

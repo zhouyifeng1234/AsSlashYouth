@@ -20,6 +20,7 @@ import com.slash.youth.databinding.PullToRefreshTabListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.LocationCityInfo;
+import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
@@ -41,7 +42,9 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private View areaView;
     private String demands[] = {"不限","线上","线下"};
     private String users[] = {"全部用户","认证用户"};
-    private String sorts[] = {"最新发布","回复时间最近","价格最高","离我最近"};
+    private String sorts[];
+    private String demadsorts[] = {"最新发布(默认)","回复时间最近","价格最高","离我最近"};
+    private String servicesorts[] = {"综合性评价最高（默认）","发布时间最近","离我最近"};
     private GirdDropDownAdapter  demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListView userListView;
@@ -86,10 +89,12 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 headers =demadHeaders;
+                sorts = demadsorts;
                 isDemand = true;
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
                 headers =serviceHeaders;
+                sorts = servicesorts;
                 isDemand = false;
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
