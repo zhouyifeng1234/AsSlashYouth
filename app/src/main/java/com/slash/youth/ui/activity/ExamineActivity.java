@@ -21,8 +21,8 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
     private ActivityExamineCertificatesBinding activityExamineCertificatesBinding;
     private int type;
     private int cardType;
-    private String photoUri;
     private String titleString = "认证";
+    private String photoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class ExamineActivity extends Activity implements View.OnClickListener {
         if(intent!=null) {
             type = intent.getIntExtra("careertype", -1);
             cardType = intent.getIntExtra("cardType", -1);
-           photoUri = intent.getStringExtra("photoUri");
+            photoUri = intent.getStringExtra("photoUri");
         }
         activityExamineCertificatesBinding = DataBindingUtil.setContentView(this, R.layout.activity_examine_certificates);
         ExamineCertificatesModel examineCertificatesModel = new ExamineCertificatesModel(activityExamineCertificatesBinding,this,type,cardType,photoUri);

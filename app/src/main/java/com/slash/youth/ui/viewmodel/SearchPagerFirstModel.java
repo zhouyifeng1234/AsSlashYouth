@@ -22,10 +22,12 @@ import com.slash.youth.http.protocol.SearchAllProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.StringUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -60,6 +62,8 @@ public class SearchPagerFirstModel extends BaseObservable {
         showView(SearchManager.HOT_SEARCH_DEMEND);
         SpUtils.setString("searchType",SearchManager.HOT_SEARCH_DEMEND);
         activitySearchBinding.etActivitySearchAssociation.setHint(demadHint);
+        //搜索需求埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SEARCH_CLICKC_REQUIREMENT_SEARCH);
     }
 
     //搜索服务
@@ -67,6 +71,8 @@ public class SearchPagerFirstModel extends BaseObservable {
         showView(SearchManager.HOT_SEARCH_SERVICE);
         SpUtils.setString("searchType",SearchManager.HOT_SEARCH_SERVICE);
         activitySearchBinding.etActivitySearchAssociation.setHint(serviceHint);
+        //搜索服务埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SEARCH_CLICK_SERVICE_SEARCH);
     }
 
     //搜索人
@@ -74,6 +80,8 @@ public class SearchPagerFirstModel extends BaseObservable {
         showView(SearchManager.HOT_SEARCH_PERSON);
         SpUtils.setString("searchType",SearchManager.HOT_SEARCH_PERSON);
         activitySearchBinding.etActivitySearchAssociation.setHint(userHint);
+        //搜索人的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SEARCH_CLICK_PERSON_SEARCH);
     }
 
     public void showView(String title) {

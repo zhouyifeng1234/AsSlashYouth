@@ -28,15 +28,14 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
     private FrameLayout fl;
     private ActivityMySettingBinding activityMySettingBinding;
     private String titleString ="设置";
-    private String findPassWord = "找回交易密码";
-    private String setPassWord = "设置交易密码";
+
+    private MySettingModel mySettingModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        testPassWord();
         activityMySettingBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_setting);
-        MySettingModel mySettingModel = new MySettingModel(activityMySettingBinding,this);
+        mySettingModel = new MySettingModel(activityMySettingBinding,this);
         activityMySettingBinding.setMySettingModel(mySettingModel);
         listener();
     }
@@ -56,29 +55,5 @@ public class MySettingActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
         }
-    }
-
-    //判断是否有交易密码
-    private void testPassWord() {
-        AccountManager.getTradePasswordStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-            @Override
-            public void execute(CommonResultBean dataBean) {
-                if (dataBean.data.status == 1) {//设置了交易密码
-                    activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
-                    activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
-                    activityMySettingBinding.tvSetAndfindPassword.setText(findPassWord);
-                } else if (dataBean.data.status == 0) {//表示当前没有交易密码
-                    activityMySettingBinding.viewRevise.setVisibility(View.GONE);
-                    activityMySettingBinding.rlRevise.setVisibility(View.GONE);
-                    activityMySettingBinding.tvSetAndfindPassword.setText(setPassWord);
-                } else {
-                    LogKit.v("状态异常");
-                }
-            }
-
-            @Override
-            public void executeResultError(String result) {
-            }
-        });
     }
 }

@@ -41,9 +41,11 @@ import com.slash.youth.ui.view.WarpLinearLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
@@ -96,6 +98,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private WarpLinearLayout llSkilllabelContainer;
     private   boolean isChange = false;
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
+    private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
+    private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
 
     public ActivityUserInfoEditorModel(ActivityUserinfoEditorBinding activityUserinfoEditorBinding, long myUid, UserinfoEditorActivity userinfoEditorActivity) {
         this.activityUserinfoEditorBinding = activityUserinfoEditorBinding;
@@ -208,6 +212,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     //点击头像
     public void clickAvatar(View view) {
         setUploadPicLayerVisibility(View.VISIBLE);
+        //编辑头像的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_AVATAR);
     }
 
     //照相
@@ -272,8 +278,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         });
     }
 
-    private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
-    private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
+
 
     public void getAlbumPic(View view){
         //第三方
@@ -340,6 +345,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //设置斜杠身份
     public void editorIdentity(View view) {
+        String slashIdentity = activityUserinfoEditorBinding.tvIdentity.getText().toString();
         Intent editorIdentityActivity = new Intent(CommonUtils.getContext(), EditorIdentityActivity.class);
         editorIdentityActivity.putExtra("editorIdentity",slashIdentity);
         userinfoEditorActivity.startActivityForResult(editorIdentityActivity, Constants.USERINFO_IDENTITY);

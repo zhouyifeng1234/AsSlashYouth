@@ -1,8 +1,13 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,12 +15,15 @@ import android.widget.RelativeLayout;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMySettingBinding;
+import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.ContactsBean;
 import com.slash.youth.domain.RecodeBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SetMsgBean;
 import com.slash.youth.domain.SetTimeBean;
+import com.slash.youth.engine.AccountManager;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.LoginoutProtocol;
@@ -23,6 +31,7 @@ import com.slash.youth.http.protocol.MySettingProtocol;
 import com.slash.youth.http.protocol.SetMsgProtocol;
 import com.slash.youth.http.protocol.SetTimeProtocol;
 import com.slash.youth.ui.activity.FindPassWordActivity;
+import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
@@ -32,6 +41,7 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PackageUtil;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -58,7 +68,11 @@ public class MySettingModel extends BaseObservable {
     private String SET_OK ="设置成功";
     private String SET_FAIL = "设置失败";
     private String currentTime;
+    private String findPassWord = "找回交易密码";
+    private String setPassWord = "设置交易密码";
     private int logoutDialogVisibility = View.GONE;
+    private int type;
+    private int hintDialogVisibility = View.GONE;
 
     public MySettingModel(ActivityMySettingBinding activityMySettingBinding,MySettingActivity mySettingActivity) {
         this.activityMySettingBinding = activityMySettingBinding;
@@ -67,7 +81,46 @@ public class MySettingModel extends BaseObservable {
         initData();
     }
 
+    //判断是否有交易密码
+    private void testPassWord() {
+        AccountManager.getTradePasswordStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                int rescode = dataBean.rescode;
+                if(rescode == 0){
+                    int status = dataBean.data.status;
+                    switch (status){
+                        case 1://1表示当前有交易密码
+                            activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
+                            activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
+                            activityMySettingBinding.tvSetAndfindPassword.setText(findPassWord);
+                            type = 1;
+                            break;
+                        case 2:// 2表示当前没有交易密码
+                            activityMySettingBinding.viewRevise.setVisibility(View.GONE);
+                            activityMySettingBinding.rlRevise.setVisibility(View.GONE);
+                            activityMySettingBinding.tvSetAndfindPassword.setText(setPassWord);
+                            type = 2;
+                            break;
+                        case 3://3有密码处于审核中
+                            activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
+                            activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
+                            activityMySettingBinding.tvSetAndfindPassword.setText(setPassWord);
+                            type = 3;
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result："+result);
+            }
+        });
+    }
+
     private void initView() {
+        testPassWord();
     }
 
     @Bindable
@@ -78,6 +131,15 @@ public class MySettingModel extends BaseObservable {
     public void setLogoutDialogVisibility(int logoutDialogVisibility) {
         this.logoutDialogVisibility = logoutDialogVisibility;
         notifyPropertyChanged(BR.logoutDialogVisibility);
+    }
+    @Bindable
+    public int getHintDialogVisibility() {
+        return hintDialogVisibility;
+    }
+
+    public void setHintDialogVisibility(int hintDialogVisibility) {
+        this.hintDialogVisibility = hintDialogVisibility;
+        notifyPropertyChanged(BR.hintDialogVisibility);
     }
 
     private void initData() {
@@ -262,37 +324,84 @@ public class MySettingModel extends BaseObservable {
     }
 
     //设置密码
-    public void findPassWord(View view){
+    public void setPassWord(View view){
+        switch (type){
+            case 1:
+                //找回交易密码
+                testFindPassWord(type);
+                break;
+            case 2:
+                jumpIntoActivity(type);//设置交易密码
+                break;
+            case 3:
+                //弹窗
+                setHintDialogVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    //验证找回密码的状态
+    private void testFindPassWord(final int type) {
+        MyManager.testFindPassWord(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                int rescode = dataBean.rescode;
+                if(rescode == 0){
+                    CommonResultBean.Data data = dataBean.data;
+                    int status = data.status;
+                    switch (status){
+                        case 1://1有审核中的交易密码
+                            activityMySettingBinding.tvFindPassWordHint.setText("密码找回在审核中，请等待审核");
+                            setHintDialogVisibility(View.VISIBLE);
+                            break;
+                        case 2://2没有审核中的交易密码
+                            jumpIntoActivity(type);
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:"+result);
+            }
+        });
+    }
+
+    private void jumpIntoActivity(int type) {
         Intent intentFindPassWordActivity = new Intent(CommonUtils.getContext(), FindPassWordActivity.class);
+        intentFindPassWordActivity.putExtra("type",type);
         mySettingActivity.startActivityForResult(intentFindPassWordActivity, Constants.MYSETTING_SETPASSWORD);
+    }
+
+    //提示确定
+    public void hintsure(View view){
+        setHintDialogVisibility(View.GONE);
     }
 
     //退出程序
     public void finishApp(View view){
         setLogoutDialogVisibility(View.VISIBLE);
-
-       /* currentTime = TimeUtils.getCurrentTime();
-       // final String logout = "您的账号于"+currentTime+"在 一台设备登录。如非本人操作，则密 码可能已泄露，建议前往我的—设置 修改密码。";
-        DialogUtils.showDialogLogout(mySettingActivity, "退出登录","真的要退出登录吗？", new DialogUtils.DialogCallBack() {
-            @Override
-            public void OkDown() {
-                logout(LoginManager.token);
-            }
-
-            @Override
-            public void CancleDown() {
-                LogKit.d("cannel");
-            }
-        });*/
     }
 
     //确认
     public void sure(View view){
         logout(LoginManager.token);
         setLogoutDialogVisibility(View.GONE);
+
+        ActivityManager mActivityManager = (ActivityManager) CommonUtils.getApplication().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.AppTask> appTasks = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            appTasks = mActivityManager.getAppTasks();
+        }
+        for (ActivityManager.AppTask appTask : appTasks) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                appTask.finishAndRemoveTask();
+            }
+        }
+
         Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
         mySettingActivity.startActivity(intentLoginActivity);
-        mySettingActivity.finish();
     }
 
     //取消

@@ -110,7 +110,7 @@
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="234dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                         <View android:layout_width="match_parent" android:layout_height="110dp"/>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="61dp" android:background="@drawable/shape_rectangle_gradient"/>
+                            android:layout_height="58dp" android:background="@drawable/shape_rectangle_gradient"/>
                         <View android:layout_width="match_parent" android:layout_height="110dp"/>
                         <View android:layout_width="match_parent" android:layout_height="2dp"
                             android:background="#E5E5E5"/>
@@ -128,7 +128,7 @@
                     <com.slash.youth.ui.view.SlashNumberPicker
                         android:id="@+id/np_publish_service_main_labels"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="160dp"
                         android:layout_centerInParent="true">
 
                     </com.slash.youth.ui.view.SlashNumberPicker>
@@ -147,7 +147,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="4dp"
                         android:layout_marginTop="4dp"
-                        android:background="@drawable/dalei_ok_icon"
+                        android:background="@drawable/btn1"
                         android:onClick="@{searchActivityHotServiceModel.cannelChooseMainLabel}"
                         android:text="取消"
                         android:textColor="#FFFFFF"
@@ -162,7 +162,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="4dp"
                         android:layout_marginTop="4dp"
-                        android:background="@drawable/dalei_ok_icon"
+                        android:background="@drawable/btn_next_step"
                         android:onClick="@{searchActivityHotServiceModel.okChooseMainLabel}"
                         android:text="确定"
                         android:textColor="#FFFFFF"

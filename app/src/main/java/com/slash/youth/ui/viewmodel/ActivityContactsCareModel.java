@@ -144,7 +144,7 @@ public class ActivityContactsCareModel extends BaseObservable {
                 ContactsBean.DataBean data = dataBean.getData();
                 List<ContactsBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
-
+                activityContactsCareBinding.tvTitle.setVisibility(View.VISIBLE);
                 switch (type){
                     case 1:
                         activityContactsCareBinding.tvTitle.setText("暂无关注");

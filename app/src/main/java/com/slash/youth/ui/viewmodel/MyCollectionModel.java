@@ -128,6 +128,7 @@ public class MyCollectionModel extends BaseObservable  {
                 List<MyCollectionBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
                 if(listSize == 0){
+                    activityMyCollectionBinding.tvContent.setVisibility(View.VISIBLE);
                     activityMyCollectionBinding.rlCollectionDefaultImage.setVisibility(View.VISIBLE);
                 }else {
                     collectionList.addAll(list);
@@ -142,12 +143,12 @@ public class MyCollectionModel extends BaseObservable  {
         }
     }
 
-    //添加标签
+    /*//添加标签
     public  void addMyCollection(int type,long tid){
         MyManager.addMyCollectionList(new onAddMyCollectionList(),type,tid);
-    }
+    }*/
 
-    public class onAddMyCollectionList implements BaseProtocol.IResultExecutor<SetBean> {
+   /* public class onAddMyCollectionList implements BaseProtocol.IResultExecutor<SetBean> {
         @Override
         public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
@@ -160,5 +161,5 @@ public class MyCollectionModel extends BaseObservable  {
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
         }
-    }
+    }*/
 }

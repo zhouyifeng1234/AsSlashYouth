@@ -140,7 +140,6 @@ public class ChooseFriendModel extends BaseObservable {
             @Override
             public void OkDown() {
                 LogKit.d("OK");
-
                 ToastUtils.shortCenterToast("推荐好友ok");
             }
 
@@ -161,6 +160,7 @@ public class ChooseFriendModel extends BaseObservable {
                 listSize = list.size();
                 if(listSize ==0){
                     activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    activityChooseFriendBinding.tvContent.setVisibility(View.VISIBLE);
                 }else {
                     friendArrayList.addAll(list);
                     chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
@@ -168,7 +168,6 @@ public class ChooseFriendModel extends BaseObservable {
                     activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 }
             }
-
         }
 
         @Override

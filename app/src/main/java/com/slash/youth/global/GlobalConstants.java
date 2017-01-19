@@ -219,6 +219,9 @@ public class GlobalConstants {
         public static final String UPDATE_DEMAND = SERVER_HOST_DEMAND + "updateone";
         //七、[设置]-判断是否有交易密码
         public static final String GET_TRADE_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/status";
+        //[设置]-判断是否有找回交易密码zhuangt
+        public static final String TEST_FIND_PASSWORD_STATUS = SERVER_HOST_USER_SETTING + "tradepassword/checkstatus";
+
         //需求发布成功页面 服务者推荐
         public static final String GET_RECOMMEND_SERVICE_USER = SERVICE_USER_RECOMMEND + "/list";
         //二、[推荐]-需求详情页推荐更多需求列表

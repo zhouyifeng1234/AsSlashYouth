@@ -169,6 +169,7 @@ public class MySkillManageModel extends BaseObservable  {
                  list = data.getList();
                 listsize = list.size();
                 if(list.size() == 0){
+                    activityMySkillManageBinding.tvTitle.setVisibility(View.VISIBLE);
                     activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     activityMySkillManageBinding.tvTitle.setText("暂无任务");
                 }else {
@@ -195,6 +196,8 @@ public class MySkillManageModel extends BaseObservable  {
                 List<SkillManagerBean.DataBean.ListBean> list = data.getList();
                 listsize = list.size();
                 if(listsize == 0){
+                    activityMySkillManageBinding.tvTitle.setVisibility(View.VISIBLE);
+                    activityMySkillManageBinding.tvTitle.setText("暂无技能");
                     activityMySkillManageBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                 }else {
                     skillManageList.addAll(list);

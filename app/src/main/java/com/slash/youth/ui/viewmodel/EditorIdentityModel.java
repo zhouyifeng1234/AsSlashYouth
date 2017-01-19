@@ -55,7 +55,6 @@ public class EditorIdentityModel extends BaseObservable {
         this.intent = intent;
         initData();
         initView();
-
     }
 
     private void initData() {
@@ -122,8 +121,12 @@ public class EditorIdentityModel extends BaseObservable {
                         String regex="^[a-zA-Z0-9\u4E00-\u9FA5]+$";
                         boolean match = PatternUtils.match(regex, text);
                         if(match){
-                            newSkillLabelList.add(text);
-                            updateLableView(newSkillLabelList);
+                            if(text.length()>=0&&text.length()<=5){
+                                newSkillLabelList.add(text);
+                                updateLableView(newSkillLabelList);
+                            }else {
+                                ToastUtils.shortToast("标签字数5个字以内");
+                            }
                         }else {
                             ToastUtils.shortToast("斜杠身份只能包含中文,英文,数字");
                         }

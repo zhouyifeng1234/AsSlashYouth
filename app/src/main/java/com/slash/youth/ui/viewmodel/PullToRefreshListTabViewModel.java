@@ -170,6 +170,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 listsize= list.size();
                 if(listsize == 0){
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pullToRefreshTabListviewBinding.tvContent.setVisibility(View.VISIBLE);
                 }else {
                     arrayListDemand.addAll(list);
                     pagerHomeDemandtAdapter = new PagerSearchDemandtAdapter(arrayListDemand);
@@ -196,6 +197,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 listsize= list.size();
                 if(listsize == 0){
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pullToRefreshTabListviewBinding.tvContent.setVisibility(View.VISIBLE);
                 }else {
                     arrayListService.addAll(list);
                     pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
@@ -222,6 +224,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 listsize= list.size();
                 if(listsize == 0){
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pullToRefreshTabListviewBinding.tvContent.setVisibility(View.VISIBLE);
                 }else {
                 arryListUser.addAll(list);
                 pagerSearchPersonAdapter = new PagerSearchPersonAdapter(arryListUser);

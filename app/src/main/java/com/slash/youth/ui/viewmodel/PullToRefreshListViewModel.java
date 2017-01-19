@@ -140,6 +140,7 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 listsize = list.size();
                 if( listsize == 0){
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pullToRefreshListviewBinding.tvContent.setVisibility(View.GONE);
                 }else {
                     arrayListService.addAll(list);
                     pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
@@ -165,6 +166,7 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 listsize = list.size();
                 if(listsize == 0){
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pullToRefreshListviewBinding.tvContent.setVisibility(View.GONE);
                 }else {
                     arrayListDemand.addAll(list);
                     pagerHomeDemandtAdapter = new PagerMoreDemandtAdapter(arrayListDemand,firstPagerMoreActivity);

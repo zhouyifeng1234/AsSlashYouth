@@ -32,7 +32,9 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.CountUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -358,6 +360,8 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentMySettingActivity = new Intent(CommonUtils.getContext(), MySettingActivity.class);
         intentMySettingActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySettingActivity);
+        //设置的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET);
     }
 
     //第三方
@@ -366,7 +370,7 @@ public class PagerHomeMyModel extends BaseObservable {
         mActivity.startActivity(intentThridPartyActivity);
     }
 
-    //发布 managePublish
+    //管理我发布的
     public void managePublish(View view) {
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
         intentMySkillManageActivity.putExtra("Title", Constants.MY_TITLE_MANAGER_MY_PUBLISH);
@@ -379,6 +383,8 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentMyHelpActivity = new Intent(CommonUtils.getContext(), MyHelpActivity.class);
         intentMyHelpActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyHelpActivity);
+        //帮助的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP);
     }
 
     //我的收藏

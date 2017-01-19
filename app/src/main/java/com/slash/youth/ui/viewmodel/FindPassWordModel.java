@@ -4,11 +4,14 @@ import android.app.ApplicationErrorReport;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.net.sip.SipSession;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -18,20 +21,33 @@ import com.slash.youth.databinding.ActivityFindPasswordBinding;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CreatePassWordProtovol;
 import com.slash.youth.http.protocol.SetPassWordProtocol;
 import com.slash.youth.http.protocol.UploadPhotoProtocol;
 import com.slash.youth.ui.activity.FindPassWordActivity;
+import com.slash.youth.utils.BitmapKit;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * Created by zss on 2016/11/3.
@@ -42,10 +58,15 @@ public class FindPassWordModel extends BaseObservable {
     public Map<String, String> createPassWordMap = new HashMap<>();
     public Map<String, String> surePassWordMap = new HashMap<>();
     private String toastText = "两次输入的密码不一致,请重新输入密码";
+    private int type;
+    private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
+    private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
+    public String fileId;
 
-    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding, FindPassWordActivity findPassWordActivity) {
+    public FindPassWordModel(ActivityFindPasswordBinding activityFindPasswordBinding, FindPassWordActivity findPassWordActivity,int type) {
         this.activityFindPasswordBinding = activityFindPasswordBinding;
         this.findPassWordActivity = findPassWordActivity;
+        this.type = type;
         listener();
     }
 
@@ -110,23 +131,142 @@ public class FindPassWordModel extends BaseObservable {
 
     //照相
     public void photoGraph(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_PHOTO);
         setUploadPicLayerVisibility(View.GONE);
+
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+        GalleryFinal.openCamera(21, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                Bitmap bitmap = null;
+                try {
+                    PhotoInfo photoInfo = resultList.get(0);
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmapOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                    int outWidth = bitmapOptions.outWidth;
+                    int outHeight = bitmapOptions.outHeight;
+                    if (outWidth <= 0 || outHeight <= 0) {
+                        ToastUtils.shortToast("请选择图片文件");
+                        return;
+                    }
+                    int scale = 1;
+                    int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                    int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
+                    if (widthScale > heightScale) {
+                        scale = widthScale;
+                    } else {
+                        scale = heightScale;
+                    }
+                    bitmapOptions.inJustDecodeBounds = false;
+                    bitmapOptions.inSampleSize = scale;
+                    bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+
+                    String picCachePath = findPassWordActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                    File cacheDir = new File(picCachePath);
+                    if (!cacheDir.exists()) {
+                        cacheDir.mkdir();
+                    }
+                    final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+
+                    DemandEngine.uploadFile(new onUploadFile(),tempFile.getAbsolutePath());
+                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                    ImageOptions imageOptions = builder.build();
+                    x.image().bind( activityFindPasswordBinding.ivPhoto, tempFile.toURI().toString(), imageOptions);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                        bitmap = null;
+                    }
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
     }
 
     //相册
     public void getAlbumPic(View view) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");//相片类型
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 250);
-        intent.putExtra("outputY", 100);
-        findPassWordActivity.startActivityForResult(intent, Constants.MY_SETTING_TAKE_ABLEM);
         setUploadPicLayerVisibility(View.GONE);
+
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                Bitmap bitmap = null;
+                try {
+                    PhotoInfo photoInfo = resultList.get(0);
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmapOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                    int outWidth = bitmapOptions.outWidth;
+                    int outHeight = bitmapOptions.outHeight;
+                    if (outWidth <= 0 || outHeight <= 0) {
+                        ToastUtils.shortToast("请选择图片文件");
+                        return;
+                    }
+                    int scale = 1;
+                    int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                    int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
+                    if (widthScale > heightScale) {
+                        scale = widthScale;
+                    } else {
+                        scale = heightScale;
+                    }
+                    bitmapOptions.inJustDecodeBounds = false;
+                    bitmapOptions.inSampleSize = scale;
+                    bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+
+                    String picCachePath = findPassWordActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                    File cacheDir = new File(picCachePath);
+                    if (!cacheDir.exists()) {
+                        cacheDir.mkdir();
+                    }
+                    final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+                    //展示照片
+                    DemandEngine.uploadFile(new onUploadFile(),tempFile.getAbsolutePath());
+
+                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                    ImageOptions imageOptions = builder.build();
+                    x.image().bind( activityFindPasswordBinding.ivPhoto, tempFile.toURI().toString(), imageOptions);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                        bitmap = null;
+                    }
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
+    }
+
+    //上传图片
+    public class onUploadFile implements BaseProtocol.IResultExecutor<UploadFileResultBean> {
+        @Override
+        public void execute(UploadFileResultBean dataBean) {
+            int rescode = dataBean.rescode;
+            if (rescode == 0) {
+                UploadFileResultBean.Data data = dataBean.data;
+                fileId = data.fileId;
+            }
+        }
+        @Override
+        public void executeResultError(String result) {
+            LogKit.v("上传头像失败：" + result);
+            ToastUtils.shortToast("上传头像失败：" + result);
+        }
     }
 
     //关闭弹窗
@@ -196,14 +336,17 @@ public class FindPassWordModel extends BaseObservable {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
                 switch (status) {
-                    case 1:
+                    case 1://1表示申请创建交易密码成功请等待审核
                         ToastUtils.shortCenterToast("提交成功,后台审核中");
-                        findPassWordActivity.finish();
+                        //findPassWordActivity.finish();
                         break;
-                    case 0:
-                        LogKit.d("设置失败");
+                    case 2://2表示由于服务端错误导致申请创建交易密码失败请重新提交审核
+                        LogKit.d("设由于服务端错误导致申请创建交易密码失败请重新提交审核");
                         ToastUtils.shortCenterToast("设置失败");
                         break;
+                    case 3://3表示已经申请过创建密码的审核，无需重复申请请耐心等待
+                        LogKit.d("已经申请过创建密码的审核，无需重复申请请耐心等待");
+                    break;
                 }
             }
         }

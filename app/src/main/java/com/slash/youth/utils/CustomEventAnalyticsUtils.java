@@ -5,18 +5,19 @@ package com.slash.youth.utils;
  */
 public class CustomEventAnalyticsUtils {
 
+    //  MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.CLICK_PAGE_ONE);
     public static class EventID {
         public static String CLICK_PAGE_ONE = "CLICK_PAGE_ONE";//查看宣传页1
         public static String CLICK_PAGE_THREE = "CLICK_PAGE_THREE";//查看宣传页3
         public static String CLICK_PAGE_TWO = "CLICK_PAGE_TWO";//查看宣传页2
-        public static String IDLE_TIME_ACCESS_REQUIREMENT;//访问需求,首页 需求、服务的切换按钮
-        public static String IDLE_TIME_ACCESS_SERVICE;//访问服务,首页 需求、服务的切换按钮
-        public static String IDLE_TIME_CLICK_BANNER_ONE;//点击banner1
-        public static String IDLE_TIME_CLICK_BANNER_THREE;//点击banner3
-        public static String IDLE_TIME_CLICK_BANNER_TWO;//点击banner2
-        public static String IDLE_TIME_CLICK_BOTTOM_MORE;//点击底部查看更多
+        public static String IDLE_TIME_ACCESS_REQUIREMENT="IDLE_TIME_ACCESS_REQUIREMENT";//访问需求,首页 需求、服务的切换按钮
+        public static String IDLE_TIME_ACCESS_SERVICE ="IDLE_TIME_ACCESS_SERVICE";//访问服务,首页 需求、服务的切换按钮
+        public static String IDLE_TIME_CLICK_BANNER_ONE = "IDLE_TIME_CLICK_BANNER_ONE";//点击banner1
+        public static String IDLE_TIME_CLICK_BANNER_THREE = "IDLE_TIME_CLICK_BANNER_THREE";//点击banner3
+        public static String IDLE_TIME_CLICK_BANNER_TWO ="IDLE_TIME_CLICK_BANNER_TWO";//点击banner2
+        public static String IDLE_TIME_CLICK_BOTTOM_MORE = "IDLE_TIME_CLICK_BOTTOM_MORE";//点击底部查看更多
         public static String IDLE_TIME_CLICK_REQUIREMENT_DETAIL = "IDLE_TIME_CLICK_REQUIREMENT_DETAIL";//查看需求详情
-        public static String IDLE_TIME_CLICK_RIGHT_MORE;//点击右侧查看更多
+        public static String IDLE_TIME_CLICK_RIGHT_MORE ="IDLE_TIME_CLICK_RIGHT_MORE";//点击右侧查看更多
         public static String IDLE_TIME_CLICK_SERVICE_DETAIL = "IDLE_TIME_CLICK_SERVICE_DETAIL";//查看服务详情
         public static String IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_DISTACE_NAEREST;//更多需求-排序-距离最近
         public static String IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_PRICE_HIGHEST;//更多需求-排序-价格最高
@@ -31,9 +32,9 @@ public class CustomEventAnalyticsUtils {
         public static String IDLE_TIME_MORE_SERVICE_TYPE_ALL_SERVICE;//更多服务-类型-全部服务
         public static String IDLE_TIME_MORE_SERVICE_TYPE_OFFLINE_SERVICE;//更多服务-类型-线下服务
         public static String IDLE_TIME_MORE_SERVICE_TYPE_ONLINE_SERVICE;//更多服务-类型-线上服务
-        public static String IDLE_TIME_PERSON_MESSAGE_CHAT;//个人信息-聊一聊
-        public static String IDLE_TIME_PERSON_MESSAGE_FOCUS_TA;//个人信息-关注TA
-        public static String IDLE_TIME_PERSON_MESSAGE_RECOMMEND_FRIEND;//个人信息-推荐给好友
+        public static String IDLE_TIME_PERSON_MESSAGE_CHAT ="IDLE_TIME_PERSON_MESSAGE_CHAT";//个人信息-聊一聊
+        public static String IDLE_TIME_PERSON_MESSAGE_FOCUS_TA ="IDLE_TIME_PERSON_MESSAGE_FOCUS_TA";//个人信息-关注TA
+        public static String IDLE_TIME_PERSON_MESSAGE_RECOMMEND_FRIEND ="IDLE_TIME_PERSON_MESSAGE_RECOMMEND_FRIEND";//个人信息-推荐给好友
         public static String IDLE_TIME_REQUIREMENT_DETAIL_CHAT = "IDLE_TIME_REQUIREMENT_DETAIL_CHAT";//需求详情-聊一聊
         public static String IDLE_TIME_REQUIREMENT_DETAIL_COLLECT = "IDLE_TIME_REQUIREMENT_DETAIL_COLLECT";//需求详情-收藏
         public static String IDLE_TIME_REQUIREMENT_DETAIL_DISPUTE_CONDUCT_BEHIND_QUESTION;//需求详情-纠纷处理后面问号
@@ -53,9 +54,9 @@ public class CustomEventAnalyticsUtils {
         public static String IDLE_TIME_REQUIREMENT_DETAIL_SLASH_FREE_COMMISSION_ACTIVITY;//需求详情-斜杠零佣金活动
         public static String IDLE_TIME_REQUIREMENT_DETAIL_SLASH_SERVICE;//需求详情-斜杠客服
         public static String IDLE_TIME_REQUIREMENT_DETAIL_UNSHELVE = "IDLE_TIME_REQUIREMENT_DETAIL_UNSHELVE";//需求详情-下架
-        public static String IDLE_TIME_SEARCH_CLICK_PERSON_SEARCH;//搜索-点击搜人后搜索
-        public static String IDLE_TIME_SEARCH_CLICK_SERVICE_SEARCH;//搜索-点击服务后搜索
-        public static String IDLE_TIME_SEARCH_CLICKC_REQUIREMENT_SEARCH;//搜索-点击需求后搜索
+        public static String IDLE_TIME_SEARCH_CLICK_PERSON_SEARCH ="IDLE_TIME_SEARCH_CLICK_PERSON_SEARCH";//搜索-点击搜人后搜索
+        public static String IDLE_TIME_SEARCH_CLICK_SERVICE_SEARCH = "IDLE_TIME_SEARCH_CLICK_SERVICE_SEARCH";//搜索-点击服务后搜索
+        public static String IDLE_TIME_SEARCH_CLICKC_REQUIREMENT_SEARCH = "IDLE_TIME_SEARCH_CLICKC_REQUIREMENT_SEARCH";//搜索-点击需求后搜索
         public static String IDLE_TIME_SEARCH_DIRECT_SEARCH;//搜索-直接综合搜索
         public static String IDLE_TIME_SERVICE_DETAIL_CHAT = "IDLE_TIME_SERVICE_DETAIL_CHAT";//服务详情-聊一聊
         public static String IDLE_TIME_SERVICE_DETAIL_COLLECT = "IDLE_TIME_SERVICE_DETAIL_COLLECT";//服务详情-收藏
@@ -116,7 +117,7 @@ public class CustomEventAnalyticsUtils {
         public static String MINE_CLICK_APPROVE_RETURE;//点击去认证-返回
         public static String MINE_CLICK_CHOOSE_OCCUPATION_TYPE;//点击选择职业类型
         public static String MINE_CLICK_EDIT_PROFILE;//点击编辑资料
-        public static String MINE_CLICK_HELP;//点击帮助
+        public static String MINE_CLICK_HELP = "MINE_CLICK_HELP";//点击帮助
         public static String MINE_CLICK_HELP_COMMON_PROBLEM;//点击帮助-常见问题
         public static String MINE_CLICK_HELP_CONTACT_US;//点击帮助-联系我们
         public static String MINE_CLICK_HELP_VERSION_UPDATE;//点击帮助-版本更新
@@ -136,7 +137,7 @@ public class CustomEventAnalyticsUtils {
         public static String MINE_CLICK_MY_RELEASE_UNSHELVE;//点击我发布的任务-下架
         public static String MINE_CLICK_PERSON_MESSAGE;//点击查看个人信息
         public static String MINE_CLICK_PERSON_MESSAGE_CLICK_EDIT;//点击查看个人信息-点击编辑
-        public static String MINE_CLICK_SET;//点击设置
+        public static String MINE_CLICK_SET="MINE_CLICK_SET";//点击设置
         public static String MINE_CLICK_SET__SET_TRADE_PASSWORD_RETURE;//点击设置-设置交易密码-返回
         public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD;//点击设置-找回交易密码
         public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_RETURE;//点击设置-找回交易密码-返回
@@ -160,7 +161,7 @@ public class CustomEventAnalyticsUtils {
         public static String MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_BINDING;//点击第三方账号-微信绑定
         public static String MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING;//点击第三方账号-微信解绑
         public static String MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING_CONFIRM_UNBUNDING;//点击第三方账号-微信解绑-确定解绑
-        public static String MINE_EDIT_AVATAR;//编辑头像
+        public static String MINE_EDIT_AVATAR ="MINE_EDIT_AVATAR";//编辑头像
         public static String MINE_EDIT_COMPANY_POSITION;//编辑公司职位
         public static String MINE_EDIT_INDUSTRY_DIRECTION_SKILL_TAG;//编辑行业方向技能标签
         public static String MINE_EDIT_LOCATION;//编辑所在地

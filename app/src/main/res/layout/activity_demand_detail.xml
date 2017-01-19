@@ -347,10 +347,9 @@
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="83dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="7dp"
-
+                        android:layout_height="78dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="3dp"
@@ -1939,7 +1938,6 @@
             android:background="#000000"
             android:visibility="@{demandDetailModel.viewPicVisibility}"
         >
-
 
         </android.support.v4.view.ViewPager>
 

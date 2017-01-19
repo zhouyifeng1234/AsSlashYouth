@@ -35,8 +35,10 @@ import com.slash.youth.ui.adapter.UserInfoAdapter;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -686,6 +688,8 @@ public class ActivityUserInfoModel extends BaseObservable {
         intentChatActivity.putExtra("targetId",String.valueOf(myUid));
         intentChatActivity.putExtra("anonymity",String.valueOf(anonymity));
         userInfoActivity.startActivity(intentChatActivity);
+        //个人信息聊一聊的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_PERSON_MESSAGE_CHAT);
     }
 
     //关注他
@@ -698,6 +702,8 @@ public class ActivityUserInfoModel extends BaseObservable {
                 ContactsManager.onCareTAProtocol(new onCareTAProtocol(),otherUid);
                 break;
         }
+        //关注的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_PERSON_MESSAGE_FOCUS_TA);
     }
 
     //推荐
@@ -706,6 +712,8 @@ public class ActivityUserInfoModel extends BaseObservable {
         DialogRecommendModel dialogRecommendModel = new DialogRecommendModel(dialogRecommendBinding,userInfoActivity,activityUserinfoBinding);
         dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);
         activityUserinfoBinding.flDialogContainer.addView(dialogRecommendBinding.getRoot());
+        //推荐的埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_PERSON_MESSAGE_RECOMMEND_FRIEND);
     }
 
     //加好友关系

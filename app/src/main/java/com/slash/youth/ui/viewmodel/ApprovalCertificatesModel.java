@@ -48,9 +48,62 @@ public class ApprovalCertificatesModel extends BaseObservable {
     }
 
     public void shotPhoto(View view){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+       /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        approvalActivity.startActivityForResult(intent, Constants.USERINFO_TAKEPHOTO);
+        approvalActivity.startActivityForResult(intent, Constants.USERINFO_TAKEPHOTO);*/
+
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+        GalleryFinal.openCamera(21, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                Bitmap bitmap = null;
+                try {
+                    PhotoInfo photoInfo = resultList.get(0);
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmapOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                    int outWidth = bitmapOptions.outWidth;
+                    int outHeight = bitmapOptions.outHeight;
+                    if (outWidth <= 0 || outHeight <= 0) {
+                        ToastUtils.shortToast("请选择图片文件");
+                        return;
+                    }
+                    int scale = 1;
+                    int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                    int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
+                    if (widthScale > heightScale) {
+                        scale = widthScale;
+                    } else {
+                        scale = heightScale;
+                    }
+                    bitmapOptions.inJustDecodeBounds = false;
+                    bitmapOptions.inSampleSize = scale;
+                    bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+
+                    String picCachePath = approvalActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                    File cacheDir = new File(picCachePath);
+                    if (!cacheDir.exists()) {
+                        cacheDir.mkdir();
+                    }
+                    final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+
+                    jumpAlbumActivity(ApprovalModel.careertype,ApprovalModel.cardType,tempFile.getAbsolutePath());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                        bitmap = null;
+                    }
+                }
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+            }
+        });
     }
 
     private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
@@ -93,7 +146,7 @@ public class ApprovalCertificatesModel extends BaseObservable {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
 
                     //认证页面
-                   jumpAlbumActivity(ApprovalModel.careertype,ApprovalModel.cardType,tempFile.toURI().toString());
+                   jumpAlbumActivity(ApprovalModel.careertype,ApprovalModel.cardType,tempFile.getAbsolutePath());
 
                 } catch (Exception ex) {
                     ex.printStackTrace();

@@ -141,7 +141,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
     public void careMe(View view) {
         openContactsCareActivity(ContactsManager.CARE_ME);
         type = 1;
-
         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
     }
 
@@ -212,27 +211,27 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
 
                 //保存一下在本地
-                if(myFollowLocalCount!=-1){
+                if(myFollowLocalCount!=0){
                     if(myFansCount!=myFansLocalCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
                         SpUtils.setInt("myFansCount",myFansCount);
                     }
                 }
 
-                if(myFansLocalCount!=-1){
+                if(myFansLocalCount!=0){
                     if(myFansCount!=myFansLocalCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
                         SpUtils.setInt("myFollowCount",myFollowCount);
                     }
                 }
-                if(myAddFriendCount!=-1){
+                if(myAddFriendCount!=0){
                     if(myAddFriendLocalCount!=myAddFriendCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
                         SpUtils.setInt("myAddFriendCount",myAddFriendCount);
                     }
                 }
 
-                if(addMeFriendCount!=-1){
+                if(addMeFriendCount!=0){
                     if(addMeFriendLocalCount!=addMeFriendCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
                         SpUtils.setInt("addMeFriendCount",addMeFriendCount);

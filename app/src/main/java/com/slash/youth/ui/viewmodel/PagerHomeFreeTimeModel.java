@@ -37,8 +37,10 @@ import com.slash.youth.ui.view.NewRefreshListView;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -102,6 +104,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         pagerHomeFreetimeBinding.lvHomeDemandAndService.addFooterView(listMoreView);
     }
 
+    //平滑到顶部
+    private void smoothScrollto() {
+        pagerHomeFreetimeBinding.scrollView.smoothScrollTo(0,0);
+    }
+
     private void initScrollView() {
         pagerHomeFreetimeBinding.refreshView.setOnRefreshListener(new FreeTimeListListener());
     }
@@ -127,16 +134,13 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     int vpAdvStartIndex;
 
     private void initView() {
-        pagerHomeFreetimeBinding.scrollView.smoothScrollTo(0,0);
-
-        mIsDisplayDemandList = SpUtils.getBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, true);
+        mIsDisplayDemandList = SpUtils.getBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, false);
         if (mIsDisplayDemandList) {
             displayDemanList();
         } else {
             displayServiceList();
         }
     }
-
 
     private void initData() {
 //        x.image().clearCacheFiles();
@@ -164,7 +168,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 advImageUrlIndex = position % bannerList.size();
                 Bitmap roundedBitmap = bannerList.get(advImageUrlIndex);
 
-                CardView cardView = new CardView(CommonUtils.getContext());
+                final CardView cardView = new CardView(CommonUtils.getContext());
                 cardView.setCardBackgroundColor(Color.TRANSPARENT);
 //                cardView.setCardBackgroundColor(0xffff0000);
                 cardView.setRadius(CommonUtils.dip2px(5));
@@ -216,11 +220,22 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                         //在这里 0，青年 1
                         //点击的时候，到banner页面
                         initBanner(advImageUrlIndex);
+                        //埋点
+                        switch (advImageUrlIndex){
+                            case 0:
+                                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_BANNER_ONE);
+                                break;
+                            case 1:
+                                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_BANNER_TWO);
+                                break;
+                            case 2:
+                                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_BANNER_THREE);
+                                break;
+                        }
                     }
                 });
 
                 cardView.addView(ivHomeFreetimeAdv);
-
                 container.addView(cardView);
                 return cardView;
             }
@@ -308,6 +323,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             @Override
             public void onClick(View v) {
                 clickMore();
+                //点击右侧搜索更多埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_RIGHT_MORE);
             }
         });
     }
@@ -336,14 +353,17 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         mIsDisplayDemandList = true;
         SpUtils.setBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, mIsDisplayDemandList);
         displayDemanList();
+        //需求埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_ACCESS_REQUIREMENT);
     }
-
 
     //切换为展示服务列条
     public void displayServiceList(View v) {
         mIsDisplayDemandList = false;
         SpUtils.setBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, mIsDisplayDemandList);
         displayServiceList();
+        //服务埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_ACCESS_SERVICE);
     }
 
     //展示需求
@@ -431,6 +451,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 listsize= list.size();
                 if(list.size() == 0){
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
                 }else {
                     listDemandBean.addAll(list);
                     homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
@@ -438,6 +459,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                             .setAdapter(homeDemandAndDemandAdapter);
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 }
+                smoothScrollto();
                 //隐藏加载页面
                 hideLoadLayer();
             }
@@ -463,6 +485,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 listsize = list.size();
                 if(list.size() == 0){
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
                 }else {
                     listServiceBean.addAll(list);
                     homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
@@ -470,7 +493,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                             .setAdapter(homeServiceAdapter);
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 }
-
+                smoothScrollto();
                 //隐藏加载页面
                 hideLoadLayer();
             }
@@ -485,6 +508,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     //点击添加更多
     public void more(View view) {
         clickMore();
+        //点击底部更多埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_BOTTOM_MORE);
     }
 
     private void clickMore() {

@@ -5,21 +5,20 @@
                   type="com.slash.youth.ui.viewmodel.ItemDemandModel"/>
     </data>
     <LinearLayout
-        android:layout_marginBottom="3dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="343dp"
+        android:layout_height="131dp"
         android:background="@mipmap/home_demand_service_list_bg"
         android:orientation="vertical">
         <!--主要内容-->
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="6dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <!--头像和姓名-->
             <LinearLayout
+                android:layout_marginTop="14dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -43,7 +42,7 @@
                 </FrameLayout>
 
                 <TextView
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -53,12 +52,13 @@
             </LinearLayout>
 
             <!--主要信息-->
-            <LinearLayout
+            <RelativeLayout
+                android:layout_marginTop="14dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="82dp"
+                >
                 <!--标题-->
                 <TextView
                     android:id="@+id/tv_demand_title"
@@ -73,42 +73,45 @@
                     android:textSize="15sp"/>
 
                 <!--报价-->
-                <RelativeLayout
-                    android:layout_marginTop="16dp"
+                <LinearLayout
+                    android:layout_centerInParent="true"
                     android:layout_width="match_parent"
-                    android:layout_height="22dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/tv_quote"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textColor="#FF7333"
                         android:text="@{ItemDemandModel.quote}"
                         android:textSize="13sp"/>
 
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
                    <LinearLayout
                        android:id="@+id/ll_time"
-                       android:layout_centerInParent="true"
-                       android:layout_alignParentRight="true"
+                       android:layout_marginRight="20dp"
                        android:layout_width="wrap_content"
-                       android:layout_height="16dp"
+                       android:layout_height="wrap_content"
                        android:orientation="horizontal"
                        >
                        <ImageView
                            android:visibility="@{ItemDemandModel.timeVisibility}"
                            android:layout_width="15dp"
                            android:layout_height="15dp"
+                           android:layout_gravity="center"
                            android:src="@mipmap/time_icon"
                            />
                        <TextView
                            android:id="@+id/tv_time"
-                           android:layout_marginLeft="6dp"
                            android:textSize="14sp"
                            android:textColor="#666666"
                            android:gravity="center"
+                           android:layout_marginLeft="6dp"
                            android:layout_gravity="center"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
@@ -116,11 +119,11 @@
 
                    </LinearLayout>
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <!--线上和到账-->
                 <LinearLayout
-                    android:layout_marginTop="17dp"
+                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -154,7 +157,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
         <!--横线-->
@@ -183,10 +186,11 @@
             <!--地点-->
             <TextView
                 android:id="@+id/tv_location"
-                android:layout_width="91dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="6dp"
+                android:maxEms="15"
                 android:ellipsize="end"
                 android:text="@{ItemDemandModel.place}"
                 android:maxLines="1"

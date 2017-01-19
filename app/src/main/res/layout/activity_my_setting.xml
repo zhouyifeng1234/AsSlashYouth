@@ -229,12 +229,10 @@
                         android:layout_marginTop="15dp"
                         />
 
-
-
                     <RelativeLayout
                         android:id="@+id/rl_set"
-                        android:onClick="@{mySettingModel.findPassWord}"
                         android:layout_weight="1"
+                        android:onClick="@{mySettingModel.setPassWord}"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginBottom="15dp"
@@ -294,7 +292,6 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true">
-
             <!--弹窗-->
             <FrameLayout
                 android:layout_width="269dp"
@@ -391,11 +388,94 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-
-
             </FrameLayout>
-
         </RelativeLayout>
+
+
+    <RelativeLayout
+        android:visibility="@{mySettingModel.hintDialogVisibility}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:clickable="true">
+    <!--弹窗-->
+    <FrameLayout
+        android:layout_width="269dp"
+        android:layout_height="158dp"
+        android:layout_centerInParent="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_tishi_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="温馨提示"
+                android:textColor="#333333"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tv_find_pass_word_hint"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:textSize="14dp"
+                android:lineSpacingExtra="5dp"
+                android:text="密码设置在审核中，请等待审核"
+                android:textColor="#666666"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_tishi_button_bg">
+
+                <LinearLayout
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shape_tishi_button_bg">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        >
+                        <TextView
+                            android:onClick="@{mySettingModel.hintsure}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:text="确定"
+                            android:gravity="center"
+                            android:background="@mipmap/ok_icon"
+                            android:textColor="@color/white"
+                            android:layout_centerInParent="true"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+     </FrameLayout>
+    </RelativeLayout>
 
     </FrameLayout>
 

@@ -30,11 +30,8 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     private Bitmap bitmap;
     private int careertype;
     private ApprovalModel approvalModel;
-    private String photoUri;
     private String titleText = "认证";
    // private String submint = "提交";
-    private String jpeg = ".jpeg";
-    private Bitmap photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,66 +62,5 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        int cardType = approvalModel.cardType;
-       long  currentTime = System.currentTimeMillis();
-        switch (requestCode) {
-            case Constants.USERINFO_TAKEPHOTO://6
-                if (resultCode == RESULT_OK) {
-                    Bundle bundle = data.getExtras();
-                    bitmap = (Bitmap) bundle.get("data");
-                    photo =  BitmapKit.zoomBitmap(bitmap, 250, 200);
-                    //选择类型
-                    switch (cardType) {
-                        case Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD:
-                            LogKit.d("名片");
-                            setAndSavePhoto(photo,currentTime+"USER_REAL_AUTH_CARD_BUSINESS_CARD"+jpeg);
-                            break;
-                        case Cardtype.USER_REAL_AUTH_CARD_IDCARD:
-                            LogKit.d("身份证");
-                            setAndSavePhoto(photo,currentTime+"USER_REAL_AUTH_CARD_IDCARD"+jpeg);
-                            break;
-                        case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
-                            LogKit.d("在职证明");
-                             setAndSavePhoto(photo,currentTime+"USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION"+jpeg);
-                            break;
-                        case Cardtype.USER_REAL_AUTH_CARD_MAIL:
-                            LogKit.d("邮箱后台");
-                            setAndSavePhoto(photo,currentTime+"USER_REAL_AUTH_CARD_MAIL"+jpeg);
-                            break;
-                        case Cardtype.USER_REAL_AUTH_CARD_SIN:
-                            LogKit.d("工牌");
-                            setAndSavePhoto(photo,currentTime+"USER_REAL_AUTH_CARD_SIN"+jpeg);
-                            break;
-                        default:
-                            photoUri = BitmapKit.saveBitmap(photo,currentTime+"takePhoto"+jpeg);
-                            break;
-                    }
-                    //跳转界面
-                    jumpActivity(photoUri);
-                }
-                break;
-
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setAndSavePhoto(Bitmap photo,String photoName) {
-        photoUri = BitmapKit.saveBitmap(photo,photoName);
-    }
-
-    private void jumpActivity(String photoUri) {
-        if(!photoUri.contains("file:")){
-          photoUri = "file:"+photoUri;
-        }
-
-        Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
-        intentExamineActivity.putExtra("careertype", careertype);
-        intentExamineActivity.putExtra("cardType", approvalModel.cardType);
-        intentExamineActivity.putExtra("photoUri", photoUri);
-        startActivity(intentExamineActivity);
     }
 }

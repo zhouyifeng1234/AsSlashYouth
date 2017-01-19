@@ -137,10 +137,9 @@ public class PagerHomeContactsModel extends BaseObservable {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position!=0) {
-                    HomeContactsVisitorBean.DataBean.ListBean listBean = listHomeContactsVisitorBean.get(position-1);
-                    String name = listBean.getName();
-                    int uid = listBean.getUid();
-                    Long mId = new Long((long) uid);
+                HomeContactsVisitorBean.DataBean.ListBean listBean = listHomeContactsVisitorBean.get(position-1);
+                String name = listBean.getName();
+                long mId = listBean.getUid();
                 Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
                 intentUserInfoActivity.putExtra("Uid",mId);
                 mActivity.startActivity(intentUserInfoActivity);

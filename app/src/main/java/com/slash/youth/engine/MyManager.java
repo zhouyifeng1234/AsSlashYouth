@@ -21,6 +21,7 @@ import com.slash.youth.http.protocol.MyFirstPageProtocol;
 import com.slash.youth.http.protocol.MyUserInfoProtocol;
 import com.slash.youth.http.protocol.SetMsgProtocol;
 import com.slash.youth.http.protocol.SkillManagerProtocol;
+import com.slash.youth.http.protocol.TestFindPasswordStatusProtocol;
 import com.slash.youth.http.protocol.UpdateSkillTempletProtocol;
 import com.slash.youth.utils.LogKit;
 
@@ -161,18 +162,10 @@ public class MyManager {
         fileUploadProtocol.getDataFromServer(onUploadFileFinished);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //验证找回密码的审核状态
+    public static void testFindPassWord(BaseProtocol.IResultExecutor onTestFindPassWord) {
+        TestFindPasswordStatusProtocol testFindPasswordStatusProtocol = new TestFindPasswordStatusProtocol();
+        testFindPasswordStatusProtocol.getDataFromServer(onTestFindPassWord);
+    }
 
 }

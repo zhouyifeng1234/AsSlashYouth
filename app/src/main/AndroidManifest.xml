@@ -159,6 +159,7 @@
         <activity
             android:name="com.slash.youth.ui.activity.LoginActivity"
             android:label="登录页"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
