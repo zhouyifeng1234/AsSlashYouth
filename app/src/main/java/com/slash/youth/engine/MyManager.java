@@ -127,8 +127,8 @@ public class MyManager {
     }
 
     //技能管理——添加技能模板
-    public static void  onAddSkillTemplet(BaseProtocol.IResultExecutor onAddSkillTemplet, String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
-        AddSkillTempletProtocol addSkillTempletProtocol = new AddSkillTempletProtocol(title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+    public static void  onAddSkillTemplet(BaseProtocol.IResultExecutor onAddSkillTemplet, String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc,  ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
+        AddSkillTempletProtocol addSkillTempletProtocol = new AddSkillTempletProtocol(title, listTag, startime, endtime, anonymity, desc, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
         addSkillTempletProtocol.getDataFromServer(onAddSkillTemplet);
     }
 
@@ -139,8 +139,8 @@ public class MyManager {
     }
 
     //技能管理——修改技能模板
-    public static void  onUpdateSkillTemplet(BaseProtocol.IResultExecutor onUpdateSkillTemplet,long id ,String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
-        UpdateSkillTempletProtocol updateSkillTempletProtocol = new UpdateSkillTempletProtocol(id,title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+    public static void  onUpdateSkillTemplet(BaseProtocol.IResultExecutor onUpdateSkillTemplet,long id ,String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
+        UpdateSkillTempletProtocol updateSkillTempletProtocol = new UpdateSkillTempletProtocol(id,title, listTag, startime, endtime, anonymity, desc, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
         updateSkillTempletProtocol.getDataFromServer(onUpdateSkillTemplet);
     }
 

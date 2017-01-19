@@ -23,7 +23,6 @@ public class AddSkillTempletProtocol extends BaseProtocol<SetBean> {
     private final long endtime;
     private final int anonymity;
     private final String desc;
-    private final int timetype;
     private final ArrayList<String> listPic;
     private final int instalment;
     private final int bp;
@@ -34,14 +33,13 @@ public class AddSkillTempletProtocol extends BaseProtocol<SetBean> {
     private final double quote;
     private final int quoteunit;
 
-    public AddSkillTempletProtocol(String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, int timetype, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
+    public AddSkillTempletProtocol(String title, ArrayList<String> listTag, long startime, long endtime, int anonymity, String desc, ArrayList<String> listPic, int instalment, int bp, int pattern, String place, double lng, double lat, double quote, int quoteunit) {
         this.title = title;
         this.listTag = listTag;
         this.startime = startime;
         this.endtime = endtime;
         this.anonymity = anonymity;
         this.desc = desc;
-        this.timetype = timetype;
         this.listPic = listPic;
         this.instalment = instalment;
         this.bp = bp;
@@ -72,7 +70,6 @@ public class AddSkillTempletProtocol extends BaseProtocol<SetBean> {
             jo.put("endtime", endtime);
             jo.put("anonymity", anonymity);
             jo.put("desc", desc);
-            jo.put("timetype", timetype);
             if(!listPic.isEmpty()){
                 JSONArray jaPic = new JSONArray();
                 for (String picUrl : listPic) {

@@ -3,6 +3,8 @@ package com.slash.youth.ui.viewmodel;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,6 +15,8 @@ import com.slash.youth.databinding.ActivityMyAddSkillBinding;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.domain.SkillManagerBean;
+import com.slash.youth.domain.UploadFileResultBean;
+import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.FinishPhoneActivity;
@@ -23,9 +27,13 @@ import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashNumberPicker;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -45,7 +53,7 @@ public class MyAddSkillModel extends BaseObservable {
     private long id;
     private String title;
     private String desc;
-    private double quote = 0;
+    private int quote = 0;
     private ArrayList<String> thridlistTag = new ArrayList<String>();
     public ArrayList<String> listTag = new ArrayList<String>();
     private int anonymity = 1;
@@ -77,6 +85,9 @@ public class MyAddSkillModel extends BaseObservable {
     private int f1;
     private int f2;
     private String substring;
+    private String[] picFileIds;
+    private String picCachePath;
+    private int pathSize;
 
     public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, long id,  int skillTemplteType,int position) {
         this.activityMyAddSkillBinding = activityMyAddSkillBinding;
@@ -193,14 +204,7 @@ public class MyAddSkillModel extends BaseObservable {
        /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
                 +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
 */
-        switch (skillTemplteType){
-            case Constants.ADD_ONE_SKILL_MANAGER://添加一个技能标签模板
-                MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
-                break;
-            case Constants.UPDATE_SKILL_MANAGER_ONE://修改一个技能标签模板
-                MyManager.onUpdateSkillTemplet(new onAddSkillTemplet(),id,title, listTag, startime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
-                break;
-        }
+
     }
 
     private void sumbitSucceful() {
@@ -232,20 +236,55 @@ public class MyAddSkillModel extends BaseObservable {
         desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
         String quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
         if (!TextUtils.isEmpty(quoteString)) {
-            quote = Double.parseDouble(quoteString);
+            //quote = Double.parseDouble(quoteString);
+            quote = Integer.parseInt(quoteString);
+
         }
         quoteunit = value + 1;
         anonymity = 1;
         timetype = 0;//时间类型
-        instalment = 1;
+        instalment = 0;
         bp = 1;//取值只能1或者2 1平台 2协商
         pattern = 1;//取值只能1或者0 （1线下 0线上）
-        //获取图片
-        ArrayList<String> addedPicTempPath = addPic.getAddedPicTempPath();
-        listPic.addAll(addedPicTempPath);
         //获取标签
         listTag = sallAddedSkilllabels.getAddedTags();
+        //获取图片
+
+        listPic.clear();
+        ArrayList<String> addedPicTempPath = addPic.getAddedPicTempPath();
+        pathSize = addedPicTempPath.size();
+        final int[] uploadCount = {0};
+        for (final String filePath : addedPicTempPath) {
+            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
+                @Override
+                public void execute(UploadFileResultBean dataBean) {
+                    LogKit.v(filePath + ":上传成功");
+                    uploadCount[0]++;
+                    LogKit.v("uploadCount:" + uploadCount[0]);
+                    LogKit.v(dataBean + "");
+                    listPic.add(dataBean.data.fileId);
+
+                    switch (skillTemplteType){
+                        case Constants.ADD_ONE_SKILL_MANAGER://添加一个技能标签模板
+                            MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc,  listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+                            break;
+                        case Constants.UPDATE_SKILL_MANAGER_ONE://修改一个技能标签模板
+                            MyManager.onUpdateSkillTemplet(new onAddSkillTemplet(),id,title, listTag, startime, endtime, anonymity, desc,  listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+                            break;
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    LogKit.v(filePath + ":上传失败");
+                    uploadCount[0]++;
+
+                }
+            }, filePath);
+        }
     }
+
+
 
     //获取一个技能模板
     public class onGetOneSkillTemplet implements BaseProtocol.IResultExecutor<SkillMamagerOneTempletBean> {
@@ -330,11 +369,6 @@ public class MyAddSkillModel extends BaseObservable {
         }
         activityMyAddSkillBinding.sallAddedSkilllabels.reloadSkillLabels(thridlistTag, listTag);
 
-        pic = service.getPic();
-        if (pic != null) {
-            String[] pics = pic.split(",");
-            Collections.addAll(listPic, pics);
-        }
         anonymity = service.getAnonymity();
         bp = service.getBp();
         count = service.getCount();
@@ -354,5 +388,41 @@ public class MyAddSkillModel extends BaseObservable {
         uid = service.getUid();
         uts = service.getUts();
         place = service.getPlace();
+
+        //回显图片
+        String[] picFileIds = service.getPic().split(",");
+        final String picCachePath = myAddSkillActivity.getCacheDir().getAbsoluteFile() + "/addpicache/";
+        File cacheDir = new File(picCachePath);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdir();
+        }
+
+        for (String fileId : picFileIds) {
+            DemandEngine.downloadFile(new BaseProtocol.IResultExecutor<byte[]>() {
+                @Override
+                public void execute(byte[] dataBean) {
+
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(dataBean, 0, dataBean.length);
+                    if (bitmap != null) {
+                        File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(tempFile);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            addPic.reloadPic(tempFile.getAbsolutePath());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } finally {
+                            IOUtils.close(fos);
+                        }
+                    }
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, fileId);
+        }
     }
 }

@@ -35,14 +35,4 @@ public class PublishServiceBaseInfoActivity extends Activity {
         mPublishServiceBaseInfoModel.mSaplAddPic.addPicResult(requestCode, resultCode, data);
     }
 
-
-
-    //从我的模块里面的技能管理发布的数据，zss
-    public void getPublishServiceData(){
-        Intent intent = getIntent();
-        Serializable skillManagerItemBean = intent.getSerializableExtra("skillManagerItemBean");
-    }
-
-
-
 }

@@ -50,7 +50,7 @@ public class PagerHomeMyModel extends BaseObservable {
     float expertMarks;
     float expertMarksProgress;//0到360
     private int achievetaskcount;
-    private String avatar;
+    private   String avatar;
     private int averageservicepoint;
     private double userservicepoint;
     private int careertype;
@@ -59,7 +59,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private String city;
     private String province;
     private String place;
-    private String name;
+    private   String name;
     private int isauth;
     private String industry;
     private String direction;
@@ -347,6 +347,8 @@ public class PagerHomeMyModel extends BaseObservable {
     public void skillManage(View view) {
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
         intentMySkillManageActivity.putExtra("Title", Constants.MY_TITLE_SKILL_MANAGER);
+        intentMySkillManageActivity.putExtra("name", name);
+        intentMySkillManageActivity.putExtra("avater", avatar);
         intentMySkillManageActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySkillManageActivity);
     }

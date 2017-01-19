@@ -70,13 +70,13 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private String name;
     private String skilldescrib;
-    private boolean checked;
+    private boolean checked = true;
     private String setLocation;
     private HashMap<String, String> paramsMap = new HashMap<>();
     private String[] slashIdentitys;
     private String company;
     private String position;
-    private String direction;
+    public  String direction;
     private long myUid;//我自己的id
     private UserinfoEditorActivity userinfoEditorActivity;
     private StringBuffer sb = new StringBuffer();
@@ -87,7 +87,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     public ArrayList<String> skillLabelList = new ArrayList<>();
     public String avatar;
     private boolean isSetLocation = false;
-    private String industry;
+    public String industry;
     private String identity;
     private int careertype;
     private String tag;
@@ -466,17 +466,18 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }else if(name.length()>=6){
             ToastUtils.shortCenterToast("姓名最多5个字");
         }else {
-        if(company.length()<=1||company.length()>=16){
+        if((company.length()<=1||company.length()>=16)&&checked){
         ToastUtils.shortCenterToast("公司名字数2~15");
         }else {
-            if(position.length()<2||position.length()>10){
+            if((position.length()<2||position.length()>10)&&checked){
                 ToastUtils.shortCenterToast("公司职位名字数2~10");
             }else {
                 if(skilldescrib.length()>50){
                     ToastUtils.shortCenterToast("个人简介字数不超过50");
                 }else {
-                    int size = listCheckedLabelName.size();
-                    if(size==0){
+                    int childCount = llSkilllabelContainer.getChildCount();
+
+                    if( childCount==0){
                         ToastUtils.shortCenterToast("请填写技能标签");
                     }else {
                         //认证过的
@@ -540,18 +541,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }
 
         //保存行业方向
-        String industryAndDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
-        String replace = industryAndDirection.replace("|", ",");
-        if (industryAndDirection != null && industryAndDirection != "") {
-            String[] split = replace.split(",");
-            if(split.length!=0){
-                industry = split[0];
-                direction = split[1];
-                paramsMap.put("industry", industry);
-                paramsMap.put("direction", direction);
-                SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY, paramsMap);
-            }
-        }
+        paramsMap.put("industry", industry);
+        paramsMap.put("direction", direction);
+        SetProtocol(GlobalConstants.HttpUrl.SET_SLASH_INDUSTRY, paramsMap);
 
         //斜杠身份只能包含中文\英文\数字
         ArrayList<String> newSkillLabelList = EditorIdentityModel.newSkillLabelList;
