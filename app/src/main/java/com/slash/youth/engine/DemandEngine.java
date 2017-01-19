@@ -15,6 +15,7 @@ import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
 import com.slash.youth.http.protocol.DemandRefundProtocol;
 import com.slash.youth.http.protocol.DemandThirdPayProtocol;
+import com.slash.youth.http.protocol.DemandUpdateBidProtocol;
 import com.slash.youth.http.protocol.DetailRecommendDemandProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.EliminateProtocol;
@@ -389,5 +390,13 @@ public class DemandEngine {
     public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String id) {
         DemandIsRectifyProtocol demandIsRectifyProtocol = new DemandIsRectifyProtocol(id);
         demandIsRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
+    }
+
+    /**
+     * 需求流程中服务方修改抢单信息
+     */
+    public static void updateBid(BaseProtocol.IResultExecutor onUpdateBidFinished, String id, String quote, ArrayList<Double> instalment, String bp, String starttime) {
+        DemandUpdateBidProtocol demandUpdateBidProtocol = new DemandUpdateBidProtocol(id, quote, instalment, bp, starttime);
+        demandUpdateBidProtocol.getDataFromServer(onUpdateBidFinished);
     }
 }

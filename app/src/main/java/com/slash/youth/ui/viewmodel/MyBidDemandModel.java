@@ -35,10 +35,8 @@ import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -494,8 +492,10 @@ public class MyBidDemandModel extends BaseObservable {
                 setStatusButtonsVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
                 LogKit.v("--------------待确认--------------------");
                 break;
+            case 1:/*已发布*/
+            case 4:/*待选择*/
             case 6://待支付
-                setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE;
+                setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 break;
             case 7:/*进行中*/
                 //通过instalmentlist接口获取分期比例
@@ -550,10 +550,8 @@ public class MyBidDemandModel extends BaseObservable {
                     setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 }
                 break;
-            case 1:/*已发布*/
             case 2:/*已取消*/
             case 3:/*被拒绝*/
-            case 4:/*待选择*/
             case 10:/*已退款*/
             case 11:/*已淘汰*/
             default:
@@ -816,7 +814,6 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void updateBidInfo(View v) {
-        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_IMMEDIATELY_GRAB_SINGLE);
         double bidQuote;
         String bidQuoteStr = mActivityMyBidDemandBinding.etBidDemandQuote.getText().toString();
         try {
@@ -858,21 +855,20 @@ public class MyBidDemandModel extends BaseObservable {
                 return;
             }
         }
-
-        //调用抢需求接口
-        DemandEngine.servicePartyBidDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+        //调用修改抢单信息的接口
+        DemandEngine.updateBid(new BaseProtocol.IResultExecutor() {
             @Override
-            public void execute(CommonResultBean dataBean) {
-                ToastUtils.shortToast("抢单成功");
-                setBidInfoVisibility(View.GONE);
-                setBidDemandSuccessStatus();
+            public void execute(Object dataBean) {
+                ToastUtils.shortToast("修改成功");
+                setUpdateBidInfoVisibility(View.GONE);
             }
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("抢单失败;" + result);
+                ToastUtils.shortToast("修改失败;" + result);
             }
-        }, demandId + "", bidQuote + "", bidDemandInstalmentRatioList, bidBp + "", bidDemandStarttime + "");
+        }, tid + "", bidQuote + "", bidDemandInstalmentRatioList, bidBp + "", bidDemandStarttime + "");
+
     }
 
     private void getInputInstalmentRatio() {

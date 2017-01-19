@@ -227,6 +227,8 @@ public class GlobalConstants {
         public static final String GET_DEMAND_INSTALMENT_LIST = SERVER_HOST_DEMAND + "instalmentlist";
         //二十四、[需求]-查询是否延期支付过
         public static final String DEMAND_IS_RECTIFY = SERVER_HOST_DEMAND + "isrectify";
+        //需求流程中服务方修改抢单信息
+        public static final String DEMAND_UPDATE_BID = SERVER_HOST_DEMAND + "updatebid";
 
         //一、[服务]-发布服务-
         public static final String PUBLISH_SERVICE = SERVER_HOST_SERVICE + "publish";
