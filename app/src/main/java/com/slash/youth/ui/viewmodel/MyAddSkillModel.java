@@ -200,7 +200,13 @@ public class MyAddSkillModel extends BaseObservable {
 
     //提交
     public void sumbit(View view) {
-        getSumbitData();
+        title= activityMyAddSkillBinding.etTitle.getText().toString();
+        if(title.length()>=5&&title.length()<=20){
+            getSumbitData();
+        }else {
+            ToastUtils.shortCenterToast("技能标题5~20个字");
+        }
+
        /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
                 +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
 */

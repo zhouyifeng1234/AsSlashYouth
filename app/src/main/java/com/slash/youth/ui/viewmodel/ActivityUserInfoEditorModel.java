@@ -88,7 +88,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     private String[] skillLabels;
     public ArrayList<String> skillLabelList = new ArrayList<>();
     public String avatar;
-    private boolean isSetLocation = false;
     public String industry;
     private String identity;
     private int careertype;
@@ -277,9 +276,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             }
         });
     }
-
-
-
+    //相册
     public void getAlbumPic(View view){
         //第三方
         FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
@@ -359,7 +356,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //点击所在地
     public void setLocation(View view) {
-        isSetLocation = true;
         Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(), CityLocationActivity.class);
         userinfoEditorActivity.startActivityForResult(intentCityLocationActivity, Constants.USERINFO_LOCATION);
     }
@@ -536,10 +532,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }
 
         //保存所在地
-        if (isSetLocation) {
-            city = CityLocationActivity.map.get("city");
-            province = CityLocationActivity.map.get("province");
-        }
         if (city != null && province != null) {
             paramsMap.put("province", province);
             paramsMap.put("city", city);
