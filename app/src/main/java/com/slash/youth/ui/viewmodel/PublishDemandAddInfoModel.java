@@ -23,6 +23,7 @@ import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -127,6 +128,11 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     }
 
     public void publish(View v) {
+
+        if (!isCheckedSlashProtocol) {
+            ToastUtils.shortToast("请先同意斜杠协议");
+            return;
+        }
 
         Bundle bundleDemandData = mActivity.getIntent().getExtras();
         int anonymity = bundleDemandData.getInt("anonymity");
@@ -308,6 +314,22 @@ public class PublishDemandAddInfoModel extends BaseObservable {
             isCheckedSlashProtocol = true;
             mActivityPublishDemandAddinfoBinding.ivSlashProtocolCheckedIcon.setImageResource(R.mipmap.checked_icon);
         }
+    }
+
+    private static final String slashZeroCommissionInfoText = "斜杠青年倡导“人才开放共享”理念，承诺在双方用户交易过程中，不收取任何佣金。\n" +
+            "\n" +
+            "本服务平台将实际交易金额的5%计提为“顺利成交保证金”，任务顺利完成并且服务、需求双方评价分享后，平台将以交易金额的2.5%奖励形式返还给双方。\n" +
+            "\n" +
+            "如果任务并未顺利成交，已经开始的“服务阶段”对应的“顺利成交保证金”将，不予退还，存放奖金池 用于活动基金；未开始“服务阶段”对应的“顺利成交保证金”将退还给需求方。上述“服务阶段”是指双方用户达成的“分期到账”后各期对应的服务阶段。\n";
+    private static final String slashZeroCommissionInfoTitle = "零佣金承诺及顺利成交保证金是什么？";
+
+    public void openSlashZeroCommissionInfo(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+
+            }
+        }, slashZeroCommissionInfoText, slashZeroCommissionInfoTitle);
     }
 
     private int offlineItemVisibility = View.GONE;

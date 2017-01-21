@@ -253,8 +253,6 @@
                                 android:textSize="14sp"/>
 
                             <EditText
-                                android:lines="1"
-                                android:maxLines="1"
                                 android:id="@+id/et_publish_demand_title"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -262,7 +260,9 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="right"
                                 android:hint="请输入5-20个字"
+                                android:lines="1"
                                 android:maxLength="20"
+                                android:maxLines="1"
                                 android:textColorHint="#CCCCCC"
                                 android:textSize="14sp"/>
 
@@ -307,6 +307,7 @@
                             android:layout_marginRight="14dp"
                             android:layout_marginTop="15dp"
                             android:orientation="horizontal"
+                            android:visibility="gone"
                         >
 
                             <TextView
@@ -360,7 +361,8 @@
                             android:layout_marginLeft="14dp"
                             android:layout_marginRight="14dp"
                             android:layout_marginTop="15dp"
-                            android:background="#E5E5E5"/>
+                            android:background="#E5E5E5"
+                        />
 
 
                         <com.slash.youth.ui.view.SlashAddPicLayout

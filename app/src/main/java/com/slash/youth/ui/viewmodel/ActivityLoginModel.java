@@ -273,6 +273,7 @@ public class ActivityLoginModel extends BaseObservable {
         if (isSendPin) {
             return;
         }
+        isSendPin = true;
 
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
@@ -299,6 +300,7 @@ public class ActivityLoginModel extends BaseObservable {
             @Override
             public void executeResultError(String result) {
 //                ToastUtils.shortToast("获取验证码失败");
+                isSendPin = false;
                 ToastUtils.shortToast("验证码发送失败");
             }
         }, phoenNum);
@@ -578,7 +580,7 @@ public class ActivityLoginModel extends BaseObservable {
                 isSendPin = false;
             } else {
                 mActivityLoginBinding.btnSendpinText.setText(pinSecondsCount + "S");
-                CommonUtils.getHandler().postDelayed(new PinCountDown(), 1000);
+                CommonUtils.getHandler().postDelayed(this, 1000);
             }
         }
     }
