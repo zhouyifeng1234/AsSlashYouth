@@ -70,8 +70,6 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
         String name = data.getName();
         itemManagePublishHolderBinding.tvManageMyPublishName.setText(name);
 
-
-
         double quote = data.getQuote();
         //单位
         int quoteUnit = data.getQuoteUnit();
@@ -95,13 +93,29 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 }
 
                 itemManagePublishHolderBinding.ivTime.setVisibility(View.GONE);
-                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
-                switch (instalment) {
-                    case 1:
-                        itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.GONE);
+
+                switch (myActivityTitle){
+                    case MyManager.SKILL_MANAGER:
+                        itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                        switch (instalment) {
+                            case 1:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.GONE);
+                                break;
+                            case 0:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
+                                break;
+                        }
                         break;
-                    case 0:
+                    case MyManager.MAANAGER_MY_PUBLISH_TASK:
                         itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
+                        switch (instalment) {
+                            case 1:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                                break;
+                            case 0:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
+                                break;
+                        }
                         break;
                 }
 
@@ -124,13 +138,29 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 }
 
                 itemManagePublishHolderBinding.ivTime.setVisibility(View.VISIBLE);
-                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
-                switch (instalment) {
-                    case 1:
-                        itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
+
+                switch (myActivityTitle){
+                    case MyManager.SKILL_MANAGER:
+                        itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
+                        switch (instalment) {
+                            case 1:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
+                                break;
+                            case 0:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.GONE);
+                                break;
+                        }
                         break;
-                    case 0:
-                        itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.GONE);
+                    case MyManager.MAANAGER_MY_PUBLISH_TASK:
+                        itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
+                        switch (instalment) {
+                            case 1:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
+                                break;
+                            case 0:
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                                break;
+                        }
                         break;
                 }
 

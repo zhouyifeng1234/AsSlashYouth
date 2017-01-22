@@ -55,7 +55,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private   String avatar;
     private int averageservicepoint;
     private double userservicepoint;
-    private int careertype;
+    private int careertype = 1;
     private String company;
     private String position;
     private String city;
@@ -76,6 +76,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private String desc;
     private RotateAnimation raExpertMarksMaker;
     private int loadLayerVisibility = View.GONE;
+    private int approvalDialog = View.GONE;
 
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
@@ -85,11 +86,6 @@ public class PagerHomeMyModel extends BaseObservable {
         initData();
         initView();
         listener();
-    }
-
-    //刚进入页面
-    private void displayLoadLayer() {
-        setLoadLayerVisibility(View.VISIBLE);
     }
 
     //数据加载完毕后
@@ -105,6 +101,30 @@ public class PagerHomeMyModel extends BaseObservable {
     public void setLoadLayerVisibility(int loadLayerVisibility) {
         this.loadLayerVisibility = loadLayerVisibility;
         notifyPropertyChanged(BR.loadLayerVisibility);
+    }
+
+    @Bindable
+    public int getApprovalDialog() {
+        return approvalDialog;
+    }
+
+    public void setApprovalDialog(int approvalDialog) {
+        this.approvalDialog = approvalDialog;
+        notifyPropertyChanged(BR.approvalDialog);
+    }
+
+    public void makeCannel(View view){
+        setApprovalDialog(View.GONE);
+    }
+
+    //确认
+    public void makeSure(View view){
+        setApprovalDialog(View.GONE);
+        Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
+        intentUserinfoEditorActivity.putExtra("phone", phone);
+        intentUserinfoEditorActivity.putExtra("myUinfo", myinfo);
+        intentUserinfoEditorActivity.putExtra("myId", id);
+        mActivity.startActivityForResult(intentUserinfoEditorActivity, UserInfoEngine.MY_USER_EDITOR);
     }
 
     private void initAnimation() {
@@ -312,12 +332,40 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvMyApproval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
-                intentApprovalActivity.putExtra("careertype", careertype);
-                intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
-                mActivity.startActivity(intentApprovalActivity);
+                switch (careertype){
+                    case 1:
+
+                if(TextUtils.isEmpty(myinfo.getCompany())||TextUtils.isEmpty(myinfo.getName())||TextUtils.isEmpty(myinfo.getPosition())){
+                    setApprovalDialog(View.VISIBLE);
+                }else {
+                    jumpApprovalActivity();
+
+                }
+                        break;
+                    case 2:
+
+                 if(TextUtils.isEmpty( myinfo.getName())){
+                    setApprovalDialog(View.VISIBLE);
+                }else {
+                     jumpApprovalActivity();
+
+                 }
+                        break;
+                    case 0:
+                        setApprovalDialog(View.VISIBLE);
+                        break;
+                }
+
             }
         });
+    }
+
+    private void jumpApprovalActivity() {
+        Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
+        intentApprovalActivity.putExtra("careertype", careertype);
+        intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
+        intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        CommonUtils.getContext().startActivity(intentApprovalActivity);
     }
 
     //编辑点击事件

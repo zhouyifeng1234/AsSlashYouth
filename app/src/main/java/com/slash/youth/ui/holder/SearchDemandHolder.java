@@ -69,7 +69,7 @@ public class SearchDemandHolder  extends SearchViewHolder<SearchAllBean.DataBean
         tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
         long starttime = demandListBean.getStarttime();
         String startData = TimeUtils.getTime(starttime);
-        tv_item_listview_home_demand_date.setText(FirstPagerManager.START_TIME+startData);
+      //  tv_item_listview_home_demand_date.setText(FirstPagerManager.START_TIME+startData);
         int quote = demandListBean.getQuote();
         if(quote<=0){
             tv_quote.setText(FirstPagerManager.DEMAND_QUOTE);

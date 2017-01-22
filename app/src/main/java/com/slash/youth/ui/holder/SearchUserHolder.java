@@ -35,6 +35,7 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
     TextView tv_time;
     private ArrayList<SearchAllBean.DataBean.UserListBean> userList;
     private TextView over;
+    private TextView tv_tag;
 
     public SearchUserHolder(ArrayList<SearchAllBean.DataBean.UserListBean> userList) {
         this.userList = userList;
@@ -44,9 +45,9 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
     public View initView() {
         mRootView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_person, null);
         tv_search_person_name = (TextView) mRootView.findViewById(R.id.tv_search_person_name);
-        iv_search_person = (ImageView) mRootView.findViewById(R.id.iv_avater);
+        iv_search_person = (ImageView) mRootView.findViewById(R.id.iv_default_avater);
         tv_search_person_position = (TextView) mRootView.findViewById(R.id.tv_search_person_position);
-        iv_search_v = (ImageView) mRootView.findViewById(R.id.iv_search_v);
+        iv_search_v = (ImageView) mRootView.findViewById(R.id.iv_isAuth);
         iv_jiahao = (TextView) mRootView.findViewById(R.id.tv_contacts_visitor_addfriend);
         iv_star = (ImageView) mRootView.findViewById(R.id.iv_star);
         tv_zhiye1 = (TextView) mRootView.findViewById(R.id.tv_zhiye1);
@@ -54,6 +55,7 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
         tv_zhiye3 = (TextView) mRootView.findViewById(R.id.tv_zhiye3);
         tv_time = (TextView) mRootView.findViewById(R.id.tv_time);
         over = (TextView) mRootView.findViewById(R.id.tv_over);
+        tv_tag = (TextView) mRootView.findViewById(R.id.tv_search_person_tag);
         return mRootView;
     }
 
@@ -77,15 +79,24 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
                 break;
         }
 
+        String company = userListBean.getCompany();
+        String mPosition = userListBean.getPosition();
+        tv_search_person_position.setText(company+"-"+mPosition);
+
+        String direction = userListBean.getDirection();
+        tv_tag.setText(direction);
+
+
+
         //加好友
-        iv_jiahao.setOnClickListener(new View.OnClickListener() {
+       /* iv_jiahao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SearchAllBean.DataBean.UserListBean userBean = userList.get(position);
                 long uid = userBean.getUid();
                 ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),uid,"   ");
             }
-        });
+        });*/
     }
 
     //加好友关系

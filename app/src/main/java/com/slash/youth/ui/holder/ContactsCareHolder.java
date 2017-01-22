@@ -39,6 +39,8 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
     private long uid;
     private int type;
     private int isfriend;
+    private TextView title;
+    private int status;
 
     public ContactsCareHolder(int type) {
         this.type = type;
@@ -54,6 +56,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
         tvPosition = (TextView) itemView.findViewById(R.id.tv_addme_position);
         tvAddOk = (TextView) itemView.findViewById(R.id.tv_add_ok);
         tvDirection = (TextView) itemView.findViewById(R.id.tv_addme_direction);
+        title = (TextView) itemView.findViewById(R.id.tv_btn_title);
         btn = (CardView) itemView.findViewById(R.id.cd_btn);
         return itemView;
     }
@@ -99,18 +102,20 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
 
         iv.setVisibility(View.GONE);
 
-        isfriend = data.getIsfriend();
+       // isfriend = data.getIsfriend();
+        status = data.getStatus();
+
         switch (type){
             case 1:
                 btn.setVisibility(View.GONE);
                 break;
             case 3:
-                switch (isfriend){
-                    case 1://显示同意
-                        btn.setVisibility(View.VISIBLE);
-                        break;
-                    case 0://已是好友
+                switch (status){
+                    case 2://已是好友//     2是好友
                         tvAddOk.setVisibility(View.VISIBLE);
+                        break;
+                    default://显示同意
+                        title.setVisibility(View.VISIBLE);
                         break;
                 }
                 break;
@@ -123,7 +128,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
 
     @Override
     public void onClick(View v) {
-        ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),uid,"contacts");
+        ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),uid,"  ");
     }
 
     public class onAgreeFriendProtocol implements BaseProtocol.IResultExecutor<SetBean> {
@@ -136,8 +141,8 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
                 switch (status){
                     case 1:
                         ToastUtils.shortCenterToast("已是好友");
+                        title.setVisibility(View.GONE);
                         tvAddOk.setVisibility(View.VISIBLE);
-                        btn.setVisibility(View.GONE);
                         break;
                     case 0:
                         ToastUtils.shortCenterToast("添加好友未成功");

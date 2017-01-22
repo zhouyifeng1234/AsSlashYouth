@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class UserInfoEngine {
     public static final String ANY_TIME = "随时";
     public static final int  MY_USER_EDITOR = 123;
+    public static final int  MY_USER_EDITOR_DIALOG = 1234;
 
     /**
      * 一、[用戶信息]-用户个人信息（获取别人的用户信息）

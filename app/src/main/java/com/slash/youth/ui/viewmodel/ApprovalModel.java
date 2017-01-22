@@ -70,7 +70,7 @@ public class ApprovalModel extends BaseObservable {
     public ApprovalCertificatesBinding approvalCertificatesBinding;
     private long uid;
     private String avatar;
-    private int approvalDialog = View.GONE;
+
     private MyFirstPageBean.DataBean.MyinfoBean myinfo;
     private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
     private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
@@ -81,27 +81,6 @@ public class ApprovalModel extends BaseObservable {
         this.approvalActivity = approvalActivity;
         this.uid = uid;
         initData();
-    }
-
-    @Bindable
-    public int getApprovalDialog() {
-        return approvalDialog;
-    }
-
-    public void setApprovalDialog(int approvalDialog) {
-        this.approvalDialog = approvalDialog;
-        notifyPropertyChanged(BR.approvalDialog);
-    }
-
-    public void makeCannel(View view){
-        setApprovalDialog(View.GONE);
-    }
-
-    //确认
-    public void makeSure(View view){
-        Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
-        intentUserinfoEditorActivity.putExtra("myId",uid);
-        approvalActivity.startActivity(intentUserinfoEditorActivity);
     }
 
     //点击修改
@@ -164,24 +143,16 @@ public class ApprovalModel extends BaseObservable {
     }
 
     private void initView() {
-        switch (1){
+        switch (careertype){
             case 1://上班的
-                if(TextUtils.isEmpty(myinfo.getCompany())||TextUtils.isEmpty(myinfo.getName())||TextUtils.isEmpty(myinfo.getPosition())){
-                    setApprovalDialog(View.VISIBLE);
-                }else {
-                    setViewPage();
-                }
+                setViewPage();
                 break;
             case 2://自顾者,只要认证身份证
-                if(TextUtils.isEmpty( myinfo.getName())){
-                    setApprovalDialog(View.VISIBLE);
-                }else {
-                    activityApprovalBinding.vpApprovalContainer.setVisibility(View.GONE);
-                    activityApprovalBinding.cdIdImag.setVisibility(View.VISIBLE);
-                }
+                activityApprovalBinding.vpApprovalContainer.setVisibility(View.GONE);
+                activityApprovalBinding.cdIdImag.setVisibility(View.VISIBLE);
                 break;
-            default:
-                setApprovalDialog(View.VISIBLE);
+            default://默认，上班
+                setViewPage();
                 break;
         }
     }

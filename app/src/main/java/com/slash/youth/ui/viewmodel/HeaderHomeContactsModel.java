@@ -224,17 +224,18 @@ public class HeaderHomeContactsModel extends BaseObservable {
                         SpUtils.setInt("myFollowCount",myFollowCount);
                     }
                 }
-                if(myAddFriendCount!=0){
-                    if(myAddFriendLocalCount!=myAddFriendCount){
-                        mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
-                        SpUtils.setInt("myAddFriendCount",myAddFriendCount);
-                    }
-                }
 
                 if(addMeFriendCount!=0){
                     if(addMeFriendLocalCount!=addMeFriendCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
                         SpUtils.setInt("addMeFriendCount",addMeFriendCount);
+                    }
+                }
+
+                if(myAddFriendCount!=0){
+                    if(myAddFriendLocalCount!=myAddFriendCount){
+                        mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
+                        SpUtils.setInt("myAddFriendCount",myAddFriendCount);
                     }
                 }
             }

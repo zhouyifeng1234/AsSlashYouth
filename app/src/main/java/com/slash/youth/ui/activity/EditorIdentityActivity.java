@@ -64,18 +64,22 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
     @Override
     public void onClick(View v) {
         ArrayList<String> newSkillLabelList = editorIdentityModel.newSkillLabelList;
-        if(!newSkillLabelList.isEmpty()){
-            for (int i = 0; i < newSkillLabelList.size(); i++) {
-                if(i!=newSkillLabelList.size()-1&&i>=0){
-                    sb.append(newSkillLabelList.get(i));
-                    sb.append("/");
-                }else {
-                    sb.append(newSkillLabelList.get(i));
-                }
-            }
-            intent.putExtra("identity",sb.toString());
-            setResult(RESULT_OK,intent);
-        }
+       if(newSkillLabelList.size() == 0){
+           intent.putExtra("identity","null");
+           setResult(RESULT_OK,intent);
+       }else {
+           for (int i = 0; i < newSkillLabelList.size(); i++) {
+               if(i!=newSkillLabelList.size()-1&&i>=0){
+                   sb.append(newSkillLabelList.get(i));
+                   sb.append("/");
+               }else {
+                   sb.append(newSkillLabelList.get(i));
+               }
+
+               intent.putExtra("identity",sb.toString());
+               setResult(RESULT_OK,intent);
+           }
+       }
         finish();
     }
 }

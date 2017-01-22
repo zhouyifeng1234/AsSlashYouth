@@ -73,7 +73,7 @@ public class DropDownMenu extends LinearLayout {
         tabMenuView.addView(view);
         //添加tab
         ImageView imageView = new ImageView(getContext());
-        imageView.setImageResource(R.mipmap.shang_icon);
+        imageView.setImageResource(R.mipmap.xia);
         final TextView tab = new TextView(getContext());
         tab.setSingleLine();
         tab.setEllipsize(TextUtils.TruncateAt.END);
@@ -304,7 +304,7 @@ public class DropDownMenu extends LinearLayout {
                 ((TextView) tabMenuView.getChildAt(i)).setTextColor(textUnselectedColor);
                   if(isAdd){
                         ((TextView) tabMenuView.getChildAt(i)).setCompoundDrawablesWithIntrinsicBounds(null, null,
-                                getResources().getDrawable(R.mipmap.shang_icon), null);
+                                getResources().getDrawable(R.mipmap.xia), null);
                     }else {
                 ((TextView) tabMenuView.getChildAt(i)).setCompoundDrawablesWithIntrinsicBounds(null, null,
                         getResources().getDrawable(menuUnselectedIcon), null);

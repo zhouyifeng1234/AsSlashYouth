@@ -42,25 +42,28 @@ public class PagerSearchPersonHolder extends BaseHolder<SearchUserItemBean.DataB
 
     @Override
     public void refreshView(SearchUserItemBean.DataBean.ListBean data) {
+        String direction = data.getDirection();
+        itemListviewSearchPersonBinding.tvSearchPersonTag.setText(direction);
 
         String avatar = data.getAvatar();
         if (avatar != null) {
-            BitmapKit.bindImage(itemListviewSearchPersonBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+            BitmapKit.bindImage(itemListviewSearchPersonBinding.ivDefaultAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
         String name = data.getName();
         itemListviewSearchPersonBinding.tvSearchPersonName.setText(name);
 
         String userPosition = data.getPosition();
-        itemListviewSearchPersonBinding.tvSearchPersonPosition.setText(userPosition);
+        String company = data.getCompany();
+        itemListviewSearchPersonBinding.tvSearchPersonPosition.setText(company+"-"+userPosition);
 
         int isauth = data.getIsauth();
         switch (isauth) {
             case 1:
-                itemListviewSearchPersonBinding.ivSearchV.setVisibility(View.VISIBLE);
+                itemListviewSearchPersonBinding.ivIsAuth.setVisibility(View.VISIBLE);
                 break;
             case 0:
-                itemListviewSearchPersonBinding.ivSearchV.setVisibility(View.GONE);
+                itemListviewSearchPersonBinding.ivIsAuth.setVisibility(View.GONE);
                 break;
         }
     }

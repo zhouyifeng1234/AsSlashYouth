@@ -53,7 +53,7 @@ public class MyAddSkillModel extends BaseObservable {
     private long id;
     private String title;
     private String desc;
-    private int quote = 0;
+    private int quote = -1;
     private ArrayList<String> thridlistTag = new ArrayList<String>();
     public ArrayList<String> listTag = new ArrayList<String>();
     private int anonymity = 1;
@@ -88,6 +88,7 @@ public class MyAddSkillModel extends BaseObservable {
     private String[] picFileIds;
     private String picCachePath;
     private int pathSize;
+    private String quoteString;
 
     public MyAddSkillModel(ActivityMyAddSkillBinding activityMyAddSkillBinding, MyAddSkillActivity myAddSkillActivity, long id,  int skillTemplteType,int position) {
         this.activityMyAddSkillBinding = activityMyAddSkillBinding;
@@ -200,7 +201,34 @@ public class MyAddSkillModel extends BaseObservable {
 
     //提交
     public void sumbit(View view) {
-        getSumbitData();
+        title = activityMyAddSkillBinding.etTitle.getText().toString();
+        desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
+        quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
+
+        if(!TextUtils.isEmpty(title)){
+            if(!TextUtils.isEmpty(desc)){
+                if(!TextUtils.isEmpty(quoteString)){
+                    if(quoteunit>=0&&quoteunit<=8){
+                        if(sallAddedSkilllabels.getAddedTags().size()!=0){
+                            getSumbitData();
+                        }else {
+                           ToastUtils.shortCenterToast("请选择技能标签");
+                        }
+                    }else {
+                    ToastUtils.shortCenterToast("请选择价格单位");
+                    }
+
+                }else {
+                    ToastUtils.shortCenterToast("请填写报价");
+                }
+
+            }else {
+                ToastUtils.shortCenterToast("请填写描述信息");
+            }
+        }else {
+            ToastUtils.shortCenterToast("请填写服务标题");
+        }
+
        /* LogKit.d(" title = "+title+" listTag = "+listTag+" startime = "+startime+" endtime = "+endtime+" anonymity = "+anonymity+ " desc = "+desc+" timetype ="+timetype+" listPic = "+listPic+" instalment = "+instalment+" bp = "+bp
                 +" pattern = "+pattern+" place ="+place+" lng = "+lng+" lat = "+lat+" quote = "+quote+" quoteunit = "+ quoteunit);
 */
@@ -232,9 +260,7 @@ public class MyAddSkillModel extends BaseObservable {
 
     //获取要提交的内容
     public void getSumbitData() {
-        title = activityMyAddSkillBinding.etTitle.getText().toString();
-        desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
-        String quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
+
         if (!TextUtils.isEmpty(quoteString)) {
             //quote = Double.parseDouble(quoteString);
             quote = Integer.parseInt(quoteString);
@@ -253,6 +279,17 @@ public class MyAddSkillModel extends BaseObservable {
         listPic.clear();
         ArrayList<String> addedPicTempPath = addPic.getAddedPicTempPath();
         pathSize = addedPicTempPath.size();
+        if(pathSize ==0){
+            switch (skillTemplteType){
+                case Constants.ADD_ONE_SKILL_MANAGER://添加一个技能标签模板
+                    MyManager.onAddSkillTemplet(new onAddSkillTemplet(), title, listTag, startime, endtime, anonymity, desc,  listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+                    break;
+                case Constants.UPDATE_SKILL_MANAGER_ONE://修改一个技能标签模板
+                    MyManager.onUpdateSkillTemplet(new onAddSkillTemplet(),id,title, listTag, startime, endtime, anonymity, desc,  listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
+                    break;
+            }
+        }
+
         final int[] uploadCount = {0};
         for (final String filePath : addedPicTempPath) {
             DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
@@ -388,7 +425,8 @@ public class MyAddSkillModel extends BaseObservable {
         uid = service.getUid();
         uts = service.getUts();
         place = service.getPlace();
-
+        desc = service.getDesc();
+        activityMyAddSkillBinding.etSkillManageDesc.setText(desc);
         //回显图片
         String[] picFileIds = service.getPic().split(",");
         final String picCachePath = myAddSkillActivity.getCacheDir().getAbsoluteFile() + "/addpicache/";

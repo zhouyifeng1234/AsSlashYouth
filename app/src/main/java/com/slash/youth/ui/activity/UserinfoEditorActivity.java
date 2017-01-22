@@ -85,7 +85,9 @@ public class UserinfoEditorActivity extends Activity {
             case Constants.USERINFO_IDENTITY:
                 if (resultCode == RESULT_OK) {
                     String identity = data.getStringExtra("identity");
-                    if (identity != null) {
+                    if(identity.equals("null")){
+                        activityUserinfoEditorBinding.tvIdentity.setText("");
+                    }else {
                         activityUserinfoEditorBinding.tvIdentity.setText(identity);
                     }
                 }

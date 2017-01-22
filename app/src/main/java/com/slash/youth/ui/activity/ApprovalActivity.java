@@ -61,7 +61,11 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();
+
+
+
                 break;
         }
     }
+
 }
