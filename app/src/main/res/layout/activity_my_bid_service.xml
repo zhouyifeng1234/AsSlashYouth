@@ -33,12 +33,12 @@
                 />
 
                 <TextView
+                    android:gravity="center"
+                    android:layout_marginRight="40dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
                     android:ellipsize="end"
-                    android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
                     android:text="@{myBidServiceModel.serviceTitle}"
@@ -279,7 +279,7 @@
                                         android:text="协商处理纠纷"
                                         android:textColor="#CCCCCC"
                                         android:textSize="11sp"
-                                    />
+                                        android:visibility="gone"/>
 
                                 </LinearLayout>
 

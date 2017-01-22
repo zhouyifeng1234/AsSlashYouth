@@ -17,7 +17,6 @@ public class ServiceOrderInfoBean {
         public String chid;
         public int chtype;
         public long cts;
-        public long endtime;
         public long id;
         public int instalment;
         public int iscommit;
@@ -27,9 +26,7 @@ public class ServiceOrderInfoBean {
         public String reasondetail;
         public int refundamount;
         public String refunddesc;
-        public String reid;
         public long sid;
-        public long starttime;
         public int status;
         public long suid;
         public long uid;

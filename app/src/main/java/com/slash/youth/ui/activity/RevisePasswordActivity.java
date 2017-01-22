@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityRevisePasswordBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.MySkillManageModel;
 import com.slash.youth.ui.viewmodel.RevisePassWordModel;
 import com.slash.youth.utils.CommonUtils;

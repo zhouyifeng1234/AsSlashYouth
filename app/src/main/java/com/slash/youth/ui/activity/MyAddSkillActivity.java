@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyAddSkillBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.MyAddSkillModel;
 import com.slash.youth.utils.Constants;
 

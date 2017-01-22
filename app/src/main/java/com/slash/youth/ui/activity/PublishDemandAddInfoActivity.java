@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandAddinfoBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.PublishDemandAddInfoModel;
 
 /**

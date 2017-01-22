@@ -320,22 +320,20 @@ public class MyBidServiceModel extends BaseObservable {
                 //服务标题，布局文件中有两个地方需要设置
                 setServiceTitle(service.title + "订单");
                 //闲置时间
-                if (!isSetOrderTime) {
-                    int timetype = service.timetype;
-                    if (timetype == 0) {
-                        SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
-                        String starttimeStr = sdfIdleTime.format(service.starttime);
-                        String endtimeStr = sdfIdleTime.format(service.endtime);
-                        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
-                    } else if (timetype == 1) {
-                        setIdleTime("闲置时间:下班后");
-                    } else if (timetype == 2) {
-                        setIdleTime("闲置时间:周末");
-                    } else if (timetype == 3) {
-                        setIdleTime("闲置时间:下班后及周末");
-                    } else if (timetype == 4) {
-                        setIdleTime("闲置时间:随时");
-                    }
+                int timetype = service.timetype;
+                if (timetype == 0) {
+                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
+                    String starttimeStr = sdfIdleTime.format(service.starttime);
+                    String endtimeStr = sdfIdleTime.format(service.endtime);
+                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                } else if (timetype == 1) {
+                    setIdleTime("闲置时间:下班后");
+                } else if (timetype == 2) {
+                    setIdleTime("闲置时间:周末");
+                } else if (timetype == 3) {
+                    setIdleTime("闲置时间:下班后及周末");
+                } else if (timetype == 4) {
+                    setIdleTime("闲置时间:随时");
                 }
                 //报价 这里不能使用服务详情接口返回的报价
                 quoteunit = service.quoteunit;
@@ -373,6 +371,17 @@ public class MyBidServiceModel extends BaseObservable {
                 } else {//未开启分期
                     setInstalmentVisibility(View.INVISIBLE);
                 }
+                //纠纷处理方式（似乎协商处理就显示）
+                if (service.bp == 2) {//协商
+                    setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyBidServiceBinding.tvBpText.setText("协商处理纠纷");
+                    mActivityMyBidServiceBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
+                } else if (service.bp == 1) {//平台
+//                    setBpConsultVisibility(View.INVISIBLE);
+                    setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyBidServiceBinding.tvBpText.setText("平台处理纠纷");
+                    mActivityMyBidServiceBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
+                }
 
                 loadDataTimes++;
                 if (loadDataTimes >= 5) {
@@ -392,11 +401,10 @@ public class MyBidServiceModel extends BaseObservable {
         }, tid + "", "2");
     }
 
-    boolean isSetOrderTime = false;
-
     /**
      * 根据soid(即tid)获取服务订单状态信息
      */
+
     private void getServiceOrderInfoData() {
         //这个接口好像不能使用，可以使用“v1/api/service/orderinfo”接口获取订单信息，里面有status
 //        ServiceEngine.getServiceOrderStatus(new BaseProtocol.IResultExecutor<ServiceOrderStatusBean>() {
@@ -428,25 +436,6 @@ public class MyBidServiceModel extends BaseObservable {
                 }
 //                    }
 //                });
-                //纠纷处理方式（似乎协商处理就显示）
-                if (dataBean.data.order.bp == 2) {//协商
-                    setBpConsultVisibility(View.VISIBLE);
-                    mActivityMyBidServiceBinding.tvBpText.setText("协商处理纠纷");
-                    mActivityMyBidServiceBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
-                } else if (dataBean.data.order.bp == 1) {//平台
-//                    setBpConsultVisibility(View.INVISIBLE);
-                    setBpConsultVisibility(View.VISIBLE);
-                    mActivityMyBidServiceBinding.tvBpText.setText("平台处理纠纷");
-                    mActivityMyBidServiceBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
-                }
-                //显示订单接口的开始时间和结束时间
-                if (dataBean.data.order.starttime != 0 && dataBean.data.order.endtime != 0) {
-                    isSetOrderTime = true;
-                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
-                    String starttimeStr = sdfIdleTime.format(dataBean.data.order.starttime);
-                    String endtimeStr = sdfIdleTime.format(dataBean.data.order.endtime);
-                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
-                }
 
                 int status = dataBean.data.order.status;
                 displayStatusCycle(status);
@@ -626,27 +615,9 @@ public class MyBidServiceModel extends BaseObservable {
                                 if (instalmentInfo.status == 1) {
                                     setConfirmFinishVisibility(View.VISIBLE);
                                     if (fid == totalInstalment) {//如果是最后一期
-
-                                        //获取是否延期支付过
-                                        ServiceEngine.getRectifyStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                                            @Override
-                                            public void execute(CommonResultBean dataBean) {
-                                                if (dataBean.data.status != 1) {//还没有延过期
-                                                    setRectifyVisibility(View.VISIBLE);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void executeResultError(String result) {
-                                                LogKit.v("获取延期支付状态失败:" + result);
-                                                ToastUtils.shortToast("获取延期支付状态失败:" + result);
-                                            }
-                                        }, soid + "");
-
-
-//                                        if (myTaskBean.rectify != 1) {//还没有延过期
-//                                            setRectifyVisibility(View.VISIBLE);
-//                                        }
+                                        if (myTaskBean.rectify != 1) {//还没有延过期
+                                            setRectifyVisibility(View.VISIBLE);
+                                        }
                                     }
                                 }
                                 break;

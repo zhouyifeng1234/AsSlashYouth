@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityEditorIdentityBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.EditorIdentityModel;
 import com.slash.youth.utils.LogKit;
 

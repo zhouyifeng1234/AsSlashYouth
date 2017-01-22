@@ -94,6 +94,9 @@ public class TransactionRecoreModel extends BaseObservable {
                     offset = 0;
                     arrayList.clear();
                     AccountManager.getTransactionRecore(new onGetTransactionRecore(),offset,limit);
+                    if(recordAdapter!=null){
+                        recordAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -110,6 +113,9 @@ public class TransactionRecoreModel extends BaseObservable {
                     }else {//不是最后一页
                         offset += limit;
                         AccountManager.getTransactionRecore(new onGetTransactionRecore(),offset,limit);
+                        if(recordAdapter!=null){
+                            recordAdapter.notifyDataSetChanged();
+                        }
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
                 }

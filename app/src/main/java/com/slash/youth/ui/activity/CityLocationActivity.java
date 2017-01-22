@@ -30,6 +30,7 @@ import com.slash.youth.domain.CityClassBean;
 import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.ListProvinceBean;
 import com.slash.youth.domain.LocationCityInfo;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
 import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;

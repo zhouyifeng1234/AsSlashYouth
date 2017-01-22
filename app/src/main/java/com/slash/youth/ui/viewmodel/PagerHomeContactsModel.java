@@ -109,6 +109,10 @@ public class PagerHomeContactsModel extends BaseObservable {
                         getDataFromServer();
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
+                    if(homeContactsVisitorAdapter!=null){
+                        homeContactsVisitorAdapter.notifyDataSetChanged();
+                    }
+
                 }
             }, 2000);
         }

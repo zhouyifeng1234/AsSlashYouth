@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommonQuestionBinding;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ActivityCommonQuestionModel;
 import com.slash.youth.ui.viewmodel.ContactUsModel;
 import com.slash.youth.ui.viewmodel.MyHelpModel;

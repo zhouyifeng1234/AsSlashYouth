@@ -69,6 +69,9 @@ public class ChooseFriendModel extends BaseObservable {
                     offset = 0;
                     friendArrayList.clear();
                     ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
+                    if(chooseFriendAdapter!=null){
+                        chooseFriendAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -85,6 +88,9 @@ public class ChooseFriendModel extends BaseObservable {
                     } else {//不是最后一页
                         offset += limit;
                         ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
+                        if(chooseFriendAdapter!=null){
+                            chooseFriendAdapter.notifyDataSetChanged();
+                        }
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
                 }

@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ConfigurationInfo;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Build;
@@ -25,6 +26,7 @@ import com.slash.youth.engine.AccountManager;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.LoginoutProtocol;
 import com.slash.youth.http.protocol.MySettingProtocol;
@@ -389,7 +391,7 @@ public class MySettingModel extends BaseObservable {
         logout(LoginManager.token);
         setLogoutDialogVisibility(View.GONE);
 
-        ActivityManager mActivityManager = (ActivityManager) CommonUtils.getApplication().getSystemService(Context.ACTIVITY_SERVICE);
+       /* ActivityManager mActivityManager = (ActivityManager) CommonUtils.getApplication().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.AppTask> appTasks = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             appTasks = mActivityManager.getAppTasks();
@@ -398,10 +400,12 @@ public class MySettingModel extends BaseObservable {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 appTask.finishAndRemoveTask();
             }
-        }
+        }*/
+
 
         Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
         mySettingActivity.startActivity(intentLoginActivity);
+
     }
 
     //取消

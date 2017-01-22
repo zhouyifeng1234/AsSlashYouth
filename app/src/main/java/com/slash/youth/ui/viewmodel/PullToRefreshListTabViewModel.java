@@ -135,6 +135,16 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     arrayListService.clear();
                     arrayListService.clear();
                     getData(searchType);
+                    if(pagerHomeDemandtAdapter!=null){
+                        pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    }
+                    if(pagerHomeServiceAdapter!=null){
+                        pagerHomeServiceAdapter.notifyDataSetChanged();
+                    }
+                    if(pagerSearchPersonAdapter!=null){
+                        pagerSearchPersonAdapter.notifyDataSetChanged();
+                    }
+
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 1000);
@@ -152,6 +162,15 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                         offset += limit;
                         getData(searchType);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                    if(pagerHomeDemandtAdapter!=null){
+                        pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    }
+                    if(pagerHomeServiceAdapter!=null){
+                        pagerHomeServiceAdapter.notifyDataSetChanged();
+                    }
+                    if(pagerSearchPersonAdapter!=null){
+                        pagerSearchPersonAdapter.notifyDataSetChanged();
                     }
                 }
             }, 1000);

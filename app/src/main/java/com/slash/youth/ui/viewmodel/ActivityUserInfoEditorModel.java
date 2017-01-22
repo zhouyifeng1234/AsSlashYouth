@@ -459,13 +459,13 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }
 
         //一级标签
-        String tvDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
+      /*  String tvDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
         String direction = myinfo.getIndustry() + "|" + myinfo.getDirection();
         if(direction.equals(tvDirection) ){
             isChange = false;
         }else {
             isChange = true;
-        }
+        }*/
 
         if(TextUtils.isEmpty(name)){
            ToastUtils.shortCenterToast("请填写姓名");

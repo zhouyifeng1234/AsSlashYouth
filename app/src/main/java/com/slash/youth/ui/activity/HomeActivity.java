@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeMyPager;

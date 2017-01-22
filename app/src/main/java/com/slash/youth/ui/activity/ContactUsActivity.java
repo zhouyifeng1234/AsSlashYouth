@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityContactUsBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ContactUsModel;
 import com.slash.youth.ui.viewmodel.MyHelpModel;
 import com.slash.youth.utils.CommonUtils;

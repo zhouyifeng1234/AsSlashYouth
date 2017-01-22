@@ -6,8 +6,6 @@ import com.slash.youth.http.protocol.CancelDemandProtocol;
 import com.slash.youth.http.protocol.CollectTaskProtocol;
 import com.slash.youth.http.protocol.DelayPayProtocol;
 import com.slash.youth.http.protocol.DemandDetailProtocol;
-import com.slash.youth.http.protocol.DemandInstalmentListProtocol;
-import com.slash.youth.http.protocol.DemandIsRectifyProtocol;
 import com.slash.youth.http.protocol.DemandPartyConfirmCompleteProtocol;
 import com.slash.youth.http.protocol.DemandPartyGetBidListProtocol;
 import com.slash.youth.http.protocol.DemandPartyPrePaymentProtocol;
@@ -15,7 +13,6 @@ import com.slash.youth.http.protocol.DemandPartySelectServicePartyProtocol;
 import com.slash.youth.http.protocol.DemandPurposeProtocol;
 import com.slash.youth.http.protocol.DemandRefundProtocol;
 import com.slash.youth.http.protocol.DemandThirdPayProtocol;
-import com.slash.youth.http.protocol.DemandUpdateBidProtocol;
 import com.slash.youth.http.protocol.DetailRecommendDemandProtocol;
 import com.slash.youth.http.protocol.DownloadFileProtocol;
 import com.slash.youth.http.protocol.EliminateProtocol;
@@ -368,35 +365,5 @@ public class DemandEngine {
     public static void getDetailRecommendDemand(BaseProtocol.IResultExecutor onGetRecommendDataFinished, String id, String limit) {
         DetailRecommendDemandProtocol detailRecommendDemandProtocol = new DetailRecommendDemandProtocol(id, limit);
         detailRecommendDemandProtocol.getDataFromServer(onGetRecommendDataFinished);
-    }
-
-    /**
-     * 获取需求的分期信息
-     *
-     * @param onGetInstalmentListFinished
-     * @param id                          需求ID
-     */
-    public static void getDemandInstalmentList(BaseProtocol.IResultExecutor onGetInstalmentListFinished, String id) {
-        DemandInstalmentListProtocol demandInstalmentListProtocol = new DemandInstalmentListProtocol(id);
-        demandInstalmentListProtocol.getDataFromServer(onGetInstalmentListFinished);
-    }
-
-    /**
-     * 二十四、[需求]-查询是否延期支付过
-     *
-     * @param onGetRectifyStatusFinished
-     * @param id                         需求ID
-     */
-    public static void getRectifyStatus(BaseProtocol.IResultExecutor onGetRectifyStatusFinished, String id) {
-        DemandIsRectifyProtocol demandIsRectifyProtocol = new DemandIsRectifyProtocol(id);
-        demandIsRectifyProtocol.getDataFromServer(onGetRectifyStatusFinished);
-    }
-
-    /**
-     * 需求流程中服务方修改抢单信息
-     */
-    public static void updateBid(BaseProtocol.IResultExecutor onUpdateBidFinished, String id, String quote, ArrayList<Double> instalment, String bp, String starttime) {
-        DemandUpdateBidProtocol demandUpdateBidProtocol = new DemandUpdateBidProtocol(id, quote, instalment, bp, starttime);
-        demandUpdateBidProtocol.getDataFromServer(onUpdateBidFinished);
     }
 }

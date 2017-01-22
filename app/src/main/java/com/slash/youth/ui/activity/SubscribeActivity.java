@@ -29,6 +29,7 @@ import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.domain.SkillLabelGetBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CreateSkillLabelProtocol;
 import com.slash.youth.http.protocol.DeleteSkillLabelProtocol;
@@ -342,12 +343,14 @@ public class SubscribeActivity extends Activity {
                 if (size != 0) {
                     if (tag.equals(industry)) {
                         chooseSecondSkillLabelList(skillLabelBean);
+                        mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(checkedFirstLabel);
 
                     } else {
                         ToastUtils.shortCenterToast("只能选择同一类型的标签");
                     }
                 } else {
                     chooseSecondSkillLabelList(skillLabelBean);
+                    mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(checkedFirstLabel);
                 }
             }
         });
