@@ -494,10 +494,11 @@
                             android:layout_weight="1"
                             android:background="@android:color/transparent"
                             android:editable="false"
-                            android:hint="输入见面地点或点击图标选择"
+                            android:hint=""
                             android:singleLine="true"
                             android:textColorHint="#CCCCCC"
                             android:textSize="13sp"/>
+                        <!--android:hint="输入见面地点或点击图标选择"-->
 
                         <ImageView
                             android:layout_width="18dp"

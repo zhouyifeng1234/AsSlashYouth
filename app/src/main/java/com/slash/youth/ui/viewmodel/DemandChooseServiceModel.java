@@ -204,10 +204,13 @@ public class DemandChooseServiceModel extends BaseObservable {
                 }
 
                 setUsername(dataBean.name);
-                setTitle(dataBean.title + "订单");
+//                setTitle(dataBean.title + "订单");
+                setTitle(dataBean.title);
 
-                String startTimeStr = getDateTimeString(dataBean.starttime, "开始时间:yyyy年MM月dd日 HH:mm");
-                setStartTime(startTimeStr);
+//                String startTimeStr = getDateTimeString(dataBean.starttime, "开始时间:yyyy年MM月dd日 HH:mm");
+//                setStartTime(startTimeStr);
+                //因为发布需求时去掉了自己选择时间，所以这里肯定是“随时”
+                setStartTime("开始时间:随时");
 
                 if (dataBean.quote <= 0) {
                     setQuote("服务方报价");
@@ -226,7 +229,8 @@ public class DemandChooseServiceModel extends BaseObservable {
                 //这里不需要做判断，因为当前页面只可能是“预约中”状态
 //                String stateText = getBigStateTextByStatusCode(dataBean.status);
 //                setBigState(stateText);
-                setBigState("预约中");
+//                setBigState("预约中");
+                setBigState("待抢单");
                 //需求分享实体，可以分享给推荐的优秀服务者
                 chatCmdShareTaskBean = new ChatCmdShareTaskBean();
                 chatCmdShareTaskBean.uid = LoginManager.currentLoginUserId;

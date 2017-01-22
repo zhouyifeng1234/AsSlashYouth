@@ -209,9 +209,9 @@ public class MsgManager {
 //                //这里可能是自定义的消息类型
 //            }
 
-            if (senderUserId == "100") {//系统推送账号
+            if (senderUserId.equals("100")) {//系统推送账号
 
-            } else if (senderUserId == "1000") {//斜杠小助手
+            } else if (senderUserId.equals("1000")) {//斜杠小助手
                 CommonUtils.getHandler().post(new Runnable() {
                     public void run() {
                         updateConversationList(senderUserId);

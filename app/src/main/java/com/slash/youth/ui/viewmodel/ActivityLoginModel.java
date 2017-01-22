@@ -161,6 +161,13 @@ public class ActivityLoginModel extends BaseObservable {
         LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
             @Override
             public void execute(PhoneLoginResultBean dataBean) {
+
+                //增加验证码错误提示
+                if (dataBean.rescode == 7) {
+                    ToastUtils.shortToast("验证码错误");
+                    return;
+                }
+
                 //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
                 if (dataBean.data == null) {
                     ToastUtils.shortToast("登录失败:" + dataBean.rescode);

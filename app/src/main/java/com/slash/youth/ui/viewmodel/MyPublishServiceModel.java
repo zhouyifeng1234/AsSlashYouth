@@ -90,6 +90,7 @@ public class MyPublishServiceModel extends BaseObservable {
         getTaskItemData();
         getServiceDetailFromServer();//通过tid获取服务详情信息
         getServiceOrderInfoData();//根据soid(即tid)获取服务订单状态信息
+        getInstalmentList();//通过分期信息接口获取分期，我的任务中的分期信息不可靠
         getServiceFlowLogData();//获取服务流程的日志
     }
 
@@ -798,35 +799,37 @@ public class MyPublishServiceModel extends BaseObservable {
                 }
 //                    }
 //                });
-                //分期
-                //这里不能用service详情的instalment，要用任务列表item的instalment
-                //但是 目前任务列表item中的分期信息（分期比例）也不对，"instalmentcurr": 0, "instalmentcurrfinish": 0, "instalmentratio": "",
-                if (myTaskBean.instalment == 1) {//开启分期
-                    setInstalmentVisibility(View.VISIBLE);
-                    String instalmentRatioStr = "";
-                    String[] ratios = myTaskBean.instalmentratio.split(",");
-                    for (int i = 0; i < ratios.length; i++) {
-                        String ratio = ratios[i];
-                        if (TextUtils.isEmpty(ratio)) {
-                            continue;
-                        }
-                        double ratioDouble = Double.parseDouble(ratio);
+                if (!isGetInstalmentList) {
+                    //分期
+                    //这里不能用service详情的instalment，要用任务列表item的instalment
+                    //但是 目前任务列表item中的分期信息（分期比例）也不对，"instalmentcurr": 0, "instalmentcurrfinish": 0, "instalmentratio": "",
+                    if (myTaskBean.instalment == 1) {//开启分期
+                        setInstalmentVisibility(View.VISIBLE);
+                        String instalmentRatioStr = "";
+                        String[] ratios = myTaskBean.instalmentratio.split(",");
+                        for (int i = 0; i < ratios.length; i++) {
+                            String ratio = ratios[i];
+                            if (TextUtils.isEmpty(ratio)) {
+                                continue;
+                            }
+                            double ratioDouble = Double.parseDouble(ratio);
 
-                        if (i < ratios.length - 1) {
-                            instalmentRatioStr += ratioDouble * 100 + "%/";
-                        } else {
-                            instalmentRatioStr += ratioDouble * 100 + "%";
+                            if (i < ratios.length - 1) {
+                                instalmentRatioStr += ratioDouble * 100 + "%/";
+                            } else {
+                                instalmentRatioStr += ratioDouble * 100 + "%";
+                            }
                         }
+                        setInstalmentRatio(instalmentRatioStr);
+                        //回填修改条件中是否开始分期
+                        isUpdateInstalment = false;//这里需要设置true，设置为false，调用toggleInstalment方法后就变为true了
+                        toggleInstalment(null);
+                    } else {//未开启分期
+                        setInstalmentVisibility(View.INVISIBLE);
+                        //回填修改条件中是否开始分期
+                        isUpdateInstalment = true;//这里需要设置false，设置为true，调用toggleInstalment方法后就变为false了
+                        toggleInstalment(null);
                     }
-                    setInstalmentRatio(instalmentRatioStr);
-                    //回填修改条件中是否开始分期
-                    isUpdateInstalment = false;//这里需要设置true，设置为false，调用toggleInstalment方法后就变为true了
-                    toggleInstalment(null);
-                } else {//未开启分期
-                    setInstalmentVisibility(View.INVISIBLE);
-                    //回填修改条件中是否开始分期
-                    isUpdateInstalment = true;//这里需要设置false，设置为true，调用toggleInstalment方法后就变为false了
-                    toggleInstalment(null);
                 }
 
                 loadDataTimes++;
@@ -922,6 +925,50 @@ public class MyPublishServiceModel extends BaseObservable {
                 if (loadDataTimes >= 5) {
                     hideLoadLayer();
                 }
+            }
+        }, soid + "");
+    }
+
+    boolean isGetInstalmentList = false;//是否已经从分期列表接口获取分期信息
+
+    private void getInstalmentList() {
+        ServiceEngine.getServiceInstalmentList(new BaseProtocol.IResultExecutor<ServiceInstalmentListBean>() {
+            @Override
+            public void execute(ServiceInstalmentListBean dataBean) {
+                instalmentInfoList = dataBean.data.list;
+                int totalInstalment = instalmentInfoList.size();//总的分期数
+                if (totalInstalment <= 1) {
+                    //不分期
+                    setInstalmentVisibility(View.INVISIBLE);
+                    //回填修改条件中是否开始分期
+                    isUpdateInstalment = true;//这里需要设置false，设置为true，调用toggleInstalment方法后就变为false了
+                    toggleInstalment(null);
+                } else {
+                    //分期
+                    setInstalmentVisibility(View.VISIBLE);
+                    String instalmentRatioStr = "";
+                    for (int i = 0; i < instalmentInfoList.size(); i++) {
+                        String ratio = instalmentInfoList.get(i).percent * 100 + "";
+                        if (TextUtils.isEmpty(ratio)) {
+                            continue;
+                        }
+                        if (i < instalmentInfoList.size() - 1) {
+                            instalmentRatioStr += ratio + "%/";
+                        } else {
+                            instalmentRatioStr += ratio + "%";
+                        }
+                    }
+                    setInstalmentRatio(instalmentRatioStr);
+                    //回填修改条件中是否开始分期
+                    isUpdateInstalment = false;//这里需要设置true，设置为false，调用toggleInstalment方法后就变为true了
+                    toggleInstalment(null);
+                }
+                isGetInstalmentList = true;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取服务订单的分期信息失败");
             }
         }, soid + "");
     }

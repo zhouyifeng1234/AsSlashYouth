@@ -87,11 +87,12 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         //报价单位
         quoteunit = service.quoteunit;
         mChoosePriceUnit = optionalPriceUnit[service.quoteunit - 1];
-        if (quoteunit < 9) {
-            setPriceUnit("元/" + mChoosePriceUnit);
-        } else {
-            setPriceUnit("元");
-        }
+//        if (quoteunit < 9) {
+//            setPriceUnit("元/" + mChoosePriceUnit);
+//        } else {
+//            setPriceUnit("元");
+//        }
+        setPriceUnit("元");
         //分期
         RelativeLayout.LayoutParams layoutParams
                 = (RelativeLayout.LayoutParams) mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentHandle.getLayoutParams();
@@ -350,11 +351,12 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         setChoosePriceUnitLayerVisibility(View.INVISIBLE);
         int value = mNpChoosePriceUnit.getValue();
         mChoosePriceUnit = optionalPriceUnit[value];
-        if (value < 8) {
-            setPriceUnit("元/" + mChoosePriceUnit);
-        } else {
-            setPriceUnit("元");
-        }
+//        if (value < 8) {
+//            setPriceUnit("元/" + mChoosePriceUnit);
+//        } else {
+//            setPriceUnit("元");
+//        }
+        setPriceUnit("元");
         quoteunit = value + 1;
         mActivityPublishServiceAddinfoBinding.tvChooseQuoteunit.setText(mChoosePriceUnit);
     }

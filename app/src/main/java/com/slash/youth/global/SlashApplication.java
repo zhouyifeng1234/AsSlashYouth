@@ -35,6 +35,8 @@ import com.umeng.socialize.UMShareAPI;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.ArrayList;
+
 import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ImageLoader;
@@ -68,6 +70,9 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     private static double currentLongitude;
     private DaoMaster.DevOpenHelper mHelper;
 
+    public ArrayList<Activity> listActivities = new ArrayList<Activity>();
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -85,6 +90,8 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
                     activity.requestWindowFeature(Window.FEATURE_NO_TITLE);//无标题
                     activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
+
+                listActivities.add(activity);
             }
 
             @Override
@@ -126,6 +133,8 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
             @Override
             public void onActivityDestroyed(Activity activity) {
                 LogKit.v("onActivityDestroyed");
+
+                listActivities.remove(activity);
             }
         });
 
