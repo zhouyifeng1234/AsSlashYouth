@@ -81,30 +81,43 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 
 
         //首先需要判断是否开启了分期，如果没有开启，下面两个字段不需要显示，暂时服务端没有返回判断是否开启分期的字段
+//        if (data.instalment == 0) {
+//            mItemMyTaskModel.setInstalmentText("分期到账");
+//        } else {
+//            mItemMyTaskModel.setInstalmentText("分期");
+//        }
         if (data.instalment == 0) {
-            mItemMyTaskModel.setInstalmentText("分期到账");
+            //未开启分期
+            mItemMyTaskModel.setInstalmentText("");
+            mItemMyTaskModel.setInstalmentratioStr("");
         } else {
-            mItemMyTaskModel.setInstalmentText("分期");
-        }
-        //显示每一期的分期比例
-        String[] instalmentratioArray = data.instalmentratio.split(",");
-        String instalmentratioStr = "";
-        for (int i = 0; i < instalmentratioArray.length; i++) {
-            String ratio = instalmentratioArray[i];
-            if (TextUtils.isEmpty(ratio)) {
-                continue;
-            }
-            LogKit.v("instalmentratioStr：" + ratio);
-//            ratio = (ratio.split("\\."))[1];
-            ratio = (int) (Double.parseDouble(ratio) * 100) + "";
-            if (i < instalmentratioArray.length - 1) {
-                instalmentratioStr += ratio + "%/";
+            //开启分期
+            //显示每一期的分期比例
+            String[] instalmentratioArray = data.instalmentratio.split(",");
+            if (instalmentratioArray.length <= 1) {
+                //只分了一期，相当于未开启分期
+                mItemMyTaskModel.setInstalmentText("");
+                mItemMyTaskModel.setInstalmentratioStr("");
             } else {
-                instalmentratioStr += ratio + "%";
+                mItemMyTaskModel.setInstalmentText("分期");
+                String instalmentratioStr = "";
+                for (int i = 0; i < instalmentratioArray.length; i++) {
+                    String ratio = instalmentratioArray[i];
+                    if (TextUtils.isEmpty(ratio)) {
+                        continue;
+                    }
+                    LogKit.v("instalmentratioStr：" + ratio);
+                    //ratio = (ratio.split("\\."))[1];
+                    ratio = (int) (Double.parseDouble(ratio) * 100) + "";
+                    if (i < instalmentratioArray.length - 1) {
+                        instalmentratioStr += ratio + "%/";
+                    } else {
+                        instalmentratioStr += ratio + "%";
+                    }
+                }
+                mItemMyTaskModel.setInstalmentratioStr(instalmentratioStr);
             }
         }
-        mItemMyTaskModel.setInstalmentratioStr(instalmentratioStr);
-
 
         //显示报价前应该先判断是否需要显示报价
         if (data.type == 1) {//需求
