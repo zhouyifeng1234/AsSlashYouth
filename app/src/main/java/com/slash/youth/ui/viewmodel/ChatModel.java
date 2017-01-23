@@ -575,18 +575,23 @@ public class ChatModel extends BaseObservable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                tmpVoiceFile = new File(CommonUtils.getContext().getCacheDir(), "tmpVoice" + System.currentTimeMillis());
-                mediaRecorder = new MediaRecorder();
-                mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-                mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
-                mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 try {
-                    mediaRecorder.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    tmpVoiceFile = new File(CommonUtils.getContext().getCacheDir(), "tmpVoice" + System.currentTimeMillis());
+                    mediaRecorder = new MediaRecorder();
+                    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+                    mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
+                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    try {
+                        mediaRecorder.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mediaRecorder.start();
+                } catch (Exception ex) {
+                    LogKit.v("-----------聊天中的录音异常，比较诡异的未知异常，多半和权限有关-------------");
+                    ex.printStackTrace();
                 }
-                mediaRecorder.start();
             }
         }).start();
         new Thread(new Runnable() {
@@ -648,36 +653,41 @@ public class ChatModel extends BaseObservable {
      * 停止录音
      */
     public void stopSoundRecording() {
-        if (mediaRecorder == null) {
-            return;
-        }
+        try {
+            if (mediaRecorder == null) {
+                return;
+            }
 //            mediaRecorder.reset();
-        try {
-            mediaRecorder.stop();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        mediaRecorder.release();
-        mediaRecorder = null;
+            try {
+                mediaRecorder.stop();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            mediaRecorder.release();
+            mediaRecorder = null;
 
-        int duration = 0;
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(tmpVoiceFile.getAbsolutePath());
-            mediaPlayer.prepare();
-            duration = mediaPlayer.getDuration() / 1000;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (duration < 1) {
-            ToastUtils.shortToast("录音时间过短");
-            deleteTmpRecordingFile();
-            return;
-        }
-        if (!isCancelRecord) {
-            sendVoice(tmpVoiceFile.getAbsolutePath(), duration);
-        } else {
-            deleteTmpRecordingFile();
+            int duration = 0;
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(tmpVoiceFile.getAbsolutePath());
+                mediaPlayer.prepare();
+                duration = mediaPlayer.getDuration() / 1000;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (duration < 1) {
+                ToastUtils.shortToast("录音时间过短");
+                deleteTmpRecordingFile();
+                return;
+            }
+            if (!isCancelRecord) {
+                sendVoice(tmpVoiceFile.getAbsolutePath(), duration);
+            } else {
+                deleteTmpRecordingFile();
+            }
+        } catch (Exception ex) {
+            LogKit.v("-----------聊天中的停止录音异常，比较诡异的未知异常，多半和权限有关-------------");
+            ex.printStackTrace();
         }
     }
 

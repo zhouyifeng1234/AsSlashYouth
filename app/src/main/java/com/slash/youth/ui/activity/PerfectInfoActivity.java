@@ -13,7 +13,6 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.PerfectInfoModel;
 import com.slash.youth.utils.CommonUtils;

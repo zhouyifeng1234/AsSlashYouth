@@ -5,19 +5,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.engine.UserInfoEngine;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
-import com.slash.youth.ui.viewmodel.PagerHomeMyModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 
 public class HomeActivity extends Activity {
 

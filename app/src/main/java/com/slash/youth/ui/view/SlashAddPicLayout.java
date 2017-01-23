@@ -99,7 +99,7 @@ public class SlashAddPicLayout extends LinearLayout {
 
 
     public FrameLayout createPicView(Bitmap bitmap, int fileIndex) {
-        LayoutParams paramsPicView = new LayoutParams(-2, -2);
+        LinearLayout.LayoutParams paramsPicView = new LinearLayout.LayoutParams(-2, -2);
         FrameLayout flPicView = new FrameLayout(CommonUtils.getContext());
         paramsPicView.leftMargin = CommonUtils.dip2px(7);
 

@@ -23,7 +23,6 @@ import com.slash.youth.domain.TokenLoginResultBean;
 import com.slash.youth.domain.VersionBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.DialogVersionUpdateModel;

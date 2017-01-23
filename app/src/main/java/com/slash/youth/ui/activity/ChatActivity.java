@@ -10,7 +10,6 @@ import android.os.Bundle;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
 import com.slash.youth.engine.MsgManager;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ChatModel;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.ToastUtils;
