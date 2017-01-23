@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.PublishServiceBaseInfoModel;
 
 import java.io.Serializable;

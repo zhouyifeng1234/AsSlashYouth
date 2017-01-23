@@ -22,7 +22,6 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandModeBinding;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.PublishDemandModeModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;

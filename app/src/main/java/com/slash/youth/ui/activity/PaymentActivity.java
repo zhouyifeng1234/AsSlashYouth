@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.pingplusplus.android.Pingpp;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPaymentBinding;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.PaymentModel;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;

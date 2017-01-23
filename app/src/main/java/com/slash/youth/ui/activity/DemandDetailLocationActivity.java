@@ -22,7 +22,6 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailLocationBinding;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.DemandDetailLocationModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;

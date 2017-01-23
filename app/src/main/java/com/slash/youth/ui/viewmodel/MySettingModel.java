@@ -2,7 +2,6 @@ package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ConfigurationInfo;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -33,8 +32,7 @@ import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
-import org.greenrobot.greendao.internal.LongHashMap;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -404,7 +402,7 @@ public class MySettingModel extends BaseObservable {
             } else {
                 listActivities.remove(activity);
             }
-        }*/
+        }
 
 
         Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
