@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySheildBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.MySettingModel;
 import com.slash.youth.ui.viewmodel.SheildModel;
 import com.slash.youth.utils.CommonUtils;

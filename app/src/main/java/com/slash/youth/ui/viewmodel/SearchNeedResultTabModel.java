@@ -20,7 +20,6 @@ import com.slash.youth.databinding.PullToRefreshTabListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.LocationCityInfo;
-import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
@@ -40,11 +39,10 @@ import java.util.List;
 public class SearchNeedResultTabModel extends BaseObservable  {
     public SearchNeedResultTabBinding mSearchNeedResultTabBinding;
     private View areaView;
-    private String demands[] = {"不限","线上","线下"};
+    private String demandsList[] = {"不限","线上","线下"};
+    private String persionList[] = {"所用用户","认证用户"};
     private String users[] = {"全部用户","认证用户"};
-    private String sorts[];
-    private String demadsorts[] = {"最新发布(默认)","回复时间最近","价格最高","离我最近"};
-    private String servicesorts[] = {"综合性评价最高（默认）","发布时间最近","离我最近"};
+    private String sorts[] = {"最新发布","回复时间最近","价格最高","离我最近"};
     private GirdDropDownAdapter  demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListView userListView;
@@ -58,7 +56,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private  ArrayList<String> headerLists = new ArrayList<>();
     private String[] demadHeaders ={"需求方式", "用户类型", "全国", "排序"};
     private String[] serviceHeaders ={"服务方式", "全国", "排序"};
-    private String[] personHeaders ={"认证"};
+    private String[] personHeaders ={"所有用户"};
+    private String[] demands;
     private String[] headers;
     private ListView demandView;
     private ListView sortListView;
@@ -89,16 +88,17 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 headers =demadHeaders;
-                sorts = demadsorts;
                 isDemand = true;
+                demands =  demandsList;
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
                 headers =serviceHeaders;
-                sorts = servicesorts;
                 isDemand = false;
+                demands =  demandsList;
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
                 headers =personHeaders;
+                demands =  persionList;
                 break;
         }
     }
@@ -161,16 +161,27 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                 demandAdapter.setCheckItem(position);
                 mSearchNeedResultTabBinding.dropDownMenu.setTabText(position == 0 ? headers[0] : demands[position]);
                 mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
-                switch (position){
-                    case 0:
-                        pullToRefreshListTabViewModel.pattern = -1;
-                        break;
-                    case 1:
-                        pullToRefreshListTabViewModel.pattern = 0;
-                        break;
-                    case 2:
-                        pullToRefreshListTabViewModel.pattern = 1;
-                        break;
+                if(!SpUtils.getString("searchType", "").equals(SearchManager.HOT_SEARCH_PERSON)){
+                    switch (position){
+                        case 0:
+                            pullToRefreshListTabViewModel.pattern = -1;
+                            break;
+                        case 1:
+                            pullToRefreshListTabViewModel.pattern = 0;
+                            break;
+                        case 2:
+                            pullToRefreshListTabViewModel.pattern = 1;
+                            break;
+                    }
+                }else {
+                    switch (position){
+                        case 0:
+                            pullToRefreshListTabViewModel.isauth =-1;
+                            break;
+                        case 1:
+                            pullToRefreshListTabViewModel.isauth =1;
+                            break;
+                    }
                 }
                 pullToRefreshListTabViewModel.getData(searchType);
             }

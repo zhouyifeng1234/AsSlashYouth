@@ -122,8 +122,13 @@ public class EditorIdentityModel extends BaseObservable {
                         boolean match = PatternUtils.match(regex, text);
                         if(match){
                             if(text.length()>=0&&text.length()<=5){
-                                newSkillLabelList.add(text);
-                                updateLableView(newSkillLabelList);
+
+                                if(!newSkillLabelList.contains(text)){
+                                    newSkillLabelList.add(text);
+                                    updateLableView(newSkillLabelList);
+                                }else {
+                                    ToastUtils.shortCenterToast("不能创建相同的标签");
+                                }
                             }else {
                                 ToastUtils.shortToast("标签字数5个字以内");
                             }
@@ -161,7 +166,7 @@ public class EditorIdentityModel extends BaseObservable {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
         LinearLayout llCheckedLabel = new LinearLayout(CommonUtils.getContext());
         llCheckedLabel.setOrientation(LinearLayout.HORIZONTAL);
-        params.leftMargin = CommonUtils.dip2px(24);
+        params.leftMargin = CommonUtils.dip2px(12);
         llCheckedLabel.setLayoutParams(params);
         //创建textview
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
@@ -180,7 +185,7 @@ public class EditorIdentityModel extends BaseObservable {
         ImageButton ivbtnUnCheckedLabel = new ImageButton(CommonUtils.getContext());
         ivbtnUnCheckedLabel.setBackground(new ColorDrawable(Color.TRANSPARENT));
         ivbtnUnCheckedLabel.setImageResource(R.mipmap.close_icon_2);
-        ivbtnParams.leftMargin = CommonUtils.dip2px(-7);
+        ivbtnParams.leftMargin = CommonUtils.dip2px(-8);
         ivbtnUnCheckedLabel.setLayoutParams(ivbtnParams);
 
         llCheckedLabel.addView(textview);

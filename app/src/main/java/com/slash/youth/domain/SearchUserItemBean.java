@@ -48,6 +48,25 @@ public class SearchUserItemBean {
             private String position;
             private String tag;
             private long uid;
+            private String direction;
+            private String identity;
+
+
+            public String getIdentity() {
+                return identity;
+            }
+
+            public void setIdentity(String identity) {
+                this.identity = identity;
+            }
+
+            public String getDirection() {
+                return direction;
+            }
+
+            public void setDirection(String direction) {
+                this.direction = direction;
+            }
 
             public String getAvatar() {
                 return avatar;

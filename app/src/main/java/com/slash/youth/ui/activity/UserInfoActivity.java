@@ -14,6 +14,7 @@ import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.utils.CommonUtils;

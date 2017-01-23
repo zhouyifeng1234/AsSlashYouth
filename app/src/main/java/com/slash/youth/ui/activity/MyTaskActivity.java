@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyTaskBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.MyTaskModel;
 
 /**
@@ -18,7 +19,6 @@ public class MyTaskActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         ActivityMyTaskBinding activityMyTaskBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_task);

@@ -92,7 +92,7 @@ public class ActivitySubscribeModel extends BaseObservable {
         value = mNpChooseMainLabels.getValue();
         mActivity.checkedFirstLabel = mainLabelsArr[value];
         listener.OnOkChooseMainLabelListener(value);
-        mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(mActivity.checkedFirstLabel);
+
     }
 
     //取消

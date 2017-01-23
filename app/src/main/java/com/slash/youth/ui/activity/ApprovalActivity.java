@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityApprovalBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ApprovalModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
@@ -60,7 +61,11 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();
+
+
+
                 break;
         }
     }
+
 }

@@ -65,7 +65,9 @@ public class MyCollectionModel extends BaseObservable  {
                     offset = 0;
                     collectionList.clear();
                     MyManager.getMyCollectionList(new onGetMyCollectionList(),offset,limit);
-
+                    if(myCollectionAdapter!=null){
+                        myCollectionAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -83,6 +85,9 @@ public class MyCollectionModel extends BaseObservable  {
                         offset += limit;
                         MyManager.getMyCollectionList(new onGetMyCollectionList(),offset,limit);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                    if(myCollectionAdapter!=null){
+                        myCollectionAdapter.notifyDataSetChanged();
                     }
                 }
             }, 2000);

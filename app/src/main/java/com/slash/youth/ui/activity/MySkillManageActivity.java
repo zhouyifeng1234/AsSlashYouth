@@ -14,6 +14,7 @@ import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.databinding.ActivityMySkillManageBinding;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.adapter.MySkillManageAdapter;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;

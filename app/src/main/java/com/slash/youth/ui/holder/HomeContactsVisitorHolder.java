@@ -1,6 +1,7 @@
 package com.slash.youth.ui.holder;
 
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -51,8 +52,6 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
         String name = data.getName();
         itemListviewHomeContactsVisitorBinding.tvVisitorName.setText(name);
 
-        LogKit.d("name = "+name+"uid = "+data.getUid());
-
         String company = data.getCompany();
         String position = data.getPosition();
         itemListviewHomeContactsVisitorBinding.tvVisitorPosition.setText(company+""+position);
@@ -63,8 +62,8 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
 
         String direction = data.getDirection();
         String industry = data.getIndustry();
-        if(direction!=null&&industry!=null&&direction!=""&&industry!=""){
-            itemListviewHomeContactsVisitorBinding.tvVisitorDirection.setText(industry+"|"+direction);
+        if(!TextUtils.isEmpty(direction)){
+            itemListviewHomeContactsVisitorBinding.tvVisitorDirection.setText(direction);
         }
 
 

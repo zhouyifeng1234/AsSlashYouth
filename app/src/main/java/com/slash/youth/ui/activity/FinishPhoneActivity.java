@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFinishPhoneBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.FinishPhoneModel;
 import com.slash.youth.ui.viewmodel.ReplacePhoneModel;
 import com.slash.youth.utils.CommonUtils;

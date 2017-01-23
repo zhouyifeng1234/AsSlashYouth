@@ -11,6 +11,7 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityContactsCareBinding;
 import com.slash.youth.databinding.PagerHomeContactsBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ActivityContactsCareModel;
 import com.slash.youth.ui.viewmodel.PagerHomeContactsModel;
 import com.slash.youth.utils.CommonUtils;

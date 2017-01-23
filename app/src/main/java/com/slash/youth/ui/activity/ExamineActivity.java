@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityExamineCertificatesBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ExamineCertificatesModel;
 import com.slash.youth.utils.LogKit;
 

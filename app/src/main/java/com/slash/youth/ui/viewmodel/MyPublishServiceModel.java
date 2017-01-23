@@ -748,43 +748,38 @@ public class MyPublishServiceModel extends BaseObservable {
                 //服务标题，布局文件中有两个地方需要设置
                 setServiceTitle(service.title + "订单");
                 //闲置时间
-                if (!isSetOrderTime) {
-                    int timetype = service.timetype;
-                    if (timetype == 0) {
-                        SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
-                        String starttimeStr = sdfIdleTime.format(service.starttime);
-                        String endtimeStr = sdfIdleTime.format(service.endtime);
-                        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
-                        //回填修改条件中的开始时间和结束时间
-                        starttime = service.starttime;
-                        endtime = service.endtime;
-                        mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText(starttimeStr + "-" + endtimeStr);
-                    } else if (timetype == 1) {
-                        setIdleTime("闲置时间:下班后");
-                        //回填修改条件中的开始时间和结束时间
-                        starttime = 0;
-                        endtime = 0;
-                        mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
-                    } else if (timetype == 2) {
-                        setIdleTime("闲置时间:周末");
-                        //回填修改条件中的开始时间和结束时间
-                        starttime = 0;
-                        endtime = 0;
-                        mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
-                    } else if (timetype == 3) {
-                        setIdleTime("闲置时间:下班后及周末");
-                        //回填修改条件中的开始时间和结束时间
-                        starttime = 0;
-                        endtime = 0;
-                        mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
-                    } else if (timetype == 4) {
-                        setIdleTime("闲置时间:随时");
-                        //回填修改条件中的开始时间和结束时间
-                        starttime = 0;
-                        endtime = 0;
-                        mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
-                    }
+                int timetype = service.timetype;
+                if (timetype == 0) {
+                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
+                    String starttimeStr = sdfIdleTime.format(service.starttime);
+                    String endtimeStr = sdfIdleTime.format(service.endtime);
+                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = service.starttime;
+                    endtime = service.endtime;
+                    mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText(starttimeStr + "-" + endtimeStr);
+                } else if (timetype == 1) {
+                    setIdleTime("闲置时间:下班后");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                } else if (timetype == 2) {
+                    setIdleTime("闲置时间:周末");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                } else if (timetype == 3) {
+                    setIdleTime("闲置时间:下班后及周末");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
+                } else if (timetype == 4) {
+                    setIdleTime("闲置时间:随时");
+                    //回填修改条件中的开始时间和结束时间
+                    starttime = 0;
+                    endtime = 0;
                 }
+
                 //报价 这里不能使用服务详情接口返回的报价
                 quoteunit = service.quoteunit;
 //                CommonUtils.getHandler().post(new Runnable() {
@@ -831,6 +826,21 @@ public class MyPublishServiceModel extends BaseObservable {
                         toggleInstalment(null);
                     }
                 }
+                //纠纷处理方式（似乎协商处理就显示）
+                if (service.bp == 2) {//协商
+                    setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyPublishServiceBinding.tvBpText.setText("协商处理纠纷");
+                    mActivityMyPublishServiceBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
+                    //回填修改条件中的纠纷处理方式
+                    checkConsultProcessing(null);
+                } else if (service.bp == 1) {//平台
+//                    setBpConsultVisibility(View.INVISIBLE);
+                    setBpConsultVisibility(View.VISIBLE);
+                    mActivityMyPublishServiceBinding.tvBpText.setText("平台处理纠纷");
+                    mActivityMyPublishServiceBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
+                    //回填修改条件中的纠纷处理方式
+                    checkPlatformProcessing(null);
+                }
 
                 loadDataTimes++;
                 if (loadDataTimes >= 5) {
@@ -850,7 +860,6 @@ public class MyPublishServiceModel extends BaseObservable {
         }, tid + "", "1");
     }
 
-    boolean isSetOrderTime = false;
 
     /**
      * 根据soid(即tid)获取服务订单状态信息
@@ -875,33 +884,6 @@ public class MyPublishServiceModel extends BaseObservable {
                 }
 //                    }
 //                });
-                //纠纷处理方式（似乎协商处理就显示）
-                if (dataBean.data.order.bp == 2) {//协商
-                    setBpConsultVisibility(View.VISIBLE);
-                    mActivityMyPublishServiceBinding.tvBpText.setText("协商处理纠纷");
-                    mActivityMyPublishServiceBinding.ivBpIcon.setImageResource(R.mipmap.negotiation_icon);
-                    //回填修改条件中的纠纷处理方式
-                    checkConsultProcessing(null);
-                } else if (dataBean.data.order.bp == 1) {//平台
-//                    setBpConsultVisibility(View.INVISIBLE);
-                    setBpConsultVisibility(View.VISIBLE);
-                    mActivityMyPublishServiceBinding.tvBpText.setText("平台处理纠纷");
-                    mActivityMyPublishServiceBinding.ivBpIcon.setImageResource(R.mipmap.platform_icon);
-                    //回填修改条件中的纠纷处理方式
-                    checkPlatformProcessing(null);
-                }
-                //显示订单接口的开始时间和结束时间
-                if (dataBean.data.order.starttime != 0 && dataBean.data.order.endtime != 0) {
-                    isSetOrderTime = true;
-                    SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
-                    String starttimeStr = sdfIdleTime.format(dataBean.data.order.starttime);
-                    String endtimeStr = sdfIdleTime.format(dataBean.data.order.endtime);
-                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
-                    //回填修改条件中的开始时间和结束时间
-                    starttime = dataBean.data.order.starttime;
-                    endtime = dataBean.data.order.endtime;
-                    mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText(starttimeStr + "-" + endtimeStr);
-                }
 
                 int status = dataBean.data.order.status;
                 displayStatusCycle(status);
@@ -1090,13 +1072,7 @@ public class MyPublishServiceModel extends BaseObservable {
 
         switch (order.status) {
             case 1:/*初始化订单*/
-//                setAcceptItemVisibility(View.VISIBLE);
-                setStatusButtonVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);
-                break;
-            case 2:/*服务者确认*/
-            case 3:/*需求方支付中*/
-//                setUpdateBidInfotItemVisibility(View.VISIBLE);
-                setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.VISIBLE);
+                setAcceptItemVisibility(View.VISIBLE);
                 break;
             case 5:/*订单进行中*/
                 //获取分期情况 来判断是否需要显示完成按钮
@@ -1110,8 +1086,7 @@ public class MyPublishServiceModel extends BaseObservable {
                             if (instalmentInfo.status != 2) {
                                 fid = instalmentInfo.id;
                                 if (instalmentInfo.status == 0) {
-//                                    setFinishItemVisibility(View.VISIBLE);
-                                    setStatusButtonVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                    setFinishItemVisibility(View.VISIBLE);
                                 }
                                 break;
                             }
@@ -1125,32 +1100,23 @@ public class MyPublishServiceModel extends BaseObservable {
                 }, soid + "");
                 break;
             case 8:/*申请退款*/
-//                setRefundItemVisibility(View.VISIBLE);
-                setStatusButtonVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
+                setRefundItemVisibility(View.VISIBLE);
                 break;
             case 7:/*订单确认完成*/
+            case 2:/*服务者确认*/
+            case 3:/*需求方支付中*/
             case 6:/*订单完成*/
             case 9:/*同意退款*/
             case 10:/*平台申诉处理*/
             case 4:/*订单已经取消*/
             case 11:/*服务方拒绝*/
             default:
-//                setFinishItemVisibility(View.GONE);
-//                setAcceptItemVisibility(View.GONE);
-//                setRefundItemVisibility(View.GONE);
-//                setUpdateBidInfotItemVisibility(View.GONE);
-                setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                setFinishItemVisibility(View.GONE);
+                setAcceptItemVisibility(View.GONE);
+                setRefundItemVisibility(View.GONE);
                 break;
         }
     }
-
-    private void setStatusButtonVisibility(int refundItemVisibility, int finishItemVisibility, int acceptItemVisibility, int updateBidInfotItemVisibility) {
-        setRefundItemVisibility(refundItemVisibility);
-        setFinishItemVisibility(finishItemVisibility);
-        setAcceptItemVisibility(acceptItemVisibility);
-        setUpdateBidInfotItemVisibility(updateBidInfotItemVisibility);
-    }
-
 
     private void displayStatusCycle(int status) {
         switch (status) {
@@ -1208,7 +1174,6 @@ public class MyPublishServiceModel extends BaseObservable {
     private int refundItemVisibility = View.GONE;//申诉、同意退款 条目是否可见
     private int finishItemVisibility = View.GONE;//完成 条目是否可见
     private int acceptItemVisibility = View.GONE;//不接受、接受、修改条件 条目是否可见
-    private int updateBidInfotItemVisibility = View.GONE;//在需求方支付之前，一直可以修改
 
     private int updateLayerVisibility = View.GONE;//修改服务订单信息蒙层是否可见
     private int updateInstalmentLine1Visibility = View.GONE;
@@ -1228,16 +1193,6 @@ public class MyPublishServiceModel extends BaseObservable {
     private int loadLayerVisibility = View.GONE;
 
     private int addInstalmentIconVisibility;
-
-    @Bindable
-    public int getUpdateBidInfotItemVisibility() {
-        return updateBidInfotItemVisibility;
-    }
-
-    public void setUpdateBidInfotItemVisibility(int updateBidInfotItemVisibility) {
-        this.updateBidInfotItemVisibility = updateBidInfotItemVisibility;
-        notifyPropertyChanged(BR.updateBidInfotItemVisibility);
-    }
 
     @Bindable
     public int getAddInstalmentIconVisibility() {

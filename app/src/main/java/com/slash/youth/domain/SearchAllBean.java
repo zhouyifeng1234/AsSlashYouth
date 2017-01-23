@@ -468,6 +468,24 @@ public class SearchAllBean {
             private String position;
             private String tag;
             private long uid;
+            private String industry;
+            private String direction;
+
+            public String getIndustry() {
+                return industry;
+            }
+
+            public void setIndustry(String industry) {
+                this.industry = industry;
+            }
+
+            public String getDirection() {
+                return direction;
+            }
+
+            public void setDirection(String direction) {
+                this.direction = direction;
+            }
 
             public String getAvatar() {
                 return avatar;

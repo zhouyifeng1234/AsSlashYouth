@@ -89,6 +89,12 @@ public class MySkillManageModel extends BaseObservable  {
                     skillManageList.clear();
                     managePublishList.clear();
                     getdata(titleName);
+                    if(managePublishAdapter!=null){
+                        managePublishAdapter.notifyDataSetChanged();
+                    }
+                    if(mySkillManageAdapter!=null){
+                        mySkillManageAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -106,6 +112,12 @@ public class MySkillManageModel extends BaseObservable  {
                         offset += limit;
                         getdata(titleName);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                    if(managePublishAdapter!=null){
+                        managePublishAdapter.notifyDataSetChanged();
+                    }
+                    if(mySkillManageAdapter!=null){
+                        mySkillManageAdapter.notifyDataSetChanged();
                     }
                 }
             }, 2000);

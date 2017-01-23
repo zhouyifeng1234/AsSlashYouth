@@ -70,6 +70,9 @@ public class ActivityContactsCareModel extends BaseObservable {
                     offset = 0;
                     contactsLists.clear();
                     getData( title);
+                    if(contactsCareAdapter!=null){
+                        contactsCareAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -85,6 +88,9 @@ public class ActivityContactsCareModel extends BaseObservable {
                     }else {//不是最后一页
                         offset += limit;
                         getData( title);
+                        if(contactsCareAdapter!=null){
+                            contactsCareAdapter.notifyDataSetChanged();
+                        }
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     }
                 }

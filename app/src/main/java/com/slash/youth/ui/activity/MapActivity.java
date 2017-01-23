@@ -42,6 +42,7 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMapBinding;
 import com.slash.youth.domain.NearLocationBean;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.holder.MapNearLocationHolder;
 import com.slash.youth.ui.viewmodel.ActivityMapModel;
 import com.slash.youth.utils.CommonUtils;

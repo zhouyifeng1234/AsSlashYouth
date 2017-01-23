@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyCollectionBinding;
 import com.slash.youth.engine.MyManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.MyCollectionModel;
 import com.slash.youth.ui.viewmodel.ReportTAModel;
 

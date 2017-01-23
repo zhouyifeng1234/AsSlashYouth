@@ -120,6 +120,14 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 @Override
                 public void run() {
                     getDemandOrServiceListData();
+
+                    if(homeDemandAndDemandAdapter!=null){
+                        homeDemandAndDemandAdapter.notifyDataSetChanged();
+                    }
+
+                    if(homeServiceAdapter!=null){
+                        homeServiceAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);

@@ -11,6 +11,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityReplacePhoneBinding;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.ReplacePhoneModel;
 import com.slash.youth.utils.CommonUtils;

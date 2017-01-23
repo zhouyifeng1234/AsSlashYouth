@@ -276,7 +276,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             }
         });
     }
-    //相册
+
     public void getAlbumPic(View view){
         //第三方
         FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
@@ -455,13 +455,13 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         }
 
         //一级标签
-        String tvDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
+      /*  String tvDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
         String direction = myinfo.getIndustry() + "|" + myinfo.getDirection();
         if(direction.equals(tvDirection) ){
             isChange = false;
         }else {
             isChange = true;
-        }
+        }*/
 
         if(TextUtils.isEmpty(name)){
            ToastUtils.shortCenterToast("请填写姓名");
@@ -545,9 +545,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
         //斜杠身份只能包含中文\英文\数字
         ArrayList<String> newSkillLabelList = EditorIdentityModel.newSkillLabelList;
-        if (!newSkillLabelList.isEmpty()) {
-            UserInfoEngine.onSaveSlathYouth(new onSaveSlathYouth(), newSkillLabelList);
-        }
+        UserInfoEngine.onSaveSlathYouth(new onSaveSlathYouth(), newSkillLabelList);
+
 
         //技能标签
         ArrayList<String> listCheckedLabelName = SubscribeActivity.saveListCheckedLabelName;
@@ -645,10 +644,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case 0:
-                        LogKit.d("保存成功");
+                        LogKit.d("保存失败");
                         break;
                     case 1:
-                        LogKit.d("保存失败");
+                        LogKit.d("保存成功");
                         break;
                 }
             }

@@ -106,6 +106,13 @@ public class PullToRefreshListViewModel extends BaseObservable {
                     arrayListDemand.clear();
                     arrayListService.clear();
                     getData(isDemand);
+                    if(pagerHomeDemandtAdapter!=null){
+                        pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    }
+
+                    if(pagerHomeServiceAdapter!=null){
+                        pagerHomeServiceAdapter.notifyDataSetChanged();
+                    }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 }
             }, 2000);
@@ -123,6 +130,13 @@ public class PullToRefreshListViewModel extends BaseObservable {
                         offset += limit;
                         getData(isDemand);
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                    }
+                    if(pagerHomeDemandtAdapter!=null){
+                        pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    }
+
+                    if(pagerHomeServiceAdapter!=null){
+                        pagerHomeServiceAdapter.notifyDataSetChanged();
                     }
                 }
             }, 2000);

@@ -18,6 +18,7 @@ import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Constants;
@@ -84,7 +85,9 @@ public class UserinfoEditorActivity extends Activity {
             case Constants.USERINFO_IDENTITY:
                 if (resultCode == RESULT_OK) {
                     String identity = data.getStringExtra("identity");
-                    if (identity != null) {
+                    if(identity.equals("null")){
+                        activityUserinfoEditorBinding.tvIdentity.setText("");
+                    }else {
                         activityUserinfoEditorBinding.tvIdentity.setText(identity);
                     }
                 }

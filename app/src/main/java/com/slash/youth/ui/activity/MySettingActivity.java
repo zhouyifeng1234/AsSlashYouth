@@ -14,6 +14,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMySettingBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.engine.AccountManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.MyAddSkillModel;
 import com.slash.youth.ui.viewmodel.MySettingModel;

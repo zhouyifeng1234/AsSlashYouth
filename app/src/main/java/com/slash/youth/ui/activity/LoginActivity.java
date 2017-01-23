@@ -10,6 +10,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.ActivityLoginModel;
 import com.slash.youth.utils.CommonUtils;
 import com.tencent.tauth.IUiListener;

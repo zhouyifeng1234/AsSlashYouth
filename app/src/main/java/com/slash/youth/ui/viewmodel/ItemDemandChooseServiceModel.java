@@ -80,8 +80,7 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
 //        } else {
 //            mItemDemandChooseServiceBinding.tvIndustryDirection.setText(mDemandChooseServiceBean.industry + "|" + mDemandChooseServiceBean.direction);
 //        }
-//        SimpleDateFormat sdfBidStarttime = new SimpleDateFormat("01月19日 15:45");
-        SimpleDateFormat sdfBidStarttime = new SimpleDateFormat("MM月dd日 HH:mm");
+        SimpleDateFormat sdfBidStarttime = new SimpleDateFormat("01月19日 15:45");
         String bidStarttime = sdfBidStarttime.format(mDemandChooseServiceBean.starttime);
         mItemDemandChooseServiceBinding.tvBidDemandStarttime.setText(bidStarttime);
 

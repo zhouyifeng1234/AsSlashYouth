@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityEditorIdentityBinding;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.EditorIdentityModel;
 import com.slash.youth.utils.LogKit;
 
@@ -63,18 +64,22 @@ public class EditorIdentityActivity extends Activity implements View.OnClickList
     @Override
     public void onClick(View v) {
         ArrayList<String> newSkillLabelList = editorIdentityModel.newSkillLabelList;
-        if(!newSkillLabelList.isEmpty()){
-            for (int i = 0; i < newSkillLabelList.size(); i++) {
-                if(i!=newSkillLabelList.size()-1&&i>=0){
-                    sb.append(newSkillLabelList.get(i));
-                    sb.append("/");
-                }else {
-                    sb.append(newSkillLabelList.get(i));
-                }
-            }
-            intent.putExtra("identity",sb.toString());
-            setResult(RESULT_OK,intent);
-        }
+       if(newSkillLabelList.size() == 0){
+           intent.putExtra("identity","null");
+           setResult(RESULT_OK,intent);
+       }else {
+           for (int i = 0; i < newSkillLabelList.size(); i++) {
+               if(i!=newSkillLabelList.size()-1&&i>=0){
+                   sb.append(newSkillLabelList.get(i));
+                   sb.append("/");
+               }else {
+                   sb.append(newSkillLabelList.get(i));
+               }
+
+               intent.putExtra("identity",sb.toString());
+               setResult(RESULT_OK,intent);
+           }
+       }
         finish();
     }
 }

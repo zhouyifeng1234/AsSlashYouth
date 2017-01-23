@@ -235,7 +235,6 @@
                                     android:id="@+id/tv_location"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="江苏苏州"
                                     android:textSize="13dp"
                                     android:textColor="#60A7B6"
                                     android:layout_centerVertical="true"

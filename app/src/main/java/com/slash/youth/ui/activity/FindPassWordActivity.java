@@ -17,6 +17,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.engine.AccountManager;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
 import com.slash.youth.utils.BitmapKit;
@@ -115,11 +116,14 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                                 findPassWordModel.createPassWord(surePassWord,findPassWordModel.fileId);
                                 break;
                         }
+                        finish();
                     }
                 }else {
                     ToastUtils.shortToast(toastString);
                 }
                 break;
+
         }
+
     }
 }
