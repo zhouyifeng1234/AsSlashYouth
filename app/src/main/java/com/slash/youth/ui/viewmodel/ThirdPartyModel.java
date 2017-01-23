@@ -29,20 +29,20 @@ public class ThirdPartyModel extends BaseObservable {
     private boolean isWinboBing = false;
     private BindThridPartyActivity bindThridPartyActivity;
     private final LoginManager loginManager;
+    private int type;
 
     public ThirdPartyModel(ActivityMyThridPartyBinding activityMyThridPartyBinding,BindThridPartyActivity bindThridPartyActivity) {
         this.activityMyThridPartyBinding = activityMyThridPartyBinding;
         this.bindThridPartyActivity = bindThridPartyActivity;
         loginManager = new LoginManager();
         initData();
-        initView();
     }
 
     private void initData() {
         bindPlatform(LoginManager.token);
     }
 
-    private void initView(){
+    private void initView(boolean isWinxinBing,boolean isQQBing,boolean isWinboBing){
         if(isWinxinBing){
             activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
         }else {
@@ -69,14 +69,16 @@ public class ThirdPartyModel extends BaseObservable {
                     for (String platform : platforms) {
                         if(platform.equals("1")){
                             isWinxinBing = true;
+                            type = 1;
                         }else if(platform.equals("2")){
                             isQQBing = true;
-
+                            type = 2;
                         }else if(platform.equals("3")){
                             isWinboBing = true;
+                            type = 3;
                         }
                     }
-                    initView();
+                    initView(isWinxinBing,isQQBing,isWinboBing);
                 }
             }
             @Override
@@ -86,81 +88,33 @@ public class ThirdPartyModel extends BaseObservable {
         });
     }
 
-    //绑定第三方账号
-    public void loginBind(String token,String uid,Byte loginPlatform) {
-       LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token,uid,loginPlatform);
-        loginBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
-            @Override
-            public void execute(LoginBindBean dataBean) {
-                LoginBindBean.DataBean data = dataBean.getData();
-                String token1 = data.getToken();
-                String uid1 = data.getUid();
-                LogKit.d("bind返回值:"+token1+" "+uid1);
-            }
-            @Override
-            public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-            }
-        });
-    }
-
-    //解绑第三方账号
-    public void loginUnBind(Byte loginPlatform) {
-        LoginUnBindProtocol loginUnBindProtocol = new LoginUnBindProtocol(loginPlatform);
-        loginUnBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
-            @Override
-            public void execute(LoginBindBean dataBean) {
-                LoginBindBean.DataBean data = dataBean.getData();
-                String token2 = data.getToken();
-                String uid2 = data.getUid();
-                LogKit.d("unbind返回值:"+token2+" "+uid2);
-            }
-            @Override
-            public void executeResultError(String result) {
-            LogKit.d("result:"+result);
-            }
-        });
-    }
-
     //微信
     public void weixin(View view){
-
-        if(isWinxinBing){
+        if(isWinxinBing){//绑定
+            loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
+        }else {//没有绑定
             if(SpUtils.getString("WEIXIN_token", "").equals("")){
                 loginManager.authorizateWEIXIN(bindThridPartyActivity);
             }
             String WEIXIN_token = SpUtils.getString("WEIXIN_token", "");
             String WEIXIN_uid = SpUtils.getString("WEIXIN_uid", "");
-
             loginBind(WEIXIN_token,WEIXIN_uid, GlobalConstants.LoginPlatformType.WECHAT);
-            activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
-            SpUtils.setBoolean("isWinxin",false);
-        }else {
-            activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
-            loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
-            SpUtils.setBoolean("isWinxin",true);
         }
-      isWinxinBing = !isWinxinBing;
     }
 
     //qq
     public void qq(View view){
         if(isQQBing){
+            loginUnBind(GlobalConstants.LoginPlatformType.QQ);
+        }else {
             if(SpUtils.getString("QQ_token", "").equals("")){
                 loginManager.authorizateQQ(bindThridPartyActivity);
             }
             String qq_token = SpUtils.getString("QQ_token", "");
             String qq_uid = SpUtils.getString("QQ_uid", "");
-            activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
-            loginBind(qq_token,qq_uid, GlobalConstants.LoginPlatformType.QQ);
-            SpUtils.setBoolean("isQQ",false);
 
-        }else {
-            activityMyThridPartyBinding.tvQQBinding.setText("解绑");
-            loginUnBind(GlobalConstants.LoginPlatformType.QQ);
-            SpUtils.setBoolean("isQQ",true);
+            loginBind(qq_token,qq_uid, GlobalConstants.LoginPlatformType.QQ);
         }
-        isQQBing = !isQQBing;
     }
 
     //微博
@@ -175,7 +129,64 @@ public class ThirdPartyModel extends BaseObservable {
             loginUnBind(GlobalConstants.LoginPlatformType.WEIBO);
             SpUtils.setBoolean("isWinbo",true);
         }
-        isWinboBing = !isWinboBing;
+    }
+
+    //绑定第三方账号
+    public void loginBind(String token,String uid,Byte loginPlatform) {
+        LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token,uid,loginPlatform);
+        loginBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
+            @Override
+            public void execute(LoginBindBean dataBean) {
+                LoginBindBean.DataBean data = dataBean.getData();
+                String token1 = data.getToken();
+                String uid1 = data.getUid();
+                LogKit.d("bind返回值:"+token1+" "+uid1);
+
+                switch (type){
+                    case 1://微信
+                        activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
+                        SpUtils.setBoolean("isWinxin",true);
+                        break;
+                    case 2://qq
+                        activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
+                        SpUtils.setBoolean("isQQ",true);
+                        break;
+                }
+            }
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:"+result);
+            }
+        });
+    }
+
+    //解绑第三方账号
+    public void loginUnBind(Byte loginPlatform) {
+        LoginUnBindProtocol loginUnBindProtocol = new LoginUnBindProtocol(loginPlatform);
+        loginUnBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
+            @Override
+            public void execute(LoginBindBean dataBean) {
+                LoginBindBean.DataBean data = dataBean.getData();
+                String token2 = data.getToken();
+                String uid2 = data.getUid();
+                LogKit.d("unbind返回值:"+token2+" "+uid2);
+                switch (type){
+                    case 1://微信
+                        activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
+                        SpUtils.setBoolean("isWinxin",false);
+                        break;
+                    case 2://qq
+                        activityMyThridPartyBinding.tvQQBinding.setText("解绑");
+                        SpUtils.setBoolean("isQQ",false);
+                        break;
+                }
+
+            }
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:"+result);
+            }
+        });
     }
 
 }

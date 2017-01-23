@@ -116,11 +116,14 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                                 findPassWordModel.createPassWord(surePassWord,findPassWordModel.fileId);
                                 break;
                         }
+                        finish();
                     }
                 }else {
                     ToastUtils.shortToast(toastString);
                 }
                 break;
+
         }
+
     }
 }
