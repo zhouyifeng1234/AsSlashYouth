@@ -30,6 +30,7 @@ import com.slash.youth.domain.CityClassBean;
 import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.ListProvinceBean;
 import com.slash.youth.domain.LocationCityInfo;
+import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
@@ -88,6 +89,7 @@ public class CityLocationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         intent = getIntent();
+        //打开数据库，读取最近访问的城市
 
         mActivityCityLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_city_location);
         mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding, this);
@@ -127,7 +129,6 @@ public class CityLocationActivity extends Activity {
 
     private void initData() {
         database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
-        // database = SQLiteDatabase.openOrCreateDatabase(DBManager.databasePath, null);
         citys = getCity();
         province = getProvince();
         database.close();
@@ -174,7 +175,6 @@ public class CityLocationActivity extends Activity {
                     String name = cur.getString(cur.getColumnIndex("CityName"));
                     int id = cur.getInt(cur.getColumnIndex("ProId"));
                     CityClassBean city = new CityClassBean("", 0);
-                    //  System.out.println(name);
                     city.city_name = name;
                     city.city_id = id;
                     taxicity.add(city);
@@ -197,7 +197,6 @@ public class CityLocationActivity extends Activity {
                     String name = cur.getString(cur.getColumnIndex("ProName"));
                     int id = cur.getInt(cur.getColumnIndex("ProId"));
                     CityClassBean city = new CityClassBean("", 0);
-                    // System.out.println(name);
                     city.city_name = name;
                     city.city_id = id;
                     taxicity.add(city);
@@ -227,8 +226,6 @@ public class CityLocationActivity extends Activity {
                             intent.putExtra("city",cityName);
                             intent.putExtra("province",provinceName);
                             setResult(RESULT_OK,intent);
-                            //map.put("city",cityName1);
-                            //map.put("province",provinceName);
                             finish();
                         }
                     }

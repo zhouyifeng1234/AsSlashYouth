@@ -45,7 +45,7 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     private String currentyCity;
     private int locationType;
     private String fileName ="data/data/com.slash.youth";
-    private File file = new File(fileName, "CurrentyCity.text");
+    private File file;
 
     public HeaderLocationCityInfoModel(HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding, Intent intent, Activity mActivity) {
         this.headerListviewLocationCityInfoListBinding = headerListviewLocationCityInfoListBinding;
@@ -71,6 +71,8 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
             for (String cityName : currenty_access_lists) {
                 TextView textView = getTextView(cityName);
                 headerListviewLocationCityInfoListBinding.llCityContainer.addView(textView);
+                headerListviewLocationCityInfoListBinding.llCityContainer.setVisibility(View.VISIBLE);
+                headerListviewLocationCityInfoListBinding.tvTitle.setVisibility(View.VISIBLE);
             }
         }
 
@@ -79,6 +81,11 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
 
     //保存最近访问的城市
     public void saveCity(String city) {
+        file = new File(fileName, "CurrentyCity.text");
+
+        if(!file.exists()){
+            file.mkdir();
+        }
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.write(city);
@@ -93,6 +100,11 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     private void initCityData() {
         cityLists.clear();
         currenty_access_lists.clear();
+        file = new File(fileName, "CurrentyCity.text");
+        if(!file.exists()){
+            file.mkdir();
+        }
+
         //存储集合
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -201,5 +213,4 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     public void setOnCityClickCListener(OnCityClickCListener listener) {
         this.listener = listener;
     }
-
 }

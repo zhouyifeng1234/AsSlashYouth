@@ -161,6 +161,13 @@ public class ActivityLoginModel extends BaseObservable {
         LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
             @Override
             public void execute(PhoneLoginResultBean dataBean) {
+
+                //增加验证码错误提示
+                if (dataBean.rescode == 7) {
+                    ToastUtils.shortToast("验证码错误");
+                    return;
+                }
+
                 //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
                 if (dataBean.data == null) {
                     ToastUtils.shortToast("登录失败:" + dataBean.rescode);
@@ -273,6 +280,7 @@ public class ActivityLoginModel extends BaseObservable {
         if (isSendPin) {
             return;
         }
+        isSendPin = true;
 
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
@@ -299,6 +307,7 @@ public class ActivityLoginModel extends BaseObservable {
             @Override
             public void executeResultError(String result) {
 //                ToastUtils.shortToast("获取验证码失败");
+                isSendPin = false;
                 ToastUtils.shortToast("验证码发送失败");
             }
         }, phoenNum);
@@ -578,7 +587,7 @@ public class ActivityLoginModel extends BaseObservable {
                 isSendPin = false;
             } else {
                 mActivityLoginBinding.btnSendpinText.setText(pinSecondsCount + "S");
-                CommonUtils.getHandler().postDelayed(new PinCountDown(), 1000);
+                CommonUtils.getHandler().postDelayed(this, 1000);
             }
         }
     }

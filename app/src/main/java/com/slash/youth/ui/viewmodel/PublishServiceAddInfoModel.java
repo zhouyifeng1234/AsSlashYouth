@@ -24,6 +24,7 @@ import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -86,11 +87,12 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         //报价单位
         quoteunit = service.quoteunit;
         mChoosePriceUnit = optionalPriceUnit[service.quoteunit - 1];
-        if (quoteunit < 9) {
-            setPriceUnit("元/" + mChoosePriceUnit);
-        } else {
-            setPriceUnit("元");
-        }
+//        if (quoteunit < 9) {
+//            setPriceUnit("元/" + mChoosePriceUnit);
+//        } else {
+//            setPriceUnit("元");
+//        }
+        setPriceUnit("元");
         //分期
         RelativeLayout.LayoutParams layoutParams
                 = (RelativeLayout.LayoutParams) mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentHandle.getLayoutParams();
@@ -219,6 +221,11 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 //            PublishServiceBaseInfoActivity.activity = null;
 //        }
 
+        if (!isCheckedSlashProtocol) {
+            ToastUtils.shortToast("请先同意斜杠协议");
+            return;
+        }
+
         Bundle bundleServiceData = mActivity.getIntent().getExtras();
         String title = bundleServiceData.getString("title");
         String desc = bundleServiceData.getString("desc");
@@ -344,13 +351,45 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         setChoosePriceUnitLayerVisibility(View.INVISIBLE);
         int value = mNpChoosePriceUnit.getValue();
         mChoosePriceUnit = optionalPriceUnit[value];
-        if (value < 8) {
-            setPriceUnit("元/" + mChoosePriceUnit);
-        } else {
-            setPriceUnit("元");
-        }
+//        if (value < 8) {
+//            setPriceUnit("元/" + mChoosePriceUnit);
+//        } else {
+//            setPriceUnit("元");
+//        }
+        setPriceUnit("元");
         quoteunit = value + 1;
         mActivityPublishServiceAddinfoBinding.tvChooseQuoteunit.setText(mChoosePriceUnit);
+    }
+
+    boolean isCheckedSlashProtocol = true;
+
+    /**
+     * @param v
+     */
+    public void checkSlashProtocol(View v) {
+        if (isCheckedSlashProtocol) {
+            isCheckedSlashProtocol = false;
+            mActivityPublishServiceAddinfoBinding.ivSlashProtocolCheckedIcon.setImageResource(R.mipmap.no_checked_icon);
+        } else {
+            isCheckedSlashProtocol = true;
+            mActivityPublishServiceAddinfoBinding.ivSlashProtocolCheckedIcon.setImageResource(R.mipmap.checked_icon);
+        }
+    }
+
+    private static final String slashZeroCommissionInfoText = "斜杠青年倡导“人才开放共享”理念，承诺在双方用户交易过程中，不收取任何佣金。\n" +
+            "\n" +
+            "本服务平台将实际交易金额的5%计提为“顺利成交保证金”，任务顺利完成并且服务、需求双方评价分享后，平台将以交易金额的2.5%奖励形式返还给双方。\n" +
+            "\n" +
+            "如果任务并未顺利成交，已经开始的“服务阶段”对应的“顺利成交保证金”将，不予退还，存放奖金池 用于活动基金；未开始“服务阶段”对应的“顺利成交保证金”将退还给需求方。上述“服务阶段”是指双方用户达成的“分期到账”后各期对应的服务阶段。\n";
+    private static final String slashZeroCommissionInfoTitle = "零佣金承诺及顺利成交保证金是什么？";
+
+    public void openSlashZeroCommissionInfo(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+
+            }
+        }, slashZeroCommissionInfoText, slashZeroCommissionInfoTitle);
     }
 
     private int offlineItemVisibility = View.GONE;

@@ -1,6 +1,10 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.Manifest;
 import android.databinding.BaseObservable;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,8 +20,13 @@ import com.slash.youth.http.protocol.LoginUnBindProtocol;
 import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.ToastUtils;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zss on 2016/11/4.
@@ -90,46 +99,60 @@ public class ThirdPartyModel extends BaseObservable {
 
     //微信
     public void weixin(View view){
-        if(isWinxinBing){//绑定
-            loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
-        }else {//没有绑定
-            if(SpUtils.getString("WEIXIN_token", "").equals("")){
-                loginManager.authorizateWEIXIN(bindThridPartyActivity);
-            }
-            String WEIXIN_token = SpUtils.getString("WEIXIN_token", "");
-            String WEIXIN_uid = SpUtils.getString("WEIXIN_uid", "");
-            loginBind(WEIXIN_token,WEIXIN_uid, GlobalConstants.LoginPlatformType.WECHAT);
-        }
+        UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
+        mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
     }
 
     //qq
     public void qq(View view){
-        if(isQQBing){
-            loginUnBind(GlobalConstants.LoginPlatformType.QQ);
-        }else {
-            if(SpUtils.getString("QQ_token", "").equals("")){
-                loginManager.authorizateQQ(bindThridPartyActivity);
+        UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
+        mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.QQ, umAuthListener);
+    }
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            ToastUtils.shortToast("Authorize succeed");
+            switch (platform) {
+                case QQ:
+                    String QQ_access_token = data.get("access_token");
+                    String uid = data.get("uid");
+
+
+
+                    if(isQQBing){
+                        LogKit.d("==jie==");
+                        loginUnBind(GlobalConstants.LoginPlatformType.QQ);
+                    }else {
+                        LogKit.d("===bind==");
+                        loginBind(QQ_access_token,uid, GlobalConstants.LoginPlatformType.QQ);
+                    }
+
+                    break;
+                case WEIXIN:
+                    String WEIXIN_access_token = data.get("access_token");
+                    String openid = data.get("unionid");
+
+                    if(isWinxinBing){
+                        loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
+
+                    }else {
+                        loginBind(WEIXIN_access_token,openid, GlobalConstants.LoginPlatformType.WECHAT);
+                    }
+                    break;
             }
-            String qq_token = SpUtils.getString("QQ_token", "");
-            String qq_uid = SpUtils.getString("QQ_uid", "");
-
-            loginBind(qq_token,qq_uid, GlobalConstants.LoginPlatformType.QQ);
         }
-    }
 
-    //微博
-    public void weibo(View view){
-        if(isWinboBing){
-            activityMyThridPartyBinding.tvWeiboBinding.setText("去绑定");
-           // LoginManager.serverThirdPartyLogin();
-           loginBind(" token的值 ",GlobalConstants.ThirdAppId.APPID_WEIBO, GlobalConstants.LoginPlatformType.WEIBO);
-            SpUtils.setBoolean("isWinbo",false);
-        }else {
-            activityMyThridPartyBinding.tvWeiboBinding.setText("解绑");
-            loginUnBind(GlobalConstants.LoginPlatformType.WEIBO);
-            SpUtils.setBoolean("isWinbo",true);
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            ToastUtils.shortToast("Authorize fail");
         }
-    }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            ToastUtils.shortToast("Authorize cancel");
+        }
+    };
 
     //绑定第三方账号
     public void loginBind(String token,String uid,Byte loginPlatform) {
@@ -145,11 +168,9 @@ public class ThirdPartyModel extends BaseObservable {
                 switch (type){
                     case 1://微信
                         activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
-                        SpUtils.setBoolean("isWinxin",true);
                         break;
                     case 2://qq
                         activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
-                        SpUtils.setBoolean("isQQ",true);
                         break;
                 }
             }
@@ -173,11 +194,9 @@ public class ThirdPartyModel extends BaseObservable {
                 switch (type){
                     case 1://微信
                         activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
-                        SpUtils.setBoolean("isWinxin",false);
                         break;
                     case 2://qq
                         activityMyThridPartyBinding.tvQQBinding.setText("解绑");
-                        SpUtils.setBoolean("isQQ",false);
                         break;
                 }
 
@@ -187,6 +206,20 @@ public class ThirdPartyModel extends BaseObservable {
                 LogKit.d("result:"+result);
             }
         });
+    }
+
+    //微博
+    public void weibo(View view){
+       /* if(isWinboBing){
+            activityMyThridPartyBinding.tvWeiboBinding.setText("去绑定");
+           // LoginManager.serverThirdPartyLogin();
+           loginBind(" token的值 ",GlobalConstants.ThirdAppId.APPID_WEIBO, GlobalConstants.LoginPlatformType.WEIBO);
+            SpUtils.setBoolean("isWinbo",false);
+        }else {
+            activityMyThridPartyBinding.tvWeiboBinding.setText("解绑");
+            loginUnBind(GlobalConstants.LoginPlatformType.WEIBO);
+            SpUtils.setBoolean("isWinbo",true);
+        }*/
     }
 
 }

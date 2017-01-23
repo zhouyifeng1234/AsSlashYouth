@@ -142,8 +142,6 @@ public class ActivitySearchModel extends BaseObservable {
             case 1:
                 if (RegexUtils.isChz(searchText)) {
                     getSearchContentData(searchText, offset, limit);
-                } else {
-                    ToastUtils.shortToast("输入信息太少，请重新输入");
                 }
                 break;
             default:
