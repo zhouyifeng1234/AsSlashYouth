@@ -290,6 +290,7 @@ public class MyBidDemandModel extends BaseObservable {
     }
 
     public void setDemandFlowLogItemData() {
+        mActivityMyBidDemandBinding.llDemandFlowLogs.removeAllViews();
         for (int i = listLogInfo.size() - 1; i >= 0; i--) {
             DemandFlowLogList.LogInfo logInfo = listLogInfo.get(i);
             View itemLogInfo = inflateItemLogInfo(logInfo);
@@ -494,7 +495,6 @@ public class MyBidDemandModel extends BaseObservable {
                 break;
             case 1:/*已发布*/
             case 4:/*待选择*/
-            case 6://待支付
                 setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
                 break;
             case 7:/*进行中*/
@@ -552,6 +552,7 @@ public class MyBidDemandModel extends BaseObservable {
                 break;
             case 2:/*已取消*/
             case 3:/*被拒绝*/
+            case 6:/*待支付*/
             case 10:/*已退款*/
             case 11:/*已淘汰*/
             default:

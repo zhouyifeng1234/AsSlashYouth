@@ -65,6 +65,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
@@ -1894,6 +1895,12 @@ public class ChatModel extends BaseObservable {
                 mActivity.startActivity(intentServiceDetailActivity);
             }
         }
+    }
+
+    public void gotoTargetUserCenter(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", Long.parseLong(targetId));
+        mActivity.startActivity(intentUserInfoActivity);
     }
 
     private int voiceInputIconVisibility = View.VISIBLE;

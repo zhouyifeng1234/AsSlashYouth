@@ -54,6 +54,15 @@
                         android:textSize="11sp"/>
                     <!--阿里巴巴有限责任公司 UI设计师-->
                 </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:onClick="@{chatModel.gotoTargetUserCenter}"
+                    android:padding="12dp"
+                    android:src="@mipmap/chat_user_icon"/>
+
             </FrameLayout>
 
             <LinearLayout
@@ -520,10 +529,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
+            android:visibility="gone"
 
-            android:visibility="@{chatModel.loadLayerVisibility}"
         >
-            <!--android:visibility="gone"-->
+            <!--android:visibility="@{chatModel.loadLayerVisibility}"-->
 
             <LinearLayout
                 android:layout_width="wrap_content"

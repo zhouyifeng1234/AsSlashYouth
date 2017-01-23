@@ -88,18 +88,25 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 //        }
         if (data.instalment == 0) {
             //未开启分期
-            mItemMyTaskModel.setInstalmentText("");
-            mItemMyTaskModel.setInstalmentratioStr("");
+//            mItemMyTaskModel.setInstalmentText("");
+//            mItemMyTaskModel.setInstalmentratioStr("");
+            mItemMyTaskModel.setInstalmentTextVisibility(View.GONE);
+            mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
         } else {
             //开启分期
             //显示每一期的分期比例
             String[] instalmentratioArray = data.instalmentratio.split(",");
             if (instalmentratioArray.length <= 1) {
                 //只分了一期，相当于未开启分期
-                mItemMyTaskModel.setInstalmentText("");
-                mItemMyTaskModel.setInstalmentratioStr("");
+//                mItemMyTaskModel.setInstalmentText("");
+//                mItemMyTaskModel.setInstalmentratioStr("");
+                mItemMyTaskModel.setInstalmentTextVisibility(View.GONE);
+                mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
             } else {
-                mItemMyTaskModel.setInstalmentText("分期");
+                mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
+                mItemMyTaskModel.setInstalmentratioStrVisibility(View.VISIBLE);
+
+                mItemMyTaskModel.setInstalmentText("分期到账");
                 String instalmentratioStr = "";
                 for (int i = 0; i < instalmentratioArray.length; i++) {
                     String ratio = instalmentratioArray[i];
@@ -121,7 +128,11 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 
         //显示报价前应该先判断是否需要显示报价
         if (data.type == 1) {//需求
-            mItemMyTaskModel.setQuote((int) (data.quote) + "元");
+            if (data.quote <= 0) {
+                mItemMyTaskModel.setQuote("服务方报价");
+            } else {
+                mItemMyTaskModel.setQuote((int) (data.quote) + "元");
+            }
         } else if (data.type == 2) {//服务
             if (data.quoteunit == 9) {
                 mItemMyTaskModel.setQuote((int) (data.quote) + "元");

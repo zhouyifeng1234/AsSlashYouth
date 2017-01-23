@@ -8,15 +8,20 @@ import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityPublishDemandSuccessBinding;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
+import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.RecommendServiceUserBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by zhouyifeng on 2016/10/18.
@@ -27,6 +32,7 @@ public class PublishDemandSuccessModel extends BaseObservable {
     Activity mActivity;
     long demandId;
     boolean isUpdate;
+    ArrayList<RecommendServiceUserBean.ServiceUserInfo> listRecommendServiceUser;
 
     public PublishDemandSuccessModel(ActivityPublishDemandSuccessBinding activityPublishDemandSuccessBinding, Activity activity) {
         this.mActivityPublishDemandSuccessBinding = activityPublishDemandSuccessBinding;
@@ -41,11 +47,27 @@ public class PublishDemandSuccessModel extends BaseObservable {
         getDataFromServer();
     }
 
+    DemandDetailBean demandDetailBean = null;
+
     private void getDataFromServer() {
+        //或者需求ID，获取需求详情
+        DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
+            @Override
+            public void execute(DemandDetailBean dataBean) {
+                demandDetailBean = dataBean;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("查看需求详情失败:" + result);
+            }
+        }, demandId + "");
+        //获取推荐服务者列表，一共有5个推荐服务者
         DemandEngine.getRecommendServiceUser(new BaseProtocol.IResultExecutor<RecommendServiceUserBean>() {
             @Override
             public void execute(RecommendServiceUserBean dataBean) {
-                mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setAdapter(new RecommendServicePartAdapter(dataBean.data.list));
+                listRecommendServiceUser = dataBean.data.list;
+                mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setAdapter(new RecommendServicePartAdapter(listRecommendServiceUser));
             }
 
             @Override
@@ -78,6 +100,47 @@ public class PublishDemandSuccessModel extends BaseObservable {
         Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
         intentDemandDetailActivity.putExtra("demandId", demandId);
         mActivity.startActivity(intentDemandDetailActivity);
+    }
+
+    /**
+     * 点击“马上邀请他们按钮”，把需求分享给选中的服务者
+     *
+     * @param v
+     */
+    public void shareDemand(View v) {
+        if (demandDetailBean != null) {
+            ArrayList<Integer> listCheckedItemId = RecommendServicePartAdapter.listCheckedItemId;
+            if (listCheckedItemId.size() == 1) {
+                //只选中了一个，分享的时候会弹出聊天框
+                int position = listCheckedItemId.get(0);
+                RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listRecommendServiceUser.get(position);
+                DemandDetailBean.Demand demand = demandDetailBean.data.demand;
+
+                String targetId = serviceUserInfo.uid + "";
+                ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+                chatCmdShareTaskBean.uid = LoginManager.currentLoginUserId;
+                chatCmdShareTaskBean.avatar = LoginManager.currentLoginUserAvatar;
+                chatCmdShareTaskBean.title = demand.title;
+                if (demand.quote <= 0) {
+                    chatCmdShareTaskBean.quote = "服务方报价";
+                } else {
+                    chatCmdShareTaskBean.quote = demand.quote + "元";
+                }
+                chatCmdShareTaskBean.type = 1;
+                chatCmdShareTaskBean.tid = demandId;
+
+                Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+                intentChatActivity.putExtra("targetId", targetId);
+                intentChatActivity.putExtra("chatCmdName", "sendShareTask");
+                intentChatActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
+                mActivity.startActivity(intentChatActivity);
+
+            } else if (listCheckedItemId.size() >= 2) {
+                //选中了多个，分享的时候不弹出聊天框
+
+
+            }
+        }
     }
 
     private int publishSuccessHintVisibility;

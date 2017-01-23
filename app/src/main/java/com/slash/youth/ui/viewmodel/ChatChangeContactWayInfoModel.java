@@ -18,7 +18,8 @@ public class ChatChangeContactWayInfoModel extends BaseObservable {
     public ChatChangeContactWayInfoModel(ItemChatChangeContactWayInfoBinding itemChatChangeContactWayInfoBinding, Activity activity, String name, String otherPhone) {
         this.mItemChatChangeContactWayInfoBinding = itemChatChangeContactWayInfoBinding;
         this.mActivity = activity;
-        setOtherContactInfo(name + "的手机号：" + otherPhone);
+        //setOtherContactInfo(name + "的手机号：" + otherPhone);
+        setOtherContactInfo(otherPhone);
 
         initData();
         initView();
