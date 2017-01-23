@@ -67,8 +67,10 @@ public class PullToRefreshListViewModel extends BaseObservable {
 
     public void getData(boolean isDemand) {
         if(isDemand){
+            arrayListDemand.clear();
              FirstPagerManager.onFreeTimeMoreDemandList(new onFreeTimeMoreDemandList(),pattern,  isauth,  city,  sort, lng, lat, offset,limit);
         }else {
+            arrayListService.clear();
              FirstPagerManager.onFreeTimeMoreServiceList(new onFreeTimeMoreServiceList(),tag,  pattern,  isauth,  city,  sort, lng, lat, offset,limit);
         }
     }
@@ -160,7 +162,9 @@ public class PullToRefreshListViewModel extends BaseObservable {
                     pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
                     pullToRefreshListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                    pagerHomeServiceAdapter.notifyDataSetChanged();
                 }
+
             }
         }
         @Override
@@ -186,6 +190,7 @@ public class PullToRefreshListViewModel extends BaseObservable {
                     pagerHomeDemandtAdapter = new PagerMoreDemandtAdapter(arrayListDemand,firstPagerMoreActivity);
                     pullToRefreshListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                    pagerHomeDemandtAdapter.notifyDataSetChanged();
                 }
             }
         }

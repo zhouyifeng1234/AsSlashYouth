@@ -27,7 +27,7 @@ public class LocationCityFirstLetterHolder extends BaseHolder<Character> {
     public View initView() {
         AbsListView.LayoutParams params=new AbsListView.LayoutParams(-2,-2);
         mTvLocationCityFirstLetter = new TextView(CommonUtils.getContext());
-        mTvLocationCityFirstLetter.setTextSize(12);
+        mTvLocationCityFirstLetter.setTextSize(8);
         mTvLocationCityFirstLetter.setPadding(CommonUtils.dip2px(3),CommonUtils.dip2px(3),CommonUtils.dip2px(3),CommonUtils.dip2px(3));
         mTvLocationCityFirstLetter.setTextColor(Color.parseColor("#999999"));
         mTvLocationCityFirstLetter.setGravity(Gravity.CENTER);

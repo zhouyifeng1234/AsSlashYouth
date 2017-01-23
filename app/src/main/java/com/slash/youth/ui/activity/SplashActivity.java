@@ -162,7 +162,7 @@ public class SplashActivity extends Activity {
                     SpUtils.setString("downloadurl", url);
                 }
 
-                url = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";
+               // url = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";
                 int forceupdate = data.getForceupdate();//是否强制更新 0表示不强制，1表示强制
                 long NetVersionCode = data.getCode();//服务端更新的版本
                 // 检测版本更新

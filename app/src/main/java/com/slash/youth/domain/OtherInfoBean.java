@@ -39,9 +39,9 @@ public class OtherInfoBean {
         }
 
         public static class UinfoBean implements Serializable{
-            private int achievetaskcount;
+            private long achievetaskcount;
             private String avatar;
-            private int averageservicepoint;
+            private double averageservicepoint;
             private int careertype;
             private String city;
             private String company;
@@ -49,7 +49,7 @@ public class OtherInfoBean {
             private String direction;
             private int expert;
             private int fanscount;
-            private int fansratio;
+            private double fansratio;
             private int id;
             private String identity;
             private String industry;
@@ -58,7 +58,7 @@ public class OtherInfoBean {
             private String position;
             private String province;
             private String tag;
-            private int totoltaskcount;
+            private long totoltaskcount;
             private double userservicepoint;
             private int relationshipscount;
 
@@ -71,13 +71,7 @@ public class OtherInfoBean {
                 this.relationshipscount = relationshipscount;
             }
 
-            public int getAchievetaskcount() {
-                return achievetaskcount;
-            }
 
-            public void setAchievetaskcount(int achievetaskcount) {
-                this.achievetaskcount = achievetaskcount;
-            }
 
             public String getAvatar() {
                 return avatar;
@@ -87,13 +81,7 @@ public class OtherInfoBean {
                 this.avatar = avatar;
             }
 
-            public int getAverageservicepoint() {
-                return averageservicepoint;
-            }
 
-            public void setAverageservicepoint(int averageservicepoint) {
-                this.averageservicepoint = averageservicepoint;
-            }
 
             public int getCareertype() {
                 return careertype;
@@ -143,21 +131,7 @@ public class OtherInfoBean {
                 this.expert = expert;
             }
 
-            public int getFanscount() {
-                return fanscount;
-            }
 
-            public void setFanscount(int fanscount) {
-                this.fanscount = fanscount;
-            }
-
-            public int getFansratio() {
-                return fansratio;
-            }
-
-            public void setFansratio(int fansratio) {
-                this.fansratio = fansratio;
-            }
 
             public int getId() {
                 return id;
@@ -223,11 +197,43 @@ public class OtherInfoBean {
                 this.tag = tag;
             }
 
-            public int getTotoltaskcount() {
+            public long getAchievetaskcount() {
+                return achievetaskcount;
+            }
+
+            public void setAchievetaskcount(long achievetaskcount) {
+                this.achievetaskcount = achievetaskcount;
+            }
+
+            public double getAverageservicepoint() {
+                return averageservicepoint;
+            }
+
+            public void setAverageservicepoint(double averageservicepoint) {
+                this.averageservicepoint = averageservicepoint;
+            }
+
+            public int getFanscount() {
+                return fanscount;
+            }
+
+            public void setFanscount(int fanscount) {
+                this.fanscount = fanscount;
+            }
+
+            public double getFansratio() {
+                return fansratio;
+            }
+
+            public void setFansratio(double fansratio) {
+                this.fansratio = fansratio;
+            }
+
+            public long getTotoltaskcount() {
                 return totoltaskcount;
             }
 
-            public void setTotoltaskcount(int totoltaskcount) {
+            public void setTotoltaskcount(long totoltaskcount) {
                 this.totoltaskcount = totoltaskcount;
             }
 

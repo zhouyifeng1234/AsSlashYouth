@@ -80,12 +80,15 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     public void getData(String searchType) {
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
+                arrayListDemand.clear();
                 SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
+                arrayListService.clear();
                 SearchManager.getSearchServiceList(new onGetSearchServiceList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
+                arryListUser.clear();
                 SearchManager.getSearchUserList(new onGetSearchUserList(),tag,isauth,sort, offset,limit);
                 break;
         }
@@ -195,6 +198,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     pagerHomeDemandtAdapter = new PagerSearchDemandtAdapter(arrayListDemand);
                     pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                    pagerHomeDemandtAdapter.notifyDataSetChanged();
                 }
             }
         }
@@ -222,6 +226,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
                     pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                    pagerHomeServiceAdapter.notifyDataSetChanged();
                 }
             }
         }
@@ -249,6 +254,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 pagerSearchPersonAdapter = new PagerSearchPersonAdapter(arryListUser);
                 pullToRefreshTabListviewBinding.lv.setAdapter(pagerSearchPersonAdapter);
                 pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                pagerSearchPersonAdapter.notifyDataSetChanged();
                 }
             }
         }

@@ -51,7 +51,7 @@ public class MyFirstPageBean {
             private double expertratio;
             private int expertscore;
             private int fanscount;
-            private int fansratio;
+            private double fansratio;
             private int id;
             private String identity;
             private String industry;
@@ -61,7 +61,7 @@ public class MyFirstPageBean {
             private String position;
             private String province;
             private String tag;
-            private int totoltaskcount;
+            private long totoltaskcount;
             private double userservicepoint;
             private List<Integer> expertlevels;
 
@@ -104,6 +104,14 @@ public class MyFirstPageBean {
 
             public void setAverageservicepoint(int averageservicepoint) {
                 this.averageservicepoint = averageservicepoint;
+            }
+
+            public int getFanscount() {
+                return fanscount;
+            }
+
+            public void setFanscount(int fanscount) {
+                this.fanscount = fanscount;
             }
 
             public int getCareertype() {
@@ -162,19 +170,12 @@ public class MyFirstPageBean {
                 this.expertscore = expertscore;
             }
 
-            public int getFanscount() {
-                return fanscount;
-            }
 
-            public void setFanscount(int fanscount) {
-                this.fanscount = fanscount;
-            }
-
-            public int getFansratio() {
+            public double getFansratio() {
                 return fansratio;
             }
 
-            public void setFansratio(int fansratio) {
+            public void setFansratio(double fansratio) {
                 this.fansratio = fansratio;
             }
 
@@ -250,11 +251,11 @@ public class MyFirstPageBean {
                 this.tag = tag;
             }
 
-            public int getTotoltaskcount() {
+            public long getTotoltaskcount() {
                 return totoltaskcount;
             }
 
-            public void setTotoltaskcount(int totoltaskcount) {
+            public void setTotoltaskcount(long totoltaskcount) {
                 this.totoltaskcount = totoltaskcount;
             }
 

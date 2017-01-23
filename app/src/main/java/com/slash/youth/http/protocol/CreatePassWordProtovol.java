@@ -32,6 +32,8 @@ public class CreatePassWordProtovol extends BaseProtocol<SetBean> {
         String createPass = MD5Utils.md5(pass);
         params.addBodyParameter("pass",createPass);
         params.addBodyParameter("url",url);
+
+        LogKit.d("=vreate========"+createPass+"==="+url);
     }
 
     @Override

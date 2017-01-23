@@ -160,5 +160,6 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
        service.tag= listBean.getTag();
        service.uid = listBean.getUid();
         service.quote = listBean.getQuote();
+        service.timetype = 4;
     }
 }

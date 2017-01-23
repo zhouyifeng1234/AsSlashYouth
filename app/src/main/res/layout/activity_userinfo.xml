@@ -694,12 +694,13 @@
 
                         <TextView
                             android:id="@+id/tv_none"
-                            android:layout_marginTop="5dp"
                             android:visibility="gone"
+                            android:layout_marginTop="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
+                            android:text="这家伙很懒，还没有发布任务呢!"
                             />
                     </LinearLayout>
 

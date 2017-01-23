@@ -10,7 +10,7 @@ public class TimeUtils {
     private  static  long oneHour = 60*60*1000;  //一个小时
     private  static long oneDay = 24*oneHour;  //一天
     private static long currentTime;
-    private static String pattern1 = "mm分钟之前";
+    private static String pattern1 = "mm分钟";
     private static String pattern2 = "HH:mm";
     private static String pattern3 = "MM月dd日HH:mm";
     private static String pattern4 = "MM/dd/yyyy HH:mm:ss";
@@ -20,15 +20,15 @@ public class TimeUtils {
     public static String getTime(long uts) {
         currentTime = System.currentTimeMillis();
 
-        if((uts-currentTime)<oneHour){
+        if((currentTime-uts)<oneHour){
             return getString(uts,pattern1);
         }
 
-        if((uts-currentTime)>oneHour&&(uts-currentTime)<oneDay){
+        if((currentTime-uts)>oneHour&&(uts-currentTime)<oneDay){
             return getString(uts,pattern2);
         }
 
-        if((uts-currentTime)>oneDay){
+        if((currentTime-uts)>oneDay){
             return getString(uts,pattern3);
         }
 

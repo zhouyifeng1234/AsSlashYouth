@@ -53,7 +53,7 @@ public class PagerHomeMyModel extends BaseObservable {
     float expertMarksProgress;//0到360
     private int achievetaskcount;
     private   String avatar;
-    private int averageservicepoint;
+    private double averageservicepoint;
     private double userservicepoint;
     private int careertype = 1;
     private String company;
@@ -66,9 +66,9 @@ public class PagerHomeMyModel extends BaseObservable {
     private String industry;
     private String direction;
     private String tag;
-    private int fanscount;
-    private int fansratio;
-    private int totoltaskcount;
+    private int  fanscount;
+    private double fansratio;
+    private long totoltaskcount;
     private long id;
     public String phone;
     private String unit = "元";
@@ -77,6 +77,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private RotateAnimation raExpertMarksMaker;
     private int loadLayerVisibility = View.GONE;
     private int approvalDialog = View.GONE;
+    private int taskProgress;
 
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
@@ -247,21 +248,30 @@ public class PagerHomeMyModel extends BaseObservable {
         //粉丝数
         fanscount = myinfo.getFanscount();
         mPagerHomeMyBinding.tvFansCount.setText("粉丝数" + fanscount);
-        mPagerHomeMyBinding.pbProgressbarFans.setProgress(fanscount);
-        //粉丝比率
         fansratio = myinfo.getFansratio();
-        mPagerHomeMyBinding.tvFansRadio.setText(fansratio + "%");
-        mPagerHomeMyBinding.tvOverFansCount.setText("超过平台" + fansratio + "%" + "的用户");
+        if(fansratio>0&&fansratio<=1){
+            fansratio = 1;
+        }
+        mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) fansratio);
+        //粉丝比率
+        mPagerHomeMyBinding.tvFansRadio.setText(String.valueOf(fansratio) + "%");
+        mPagerHomeMyBinding.tvOverFansCount.setText("超过平台" + String.valueOf(fansratio) + "%" + "的用户");
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
-        mPagerHomeMyBinding.pbProgressbarTask.setProgress(achievetaskcount);
+        if(totoltaskcount!=0){
+            taskProgress = (int)(achievetaskcount* 100 / totoltaskcount);
+        }else {
+            taskProgress = 0;
+        }
+        mPagerHomeMyBinding.pbProgressbarTask.setProgress((int)taskProgress);
         mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
         mPagerHomeMyBinding.tvMyTask.setText(achievetaskcount + "");
         mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
-        mPagerHomeMyBinding.pbProgressbarService.setProgress(averageservicepoint);
+        int servicepoint = (int)((averageservicepoint*100)/ 5);
+        mPagerHomeMyBinding.pbProgressbarService.setProgress((int)servicepoint);
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
