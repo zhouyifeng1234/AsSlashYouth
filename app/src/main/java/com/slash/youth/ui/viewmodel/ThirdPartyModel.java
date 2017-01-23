@@ -78,13 +78,13 @@ public class ThirdPartyModel extends BaseObservable {
                     for (String platform : platforms) {
                         if(platform.equals("1")){
                             isWinxinBing = true;
-                            type = GlobalConstants.LoginPlatformType.WECHAT;
+                            //type = GlobalConstants.LoginPlatformType.WECHAT;
                         }else if(platform.equals("2")){
                             isQQBing = true;
-                            type = GlobalConstants.LoginPlatformType.QQ;
+                            //type = GlobalConstants.LoginPlatformType.QQ;
                         }else if(platform.equals("3")){
                             isWinboBing = true;
-                            type = GlobalConstants.LoginPlatformType.WEIBO;
+                            //type = GlobalConstants.LoginPlatformType.WEIBO;
                         }
                     }
                     initView(isWinxinBing,isQQBing,isWinboBing);
@@ -99,36 +99,49 @@ public class ThirdPartyModel extends BaseObservable {
 
     //微信
     public void weixin(View view){
+        type = GlobalConstants.LoginPlatformType.WECHAT;
         if(isWinxinBing){
             loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
 
         }else {
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
+            if (Build.VERSION.SDK_INT >= 23) {
+                String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+                ActivityCompat.requestPermissions(bindThridPartyActivity, mPermissionList, 123);
+            }
         }
     }
 
     //qq
     public void qq(View view){
+        type = GlobalConstants.LoginPlatformType.QQ;
         if(isQQBing){
             loginUnBind(GlobalConstants.LoginPlatformType.QQ);
 
         }else {
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
-            mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.QQ, umAuthListener);
+            if (mShareAPI.isInstall(bindThridPartyActivity, SHARE_MEDIA.QQ)) {
+                mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.QQ, umAuthListener);
+            } else {
+                ToastUtils.shortToast("请先安装QQ客户端");
+            }
         }
     }
+
+
 
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             ToastUtils.shortToast("Authorize succeed");
+            UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             switch (platform) {
                 case QQ:
-                    String QQ_access_token = data.get("access_token");
-                    String uid = data.get("uid");
-                    LogKit.d("==QQ_access_token="+QQ_access_token+"==qquid="+uid);
-                    loginBind(QQ_access_token,uid, GlobalConstants.LoginPlatformType.QQ);
+                    String  QQ_access_token = data.get("access_token");
+                    String  QQ_uid = data.get("uid");
+                    LogKit.d("==QQ_access_token="+QQ_access_token+"==qquid="+QQ_uid);
+                    loginBind(QQ_access_token,QQ_uid, GlobalConstants.LoginPlatformType.QQ);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
@@ -157,21 +170,19 @@ public class ThirdPartyModel extends BaseObservable {
             @Override
             public void execute(LoginBindBean dataBean) {
                 int rescode = dataBean.getRescode();
-                switch (rescode){
-                    case 0://ok
-                        switch (type){
-                            case 1://微信
-                                activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
-                                isWinxinBing = true;
-                                break;
-                            case 2://qq
-                                activityMyThridPartyBinding.tvQQBinding.setText("解绑");
-                                isQQBing = true;
-                                break;
-                        }
-                        break;
-                    case 1:
-                        break;
+                if(rescode == 0){
+                    switch (type){
+                        case GlobalConstants.LoginPlatformType.WECHAT://微信
+                            activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
+                            isWinxinBing = true;
+                            break;
+                        case GlobalConstants.LoginPlatformType.QQ://qq
+                            activityMyThridPartyBinding.tvQQBinding.setText("解绑");
+                            isQQBing = true;
+                            break;
+                    }
+                }else {
+                    ToastUtils.shortCenterToast("绑定失败");
                 }
             }
             @Override
@@ -188,21 +199,19 @@ public class ThirdPartyModel extends BaseObservable {
             @Override
             public void execute(LoginBindBean dataBean) {
                 int rescode = dataBean.getRescode();
-                switch (rescode){
-                    case 1:
-                        break;
-                    case 0://ok
-                        switch (type){
-                            case 1://微信
-                                activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
-                                isWinxinBing = false;
-                                break;
-                            case 2://qq
-                                activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
-                                isQQBing = false;
-                                break;
-                        }
-                        break;
+                if(rescode == 0){
+                    switch (type){
+                        case GlobalConstants.LoginPlatformType.WECHAT://微信
+                            activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
+                            isWinxinBing = false;
+                            break;
+                        case GlobalConstants.LoginPlatformType.QQ://qq
+                            activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
+                            isQQBing = false;
+                            break;
+                    }
+                }else {
+                    ToastUtils.shortCenterToast("解绑失败");
                 }
             }
             @Override
