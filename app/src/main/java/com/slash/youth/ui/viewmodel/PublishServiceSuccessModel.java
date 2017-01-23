@@ -76,6 +76,8 @@ public class PublishServiceSuccessModel extends BaseObservable {
                 //这里不会执行
             }
         });
+
+//        ServiceEngine.getRecommendDemandUser();
     }
 
     private void initView() {
@@ -113,6 +115,15 @@ public class PublishServiceSuccessModel extends BaseObservable {
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
         mActivity.startActivity(intentApprovalActivity);
+    }
+
+    /**
+     * 服务发布成功页面，点击“马上联系他们”，将服务分享给推荐的需求者
+     *
+     * @param v
+     */
+    public void shareTask(View v) {
+
     }
 
     private int publishSuccessHintVisibility;

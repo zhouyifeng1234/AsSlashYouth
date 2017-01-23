@@ -18,6 +18,7 @@ import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ShareTaskUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
@@ -137,8 +138,26 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
             } else if (listCheckedItemId.size() >= 2) {
                 //选中了多个，分享的时候不弹出聊天框
+                for (int position : listCheckedItemId) {
+                    RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listRecommendServiceUser.get(position);
+                    DemandDetailBean.Demand demand = demandDetailBean.data.demand;
 
+                    String targetId = serviceUserInfo.uid + "";
+                    ChatCmdShareTaskBean chatCmdShareTaskBean = new ChatCmdShareTaskBean();
+                    chatCmdShareTaskBean.uid = LoginManager.currentLoginUserId;
+                    chatCmdShareTaskBean.avatar = LoginManager.currentLoginUserAvatar;
+                    chatCmdShareTaskBean.title = demand.title;
+                    if (demand.quote <= 0) {
+                        chatCmdShareTaskBean.quote = "服务方报价";
+                    } else {
+                        chatCmdShareTaskBean.quote = demand.quote + "元";
+                    }
+                    chatCmdShareTaskBean.type = 1;
+                    chatCmdShareTaskBean.tid = demandId;
 
+                    ShareTaskUtils.sendShareTask(chatCmdShareTaskBean, targetId);
+                }
+                ToastUtils.shortToast("邀请已经发送成功");
             }
         }
     }
