@@ -78,13 +78,13 @@ public class ThirdPartyModel extends BaseObservable {
                     for (String platform : platforms) {
                         if(platform.equals("1")){
                             isWinxinBing = true;
-                            type = 1;
+                            type = GlobalConstants.LoginPlatformType.WECHAT;
                         }else if(platform.equals("2")){
                             isQQBing = true;
-                            type = 2;
+                            type = GlobalConstants.LoginPlatformType.QQ;
                         }else if(platform.equals("3")){
                             isWinboBing = true;
-                            type = 3;
+                            type = GlobalConstants.LoginPlatformType.WEIBO;
                         }
                     }
                     initView(isWinxinBing,isQQBing,isWinboBing);
@@ -99,14 +99,24 @@ public class ThirdPartyModel extends BaseObservable {
 
     //微信
     public void weixin(View view){
-        UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
-        mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
+        if(isWinxinBing){
+            loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
+
+        }else {
+            UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
+            mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
+        }
     }
 
     //qq
     public void qq(View view){
-        UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
-        mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.QQ, umAuthListener);
+        if(isQQBing){
+            loginUnBind(GlobalConstants.LoginPlatformType.QQ);
+
+        }else {
+            UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
+            mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.QQ, umAuthListener);
+        }
     }
 
     private UMAuthListener umAuthListener = new UMAuthListener() {
@@ -117,28 +127,14 @@ public class ThirdPartyModel extends BaseObservable {
                 case QQ:
                     String QQ_access_token = data.get("access_token");
                     String uid = data.get("uid");
-
-
-
-                    if(isQQBing){
-                        LogKit.d("==jie==");
-                        loginUnBind(GlobalConstants.LoginPlatformType.QQ);
-                    }else {
-                        LogKit.d("===bind==");
-                        loginBind(QQ_access_token,uid, GlobalConstants.LoginPlatformType.QQ);
-                    }
-
+                    LogKit.d("==QQ_access_token="+QQ_access_token+"==qquid="+uid);
+                    loginBind(QQ_access_token,uid, GlobalConstants.LoginPlatformType.QQ);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
-
-                    if(isWinxinBing){
-                        loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
-
-                    }else {
-                        loginBind(WEIXIN_access_token,openid, GlobalConstants.LoginPlatformType.WECHAT);
-                    }
+                    LogKit.d("===WEIXIN_access_token=="+WEIXIN_access_token+"=openid="+openid);
+                    loginBind(WEIXIN_access_token,openid, GlobalConstants.LoginPlatformType.WECHAT);
                     break;
             }
         }
@@ -156,21 +152,25 @@ public class ThirdPartyModel extends BaseObservable {
 
     //绑定第三方账号
     public void loginBind(String token,String uid,Byte loginPlatform) {
-        LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token,uid,loginPlatform);
+        final LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token,uid,loginPlatform);
         loginBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
             @Override
             public void execute(LoginBindBean dataBean) {
-                LoginBindBean.DataBean data = dataBean.getData();
-                String token1 = data.getToken();
-                String uid1 = data.getUid();
-                LogKit.d("bind返回值:"+token1+" "+uid1);
-
-                switch (type){
-                    case 1://微信
-                        activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
+                int rescode = dataBean.getRescode();
+                switch (rescode){
+                    case 0://ok
+                        switch (type){
+                            case 1://微信
+                                activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
+                                isWinxinBing = true;
+                                break;
+                            case 2://qq
+                                activityMyThridPartyBinding.tvQQBinding.setText("解绑");
+                                isQQBing = true;
+                                break;
+                        }
                         break;
-                    case 2://qq
-                        activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
+                    case 1:
                         break;
                 }
             }
@@ -187,19 +187,23 @@ public class ThirdPartyModel extends BaseObservable {
         loginUnBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
             @Override
             public void execute(LoginBindBean dataBean) {
-                LoginBindBean.DataBean data = dataBean.getData();
-                String token2 = data.getToken();
-                String uid2 = data.getUid();
-                LogKit.d("unbind返回值:"+token2+" "+uid2);
-                switch (type){
-                    case 1://微信
-                        activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
+                int rescode = dataBean.getRescode();
+                switch (rescode){
+                    case 1:
                         break;
-                    case 2://qq
-                        activityMyThridPartyBinding.tvQQBinding.setText("解绑");
+                    case 0://ok
+                        switch (type){
+                            case 1://微信
+                                activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
+                                isWinxinBing = false;
+                                break;
+                            case 2://qq
+                                activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
+                                isQQBing = false;
+                                break;
+                        }
                         break;
                 }
-
             }
             @Override
             public void executeResultError(String result) {

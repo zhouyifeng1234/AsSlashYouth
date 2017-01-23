@@ -35,6 +35,7 @@ import com.slash.youth.utils.ToastUtils;
 
 import org.greenrobot.greendao.internal.LongHashMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -382,18 +383,6 @@ public class MySettingModel extends BaseObservable {
         logout(LoginManager.token);
         setLogoutDialogVisibility(View.GONE);
 
-//        ActivityManager mActivityManager = (ActivityManager) CommonUtils.getApplication().getSystemService(Context.ACTIVITY_SERVICE);
-//        List<ActivityManager.AppTask> appTasks = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            appTasks = mActivityManager.getAppTasks();
-//        }
-//        for (ActivityManager.AppTask appTask : appTasks) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                appTask.finishAndRemoveTask();
-//            }
-//        }
-
-
         SlashApplication application = (SlashApplication) CommonUtils.getApplication();
         ArrayList<Activity> listActivities = application.listActivities;
         for (Activity activity : listActivities) {
@@ -404,7 +393,7 @@ public class MySettingModel extends BaseObservable {
             } else {
                 listActivities.remove(activity);
             }
-        }*/
+        }
 
 
         Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);

@@ -4,9 +4,21 @@ package com.slash.youth.domain;
  * Created by zss on 2016/11/13.
  */
 public class LoginBindBean {
+    private int rescode;
+
+    public int getRescode() {
+        return rescode;
+    }
+
+    public void setRescode(int rescode) {
+        this.rescode = rescode;
+    }
 
 
-    private DataBean data;
+
+
+
+   /* private DataBean data;
 
     public DataBean getData() {
         return data;
@@ -35,5 +47,5 @@ public class LoginBindBean {
         public void setUid(String uid) {
             this.uid = uid;
         }
-    }
+    }*/
 }
