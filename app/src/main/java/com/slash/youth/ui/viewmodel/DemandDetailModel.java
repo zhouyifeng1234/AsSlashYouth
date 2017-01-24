@@ -395,7 +395,7 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("yyyy年MM月dd日发布");//9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm发布");//9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述

@@ -23,7 +23,7 @@ public class UserInfoBean {
         public String direction;
         public int expert;
         public int fanscount;
-        public int fansratio;
+        public double fansratio;
         public long id;
         public String identity;
         public String industry;

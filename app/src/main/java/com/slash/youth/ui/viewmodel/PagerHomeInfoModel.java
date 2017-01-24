@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeInfoBinding;
 import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.MsgManager;
@@ -64,6 +65,9 @@ public class PagerHomeInfoModel extends BaseObservable {
                 intentChatActivity.putExtra("targetId", uid + "");
                 mActivity.startActivity(intentChatActivity);
 
+                //清楚小圆点
+                View viewUnReadPoint = view.findViewById(R.id.tv_info_unread_msg_count);
+                viewUnReadPoint.setVisibility(View.INVISIBLE);
             }
         });
     }
