@@ -21,8 +21,10 @@ import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.ui.viewmodel.MySkillManageModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,6 +85,9 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
                     finish();
                     break;
             case R.id.tv_userinfo_save:
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SKILL_AGREEMENT_ADD_SKILL);
+
                 jumpMyAddSkillActivity(this,skillListId);
                 break;
         }

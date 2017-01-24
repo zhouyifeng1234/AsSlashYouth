@@ -76,7 +76,6 @@ public class MySettingModel extends BaseObservable {
                 int rescode = dataBean.rescode;
                 if (rescode == 0) {
                     int status = dataBean.data.status;
-                    LogKit.d("====--------------==="+status);
                     switch (status) {
                         case 1://1表示当前有交易密码
                             activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
@@ -91,8 +90,8 @@ public class MySettingModel extends BaseObservable {
                             type = 2;
                             break;
                         case 3://3有密码处于审核中
-                            activityMySettingBinding.viewRevise.setVisibility(View.VISIBLE);
-                            activityMySettingBinding.rlRevise.setVisibility(View.VISIBLE);
+                            activityMySettingBinding.viewRevise.setVisibility(View.GONE);
+                            activityMySettingBinding.rlRevise.setVisibility(View.GONE);
                             activityMySettingBinding.tvSetAndfindPassword.setText(setPassWord);
                             type = 3;
                             break;

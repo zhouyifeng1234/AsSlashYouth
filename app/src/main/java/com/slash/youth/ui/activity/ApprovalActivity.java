@@ -18,8 +18,10 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zss on 2016/11/5.
@@ -60,10 +62,9 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_userinfo_back:
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_RETURE);
                 finish();
-
-
-
                 break;
         }
     }

@@ -342,6 +342,9 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvMyApproval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE);
+
                 switch (careertype){
                     case 1:
 
@@ -380,6 +383,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //编辑点击事件
     public void editor(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_EDIT_PROFILE);
+
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("phone", phone);
         intentUserinfoEditorActivity.putExtra("myUinfo", myinfo);
@@ -389,6 +395,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //个人信息页面
     public void personInfo(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_PERSON_MESSAGE);
+
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("phone", phone);
         intentUserInfoActivity.putExtra("skillTag", tag);
@@ -398,6 +407,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //我的账户
     public void myAccount(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_ACCOUNT);
+
         Intent intentMyAccountActivity = new Intent(CommonUtils.getContext(), MyAccountActivity.class);
         intentMyAccountActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyAccountActivity);
@@ -411,6 +423,8 @@ public class PagerHomeMyModel extends BaseObservable {
         intentMySkillManageActivity.putExtra("avater", avatar);
         intentMySkillManageActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMySkillManageActivity);
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SKILL_AGREEMENT);
     }
 
     //设置
@@ -426,6 +440,8 @@ public class PagerHomeMyModel extends BaseObservable {
     public void myThirdParty(View view) {
         Intent intentThridPartyActivity = new Intent(CommonUtils.getContext(), BindThridPartyActivity.class);
         mActivity.startActivity(intentThridPartyActivity);
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT);
     }
 
     //管理我发布的
@@ -450,6 +466,8 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentMyCollectionActivity = new Intent(CommonUtils.getContext(), MyCollectionActivity.class);
         intentMyCollectionActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentMyCollectionActivity);
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_COLLECT);
     }
 
     //获取我的用户信息数据
@@ -474,6 +492,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     //点击问号，影响力
     public void influence(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_INFLUENCE);
+
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("influence", "influence");
         mActivity.startActivity(intentCommonQuestionActivity);

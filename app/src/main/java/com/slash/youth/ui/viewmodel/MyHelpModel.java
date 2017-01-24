@@ -22,10 +22,12 @@ import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.ui.activity.ContactUsActivity;
 import com.slash.youth.ui.activity.MyHelpActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -65,20 +67,23 @@ public class MyHelpModel extends BaseObservable {
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("commonQuestion","commonQuestion");
         myHelpActivity.startActivity(intentCommonQuestionActivity);
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_COMMON_PROBLEM);
     }
 
     //contactUs 联系我们
     public void contactUs(View view){
-       /* Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
-        intentCommonQuestionActivity.putExtra("contactUs","contactUs");
-        myHelpActivity.startActivity(intentCommonQuestionActivity);*/
-
        Intent intentContactUsActivity = new Intent(CommonUtils.getContext(), ContactUsActivity.class);
         myHelpActivity.startActivity(intentContactUsActivity);
+
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_CONTACT_US);
     }
 
      //updateVersion 版本更新
     public void updateVersion(View view){
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_VERSION_UPDATE);
 
         proDialogShow(myHelpActivity,"正在检测......");
         CommonUtils.getHandler().postDelayed(new Runnable() {
@@ -119,6 +124,9 @@ public class MyHelpModel extends BaseObservable {
         dialogVersionUpdateBinding.tvUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_VERSION_UPDATE_CONFIRM_UPDATE);
+
                 dialogVersion.dismiss();
                 //下载apk
                 downLoadApk(url);

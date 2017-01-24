@@ -43,7 +43,9 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private String demandsList[] = {"不限","线上","线下"};
     private String persionList[] = {"所用用户","认证用户"};
     private String users[] = {"全部用户","认证用户"};
-    private String sorts[] = {"最新发布","回复时间最近","价格最高","离我最近"};
+    private String[] sorts;
+    private String serviceSorts[] = {"综合评价最高（默认）","最新发布","离我最近"};
+    private String demandSorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
     private GirdDropDownAdapter  demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListView userListView;
@@ -91,11 +93,13 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                 headers =demadHeaders;
                 isDemand = true;
                 demands =  demandsList;
+                sorts = demandSorts;
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
                 headers =serviceHeaders;
                 isDemand = false;
                 demands =  demandsList;
+                sorts = serviceSorts;
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
                 headers =personHeaders;
@@ -184,6 +188,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                             break;
                     }
                 }
+                pullToRefreshListTabViewModel.clear();
                 pullToRefreshListTabViewModel.getData(searchType);
             }
         });
@@ -203,6 +208,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                             pullToRefreshListTabViewModel.isauth = 1;
                             break;
                     }
+                    pullToRefreshListTabViewModel.clear();
                     pullToRefreshListTabViewModel.getData(searchType);
                 }
             });
@@ -215,20 +221,35 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     sexAdapter.setCheckItem(position);
                     mSearchNeedResultTabBinding.dropDownMenu.setTabText(position == 0 ? headers[2] : sorts[position]);
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
-                    switch (position){
-                        case 0:
-                            pullToRefreshListTabViewModel.sort = -1;
-                            break;
-                        case 1:
-                            pullToRefreshListTabViewModel.sort = 2;
-                            break;
-                        case 2:
-                            pullToRefreshListTabViewModel.sort = 1;
-                            break;
-                        case 3:
-                            pullToRefreshListTabViewModel.sort = 3;
-                            break;
+                    if(isDemand){
+                        switch (position){
+                            case 0:
+                                pullToRefreshListTabViewModel.sort = -1;
+                                break;
+                            case 1:
+                                pullToRefreshListTabViewModel.sort = 2;
+                                break;
+                            case 2:
+                                pullToRefreshListTabViewModel.sort = 1;
+                                break;
+                            case 3:
+                                pullToRefreshListTabViewModel.sort = 3;
+                                break;
+                        }
+                    }else {
+                        switch (position){
+                            case 0:
+                                pullToRefreshListTabViewModel.sort = -1;
+                                break;
+                            case 1:
+                                pullToRefreshListTabViewModel.sort = 2;
+                                break;
+                            case 2:
+                                pullToRefreshListTabViewModel.sort = 1;
+                                break;
+                        }
                     }
+                    pullToRefreshListTabViewModel.clear();
                     pullToRefreshListTabViewModel.getData(searchType);
                 }
             });
@@ -249,6 +270,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
 
     //设置地区
     private void setSearchArea( View view) {
+        //pullToRefreshListTabViewModel.clear();
+
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,currentActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 

@@ -77,18 +77,28 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
         getData(searchType);
     }
 
+    public void clear(){
+        if(arrayListDemand!=null){
+            arrayListDemand.clear();
+        }
+       if(arrayListService!=null){
+           arrayListService.clear();
+       }
+       if( arryListUser!=null){
+           arryListUser.clear();
+       }
+    }
+
+
     public void getData(String searchType) {
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
-                arrayListDemand.clear();
                 SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
                 break;
             case SearchManager.HOT_SEARCH_SERVICE:
-                arrayListService.clear();
                 SearchManager.getSearchServiceList(new onGetSearchServiceList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
-                arryListUser.clear();
                 SearchManager.getSearchUserList(new onGetSearchUserList(),tag,isauth,sort, offset,limit);
                 break;
         }

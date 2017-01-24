@@ -25,7 +25,9 @@ import com.slash.youth.ui.adapter.MyCollectionAdapter;
 import com.slash.youth.ui.view.NewRefreshListView;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +100,9 @@ public class MyCollectionModel extends BaseObservable  {
         activityMyCollectionBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_COLLECT_CLICK_DETAIL);
+
                 MyCollectionBean.DataBean.ListBean listBean = collectionList.get(position);
                 int type = listBean.getType();//1需求 2服务
                 switch (type){

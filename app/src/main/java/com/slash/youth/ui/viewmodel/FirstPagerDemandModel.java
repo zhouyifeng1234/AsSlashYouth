@@ -24,6 +24,9 @@ import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.adapter.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,8 +42,10 @@ public class FirstPagerDemandModel extends BaseObservable {
     private boolean isDemand = true;
     private String demands[] = {"不限","线上","线下"};
     private String users[] = {"全部用户","认证用户"};
-    private String sorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+    private String demandSorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+    private String serviceSorts[] = {"综合评价最高（默认）","最新发布","离我最近"};
     private String[] demadHeaders;
+    private String[] sorts;
     private List<View> popupViews = new ArrayList<>();
     private GirdDropDownAdapter demandAdapter;
     private ListDropDownAdapter userAdapter;
@@ -75,8 +80,10 @@ public class FirstPagerDemandModel extends BaseObservable {
     private void initData() {
         if(isDemand){
             demadHeaders =new String[]{"需求方式", "用户类型", "全国", "排序"};
+            sorts = demandSorts;
         }else {
             demadHeaders =new String[]{"服务方式", "全国", "排序"};
+            sorts = serviceSorts;
         }
     }
 
@@ -123,17 +130,39 @@ public class FirstPagerDemandModel extends BaseObservable {
                 demandAdapter.setCheckItem(position);
                 activityFirstPagerMoreBinding.dropDownMenu.setTabText(position == 0 ? demadHeaders[0] : demands[position]);
                 activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
-                switch (position){
-                    case 0:
-                        pullToRefreshListViewModel.pattern = -1;
-                        break;
-                    case 1:
-                        pullToRefreshListViewModel.pattern = 0;
-                        break;
-                    case 2:
-                        pullToRefreshListViewModel.pattern = 1;
-                        break;
+                if(isDemand){
+                    switch (position){
+                        case 0:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_ALL_REQUIREMENT);
+                            pullToRefreshListViewModel.pattern = -1;
+                            break;
+                        case 1:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_OFFLINE_REQUIREMENT);
+                            pullToRefreshListViewModel.pattern = 0;
+                            break;
+                        case 2:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_REQUIREMENT_TYPE_ONLINE_REQUIREMENT);
+                            pullToRefreshListViewModel.pattern = 1;
+                            break;
+                    }
+                }else {
+                    switch (position){
+                        case 0:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_TYPE_ALL_SERVICE);
+                            pullToRefreshListViewModel.pattern = -1;
+                            break;
+                        case 1:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_TYPE_ONLINE_SERVICE);
+                            pullToRefreshListViewModel.pattern = 0;
+                            break;
+                        case 2:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_TYPE_OFFLINE_SERVICE);
+                            pullToRefreshListViewModel.pattern = 1;
+                            break;
+                    }
                 }
+
+                pullToRefreshListViewModel.clear();
                 pullToRefreshListViewModel.getData(isDemand);
             }
         });
@@ -147,12 +176,15 @@ public class FirstPagerDemandModel extends BaseObservable {
                     activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
                     switch (position){
                         case 0:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_USER_TYPE_ALL_USER);
                             pullToRefreshListViewModel.isauth = 0;
                             break;
                         case 1:
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_USER_TYPE_APPROVE_USER);
                             pullToRefreshListViewModel.isauth = 1;
                             break;
                     }
+                    pullToRefreshListViewModel.clear();
                     pullToRefreshListViewModel. getData(isDemand);
                 }
             });
@@ -169,20 +201,41 @@ public class FirstPagerDemandModel extends BaseObservable {
                 }
 
                 activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
-                switch (position){
-                    case 0:
-                        pullToRefreshListViewModel.sort = -1;
-                        break;
-                    case 1:
-                        pullToRefreshListViewModel.sort = 2;
-                        break;
-                    case 2:
-                        pullToRefreshListViewModel.sort = 1;
-                        break;
-                    case 3:
-                        pullToRefreshListViewModel.sort = 3;
-                        break;
+                if(isDemand){
+                    switch (position){
+                        case 0:
+                            pullToRefreshListViewModel.sort = -1;
+                            break;
+                        case 1:
+                            pullToRefreshListViewModel.sort = 2;
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_RELEASE_TIME_NEAREST);
+                            break;
+                        case 2:
+                            pullToRefreshListViewModel.sort = 1;
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_PRICE_HIGHEST);
+                            break;
+                        case 3:
+                            pullToRefreshListViewModel.sort = 3;
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_DISTACE_NAEREST);
+                            break;
+                    }
+                }else {
+                    switch (position){
+                        case 0:
+                            pullToRefreshListViewModel.sort = -1;
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_RANK_COMPOSITE_EVALUATION_HIGHEST);
+                            break;
+                        case 1:
+                            pullToRefreshListViewModel.sort = 2;
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_RANK_RELEASE_TIME_NEAREST);
+                            break;
+                        case 2:
+                            pullToRefreshListViewModel.sort = 1;
+                            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_RANK_DISTACE_NAEREST);
+                            break;
+                    }
                 }
+                pullToRefreshListViewModel.clear();
                 pullToRefreshListViewModel.getData(isDemand);
             }
         });
@@ -193,6 +246,15 @@ public class FirstPagerDemandModel extends BaseObservable {
 
     //设置地区
     private void setSearchArea( View view) {
+        if(isDemand){
+            //埋点
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_SCREEN_ADDRESS);
+        }else {
+            //埋点
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_SCREEN_ADDRESS);
+        }
+
+        //pullToRefreshListViewModel.clear();
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 

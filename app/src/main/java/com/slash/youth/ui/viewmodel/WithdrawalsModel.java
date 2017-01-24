@@ -20,9 +20,11 @@ import com.slash.youth.databinding.DialogSearchCleanBinding;
 import com.slash.youth.databinding.LayoutWithdrawalsBinding;
 import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Observable;
 
@@ -122,6 +124,9 @@ public class WithdrawalsModel extends BaseObservable {
 
     //next
     public void next(View view){
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_ACCOUNT_CLICK_WITHDRAW_CLICK_NEXT);
+
         if( amount == 0){
             ToastUtils.shortToast("请填写金额");
         }else {

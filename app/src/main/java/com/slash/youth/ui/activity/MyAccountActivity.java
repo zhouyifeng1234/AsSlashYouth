@@ -14,7 +14,9 @@ import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.MyAccountModel;
 import com.slash.youth.ui.viewmodel.SheildModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zss on 2016/11/6.
@@ -51,6 +53,9 @@ public class MyAccountActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.tv_userinfo_save:
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_ACCOUNT_DEAL_RECORD);
+
                 Intent intentTransactionRecordActivity = new Intent(CommonUtils.getContext(), TransactionRecordActivity.class);
                 intentTransactionRecordActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 CommonUtils.getContext().startActivity(intentTransactionRecordActivity);

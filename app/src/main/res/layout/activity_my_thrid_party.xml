@@ -5,11 +5,17 @@
         <variable name="thirdPartyModel"
                   type="com.slash.youth.ui.viewmodel.ThirdPartyModel"/>
     </data>
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
+
+
 
         <include layout="@layout/usertitlebar" />
 
@@ -185,4 +191,104 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
+
+     <!--dialog-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:clickable="true"
+        android:visibility="@{thirdPartyModel.unBindVisibility}"
+        >
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="269dp"
+            android:layout_height="138dp"
+            android:background="@drawable/shape_tishi_bg"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="解绑"
+                android:textColor="#333333"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/tv_hint"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="36dp"
+                android:layout_marginLeft="36dp"
+                android:textSize="14dp"
+                android:lineSpacingExtra="5dp"
+                android:text="是否解除绑定?"
+                android:textColor="#666666"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <FrameLayout
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:background="@drawable/shape_tishi_button_bg"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_tishi_button_bg"
+                    android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:onClick="@{thirdPartyModel.cannelDialog}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_cancel_n">
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="取消"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                <RelativeLayout
+                    android:onClick="@{thirdPartyModel.sureDialog}"
+                    android:layout_centerInParent="true"
+                    android:layout_width="96dp"
+                    android:layout_height="29dp"
+                    android:background="@drawable/btn_determine_n">
+
+                    <TextView
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:textColor="#FFFFFF"
+                        android:text="确定"/>
+                </RelativeLayout>
+                </RelativeLayout>
+                 </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+      </FrameLayout>
+    </FrameLayout>
 </layout>

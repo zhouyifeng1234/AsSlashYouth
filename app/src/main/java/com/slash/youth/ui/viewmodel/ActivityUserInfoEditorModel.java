@@ -342,6 +342,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //设置斜杠身份
     public void editorIdentity(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_SLASH_IDENTITY);
+
         String slashIdentity = activityUserinfoEditorBinding.tvIdentity.getText().toString();
         Intent editorIdentityActivity = new Intent(CommonUtils.getContext(), EditorIdentityActivity.class);
         editorIdentityActivity.putExtra("editorIdentity",slashIdentity);
@@ -350,12 +353,18 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //设置手机号码
     public void setPhone(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_TELEPHONE_NUMBER);
+
         Intent replacePhoneActivity = new Intent(CommonUtils.getContext(), ReplacePhoneActivity.class);
         userinfoEditorActivity.startActivityForResult(replacePhoneActivity, Constants.USERINFO_PHONE);
     }
 
     //点击所在地
     public void setLocation(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_LOCATION);
+
         Intent intentCityLocationActivity = new Intent(CommonUtils.getContext(), CityLocationActivity.class);
         userinfoEditorActivity.startActivityForResult(intentCityLocationActivity, Constants.USERINFO_LOCATION);
     }
@@ -590,6 +599,18 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                     checked = isChecked;
                     setCompanyAndPosition(!checked);
                 }
+            }
+        });
+
+        //技能描述
+        activityUserinfoEditorBinding.etSkilldescribe.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if(action == MotionEvent.ACTION_UP){
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_SKILL_DESCRIBE);
+                }
+                return false;
             }
         });
     }

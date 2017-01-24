@@ -65,12 +65,19 @@ public class PullToRefreshListViewModel extends BaseObservable {
         getData(isDemand);
     }
 
+    public void clear(){
+        if(arrayListDemand!=null){
+            arrayListDemand.clear();
+        }
+        if(arrayListService!=null){
+            arrayListService.clear();
+        }
+    }
+
     public void getData(boolean isDemand) {
         if(isDemand){
-            arrayListDemand.clear();
              FirstPagerManager.onFreeTimeMoreDemandList(new onFreeTimeMoreDemandList(),pattern,  isauth,  city,  sort, lng, lat, offset,limit);
         }else {
-            arrayListService.clear();
              FirstPagerManager.onFreeTimeMoreServiceList(new onFreeTimeMoreServiceList(),tag,  pattern,  isauth,  city,  sort, lng, lat, offset,limit);
         }
     }

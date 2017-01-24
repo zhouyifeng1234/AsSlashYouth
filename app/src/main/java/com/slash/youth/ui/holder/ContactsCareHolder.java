@@ -17,8 +17,10 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.adapter.ChooseFriendAdapter;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -128,6 +130,9 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
 
     @Override
     public void onClick(View v) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ADD_ME_CLICK_AGREEN);
+
         ContactsManager.onAgreeFriendProtocol(new onAgreeFriendProtocol(),uid,"  ");
     }
 

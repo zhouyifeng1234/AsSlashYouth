@@ -28,10 +28,12 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.StringUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -79,6 +81,9 @@ public class ActivitySearchModel extends BaseObservable {
 
     //点击搜索
     public void searchBtn(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SEARCH_DIRECT_SEARCH);
+
         int searchTextlength = searchText.length();
         switch (searchTextlength) {
             case 0:
