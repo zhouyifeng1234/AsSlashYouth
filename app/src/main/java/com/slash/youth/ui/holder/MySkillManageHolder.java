@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMySkillManageBinding;
 import com.slash.youth.domain.ServiceDetailBean;
@@ -21,9 +22,11 @@ import com.slash.youth.ui.viewmodel.PagerHomeMyModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -107,6 +110,16 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         itemMySkillManageBinding.ivDeleteSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                switch (myActivityTitle){
+                    case MyManager.SKILL_MANAGER:
+                        //埋点
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SKILL_AGREEMENT_DELETE);
+                        break;
+                    case MyManager.PUBLISH:
+                        //埋点
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_RELEASE_TASK_DELETE);
+                        break;
+                }
                 listener.OnDeleteClick(position);
             }
         });
@@ -115,8 +128,10 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
         itemMySkillManageBinding.tvMyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(position);
+                //埋点
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SKILL_AGREEMENT_ISSUE);
 
+            SkillManagerBean.DataBean.ListBean listBean = skillManageList.get(position);
             ServiceDetailBean serviceDetailBean = new ServiceDetailBean(1);
             ServiceDetailBean.Service service = serviceDetailBean.data.service;
 
@@ -160,5 +175,6 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
        service.tag= listBean.getTag();
        service.uid = listBean.getUid();
         service.quote = listBean.getQuote();
+        service.timetype = 4;
     }
 }

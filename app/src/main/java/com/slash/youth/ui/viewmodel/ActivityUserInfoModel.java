@@ -68,11 +68,11 @@ public class ActivityUserInfoModel extends BaseObservable {
     private String identity;
     private StringBuffer stringBuffer = new StringBuffer();
     private int fanscount;
-    private int achievetaskcount;
-    private int fansratio;
-    private int averageservicepoint;
+    private long achievetaskcount;
+    private double fansratio;
+    private double averageservicepoint;
     private String direction;
-    private int totoltaskcount;
+    private long totoltaskcount;
     private double userservicepoint;
     public long otherUid;
     public long myUid;
@@ -90,6 +90,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int attentionStatus;
     private int  myAnonymity = 2;
     public MyFirstPageBean.DataBean myData;
+    private long taskProgress;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag,int anonymity
@@ -353,25 +354,34 @@ public class ActivityUserInfoModel extends BaseObservable {
     private void updateUserInfo(MyFirstPageBean.DataBean.MyinfoBean uinfo){
         //粉丝数
         fanscount = uinfo.getFanscount();
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数"+fanscount);
-        activityUserinfoBinding.pbFans.setProgress(fanscount);
         //粉丝比率
         fansratio = uinfo.getFansratio();
-        activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
-        activityUserinfoBinding.tvFansCount.setText("超过平台" + fansratio + "的用户");
+        if(fansratio>0&&fansratio<=1){
+            fansratio = 1;
+        }
+        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数"+fanscount);
+        activityUserinfoBinding.pbFans.setProgress((int)fansratio);
+        activityUserinfoBinding.tvUserInfoFansratio.setText(String.valueOf(fansratio) + "%");
+        activityUserinfoBinding.tvFansCount.setText("超过平台" + String.valueOf(fansratio) + "%的用户");
         //完成任务的单数
         achievetaskcount = uinfo.getAchievetaskcount();
-        activityUserinfoBinding.pbTask.setProgress(achievetaskcount);
+        totoltaskcount = uinfo.getTotoltaskcount();
+        if(totoltaskcount!=0){
+            taskProgress =   (achievetaskcount / totoltaskcount) * 100;
+        }else {
+            taskProgress = 0;
+        }
+        activityUserinfoBinding.pbTask.setProgress((int)taskProgress);
         activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
         activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
         //任务总数
-        totoltaskcount = uinfo.getTotoltaskcount();
         activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
         averageservicepoint = uinfo.getAverageservicepoint();
+        int serviceProgress = (int)((averageservicepoint * 100) / 5);
         //用户服务指向
         userservicepoint = uinfo.getUserservicepoint();
-        activityUserinfoBinding.pbService.setProgress((int)userservicepoint);
+        activityUserinfoBinding.pbService.setProgress((int)serviceProgress);
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
         activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
         activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
@@ -517,25 +527,34 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //粉丝数
         fanscount = uinfo.getFanscount();
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
-        activityUserinfoBinding.pbFans.setProgress(fanscount);
-        //粉丝比率
         fansratio = uinfo.getFansratio();
-        activityUserinfoBinding.tvUserInfoFansratio.setText(fansratio + "%");
-        activityUserinfoBinding.tvFansCount.setText("超过平台" + fansratio + "的用户");
+        if(fansratio>0&&fansratio<=1){
+            fansratio = 1;
+        }
+        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
+        activityUserinfoBinding.pbFans.setProgress((int)fansratio);
+        //粉丝比率
+        activityUserinfoBinding.tvUserInfoFansratio.setText(String.valueOf(fansratio) + "%");
+        activityUserinfoBinding.tvFansCount.setText("超过平台" + String.valueOf(fansratio) + "%的用户");
         //完成任务的单数
         achievetaskcount = uinfo.getAchievetaskcount();
-        activityUserinfoBinding.pbTask.setProgress(achievetaskcount);
+        totoltaskcount = uinfo.getTotoltaskcount();
+        if(totoltaskcount!=0){
+            taskProgress = (int)((achievetaskcount * 100) / totoltaskcount);
+        }else {
+            taskProgress = 0;
+        }
+        activityUserinfoBinding.pbTask.setProgress((int)taskProgress);
         activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
         activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
         //任务总数
-        totoltaskcount = uinfo.getTotoltaskcount();
         activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
         averageservicepoint = uinfo.getAverageservicepoint();
         //用户服务指向
         userservicepoint = uinfo.getUserservicepoint();
-        activityUserinfoBinding.pbService.setProgress((int)userservicepoint);
+        int  serviceProgress=  (int)((averageservicepoint*100)/5);
+        activityUserinfoBinding.pbService.setProgress((int)serviceProgress);
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
         activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
         activityUserinfoBinding.averageServicePoint.setText("平台平均服务力为" + averageservicepoint + "星");

@@ -51,11 +51,11 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         switch (type){
             case 1://需求
 
-                if(starttime == 0&&endtime == 0){
+             /*   if(starttime == 0&&endtime == 0){
                     itemUserinfoBinding.tvTime.setText(UserInfoEngine.ANY_TIME);
                 }else {
                     itemUserinfoBinding.tvTime.setText(FirstPagerManager.START_TIME+startData);
-                }
+                }*/
 
                 if(quote>0){
                     String demandQuote = FirstPagerManager.QUOTE + quote +"元";
@@ -142,7 +142,8 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         double lat = data.getLat();
         double lng = data.getLng();
 
-        switch (pattern){
+        itemUserinfoBinding.tvPattern.setVisibility(View.GONE);
+            switch (pattern){
             case 0:
                 itemUserinfoBinding.tvLocation.setText("全国");
                 itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);

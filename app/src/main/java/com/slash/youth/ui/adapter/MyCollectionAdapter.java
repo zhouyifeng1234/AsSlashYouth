@@ -7,9 +7,12 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MyCollectionActivity;
 import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.MyCollectionHolder;
+import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -47,6 +50,9 @@ public class MyCollectionAdapter extends SlashBaseAdapter<MyCollectionBean.DataB
         myCollectionHolder.setOnDeleteClickListener(new MyCollectionHolder.OnDeleteClickListener() {
             @Override
             public void OnDeleteClick(int position) {
+                //埋点
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_COLLECT_DELETE);
+
                 index = position;
                 showDialog();
             }

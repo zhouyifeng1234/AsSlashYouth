@@ -56,7 +56,7 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
         String position = data.getPosition();
         itemListviewHomeContactsVisitorBinding.tvVisitorPosition.setText(company+""+position);
 
-        uid = new Long(data.getUid());
+         uid = data.getUid();
         //点击头像到个人中心页面
        // itemListviewHomeContactsVisitorBinding.ivVisitorIcon.setOnClickListener(this);
 

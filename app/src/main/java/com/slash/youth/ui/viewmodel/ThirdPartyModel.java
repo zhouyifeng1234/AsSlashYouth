@@ -2,12 +2,14 @@ package com.slash.youth.ui.viewmodel;
 
 import android.Manifest;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMyThridPartyBinding;
 import com.slash.youth.domain.GetBindBean;
 import com.slash.youth.domain.LoginBindBean;
@@ -18,9 +20,12 @@ import com.slash.youth.http.protocol.GetBindProtocol;
 import com.slash.youth.http.protocol.LoginBindProtocol;
 import com.slash.youth.http.protocol.LoginUnBindProtocol;
 import com.slash.youth.ui.activity.BindThridPartyActivity;
+import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -39,6 +44,7 @@ public class ThirdPartyModel extends BaseObservable {
     private BindThridPartyActivity bindThridPartyActivity;
     private final LoginManager loginManager;
     private int type;
+    private int unBindVisibility = View.GONE;
 
     public ThirdPartyModel(ActivityMyThridPartyBinding activityMyThridPartyBinding,BindThridPartyActivity bindThridPartyActivity) {
         this.activityMyThridPartyBinding = activityMyThridPartyBinding;
@@ -62,6 +68,33 @@ public class ThirdPartyModel extends BaseObservable {
             activityMyThridPartyBinding.tvQQBinding.setText("解绑");
         }else {
             activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
+        }
+    }
+    @Bindable
+    public int getUnBindVisibility() {
+        return unBindVisibility;
+    }
+
+    public void setUnBindVisibility(int unBindVisibility) {
+        this.unBindVisibility = unBindVisibility;
+        notifyPropertyChanged(BR.unBindVisibility);
+    }
+
+    public void cannelDialog(View view){
+        setUnBindVisibility(View.GONE);
+    }
+
+    public void sureDialog(View view){
+        setUnBindVisibility(View.GONE);
+        switch (type){
+            case  GlobalConstants.LoginPlatformType.WECHAT:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING_CONFIRM_UNBUNDING);
+                loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
+                break;
+            case GlobalConstants.LoginPlatformType.QQ:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_UNBINDING_CONFIRM_UNBUNDING);
+                loginUnBind(GlobalConstants.LoginPlatformType.QQ);
+                break;
         }
     }
 
@@ -101,9 +134,10 @@ public class ThirdPartyModel extends BaseObservable {
     public void weixin(View view){
         type = GlobalConstants.LoginPlatformType.WECHAT;
         if(isWinxinBing){
-            loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
-
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING);
+            setUnBindVisibility(View.VISIBLE);
         }else {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_BINDING);
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
             if (Build.VERSION.SDK_INT >= 23) {
@@ -117,9 +151,10 @@ public class ThirdPartyModel extends BaseObservable {
     public void qq(View view){
         type = GlobalConstants.LoginPlatformType.QQ;
         if(isQQBing){
-            loginUnBind(GlobalConstants.LoginPlatformType.QQ);
-
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_UNBINDING);
+            setUnBindVisibility(View.VISIBLE);
         }else {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_BINDING);
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             if (mShareAPI.isInstall(bindThridPartyActivity, SHARE_MEDIA.QQ)) {
                 mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.QQ, umAuthListener);
@@ -140,13 +175,11 @@ public class ThirdPartyModel extends BaseObservable {
                 case QQ:
                     String  QQ_access_token = data.get("access_token");
                     String  QQ_uid = data.get("uid");
-                    LogKit.d("==QQ_access_token="+QQ_access_token+"==qquid="+QQ_uid);
                     loginBind(QQ_access_token,QQ_uid, GlobalConstants.LoginPlatformType.QQ);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
-                    LogKit.d("===WEIXIN_access_token=="+WEIXIN_access_token+"=openid="+openid);
                     loginBind(WEIXIN_access_token,openid, GlobalConstants.LoginPlatformType.WECHAT);
                     break;
             }

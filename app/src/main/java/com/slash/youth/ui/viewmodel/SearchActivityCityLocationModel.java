@@ -154,25 +154,6 @@ public class SearchActivityCityLocationModel extends BaseObservable {
 
     //事件监听，快速点击索引联动
     private void listener() {
-   /* searchActivityCityLocationBinding.lvActivityCityLocationCityFirstletter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position > 0) {
-                TextView tvFirstLetter = (TextView) view;
-              //  tvFirstLetter.setTextColor(Color.BLUE);
-                String firstLetter = tvFirstLetter.getText().toString();
-                for (int i = 0; i < listCityInfo.size(); i++) {
-                    LocationCityInfo locationCityInfo = listCityInfo.get(i);
-                    String firstCityLetter = locationCityInfo.getFirstLetter();
-                    if(firstCityLetter.equals(firstLetter) ){
-                        showTextView(firstLetter);
-                        searchActivityCityLocationBinding.lvActivityCityLocationCityinfo.setSelection(i + searchActivityCityLocationBinding.lvActivityCityLocationCityinfo.getHeaderViewsCount());
-                    }
-                }
-            }
-        }
-    });*/
-
     //点击城市列表，显示选中的城市名
     searchActivityCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
@@ -182,6 +163,22 @@ public class SearchActivityCityLocationModel extends BaseObservable {
                 boolean isFirstLetter = locationCityInfo.isFirstLetter;
                 if(!isFirstLetter){
                     cityName = locationCityInfo.CityName;
+                    if(cityName.endsWith("市")){
+                        cityName = cityName.substring(0, cityName.length()-1);
+                    }
+
+                    if(cityName.endsWith("区")){
+                        if(!cityName.endsWith("地区")){
+                            cityName = cityName.substring(0, cityName.length()-1);
+                        }
+                    }
+
+                    if(cityName.endsWith("县")){
+                        if(cityName.endsWith("自治县")){
+                            cityName = cityName.substring(0, cityName.length()-1);
+                        }
+                    }
+
                     listener.OnClick(cityName);
             }
         }

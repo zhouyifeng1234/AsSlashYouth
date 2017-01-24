@@ -205,6 +205,22 @@ public class MyAddSkillModel extends BaseObservable {
         desc = activityMyAddSkillBinding.etSkillManageDesc.getText().toString();
         quoteString = activityMyAddSkillBinding.etMoney.getText().toString();
 
+        if (title.length() < 5 || title.length() > 20) {
+            ToastUtils.shortToast("标题必须为5-20字之间");
+            return;
+        }
+
+        if (desc.length() <= 0) {
+            ToastUtils.shortToast("请输入服务描述");
+            return;
+        } else if (desc.length() < 5) {
+            ToastUtils.shortToast("服务描述必须是5-300字之间");
+            return;
+        } else if (desc.length() > 300) {
+            ToastUtils.shortToast("服务描述不能超过300字");
+            return;
+        }
+
         if(!TextUtils.isEmpty(title)){
             if(!TextUtils.isEmpty(desc)){
                 if(!TextUtils.isEmpty(quoteString)){

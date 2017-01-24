@@ -19,7 +19,9 @@ import com.slash.youth.http.protocol.LoginBindProtocol;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -71,6 +73,9 @@ public class ItemFriendRecommendModel extends BaseObservable {
 
     //删除一条推荐
     public void deleteRecommend(View v) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_RECOMMEND_CLICK_CLOSE);
+
        // itemParent.removeView(mRecommendSpace);
         long uid = mFriendRecommendBean.getUid();
         ContactsManager.AddBlackFriend(new onAddBlackFriend(),uid);
@@ -78,9 +83,11 @@ public class ItemFriendRecommendModel extends BaseObservable {
 
     //添加推荐的好友
     public void addFriend(View v) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_RECOMMEND_CLICK_ADD_FRIEND);
+
         long uid = mFriendRecommendBean.getUid();
         ContactsManager.onAddFriendRelationProtocol(new  onAddFriendRelationProtocol(),uid,"   ");
-
     }
 
     private int eliteRecommendMarkerVisibility;

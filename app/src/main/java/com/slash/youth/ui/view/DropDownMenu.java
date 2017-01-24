@@ -56,6 +56,7 @@ public class DropDownMenu extends LinearLayout {
     private int menuSelectedIcon;
     //tab未选中图标
     private int menuUnselectedIcon;
+    private int index;
 
     public void removeView(){
         tabMenuView.removeAllViews();
@@ -192,6 +193,7 @@ public class DropDownMenu extends LinearLayout {
         tab.setText(tabTexts.get(i));
         tab.setPadding(dpTpPx(5), dpTpPx(12), dpTpPx(5), dpTpPx(12));
 
+        index = i;
        /* LinearLayout.LayoutParams ll2 = new LinearLayout.LayoutParams(0,-2);
         ll2.weight =1;
         LinearLayout  linearLayout = new LinearLayout(CommonUtils.getContext());
@@ -279,7 +281,7 @@ public class DropDownMenu extends LinearLayout {
     public boolean isAdd = false;
 
     private void switchMenu(View target) {
-        System.out.println(current_tab_position);
+      //  System.out.println(current_tab_position);
         for (int i = 0; i < tabMenuView.getChildCount(); i = i + 2) {
             if (target == tabMenuView.getChildAt(i)) {
                 if (current_tab_position == i) {

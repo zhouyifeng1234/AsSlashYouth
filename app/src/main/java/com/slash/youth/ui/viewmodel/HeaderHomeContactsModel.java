@@ -29,9 +29,11 @@ import com.slash.youth.ui.activity.ContactsCareActivity;
 import com.slash.youth.ui.adapter.ContactsCareAdapter;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -139,6 +141,9 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //关注我的
     public void careMe(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_FOCUS_MINE);
+
         openContactsCareActivity(ContactsManager.CARE_ME);
         type = 1;
         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
@@ -146,6 +151,9 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //我关注
     public void myCare(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_MY_FOCUS);
+
         openContactsCareActivity(ContactsManager.MY_CARE);
         type = 2;
         mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.GONE);
@@ -153,6 +161,9 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //加我的
     public void addMe(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ADD_ME);
+
         openContactsCareActivity(ContactsManager.ADD_ME);
         type = 3;
         mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.GONE);
@@ -160,6 +171,9 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
     //我加的
     public void myAdd(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ME_ADD);
+
         openContactsCareActivity(ContactsManager.MY_ADD);
         type = 4;
         mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.GONE);

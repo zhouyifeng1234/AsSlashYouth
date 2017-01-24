@@ -12,8 +12,10 @@ import com.slash.youth.ui.activity.MyAccountActivity;
 import com.slash.youth.ui.activity.WithdrawalsActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CountUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zss on 2016/11/6.
@@ -79,6 +81,9 @@ public class MyAccountModel extends BaseObservable {
 
     //提现
     public void withdrawals(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_ACCOUNT_CLICK_WITHDRAW);
+
         Intent intentWithdrawalsActivity = new Intent(CommonUtils.getContext(), WithdrawalsActivity.class);
         intentWithdrawalsActivity.putExtra("currentMoney", currentMoney);
         intentWithdrawalsActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -87,11 +92,12 @@ public class MyAccountModel extends BaseObservable {
 
     //提示
     public void hint(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_ACCOUNT_CLICK_MY_FREEZE_MONEY_RIGHT_QUESTION);
         DialogUtils.showDialogOne(myAccountActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {
                 LogKit.d("canncel");
-
             }
         }, "", "");
     }

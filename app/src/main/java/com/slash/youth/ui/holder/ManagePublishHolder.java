@@ -17,9 +17,11 @@ import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.viewmodel.ItemManagePublishModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -222,10 +224,16 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
 
                 String text = itemManagePublishHolderBinding.tvMyBtn.getText().toString();
                 if (text.equals(MyManager.UP)) {
+                    //下架埋点
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_RELEASE_UNSHELVE);
+
                     action = 1;
                     itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
                     itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
                 } else if (text.equals(MyManager.DOWN)) {
+                    //上架埋点
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_RELEASE_TASK_RESHELF);
+
                     action = 0;
                     itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
                     itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));

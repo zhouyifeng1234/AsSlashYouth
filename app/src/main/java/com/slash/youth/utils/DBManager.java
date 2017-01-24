@@ -53,11 +53,7 @@ public class DBManager {
             database = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 
             return database;
-        } catch (FileNotFoundException e) {
-            Log.e("Database", "File not found");
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.e("Database", "IO exception");
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return database;

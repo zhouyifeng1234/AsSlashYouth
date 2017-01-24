@@ -65,8 +65,8 @@ public class ExamineCertificatesModel extends BaseObservable {
         }
         @Override
         public void executeResultError(String result) {
-            LogKit.v("上传头像失败：" + result);
-            ToastUtils.shortToast("上传头像失败：" + result);
+           // LogKit.v("上传头像失败：" + result);
+           // ToastUtils.shortToast("上传头像失败：" + result);
         }
     }
 
@@ -76,6 +76,8 @@ public class ExamineCertificatesModel extends BaseObservable {
 
     //提交审核
     public void examine(View view){
+        LogKit.d("==filed==="+fileId+"====="+type+"====="+cardType);
+
         MyManager.checkoutAuth(new onCheckoutAuth(), type, cardType, fileId);
     }
 

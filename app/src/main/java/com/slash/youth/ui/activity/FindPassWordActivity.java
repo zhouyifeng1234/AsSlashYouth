@@ -122,8 +122,6 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                     ToastUtils.shortToast(toastString);
                 }
                 break;
-
         }
-
     }
 }

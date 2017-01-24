@@ -47,7 +47,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     public String tag;
     public int  pattern = -1;
     public   int isauth = -1;
-    public String city = null;
+    public String city;
     public int sort = -1;
     public int hotSort = 0;
     public double lat = 181;//-180 到 180
@@ -77,7 +77,21 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
         getData(searchType);
     }
 
+    public void clear(){
+        if(arrayListDemand!=null){
+            arrayListDemand.clear();
+        }
+       if(arrayListService!=null){
+           arrayListService.clear();
+       }
+       if( arryListUser!=null){
+           arryListUser.clear();
+       }
+    }
+
+
     public void getData(String searchType) {
+
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
@@ -196,6 +210,10 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 }
+
+                if(pagerHomeDemandtAdapter!=null){
+                    pagerHomeDemandtAdapter.notifyDataSetChanged();
+                }
             }
         }
         @Override
@@ -222,6 +240,10 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
                     pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
+
+                if(pagerHomeServiceAdapter!=null){
+                    pagerHomeServiceAdapter.notifyDataSetChanged();
                 }
             }
         }
@@ -250,6 +272,11 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 pullToRefreshTabListviewBinding.lv.setAdapter(pagerSearchPersonAdapter);
                 pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 }
+
+             if(pagerSearchPersonAdapter!=null){
+                 pagerSearchPersonAdapter.notifyDataSetChanged();
+             }
+
             }
         }
         @Override

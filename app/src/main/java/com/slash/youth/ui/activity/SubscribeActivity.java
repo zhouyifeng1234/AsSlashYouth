@@ -321,8 +321,8 @@ public class SubscribeActivity extends Activity {
                 int size = listCheckedLabelName.size();
                 if (size != 0) {
                     clickSecondSkillLabelBean = commnSkilllabel.get(position);
-                    String clickSecondSkillLabelTag = clickSecondSkillLabelBean.getTag();
-                    if (clickSecondSkillLabelTag.equals(direction)) {
+                    checkedSecondLabel = clickSecondSkillLabelBean.getTag();
+                    if (checkedSecondLabel.equals(direction)) {
                         chooseThridSkillLabelLiist(view, position);
                     } else {
                         ToastUtils.shortCenterToast("只能选择同一类型的标签");
@@ -342,9 +342,10 @@ public class SubscribeActivity extends Activity {
                 String tag = skillLabelBean.getTag();
                 if (size != 0) {
                     if (tag.equals(industry)) {
-                        chooseSecondSkillLabelList(skillLabelBean);
+                        //一级显示
                         mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(checkedFirstLabel);
-
+                        //选择二级
+                        chooseSecondSkillLabelList(skillLabelBean);
                     } else {
                         ToastUtils.shortCenterToast("只能选择同一类型的标签");
                     }
@@ -360,6 +361,9 @@ public class SubscribeActivity extends Activity {
         int firstId = skillLabelBean.getId();
         //默认的一级标签的id,跳转到二级
         getCommnSkillLabel(firstId);
+        //默认是0
+        SkillLabelBean secondSkillLabelList = commnSkilllabel.get(0);
+        checkedSecondLabel = secondSkillLabelList.getTag();
         subscribeSecondSkilllabelAdapter = new SubscribeSecondSkilllabelAdapter(commnSkilllabel);
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setAdapter(subscribeSecondSkilllabelAdapter);
         postSecondSkillLabel();
@@ -449,7 +453,7 @@ public class SubscribeActivity extends Activity {
             if (oos != null) {
                 try {
                     oos.close();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -470,7 +474,7 @@ public class SubscribeActivity extends Activity {
             if (ois != null) {
                 try {
                     ois.close();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

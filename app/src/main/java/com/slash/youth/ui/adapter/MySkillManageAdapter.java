@@ -18,9 +18,11 @@ import com.slash.youth.ui.holder.BaseHolder;
 import com.slash.youth.ui.holder.ManagePublishHolder;
 import com.slash.youth.ui.holder.MySkillManageHolder;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 

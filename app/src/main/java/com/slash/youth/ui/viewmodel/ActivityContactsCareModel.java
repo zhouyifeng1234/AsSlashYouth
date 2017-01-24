@@ -21,8 +21,10 @@ import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.ContactsCareAdapter;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +135,21 @@ public class ActivityContactsCareModel extends BaseObservable {
         activityContactsCareBinding.lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (type){
+                    case 1://关注我
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_FOCUS_MINE_CLICK_PERSON_DETAIL);
+                        break;
+                    case 2://我关注的
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_MY_FOCUS_CLICK_PERSON_DETAIL);
+                        break;
+                    case 3://加我的
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ADD_ME_CLICK_PERSON_DETAIL);
+                        break;
+                    case 4://我加的
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ME_ADD_CLICK_PERSON_DETAIL);
+                        break;
+                }
+
                 ContactsBean.DataBean.ListBean listBean = contactsLists.get(position);
                 long uid = listBean.getUid();
                 Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);

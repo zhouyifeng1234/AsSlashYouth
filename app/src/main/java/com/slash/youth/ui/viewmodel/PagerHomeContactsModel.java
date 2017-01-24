@@ -33,7 +33,9 @@ import com.slash.youth.ui.adapter.HomeContactsVisitorAdapter;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.ui.view.WarpLinearLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,6 +202,9 @@ public class PagerHomeContactsModel extends BaseObservable {
 
     //点击右上角的搜索按钮
     public void search(View view){
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_SEARCH);
+
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         intentSearchActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentSearchActivity);

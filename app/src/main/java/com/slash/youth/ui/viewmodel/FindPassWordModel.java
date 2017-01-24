@@ -338,7 +338,7 @@ public class FindPassWordModel extends BaseObservable {
                 switch (status) {
                     case 1://1表示申请创建交易密码成功请等待审核
                         ToastUtils.shortCenterToast("提交成功,后台审核中");
-                        //findPassWordActivity.finish();
+                        findPassWordActivity.finish();
                         break;
                     case 2://2表示由于服务端错误导致申请创建交易密码失败请重新提交审核
                         LogKit.d("设由于服务端错误导致申请创建交易密码失败请重新提交审核");
