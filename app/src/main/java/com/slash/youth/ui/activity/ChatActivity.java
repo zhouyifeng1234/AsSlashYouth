@@ -43,6 +43,7 @@ public class ChatActivity extends Activity {
         MsgManager.removeChatOtherCmdListener();
         MsgManager.removeHistoryListener();
         MsgManager.removeRelatedTaskListener();
+        MsgManager.removeSlashMessageListener();
         super.onDestroy();
     }
 

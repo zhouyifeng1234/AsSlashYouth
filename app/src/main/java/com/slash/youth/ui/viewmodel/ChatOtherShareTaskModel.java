@@ -33,7 +33,7 @@ public class ChatOtherShareTaskModel extends BaseObservable {
     }
 
     private void initView() {
-        if (!"1000".equals(MsgManager.targetId)) {
+        if ((!"1000".equals(MsgManager.targetId)) && (!MsgManager.customerServiceUid.equals(MsgManager.targetId))) {
             BitmapKit.bindImage(mItemChatOtherShareTaskBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
         } else {
             mItemChatOtherShareTaskBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);

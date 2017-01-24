@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.DialogVersionUpdateBinding;
+import com.slash.youth.domain.CustomerServiceBean;
 import com.slash.youth.domain.TokenLoginResultBean;
 import com.slash.youth.domain.VersionBean;
 import com.slash.youth.engine.LoginManager;
@@ -62,7 +63,30 @@ public class SplashActivity extends Activity {
         ivSplash.setImageResource(R.mipmap.splash);
         setContentView(ivSplash);
 
+        getCustomerServiceUid();
+
         checkVersion();
+    }
+
+    private void getCustomerServiceUid() {
+        long customerServiceUid = MsgManager.getCustomerServiceUidFromSp();
+        if (customerServiceUid > 0) {
+            //sp中保存有随机客服的uid
+            MsgManager.customerServiceUid = customerServiceUid + "";
+        } else {
+            MsgManager.getCustomerService(new BaseProtocol.IResultExecutor<CustomerServiceBean>() {
+                @Override
+                public void execute(CustomerServiceBean dataBean) {
+                    long customerServiceUid = dataBean.data.uid;
+                    MsgManager.customerServiceUid = customerServiceUid + "";
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("获取客服UID失败:" + result);
+                }
+            });
+        }
     }
 
     private void login() {

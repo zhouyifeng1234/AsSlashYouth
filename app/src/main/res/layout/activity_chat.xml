@@ -61,7 +61,8 @@
                     android:layout_gravity="right"
                     android:onClick="@{chatModel.gotoTargetUserCenter}"
                     android:padding="12dp"
-                    android:src="@mipmap/chat_user_icon"/>
+                    android:src="@mipmap/chat_user_icon"
+                    android:visibility="@{chatModel.targetUserIconVisibility}"/>
 
             </FrameLayout>
 

@@ -44,7 +44,7 @@ public class ChatOtherSendAddFriendModel extends BaseObservable {
             mItemChatOtherSendAddFriendBinding.tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
             mItemChatOtherSendAddFriendBinding.tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
         }
-        if (!"1000".equals(MsgManager.targetId)) {
+        if ((!"1000".equals(MsgManager.targetId)) && (!MsgManager.customerServiceUid.equals(MsgManager.targetId))) {
             BitmapKit.bindImage(mItemChatOtherSendAddFriendBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
         } else {
             mItemChatOtherSendAddFriendBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);

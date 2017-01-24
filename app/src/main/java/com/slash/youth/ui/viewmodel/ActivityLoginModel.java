@@ -15,6 +15,7 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.slash.youth.databinding.ActivityLoginBinding;
+import com.slash.youth.domain.CustomerServiceBean;
 import com.slash.youth.domain.PhoneLoginResultBean;
 import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.domain.SendPinResultBean;
@@ -134,11 +135,30 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     private void gotoChatSlashHelperActivity() {
-        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-        //加入斜杠小助手的uid
+        final Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+//        intentChatActivity.putExtra("targetId", "1000");
+        long customerServiceUid = MsgManager.getCustomerServiceUidFromSp();
+        if (customerServiceUid > 0) {
+            //sp中保存有随机客服的uid
+            MsgManager.customerServiceUid = customerServiceUid + "";
+            intentChatActivity.putExtra("targetId", customerServiceUid);
+            mActivity.startActivity(intentChatActivity);
+        } else {
+            MsgManager.getCustomerService(new BaseProtocol.IResultExecutor<CustomerServiceBean>() {
+                @Override
+                public void execute(CustomerServiceBean dataBean) {
+                    long customerServiceUid = dataBean.data.uid;
+                    MsgManager.customerServiceUid = customerServiceUid + "";
+                    intentChatActivity.putExtra("targetId", customerServiceUid);
+                    mActivity.startActivity(intentChatActivity);
+                }
 
-        intentChatActivity.putExtra("targetId", "1000");
-        mActivity.startActivity(intentChatActivity);
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("获取客服UID失败:" + result);
+                }
+            });
+        }
     }
 
     /**

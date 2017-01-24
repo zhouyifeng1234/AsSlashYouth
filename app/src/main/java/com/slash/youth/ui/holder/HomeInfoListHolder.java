@@ -50,8 +50,12 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
     @Override
     public void refreshView(ConversationListBean.ConversationInfo data) {
         if (data.uid == 1000) {
-            mItemHomeInfoModel.setUsername("斜杠小助手");
-            mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.slash_helper_square);
+            mItemHomeInfoModel.setUsername("斜杠消息助手");
+            mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.message_icon);
+            mItemHomeInfoModel.setAddVVisibility(View.GONE);
+        } else if (MsgManager.customerServiceUid.equals(data.uid + "")) {
+            mItemHomeInfoModel.setUsername("斜杠客服助手");
+            mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.customer_service_icon);
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
         } else {
             mItemHomeInfoModel.setUsername(data.name);

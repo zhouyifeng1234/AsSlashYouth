@@ -9,6 +9,7 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
 import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.UserInfoBean;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -34,8 +35,12 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void initData() {
-        if (mPushInfoBean.senderUserId.equals("1000")) {
-            username = "斜杠小助手";
+//        if (mPushInfoBean.senderUserId.equals("1000")) {
+//            username = "斜杠消息助手";
+//            setPushUserInfo();
+//        } else
+        if (mPushInfoBean.senderUserId.equals(MsgManager.customerServiceUid)) {
+            username = "斜杠客服助手";
             setPushUserInfo();
         } else {
             UserInfoEngine.getOtherUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
@@ -60,9 +65,12 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void setPushUserInfo() {
-        if(mPushInfoBean.senderUserId.equals("1000")){
-            mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.slash_helper_square);
-        }else {
+//        if (mPushInfoBean.senderUserId.equals("1000")) {
+//            mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.message_icon);
+//        } else
+        if (mPushInfoBean.senderUserId.equals(MsgManager.customerServiceUid)) {
+            mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.customer_service_icon);
+        } else {
             BitmapKit.bindImage(mItemPushInfoBinding.ivPushAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
         setPushName(username);
