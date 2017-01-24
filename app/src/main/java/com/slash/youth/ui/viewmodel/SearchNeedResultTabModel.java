@@ -270,8 +270,6 @@ public class SearchNeedResultTabModel extends BaseObservable  {
 
     //设置地区
     private void setSearchArea( View view) {
-        //pullToRefreshListTabViewModel.clear();
-
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,currentActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
@@ -445,6 +443,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     }
 
     private void closeCity(String cityName) {
+        pullToRefreshListTabViewModel.clear();
         pullToRefreshListTabViewModel.city = cityName;
         pullToRefreshListTabViewModel.getData(searchType);
         mSearchNeedResultTabBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);

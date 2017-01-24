@@ -47,7 +47,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     public String tag;
     public int  pattern = -1;
     public   int isauth = -1;
-    public String city = null;
+    public String city;
     public int sort = -1;
     public int hotSort = 0;
     public double lat = 181;//-180 到 180
@@ -91,6 +91,7 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
 
 
     public void getData(String searchType) {
+
         switch (searchType){
             case SearchManager.HOT_SEARCH_DEMEND:
                 SearchManager.getSearchDemandList(new onGetSearchDemandList(),tag,pattern,isauth,  city, sort,  lat,  lng,  offset,  limit);
@@ -208,6 +209,9 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     pagerHomeDemandtAdapter = new PagerSearchDemandtAdapter(arrayListDemand);
                     pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeDemandtAdapter);
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
+
+                if(pagerHomeDemandtAdapter!=null){
                     pagerHomeDemandtAdapter.notifyDataSetChanged();
                 }
             }
@@ -236,6 +240,9 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                     pagerHomeServiceAdapter = new PagerHomeServiceAdapter(arrayListService);
                     pullToRefreshTabListviewBinding.lv.setAdapter(pagerHomeServiceAdapter);
                     pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                }
+
+                if(pagerHomeServiceAdapter!=null){
                     pagerHomeServiceAdapter.notifyDataSetChanged();
                 }
             }
@@ -264,8 +271,12 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
                 pagerSearchPersonAdapter = new PagerSearchPersonAdapter(arryListUser);
                 pullToRefreshTabListviewBinding.lv.setAdapter(pagerSearchPersonAdapter);
                 pullToRefreshTabListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
-                pagerSearchPersonAdapter.notifyDataSetChanged();
                 }
+
+             if(pagerSearchPersonAdapter!=null){
+                 pagerSearchPersonAdapter.notifyDataSetChanged();
+             }
+
             }
         }
         @Override

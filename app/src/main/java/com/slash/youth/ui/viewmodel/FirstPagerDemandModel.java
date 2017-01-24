@@ -254,7 +254,6 @@ public class FirstPagerDemandModel extends BaseObservable {
             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_SCREEN_ADDRESS);
         }
 
-        //pullToRefreshListViewModel.clear();
         searchActivityCityLocationModel = new SearchActivityCityLocationModel(searchCityLocationBinding,firstPagerMoreActivity);
         searchCityLocationBinding.setSearchActivityCityLocationModel(searchActivityCityLocationModel);
 
@@ -409,6 +408,7 @@ public class FirstPagerDemandModel extends BaseObservable {
     }
 
     public void setCurrentyCity(String cityName) {
+        pullToRefreshListViewModel.clear();
         pullToRefreshListViewModel.city = cityName;
         pullToRefreshListViewModel.getData(isDemand);
         activityFirstPagerMoreBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
