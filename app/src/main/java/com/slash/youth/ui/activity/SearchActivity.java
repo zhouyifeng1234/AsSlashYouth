@@ -20,8 +20,6 @@ import com.slash.youth.ui.viewmodel.ActivitySearchModel;
 import com.slash.youth.ui.viewmodel.SearchPagerFirstModel;
 import com.slash.youth.utils.CommonUtils;
 
-
-
 /**
  * Created by zss on 2016/9/18.
  */

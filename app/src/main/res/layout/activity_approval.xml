@@ -111,6 +111,7 @@
                             android:layout_height="0dp"/>
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:layout_marginBottom="5dp"
                             android:layout_width="match_parent"
                             android:layout_marginLeft="22dp"
@@ -193,6 +194,62 @@
 
                         </LinearLayout>
 
+                        <FrameLayout
+                            android:layout_gravity="bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="49dp"
+                            android:background="@drawable/shape_tishi_button_bg"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/shape_tishi_button_bg"
+                                android:orientation="horizontal">
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                    <RelativeLayout
+                                        android:onClick="@{approvalModel.takePhoto}"
+                                        android:layout_centerInParent="true"
+                                        android:layout_width="96dp"
+                                        android:layout_height="29dp"
+                                        android:background="@drawable/btn_cancel_n">
+                                        <TextView
+                                            android:layout_centerInParent="true"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="13dp"
+                                            android:textColor="#FFFFFF"
+                                            android:text="拍摄照片"/>
+
+                                    </RelativeLayout>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                    <RelativeLayout
+                                        android:onClick="@{approvalModel.photoAlbum}"
+                                        android:layout_centerInParent="true"
+                                        android:layout_width="96dp"
+                                        android:layout_height="29dp"
+                                        android:background="@drawable/btn_determine_n">
+
+                                        <TextView
+                                            android:layout_centerInParent="true"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="13dp"
+                                            android:textColor="#FFFFFF"
+                                            android:text="拍摄照片"/>
+                                    </RelativeLayout>
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                        </FrameLayout>
+
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>
@@ -245,6 +302,7 @@
                         android:text="去修改。"
                         />
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="13dp"
@@ -282,7 +340,7 @@
                         android:textColor="#cccccc"
                         android:textSize="13dp"
                         android:drawablePadding="15dp"
-                        android:text="您的个人信息可信度更高，更容易匹配需求"/>
+                        android:text="可信度更高，更容易促成交易；"/>
                 </LinearLayout>
 
                <LinearLayout
@@ -303,11 +361,12 @@
                        android:textSize="13dp"
                        android:drawablePadding="15dp"
                        android:drawableLeft="@drawable/shape_approval_tv_left"
-                       android:text="服务享有被优先推荐精英好友和优质需求"/>
+                       android:text="拥有被推荐的资格。"/>
 
                </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_marginTop="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

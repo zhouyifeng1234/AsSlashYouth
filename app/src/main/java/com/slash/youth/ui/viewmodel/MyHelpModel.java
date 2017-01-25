@@ -46,8 +46,8 @@ public class MyHelpModel extends BaseObservable {
     private ProgressDialog mDialog;
     private ProgressDialog pDialog;
     private MyHelpActivity myHelpActivity;
-    private String text1 = " 在这里，斜杠为金领、白领、自雇者提供知识技能变现、结识人脉、提高自我价值的机会；";
-    private String text2 ="在这里，斜杠为中小互联网企业及个人提供订单式、定制化、全方位的服务，促使降低成本提升核心竞争力。";
+    private String text1 = " 我们为深耕于互联网行业各岗位的专业人才，提供更便捷的变现机会和更广阔的学习舞台，并获得物质、价值的双重回报。";
+    private String text2 ="同时为中小互联网科技企业,提供发展规划、产品设计、开发测试、运营市场、法律财务、管理人事等定制化服务,降低用工成本,提高企业市场竞争力。";
     private String downloadurl;
 
 

@@ -32,7 +32,7 @@ public class ContactsManager {
     public static  final String CARE_ME = "关注";
     public static  final String MY_CARE = "粉丝";
     public static  final String ADD_ME = "好友请求";
-    public static  final String MY_ADD = "我的请求";
+    public static  final String MY_ADD = "我的申请";
     public static String ADD_FRIEND = "加好友";
     public static String IS_FRIEND = "解除好友";
     public static String ADD_FRIEND_APPLICATION = "已申请";

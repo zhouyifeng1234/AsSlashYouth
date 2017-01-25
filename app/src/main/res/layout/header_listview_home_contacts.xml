@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="6dp"
-                android:text="好友推荐"
+                android:text="推荐"
                 android:textColor="#333333"
                 android:textSize="15sp"/>
 
@@ -280,7 +280,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="我的好友都是厉害的斜杠青年哦"
+                        android:text="无论闲聊还是办事儿都可以找我的好友"
                         android:textColor="#CCCCCC"
                         android:textSize="12sp"/>
 

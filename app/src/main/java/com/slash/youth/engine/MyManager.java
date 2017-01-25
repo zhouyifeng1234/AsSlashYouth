@@ -40,7 +40,7 @@ public class MyManager {
     public static final String   QOUNT ="报价:¥";
     public static final String   TASK_TIME ="任务时间:";
     public static final String   START_TIME ="开始时间:";
-    public static final String   MY_COLLECTION ="我的收藏";
+    public static final String   MY_COLLECTION ="收藏";
     public static final String   BACK_SUCCESS ="返回成功";
     public static final String   RES_FAIL="返回失败";
     public static final String   RES_TAG_EXIST="标签已存在";

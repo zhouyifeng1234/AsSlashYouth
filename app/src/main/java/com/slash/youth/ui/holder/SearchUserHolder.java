@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
+import com.slash.youth.domain.AgreeRefundBean;
 import com.slash.youth.domain.SearchAllBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.ContactsManager;
@@ -79,9 +80,18 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
                 break;
         }
 
-        String company = userListBean.getCompany();
-        String mPosition = userListBean.getPosition();
-        tv_search_person_position.setText(company+"-"+mPosition);
+        int careertype = userListBean.getCareertype();
+        switch (careertype){
+            case 1://上班
+                String company = userListBean.getCompany();
+                String mPosition = userListBean.getPosition();
+                tv_search_person_position.setText(company+"-"+mPosition);
+
+                break;
+            case 2:
+                tv_search_person_position.setVisibility(View.GONE);
+                break;
+        }
 
         String direction = userListBean.getDirection();
         tv_tag.setText(direction);

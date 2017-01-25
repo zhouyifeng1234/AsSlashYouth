@@ -18,7 +18,7 @@ public class MyHomeInfoBean {
         public int achievetaskcount;
         public double amount;
         public String avatar;
-        public int averageservicepoint;
+        public double averageservicepoint;
         public int careertype;
         public String city;
         public String company;

@@ -359,10 +359,10 @@ public class ActivityUserInfoModel extends BaseObservable {
         if(fansratio>0&&fansratio<=1){
             fansratio = 1;
         }
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数"+fanscount);
+        activityUserinfoBinding.tvUserInfoFansCount.setText("人脉数"+fanscount);
         activityUserinfoBinding.pbFans.setProgress((int)fansratio);
         activityUserinfoBinding.tvUserInfoFansratio.setText(String.valueOf(fansratio) + "%");
-        activityUserinfoBinding.tvFansCount.setText("超过平台" + String.valueOf(fansratio) + "%的用户");
+        activityUserinfoBinding.tvFansCount.setText("超过" + String.valueOf(fansratio) + "%的用户");
         //完成任务的单数
         achievetaskcount = uinfo.getAchievetaskcount();
         totoltaskcount = uinfo.getTotoltaskcount();

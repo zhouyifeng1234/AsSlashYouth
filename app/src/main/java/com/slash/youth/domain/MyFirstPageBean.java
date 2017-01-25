@@ -41,7 +41,7 @@ public class MyFirstPageBean {
             private int achievetaskcount;
             private double amount;
             private String avatar;
-            private int averageservicepoint;
+            private double averageservicepoint;
             private String desc;
             private int careertype;
             private String city;
@@ -98,11 +98,11 @@ public class MyFirstPageBean {
                 this.avatar = avatar;
             }
 
-            public int getAverageservicepoint() {
+            public double getAverageservicepoint() {
                 return averageservicepoint;
             }
 
-            public void setAverageservicepoint(int averageservicepoint) {
+            public void setAverageservicepoint(double averageservicepoint) {
                 this.averageservicepoint = averageservicepoint;
             }
 

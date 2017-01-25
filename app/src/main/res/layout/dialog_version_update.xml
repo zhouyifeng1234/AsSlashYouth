@@ -43,57 +43,64 @@
             />
 
         <!--按钮-->
-        <LinearLayout
+        <FrameLayout
             android:layout_marginTop="19dp"
-            android:layout_weight="2"
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:background="@drawable/shape_tishi_button_bg">
-
-            <RelativeLayout
-                android:id="@+id/cannel"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:background="@drawable/shape_tishi_button_bg"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:background="@drawable/shape_tishi_button_bg"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:id="@+id/cannel"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_cancel_n">
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="取消"/>
 
-                <TextView
-                    android:id="@+id/tv_cannel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13dp"
-                    android:gravity="center"
-                    android:text="取消"
-                    android:background="@mipmap/cancel_btn_bg"
-                    android:textColor="@color/white"
-                    android:layout_centerInParent="true"
-                    />
+                    </RelativeLayout>
+                </RelativeLayout>
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:id="@+id/tv_update"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_determine_n">
 
-            <RelativeLayout
-                android:id="@+id/update"
-                android:layout_marginTop="5dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                >
-                <TextView
-                    android:id="@+id/tv_update"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13dp"
-                    android:text="更新"
-                    android:gravity="center"
-                    android:background="@mipmap/ok_icon"
-                    android:textColor="@color/white"
-                    android:layout_centerInParent="true"
-                    />
-            </RelativeLayout>
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="更新"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
-        </LinearLayout>
+        </FrameLayout>
+
+
 
     </LinearLayout>
 

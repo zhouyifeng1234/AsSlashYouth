@@ -66,7 +66,7 @@ public class ManagePublishAdapter extends SlashBaseAdapter<ManagerMyPublishTaskB
     }
 
      private void showDialog() {
-        DialogUtils.showDialogFive(mySkillManageActivity, "删除", "是否删除该任务", new DialogUtils.DialogCallBack() {
+        DialogUtils.showDialogFive(mySkillManageActivity, "删除", "确定删除该信息", new DialogUtils.DialogCallBack() {
             @Override
             public void OkDown() {
                 if(index!=-1){

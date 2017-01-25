@@ -470,6 +470,15 @@ public class SearchAllBean {
             private long uid;
             private String industry;
             private String direction;
+            private int careertype;
+
+            public int getCareertype() {
+                return careertype;
+            }
+
+            public void setCareertype(int careertype) {
+                this.careertype = careertype;
+            }
 
             public String getIndustry() {
                 return industry;

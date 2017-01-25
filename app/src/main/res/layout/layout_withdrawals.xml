@@ -258,33 +258,30 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/shape_tishi_button_bg">
 
-                    <LinearLayout
-                        android:onClick="@{withdrawalsModel.hintSure}"
+                    <RelativeLayout
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="0dp"
-                            android:src="@mipmap/btn2_lift"/>
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:text="确定"
-                            android:textSize="15dp"
-                            android:gravity="center"
-                            android:textColor="#ffffff"
-                            android:background="@mipmap/btn2_middle"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="0dp"
-                            android:src="@mipmap/btn2_right"
-                            />
-                    </LinearLayout>
+                        <RelativeLayout
+                            android:onClick="@{withdrawalsModel.hintSure}"
+                            android:layout_centerInParent="true"
+                            android:layout_width="171dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/btn_determine_n">
+
+                            <TextView
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:textColor="#FFFFFF"
+                                android:text="确定"/>
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
 
                 </FrameLayout>
 

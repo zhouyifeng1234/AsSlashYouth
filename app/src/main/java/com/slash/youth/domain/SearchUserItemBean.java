@@ -50,7 +50,15 @@ public class SearchUserItemBean {
             private long uid;
             private String direction;
             private String identity;
+            private int careertype;
 
+            public int getCareertype() {
+                return careertype;
+            }
+
+            public void setCareertype(int careertype) {
+                this.careertype = careertype;
+            }
 
             public String getIdentity() {
                 return identity;

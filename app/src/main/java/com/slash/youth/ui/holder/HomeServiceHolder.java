@@ -42,12 +42,6 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         itemDemandLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_layout, null, false);
         itemDemandModel = new ItemDemandModel(itemDemandLayoutBinding);
         itemDemandLayoutBinding.setItemDemandModel(itemDemandModel);
-
-      /*  itemHomeDemandServiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_home_demand_service, null, false);
-        mItemHomeDemandServiceModel = new ItemHomeDemandServiceModel(itemHomeDemandServiceBinding);
-        itemHomeDemandServiceBinding.setItemHomeDemandServiceModel(mItemHomeDemandServiceModel);
-        return itemHomeDemandServiceBinding.getRoot();*/
-
         return itemDemandLayoutBinding.getRoot();
     }
 
@@ -105,7 +99,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemDemandModel.setDistance("距离"+distance+"KM");
+                itemDemandModel.setDistance(distance+"km");
                 break;
         }
 
@@ -126,112 +120,5 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
             itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype-1]);
         }
 
-
-       /* if(timetype == 0){
-            long starttime = data.getStarttime();
-            long endtime = data.getEndtime();
-            String startData = TimeUtils.getData(starttime);
-            String endData = TimeUtils.getData(endtime);
-            mItemHomeDemandServiceModel.setDemandOrServiceTime(startData+"-"+endData);
-        }else {
-            mItemHomeDemandServiceModel.setDemandOrServiceTime();
-            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
-        }*/
-
-
-
-      /*  int anonymity = data.getAnonymity();
-        String name = data.getName();
-        String avatar = data.getAvatar();
-        //匿名，实名
-        switch (anonymity){
-            case 1://实名
-                if(!TextUtils.isEmpty(avatar)){
-                    BitmapKit.bindImage(itemHomeDemandServiceBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
-                }
-                itemHomeDemandServiceBinding.tvName.setText(name);
-                break;
-            case 0://匿名
-                itemHomeDemandServiceBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
-                String firstName = name.substring(0, 1);
-                String anonymityName = firstName + "xx";
-                itemHomeDemandServiceBinding.tvName.setText(anonymityName);
-                break;
-        }
-
-        int timetype = data.getTimetype();
-        itemHomeDemandServiceBinding.ivTime.setVisibility(View.VISIBLE);
-        if(timetype == 0){
-            long starttime = data.getStarttime();
-            long endtime = data.getEndtime();
-            String startData = TimeUtils.getData(starttime);
-            String endData = TimeUtils.getData(endtime);
-            mItemHomeDemandServiceModel.setDemandOrServiceTime(startData+"-"+endData);
-        }else {
-            mItemHomeDemandServiceModel.setDemandOrServiceTime(FirstPagerManager.TIMETYPES[timetype]);
-            mItemHomeDemandServiceModel.setDemandReplyTimeVisibility(View.VISIBLE);
-        }
-
-        int isauth = data.getIsauth();
-        switch (isauth) {
-            case 0:
-                itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.GONE);
-                break;
-            case 1:
-                itemHomeDemandServiceBinding.ivIsAuth.setVisibility(View.VISIBLE);
-                break;
-        }
-
-        String title = data.getTitle();
-        if(!TextUtils.isEmpty(title)){
-            itemHomeDemandServiceBinding.tvDemandServiceTitle.setText(title);
-        }
-
-        long quote = data.getQuote();
-        int quoteunit = data.getQuoteunit();
-        if (quoteunit >= 1 && quoteunit <= 9) {
-            if(quote == 0){
-                itemHomeDemandServiceBinding.tvQuote.setText(FirstPagerManager.DEMAND_QUOTE);
-            }else {
-                String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit - 1];
-                itemHomeDemandServiceBinding.tvQuote.setText(quoteString);
-            }
-        }
-
-        //目标经纬度
-        double lat = data.getLat();
-        double lng = data.getLng();
-        String place = data.getPlace();
-        int pattern = data.getPattern();
-        switch (pattern) {
-            case 0:
-                itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
-
-                itemHomeDemandServiceBinding.tvLocation.setText("全国");
-                break;
-            case 1:
-                itemHomeDemandServiceBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
-
-                if(!TextUtils.isEmpty(place)){
-                    itemHomeDemandServiceBinding.tvLocation.setText(place);
-                }
-                //用户的经纬度
-                double currentLatitude = SlashApplication.getCurrentLatitude();
-                double currentLongitude = SlashApplication.getCurrentLongitude();
-                double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemHomeDemandServiceBinding.tvDistance.setText("距离" + distance + "KM");
-                break;
-        }
-
-        int instalment = data.getInstalment();
-        itemHomeDemandServiceBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);
-        switch (instalment) {
-            case 0:
-                itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.GONE);
-                break;
-            case 1:
-                itemHomeDemandServiceBinding.tvInstalment.setVisibility(View.VISIBLE);
-                break;
-        }*/
     }
 }

@@ -44,12 +44,12 @@ public class FirstPagerDemandModel extends BaseObservable {
     private ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding;
     private FirstPagerMoreActivity firstPagerMoreActivity;
     private boolean isDemand = true;
-    private String demands[] = {"不限","线上","线下"};
     private String users[] = {"全部用户","认证用户"};
-    private String demandSorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+    private String demandSorts[] = {"最新发布","价格最高","离我最近"};
     private String serviceSorts[] = {"综合评价最高（默认）","最新发布","离我最近"};
     private String[] demadHeaders;
     private String[] sorts;
+    private String[] demands;
     private List<View> popupViews = new ArrayList<>();
     private GirdDropDownAdapter demandAdapter;
     private ListDropDownAdapter userAdapter;
@@ -96,9 +96,11 @@ public class FirstPagerDemandModel extends BaseObservable {
         if(isDemand){
             demadHeaders =new String[]{"需求方式", "用户类型", "全国", "排序"};
             sorts = demandSorts;
+            demands = new String[]{"不限","线上","线下"};
         }else {
             demadHeaders =new String[]{"服务方式", "全国", "排序"};
             sorts = serviceSorts;
+            demands = new String[]{"不限","线上服务","线下服务"};
         }
     }
 
@@ -219,17 +221,14 @@ public class FirstPagerDemandModel extends BaseObservable {
                 if(isDemand){
                     switch (position){
                         case 0:
-                            pullToRefreshListViewModel.sort = -1;
-                            break;
-                        case 1:
                             pullToRefreshListViewModel.sort = 2;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_RELEASE_TIME_NEAREST);
                             break;
-                        case 2:
+                        case 1:
                             pullToRefreshListViewModel.sort = 1;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_PRICE_HIGHEST);
                             break;
-                        case 3:
+                        case 2:
                             pullToRefreshListViewModel.sort = 3;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_DISTACE_NAEREST);
                             break;
