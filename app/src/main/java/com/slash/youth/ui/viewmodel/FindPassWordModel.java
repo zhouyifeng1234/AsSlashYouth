@@ -32,8 +32,10 @@ import com.slash.youth.ui.activity.FindPassWordActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -126,6 +128,15 @@ public class FindPassWordModel extends BaseObservable {
 
     //点击拍照
     public void photo(View view) {
+        switch (type){
+            case 1:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_FIND_TRADE_PASSWORD_UPLOAD_PICTURE);
+                break;
+            case 2:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_SET_TRADE_PASSWORD_UPLOAD_PICTURE);
+                break;
+        }
+
         setUploadPicLayerVisibility(View.VISIBLE);
     }
 

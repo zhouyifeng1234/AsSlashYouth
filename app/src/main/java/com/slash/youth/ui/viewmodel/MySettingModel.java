@@ -28,9 +28,11 @@ import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.ArrayList;
@@ -311,6 +313,8 @@ public class MySettingModel extends BaseObservable {
 
     //修改密码
     public void revisePassWord(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_MODIFICATE_TRADE_PASSWORD);
         Intent intentRevisePasswordActivity = new Intent(CommonUtils.getContext(), RevisePasswordActivity.class);
         mySettingActivity.startActivityForResult(intentRevisePasswordActivity, 2);
     }
@@ -320,13 +324,16 @@ public class MySettingModel extends BaseObservable {
         switch (type) {
             case 1:
                 //找回交易密码
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_FIND_TRADE_PASSWORD);
                 testFindPassWord(type);
                 break;
             case 2:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_SET_TRADE_PASSWORD);
                 jumpIntoActivity(type);//设置交易密码
                 break;
             case 3:
                 //弹窗
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_SET_TRADE_PASSWORD);
                 setHintDialogVisibility(View.VISIBLE);
                 break;
         }

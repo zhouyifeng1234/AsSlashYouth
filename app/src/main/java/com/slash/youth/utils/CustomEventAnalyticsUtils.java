@@ -115,7 +115,7 @@ public class CustomEventAnalyticsUtils {
         public static String MINE_CLICK_APPROVE_OTHER_EVIDENTIARY_MATERIAL_UPLOAD;//点击去认证-其他证明材料上传
         public static String MINE_CLICK_APPROVE_PERFECT_APPROVE;//点击去认证-去完善认证
         public static String MINE_CLICK_APPROVE_RETURE = "MINE_CLICK_APPROVE_RETURE";//点击去认证-返回
-        public static String MINE_CLICK_CHOOSE_OCCUPATION_TYPE;//点击选择职业类型
+        public static String MINE_CLICK_CHOOSE_OCCUPATION_TYPE = "MINE_CLICK_CHOOSE_OCCUPATION_TYPE";//点击选择职业类型
         public static String MINE_CLICK_EDIT_PROFILE = "MINE_CLICK_EDIT_PROFILE";//点击编辑资料
         public static String MINE_CLICK_HELP = "MINE_CLICK_HELP";//点击帮助
         public static String MINE_CLICK_HELP_COMMON_PROBLEM = "MINE_CLICK_HELP_COMMON_PROBLEM";//点击帮助-常见问题
@@ -138,17 +138,17 @@ public class CustomEventAnalyticsUtils {
         public static String MINE_CLICK_PERSON_MESSAGE = "MINE_CLICK_PERSON_MESSAGE";//点击查看个人信息
         public static String MINE_CLICK_PERSON_MESSAGE_CLICK_EDIT = "MINE_CLICK_PERSON_MESSAGE_CLICK_EDIT";//点击查看个人信息-点击编辑
         public static String MINE_CLICK_SET="MINE_CLICK_SET";//点击设置
-        public static String MINE_CLICK_SET__SET_TRADE_PASSWORD_RETURE;//点击设置-设置交易密码-返回
-        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD;//点击设置-找回交易密码
-        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_RETURE;//点击设置-找回交易密码-返回
-        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_SUBMIT;//点击设置-找回交易密码-提交
-        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_UPLOAD_PICTURE;//点击设置-找回交易密码-上传照片
+        public static String MINE_CLICK_SET__SET_TRADE_PASSWORD_RETURE ="MINE_CLICK_SET__SET_TRADE_PASSWORD_RETURE";//点击设置-设置交易密码-返回
+        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD = "MINE_CLICK_SET_FIND_TRADE_PASSWORD";//点击设置-找回交易密码
+        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_RETURE = "MINE_CLICK_SET_FIND_TRADE_PASSWORD_RETURE";//点击设置-找回交易密码-返回
+        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_SUBMIT = "MINE_CLICK_SET_FIND_TRADE_PASSWORD_SUBMIT";//点击设置-找回交易密码-提交
+        public static String MINE_CLICK_SET_FIND_TRADE_PASSWORD_UPLOAD_PICTURE = "MINE_CLICK_SET_FIND_TRADE_PASSWORD_UPLOAD_PICTURE";//点击设置-找回交易密码-上传照片
         public static String MINE_CLICK_SET_MESSAGE_NO_DISTURB_CLOSE;//点击设置-信息免打扰-关闭
         public static String MINE_CLICK_SET_MESSAGE_NO_DISTURB_OPEN;//点击设置-信息免打扰-开启
-        public static String MINE_CLICK_SET_MODIFICATE_TRADE_PASSWORD;//点击设置-修改交易密码
-        public static String MINE_CLICK_SET_SET_TRADE_PASSWORD;//点击设置-设置交易密码
-        public static String MINE_CLICK_SET_SET_TRADE_PASSWORD_SUBMIT;//点击设置-设置交易密码-提交
-        public static String MINE_CLICK_SET_SET_TRADE_PASSWORD_UPLOAD_PICTURE;//点击设置-设置交易密码-上传照片
+        public static String MINE_CLICK_SET_MODIFICATE_TRADE_PASSWORD = "MINE_CLICK_SET_MODIFICATE_TRADE_PASSWORD";//点击设置-修改交易密码
+        public static String MINE_CLICK_SET_SET_TRADE_PASSWORD = "MINE_CLICK_SET_SET_TRADE_PASSWORD";//点击设置-设置交易密码
+        public static String MINE_CLICK_SET_SET_TRADE_PASSWORD_SUBMIT = "MINE_CLICK_SET_SET_TRADE_PASSWORD_SUBMIT";//点击设置-设置交易密码-提交
+        public static String MINE_CLICK_SET_SET_TRADE_PASSWORD_UPLOAD_PICTURE = "MINE_CLICK_SET_SET_TRADE_PASSWORD_UPLOAD_PICTURE";//点击设置-设置交易密码-上传照片
         public static String MINE_CLICK_SKILL_AGREEMENT="MINE_CLICK_SKILL_AGREEMENT";//点击技能管理
         public static String MINE_CLICK_SKILL_AGREEMENT_ADD_SKILL = "MINE_CLICK_SKILL_AGREEMENT_ADD_SKILL";//点击技能管理-添加技能
         public static String MINE_CLICK_SKILL_AGREEMENT_DELETE = "MINE_CLICK_SKILL_AGREEMENT_DELETE";//点击技能管理-删除
@@ -162,11 +162,11 @@ public class CustomEventAnalyticsUtils {
         public static String MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING = "MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING";//点击第三方账号-微信解绑
         public static String MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING_CONFIRM_UNBUNDING = "MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING_CONFIRM_UNBUNDING";//点击第三方账号-微信解绑-确定解绑
         public static String MINE_EDIT_AVATAR ="MINE_EDIT_AVATAR";//编辑头像
-        public static String MINE_EDIT_COMPANY_POSITION;//编辑公司职位
-        public static String MINE_EDIT_INDUSTRY_DIRECTION_SKILL_TAG;//编辑行业方向技能标签
+        public static String MINE_EDIT_COMPANY_POSITION = "MINE_EDIT_COMPANY_POSITION";//编辑公司职位
+        public static String MINE_EDIT_INDUSTRY_DIRECTION_SKILL_TAG = "MINE_EDIT_INDUSTRY_DIRECTION_SKILL_TAG";//编辑行业方向技能标签
         public static String MINE_EDIT_LOCATION = "MINE_EDIT_LOCATION";//编辑所在地
-        public static String MINE_EDIT_NAME;//编辑姓名
-        public static String MINE_EDIT_RECENT_COMPANY;//编辑最近公司
+        public static String MINE_EDIT_NAME = "MINE_EDIT_NAME";//编辑姓名
+        public static String MINE_EDIT_RECENT_COMPANY = "MINE_EDIT_RECENT_COMPANY";//编辑最近公司
         public static String MINE_EDIT_SKILL_DESCRIBE ="MINE_EDIT_SKILL_DESCRIBE";//编辑技能描述
         public static String MINE_EDIT_SLASH_IDENTITY = "MINE_EDIT_SLASH_IDENTITY";//编辑斜杠身份
         public static String PUBLISH_REQUIREMENT_CLICK_COMMISSION_ACTIVITY;//发布需求-点击0佣金活动
