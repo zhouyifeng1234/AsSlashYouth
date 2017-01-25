@@ -17,9 +17,11 @@ import com.slash.youth.ui.activity.ExamineActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
 
@@ -47,7 +49,24 @@ public class ExamineCertificatesModel extends BaseObservable {
     }
 
     private void initData() {
-        DemandEngine.uploadFile(new onUploadFile(),photoUri);
+        switch (cardType){
+            case Cardtype.USER_REAL_AUTH_CARD_IDCARD:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_IDENTITY_CARD_UPLOAD);
+                break;
+            case Cardtype.USER_REAL_AUTH_CARD_MAIL:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_MAILBOX_BACKGROUND_UPLOAD);
+                break;
+            case Cardtype.USER_REAL_AUTH_CARD_SIN:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_BADGE_UPLOAD);
+                break;
+            case Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_COMPANY_BUSINESS_CARD_UPLOAD);
+                break;
+            case Cardtype.USER_REAL_AUTH_CARD_INCUMBENCY_CERTIFICATION:
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_OTHER_EVIDENTIARY_MATERIAL_UPLOAD);
+                break;
+        }
+       DemandEngine.uploadFile(new onUploadFile(),photoUri);
     }
 
     //上传图片
@@ -76,7 +95,6 @@ public class ExamineCertificatesModel extends BaseObservable {
 
     //提交审核
     public void examine(View view){
-        LogKit.d("==filed==="+fileId+"====="+type+"====="+cardType);
 
         MyManager.checkoutAuth(new onCheckoutAuth(), type, cardType, fileId);
     }

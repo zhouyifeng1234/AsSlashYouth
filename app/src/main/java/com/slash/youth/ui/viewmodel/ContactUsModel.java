@@ -28,12 +28,9 @@ public class ContactUsModel extends BaseObservable {
     }
 
     public void hepler(View view) {
-//        ToastUtils.shortCenterToast("斜杠小助手");
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", MsgManager.customerServiceUid);
         contactUsActivity.startActivity(intentChatActivity);
-
-        LogKit.d("斜杠小助手");
     }
 
     public void phone(View view) {
