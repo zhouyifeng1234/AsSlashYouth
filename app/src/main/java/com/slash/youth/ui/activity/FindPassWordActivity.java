@@ -21,10 +21,13 @@ import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
 import com.slash.youth.utils.BitmapKit;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,7 +39,6 @@ import java.util.ArrayList;
  * Created by zss on 2016/11/3.
  */
 public class FindPassWordActivity extends Activity implements View.OnClickListener {
-
     private TextView title;
     private TextView save;
     private ActivityFindPasswordBinding activityFindPasswordBinding;
@@ -93,9 +95,27 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_userinfo_back:
+                switch (type){
+                    case 1://设置了交易密码,找回密码
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_FIND_TRADE_PASSWORD_RETURE);
+                        break;
+                    case 2://没有设置密码，创建密码
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET__SET_TRADE_PASSWORD_RETURE);
+                        break;
+                }
+
                 finish();
                 break;
             case R.id.tv_userinfo_save://提交
+                switch (type){
+                    case 1:
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_FIND_TRADE_PASSWORD_SUBMIT);
+                        break;
+                    case 2:
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_SET_TRADE_PASSWORD_SUBMIT);
+                        break;
+                }
+
                 createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
                 surePassWord = findPassWordModel.surePassWordMap.get("surePassWord");
                 if(createPassWord!=null&&surePassWord!=null){

@@ -218,6 +218,8 @@ public class ActivityLoginModel extends BaseObservable {
                     //链接融云
                     MsgManager.connectRongCloud(rongToken);
 
+                    SpUtils.setBoolean("showMoreDemandDialog",true);
+
                     Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
                     mActivity.startActivity(intentPerfectInfoActivity);
                 } else {

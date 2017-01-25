@@ -371,6 +371,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     //技能标签
     public void skillLabel(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_INDUSTRY_DIRECTION_SKILL_TAG);
+
         Intent intentSubscribeActivity = new Intent(CommonUtils.getContext(), SubscribeActivity.class);
         intentSubscribeActivity.putExtra("isEditor", true);
         intentSubscribeActivity.putExtra("industry", industry);
@@ -596,6 +599,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.getId() == R.id.rb_office_worker) {
+                    //埋点
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_CHOOSE_OCCUPATION_TYPE);
                     checked = isChecked;
                     setCompanyAndPosition(!checked);
                 }
@@ -609,6 +614,40 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                 int action = event.getAction();
                 if(action == MotionEvent.ACTION_UP){
                     MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_SKILL_DESCRIBE);
+                }
+                return false;
+            }
+        });
+
+        //编辑姓名
+        activityUserinfoEditorBinding.etUsername.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if(action == MotionEvent.ACTION_UP){
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_NAME);
+                }
+                return false;
+            }
+        });
+        //编辑公司
+        activityUserinfoEditorBinding.tvCompany.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if(action == MotionEvent.ACTION_UP){
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_RECENT_COMPANY);
+                }
+                return false;
+            }
+        });
+        //编辑职位
+        activityUserinfoEditorBinding.tvProfession.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                if(action == MotionEvent.ACTION_UP){
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_EDIT_COMPANY_POSITION);
                 }
                 return false;
             }

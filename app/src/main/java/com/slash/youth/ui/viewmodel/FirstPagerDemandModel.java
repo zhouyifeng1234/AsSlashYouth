@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
@@ -26,6 +29,7 @@ import com.slash.youth.ui.adapter.ListDropDownAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -67,14 +71,25 @@ public class FirstPagerDemandModel extends BaseObservable {
     private int startIndex;
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private HeaderLocationCityInfoModel headerLocationCityInfoModel;
+    private int moreDemandDialogVisitibility = View.GONE;
 
     public FirstPagerDemandModel(ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding, boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity) {
             this.activityFirstPagerMoreBinding = activityFirstPagerMoreBinding;
             this.isDemand = isDemand;
             this.firstPagerMoreActivity = firstPagerMoreActivity;
+        showMoreDemandDialogPager();
         initData();
         initView();
         listener();
+    }
+
+    private void showMoreDemandDialogPager() {
+        if(isDemand){
+            boolean showMoreDemandDialog = SpUtils.getBoolean("showMoreDemandDialog", false);
+            if(showMoreDemandDialog){
+                setMoreDemandDialogVisitibility(View.VISIBLE);
+            }
+        }
     }
 
     private void initData() {
@@ -413,6 +428,21 @@ public class FirstPagerDemandModel extends BaseObservable {
         pullToRefreshListViewModel.getData(isDemand);
         activityFirstPagerMoreBinding.dropDownMenu.setCurrentTabText(isDemand?4:2,cityName);
         activityFirstPagerMoreBinding.dropDownMenu.closeMenu();
+    }
+
+    @Bindable
+    public int getMoreDemandDialogVisitibility() {
+        return moreDemandDialogVisitibility;
+    }
+
+    public void setMoreDemandDialogVisitibility(int moreDemandDialogVisitibility) {
+        this.moreDemandDialogVisitibility = moreDemandDialogVisitibility;
+        notifyPropertyChanged(BR.moreDemandDialogVisitibility);
+    }
+
+    //点击消失
+    public void showMoreDemandDilog(View view){
+    setMoreDemandDialogVisitibility(View.GONE);
     }
 
 }
