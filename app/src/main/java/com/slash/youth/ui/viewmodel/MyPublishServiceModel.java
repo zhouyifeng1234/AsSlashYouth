@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyPublishServiceBinding;
@@ -302,7 +303,13 @@ public class MyPublishServiceModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("完成任务失败:" + result);
+                Gson gson = new Gson();
+                CommonResultBean commonResultBean = gson.fromJson(result, CommonResultBean.class);
+                if (commonResultBean.data.status == 5 || commonResultBean.data.status == 6) {
+                    ToastUtils.shortToast("请先设置交易密码");
+                } else {
+                    ToastUtils.shortToast("完成任务失败:" + result);
+                }
             }
         }, soid + "", fid + "");
     }

@@ -11,7 +11,7 @@ public class MyTaskBean implements Serializable {
     public int bidnum;//抢单数量
     public long cts;//我的任务创建时间
     public int his;//是否是历史任务 0 否 1 是 （这个字段暂时无用）
-    public int id;
+    public long id;
     public int instalment;//0 or 1 表示是否开启分期   0不允许分期 1允许分期
     public int instalmentcurr;//表示当前处于第几个分期 1 到 4
     public int instalmentcurrfinish;//表示当期是否服务方完成 0未完成 1已经完成
@@ -38,5 +38,7 @@ public class MyTaskBean implements Serializable {
 
 
     public int timetype;//服务中才有
+
+    public String dname;//服务中的需求方名字，这个字段暂时服务端还没有返回，先写在这里
 
 }

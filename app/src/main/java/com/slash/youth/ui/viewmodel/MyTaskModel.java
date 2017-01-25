@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyTaskBinding;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskList;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.MyTaskEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandChooseServiceActivity;
 import com.slash.youth.ui.activity.MyBidDemandActivity;
@@ -27,10 +30,15 @@ import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by zhouyifeng on 2016/10/26.
@@ -64,6 +72,19 @@ public class MyTaskModel extends BaseObservable {
     ArrayList<MyTaskBean> listMyTask = null;
 
     private void initData() {
+        //去掉100号的我未读消息数量
+        //这里目前不能使用这个方法，因为是用叠加的方式计数的
+//        clearOtherMessagesUnreadCount();
+        MsgManager.taskMessageCount = 0;
+        SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, MsgManager.taskMessageCount);
+        //初始化每一个任务对应的消息数量的HashMap
+        if (MsgManager.everyTaskMessageCount == null) {
+            MsgManager.everyTaskMessageCount = MsgManager.deserializeEveryTaskMessageCount();
+            if (MsgManager.everyTaskMessageCount == null) {
+                MsgManager.everyTaskMessageCount = new HashMap<Long, Integer>();
+            }
+        }
+
         //首次进入页面，加载我的全部任务（进行中任务，发的和抢的，不包括任务）
         currentFilterTaskType = MyTaskEngine.USER_TASK_ALL_TYPE;
         currentLoadDataType = LOAD_DATA_TYPE_LOAD;
@@ -190,6 +211,14 @@ public class MyTaskModel extends BaseObservable {
                         mActivity.startActivityForResult(intentMyBidServiceActivity, REFRESH_TASK_LIST_STATUS);
                     }
                 }
+                //清空任务item对应的消息数量
+                if (MsgManager.everyTaskMessageCount != null) {//照理说在这里不可能为null
+                    MsgManager.everyTaskMessageCount.put(myTaskBean.id, 0);
+                    MsgManager.serializeEveryTaskMessageCount(MsgManager.everyTaskMessageCount);
+                }
+                //隐藏任务item上的小圆点
+                View taskMessagePoint = view.findViewById(R.id.view_task_message_point);
+                taskMessagePoint.setVisibility(View.GONE);
             }
         });
 
@@ -603,6 +632,20 @@ public class MyTaskModel extends BaseObservable {
      */
     public void hideFilterTask(View v) {
         setOpenTaskVisibility(View.GONE);
+    }
+
+    private void clearOtherMessagesUnreadCount() {
+        RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, "100", new RongIMClient.ResultCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                LogKit.v("Clear result:" + aBoolean);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 
     private int openTaskVisibility = View.GONE;

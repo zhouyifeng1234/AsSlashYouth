@@ -18,6 +18,7 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.domain.SlashMessageExtraBean;
+import com.slash.youth.domain.TaskMessageBean;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.AddFriendProtocol;
 import com.slash.youth.http.protocol.AddFriendStatusProtocol;
@@ -45,10 +46,15 @@ import com.slash.youth.utils.ToastUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.rong.imlib.RongIMClient;
@@ -82,6 +88,8 @@ public class MsgManager {
     private static SlashMessageListener mSlashMessageListener;
 
     private static int getRongTokenTimes = 0;
+    public static int taskMessageCount = -1;
+    public static HashMap<Long, Integer> everyTaskMessageCount = null;
 
     /**
      * 建立与融云服务器的连接
@@ -235,7 +243,50 @@ public class MsgManager {
 //            }
 
             if (senderUserId.equals("100")) {//系统推送账号
-
+                if (objectName.equals("RC:CmdNtf")) {
+                    //总的任务消息数据的处理
+                    if (taskMessageCount != -1) {
+                        taskMessageCount++;
+                        SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, taskMessageCount);
+                    } else {
+                        taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
+                        taskMessageCount++;
+                        SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, taskMessageCount);
+                    }
+                    if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
+                        HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
+                        PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
+                        if (MsgManager.taskMessageCount > 0) {
+                            pagerHomeInfoModel.setTaskMessageCountPointVisibility(View.VISIBLE);
+                            pagerHomeInfoModel.setTaskMessageCount(MsgManager.taskMessageCount + "");
+                        } else {
+                            pagerHomeInfoModel.setTaskMessageCountPointVisibility(View.GONE);
+                        }
+                    }
+                    //每一个任务对应的消息数量的处理
+                    if (everyTaskMessageCount == null) {
+                        everyTaskMessageCount = deserializeEveryTaskMessageCount();
+                        if (everyTaskMessageCount == null) {
+                            everyTaskMessageCount = new HashMap<Long, Integer>();
+                        }
+                    }
+                    CommandNotificationMessage commandNotificationMessage = (CommandNotificationMessage) message.getContent();
+                    String data = commandNotificationMessage.getData();
+                    Gson gson = new Gson();
+                    TaskMessageBean taskMessageBean = gson.fromJson(data, TaskMessageBean.class);
+                    long id = taskMessageBean.id;
+                    Integer integer = everyTaskMessageCount.get(id);
+                    int count;
+                    if (integer == null) {
+                        count = 0;
+                    } else {
+                        count = integer;
+                    }
+                    count++;
+                    everyTaskMessageCount.put(id, count);
+                    //次数更新了，重新序列化到磁盘
+                    serializeEveryTaskMessageCount(everyTaskMessageCount);
+                }
             } else if (senderUserId.equals("1000")) {//斜杠消息助手
                 CommonUtils.getHandler().post(new Runnable() {
                     public void run() {
@@ -248,13 +299,16 @@ public class MsgManager {
                                 mSlashMessageListener.displayMessage(message, left);
                             } else {
                                 //消息推送的顶部弹框提示
-                                Gson gson = new Gson();
-                                SlashMessageExtraBean slashMessageExtraBean = gson.fromJson(extraInfo, SlashMessageExtraBean.class);
                                 PushInfoBean pushInfoBean = new PushInfoBean();
-                                pushInfoBean.senderUserId = slashMessageExtraBean.uid + "";
                                 pushInfoBean.pushText = textMessage.getContent();
-//                                pushInfoBean.pushText = "斜杠小助手向您发送了一条消息";
                                 pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
+                                try {
+                                    Gson gson = new Gson();
+                                    SlashMessageExtraBean slashMessageExtraBean = gson.fromJson(extraInfo, SlashMessageExtraBean.class);
+                                    pushInfoBean.senderUserId = slashMessageExtraBean.uid + "";
+                                } catch (Exception ex) {
+                                    pushInfoBean.senderUserId = "1000";
+                                }
                                 displayPushInfo(pushInfoBean);
                             }
                         }
@@ -696,6 +750,61 @@ public class MsgManager {
         mSlashMessageListener = null;
     }
 
+
+    /**
+     * 序列化每个任务对应的消息数量的HashMap
+     */
+    public static void serializeEveryTaskMessageCount(HashMap<Long, Integer> hashEveryTaskMessageCount) {
+        File fileCache = CommonUtils.getContext().getCacheDir();
+        if (!fileCache.exists()) {
+            fileCache.mkdirs();
+        }
+        File fileTaskMessage = new File(fileCache, "everyTaskMessageCount");
+        FileOutputStream fosTaskMessage = null;
+        ObjectOutputStream oosTaskMessage = null;
+        try {
+            fosTaskMessage = new FileOutputStream(fileTaskMessage);
+            oosTaskMessage = new ObjectOutputStream(fosTaskMessage);
+            oosTaskMessage.writeObject(hashEveryTaskMessageCount);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.close(oosTaskMessage);
+            IOUtils.close(fosTaskMessage);
+        }
+    }
+
+    /**
+     * 反序列化每个任务对应的消息数量的HashMap
+     */
+    public static HashMap<Long, Integer> deserializeEveryTaskMessageCount() {
+        File fileCache = CommonUtils.getContext().getCacheDir();
+        File fileTagJson = new File(fileCache, "everyTaskMessageCount");
+        if (!fileTagJson.exists()) {
+            return null;
+        } else {
+            FileInputStream fisTaskMessage = null;
+            ObjectInputStream oisTaskMessage = null;
+            try {
+                fisTaskMessage = new FileInputStream(fileTagJson);
+                oisTaskMessage = new ObjectInputStream(fisTaskMessage);
+                HashMap<Long, Integer> hashEveryTaskMessageCount = (HashMap<Long, Integer>) oisTaskMessage.readObject();
+                return hashEveryTaskMessageCount;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                IOUtils.close(oisTaskMessage);
+                IOUtils.close(fisTaskMessage);
+            }
+        }
+        return null;
+    }
 
     /**
      * 五、[消息系统]-获得会话列表

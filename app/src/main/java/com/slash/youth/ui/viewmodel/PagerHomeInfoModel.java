@@ -3,13 +3,16 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeInfoBinding;
 import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.MyTaskActivity;
@@ -17,6 +20,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -46,6 +50,35 @@ public class PagerHomeInfoModel extends BaseObservable {
     ArrayList<ConversationListBean.ConversationInfo> listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
 
     private void initView() {
+        //通过融云SDK获取所有的100号的未读消息数量
+        //目前不能使用这个方法，因为服务端使用CmdNTF格式推送的，这个类型是不计数的，所以没法使用这个方式获取未读消息数
+//        RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, "100", new RongIMClient.ResultCallback<Integer>() {
+//            @Override
+//            public void onSuccess(Integer integer) {
+//                int unreadCount = integer;
+//                if (unreadCount > 0) {
+//                    setTaskMessageCountPointVisibility(View.VISIBLE);
+//                    setTaskMessageCount(unreadCount + "");
+//                } else {
+//                    setTaskMessageCountPointVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(RongIMClient.ErrorCode errorCode) {
+//
+//            }
+//        });
+        if (MsgManager.taskMessageCount == -1) {
+            MsgManager.taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
+        }
+        if (MsgManager.taskMessageCount > 0) {
+            setTaskMessageCountPointVisibility(View.VISIBLE);
+            setTaskMessageCount(MsgManager.taskMessageCount + "");
+        } else {
+            setTaskMessageCountPointVisibility(View.GONE);
+        }
+
         getDataFromServer();
     }
 
@@ -136,6 +169,9 @@ public class PagerHomeInfoModel extends BaseObservable {
                                     break;
                                 }
                             }
+                            if (index < 0) {
+                                index = 0;
+                            }
                             listConversation.add(index, conversationInfo);
                             MsgManager.conversationUidList.add(index, targetId);
                         } else {
@@ -171,6 +207,9 @@ public class PagerHomeInfoModel extends BaseObservable {
 
     //跳转到我的任务界面
     public void gotoMyTask(View v) {
+        //隐藏任务消息数量的小圆点
+        setTaskMessageCountPointVisibility(View.GONE);
+
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_MY_MISSON);
 
         Intent intentMyTaskActivity = new Intent(CommonUtils.getContext(), MyTaskActivity.class);
@@ -182,5 +221,28 @@ public class PagerHomeInfoModel extends BaseObservable {
 
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         mActivity.startActivity(intentSearchActivity);
+    }
+
+    private int taskMessageCountPointVisibility = View.GONE;
+    private String taskMessageCount;
+
+    @Bindable
+    public String getTaskMessageCount() {
+        return taskMessageCount;
+    }
+
+    public void setTaskMessageCount(String taskMessageCount) {
+        this.taskMessageCount = taskMessageCount;
+        notifyPropertyChanged(BR.taskMessageCount);
+    }
+
+    @Bindable
+    public int getTaskMessageCountPointVisibility() {
+        return taskMessageCountPointVisibility;
+    }
+
+    public void setTaskMessageCountPointVisibility(int taskMessageCountPointVisibility) {
+        this.taskMessageCountPointVisibility = taskMessageCountPointVisibility;
+        notifyPropertyChanged(BR.taskMessageCountPointVisibility);
     }
 }

@@ -97,6 +97,7 @@
                             android:visibility="@{itemMyTaskModel.publishDemandStatusPointVisibility}"/>
 
                         <View
+                            android:id="@+id/view_task_message_point"
                             android:layout_width="10dp"
                             android:layout_height="10dp"
                             android:layout_gravity="center"
@@ -188,10 +189,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="需求方:曹晓琳"
+                        android:text="@{itemMyTaskModel.serviceDName}"
                         android:textColor="#999999"
                         android:textSize="12sp"
                         android:visibility="@{itemMyTaskModel.taskDemandSideNameVisibility}"/>
+                    <!--android:text="需求方:曹晓琳"-->
 
                     <View
                         android:layout_width="0dp"

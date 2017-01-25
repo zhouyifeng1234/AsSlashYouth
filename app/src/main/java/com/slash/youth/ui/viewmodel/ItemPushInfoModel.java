@@ -35,11 +35,10 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void initData() {
-//        if (mPushInfoBean.senderUserId.equals("1000")) {
-//            username = "斜杠消息助手";
-//            setPushUserInfo();
-//        } else
-        if (mPushInfoBean.senderUserId.equals(MsgManager.customerServiceUid)) {
+        if (mPushInfoBean.senderUserId.equals("1000")) {
+            username = "斜杠消息助手";
+            setPushUserInfo();
+        } else if (mPushInfoBean.senderUserId.equals(MsgManager.customerServiceUid)) {
             username = "斜杠客服助手";
             setPushUserInfo();
         } else {
@@ -65,10 +64,9 @@ public class ItemPushInfoModel extends BaseObservable {
     }
 
     private void setPushUserInfo() {
-//        if (mPushInfoBean.senderUserId.equals("1000")) {
-//            mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.message_icon);
-//        } else
-        if (mPushInfoBean.senderUserId.equals(MsgManager.customerServiceUid)) {
+        if (mPushInfoBean.senderUserId.equals("1000")) {
+            mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.message_icon);
+        } else if (mPushInfoBean.senderUserId.equals(MsgManager.customerServiceUid)) {
             mItemPushInfoBinding.ivPushAvatar.setImageResource(R.mipmap.customer_service_icon);
         } else {
             BitmapKit.bindImage(mItemPushInfoBinding.ivPushAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);

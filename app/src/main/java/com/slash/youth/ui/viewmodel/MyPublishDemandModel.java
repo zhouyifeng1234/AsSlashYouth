@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyPublishDemandBinding;
@@ -214,7 +215,13 @@ public class MyPublishDemandModel extends BaseObservable {
             @Override
             public void executeResultError(String result) {
                 //确认完成失败
-                ToastUtils.shortToast("确认完成失败");
+                Gson gson = new Gson();
+                CommonResultBean commonResultBean = gson.fromJson(result, CommonResultBean.class);
+                if (commonResultBean.data.status == 5 || commonResultBean.data.status == 6) {
+                    ToastUtils.shortToast("请先设置交易密码");
+                } else {
+                    ToastUtils.shortToast("确认完成失败:" + result);
+                }
             }
         }, tid + "", fid + "");
     }

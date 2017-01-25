@@ -120,6 +120,7 @@ public class ChatModel extends BaseObservable {
     private int getBaseDataFinishedCount = 0;
     private int getBaseDataTotalCount = 0;
     ChatCmdShareTaskBean chatCmdShareTaskBean;
+    ChatCmdBusinesssCardBean chatCmdBusinesssCardBean;
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -168,6 +169,7 @@ public class ChatModel extends BaseObservable {
             String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
             if (!TextUtils.isEmpty(chatCmdName)) {
                 if (chatCmdName.equals("sendBusinessCard")) {
+                    chatCmdBusinesssCardBean = (ChatCmdBusinesssCardBean) mActivity.getIntent().getSerializableExtra("chatCmdBusinesssCardBean");
                     sendBusinessCard();
                 } else if (chatCmdName.equals("sendShareTask")) {
                     chatCmdShareTaskBean = (ChatCmdShareTaskBean) mActivity.getIntent().getSerializableExtra("chatCmdShareTaskBean");
@@ -1073,12 +1075,12 @@ public class ChatModel extends BaseObservable {
      * 发送个人名片
      */
     public void sendBusinessCard() {
-        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = new ChatCmdBusinesssCardBean();
-        chatCmdBusinesssCardBean.uid = LoginManager.currentLoginUserId;
-        chatCmdBusinesssCardBean.avatar = "";
-        chatCmdBusinesssCardBean.name = "tom";
-        chatCmdBusinesssCardBean.industry = "";
-        chatCmdBusinesssCardBean.profession = "";
+//        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = new ChatCmdBusinesssCardBean();
+//        chatCmdBusinesssCardBean.uid = LoginManager.currentLoginUserId;
+//        chatCmdBusinesssCardBean.avatar = "";
+//        chatCmdBusinesssCardBean.name = "tom";
+//        chatCmdBusinesssCardBean.industry = "";
+//        chatCmdBusinesssCardBean.profession = "";
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdBusinesssCardBean);
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD);

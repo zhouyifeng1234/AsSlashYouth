@@ -390,6 +390,18 @@ public class ItemMyTaskModel extends BaseObservable {
     private int instalmentTextVisibility;
     private int instalmentratioStrVisibility;
 
+    private String serviceDName;
+
+    @Bindable
+    public String getServiceDName() {
+        return serviceDName;
+    }
+
+    public void setServiceDName(String serviceDName) {
+        this.serviceDName = serviceDName;
+        notifyPropertyChanged(BR.serviceDName);
+    }
+
     @Bindable
     public int getInstalmentratioStrVisibility() {
         return instalmentratioStrVisibility;
