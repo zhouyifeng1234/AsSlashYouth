@@ -41,11 +41,12 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     public SearchNeedResultTabBinding mSearchNeedResultTabBinding;
     private View areaView;
     private String demandsList[] = {"不限","线上","线下"};
+    private String servicesList[] = {"不限","线上服务","线下服务"};
     private String persionList[] = {"所用用户","认证用户"};
     private String users[] = {"全部用户","认证用户"};
     private String[] sorts;
     private String serviceSorts[] = {"综合评价最高（默认）","最新发布","离我最近"};
-    private String demandSorts[] = {"发布时间最近（默认）","回复时间最近","价格最高","距离最近"};
+    private String demandSorts[] = {"最新发布","价格最高","离我最近"};
     private GirdDropDownAdapter  demandAdapter;
     private ListDropDownAdapter userAdapter;
     private ListView userListView;
@@ -98,7 +99,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
             case SearchManager.HOT_SEARCH_SERVICE:
                 headers =serviceHeaders;
                 isDemand = false;
-                demands =  demandsList;
+                demands =  servicesList;
                 sorts = serviceSorts;
                 break;
             case SearchManager.HOT_SEARCH_PERSON:
@@ -221,33 +222,16 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     sexAdapter.setCheckItem(position);
                     mSearchNeedResultTabBinding.dropDownMenu.setTabText(position == 0 ? headers[2] : sorts[position]);
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
-                    if(isDemand){
-                        switch (position){
-                            case 0:
-                                pullToRefreshListTabViewModel.sort = -1;
-                                break;
-                            case 1:
-                                pullToRefreshListTabViewModel.sort = 2;
-                                break;
-                            case 2:
-                                pullToRefreshListTabViewModel.sort = 1;
-                                break;
-                            case 3:
-                                pullToRefreshListTabViewModel.sort = 3;
-                                break;
-                        }
-                    }else {
-                        switch (position){
-                            case 0:
-                                pullToRefreshListTabViewModel.sort = -1;
-                                break;
-                            case 1:
-                                pullToRefreshListTabViewModel.sort = 2;
-                                break;
-                            case 2:
-                                pullToRefreshListTabViewModel.sort = 1;
-                                break;
-                        }
+                    switch (position){
+                        case 0:
+                            pullToRefreshListTabViewModel.sort = -1;
+                            break;
+                        case 1:
+                            pullToRefreshListTabViewModel.sort = 2;
+                            break;
+                        case 2:
+                            pullToRefreshListTabViewModel.sort = 1;
+                            break;
                     }
                     pullToRefreshListTabViewModel.clear();
                     pullToRefreshListTabViewModel.getData(searchType);

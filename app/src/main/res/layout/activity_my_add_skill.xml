@@ -88,7 +88,7 @@
                                 android:layout_marginTop="10dp"
                                 android:background="@android:color/transparent"
                                 android:gravity="top|left"
-                                android:hint="描述一下你的需求300字内"
+                                android:hint="请描述服务详情，300字内"
                                 android:maxLength="300"
                                 android:textColor="#333333"
                                 android:textColorHint="#cccccc"
@@ -219,7 +219,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="14dp"
                             android:layout_marginTop="24dp"
-                            android:text="＊建议上传清晰度高的图片上限5张"
+                            android:text="上传图片 每张图片2M以下上限5张"
                             android:textColor="#CCCCCC"
                             android:textSize="11sp"/>
 
@@ -266,7 +266,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:background="@android:color/transparent"
-                                android:hint="为了高效匹配需求者请添加"
+                                android:hint="把服务精确匹配给对方"
                                 android:textColorHint="#CCCCCC"
                                 android:textSize="13sp"/>
                             <ImageView

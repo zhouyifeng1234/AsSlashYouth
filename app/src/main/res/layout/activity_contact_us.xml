@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="15dp"
-                        android:text="斜杠客服助手"/>
+                        android:text="斜杠客服"/>
 
                     <View
                         android:layout_weight="1"

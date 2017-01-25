@@ -34,10 +34,12 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.StringUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -85,6 +87,8 @@ public class ApprovalModel extends BaseObservable {
 
     //点击修改
     public void modify(View view){
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_PERFECT_APPROVE);
+
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("myId",uid);
        approvalActivity.startActivity(intentUserinfoEditorActivity);

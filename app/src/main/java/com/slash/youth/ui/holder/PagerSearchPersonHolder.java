@@ -53,9 +53,18 @@ public class PagerSearchPersonHolder extends BaseHolder<SearchUserItemBean.DataB
         String name = data.getName();
         itemListviewSearchPersonBinding.tvSearchPersonName.setText(name);
 
-        String userPosition = data.getPosition();
-        String company = data.getCompany();
-        itemListviewSearchPersonBinding.tvSearchPersonPosition.setText(company+"-"+userPosition);
+        int careertype = data.getCareertype();
+        switch (careertype){
+            case 1:
+                String userPosition = data.getPosition();
+                String company = data.getCompany();
+                itemListviewSearchPersonBinding.tvSearchPersonPosition.setText(company+"-"+userPosition);
+                break;
+            case 2:
+                itemListviewSearchPersonBinding.tvSearchPersonPosition.setVisibility(View.GONE);
+                break;
+        }
+
 
         int isauth = data.getIsauth();
         switch (isauth) {

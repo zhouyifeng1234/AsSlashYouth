@@ -108,12 +108,12 @@ public class CustomEventAnalyticsUtils {
         public static String MESSAGE_MY_MISSON_CLICK_RIGHT_MORE;//我的任务-点击右上角更多
         public static String MESSAGE_MY_MISSON_MISSONDETAIL_CLICK_MISSON_CHAT;//我的任务-某个任务-订单详情-聊一聊
         public static String MINE_CLICK_APPROVE="MINE_CLICK_APPROVE";//点击去认证
-        public static String MINE_CLICK_APPROVE_BADGE_UPLOAD;//点击去认证-工牌上传
-        public static String MINE_CLICK_APPROVE_COMPANY_BUSINESS_CARD_UPLOAD;//点击去认证-公司名片上传
-        public static String MINE_CLICK_APPROVE_IDENTITY_CARD_UPLOAD;//点击去认证-身份证上传
-        public static String MINE_CLICK_APPROVE_MAILBOX_BACKGROUND_UPLOAD;//点击去认证-邮箱后台上传
-        public static String MINE_CLICK_APPROVE_OTHER_EVIDENTIARY_MATERIAL_UPLOAD;//点击去认证-其他证明材料上传
-        public static String MINE_CLICK_APPROVE_PERFECT_APPROVE;//点击去认证-去完善认证
+        public static String MINE_CLICK_APPROVE_BADGE_UPLOAD = "MINE_CLICK_APPROVE_BADGE_UPLOAD";//点击去认证-工牌上传
+        public static String MINE_CLICK_APPROVE_COMPANY_BUSINESS_CARD_UPLOAD = "MINE_CLICK_APPROVE_COMPANY_BUSINESS_CARD_UPLOAD";//点击去认证-公司名片上传
+        public static String MINE_CLICK_APPROVE_IDENTITY_CARD_UPLOAD = "MINE_CLICK_APPROVE_IDENTITY_CARD_UPLOAD";//点击去认证-身份证上传
+        public static String MINE_CLICK_APPROVE_MAILBOX_BACKGROUND_UPLOAD = "MINE_CLICK_APPROVE_MAILBOX_BACKGROUND_UPLOAD";//点击去认证-邮箱后台上传
+        public static String MINE_CLICK_APPROVE_OTHER_EVIDENTIARY_MATERIAL_UPLOAD = "MINE_CLICK_APPROVE_OTHER_EVIDENTIARY_MATERIAL_UPLOAD";//点击去认证-其他证明材料上传
+        public static String MINE_CLICK_APPROVE_PERFECT_APPROVE = "MINE_CLICK_APPROVE_PERFECT_APPROVE";//点击去认证-去完善认证
         public static String MINE_CLICK_APPROVE_RETURE = "MINE_CLICK_APPROVE_RETURE";//点击去认证-返回
         public static String MINE_CLICK_CHOOSE_OCCUPATION_TYPE = "MINE_CLICK_CHOOSE_OCCUPATION_TYPE";//点击选择职业类型
         public static String MINE_CLICK_EDIT_PROFILE = "MINE_CLICK_EDIT_PROFILE";//点击编辑资料

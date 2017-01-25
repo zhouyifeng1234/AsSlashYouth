@@ -44,7 +44,7 @@
 
            <ImageView
                android:layout_alignParentRight="true"
-               android:layout_marginRight="60dp"
+               android:layout_marginRight="80dp"
                android:src="@drawable/iv_delete_bg"
                android:id="@+id/search_iv_delete"
                android:layout_centerVertical="true"

@@ -101,7 +101,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemDemandModel.setDistance("距离"+distance+"KM");
+                itemDemandModel.setDistance(distance+"km");
                 break;
         }
 

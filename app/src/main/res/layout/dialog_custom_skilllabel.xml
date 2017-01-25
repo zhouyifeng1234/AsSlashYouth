@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="269dp"
-        android:layout_height="145dp"
+        android:layout_height="160dp"
         android:background="@mipmap/dialog_search_clean_bg"
         android:orientation="vertical">
 
@@ -44,30 +44,63 @@
             android:background="@drawable/shape_edittext_skilllabel_bg"
             android:textSize="16sp"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="10dp"
+        <FrameLayout
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/shape_tishi_button_bg"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_tishi_button_bg"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:onClick="@{dialogCustomSkillLabelModel.cancelDialog}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_cancel_n">
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="取消"/>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:onClick="@{dialogCustomSkillLabelModel.cancelDialog}"
-                android:src="@mipmap/no_btn"
-            />
-            <ImageButton
-                android:id="@+id/ib_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:onClick="@{dialogCustomSkillLabelModel.okDialog}"
-                android:src="@mipmap/ok_btn"
-            />
-        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:onClick="@{dialogCustomSkillLabelModel.okDialog}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_determine_n">
+
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="确定"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
     </LinearLayout>
     </LinearLayout>
 </layout>

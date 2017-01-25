@@ -48,10 +48,6 @@ public class ApprovalCertificatesModel extends BaseObservable {
     }
 
     public void shotPhoto(View view){
-       /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        approvalActivity.startActivityForResult(intent, Constants.USERINFO_TAKEPHOTO);*/
-
         FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
         GalleryFinal.openCamera(21, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
             @Override

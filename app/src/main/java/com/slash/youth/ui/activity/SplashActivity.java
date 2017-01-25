@@ -226,7 +226,7 @@ public class SplashActivity extends Activity {
 
     //取消
     private void cannel() {
-        dialogVersionUpdateBinding.tvCannel.setOnClickListener(new View.OnClickListener() {
+        dialogVersionUpdateBinding.cannel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogVersion.dismiss();

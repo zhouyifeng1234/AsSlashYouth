@@ -41,7 +41,7 @@
                     android:textColor="#ffffff"
                     android:textSize="14dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="账户总余额"/>
+                    android:text="账户总额（元）"/>
 
                 <View
                     android:background="#ffffff"

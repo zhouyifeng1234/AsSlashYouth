@@ -247,7 +247,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
         //粉丝数
         fanscount = myinfo.getFanscount();
-        mPagerHomeMyBinding.tvFansCount.setText("粉丝数" + fanscount);
+        mPagerHomeMyBinding.tvFansCount.setText("人脉数" + fanscount);
         fansratio = myinfo.getFansratio();
         if(fansratio>0&&fansratio<=1){
             fansratio = 1;
@@ -255,7 +255,7 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) fansratio);
         //粉丝比率
         mPagerHomeMyBinding.tvFansRadio.setText(String.valueOf(fansratio) + "%");
-        mPagerHomeMyBinding.tvOverFansCount.setText("超过平台" + String.valueOf(fansratio) + "%" + "的用户");
+        mPagerHomeMyBinding.tvOverFansCount.setText("超过" + String.valueOf(fansratio) + "%" + "的用户");
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
@@ -270,13 +270,14 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
-        int servicepoint = (int)((averageservicepoint*100)/ 5);
-        mPagerHomeMyBinding.pbProgressbarService.setProgress((int)servicepoint);
+
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
+        int servicepoint = (int)((userservicepoint*100)/ 5);
+        mPagerHomeMyBinding.pbProgressbarService.setProgress((int)servicepoint);
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
         mPagerHomeMyBinding.tvAverageServicePoint.setText(userservicepoint + "");
-        mPagerHomeMyBinding.tvUserServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
+        mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为"+averageservicepoint+"星");
 
         //数量,网络获取的分数
         int expertscore = myinfo.getExpertscore();//超过多少个用户

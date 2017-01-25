@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#333333"
-            android:text="斜杠青年V1.1.0"/>
+            android:text="斜杠青年"/>
 
         <LinearLayout
             android:layout_marginTop="22dp"

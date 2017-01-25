@@ -32,9 +32,9 @@ public class Constants {
     //技能管理-添加一个技能模板
     public static final int  ADD_ONE_SKILL_MANAGER =15;
     //我的-技能管理
-    public static final String  MY_TITLE_SKILL_MANAGER ="技能管理";
+    public static final String  MY_TITLE_SKILL_MANAGER ="技能列表";
     //我的-管理我发布的任务
-    public static final String  MY_TITLE_MANAGER_MY_PUBLISH ="管理我发布的任务";
+    public static final String  MY_TITLE_MANAGER_MY_PUBLISH ="发布管理";
     //技能管理—添加技能
     public static final String  SKILL_MANAGER_TITLE_RIGHT="添加技能";
     //设置-照相

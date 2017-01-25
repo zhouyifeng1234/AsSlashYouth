@@ -408,7 +408,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:text="专家成长级"
+                                    android:text="服务力等级"
                                     android:textColor="#666666"
                                     android:textSize="14sp"/>
 
@@ -428,7 +428,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="8dp"
-                                android:text="专家Ⅲ与Ⅳ需平台审核"
+                                android:text="宗师与至尊级别需平台审核"
                                 android:textColor="#CCCCCC"
                                 android:textSize="11sp"/>
 
@@ -444,7 +444,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
-                                    android:text="距离专家Ⅲ仅剩 "
+                                    android:text="距离大侠还有 "
                                     android:textColor="#999999"
                                     android:textSize="11dp"/>
                                 <TextView
@@ -492,7 +492,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
-                                    android:text="平台其他用户 "
+                                    android:text="的用户 "
                                     android:textColor="#999999"
                                     android:textSize="11dp"/>
 
@@ -567,7 +567,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
-                                    android:text="专家Ⅰ"
+                                    android:text="少侠"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
                                 <TextView
@@ -576,7 +576,7 @@
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:gravity="center"
-                                    android:text="专家Ⅱ"
+                                    android:text="大侠"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
                                 <TextView
@@ -584,7 +584,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
-                                    android:text="专家Ⅲ"
+                                    android:text="宗师"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
                                 <TextView
@@ -592,7 +592,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     android:gravity="center"
-                                    android:text="专家Ⅳ"
+                                    android:text="至尊"
                                     android:textColor="#CCCCCC"
                                     android:textSize="12sp"/>
 
@@ -653,7 +653,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="8dp"
-                                android:text="我的账户"
+                                android:text="账户"
                                 android:textColor="#718083"
                                 android:textSize="12sp"
                             />
@@ -724,7 +724,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="16dp"
-                                            android:text="技能管理"
+                                            android:text="技能列表"
                                             android:textColor="#718083"
                                             android:textSize="12sp"/>
                                     </LinearLayout>
@@ -751,7 +751,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="16dp"
-                                            android:text="管理我发布的"
+                                            android:text="我的发布"
                                             android:textColor="#718083"
                                             android:textSize="12sp"/>
                                     </LinearLayout>
@@ -812,7 +812,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="16dp"
-                                            android:text="我的收藏"
+                                            android:text="收藏"
                                             android:textColor="#718083"
                                             android:textSize="12sp"/>
                                     </LinearLayout>
@@ -979,88 +979,60 @@
                         android:textColor="#666666"
                         android:layout_gravity="center_horizontal"
                         />
-
-
-                    <LinearLayout
-                        android:layout_marginBottom="5dp"
+                    <FrameLayout
+                        android:layout_gravity="bottom"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:orientation="horizontal">
+                        android:layout_height="49dp"
+                        android:background="@drawable/shape_tishi_button_bg"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_tishi_button_bg"
+                            android:orientation="horizontal">
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent">
+                                <RelativeLayout
+                                    android:onClick="@{pagerHomeMyModel.makeCannel}"
+                                    android:layout_centerInParent="true"
+                                    android:layout_width="96dp"
+                                    android:layout_height="29dp"
+                                    android:background="@drawable/btn_cancel_n">
+                                    <TextView
+                                        android:layout_centerInParent="true"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="13dp"
+                                        android:textColor="#FFFFFF"
+                                        android:text="取消"/>
 
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_height="wrap_content">
-                            <LinearLayout
-                                android:onClick="@{pagerHomeMyModel.makeCannel}"
-                                android:layout_width="wrap_content"
-                                android:layout_height="35dp"
-                                android:layout_centerInParent="true"
-                                android:orientation="horizontal">
+                                </RelativeLayout>
+                            </RelativeLayout>
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginRight="-2.9dp"
-                                    android:src="@mipmap/btn2_lift"/>
-                                <TextView
-                                    android:layout_width="80dp"
-                                    android:layout_height="match_parent"
-                                    android:text="取消"
-                                    android:gravity="center"
-                                    android:textColor="#ffffff"
-                                    android:textSize="12dp"
-                                    android:background="@mipmap/btn2_middle"/>
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent">
+                                <RelativeLayout
+                                    android:onClick="@{pagerHomeMyModel.makeSure}"
+                                    android:layout_centerInParent="true"
+                                    android:layout_width="96dp"
+                                    android:layout_height="29dp"
+                                    android:background="@drawable/btn_determine_n">
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="-2.9dp"
-                                    android:src="@mipmap/btn2_right"
-                                    />
-                            </LinearLayout>
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_height="wrap_content">
-
-                            <LinearLayout
-                                android:onClick="@{pagerHomeMyModel.makeSure}"
-                                android:layout_width="wrap_content"
-                                android:layout_height="35dp"
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginRight="-2.5dp"
-                                    android:src="@mipmap/btn1_lift"/>
-                                <TextView
-                                    android:layout_width="80dp"
-                                    android:layout_height="match_parent"
-                                    android:text="确定"
-                                    android:gravity="center"
-                                    android:textColor="#ffffff"
-                                    android:textSize="12dp"
-                                    android:background="@mipmap/btn1_middle"/>
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="-2.5dp"
-                                    android:src="@mipmap/btn1_right"
-                                    />
-                            </LinearLayout>
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
+                                    <TextView
+                                        android:layout_centerInParent="true"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="13dp"
+                                        android:textColor="#FFFFFF"
+                                        android:text="确定"/>
+                                </RelativeLayout>
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </FrameLayout>
                 </LinearLayout>
             </FrameLayout>
         </FrameLayout>
