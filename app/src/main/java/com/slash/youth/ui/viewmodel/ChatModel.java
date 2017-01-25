@@ -128,6 +128,8 @@ public class ChatModel extends BaseObservable {
         hideSoftInputMethod();//隐藏软件盘的方法要尽早调用，一开始就让输入框失去焦点，这样，软键盘一开始就不会弹出来
         targetId = mActivity.getIntent().getStringExtra("targetId");
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
+        //清楚对方发给我的未读消息数
+        clearOtherMessagesUnreadCount();
         //判断聊天目标是否是斜杠小助手
         if ((!"1000".equals(targetId)) && (!MsgManager.customerServiceUid.equals(targetId))) {
             displayLoadLayer();
@@ -1937,6 +1939,20 @@ public class ChatModel extends BaseObservable {
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("Uid", Long.parseLong(targetId));
         mActivity.startActivity(intentUserInfoActivity);
+    }
+
+    private void clearOtherMessagesUnreadCount() {
+        RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, targetId, new RongIMClient.ResultCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                LogKit.v("Clear result:" + aBoolean);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 
     private int voiceInputIconVisibility = View.VISIBLE;

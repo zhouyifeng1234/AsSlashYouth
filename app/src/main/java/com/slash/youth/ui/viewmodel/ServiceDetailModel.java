@@ -503,7 +503,7 @@ public class ServiceDetailModel extends BaseObservable {
                         setInstalmentItemVisibility(View.VISIBLE);
                     }
                     //发布时间:9月18日 8:30
-                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("发布时间:yyyy年MM月dd日发布");
+                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm发布");
                     String publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
                     setPublishDatetime(publicDatetimeStr);
                     //服务描述

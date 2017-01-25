@@ -273,6 +273,7 @@
                             android:layout_gravity="center"
                             android:orientation="vertical">
                             <Button
+                                android:onClick="@{publishServiceSuccessModel.shareTask}"
                                 android:layout_width="252dp"
                                 android:layout_height="50dp"
                                 android:background="@drawable/btn_next_step"
