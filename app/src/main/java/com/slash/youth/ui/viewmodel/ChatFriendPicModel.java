@@ -41,7 +41,7 @@ public class ChatFriendPicModel extends BaseObservable {
         LogKit.v(mThumUri.toString());
         x.image().bind(mItemChatFriendPicBinding.ivChatFriendPic, mThumUri.toString());
 
-        if (!"1000".equals(MsgManager.targetId)) {
+        if ((!"1000".equals(MsgManager.targetId)) && (!MsgManager.customerServiceUid.equals(MsgManager.targetId))) {
             BitmapKit.bindImage(mItemChatFriendPicBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
         } else {
             mItemChatFriendPicBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);

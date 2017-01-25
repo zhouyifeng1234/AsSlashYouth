@@ -178,21 +178,30 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:visibility="@{publishDemandSuccessModel.publishSuccessHintVisibility}">
+
                         <TextView android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
-                                  android:text="发布成功 获得"
+                                  android:text="发布成功"
                                   android:textColor="#999999"
                                   android:textSize="15sp"/>
-                        <TextView android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:text="20"
-                                  android:textColor="#31C5E4"
-                                  android:textSize="15sp"/>
-                        <TextView android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:text="积分"
-                                  android:textColor="#999999"
-                                  android:textSize="15sp"/>
+
+                        <!--<TextView android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="发布成功 获得"-->
+                        <!--android:textColor="#999999"-->
+                        <!--android:textSize="15sp"/>-->
+
+                        <!--<TextView android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="20"-->
+                        <!--android:textColor="#31C5E4"-->
+                        <!--android:textSize="15sp"/>-->
+
+                        <!--<TextView android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="积分"-->
+                        <!--android:textColor="#999999"-->
+                        <!--android:textSize="15sp"/>-->
 
                     </LinearLayout>
 
@@ -270,6 +279,7 @@
                             android:layout_width="252dp"
                             android:layout_height="50dp"
                             android:background="@drawable/btn_next_step"
+                            android:onClick="@{publishDemandSuccessModel.shareDemand}"
                             android:text="马上邀请他们"
                             android:textColor="#FFFFFF"
                             android:textSize="15sp"/>

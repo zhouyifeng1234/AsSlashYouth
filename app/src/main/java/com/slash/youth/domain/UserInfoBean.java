@@ -15,7 +15,7 @@ public class UserInfoBean {
     public class UInfo {
         public int achievetaskcount;
         public String avatar;
-        public int averageservicepoint;
+        public double averageservicepoint;
         public int careertype;
         public String city;
         public String company;

@@ -130,7 +130,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     public void publish(View v) {
 
         if (!isCheckedSlashProtocol) {
-            ToastUtils.shortToast("请先同意斜杠协议");
+            ToastUtils.shortToast("请查阅零佣金活动，并勾选");
             return;
         }
 

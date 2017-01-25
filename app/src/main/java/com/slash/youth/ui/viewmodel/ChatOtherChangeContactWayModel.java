@@ -47,7 +47,7 @@ public class ChatOtherChangeContactWayModel extends BaseObservable {
             mItemChatOtherChangeContactWayBinding.tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_add_friend_bg);
         }
 
-        if (!"1000".equals(MsgManager.targetId)) {
+        if ((!"1000".equals(MsgManager.targetId)) && (!MsgManager.customerServiceUid.equals(MsgManager.targetId))) {
             BitmapKit.bindImage(mItemChatOtherChangeContactWayBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
         } else {
             mItemChatOtherChangeContactWayBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);

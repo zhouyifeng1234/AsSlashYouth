@@ -222,7 +222,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 //        }
 
         if (!isCheckedSlashProtocol) {
-            ToastUtils.shortToast("请先同意斜杠协议");
+            ToastUtils.shortToast("请查阅零佣金活动，并勾选");
             return;
         }
 

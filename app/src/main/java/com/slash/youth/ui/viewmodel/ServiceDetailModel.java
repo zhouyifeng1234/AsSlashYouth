@@ -428,6 +428,8 @@ public class ServiceDetailModel extends BaseObservable {
                     serviceUserId = service.uid;
                     if (service.uid == LoginManager.currentLoginUserId) {
                         //服务者视角
+                        setServiceRecommendLabelVisibililty(View.GONE);
+
                         setTopServiceBtnVisibility(View.VISIBLE);
                         setTopShareBtnVisibility(View.GONE);
 
@@ -435,6 +437,8 @@ public class ServiceDetailModel extends BaseObservable {
                         setBottomBtnDemandVisibility(View.INVISIBLE);
                     } else {
                         //需求者视角
+                        setServiceRecommendLabelVisibililty(View.VISIBLE);
+
                         setTopServiceBtnVisibility(View.GONE);
                         setTopShareBtnVisibility(View.VISIBLE);
 
@@ -810,6 +814,18 @@ public class ServiceDetailModel extends BaseObservable {
     private int viewPicVisibility = View.GONE;
 
     private int serviceDetailLocationVisibility;
+
+    private int serviceRecommendLabelVisibililty;
+
+    @Bindable
+    public int getServiceRecommendLabelVisibililty() {
+        return serviceRecommendLabelVisibililty;
+    }
+
+    public void setServiceRecommendLabelVisibililty(int serviceRecommendLabelVisibililty) {
+        this.serviceRecommendLabelVisibililty = serviceRecommendLabelVisibililty;
+        notifyPropertyChanged(BR.serviceRecommendLabelVisibililty);
+    }
 
     @Bindable
     public int getServiceDetailLocationVisibility() {

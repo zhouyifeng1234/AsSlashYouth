@@ -168,6 +168,8 @@ public class MyBidServiceModel extends BaseObservable {
         commentInfo.putString("sAvatarUrl", sAvatarUrl);
         commentInfo.putString("dname", dname);
         commentInfo.putString("sname", sname);
+
+        commentInfo.putDouble("quote", Double.parseDouble(quote));
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);
@@ -549,6 +551,7 @@ public class MyBidServiceModel extends BaseObservable {
     }
 
     private void setServiceFlowLogItemData() {
+        mActivityMyBidServiceBinding.llServiceFlowLogs.removeAllViews();
         for (int i = logInfoList.size() - 1; i >= 0; i--) {
             ServiceFlowLogList.LogInfo logInfo = logInfoList.get(i);
             View itemLogInfo = inflateItemLogInfo(logInfo);
@@ -917,7 +920,7 @@ public class MyBidServiceModel extends BaseObservable {
 
     public void setInstalmentVisibility(int instalmentVisibility) {
         this.instalmentVisibility = instalmentVisibility;
-        notifyPropertyChanged(BR.instalmentItemVisibility);
+        notifyPropertyChanged(BR.instalmentVisibility);
     }
 
     @Bindable

@@ -152,6 +152,8 @@ public class MyPublishDemandModel extends BaseObservable {
         commentInfo.putString("sAvatarUrl", sAvatarUrl);
         commentInfo.putString("dname", dname);
         commentInfo.putString("sname", sname);
+
+        commentInfo.putDouble("quote", Double.parseDouble(quote));
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);
@@ -182,6 +184,7 @@ public class MyPublishDemandModel extends BaseObservable {
             public void execute(DelayPayBean dataBean) {
                 //延期支付成功
                 ToastUtils.shortToast("延期支付成功");
+                setRectifyLayerVisibility(View.GONE);
             }
 
             @Override
@@ -259,6 +262,7 @@ public class MyPublishDemandModel extends BaseObservable {
     }
 
     public void setDemandFlowLogItemData() {
+        mActivityMyPublishDemandBinding.llDemandFlowLogs.removeAllViews();
         for (int i = listLogInfo.size() - 1; i >= 0; i--) {
             DemandFlowLogList.LogInfo logInfo = listLogInfo.get(i);
             View itemLogInfo = inflateItemLogInfo(logInfo);

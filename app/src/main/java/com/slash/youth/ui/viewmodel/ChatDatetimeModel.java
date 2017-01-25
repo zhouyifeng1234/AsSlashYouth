@@ -33,7 +33,7 @@ public class ChatDatetimeModel extends BaseObservable {
     }
 
     private void initView() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
         String datetimeStr = sdf.format(mDatetime);
         setDatetimeText(datetimeStr);
     }

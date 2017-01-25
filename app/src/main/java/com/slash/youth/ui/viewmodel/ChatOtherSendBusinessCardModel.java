@@ -31,7 +31,7 @@ public class ChatOtherSendBusinessCardModel extends BaseObservable {
     }
 
     private void initView() {
-        if (!"1000".equals(MsgManager.targetId)) {
+        if ((!"1000".equals(MsgManager.targetId)) && (!MsgManager.customerServiceUid.equals(MsgManager.targetId))) {
             BitmapKit.bindImage(mItemChatOtherSendBusinessCardBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
         } else {
             mItemChatOtherSendBusinessCardBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);

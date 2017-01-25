@@ -10,6 +10,7 @@ public class GlobalConstants {
         // public static final String IS_GUID = "isGuid";
         // public static final String READ_NEWS_ID = "readNewsId";
         public static final String HOME_IS_DISPLAY_DEMAND_LIST = "homeIsDisplayDemandList";//如果存true，表示展示需求列表，false为展示服务列表
+        public static final String CUSTOMER_SERVICE_UID_KEY = "customerServiceUid";
     }
 
 
@@ -88,6 +89,8 @@ public class GlobalConstants {
         public static final String SERVICE_USER_RECOMMEND = "http://121.42.145.178/uinfo/v1/api/sp/recommend";
         //需求者推荐接口  地址前缀
         public static final String DEMAND_USER_RECOMMEND = "http://121.42.145.178/uinfo/v1/api/dp/recommend";
+        //客服系统接口地址前缀
+        public static final String CUSTOMER_SERVICE = "http://121.42.145.178/customer/v1/api";
         //ZSS
         public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
         public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
@@ -277,6 +280,8 @@ public class GlobalConstants {
         public static final String GET_DETAIL_RECOMMEND_SERVICE = RECOMMEND_SERVICE_HOST + "/more";
         //十七、[服务]-查询是否延期支付过
         public static final String SERVICE_IS_RECTIFY = SERVER_HOST_SERVICE + "isrectify";
+        //请求客服
+        public static final String GET_CUSTOMER_SERVICE = CUSTOMER_SERVICE + "/frontend/speciallist/select";
 
         //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";

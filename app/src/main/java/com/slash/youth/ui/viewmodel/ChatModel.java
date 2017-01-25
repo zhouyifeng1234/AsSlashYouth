@@ -65,6 +65,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
@@ -128,7 +129,7 @@ public class ChatModel extends BaseObservable {
         targetId = mActivity.getIntent().getStringExtra("targetId");
         MsgManager.targetId = targetId;//设置聊天界面只显示当前聊天UserId发来的消息
         //判断聊天目标是否是斜杠小助手
-        if (!"1000".equals(targetId)) {
+        if ((!"1000".equals(targetId)) && (!MsgManager.customerServiceUid.equals(targetId))) {
             displayLoadLayer();
             getTargetUserInfo();
             getFriendRelationShipStatus();
@@ -150,10 +151,16 @@ public class ChatModel extends BaseObservable {
         MsgManager.loadHistoryChatRecord();
 
         if ("1000".equals(targetId)) {//如果是斜杠小助手
-            targetName = "斜杠小助手";
+            targetName = "斜杠消息助手";
             MsgManager.targetName = targetName;
             setOtherUsername(targetName);
-            targetAvatarResource = R.mipmap.slash_helper_square;
+            targetAvatarResource = R.mipmap.message_icon;
+            MsgManager.targetAvatarResource = targetAvatarResource;
+        } else if (MsgManager.customerServiceUid.equals(targetId)) {
+            targetName = "斜杠客服助手";
+            MsgManager.targetName = targetName;
+            setOtherUsername(targetName);
+            targetAvatarResource = R.mipmap.customer_service_icon;
             MsgManager.targetAvatarResource = targetAvatarResource;
         } else {
             String chatCmdName = mActivity.getIntent().getStringExtra("chatCmdName");
@@ -204,11 +211,12 @@ public class ChatModel extends BaseObservable {
 //        mLlChatContent.addView(createOtherSendVoiceView());
 //        mLlChatContent.addView(createMySendVoiceView());
 
-        if ("1000".equals(targetId)) {
+        if ("1000".equals(targetId) || MsgManager.customerServiceUid.equals(targetId)) {
             mActivityChatBinding.tvOtherCompanyPosition.setVisibility(View.GONE);
             mActivityChatBinding.tvChatFriendName.setTextSize(16);
             mActivityChatBinding.flTextVoiceSwitchBtn.setVisibility(View.GONE);
             mActivityChatBinding.llChatInfoCmd.setVisibility(View.GONE);
+            setTargetUserIconVisibility(View.GONE);
         }
 
         //自动滚动到底部
@@ -443,6 +451,19 @@ public class ChatModel extends BaseObservable {
 
     //接受消息用的监听
     private void setMessageListener() {
+        MsgManager.setSlashMessageListener(new MsgManager.SlashMessageListener() {
+            @Override
+            public void displayMessage(Message message, int left) {
+                long sentTime = message.getSentTime();
+                displayMsgTimeView(sentTime);
+
+                displayReceiveSlashMessage(message, false);
+
+                //发送已经阅读的回执
+                sendReadReceipt(sentTime);
+            }
+        });
+
         MsgManager.setChatTextListener(new MsgManager.ChatTextListener() {
             @Override
             public void displayText(Message message, int left) {
@@ -1691,7 +1712,11 @@ public class ChatModel extends BaseObservable {
      */
     private void loadReceiveHisMsg(Message message) {
         String objectName = message.getObjectName();
-        if (objectName.equals("RC:TxtMsg")) {
+        if ("1000".equals(targetId)) {
+            if (objectName.equals("RC:TxtMsg")) {
+                displayReceiveSlashMessage(message, true);
+            }
+        } else if (objectName.equals("RC:TxtMsg")) {
             TextMessage textMessage = (TextMessage) message.getContent();
             String extra = textMessage.getExtra();
             //接收聊天的文本消息
@@ -1709,6 +1734,18 @@ public class ChatModel extends BaseObservable {
         //接受聊天的语音消息
         else if (objectName.equals("RC:VcMsg")) {
             displayReceiveVoiceMsg(message, true);
+        }
+    }
+
+    public void displayReceiveSlashMessage(Message message, boolean isLoadHis) {
+        TextMessage textMessage = (TextMessage) message.getContent();
+        String content = textMessage.getContent();
+        String extra = textMessage.getExtra();//这里面是“{"tid":663,"type":1,"uid":10091}”
+        View friendTextView = createFriendTextView(content);
+        if (isLoadHis) {
+            mLlChatContent.addView(friendTextView, 0);
+        } else {
+            mLlChatContent.addView(friendTextView);
         }
     }
 
@@ -1896,6 +1933,12 @@ public class ChatModel extends BaseObservable {
         }
     }
 
+    public void gotoTargetUserCenter(View v) {
+        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+        intentUserInfoActivity.putExtra("Uid", Long.parseLong(targetId));
+        mActivity.startActivity(intentUserInfoActivity);
+    }
+
     private int voiceInputIconVisibility = View.VISIBLE;
     private int textInputIconVisibility = View.GONE;
     private int inputTextEtVisibility = View.VISIBLE;
@@ -1910,6 +1953,18 @@ public class ChatModel extends BaseObservable {
     private String otherUsername;
     private String otherCompanyAndPosition;
     private int loadLayerVisibility = View.GONE;
+
+    private int targetUserIconVisibility;
+
+    @Bindable
+    public int getTargetUserIconVisibility() {
+        return targetUserIconVisibility;
+    }
+
+    public void setTargetUserIconVisibility(int targetUserIconVisibility) {
+        this.targetUserIconVisibility = targetUserIconVisibility;
+        notifyPropertyChanged(BR.targetUserIconVisibility);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {

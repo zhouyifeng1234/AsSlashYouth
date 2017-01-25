@@ -62,7 +62,7 @@ public class ChatOtherSendVoiceModel extends BaseObservable {
 //        setVoiceDuration(mDuration + " ̋   ");
         setVoiceDuration(mDuration + "\"");
 
-        if (!"1000".equals(MsgManager.targetId)) {
+        if ((!"1000".equals(MsgManager.targetId)) && (!MsgManager.customerServiceUid.equals(MsgManager.targetId))) {
             BitmapKit.bindImage(mItemChatOtherSendVoiceBinding.ivChatOtherAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mTargetAvatar);
         } else {
             mItemChatOtherSendVoiceBinding.ivChatOtherAvatar.setImageResource(MsgManager.targetAvatarResource);

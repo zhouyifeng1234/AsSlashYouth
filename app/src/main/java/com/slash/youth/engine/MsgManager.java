@@ -11,14 +11,18 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 
+import com.google.gson.Gson;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemPushInfoBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PushInfoBean;
 import com.slash.youth.domain.RongTokenBean;
+import com.slash.youth.domain.SlashMessageExtraBean;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.AddFriendProtocol;
 import com.slash.youth.http.protocol.AddFriendStatusProtocol;
 import com.slash.youth.http.protocol.AgreeAddFriendProtocol;
+import com.slash.youth.http.protocol.AskCustomerServiceProtocol;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.ConversationListProtocol;
 import com.slash.youth.http.protocol.DelConversationListProtocol;
@@ -36,6 +40,7 @@ import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
 import java.io.BufferedWriter;
@@ -50,6 +55,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
+import io.rong.message.CommandNotificationMessage;
 import io.rong.message.TextMessage;
 
 /**
@@ -65,7 +71,6 @@ public class MsgManager {
     public static final String CHAT_CMD_REFUSE_ADD_FRIEND = "refuseAddFriend";
     public static final String CHAT_CMD_AGREE_CHANGE_CONTACT = "agreeChangeContact";
     public static final String CHAT_CMD_REFUSE_CHANGE_CONTACT = "refuseChangeContact";
-
     public static final String CHAT_TASK_INFO = "taskInfo";
 
     private static ChatTextListener mChatTextListener;
@@ -74,6 +79,7 @@ public class MsgManager {
     private static ChatOtherCmdListener mChatOtherCmdListener;
     private static HistoryListener mHistoryListener;
     private static RelatedTaskListener mRelatedTaskListener;
+    private static SlashMessageListener mSlashMessageListener;
 
     private static int getRongTokenTimes = 0;
 
@@ -169,6 +175,25 @@ public class MsgManager {
             final String objectName = message.getObjectName();
             LogKit.v("objectName:" + objectName);
 
+            if (objectName.equals("RC:TxtMsg")) {
+                TextMessage textMessage = (TextMessage) message.getContent();
+                String content = textMessage.getContent();
+                String extra = textMessage.getExtra();
+                LogKit.v("TextMessage conent:" + content);
+                LogKit.v("TextMessage extra:" + extra);
+            } else if (objectName.equals("RC:CmdMsg")) {
+                CommandMessage commandMessage = (CommandMessage) message.getContent();
+                String name = commandMessage.getName();
+                String data = commandMessage.getData();
+                LogKit.v("CmdMsg name:" + name + " data:" + data);
+            } else if (objectName.equals("RC:CmdNtf")) {
+                CommandNotificationMessage commandNotificationMessage = (CommandNotificationMessage) message.getContent();
+                String name = commandNotificationMessage.getName();
+                String data = commandNotificationMessage.getData();
+                LogKit.v("CmdNtf name:" + name + "  data:" + data);
+            }
+
+
 //            if (objectName.equals("RC:TxtMsg")) {
 //                TextMessage textMessage = (TextMessage) message.getContent();
 //                String content = textMessage.getContent();
@@ -211,21 +236,49 @@ public class MsgManager {
 
             if (senderUserId.equals("100")) {//系统推送账号
 
-            } else if (senderUserId.equals("1000")) {//斜杠小助手
+            } else if (senderUserId.equals("1000")) {//斜杠消息助手
                 CommonUtils.getHandler().post(new Runnable() {
                     public void run() {
                         updateConversationList(senderUserId);
                         //目前还不知道后台斜杠小助手发送过来的内容是什么格式，暂时认为它是"RC:TxtMsg"，其中的content就是内容
-                        if (mChatTextListener != null && targetId.equals(senderUserId)) {
-                            mChatTextListener.displayText(message, left);
+                        if (objectName.equals("RC:TxtMsg")) {
+                            TextMessage textMessage = (TextMessage) message.getContent();
+                            String extraInfo = textMessage.getExtra();
+                            if (mSlashMessageListener != null && targetId.equals(senderUserId)) {
+                                mSlashMessageListener.displayMessage(message, left);
+                            } else {
+                                //消息推送的顶部弹框提示
+                                Gson gson = new Gson();
+                                SlashMessageExtraBean slashMessageExtraBean = gson.fromJson(extraInfo, SlashMessageExtraBean.class);
+                                PushInfoBean pushInfoBean = new PushInfoBean();
+                                pushInfoBean.senderUserId = slashMessageExtraBean.uid + "";
+                                pushInfoBean.pushText = textMessage.getContent();
+//                                pushInfoBean.pushText = "斜杠小助手向您发送了一条消息";
+                                pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
+                                displayPushInfo(pushInfoBean);
+                            }
+                        }
+                    }
+                });
+            } else if (senderUserId.equals(customerServiceUid)) {//斜杠客服助手,目前任务消息类型是TextMessage，内容都在content里面
+                CommonUtils.getHandler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateConversationList(senderUserId);
+                        if (objectName.equals("RC:TxtMsg")) {
+                            TextMessage textMessage = (TextMessage) message.getContent();
+                            if (mChatTextListener != null && targetId.equals(senderUserId)) {
+                                mChatTextListener.displayText(message, left);
+                            } else {
+                                //消息推送的顶部弹框提示
+                                PushInfoBean pushInfoBean = new PushInfoBean();
+                                pushInfoBean.senderUserId = senderUserId;
+                                pushInfoBean.pushText = textMessage.getContent();
+                                pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
+                                displayPushInfo(pushInfoBean);
+                            }
                         } else {
-                            //消息推送的顶部弹框提示
-                            PushInfoBean pushInfoBean = new PushInfoBean();
-                            pushInfoBean.senderUserId = senderUserId;
-//                            pushInfoBean.pushText = textMessage.getContent();
-                            pushInfoBean.pushText = "斜杠小助手向您发送了一条消息";
-                            pushInfoBean.msg_type = PushInfoBean.CHAT_TEXT_MSG;
-                            displayPushInfo(pushInfoBean);
+                            LogKit.v("斜杠客服助手发来的不是TextMessage格式的内容");
                         }
                     }
                 });
@@ -368,6 +421,7 @@ public class MsgManager {
                     }
                 }
             }
+
             return false;
         }
     }
@@ -548,6 +602,7 @@ public class MsgManager {
     public static String targetName;
     public static String targetAvatar;//聊天目标的头像url（fileId）
     public static int targetAvatarResource = -1;//如果聊天目标是斜杠小助手，头像用本地的资源文件
+    public static String customerServiceUid;//保存随机获取客服ID
 
     public interface ChatTextListener {
         public void displayText(Message message, int left);
@@ -571,6 +626,14 @@ public class MsgManager {
 
     public interface RelatedTaskListener {
         public void displayRelatedTask();
+
+    }
+
+    /**
+     * 斜杠消息助手（1000号）消息监听器
+     */
+    public interface SlashMessageListener {
+        public void displayMessage(Message message, int left);
     }
 
     public static void setMessReceiver() {
@@ -623,6 +686,14 @@ public class MsgManager {
 
     public static void removeRelatedTaskListener() {
         mRelatedTaskListener = null;
+    }
+
+    public static void setSlashMessageListener(SlashMessageListener slashMessageListener) {
+        mSlashMessageListener = slashMessageListener;
+    }
+
+    public static void removeSlashMessageListener() {
+        mSlashMessageListener = null;
     }
 
 
@@ -725,6 +796,33 @@ public class MsgManager {
     public static void getAddFriendStatus(BaseProtocol.IResultExecutor onGetAddFriendStatusFinished, String uid) {
         AddFriendStatusProtocol addFriendStatusProtocol = new AddFriendStatusProtocol(uid);
         addFriendStatusProtocol.getDataFromServer(onGetAddFriendStatusFinished);
+    }
+
+    /**
+     * 从SharePreferences中读取客服Uid
+     *
+     * @return
+     */
+    public static long getCustomerServiceUidFromSp() {
+        long customerServiceUid = SpUtils.getLong(GlobalConstants.SpConfigKey.CUSTOMER_SERVICE_UID_KEY, -1);
+        return customerServiceUid;
+    }
+
+    /**
+     * 将获取到的客服Uid保存到SharePreferences中
+     *
+     * @param customerServiceUid
+     */
+    public static void setCustomerServiceUidToSp(long customerServiceUid) {
+        SpUtils.setLong(GlobalConstants.SpConfigKey.CUSTOMER_SERVICE_UID_KEY, customerServiceUid);
+    }
+
+    /**
+     * 请求客服，可以或得随机客服的UID
+     */
+    public static void getCustomerService(BaseProtocol.IResultExecutor onGetCustomerServiceFinished) {
+        AskCustomerServiceProtocol askCustomerServiceProtocol = new AskCustomerServiceProtocol();
+        askCustomerServiceProtocol.getDataFromServer(onGetCustomerServiceFinished);
     }
 
 }

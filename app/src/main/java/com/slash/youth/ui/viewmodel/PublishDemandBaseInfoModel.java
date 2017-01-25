@@ -234,7 +234,6 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         startTime = calendar.getTimeInMillis();
     }
 
-
     //下一步操作
     public void nextStep(View v) {
         final Intent intentPublishDemandAddInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandAddInfoActivity.class);

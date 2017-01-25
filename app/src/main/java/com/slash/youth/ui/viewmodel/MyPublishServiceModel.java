@@ -1007,6 +1007,7 @@ public class MyPublishServiceModel extends BaseObservable {
     }
 
     private void setServiceFlowLogItemData() {
+        mActivityMyPublishServiceBinding.llServiceFlowLogs.removeAllViews();
         for (int i = logInfoList.size() - 1; i >= 0; i--) {
             ServiceFlowLogList.LogInfo logInfo = logInfoList.get(i);
             View itemLogInfo = inflateItemLogInfo(logInfo);

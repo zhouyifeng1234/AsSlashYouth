@@ -915,6 +915,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:orientation="horizontal"
+                        android:visibility="@{demandDetailModel.demandRecommendLabelVisibility}"
                     >
 
                         <ImageView

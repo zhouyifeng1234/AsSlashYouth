@@ -152,7 +152,8 @@
                         android:padding="2dp"
                         android:text="@{itemMyTaskModel.instalmentText}"
                         android:textColor="#31C5E4"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp"
+                        android:visibility="@{itemMyTaskModel.instalmentTextVisibility}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -162,6 +163,7 @@
                         android:text="@{itemMyTaskModel.instalmentratioStr}"
                         android:textColor="#999999"
                         android:textSize="13sp"
+                        android:visibility="@{itemMyTaskModel.instalmentratioStrVisibility}"
                     />
 
                     <View

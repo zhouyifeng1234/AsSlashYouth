@@ -97,55 +97,63 @@ public class PagerHomeInfoModel extends BaseObservable {
 
     public void setConversationList() {
         //这里当做listConversation中的数据是全部的会话列表数据，MsgManager.conversationUidList中就是全部会话的uid，并且是按时间顺序排列的
-        if (!MsgManager.conversationUidList.contains("1000")) {
-            RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, "1000", 1, new RongIMClient.ResultCallback<List<Message>>() {
-                @Override
-                public void onSuccess(List<Message> messages) {
-                    ConversationListBean conversationListBean = new ConversationListBean();
-                    ConversationListBean.ConversationInfo conversationInfo = conversationListBean.new ConversationInfo();
-                    conversationInfo.uid = 1000;
-                    if (messages != null && messages.size() > 0) {
-                        //本地有消息
-                        Message message = messages.get(0);
-                        long msgtime = 0;
-                        Message.MessageDirection messageDirection = message.getMessageDirection();
-                        if (messageDirection == Message.MessageDirection.SEND) {
-                            msgtime = message.getSentTime();
-                        } else if (messageDirection == Message.MessageDirection.RECEIVE) {
-                            msgtime = message.getReceivedTime();
-                        }
-                        conversationInfo.uts = msgtime;
-                        //这里认为listConversation中的数据都是按照时间顺序排列的
-                        int index = listConversation.size() - 1;
-                        for (int i = 0; i < listConversation.size(); i++) {
-                            ConversationListBean.ConversationInfo conversation = listConversation.get(i);
-                            if (conversation.uts < conversationInfo.uts) {
-                                index = i;
-                                break;
+        if ((!MsgManager.conversationUidList.contains("1000")) || (!MsgManager.conversationUidList.contains(MsgManager.customerServiceUid))) {
+            ArrayList<String> listAddConversationUid = new ArrayList<String>();
+            if (!MsgManager.conversationUidList.contains("1000")) {
+                listAddConversationUid.add("1000");
+            }
+            if (!MsgManager.conversationUidList.contains(MsgManager.customerServiceUid)) {
+                listAddConversationUid.add(MsgManager.customerServiceUid);
+            }
+            for (final String targetId : listAddConversationUid) {
+                RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 1, new RongIMClient.ResultCallback<List<Message>>() {
+                    @Override
+                    public void onSuccess(List<Message> messages) {
+                        ConversationListBean conversationListBean = new ConversationListBean();
+                        ConversationListBean.ConversationInfo conversationInfo = conversationListBean.new ConversationInfo();
+                        conversationInfo.uid = Long.parseLong(targetId);
+                        if (messages != null && messages.size() > 0) {
+                            //本地有消息
+                            Message message = messages.get(0);
+                            long msgtime = 0;
+                            Message.MessageDirection messageDirection = message.getMessageDirection();
+                            if (messageDirection == Message.MessageDirection.SEND) {
+                                msgtime = message.getSentTime();
+                            } else if (messageDirection == Message.MessageDirection.RECEIVE) {
+                                msgtime = message.getReceivedTime();
                             }
+                            conversationInfo.uts = msgtime;
+                            //这里认为listConversation中的数据都是按照时间顺序排列的
+                            int index = listConversation.size() - 1;
+                            for (int i = 0; i < listConversation.size(); i++) {
+                                ConversationListBean.ConversationInfo conversation = listConversation.get(i);
+                                if (conversation.uts < conversationInfo.uts) {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            listConversation.add(index, conversationInfo);
+                            MsgManager.conversationUidList.add(index, targetId);
+                        } else {
+                            //本地没有消息
+                            conversationInfo.uts = System.currentTimeMillis();
+                            listConversation.add(conversationInfo);
+                            MsgManager.conversationUidList.add(targetId);
                         }
-                        listConversation.add(index, conversationInfo);
-                        MsgManager.conversationUidList.add(index, "1000");
-                    } else {
-                        //本地没有消息
-                        conversationInfo.uts = System.currentTimeMillis();
-                        listConversation.add(conversationInfo);
-                        MsgManager.conversationUidList.add("1000");
+                        if (homeInfoListAdapter == null) {
+                            homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
+                            mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
+                        } else {
+                            homeInfoListAdapter.notifyDataSetChanged();
+                        }
                     }
-                    if (homeInfoListAdapter == null) {
-                        homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
-                        mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
-                    } else {
-                        homeInfoListAdapter.notifyDataSetChanged();
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+
                     }
-                }
-
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-
-                }
-            });
-
+                });
+            }
         } else {
             if (homeInfoListAdapter == null) {
                 homeInfoListAdapter = new HomeInfoListAdapter(listConversation);

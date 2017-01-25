@@ -387,6 +387,29 @@ public class ItemMyTaskModel extends BaseObservable {
     private String instalmentratioStr;//显示的分期支付比例
     private int taskDemandSideNameVisibility = View.INVISIBLE;//当任务是服务的时候需要显示
 
+    private int instalmentTextVisibility;
+    private int instalmentratioStrVisibility;
+
+    @Bindable
+    public int getInstalmentratioStrVisibility() {
+        return instalmentratioStrVisibility;
+    }
+
+    public void setInstalmentratioStrVisibility(int instalmentratioStrVisibility) {
+        this.instalmentratioStrVisibility = instalmentratioStrVisibility;
+        notifyPropertyChanged(BR.instalmentratioStrVisibility);
+    }
+
+    @Bindable
+    public int getInstalmentTextVisibility() {
+        return instalmentTextVisibility;
+    }
+
+    public void setInstalmentTextVisibility(int instalmentTextVisibility) {
+        this.instalmentTextVisibility = instalmentTextVisibility;
+        notifyPropertyChanged(BR.instalmentTextVisibility);
+    }
+
     @Bindable
     public int getTaskDemandSideNameVisibility() {
         return taskDemandSideNameVisibility;

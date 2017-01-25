@@ -305,6 +305,8 @@ public class DemandDetailModel extends BaseObservable {
                 demandLatLng = new LatLng(demand.lat, demand.lng);
                 demandUserId = demand.uid;
                 if (LoginManager.currentLoginUserId == demand.uid) {//需求者视角
+                    setDemandRecommendLabelVisibility(View.GONE);
+
                     setTopShareBtnVisibility(View.GONE);
                     setTopDemandBtnVisibility(View.VISIBLE);
                     int status = demand.status;
@@ -325,6 +327,8 @@ public class DemandDetailModel extends BaseObservable {
                     setBottomBtnServiceVisibility(View.GONE);
                     setBottomBtnDemandVisibility(View.VISIBLE);
                 } else {//服务者视角
+                    setDemandRecommendLabelVisibility(View.VISIBLE);
+
                     setTopShareBtnVisibility(View.VISIBLE);
                     setTopDemandBtnVisibility(View.GONE);
                     setBottomBtnServiceVisibility(View.VISIBLE);
@@ -1447,6 +1451,18 @@ public class DemandDetailModel extends BaseObservable {
     private int offShelfBtnVisibility;
 
     private int viewPicVisibility = View.GONE;
+
+    private int demandRecommendLabelVisibility = View.GONE;
+
+    @Bindable
+    public int getDemandRecommendLabelVisibility() {
+        return demandRecommendLabelVisibility;
+    }
+
+    public void setDemandRecommendLabelVisibility(int demandRecommendLabelVisibility) {
+        this.demandRecommendLabelVisibility = demandRecommendLabelVisibility;
+        notifyPropertyChanged(BR.demandRecommendLabelVisibility);
+    }
 
     @Bindable
     public int getViewPicVisibility() {
