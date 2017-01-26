@@ -187,12 +187,6 @@ public class ApprovalModel extends BaseObservable {
             @Override
             public void onPageSelected(int position) {
                 activityApprovalBinding.tvApprovalTitle.setText(titles[0]);
-               /* if(position==4){
-                    activityApprovalBinding.tvApprovalTitle.setText(titles[0]);
-                }else {
-                    activityApprovalBinding.tvApprovalTitle.setText(titles[1]);
-                }*/
-
                 approvalCertificatesBinding = viewpageAdapter.approvalCertificatesBinding;
                 //选中哪一个证件
                 switch (position){
@@ -208,9 +202,6 @@ public class ApprovalModel extends BaseObservable {
                     case 4:
                     cardType = Cardtype.USER_REAL_AUTH_CARD_BUSINESS_CARD;
                         break;
-                 /*   case 5:
-                    cardType = Cardtype.USER_REAL_AUTH_CARD_IDCARD;
-                        break;*/
                 }
             }
             @Override
@@ -339,6 +330,7 @@ public class ApprovalModel extends BaseObservable {
             }
         });
     }
+
     private void jumpAlbumActivity(int careertype,int cardType,String url) {
         approvalActivity.finish();
         Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);

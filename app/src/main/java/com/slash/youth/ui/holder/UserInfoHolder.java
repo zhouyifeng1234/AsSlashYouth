@@ -89,9 +89,9 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
                 int timetype = data.getTimetype();
                 itemUserinfoBinding.ivTime.setVisibility(View.VISIBLE);
                 if(timetype == 0){
-                    itemUserinfoBinding.tvTime.setText(startData+"-"+endData);
+                    //itemUserinfoBinding.tvTime.setText(startData+"-"+endData);
                 }else {
-                    itemUserinfoBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype]);
+                    itemUserinfoBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype-1]);
                 }
 
                 itemUserinfoBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);

@@ -222,17 +222,33 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                     sexAdapter.setCheckItem(position);
                     mSearchNeedResultTabBinding.dropDownMenu.setTabText(position == 0 ? headers[2] : sorts[position]);
                     mSearchNeedResultTabBinding.dropDownMenu.closeMenu();
-                    switch (position){
-                        case 0:
-                            pullToRefreshListTabViewModel.sort = -1;
-                            break;
-                        case 1:
-                            pullToRefreshListTabViewModel.sort = 2;
-                            break;
-                        case 2:
-                            pullToRefreshListTabViewModel.sort = 1;
-                            break;
+                    if(isDemand){
+                        switch (position){
+                            case 0:
+                                pullToRefreshListTabViewModel.sort = 1;
+                                break;
+                            case 1:
+                                pullToRefreshListTabViewModel.sort = 3;
+                                break;
+                            case 2:
+                                pullToRefreshListTabViewModel.sort = 4;
+                                break;
+                        }
+
+                    }else {
+                        switch (position){
+                            case 0:
+                                pullToRefreshListTabViewModel.sort = 1;
+                                break;
+                            case 1:
+                                pullToRefreshListTabViewModel.sort = 2;
+                                break;
+                            case 2:
+                                pullToRefreshListTabViewModel.sort = 3;
+                                break;
+                        }
                     }
+
                     pullToRefreshListTabViewModel.clear();
                     pullToRefreshListTabViewModel.getData(searchType);
                 }

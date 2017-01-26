@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
+import com.slash.youth.domain.ChatCmdBusinesssCardBean;
+import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.FansBean;
 import com.slash.youth.domain.FriendStatusBean;
 import com.slash.youth.domain.MyFirstPageBean;
@@ -91,6 +93,8 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int  myAnonymity = 2;
     public MyFirstPageBean.DataBean myData;
     private long taskProgress;
+    private int relationshipscount;
+    private int relationshipscount1;
 
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag,int anonymity
@@ -223,7 +227,8 @@ public class ActivityUserInfoModel extends BaseObservable {
     //加载数据
     private void initData() {
         if(otherUid == LoginManager.currentLoginUserId){//自己看自己
-            MyManager.getMyUserinfo(new OnGetMyUserinfo());
+          //  MyManager.getMyUserinfo(new OnGetMyUserinfo());
+            MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid,anonymity);
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),LoginManager.currentLoginUserId,offset,limit,myAnonymity);//自己看自己全部展示
             isOther = false;
             activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
@@ -251,7 +256,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
     }
 
-    //获取我的用户信息数据
+   /* //获取我的用户信息数据
     public class OnGetMyUserinfo implements BaseProtocol.IResultExecutor<MyFirstPageBean> {
         @Override
         public void execute(MyFirstPageBean dataBean) {
@@ -269,7 +274,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         public void executeResultError(String result) {
         }
     }
-
+*/
 
     //最新任务
     public class onGetNewDemandAndServiceList implements BaseProtocol.IResultExecutor<NewDemandAandServiceBean> {
@@ -351,7 +356,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     }
 
 
-    private void updateUserInfo(MyFirstPageBean.DataBean.MyinfoBean uinfo){
+    /*private void updateUserInfo(MyFirstPageBean.DataBean.MyinfoBean uinfo){
         //粉丝数
         fanscount = uinfo.getFanscount();
         //粉丝比率
@@ -493,7 +498,7 @@ public class ActivityUserInfoModel extends BaseObservable {
             place = city;
         }
         activityUserinfoBinding.tvPlace.setText(place);
-    }
+    }*/
 
     public   OtherInfoBean.DataBean.UinfoBean otherUinfo;
 
@@ -527,11 +532,13 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //粉丝数
         fanscount = uinfo.getFanscount();
+        relationshipscount =   uinfo.getRelationshipscount();
         fansratio = uinfo.getFansratio();
         if(fansratio>0&&fansratio<=1){
             fansratio = 1;
         }
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + fanscount);
+
+        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + relationshipscount);
         activityUserinfoBinding.pbFans.setProgress((int)fansratio);
         //粉丝比率
         activityUserinfoBinding.tvUserInfoFansratio.setText(String.valueOf(fansratio) + "%");
@@ -546,7 +553,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         }
         activityUserinfoBinding.pbTask.setProgress((int)taskProgress);
         activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
-        activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
+        activityUserinfoBinding.tvAchieveTaskCount.setText(String.valueOf(achievetaskcount));
         //任务总数
         activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
@@ -556,7 +563,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         int  serviceProgress=  (int)((averageservicepoint*100)/5);
         activityUserinfoBinding.pbService.setProgress((int)serviceProgress);
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
-        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
+        activityUserinfoBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
         activityUserinfoBinding.averageServicePoint.setText("平台平均服务力为" + averageservicepoint + "星");
 
         //职业类型
@@ -727,12 +734,20 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     //推荐
     public void recommend(View view) {
-        DialogRecommendBinding dialogRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_recommend, null, false);
-        DialogRecommendModel dialogRecommendModel = new DialogRecommendModel(dialogRecommendBinding,userInfoActivity,activityUserinfoBinding);
-        dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);
-        activityUserinfoBinding.flDialogContainer.addView(dialogRecommendBinding.getRoot());
         //推荐的埋点
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_PERSON_MESSAGE_RECOMMEND_FRIEND);
+
+        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = new ChatCmdBusinesssCardBean();
+        chatCmdBusinesssCardBean.avatar = avatar;
+        chatCmdBusinesssCardBean.industry = industry;
+        chatCmdBusinesssCardBean.name = name;
+        chatCmdBusinesssCardBean.profession = position;
+        chatCmdBusinesssCardBean.uid = uid;
+        DialogRecommendBinding dialogRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_recommend, null, false);
+        DialogRecommendModel dialogRecommendModel = new DialogRecommendModel(dialogRecommendBinding,userInfoActivity,activityUserinfoBinding,chatCmdBusinesssCardBean);
+        dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);
+        activityUserinfoBinding.flDialogContainer.addView(dialogRecommendBinding.getRoot());
+
     }
 
     //加好友关系

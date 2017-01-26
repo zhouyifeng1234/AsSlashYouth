@@ -3,10 +3,13 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityChooseFriendBinding;
+import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.MyFriendListBean;
 import com.slash.youth.engine.ContactsManager;
@@ -22,6 +25,7 @@ import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +46,9 @@ public class ChooseFriendModel extends BaseObservable {
     private boolean sendFriend;
     Activity mActivity;
     ChatCmdShareTaskBean chatCmdShareTaskBean;
+    private int sendFriendDialogVisibility = View.GONE;
+    private String sendName;
+    private long targetId;
 
     public ChooseFriendModel(Activity activity, ActivityChooseFriendBinding activityChooseFriendBinding, MyFriendActivtiy chooseFriendActivtiy, boolean sendFriend) {
         this.activityChooseFriendBinding = activityChooseFriendBinding;
@@ -140,20 +147,11 @@ public class ChooseFriendModel extends BaseObservable {
     }
 
     private void showSendDialog(int position) {
+        setSendFriendDialogVisibility(View.VISIBLE);
         MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
         String name = listBean.getName();
-        DialogUtils.showDialogFive(chooseFriendActivtiy, "发给" + name, "", new DialogUtils.DialogCallBack() {
-            @Override
-            public void OkDown() {
-                LogKit.d("OK");
-                ToastUtils.shortCenterToast("推荐好友ok");
-            }
-
-            @Override
-            public void CancleDown() {
-                LogKit.d("cannel");
-            }
-        });
+        setSendName("发送给"+name);
+        targetId = listBean.getUid();
     }
 
     public class onMyFriendList implements BaseProtocol.IResultExecutor<MyFriendListBean> {
@@ -180,5 +178,37 @@ public class ChooseFriendModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
         }
+    }
+
+    @Bindable
+    public int getSendFriendDialogVisibility() {
+        return sendFriendDialogVisibility;
+    }
+
+    public void setSendFriendDialogVisibility(int sendFriendDialogVisibility) {
+        this.sendFriendDialogVisibility = sendFriendDialogVisibility;
+        notifyPropertyChanged(BR.sendFriendDialogVisibility);
+    }
+    @Bindable
+    public String getSendName() {
+        return sendName;
+    }
+
+    public void setSendName(String sendName) {
+        this.sendName = sendName;
+        notifyPropertyChanged(BR.sendName);
+    }
+
+    public void sendCannel(View view){
+        setSendFriendDialogVisibility(View.GONE);
+    }
+
+    public void sendSure(View view){
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", String.valueOf(targetId));
+        intentChatActivity.putExtra("chatCmdName", "sendBusinessCard");
+        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean= (ChatCmdBusinesssCardBean) chooseFriendActivtiy.getIntent().getSerializableExtra("ChatCmdBusinesssCardBean");
+        intentChatActivity.putExtra("chatCmdBusinesssCardBean", chatCmdBusinesssCardBean);
+        mActivity.startActivity(intentChatActivity);
     }
 }

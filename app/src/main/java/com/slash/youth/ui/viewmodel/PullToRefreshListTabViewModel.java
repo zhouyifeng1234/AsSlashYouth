@@ -48,10 +48,10 @@ public class PullToRefreshListTabViewModel extends BaseObservable {
     public int  pattern = -1;
     public   int isauth = -1;
     public String city;
-    public int sort = -1;
+    public int sort = 1;
     public int hotSort = 0;
-    public double lat = 181;//-180 到 180
-    public double lng = 91;//-90 到 90
+    public double lat;//-180 到 180
+    public double lng;//-90 到 90
     private int listsize;
     private String searchType;
     private PullToRefreshTabListviewBinding pullToRefreshTabListviewBinding;

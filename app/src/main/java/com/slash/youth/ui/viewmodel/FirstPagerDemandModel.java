@@ -221,22 +221,22 @@ public class FirstPagerDemandModel extends BaseObservable {
                 if(isDemand){
                     switch (position){
                         case 0:
-                            pullToRefreshListViewModel.sort = 2;
+                            pullToRefreshListViewModel.sort = 1;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_RELEASE_TIME_NEAREST);
                             break;
                         case 1:
-                            pullToRefreshListViewModel.sort = 1;
+                            pullToRefreshListViewModel.sort = 3;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_PRICE_HIGHEST);
                             break;
                         case 2:
-                            pullToRefreshListViewModel.sort = 3;
+                            pullToRefreshListViewModel.sort = 4;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_DISTACE_NAEREST);
                             break;
                     }
                 }else {
                     switch (position){
                         case 0:
-                            pullToRefreshListViewModel.sort = -1;
+                            pullToRefreshListViewModel.sort = 1;
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_RANK_COMPOSITE_EVALUATION_HIGHEST);
                             break;
                         case 1:

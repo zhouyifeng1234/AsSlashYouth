@@ -5,29 +5,30 @@
         <variable name="chooseFriendModel"
                   type="com.slash.youth.ui.viewmodel.ChooseFriendModel"/>
     </data>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <include layout="@layout/usertitlebar" />
-
-
-        <android.support.v7.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            app:cardBackgroundColor="#ffffff"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="@dimen/cardElevation"
-            app:cardUseCompatPadding="true"
-            tools:showIn="@layout/activity_userinfo">
-              <!--  <RelativeLayout
+            android:orientation="vertical">
+            <include layout="@layout/usertitlebar" />
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >-->
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true"
+                tools:showIn="@layout/activity_userinfo">
+                <!--  <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  >-->
                 <!--<ListView
                     android:id="@+id/lv_friend"
                     android:scrollbars="none"
@@ -38,93 +39,185 @@
 
                 </ListView>-->
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <!--列表-->
-                <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
-                    android:id="@+id/refresh_view"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="match_parent">
+                    <!--列表-->
+                    <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                        android:id="@+id/refresh_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
 
-                    <include layout="@layout/refresh_head" />
+                        <include layout="@layout/refresh_head" />
 
-                    <com.slash.youth.ui.view.PullableListView.PullableListView
-                        android:id="@+id/lv"
+                        <com.slash.youth.ui.view.PullableListView.PullableListView
+                            android:id="@+id/lv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="none"
+                            android:divider="@drawable/list_divider"
+                            android:dividerHeight="0.75dp"
+                            android:layout_marginTop="7dp">
+
+                        </com.slash.youth.ui.view.PullableListView.PullableListView>
+
+                        <include layout="@layout/load_more" />
+                    </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+                    <!--缺省页-->
+                    <RelativeLayout
+                        android:id="@+id/rl_home_default_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scrollbars="none"
-                        android:divider="@drawable/list_divider"
-                        android:dividerHeight="0.75dp"
-                        android:layout_marginTop="7dp">
+                        >
 
-                    </com.slash.youth.ui.view.PullableListView.PullableListView>
+                        <LinearLayout
+                            android:layout_centerInParent="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_marginTop="181dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@mipmap/home_default_image"/>
+                            <TextView
+                                android:id="@+id/tv_content"
+                                android:visibility="gone"
+                                android:layout_marginTop="16dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#666666"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:textSize="17dp"
+                                android:text="暂无好友"/>
+                            <TextView
+                                android:layout_marginTop="11dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="快去寻觅自己的好友吧"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textSize="14dp"
+                                android:textColor="#CCCCCC"/>
 
-                    <include layout="@layout/load_more" />
-                </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
-            <!--缺省页-->
-                <RelativeLayout
-                    android:id="@+id/rl_home_default_image"
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </FrameLayout>
+
+                <!--  <RelativeLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content">-->
+
+                <ListView
+                    android:visibility="gone"
+                    android:id="@+id/lv_letter"
+                    android:layout_alignParentRight="true"
+                    android:scrollbars="none"
+                    android:layout_width="11dp"
+                    android:divider="#00000000"
+                    android:layout_marginRight="3dp"
+                    android:dividerHeight="3dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="wrap_content"/>
+
+                <!-- </RelativeLayout>-->
+                <!-- </RelativeLayout>-->
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <!--发送给好友的弹框-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:clickable="true"
+            android:visibility="@{chooseFriendModel.sendFriendDialogVisibility}"
+            >
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="269dp"
+                android:layout_height="101dp"
+                android:background="@drawable/shape_tishi_bg"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_hint"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="36dp"
+                    android:layout_marginLeft="36dp"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="@{chooseFriendModel.sendName}"
+                    android:textColor="#666666"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <FrameLayout
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:background="@drawable/shape_tishi_button_bg"
                     >
-
                     <LinearLayout
-                        android:layout_centerInParent="true"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_marginTop="181dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@mipmap/home_default_image"/>
-                        <TextView
-                            android:id="@+id/tv_content"
-                            android:visibility="gone"
-                            android:layout_marginTop="16dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#666666"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:textSize="17dp"
-                            android:text="暂无好友"/>
-                        <TextView
-                            android:layout_marginTop="11dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="快去寻觅自己的好友吧"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textSize="14dp"
-                            android:textColor="#CCCCCC"/>
+                        android:background="@drawable/shape_tishi_button_bg"
+                        android:orientation="horizontal">
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent">
+                            <RelativeLayout
+                                android:onClick="@{chooseFriendModel.sendCannel}"
+                                android:layout_centerInParent="true"
+                                android:layout_width="96dp"
+                                android:layout_height="29dp"
+                                android:background="@drawable/btn_cancel_n">
+                                <TextView
+                                    android:layout_centerInParent="true"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+                                    android:textColor="#FFFFFF"
+                                    android:text="取消"/>
 
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent">
+                            <RelativeLayout
+                                android:onClick="@{chooseFriendModel.sendSure}"
+                                android:layout_centerInParent="true"
+                                android:layout_width="96dp"
+                                android:layout_height="29dp"
+                                android:background="@drawable/btn_determine_n">
+
+                                <TextView
+                                    android:layout_centerInParent="true"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+                                    android:textColor="#FFFFFF"
+                                    android:text="确定"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
                     </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
 
-                </RelativeLayout>
-            </FrameLayout>
+    </FrameLayout>
 
-              <!--  <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">-->
-
-                    <ListView
-                        android:visibility="gone"
-                        android:id="@+id/lv_letter"
-                        android:layout_alignParentRight="true"
-                        android:scrollbars="none"
-                        android:layout_width="11dp"
-                        android:divider="#00000000"
-                        android:layout_marginRight="3dp"
-                        android:dividerHeight="3dp"
-                        android:layout_marginTop="19dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_height="wrap_content"/>
-
-               <!-- </RelativeLayout>-->
-           <!-- </RelativeLayout>-->
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
 </layout>

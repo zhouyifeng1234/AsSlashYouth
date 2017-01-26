@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
+import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -26,14 +27,16 @@ public class DialogRecommendModel extends BaseObservable {
     private   DialogRecommendBinding dialogRecommendBinding;
  private UMImage image ;
  private UserInfoActivity userInfoActivity;
+private ChatCmdBusinesssCardBean chatCmdBusinesssCardBean;
 private ActivityUserinfoBinding activityUserinfoBinding;
  private SHARE_MEDIA share_media = SHARE_MEDIA.ALIPAY;
  public ArrayList<SnsPlatform> platforms = new ArrayList<SnsPlatform>();
 
-    public DialogRecommendModel(DialogRecommendBinding dialogRecommendBinding,UserInfoActivity userInfoActivity,ActivityUserinfoBinding activityUserinfoBinding) {
+    public DialogRecommendModel(DialogRecommendBinding dialogRecommendBinding,UserInfoActivity userInfoActivity,ActivityUserinfoBinding activityUserinfoBinding,ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
         this.dialogRecommendBinding = dialogRecommendBinding;
      this.userInfoActivity = userInfoActivity;
      this.activityUserinfoBinding = activityUserinfoBinding;
+      this.chatCmdBusinesssCardBean = chatCmdBusinesssCardBean;
         //添加平台
         initPlatforms();
     }
@@ -67,6 +70,7 @@ private ActivityUserinfoBinding activityUserinfoBinding;
 
         Intent intentChooseFriendActivtiy = new Intent(CommonUtils.getContext(), MyFriendActivtiy.class);
         intentChooseFriendActivtiy.putExtra("sendFriend",true);
+        intentChooseFriendActivtiy.putExtra("ChatCmdBusinesssCardBean",chatCmdBusinesssCardBean);
         intentChooseFriendActivtiy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         CommonUtils.getContext().startActivity(intentChooseFriendActivtiy);
 

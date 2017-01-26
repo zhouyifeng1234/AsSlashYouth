@@ -2,11 +2,13 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.net.sip.SipSession;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMySkillManageBinding;
 import com.slash.youth.domain.ManagerMyPublishTaskBean;
 import com.slash.youth.domain.MyCollectionBean;
@@ -29,6 +31,7 @@ import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
