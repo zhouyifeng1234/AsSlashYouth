@@ -95,7 +95,6 @@ public class ExamineCertificatesModel extends BaseObservable {
 
     //提交审核
     public void examine(View view){
-
         MyManager.checkoutAuth(new onCheckoutAuth(), type, cardType, fileId);
     }
 
@@ -114,11 +113,11 @@ public class ExamineCertificatesModel extends BaseObservable {
                 int status = data.getStatus();
                 switch (status){
                     case 0:
-                        LogKit.d("status:"+status+"上传成功");
-                        examineActivity.finish();
+                        ToastUtils.shortCenterToast("上传图片失败");
                         break;
                     case 1:
-                        ToastUtils.shortCenterToast("上传图片失败");
+                        LogKit.d("status:"+status+"上传成功");
+                        examineActivity.finish();
                         break;
                     default:
                         LogKit.d("status:"+status);

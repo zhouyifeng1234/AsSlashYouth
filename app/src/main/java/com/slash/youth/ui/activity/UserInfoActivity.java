@@ -46,7 +46,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         phone = intent.getStringExtra("phone");
         uid = intent.getLongExtra("Uid", -1);
         String skillTag = intent.getStringExtra("skillTag");
-        anonymity = intent.getIntExtra("anonymity", -1);
+        anonymity = intent.getIntExtra("anonymity", 1);
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);

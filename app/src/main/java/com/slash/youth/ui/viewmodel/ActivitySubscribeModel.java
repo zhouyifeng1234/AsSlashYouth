@@ -83,7 +83,11 @@ public class ActivitySubscribeModel extends BaseObservable {
     }
 
     public void openRlChooseMainLabel(View v) {
-        setRlChooseMainLabelVisible(View.VISIBLE);
+        if(SubscribeActivity.clickCount==0){
+            setRlChooseMainLabelVisible(View.VISIBLE);
+        }else {
+            ToastUtils.shortCenterToast("取消已选标签，重新选择");
+        }
     }
 
     //点击按钮
@@ -92,7 +96,6 @@ public class ActivitySubscribeModel extends BaseObservable {
         value = mNpChooseMainLabels.getValue();
         mActivity.checkedFirstLabel = mainLabelsArr[value];
         listener.OnOkChooseMainLabelListener(value);
-
     }
 
     //取消

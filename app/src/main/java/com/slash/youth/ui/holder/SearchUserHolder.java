@@ -85,8 +85,9 @@ public class SearchUserHolder extends SearchViewHolder<SearchAllBean.DataBean.Us
             case 1://上班
                 String company = userListBean.getCompany();
                 String mPosition = userListBean.getPosition();
-                tv_search_person_position.setText(company+"-"+mPosition);
-
+                if(!TextUtils.isEmpty(company)&&!TextUtils.isEmpty(mPosition)){
+                    tv_search_person_position.setText(company+"-"+mPosition);
+                }
                 break;
             case 2:
                 tv_search_person_position.setVisibility(View.GONE);

@@ -40,7 +40,7 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        careertype = intent.getIntExtra("careertype", -1);
+        careertype = intent.getIntExtra("careertype", 1);
         long uid = intent.getLongExtra("Uid", -1);
         activityApprovalBinding = DataBindingUtil.setContentView(this, R.layout.activity_approval);
         approvalModel = new ApprovalModel(activityApprovalBinding,careertype, this,uid);

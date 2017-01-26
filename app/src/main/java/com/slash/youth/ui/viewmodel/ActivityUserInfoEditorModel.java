@@ -1,8 +1,11 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,8 +13,11 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +25,8 @@ import android.widget.TextView;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
+import com.slash.youth.databinding.DeleteItemDialogBinding;
+import com.slash.youth.databinding.DialogHintBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.SetBean;
@@ -456,15 +464,18 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
         //三级标签
         ArrayList<String> listCheckedLabelName = SubscribeActivity.saveListCheckedLabelName;
-        if(skillLabelList.size() == listCheckedLabelName.size()){//三级标签
-            Collections.sort(skillLabelList);
-            Collections.sort(listCheckedLabelName);
-            if (!listCheckedLabelName.contains(skillLabelList)){
+        if(listCheckedLabelName.size()!=0){//==0
+            if(skillLabelList.size() == listCheckedLabelName.size()){//三级标签
+                Collections.sort(skillLabelList);
+                Collections.sort(listCheckedLabelName);
+                if (!listCheckedLabelName.contains(skillLabelList)){
+                    isChange = true;
+                }
+            }else {
                 isChange = true;
             }
-        }else {
-            isChange = true;
         }
+
 
         //一级标签
       /*  String tvDirection = activityUserinfoEditorBinding.tvDirection.getText().toString();
@@ -516,13 +527,23 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void showDialog() {
-        DialogUtils.showDialogHint(userinfoEditorActivity, "提示", "修改后，您将成为非认证用户，请再次认证", new DialogUtils.DialogCallBack() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(userinfoEditorActivity);
+        DialogHintBinding dialogHintBinding= DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_hint, null, false);
+        DialogHintModel dialogHintModel = new DialogHintModel(dialogHintBinding);
+        dialogHintBinding.setDialogHintModel(dialogHintModel);
+        dialogBuilder.setView(dialogHintBinding.getRoot());
+        AlertDialog dialogSearch = dialogBuilder.create();
+        dialogSearch.show();
+        dialogHintModel.currentDialog = dialogSearch;
+        dialogSearch.setCanceledOnTouchOutside(false);
+        Window dialogSubscribeWindow = dialogSearch.getWindow();
+        WindowManager.LayoutParams dialogParams = dialogSubscribeWindow.getAttributes();
+        dialogParams.width = CommonUtils.dip2px(300);//宽度
+        dialogParams.height = CommonUtils.dip2px(185);//高度
+        dialogSubscribeWindow.setAttributes(dialogParams);
+        dialogHintModel.setOnHintCklickListener(new DialogHintModel.OnHintClickListener() {
             @Override
-            public void OkDown() {
-                LogKit.d("取消删除");
-            }
-            @Override
-            public void CancleDown() {
+            public void OnHintClick() {
                 savePersonInfo();
                 userinfoEditorActivity.finish();
             }

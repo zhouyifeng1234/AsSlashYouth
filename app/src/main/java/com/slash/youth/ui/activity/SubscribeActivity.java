@@ -89,7 +89,7 @@ public class SubscribeActivity extends Activity {
     private SkillLabelBean skillLabelBean;
     private ImageView imageView;
     private ImageView imageViewAdd;
-    private int clickCount = 0;//默认是0
+    public static int clickCount = 0;//默认是0
     private Intent intent;
     private boolean isEditor = false;
     private int no_custom_f1;
