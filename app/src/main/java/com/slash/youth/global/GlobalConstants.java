@@ -11,6 +11,7 @@ public class GlobalConstants {
         // public static final String READ_NEWS_ID = "readNewsId";
         public static final String HOME_IS_DISPLAY_DEMAND_LIST = "homeIsDisplayDemandList";//如果存true，表示展示需求列表，false为展示服务列表
         public static final String CUSTOMER_SERVICE_UID_KEY = "customerServiceUid";
+        public static final String TASK_MESSAGE_COUNT = "taskMessageCount";
     }
 
 

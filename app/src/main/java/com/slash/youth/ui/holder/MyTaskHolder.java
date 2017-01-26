@@ -8,6 +8,7 @@ import android.view.View;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMyTaskBinding;
 import com.slash.youth.domain.MyTaskBean;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.viewmodel.ItemMyTaskModel;
 import com.slash.youth.utils.BitmapKit;
@@ -150,31 +151,47 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
             mItemMyTaskModel.setTaskDemandSideNameVisibility(View.INVISIBLE);
 
             //type 1 表示需求
-            if (data.roleid == 1) {
-                //需求发布者
-                mItemMyTaskModel.setPublishDemandStatusPointVisibility(View.VISIBLE);
-                mItemMyTaskModel.setBidDemandStatusPointVisibility(View.GONE);
-            } else if (data.roleid == 2) {
-                //抢需求
-                mItemMyTaskModel.setPublishDemandStatusPointVisibility(View.GONE);
-                mItemMyTaskModel.setBidDemandStatusPointVisibility(View.VISIBLE);
-            }
+//            if (data.roleid == 1) {
+//                //需求发布者
+//                mItemMyTaskModel.setPublishDemandStatusPointVisibility(View.VISIBLE);
+//                mItemMyTaskModel.setBidDemandStatusPointVisibility(View.GONE);
+//            } else if (data.roleid == 2) {
+//                //抢需求
+//                mItemMyTaskModel.setPublishDemandStatusPointVisibility(View.GONE);
+//                mItemMyTaskModel.setBidDemandStatusPointVisibility(View.VISIBLE);
+//            }
 
         } else if (data.type == 2) {//服务
             //显示需求方信息
             mItemMyTaskModel.setTaskDemandSideNameVisibility(View.VISIBLE);
-
+            mItemMyTaskModel.setServiceDName("需求方:" + data.dname);
 
             //type 2 表示服务
-            if (data.roleid == 1) {
-                //服务发布者
-
-            } else if (data.roleid == 2) {
-                //抢服务
-
-            }
+//            if (data.roleid == 1) {
+//                //服务发布者
+//
+//            } else if (data.roleid == 2) {
+//                //抢服务
+//
+//            }
         }
 
+        mItemMyTaskModel.setPublishDemandStatusPointVisibility(View.GONE);
+        //显示小圆点
+        if (MsgManager.everyTaskMessageCount != null) {//正常情况，这里应该不可能为null
+            Integer integer = MsgManager.everyTaskMessageCount.get(data.id);
+            int count;
+            if (integer == null) {
+                count = 0;
+            } else {
+                count = integer;
+            }
+            if (count > 0) {
+                mItemMyTaskModel.setBidDemandStatusPointVisibility(View.VISIBLE);
+            } else {
+                mItemMyTaskModel.setBidDemandStatusPointVisibility(View.GONE);
+            }
+        }
     }
 
     public String convertStartTimeFormat(long startTimeMill, long endTimeMill, int type) {
