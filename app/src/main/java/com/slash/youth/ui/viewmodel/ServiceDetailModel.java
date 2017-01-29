@@ -444,6 +444,8 @@ public class ServiceDetailModel extends BaseObservable {
 
                         setBottomBtnServiceVisibility(View.INVISIBLE);
                         setBottomBtnDemandVisibility(View.VISIBLE);
+
+                        getCollectionStatus();
                     }
                     setTitle(service.title);
                     if (service.uid == LoginManager.currentLoginUserId) {
@@ -617,9 +619,9 @@ public class ServiceDetailModel extends BaseObservable {
             public void execute(DetailRecommendServiceList dataBean) {
                 listRecommendService = dataBean.data.list;
                 setRecommendServiceItemData();
-                if (uid != LoginManager.currentLoginUserId) {
-                    getCollectionStatus();
-                }
+//                if (uid != LoginManager.currentLoginUserId) {
+//                    getCollectionStatus();
+//                }
             }
 
             @Override

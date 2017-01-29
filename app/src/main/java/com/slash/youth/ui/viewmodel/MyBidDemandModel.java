@@ -519,6 +519,7 @@ public class MyBidDemandModel extends BaseObservable {
                                 //status  0表示未开始  1表示服务方完成  2表示需求方确认此分期完成
                                 if (instalmentInfo.status == 0) {
                                     setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
+                                    mActivityMyBidDemandBinding.tvCompleteText.setText("完成(" + fid + "/" + totalInstalment + ")");
                                 } else {
                                     setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                                 }

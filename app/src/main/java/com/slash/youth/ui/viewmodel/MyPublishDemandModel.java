@@ -459,16 +459,17 @@ public class MyPublishDemandModel extends BaseObservable {
                     @Override
                     public void execute(DemandInstalmentListBean dataBean) {
                         ArrayList<DemandInstalmentListBean.InstalmentInfo> instalmentInfoList = dataBean.data.list;
-                        int totalInstalment = instalmentInfoList.size();//总的分期数
+                        final int totalInstalment = instalmentInfoList.size();//总的分期数
                         for (int i = 0; i < totalInstalment; i++) {
                             DemandInstalmentListBean.InstalmentInfo instalmentInfo = instalmentInfoList.get(i);
                             if (instalmentInfo.status != 2) {
                                 innerDemandCardInfo.instalmentcurr = instalmentInfo.id;
-                                int instalmentcurr = instalmentInfo.id;
+                                final int instalmentcurr = instalmentInfo.id;
 
                                 if (instalmentcurr < totalInstalment) {//不是最后一期
                                     if (instalmentInfo.status == 1) {
                                         setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                        mActivityMyPublishDemandBinding.tvConfirmText.setText("确认(" + instalmentcurr + "/" + totalInstalment + ")");
                                     } else {
                                         setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
                                     }
@@ -482,6 +483,7 @@ public class MyPublishDemandModel extends BaseObservable {
                                                 } else {
                                                     setStatusButtonsVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE);
                                                 }
+                                                mActivityMyPublishDemandBinding.tvConfirmText.setText("确认(" + instalmentcurr + "/" + totalInstalment + ")");
                                             }
 
                                             @Override

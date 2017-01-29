@@ -1120,6 +1120,7 @@ public class MyPublishServiceModel extends BaseObservable {
                                 if (instalmentInfo.status == 0) {
 //                                    setFinishItemVisibility(View.VISIBLE);
                                     setStatusButtonVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                    mActivityMyPublishServiceBinding.tvCompleteText.setText("完成(" + fid + "/" + totalInstalment + ")");
                                 }
                                 break;
                             }

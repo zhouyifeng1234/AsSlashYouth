@@ -676,6 +676,7 @@ public class MyBidServiceModel extends BaseObservable {
                                 fid = instalmentInfo.id;
                                 if (instalmentInfo.status == 1) {
                                     setConfirmFinishVisibility(View.VISIBLE);
+                                    mActivityMyBidServiceBinding.tvConfirmText.setText("确认(" + fid + "/" + totalInstalment + ")");
                                     if (fid == totalInstalment) {//如果是最后一期
 
                                         //获取是否延期支付过

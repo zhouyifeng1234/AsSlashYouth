@@ -289,7 +289,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         bundleServiceData.putInt("timetype", timetype);
         if (timetype == 0) {
             if (starttime == -1 || endtime == -1) {
-                ToastUtils.shortToast("请选择闲置时间标签，或设置开始时间和结束时间");
+                ToastUtils.shortToast("请选择闲置时间标签");
                 return;
             }
             if (starttime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
