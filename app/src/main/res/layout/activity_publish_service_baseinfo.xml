@@ -345,14 +345,14 @@
                                 android:textColor="#CCCCCC"
                                 android:textSize="13sp"/>
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:onClick="@{publishServiceBaseInfoModel.deleteCustomTime}"
-                                android:src="@mipmap/close1_icon"
-                                android:visibility="@{publishServiceBaseInfoModel.deleteCustomTimeIconVisibility}"/>
+                            <!--<ImageView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_gravity="center_vertical"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:onClick="@{publishServiceBaseInfoModel.deleteCustomTime}"-->
+                                <!--android:src="@mipmap/close1_icon"-->
+                                <!--android:visibility="@{publishServiceBaseInfoModel.deleteCustomTimeIconVisibility}"/>-->
 
                         </LinearLayout>
 

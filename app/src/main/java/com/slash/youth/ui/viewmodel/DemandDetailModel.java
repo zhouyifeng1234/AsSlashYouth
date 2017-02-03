@@ -1328,7 +1328,9 @@ public class DemandDetailModel extends BaseObservable {
             ImageView ivViewPic = new ImageView(CommonUtils.getContext());
             ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
             String fileId = listViewPicFileIds.get(position);
-            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+//            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+//            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId,ImageView.ScaleType.CENTER_INSIDE);
+            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId, ImageView.ScaleType.FIT_CENTER, 0);
             ivViewPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

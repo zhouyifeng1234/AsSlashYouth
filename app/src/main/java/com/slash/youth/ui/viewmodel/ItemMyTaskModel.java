@@ -9,12 +9,15 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemMyTaskBinding;
 import com.slash.youth.domain.AgreeRefundBean;
+import com.slash.youth.domain.CommentStatusBean;
 import com.slash.youth.domain.DelayPayBean;
 import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -203,160 +206,173 @@ public class ItemMyTaskModel extends BaseObservable {
      * @param roleid 表示是我抢的单子 还是 我发布的任务 1发布者 2抢单者 （这个字段比较重要，用于判断单子类型）
      */
     public void displayCurrentBigStatusAndButtons(int status, int type, int roleid) {
-        if (status == 1) {//已发布
+        if (type == 1) {//需求
+            if (status == 1) {//已发布
 //            setStatusText("预约中");
-            setStatusText("待抢单");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                setStatusText("待抢单");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
 
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
 
-            }
+            } else if (status == 2) {//已取消
+                setStatusText("已过期");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
 
-        } else if (status == 2) {//已取消
-            setStatusText("已过期");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
 
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
+            } else if (status == 3) {//被拒绝
+                setStatusText("已过期");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
 
-            }
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
 
-        } else if (status == 3) {//被拒绝
-            setStatusText("已过期");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
-            }
-
-        } else if (status == 4) {//待选择
+            } else if (status == 4) {//待选择
 //            setStatusText("预约中");
-            setStatusText("待抢单");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                setStatusText("待抢单");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
 
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
-                }
-            } else if (type == 2) {//当前任务是服务
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+//                }
 
-            }
-
-        } else if (status == 5) {//待确认
+            } else if (status == 5) {//待确认
 //            setStatusText("预约中");
-            setStatusText("待抢单");
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
-                }
-            } else if (type == 2) {//当前任务是服务
+                setStatusText("待抢单");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+//                }
+
+            } else if (status == 6) {//待支付
+                setStatusText("待支付");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.VISIBLE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
+
+            } else if (status == 7) {//进行中
+                setStatusText("服务中");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+//                }
+
+            } else if (status == 8) {//已完成 已结束  注意指的是 : 全部分期被需求方确认后
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                MyTaskEngine.getCommentStatus(new BaseProtocol.IResultExecutor<CommentStatusBean>() {
+                    @Override
+                    public void execute(CommentStatusBean dataBean) {
+                        CommentStatusBean.Evaluation evaluation = dataBean.data.evaluation;
+                        if (evaluation != null && evaluation.cts != 0) {
+                            LogKit.v("已评价");
+                            setStatusText("已评价");
+                        } else {
+                            LogKit.v("未评价");
+                            setStatusText("待评价");
+                        }
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        ToastUtils.shortToast("获取任务评价状态失败");
+                    }
+                }, tid + "", type + "");
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.VISIBLE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
+
+            } else if (status == 9) {//退款中
+                setStatusText("服务中");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+//                }
+
+            } else if (status == 10) {//已退款
+                setStatusText("已过期");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
+
+            } else if (status == 11) {//已淘汰
+                setStatusText("已过期");
+                mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
+
+//                if (roleid == 1) {//需求发布者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                } else if (roleid == 2) {//抢需求者
+//                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+//                }
 
             }
-
-        } else if (status == 6) {//待支付
-            setStatusText("待支付");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.VISIBLE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
+        } else if (type == 2) {//服务
+            switch (status) {
+                case 1:/*初始化订单*/
+                    //预约中 大状态
+                    setStatusText("已预约");
+                    mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                    break;
+                case 2:/*服务者确认*/
+                case 3:/*需求方支付中*/
+                    //预支付 大状态
+                    setStatusText("待支付");
+                    mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                    break;
+                case 5:/*订单进行中*/
+                case 6:/*订单完成*/
+                case 8:/*申请退款*/
+                case 9:/*同意退款*/
+                case 10:/*平台申诉处理*/
+                    //服务中 大状态
+                    setStatusText("服务中");
+                    mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                    break;
+                case 7:/*订单确认完成*/
+                    //评价中 大状态
+                    setStatusText("待评价");
+                    mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
+                    break;
+                case 4:/*订单已经取消*/
+                case 11:/*服务方拒绝*/
+                default:
+                    //失效 过期 状态 四个圈全都是灰色
+                    setStatusText("已过期");
+                    mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
+                    break;
             }
-
-        } else if (status == 7) {//进行中
-            setStatusText("服务中");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
-            }
-
-        } else if (status == 8) {//已完成 已结束  注意指的是 : 全部分期被需求方确认后
-            setStatusText("待评价");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE, View.VISIBLE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
-            }
-
-        } else if (status == 9) {//退款中
-            setStatusText("服务中");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_bg);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
-            }
-        } else if (status == 10) {//已退款
-            setStatusText("已过期");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
-            }
-
-        } else if (status == 11) {//已淘汰
-            setStatusText("已过期");
-            mItemMyTaskBinding.tvMyTaskStatus.setBackgroundResource(R.mipmap.state_huise);
-
-            if (type == 1) {//当前任务是需求
-                if (roleid == 1) {//需求发布者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                } else if (roleid == 2) {//抢需求者
-                    displayOrHideStatusButton(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
-                }
-            } else if (type == 2) {//当前任务是服务
-
-            }
-
         }
     }
 

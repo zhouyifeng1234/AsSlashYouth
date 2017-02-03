@@ -69,7 +69,7 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 
         mItemMyTaskModel.setTaskTitle(data.title);
 
-        String startTimeStr = convertStartTimeFormat(data.starttime, data.endtime, data.type);
+        String startTimeStr = convertStartTimeFormat(data.starttime, data.endtime, data.type, data.timetype);
         mItemMyTaskModel.setStartTime(startTimeStr);
 
         if (data.isauth == 1) {
@@ -91,7 +91,9 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
             //未开启分期
 //            mItemMyTaskModel.setInstalmentText("");
 //            mItemMyTaskModel.setInstalmentratioStr("");
-            mItemMyTaskModel.setInstalmentTextVisibility(View.GONE);
+//            mItemMyTaskModel.setInstalmentTextVisibility(View.GONE);
+            mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
+            mItemMyTaskModel.setInstalmentText("一次性到账");
             mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
         } else {
             //开启分期
@@ -101,7 +103,8 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
                 //只分了一期，相当于未开启分期
 //                mItemMyTaskModel.setInstalmentText("");
 //                mItemMyTaskModel.setInstalmentratioStr("");
-                mItemMyTaskModel.setInstalmentTextVisibility(View.GONE);
+                mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
+                mItemMyTaskModel.setInstalmentText("一次性到账");
                 mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
             } else {
                 mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
@@ -194,15 +197,34 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
         }
     }
 
-    public String convertStartTimeFormat(long startTimeMill, long endTimeMill, int type) {
+    public String convertStartTimeFormat(long startTimeMill, long endTimeMill, int type, int timetype) {
         if (type == 1) {//需求
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
-            return "开始时间:" + sdf.format(startTimeMill);
+            if (startTimeMill <= 0) {
+                return "开始时间:随时";
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+                return "开始时间:" + sdf.format(startTimeMill);
+            }
         } else if (type == 2) {//服务
-            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
-            String starttimeStr = sdf.format(startTimeMill);
-            String endtimeStr = sdf.format(endTimeMill);
-            return "闲置时间:" + starttimeStr + "-" + endtimeStr;
+//            if (timetype == 0) {
+            if (startTimeMill != 0 || endTimeMill != 0) {
+                SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+                String starttimeStr = sdf.format(startTimeMill);
+                String endtimeStr = sdf.format(endTimeMill);
+                return "闲置时间:" + starttimeStr + "-" + endtimeStr;
+            } else {
+                String idleTimeName = "";
+                if (timetype == 1) {
+                    idleTimeName = "下班后";
+                } else if (timetype == 2) {
+                    idleTimeName = "周末";
+                } else if (timetype == 3) {
+                    idleTimeName = "下班后及周末";
+                } else if (timetype == 4) {
+                    idleTimeName = "随时";
+                }
+                return "闲置时间:" + idleTimeName;
+            }
         }
         return "";
     }

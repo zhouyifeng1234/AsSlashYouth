@@ -154,7 +154,7 @@ public class MyPublishDemandModel extends BaseObservable {
         commentInfo.putString("dname", dname);
         commentInfo.putString("sname", sname);
 
-        commentInfo.putDouble("quote", Double.parseDouble(quote));
+        commentInfo.putDouble("quote", innerDemandCardInfo.quote);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivity(intentCommentActivity);

@@ -89,7 +89,8 @@ public class CommentModel extends BaseObservable {
                     setCloseCommentBtnVisibility(View.VISIBLE);
                     setBottomShareBtnVisibility(View.VISIBLE);
                     setCompleteCommentIconVisibility(View.VISIBLE);
-                    mActivityCommentBinding.etCommentContent.setEnabled(false);
+//                    mActivityCommentBinding.etCommentContent.setEnabled(false);
+                    mActivityCommentBinding.etCommentContent.setFocusable(false);
                     mActivityCommentBinding.etCommentContent.setText(evaluation.remark);
                     serviceQualityMarks = evaluation.quality;
                     completeSpeedMarks = evaluation.speed;

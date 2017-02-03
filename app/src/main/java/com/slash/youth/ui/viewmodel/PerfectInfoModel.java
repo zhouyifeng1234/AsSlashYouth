@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPerfectInfoBinding;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.PhoneLoginResultBean;
@@ -27,6 +28,7 @@ import com.slash.youth.ui.activity.test.ScaleViewPagerTestActivity;
 import com.slash.youth.ui.activity.test.TestActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.PhoneNumUtils;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
@@ -79,30 +81,67 @@ public class PerfectInfoModel extends BaseObservable {
 
     }
 
+    boolean isSendPin = false;
+
     /**
      * 发送验证码
      *
      * @param v
      */
     public void sendPin(View v) {
+        if (isSendPin) {
+            return;
+        }
+
         String phoenNum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
             ToastUtils.shortToast("请输入手机号");
             return;
         }
+        boolean isCorrect = PhoneNumUtils.checkPhoneNum(phoenNum);
+        if (!isCorrect) {
+            ToastUtils.shortToast("请输入正确的手机号码");
+            return;
+        }
         LogKit.v(phoenNum);
+        isSendPin = true;
         //调用发送手机验证码接口，将验证码发送到手机上
         LoginManager.getPhoneVerificationCode(new BaseProtocol.IResultExecutor<SendPinResultBean>() {
             @Override
             public void execute(SendPinResultBean dataBean) {
-                ToastUtils.shortToast("获取验证码成功");
+//                ToastUtils.shortToast("获取验证码成功");
+                ToastUtils.shortToast("验证码已发送，请查收");
+                isSendPin = true;
+                pinSecondsCount = 61;
+                CommonUtils.getHandler().post(new PinCountDown());
             }
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("获取验证码失败");
+//                ToastUtils.shortToast("获取验证码失败");
+                isSendPin = false;
+                ToastUtils.shortToast("验证码发送失败");
             }
         }, phoenNum);
+    }
+
+    int pinSecondsCount;
+
+    private class PinCountDown implements Runnable {
+
+        @Override
+        public void run() {
+            pinSecondsCount--;
+            if (pinSecondsCount < 0) {
+                mActivityPerfectInfoBinding.btnSendpinText.setText("验证码");
+                mActivityPerfectInfoBinding.btnSendpinText.setBackgroundResource(R.drawable.btn_send_pin_blue);
+                isSendPin = false;
+            } else {
+                mActivityPerfectInfoBinding.btnSendpinText.setText(pinSecondsCount + "S");
+                mActivityPerfectInfoBinding.btnSendpinText.setBackgroundResource(R.drawable.btn_send_pin_gray);
+                CommonUtils.getHandler().postDelayed(this, 1000);
+            }
+        }
     }
 
     private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
