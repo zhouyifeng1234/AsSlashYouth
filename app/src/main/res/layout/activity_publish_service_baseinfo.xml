@@ -181,6 +181,7 @@
                                 android:textColor="#333333"
                                 android:textSize="14sp"/>
 
+                            <!--点击添加文案-->
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
