@@ -196,7 +196,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 
     public void gotoSkillManagerActivity(View v) {
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
-        intentMySkillManageActivity.putExtra("Title", "技能管理");
+        intentMySkillManageActivity.putExtra("Title", "技能列表");
         mActivity.startActivity(intentMySkillManageActivity);
     }
 

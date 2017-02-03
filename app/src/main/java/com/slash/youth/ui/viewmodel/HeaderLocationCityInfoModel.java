@@ -82,10 +82,28 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     //保存最近访问的城市
     public void saveCity(String city) {
         file = new File(fileName, "CurrentyCity.text");
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         if(!file.exists()){
             file.mkdir();
         }
+
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            fw.write(city);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        //IO 读写
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.write(city);
@@ -160,7 +178,6 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         });
     }
 
-    @NonNull
     private TextView getTextView(String text) {
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(-2, -2);
         ll.rightMargin = CommonUtils.dip2px(20);
