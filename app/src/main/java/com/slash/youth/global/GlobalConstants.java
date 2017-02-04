@@ -69,6 +69,7 @@ public class GlobalConstants {
 
         //接口地址的IP或者域名
         public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
+//        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
 
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
@@ -506,9 +507,11 @@ public class GlobalConstants {
         public static final String VERSION_HOST = IP_OR_DOMAINNAME + "system/v1/api/config";
         public static final String CHECK_VERSION = VERSION_HOST + "/version/check";
 
+        //首页banner
+        public static final String BANNER_HOST = IP_OR_DOMAINNAME + "static/ad";
+        public static final String GET_BANNER_CONFIG = BANNER_HOST + "/banner_config";
 
     }
-
 
     /**
      * rescode定义

@@ -1,22 +1,19 @@
 package com.slash.youth.http.protocol;
 
+import com.google.gson.Gson;
+import com.slash.youth.domain.BannerConfigBean;
+import com.slash.youth.global.GlobalConstants;
+
 import org.xutils.http.RequestParams;
 
 /**
  * Created by zss on 2016/12/8.
  */
-public class FirstPagerAdvertisementProtocol extends BaseProtocol<String> {
-
-    private String url;
-
-
-    public FirstPagerAdvertisementProtocol(String url) {
-        this.url = url;
-    }
+public class FirstPagerAdvertisementProtocol extends BaseProtocol<BannerConfigBean> {
 
     @Override
     public String getUrlString() {
-        return url;
+        return GlobalConstants.HttpUrl.GET_BANNER_CONFIG;
     }
 
     @Override
@@ -24,8 +21,10 @@ public class FirstPagerAdvertisementProtocol extends BaseProtocol<String> {
     }
 
     @Override
-    public String parseData(String result) {
-        return result;
+    public BannerConfigBean parseData(String result) {
+        Gson gson = new Gson();
+        BannerConfigBean bannerConfigBean = gson.fromJson(result, BannerConfigBean.class);
+        return bannerConfigBean;
     }
 
     @Override
