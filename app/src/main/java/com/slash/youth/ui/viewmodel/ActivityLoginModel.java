@@ -14,6 +14,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.domain.CustomerServiceBean;
 import com.slash.youth.domain.PhoneLoginResultBean;
@@ -218,7 +219,7 @@ public class ActivityLoginModel extends BaseObservable {
                     //链接融云
                     MsgManager.connectRongCloud(rongToken);
 
-                    SpUtils.setBoolean("showMoreDemandDialog",true);
+                    SpUtils.setBoolean("showMoreDemandDialog", true);
 
                     Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
                     mActivity.startActivity(intentPerfectInfoActivity);
@@ -302,7 +303,6 @@ public class ActivityLoginModel extends BaseObservable {
         if (isSendPin) {
             return;
         }
-        isSendPin = true;
 
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         if (TextUtils.isEmpty(phoenNum)) {
@@ -315,6 +315,7 @@ public class ActivityLoginModel extends BaseObservable {
             return;
         }
         LogKit.v(phoenNum);
+        isSendPin = true;
         //调用发送手机验证码接口，将验证码发送到手机上
         LoginManager.getPhoneVerificationCode(new BaseProtocol.IResultExecutor<SendPinResultBean>() {
             @Override
@@ -606,9 +607,11 @@ public class ActivityLoginModel extends BaseObservable {
             pinSecondsCount--;
             if (pinSecondsCount < 0) {
                 mActivityLoginBinding.btnSendpinText.setText("验证码");
+                mActivityLoginBinding.btnSendpinText.setBackgroundResource(R.drawable.btn_send_pin_blue);
                 isSendPin = false;
             } else {
                 mActivityLoginBinding.btnSendpinText.setText(pinSecondsCount + "S");
+                mActivityLoginBinding.btnSendpinText.setBackgroundResource(R.drawable.btn_send_pin_gray);
                 CommonUtils.getHandler().postDelayed(this, 1000);
             }
         }

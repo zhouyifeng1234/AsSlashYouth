@@ -1120,6 +1120,7 @@ public class MyPublishServiceModel extends BaseObservable {
                                 if (instalmentInfo.status == 0) {
 //                                    setFinishItemVisibility(View.VISIBLE);
                                     setStatusButtonVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                    mActivityMyPublishServiceBinding.tvCompleteText.setText("完成(" + fid + "/" + totalInstalment + ")");
                                 }
                                 break;
                             }
@@ -1163,10 +1164,10 @@ public class MyPublishServiceModel extends BaseObservable {
     private void displayStatusCycle(int status) {
         switch (status) {
             case 1:/*初始化订单*/
-            case 2:/*服务者确认*/
                 //预约中 大状态
                 setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
                 break;
+            case 2:/*服务者确认*/
             case 3:/*需求方支付中*/
                 //预支付 大状态
                 setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);

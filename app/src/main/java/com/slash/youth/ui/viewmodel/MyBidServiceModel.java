@@ -676,6 +676,7 @@ public class MyBidServiceModel extends BaseObservable {
                                 fid = instalmentInfo.id;
                                 if (instalmentInfo.status == 1) {
                                     setConfirmFinishVisibility(View.VISIBLE);
+                                    mActivityMyBidServiceBinding.tvConfirmText.setText("确认(" + fid + "/" + totalInstalment + ")");
                                     if (fid == totalInstalment) {//如果是最后一期
 
                                         //获取是否延期支付过
@@ -737,10 +738,10 @@ public class MyBidServiceModel extends BaseObservable {
     private void displayStatusCycle(int status) {
         switch (status) {
             case 1:/*初始化订单*/
-            case 2:/*服务者确认*/
                 //预约中 大状态
                 setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);
                 break;
+            case 2:/*服务者确认*/
             case 3:/*需求方支付中*/
                 //预支付 大状态
                 setStatusProgress(R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_act, 0xff31C5E4, R.mipmap.flowpoint_nor, 0xffCCCCCC, R.mipmap.flowpoint_nor, 0xffCCCCCC);

@@ -333,6 +333,9 @@ public class DemandDetailModel extends BaseObservable {
                     setTopDemandBtnVisibility(View.GONE);
                     setBottomBtnServiceVisibility(View.VISIBLE);
                     setBottomBtnDemandVisibility(View.GONE);
+
+                    getBidDemandStatus();
+                    getCollectionStatus();
                 }
                 setDemandTitle(demand.title);
                 if (demand.uid == LoginManager.currentLoginUserId) {
@@ -523,9 +526,9 @@ public class DemandDetailModel extends BaseObservable {
             public void execute(DetailRecommendDemandList dataBean) {
                 listRecommendDemand = dataBean.data.list;
                 setRecommendDemandItemData();
-                if (uid != LoginManager.currentLoginUserId) {
-                    getBidDemandStatus(uid);
-                }
+//                if (uid != LoginManager.currentLoginUserId) {
+//                    getBidDemandStatus(uid);
+//                }
             }
 
             @Override
@@ -562,7 +565,7 @@ public class DemandDetailModel extends BaseObservable {
     /**
      * 获取当前登录用户是否抢过这个需求，服务者视角才需要
      */
-    private void getBidDemandStatus(final long uid) {
+    private void getBidDemandStatus() {
         MyTaskEngine.getBidTaskStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -571,9 +574,9 @@ public class DemandDetailModel extends BaseObservable {
                 } else {//0未预约过某服务或者未抢单过某需求
                     isBidDemand = false;
                 }
-                if (uid != LoginManager.currentLoginUserId) {
-                    getCollectionStatus();
-                }
+//                if (uid != LoginManager.currentLoginUserId) {
+//                    getCollectionStatus();
+//                }
             }
 
             @Override
@@ -1325,7 +1328,9 @@ public class DemandDetailModel extends BaseObservable {
             ImageView ivViewPic = new ImageView(CommonUtils.getContext());
             ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
             String fileId = listViewPicFileIds.get(position);
-            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+//            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+//            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId,ImageView.ScaleType.CENTER_INSIDE);
+            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId, ImageView.ScaleType.FIT_CENTER, 0);
             ivViewPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

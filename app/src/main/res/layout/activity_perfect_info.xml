@@ -72,18 +72,20 @@
                         android:textColorHint="#999999"
                         android:textSize="16.5sp"/>
                     <Button
+                        android:id="@+id/btn_sendpin_text"
                         android:layout_width="58dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="4dp"
                         android:layout_marginRight="9dp"
                         android:layout_marginTop="4dp"
-                        android:background="@mipmap/default_icon_yanzheng"
+                        android:background="@drawable/btn_send_pin_blue"
                         android:onClick="@{perfectInfoModel.sendPin}"
                         android:text="验证码"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff"
                         android:textSize="11.5sp"/>
+                    <!--android:background="@mipmap/default_icon_yanzheng"-->
                 </RelativeLayout>
             </LinearLayout>
 

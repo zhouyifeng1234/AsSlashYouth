@@ -444,6 +444,8 @@ public class ServiceDetailModel extends BaseObservable {
 
                         setBottomBtnServiceVisibility(View.INVISIBLE);
                         setBottomBtnDemandVisibility(View.VISIBLE);
+
+                        getCollectionStatus();
                     }
                     setTitle(service.title);
                     if (service.uid == LoginManager.currentLoginUserId) {
@@ -617,9 +619,9 @@ public class ServiceDetailModel extends BaseObservable {
             public void execute(DetailRecommendServiceList dataBean) {
                 listRecommendService = dataBean.data.list;
                 setRecommendServiceItemData();
-                if (uid != LoginManager.currentLoginUserId) {
-                    getCollectionStatus();
-                }
+//                if (uid != LoginManager.currentLoginUserId) {
+//                    getCollectionStatus();
+//                }
             }
 
             @Override
@@ -766,7 +768,8 @@ public class ServiceDetailModel extends BaseObservable {
             ImageView ivViewPic = new ImageView(CommonUtils.getContext());
             ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
             String fileId = listViewPicFileIds.get(position);
-            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+//            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
+            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId, ImageView.ScaleType.FIT_CENTER,0);
             ivViewPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

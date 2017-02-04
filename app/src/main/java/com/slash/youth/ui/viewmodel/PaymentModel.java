@@ -33,9 +33,9 @@ public class PaymentModel extends BaseObservable {
     public static final int PAY_TYPE_ALIPAY = 2;//支付宝支付
     public static final int PAY_TYPE_WEIXIN_PAY = 3;//微信支付
 
-    public static final int INPUT_PASSWORD_TYPE_INPUT = 1;//输入交易密码
-    public static final int INPUT_PASSWORD_TYPE_SETTING = 1;//设置交易密码
-    public static final int INPUT_PASSWORD_TYPE_SURE = 1;//确认交易密码
+    public static final int INPUT_PASSWORD_TYPE_INPUT = 1001;//输入交易密码
+    public static final int INPUT_PASSWORD_TYPE_SETTING = 1002;//设置交易密码
+    public static final int INPUT_PASSWORD_TYPE_SURE = 1003;//确认交易密码
 
     ActivityPaymentBinding mActivityPaymentBinding;
     Activity mActivity;
