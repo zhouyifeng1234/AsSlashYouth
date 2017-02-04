@@ -375,9 +375,10 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
                                             android:layout_marginLeft="6dp"
-                                            android:text="2015年6月23 15:28"
+                                            android:text="@{myBidServiceModel.taskUts}"
                                             android:textColor="#333333"
                                             android:textSize="13sp"/>
+                                        <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -403,7 +404,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="13sp"
                                                 android:layout_marginTop="11dp"
-                                                android:text="对方选择与您合作，请进行确认，快者得"
+                                                android:text="服务方任务已完成，马上去评价"
                                                 android:textColor="#333333"
                                                 android:textSize="14sp"/>
 
@@ -467,9 +468,10 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
                                             android:layout_marginLeft="6dp"
-                                            android:text="2015年6月23 15:28"
+                                            android:text="@{myBidServiceModel.taskUts}"
                                             android:textColor="#333333"
                                             android:textSize="13sp"/>
+                                        <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -495,7 +497,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginLeft="13sp"
                                                 android:layout_marginTop="11dp"
-                                                android:text="对方选择与您合作，请进行确认，快者得"
+                                                android:text="服务方已完成当前分期任务，请您确认"
                                                 android:textColor="#333333"
                                                 android:textSize="14sp"/>
 
@@ -589,9 +591,10 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
                                             android:layout_marginLeft="6dp"
-                                            android:text="2015年6月23 15:28"
+                                            android:text="@{myBidServiceModel.taskUts}"
                                             android:textColor="#333333"
                                             android:textSize="13sp"/>
+                                        <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -603,9 +606,10 @@
 
                                         <View
                                             android:layout_width="2dp"
-                                            android:layout_height="107dp"
+                                            android:layout_height="80dp"
                                             android:background="#E5E5E5"
                                         />
+                                        <!--android:layout_height="107dp"-->
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -628,7 +632,8 @@
                                                 android:layout_marginTop="14dp"
                                                 android:text="支付时间剩余：3小时56分"
                                                 android:textColor="#999999"
-                                                android:textSize="13sp"/>
+                                                android:textSize="13sp"
+                                                android:visibility="gone"/>
 
                                             <View
                                                 android:layout_width="match_parent"
@@ -650,7 +655,8 @@
                                                     android:layout_gravity="center_vertical"
                                                     android:text="订单号：21435454643"
                                                     android:textColor="#999999"
-                                                    android:textSize="14sp"/>
+                                                    android:textSize="14sp"
+                                                    android:visibility="gone"/>
 
                                                 <View
                                                     android:layout_width="0dp"
@@ -666,6 +672,11 @@
                                                     android:text="去支付"
                                                     android:textColor="#31C6E4"
                                                     android:textSize="13sp"/>
+
+                                                <View
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="0dp"
+                                                    android:layout_weight="1"/>
 
                                             </LinearLayout>
 

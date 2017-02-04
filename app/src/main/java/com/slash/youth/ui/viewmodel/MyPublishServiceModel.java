@@ -261,6 +261,7 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceFlowComplainResultBean dataBean) {
                 ToastUtils.shortToast("申诉完成");
+                reloadData();
             }
 
             @Override
@@ -280,6 +281,7 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("同意退款成功");
+                reloadData();
             }
 
             @Override
@@ -299,6 +301,7 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("完成任务成功");
+                reloadData();
             }
 
             @Override
@@ -324,6 +327,7 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("拒绝成功");
+                reloadData();
             }
 
             @Override
@@ -404,6 +408,7 @@ public class MyPublishServiceModel extends BaseObservable {
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("服务方选定成功");
                 setUpdateLayerVisibility(View.GONE);
+                reloadData();
             }
 
             @Override
@@ -725,6 +730,10 @@ public class MyPublishServiceModel extends BaseObservable {
                 tid = myTaskBean.tid;//tid就是soid
                 soid = tid;//tid（任务id）就是soid(服务订单id)
                 fid = myTaskBean.instalmentcurr;//通过调试接口发现，这个字段当type=2为服务的时候，好像不准，一直都是0
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd HH:mm");
+                String utsStr = sdf.format(myTaskBean.uts);
+                setTaskUts(utsStr);
 
                 loadDataTimes++;
                 if (loadDataTimes >= 5) {
@@ -1207,6 +1216,23 @@ public class MyPublishServiceModel extends BaseObservable {
         mActivityMyPublishServiceBinding.tvServiceComment.setTextColor(bigStateCommentTextColor);
     }
 
+    public void reloadData() {
+        reloadData(true);
+    }
+
+    public void reloadData(boolean isNeedDelay) {
+        if (isNeedDelay) {//延迟两秒重新加载
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataFromServer();
+                }
+            }, 2000);
+        } else {//不延迟，直接重新加载
+            getDataFromServer();
+        }
+    }
+
     private String serviceTitle;
     private String idleTime;
     private String quote;
@@ -1237,6 +1263,18 @@ public class MyPublishServiceModel extends BaseObservable {
     private int loadLayerVisibility = View.GONE;
 
     private int addInstalmentIconVisibility;
+
+    private String taskUts;
+
+    @Bindable
+    public String getTaskUts() {
+        return taskUts;
+    }
+
+    public void setTaskUts(String taskUts) {
+        this.taskUts = taskUts;
+        notifyPropertyChanged(BR.taskUts);
+    }
 
     @Bindable
     public int getUpdateBidInfotItemVisibility() {

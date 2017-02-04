@@ -19,8 +19,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
             >
+                <!--android:layout_marginTop="8dp"-->
 
                 <ImageView
                     android:layout_width="36dp"
@@ -37,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
                     android:text="@{demandDetailModel.topTitle}"
@@ -116,9 +118,10 @@
                 >
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="59dp"
+                        android:layout_height="51dp"
                         android:background="#31C5E4">
                     </View>
+                    <!--android:layout_height="59dp"-->
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -1939,7 +1942,8 @@
             android:background="#000000"
             android:visibility="@{demandDetailModel.viewPicVisibility}"
         >
-
+            <!--android:visibility="gone"-->
+            <!--android:visibility="@{demandDetailModel.viewPicVisibility}"-->
         </android.support.v4.view.ViewPager>
 
     </FrameLayout>

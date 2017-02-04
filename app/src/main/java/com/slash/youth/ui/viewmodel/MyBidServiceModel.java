@@ -30,6 +30,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.CommentActivity;
+import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
@@ -173,7 +174,7 @@ public class MyBidServiceModel extends BaseObservable {
         commentInfo.putDouble("quote", Double.parseDouble(quote));
         intentCommentActivity.putExtras(commentInfo);
 
-        mActivity.startActivity(intentCommentActivity);
+        mActivity.startActivityForResult(intentCommentActivity, MyBidServiceActivity.activityRequestCode);
     }
 
     /**
@@ -187,7 +188,7 @@ public class MyBidServiceModel extends BaseObservable {
         intentRefundActivity.putExtra("tid", tid);
         intentRefundActivity.putExtra("type", 2);//1需求 2服务
 
-        mActivity.startActivity(intentRefundActivity);
+        mActivity.startActivityForResult(intentRefundActivity, MyBidServiceActivity.activityRequestCode);
     }
 
     /**
@@ -210,6 +211,7 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("确认完成成功");
+                reloadData();
             }
 
             @Override
@@ -247,7 +249,7 @@ public class MyBidServiceModel extends BaseObservable {
         payInfo.putString("title", getServiceTitle());
         intentPaymentActivity.putExtras(payInfo);
 
-        mActivity.startActivity(intentPaymentActivity);
+        mActivity.startActivityForResult(intentPaymentActivity, MyBidServiceActivity.activityRequestCode);
     }
 
     /**
@@ -279,6 +281,7 @@ public class MyBidServiceModel extends BaseObservable {
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("延期支付成功");
                 setRectifyLayerVisibility(View.GONE);
+                reloadData();
             }
 
             @Override
@@ -299,6 +302,10 @@ public class MyBidServiceModel extends BaseObservable {
                 tid = myTaskBean.tid;//tid就是soid
                 soid = tid;//tid（任务id）就是soid(服务订单id)
                 fid = myTaskBean.instalmentcurr;//通过调试接口发现，这个字段当type=2为服务的时候，好像不准，一直都是0
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd HH:mm");
+                String utsStr = sdf.format(myTaskBean.uts);
+                setTaskUts(utsStr);
 
                 loadDataTimes++;
                 if (loadDataTimes >= 5) {
@@ -781,6 +788,23 @@ public class MyBidServiceModel extends BaseObservable {
         mActivityMyBidServiceBinding.tvServiceComment.setTextColor(bigStateCommentTextColor);
     }
 
+    public void reloadData() {
+        reloadData(true);
+    }
+
+    public void reloadData(boolean isNeedDelay) {
+        if (isNeedDelay) {//延迟两秒重新加载
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataFromServer();
+                }
+            }, 2000);
+        } else {//不延迟，直接重新加载
+            getDataFromServer();
+        }
+    }
+
     private String serviceTitle;
     private String idleTime;
     private String quote;
@@ -800,6 +824,18 @@ public class MyBidServiceModel extends BaseObservable {
     private String serviceUsername;
 
     private int loadLayerVisibility = View.GONE;
+
+    private String taskUts;
+
+    @Bindable
+    public String getTaskUts() {
+        return taskUts;
+    }
+
+    public void setTaskUts(String taskUts) {
+        this.taskUts = taskUts;
+        notifyPropertyChanged(BR.taskUts);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {

@@ -30,6 +30,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.CommentActivity;
+import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
@@ -157,7 +158,7 @@ public class MyPublishDemandModel extends BaseObservable {
         commentInfo.putDouble("quote", innerDemandCardInfo.quote);
         intentCommentActivity.putExtras(commentInfo);
 
-        mActivity.startActivity(intentCommentActivity);
+        mActivity.startActivityForResult(intentCommentActivity, MyPublishDemandActivity.activityRequestCode);
     }
 
     //申请退款
@@ -165,7 +166,7 @@ public class MyPublishDemandModel extends BaseObservable {
         Intent intentRefundActivity = new Intent(CommonUtils.getContext(), RefundActivity.class);
         intentRefundActivity.putExtra("tid", tid);
         intentRefundActivity.putExtra("type", type);
-        mActivity.startActivity(intentRefundActivity);
+        mActivity.startActivityForResult(intentRefundActivity, MyPublishDemandActivity.activityRequestCode);
     }
 
     //延期支付,出现他弹框
@@ -186,6 +187,7 @@ public class MyPublishDemandModel extends BaseObservable {
                 //延期支付成功
                 ToastUtils.shortToast("延期支付成功");
                 setRectifyLayerVisibility(View.GONE);
+                reloadData();
             }
 
             @Override
@@ -210,6 +212,7 @@ public class MyPublishDemandModel extends BaseObservable {
             public void execute(CommonResultBean dataBean) {
                 //确认完成成功
                 ToastUtils.shortToast("确认完成成功");
+                reloadData();
             }
 
             @Override
@@ -237,7 +240,7 @@ public class MyPublishDemandModel extends BaseObservable {
         payInfo.putString("title", innerDemandCardInfo.title);
         intentPaymentActivity.putExtras(payInfo);
 
-        mActivity.startActivity(intentPaymentActivity);
+        mActivity.startActivityForResult(intentPaymentActivity, MyPublishDemandActivity.activityRequestCode);
 
         //暂时先用余额支付测试
     }
@@ -291,6 +294,11 @@ public class MyPublishDemandModel extends BaseObservable {
             @Override
             public void execute(MyTaskItemBean myTaskItemBean) {
                 MyTaskBean taskinfo = myTaskItemBean.data.taskinfo;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd HH:mm");
+                String utsStr = sdf.format(taskinfo.uts);
+                setTaskUts(utsStr);
+
                 innerDemandCardInfo = new InnerDemandCardInfo();
 
                 //innerDemandCardInfo.QQ_uid = taskinfo.QQ_uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
@@ -629,6 +637,23 @@ public class MyPublishDemandModel extends BaseObservable {
 
     }
 
+    public void reloadData() {
+        reloadData(true);
+    }
+
+    public void reloadData(boolean isNeedDelay) {
+        if (isNeedDelay) {//延迟两秒重新加载
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataFromServer();
+                }
+            }, 2000);
+        } else {//不延迟，直接重新加载
+            getDataFromServer();
+        }
+    }
+
     private int paymentVisibility = View.GONE;
     private int confirmFinishVisibility = View.GONE;
     private int commentVisibility = View.GONE;
@@ -648,6 +673,18 @@ public class MyPublishDemandModel extends BaseObservable {
     private String serviceUsername;
 
     private int loadLayerVisibility = View.GONE;
+
+    private String taskUts;
+
+    @Bindable
+    public String getTaskUts() {
+        return taskUts;
+    }
+
+    public void setTaskUts(String taskUts) {
+        this.taskUts = taskUts;
+        notifyPropertyChanged(BR.taskUts);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {
