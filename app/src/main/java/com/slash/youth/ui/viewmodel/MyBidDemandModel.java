@@ -156,6 +156,7 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("服务方确认成功");
+                reloadData();
             }
 
             @Override
@@ -175,6 +176,7 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("服务方拒绝成功");
+                reloadData();
             }
 
             @Override
@@ -194,6 +196,7 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("服务方完成成功");
+                reloadData();
             }
 
             @Override
@@ -219,6 +222,7 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(CommonResultBean dataBean) {
                 ToastUtils.shortToast("服务方同意退款成功");
+                reloadData();
             }
 
             @Override
@@ -238,6 +242,7 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(InterventionBean dataBean) {
                 ToastUtils.shortToast("服务方申诉成功");
+                reloadData();
             }
 
             @Override
@@ -319,6 +324,11 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(MyTaskItemBean myTaskItemBean) {
                 MyTaskBean taskinfo = myTaskItemBean.data.taskinfo;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd HH:mm");
+                String utsStr = sdf.format(taskinfo.uts);
+                setTaskUts(utsStr);
+
                 innerDemandCardInfo = new InnerDemandCardInfo();
 
                 //innerDemandCardInfo.QQ_uid = taskinfo.QQ_uid;//这个任务列表中的uid暂时不准确，先不使用，使用需求详情中的uid
@@ -870,6 +880,7 @@ public class MyBidDemandModel extends BaseObservable {
             public void execute(Object dataBean) {
                 ToastUtils.shortToast("修改成功");
                 setUpdateBidInfoVisibility(View.GONE);
+                reloadData();
             }
 
             @Override
@@ -987,6 +998,23 @@ public class MyBidDemandModel extends BaseObservable {
         bidDemandStarttime = calendar.getTimeInMillis();
     }
 
+    public void reloadData() {
+        reloadData(true);
+    }
+
+    public void reloadData(boolean isNeedDelay) {
+        if (isNeedDelay) {//延迟两秒重新加载
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataFromServer();
+                }
+            }, 2000);
+        } else {//不延迟，直接重新加载
+            getDataFromServer();
+        }
+    }
+
     private int acceptItemVisibility = View.GONE;
     private int completeItemVisibility = View.GONE;
     private int isAgreeRefundItemVisibility = View.GONE;
@@ -1015,6 +1043,18 @@ public class MyBidDemandModel extends BaseObservable {
     private int updateInstalmentLine2Visibility = View.GONE;
     private int updateInstalmentLine3Visibility = View.GONE;
     private int updateInstalmentLine4Visibility = View.GONE;
+
+    private String taskUts;
+
+    @Bindable
+    public String getTaskUts() {
+        return taskUts;
+    }
+
+    public void setTaskUts(String taskUts) {
+        this.taskUts = taskUts;
+        notifyPropertyChanged(BR.taskUts);
+    }
 
     @Bindable
     public int getUpdateInstalmentLine4Visibility() {
