@@ -393,7 +393,7 @@ public class ActivityLoginModel extends BaseObservable {
         }
     }
 
-    String QQ_access_token;
+    String QQ_access_token;//17301782584  18915521461
     String QQ_uid;
     String WEIXIN_access_token;
     String WEIXIN_unionid;

@@ -36,6 +36,7 @@ public class ReplacePhoneModel extends BaseObservable {
             return;
         }
 
+        isSendPin = true;
         String phoneNumber = activityReplacePhoneBinding.etActivityLoginVerificationPhone.getText().toString();
        
         if (TextUtils.isEmpty(phoneNumber)) {
@@ -45,10 +46,10 @@ public class ReplacePhoneModel extends BaseObservable {
         boolean isCorrect = PhoneNumUtils.checkPhoneNum(phoneNumber);
         if (!isCorrect) {
             ToastUtils.shortToast("请输入正确的手机号码");
-        } else {
-            LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(), phoneNumber);
+            return;
         }
 
+        LoginManager.getPhoneVerificationCode(new onGetPhoneVerificationCode(), phoneNumber);
     }
     private int pinSecondsCount;
 
@@ -70,7 +71,6 @@ public class ReplacePhoneModel extends BaseObservable {
     }
 
     private class PinCountDown implements Runnable {
-
         @Override
         public void run() {
             pinSecondsCount--;
@@ -79,7 +79,7 @@ public class ReplacePhoneModel extends BaseObservable {
                 isSendPin = false;
             } else {
                 activityReplacePhoneBinding.btnSendpinText.setText(pinSecondsCount + "S");
-                CommonUtils.getHandler().postDelayed(new PinCountDown(), 1000);
+                CommonUtils.getHandler().postDelayed(this, 1000);
             }
         }
     }

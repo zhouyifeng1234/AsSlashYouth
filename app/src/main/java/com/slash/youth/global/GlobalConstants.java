@@ -71,6 +71,7 @@ public class GlobalConstants {
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
         public static final String SERVER_HOST = "http://121.42.145.178/";
+        //public static final String SERVER_HOST = "https://api.slashyounger.com/";//这是线上，zss
 
         //需求流程相关接口地址前缀
         public static final String SERVER_HOST_DEMAND = "http://121.42.145.178/feed/v1/api/demand/";
@@ -163,13 +164,11 @@ public class GlobalConstants {
         //三、[需求]-查看评价和分享状态接口
         public static final String QUERY_COMMENT_STATUS = SERVER_HOST_COMMENT_SHARE + "query";
 
-
         //一、[文件]-图片上传
         public static final String IMG_UPLOAD = SERVER_HOST_IMG_UPLOAD_DOWNLOAD + "upload";
 
         //二、[文件]-图片下载
         public static final String IMG_DOWNLOAD = SERVER_HOST_IMG_UPLOAD_DOWNLOAD + "download";
-
 
         //一、[需求]-发布需求
         public static final String PUBLISH_DEMAND = SERVER_HOST_DEMAND + "publish";
@@ -353,7 +352,7 @@ public class GlobalConstants {
         //二十四、[搜索]-联想词搜索
         public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_BAR + "/common/tag";
         //二十五、[搜索]-[用户&需求&服务]搜索
-        public static final String SEARCH_ALL = SERVER_HOST_BAR + "/common/all";
+        public static final String SEARCH_ALL = "https://api.slashyounger.com/"+"search/v1/api"+ "/common/all";
         //二十六、[搜索]-用户搜索
         public static final String SEARCH_USER = SERVER_HOST_BAR + "/user";
         //二十七、[搜索]-需求搜索
@@ -388,7 +387,7 @@ public class GlobalConstants {
         //十三、[我的]-[用户中心]-我的首页数据
         public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" + "/list";
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
-        //十四，[我的]-[用户中心]-认证
+        //十四，[我的]-[用户中心]-认证//USER_INFO_HOST
         public static final String MY_CHECKOUT_AUTH = "http://121.42.145.178/uinfo/v1/api" + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态
         public static final String MY_CHECKOUT_AUTH_SRATUS = "http://121.42.145.178/uinfo/v1/api" + "/real/status";
@@ -418,7 +417,6 @@ public class GlobalConstants {
         public static final String CREATE_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/createwithcheck";
         //八、[设置]-找回交易密码
         public static final String FIND_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/findback";
-
 
         //第三方，获得第三方平台列表
         public static final String GET_BINDING = SERVER_HOST + "auth/v1/login/getBind";

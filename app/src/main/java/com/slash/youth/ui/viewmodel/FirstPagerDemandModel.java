@@ -443,5 +443,4 @@ public class FirstPagerDemandModel extends BaseObservable {
     public void showMoreDemandDilog(View view){
     setMoreDemandDialogVisitibility(View.GONE);
     }
-
 }

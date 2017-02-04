@@ -64,6 +64,7 @@
                     android:textColor="#ffffff"
                     android:textColorHint="#ffffff"
                     android:textSize="11.5sp"/>
+
             </RelativeLayout>
             <Button
                 android:id="@+id/btn_jingru"
