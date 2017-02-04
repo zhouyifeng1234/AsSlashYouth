@@ -174,7 +174,7 @@ public class MySkillManageModel extends BaseObservable  {
         getdata(titleName);
     }
 
-    //管理我发布的任务
+    //管理我发布的任务(我的发布)
     public class onManagerMyPublishTaskList implements BaseProtocol.IResultExecutor<ManagerMyPublishTaskBean> {
         @Override
         public void execute(ManagerMyPublishTaskBean dataBean) {
