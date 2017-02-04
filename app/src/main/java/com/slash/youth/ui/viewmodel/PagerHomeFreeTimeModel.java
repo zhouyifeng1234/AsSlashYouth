@@ -7,8 +7,6 @@ import android.databinding.Bindable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -21,6 +19,7 @@ import android.widget.ImageView;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeFreetimeBinding;
+import com.slash.youth.domain.BannerConfigBean;
 import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.engine.FirstPagerManager;
@@ -35,18 +34,14 @@ import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
 import com.slash.youth.ui.view.NewRefreshListView;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
-import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import org.xutils.common.Callback;
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
+import org.xutils.http.RequestParams;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +72,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         initFootView();
         initListener();
     }
+
 
     //显示加载页面
     private void displayLoadLayer() {
@@ -153,8 +149,13 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private void initData() {
 //        x.image().clearCacheFiles();
         getDataFromServer();
-//        mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
-      //  vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
+
+        setPager();
+    }
+
+    private void setPager() {
+        // mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
+        //  vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
         vpAdvStartIndex = 100000000 - 100000000 % bannerList.size();
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
@@ -396,6 +397,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         bannerList.add(banner2);
         bannerList.add(banner3);
 
+        FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
+
         //模拟数据 首页广告条图片URL
        /* listAdvImageUrl.add("http://pic33.nipic.com/20130916/3420027_192919547000_2.jpg");
         listAdvImageUrl.add("http://b.hiphotos.baidu.com/album/s%3D1600%3Bq%3D90/sign=4f04be8ab8014a90853e42bb99470263/b8389b504fc2d562d426d1d5e61190ef76c66cdf.jpg?v=tbs");
@@ -435,10 +438,21 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     //广告
-    public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<String> {
+    public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<BannerConfigBean> {
         @Override
-        public void execute(String data) {
-            listAdvImageUrl.add(data);
+        public void execute(BannerConfigBean data) {
+            List<BannerConfigBean.BannerBean> banner = data.getBanner();
+            for (BannerConfigBean.BannerBean bannerBean : banner) {
+                String title = bannerBean.getTitle();
+                String image = bannerBean.getImage();
+                String url = bannerBean.getUrl();
+
+
+
+            }
+           // setPager();
+
+            //listAdvImageUrl.add(data);
         }
 
         @Override

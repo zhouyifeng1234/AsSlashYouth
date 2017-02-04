@@ -1,23 +1,37 @@
 package com.slash.youth.http.protocol;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.slash.youth.domain.ResultErrorBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.utils.AuthHeaderUtils;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
+import org.xutils.BuildConfig;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.SecureRandom;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 abstract public class BaseProtocol<T> {
 
     public T dataBean;
 
     public ResultErrorBean resultErrorBean;
+
+    private static SSLContext mSSLContext = null;
 
     public interface IResultExecutor<T> {
         void execute(T dataBean);
@@ -68,6 +82,17 @@ abstract public class BaseProtocol<T> {
     public RequestParams getRequestParams() {
         RequestParams params = new RequestParams(getUrlString());
         params.setAsJsonContent(true);
+
+        //获取ssl,zss
+        SSLContext sslContext = getSSLContext(CommonUtils.getApplication());
+
+        if (null == sslContext) {
+            if (BuildConfig.DEBUG)
+                LogKit.d("Error:Can't Get SSLContext!");
+            return null;
+        }
+
+        params.setSslSocketFactory(sslContext.getSocketFactory());
         addRequestHeader(params);
 
         addRequestParams(params);
@@ -125,4 +150,68 @@ abstract public class BaseProtocol<T> {
     //获取融云token
     // return "http://121.42.145.178/auth/rongToken";
 
+
+    /**
+     * 获取Https的证书,zss
+     *
+     * @param context 上下文
+     * @return SSL的上下文对象
+     */
+    private static SSLContext getSSLContext(Context context) {
+        CertificateFactory certificateFactory = null;
+        InputStream inputStream = null;
+        Certificate cer = null;
+        KeyStore keystore = null;
+        TrustManagerFactory trustManagerFactory = null;
+        try {
+            certificateFactory = CertificateFactory.getInstance("X.509");
+            inputStream = context.getAssets().open("213980825410312.pem");//这里导入SSL证书文件
+
+            try {
+                cer = certificateFactory.generateCertificate(inputStream);
+                // LogManager.i(TAG, cer.getPublicKey().toString());
+            } finally {
+                inputStream.close();
+            }
+
+            //创建一个证书库，并将证书导入证书库
+            keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keystore.load(null, null); //双向验证时使用
+            keystore.setCertificateEntry("trust", cer);
+
+            // 实例化信任库
+            trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keystore);
+
+            mSSLContext = SSLContext.getInstance("TLS");
+            mSSLContext.init(null, trustManagerFactory.getTrustManagers(), new SecureRandom());
+
+            //信任所有证书 （官方不推荐使用）
+//         s_sSLContext.init(null, new TrustManager[]{new X509TrustManager() {
+//
+//              @Override
+//              public X509Certificate[] getAcceptedIssuers() {
+//                  return null;
+//              }
+//
+//              @Override
+//              public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+//                      throws CertificateException {
+//
+//              }
+//
+//              @Override
+//              public void checkClientTrusted(X509Certificate[] arg0, String arg1)
+//                      throws CertificateException {
+//
+//              }
+//          }}, new SecureRandom());
+
+            return mSSLContext;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

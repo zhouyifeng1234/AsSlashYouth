@@ -35,9 +35,10 @@ public class FirstPagerManager {
     public static final String TIMETYPE_ANYTIME = "随时";
     public static final String[] TIMETYPES = {"下班以后","周末","下班后和周末","随时"};
 
+
     //首页广告
-    public static void onGetFirstPagerAdvertisement(BaseProtocol.IResultExecutor onGetFirstPagerAdvertisement, String url) {
-        FirstPagerAdvertisementProtocol firstPagerAdvertisementProtocol = new FirstPagerAdvertisementProtocol(url);
+    public static void onGetFirstPagerAdvertisement(BaseProtocol.IResultExecutor onGetFirstPagerAdvertisement) {
+        FirstPagerAdvertisementProtocol firstPagerAdvertisementProtocol = new FirstPagerAdvertisementProtocol();
         firstPagerAdvertisementProtocol.getDataFromServer(onGetFirstPagerAdvertisement);
     }
 

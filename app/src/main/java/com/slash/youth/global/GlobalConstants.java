@@ -102,10 +102,10 @@ public class GlobalConstants {
         //ZSS 我的账户
         public static final String SERVER_HOST_MY_ACCOUNT = "http://121.42.145.178/uinfo/v1/api/wallet";
 
-        //[推荐]-首页上部活动广告
+      /*  //[推荐]-首页上部活动广告
         public static final String FIRST_PAHER_ADVERTISEMENT_ONE = "http://121.42.145.178/static/ad" + "/1";
         public static final String FIRST_PAHER_ADVERTISEMENT_TWO = "http://121.42.145.178/static/ad" + "/2";
-        public static final String FIRST_PAHER_ADVERTISEMENT_THREE = "http://121.42.145.178/static/ad" + "/3";
+        public static final String FIRST_PAHER_ADVERTISEMENT_THREE = "http://121.42.145.178/static/ad" + "/3";*/
         //[闲时]-更多服务列表查询
         public static final String FREE_TIME_MORE_HOST = "http://121.42.145.178/leisure/v1/api";
         public static final String MORE_SERVICE_LIST = FREE_TIME_MORE_HOST + "/service";
@@ -352,7 +352,8 @@ public class GlobalConstants {
         //二十四、[搜索]-联想词搜索
         public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_BAR + "/common/tag";
         //二十五、[搜索]-[用户&需求&服务]搜索
-        public static final String SEARCH_ALL = "https://api.slashyounger.com/"+"search/v1/api"+ "/common/all";
+       // public static final String SEARCH_ALL = "https://api.slashyounger.com/"+"search/v1/api"+ "/common/all";
+        public static final String SEARCH_ALL = SERVER_HOST+"search/v1/api"+ "/common/all";
         //二十六、[搜索]-用户搜索
         public static final String SEARCH_USER = SERVER_HOST_BAR + "/user";
         //二十七、[搜索]-需求搜索
@@ -504,6 +505,9 @@ public class GlobalConstants {
         public static final String VERSION_HOST = "http://121.42.145.178/system/v1/api/config";
         public static final String CHECK_VERSION = VERSION_HOST + "/version/check";
 
+        //首页banner
+        public static final String BANNER_HOST = "https://api.slashyounger.com/static/ad";
+        public static final String GET_BANNER_CONFIG = BANNER_HOST+"/banner_config";
 
     }
 
@@ -546,9 +550,7 @@ public class GlobalConstants {
         public static final String WEB_BANNER_1 = WEB_PATH_HOST + "/banner?nav=1";
         public static final String WEB_BANNER_2 = "http://dwz.cn/51UmP8 ";
         public static final String WEB_BANNER_3 = "http://dwz.cn/51Un80";
-
     }
-
 }
 
 
