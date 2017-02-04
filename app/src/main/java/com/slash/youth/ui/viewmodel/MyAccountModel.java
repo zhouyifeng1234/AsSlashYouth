@@ -2,8 +2,10 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 
+import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMyAccountBinding;
 import com.slash.youth.domain.MyAccountBean;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -25,6 +27,7 @@ public class MyAccountModel extends BaseObservable {
     private String unit = "元";
     private MyAccountActivity myAccountActivity;
     private String currentMoney;
+    private int hintVisibility = View.GONE;
 
     public MyAccountModel(ActivityMyAccountBinding activityMyAccountBinding, MyAccountActivity myAccountActivity) {
         this.activityMyAccountBinding = activityMyAccountBinding;
@@ -90,16 +93,33 @@ public class MyAccountModel extends BaseObservable {
         CommonUtils.getContext().startActivity(intentWithdrawalsActivity);
     }
 
+    @Bindable
+    public int getHintVisibility() {
+        return hintVisibility;
+    }
+
+    public void setHintVisibility(int hintVisibility) {
+        this.hintVisibility = hintVisibility;
+        notifyPropertyChanged(BR.hintVisibility);
+    }
+
     //提示
     public void hint(View view) {
         //埋点
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_ACCOUNT_CLICK_MY_FREEZE_MONEY_RIGHT_QUESTION);
-        DialogUtils.showDialogOne(myAccountActivity, new DialogUtils.DialogCallUnderStandBack() {
+
+        setHintVisibility(View.VISIBLE);
+
+      /*  DialogUtils.showDialogOne(myAccountActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {
                 LogKit.d("canncel");
             }
-        }, "", "");
+        }, "", "");*/
     }
 
+    //关闭提示框
+    public void closeHintVisibility(View view){
+        setHintVisibility(View.GONE);
+    }
 }

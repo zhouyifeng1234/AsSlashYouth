@@ -43,5 +43,4 @@ public class FirstPagerMoreActivity extends Activity {
         firstPagerDemandModel = new FirstPagerDemandModel(activityFirstPagerMoreBinding,isDemand,this);
         activityFirstPagerMoreBinding.setFirstPagerDemandModel(firstPagerDemandModel);
     }
-
 }

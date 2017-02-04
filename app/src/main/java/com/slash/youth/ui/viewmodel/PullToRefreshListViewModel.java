@@ -164,6 +164,10 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 if( listsize == 0){
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pullToRefreshListviewBinding.tvContent.setVisibility(View.GONE);
+                    arrayListService.clear();
+                    if(pagerHomeServiceAdapter!=null){
+                        pagerHomeServiceAdapter.notifyDataSetChanged();
+                    }
                 }else {
                     arrayListService.addAll(list);
                     pagerHomeServiceAdapter = new PagerMoreServiceAdapter(arrayListService,firstPagerMoreActivity);
@@ -171,7 +175,6 @@ public class PullToRefreshListViewModel extends BaseObservable {
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                     pagerHomeServiceAdapter.notifyDataSetChanged();
                 }
-
             }
         }
         @Override
@@ -192,6 +195,10 @@ public class PullToRefreshListViewModel extends BaseObservable {
                 if(listsize == 0){
                     pullToRefreshListviewBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pullToRefreshListviewBinding.tvContent.setVisibility(View.GONE);
+                    arrayListDemand.clear();
+                    if(pagerHomeDemandtAdapter!=null){
+                        pagerHomeDemandtAdapter.notifyDataSetChanged();
+                    }
                 }else {
                     arrayListDemand.addAll(list);
                     pagerHomeDemandtAdapter = new PagerMoreDemandtAdapter(arrayListDemand,firstPagerMoreActivity);
@@ -206,5 +213,4 @@ public class PullToRefreshListViewModel extends BaseObservable {
             LogKit.d("result:"+result);
         }
     }
-
 }

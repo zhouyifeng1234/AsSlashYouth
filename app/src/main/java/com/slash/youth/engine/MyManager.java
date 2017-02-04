@@ -35,7 +35,7 @@ public class MyManager {
     public static final String  DOWN ="下架";
     public static final String  PUBLISH ="发布";
     public static final String  SKILL_MANAGER ="技能管理";
-    public static final String  MAANAGER_MY_PUBLISH_TASK ="管理我发布的任务";
+    public static final String  MAANAGER_MY_PUBLISH_TASK ="发布管理";
     public static final String   INSTALMENT="分期到账";
     public static final String   QOUNT ="报价:¥";
     public static final String   TASK_TIME ="任务时间:";
