@@ -374,7 +374,11 @@ public class DemandDetailModel extends BaseObservable {
                     setDemandDetailLocationVisibility(View.GONE);
                 }
                 if (demand.instalment == 0) {//不开启
-                    setInstalmentItemVisibility(View.GONE);
+//                    setInstalmentItemVisibility(View.GONE);//这里不是直接隐藏，而是显示成“一次性到账”
+                    setInstalmentItemVisibility(View.VISIBLE);
+                    mActivityDemandDetailBinding.tvInstalmentLabel.setText("一次性到账");
+                    mActivityDemandDetailBinding.tvInstalmentContent.setText("服务完成后，资金一次性打入服务方账户");
+
                     //填写抢单浮层中的分期
                     bidIsInstalment = true;//调用toggleInstalment方法后就变成false了
                     toggleInstalment(null);

@@ -68,8 +68,8 @@ public class GlobalConstants {
 //                    P:da#@I*O(
 
         //接口地址的IP或者域名
-//        public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
-        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
+        public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
+//        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
 
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
@@ -125,7 +125,7 @@ public class GlobalConstants {
          */
 
         //一、[通用任务日志]-需求流程日志接口
-        public static final String GET_COMMON_LOG = IP_OR_DOMAINNAME+"feed/v1/api/log";
+        public static final String GET_COMMON_LOG = IP_OR_DOMAINNAME + "feed/v1/api/log";
 
         //手机验证码发送
         public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/phone";
