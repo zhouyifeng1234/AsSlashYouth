@@ -87,14 +87,21 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
 //        } else {
 //            mItemMyTaskModel.setInstalmentText("分期");
 //        }
-        if (data.instalment == 0) {
-            //未开启分期
+
+        if (TextUtils.isEmpty(data.instalmentratio)) {
+            if (data.instalment == 1) {//分期，发布任务时开启的分期，这时候还没有人抢单，所以没有分期比例信息的
+                mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
+                mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
+                mItemMyTaskModel.setInstalmentText("分期到账");
+            } else {// 0 不分期
+                // 未开启分期
 //            mItemMyTaskModel.setInstalmentText("");
 //            mItemMyTaskModel.setInstalmentratioStr("");
 //            mItemMyTaskModel.setInstalmentTextVisibility(View.GONE);
-            mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
-            mItemMyTaskModel.setInstalmentText("一次性到账");
-            mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
+                mItemMyTaskModel.setInstalmentTextVisibility(View.VISIBLE);
+                mItemMyTaskModel.setInstalmentText("一次性到账");
+                mItemMyTaskModel.setInstalmentratioStrVisibility(View.GONE);
+            }
         } else {
             //开启分期
             //显示每一期的分期比例

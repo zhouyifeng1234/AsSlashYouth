@@ -491,7 +491,8 @@ public class DemandDetailModel extends BaseObservable {
                     setIsAuthVisibility(View.VISIBLE);
                 }
                 setUsername(uinfo.name);
-                setFanscount("粉丝数" + uinfo.fanscount);
+//                setFanscount("粉丝数" + uinfo.fanscount);
+                setFanscount("人脉数" + uinfo.fanscount);
                 setTaskcount("顺利成交单数" + uinfo.achievetaskcount + "/" + uinfo.totoltaskcount);//顺利成交单数9/12
                 String userPlace = "";
                 if (uinfo.province.equals(uinfo.city)) {

@@ -395,9 +395,9 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     String QQ_access_token;//17301782584  18915521461
-    String QQ_uid;
+    String QQ_uid;//这个值应该取openid,而不是uid,为了避免大幅度改代码，不改变变量名
     String WEIXIN_access_token;
-    String WEIXIN_unionid;
+    String WEIXIN_unionid;//这个值应该取openid,而不是unionid,为了避免大幅度改代码，不改变变量名
 
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
@@ -411,7 +411,8 @@ public class ActivityLoginModel extends BaseObservable {
                         LogKit.v("-----------QQ Login------------" + key + ":" + data.get(key));
                     }
                     QQ_access_token = data.get("access_token");
-                    QQ_uid = data.get("uid");
+//                    QQ_uid = data.get("uid");
+                    QQ_uid = data.get("openid");
                     SpUtils.setString("QQ_token", QQ_access_token);
                     SpUtils.setString("QQ_uid", QQ_uid);
                     LogKit.v("QQ_access_token:" + QQ_access_token + " QQ_uid:" + QQ_uid);
@@ -428,7 +429,8 @@ public class ActivityLoginModel extends BaseObservable {
                         LogKit.v("-----------WEIXIN Login------------" + key + ":" + data.get(key));
                     }
                     WEIXIN_access_token = data.get("access_token");
-                    WEIXIN_unionid = data.get("unionid");
+//                    WEIXIN_unionid = data.get("unionid");
+                    WEIXIN_unionid = data.get("openid");
                     SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
                     SpUtils.setString("WEIXIN_uid", WEIXIN_unionid);
                     LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + " openid:" + WEIXIN_unionid);

@@ -34,6 +34,10 @@ import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.http.protocol.SetChangeContactProtocol;
 import com.slash.youth.http.protocol.SetConversationListProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.MyBidDemandActivity;
+import com.slash.youth.ui.activity.MyBidServiceActivity;
+import com.slash.youth.ui.activity.MyPublishDemandActivity;
+import com.slash.youth.ui.activity.MyPublishServiceActivity;
 import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.ui.viewmodel.PagerHomeInfoModel;
@@ -286,6 +290,25 @@ public class MsgManager {
                     everyTaskMessageCount.put(id, count);
                     //次数更新了，重新序列化到磁盘
                     serializeEveryTaskMessageCount(everyTaskMessageCount);
+
+                    //如果当前页面是任务订单详情页，则实时刷新页面数据
+                    if (taskMessageBean.type == 1) {//需求订单页
+                        if (ActivityUtils.currentActivity instanceof MyBidDemandActivity) {
+                            MyBidDemandActivity currentActivity = (MyBidDemandActivity) ActivityUtils.currentActivity;
+                            currentActivity.mMyBidDemandModel.reloadData(true);
+                        } else if (ActivityUtils.currentActivity instanceof MyPublishDemandActivity) {
+                            MyPublishDemandActivity currentActivity = (MyPublishDemandActivity) ActivityUtils.currentActivity;
+                            currentActivity.mMyPublishDemandModel.reloadData(true);
+                        }
+                    } else if (taskMessageBean.type == 2) {//服务订单页
+                        if (ActivityUtils.currentActivity instanceof MyBidServiceActivity) {
+                            MyBidServiceActivity currentActivity = (MyBidServiceActivity) ActivityUtils.currentActivity;
+                            currentActivity.mMyBidServiceModel.reloadData(true);
+                        } else if (ActivityUtils.currentActivity instanceof MyPublishServiceActivity) {
+                            MyPublishServiceActivity currentActivity = (MyPublishServiceActivity) ActivityUtils.currentActivity;
+                            currentActivity.mMyPublishServiceModel.reloadData(true);
+                        }
+                    }
                 }
             } else if (senderUserId.equals("1000")) {//斜杠消息助手
                 CommonUtils.getHandler().post(new Runnable() {

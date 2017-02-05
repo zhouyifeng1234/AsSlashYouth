@@ -54,7 +54,7 @@ public class PagerHomeMyModel extends BaseObservable {
     float expertMarks;
     float expertMarksProgress;//0到360
     private int achievetaskcount;
-    private   String avatar;
+    private String avatar;
     private double averageservicepoint;
     private double userservicepoint;
     private int careertype = 1;
@@ -63,12 +63,12 @@ public class PagerHomeMyModel extends BaseObservable {
     private String city;
     private String province;
     private String place;
-    private   String name;
+    private String name;
     private int isauth;
     private String industry;
     private String direction;
     private String tag;
-    private int  fanscount;
+    private int fanscount;
     private double fansratio;
     private long totoltaskcount;
     private long id;
@@ -116,12 +116,12 @@ public class PagerHomeMyModel extends BaseObservable {
         notifyPropertyChanged(BR.approvalDialog);
     }
 
-    public void makeCannel(View view){
+    public void makeCannel(View view) {
         setApprovalDialog(View.GONE);
     }
 
     //确认
-    public void makeSure(View view){
+    public void makeSure(View view) {
         setApprovalDialog(View.GONE);
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("phone", phone);
@@ -167,7 +167,9 @@ public class PagerHomeMyModel extends BaseObservable {
                             }
                         });
                         long endMill = System.currentTimeMillis();
-                        Thread.sleep(16 - (endMill - startMill));
+                        if (16 - (endMill - startMill) > 0) {
+                            Thread.sleep(16 - (endMill - startMill));
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -179,7 +181,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
     private void initData() {
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
-       MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),LoginManager.currentLoginUserId,1);
+        MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(), LoginManager.currentLoginUserId, 1);
     }
 
     private String careertypeString = "自雇者";
@@ -189,7 +191,7 @@ public class PagerHomeMyModel extends BaseObservable {
         @Override
         public void execute(OtherInfoBean dataBean) {
             int rescode = dataBean.getRescode();
-            if(rescode == 0){
+            if (rescode == 0) {
                 OtherInfoBean.DataBean data = dataBean.getData();//myinfo
                 OtherInfoBean.DataBean.UinfoBean uinfo = data.getUinfo();
                 int relationshipscount = uinfo.getRelationshipscount();
@@ -199,7 +201,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
         @Override
         public void executeResultError(String result) {
-            LogKit.d("result:"+result);
+            LogKit.d("result:" + result);
         }
     }
 
@@ -270,7 +272,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
         //粉丝数
         fansratio = myinfo.getFansratio();
-        if(fansratio>0&&fansratio<=1){
+        if (fansratio > 0 && fansratio <= 1) {
             fansratio = 1;
         }
         mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) fansratio);
@@ -280,12 +282,12 @@ public class PagerHomeMyModel extends BaseObservable {
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
-        if(totoltaskcount!=0){
-            taskProgress = (int)(achievetaskcount* 100 / totoltaskcount);
-        }else {
+        if (totoltaskcount != 0) {
+            taskProgress = (int) (achievetaskcount * 100 / totoltaskcount);
+        } else {
             taskProgress = 0;
         }
-        mPagerHomeMyBinding.pbProgressbarTask.setProgress((int)taskProgress);
+        mPagerHomeMyBinding.pbProgressbarTask.setProgress((int) taskProgress);
         mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
         mPagerHomeMyBinding.tvMyTask.setText(String.valueOf(achievetaskcount));
         mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共" + totoltaskcount + "单任务");
@@ -294,11 +296,11 @@ public class PagerHomeMyModel extends BaseObservable {
 
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
-        int servicepoint = (int)((averageservicepoint*100)/ 5);
-        mPagerHomeMyBinding.pbProgressbarService.setProgress((int)servicepoint);
+        int servicepoint = (int) ((averageservicepoint * 100) / 5);
+        mPagerHomeMyBinding.pbProgressbarService.setProgress((int) servicepoint);
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
         mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
-        mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为"+averageservicepoint+"星");
+        mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为" + averageservicepoint + "星");
 
         //数量,网络获取的分数
         int expertscore = myinfo.getExpertscore();//超过多少个用户
@@ -367,24 +369,24 @@ public class PagerHomeMyModel extends BaseObservable {
                 //埋点
                 MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE);
 
-                switch (careertype){
+                switch (careertype) {
                     case 1:
 
-                if(TextUtils.isEmpty(myinfo.getCompany())||TextUtils.isEmpty(myinfo.getName())||TextUtils.isEmpty(myinfo.getPosition())){
-                    setApprovalDialog(View.VISIBLE);
-                }else {
-                    jumpApprovalActivity();
+                        if (TextUtils.isEmpty(myinfo.getCompany()) || TextUtils.isEmpty(myinfo.getName()) || TextUtils.isEmpty(myinfo.getPosition())) {
+                            setApprovalDialog(View.VISIBLE);
+                        } else {
+                            jumpApprovalActivity();
 
-                }
+                        }
                         break;
                     case 2:
 
-                 if(TextUtils.isEmpty( myinfo.getName())){
-                    setApprovalDialog(View.VISIBLE);
-                }else {
-                     jumpApprovalActivity();
+                        if (TextUtils.isEmpty(myinfo.getName())) {
+                            setApprovalDialog(View.VISIBLE);
+                        } else {
+                            jumpApprovalActivity();
 
-                 }
+                        }
                         break;
                     case 0:
                         setApprovalDialog(View.VISIBLE);

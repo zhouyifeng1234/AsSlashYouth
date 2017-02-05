@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 
 import com.slash.youth.databinding.ItemServiceFlowLogBinding;
-import com.slash.youth.domain.ServiceFlowLogList;
+import com.slash.youth.domain.CommonLogList;
 
 import java.text.SimpleDateFormat;
 
@@ -15,9 +15,9 @@ public class ItemServiceLogModel extends BaseObservable {
 
     ItemServiceFlowLogBinding mItemServiceFlowLogBinding;
     Activity mActivity;
-    ServiceFlowLogList.LogInfo mLogInfo;
+    CommonLogList.CommonLogInfo mLogInfo;
 
-    public ItemServiceLogModel(ItemServiceFlowLogBinding itemServiceFlowLogBinding, Activity activity, ServiceFlowLogList.LogInfo logInfo) {
+    public ItemServiceLogModel(ItemServiceFlowLogBinding itemServiceFlowLogBinding, Activity activity, CommonLogList.CommonLogInfo logInfo) {
         this.mActivity = activity;
         this.mItemServiceFlowLogBinding = itemServiceFlowLogBinding;
         this.mLogInfo = logInfo;
@@ -34,6 +34,6 @@ public class ItemServiceLogModel extends BaseObservable {
         String timeStr = sdf.format(mLogInfo.cts);
         mItemServiceFlowLogBinding.tvLogRecordTime.setText(timeStr);
 
-        mItemServiceFlowLogBinding.tvLogAction.setText(mLogInfo.action);
+        mItemServiceFlowLogBinding.tvLogAction.setText(mLogInfo.log);
     }
 }

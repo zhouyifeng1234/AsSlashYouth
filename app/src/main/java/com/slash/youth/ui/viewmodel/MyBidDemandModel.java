@@ -16,6 +16,7 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyBidDemandBinding;
 import com.slash.youth.databinding.ItemDemandFlowLogBinding;
+import com.slash.youth.domain.CommonLogList;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandFlowLogList;
@@ -67,7 +68,8 @@ public class MyBidDemandModel extends BaseObservable {
         initListener();
     }
 
-    ArrayList<DemandFlowLogList.LogInfo> listLogInfo = new ArrayList<DemandFlowLogList.LogInfo>();
+    //    ArrayList<DemandFlowLogList.LogInfo> listLogInfo = new ArrayList<DemandFlowLogList.LogInfo>();
+    ArrayList<CommonLogList.CommonLogInfo> listLogInfo = new ArrayList<CommonLogList.CommonLogInfo>();
 
     private void initData() {
         Bundle taskInfo = mActivity.getIntent().getExtras();
@@ -276,21 +278,34 @@ public class MyBidDemandModel extends BaseObservable {
     }
 
     private void getDemandFlowLogData() {
-        DemandEngine.getDemandFlowLog(new BaseProtocol.IResultExecutor<DemandFlowLogList>() {
+//        DemandEngine.getDemandFlowLog(new BaseProtocol.IResultExecutor<DemandFlowLogList>() {
+//            @Override
+//            public void execute(DemandFlowLogList dataBean) {
+//                listLogInfo = dataBean.data.list;
+//                if (listLogInfo == null || listLogInfo.size() <= 0) {
+//                    DemandFlowLogList demandFlowLogList = new DemandFlowLogList();
+//                    DemandFlowLogList.LogInfo logInfo2 = demandFlowLogList.new LogInfo();
+//                    logInfo2.cts = System.currentTimeMillis();
+//                    logInfo2.action = "需求方发布了需求";
+//                    DemandFlowLogList.LogInfo logInfo = demandFlowLogList.new LogInfo();
+//                    logInfo.action = "开始支付";
+//                    logInfo.cts = System.currentTimeMillis() + 100;
+//                    listLogInfo.add(logInfo2);
+//                    listLogInfo.add(logInfo);
+//                }
+//                setDemandFlowLogItemData();
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//
+//            }
+//        }, tid + "");
+
+        MyTaskEngine.getLog(new BaseProtocol.IResultExecutor<CommonLogList>() {
             @Override
-            public void execute(DemandFlowLogList dataBean) {
+            public void execute(CommonLogList dataBean) {
                 listLogInfo = dataBean.data.list;
-                if (listLogInfo == null || listLogInfo.size() <= 0) {
-                    DemandFlowLogList demandFlowLogList = new DemandFlowLogList();
-                    DemandFlowLogList.LogInfo logInfo2 = demandFlowLogList.new LogInfo();
-                    logInfo2.cts = System.currentTimeMillis();
-                    logInfo2.action = "需求方发布了需求";
-                    DemandFlowLogList.LogInfo logInfo = demandFlowLogList.new LogInfo();
-                    logInfo.action = "开始支付";
-                    logInfo.cts = System.currentTimeMillis() + 100;
-                    listLogInfo.add(logInfo2);
-                    listLogInfo.add(logInfo);
-                }
                 setDemandFlowLogItemData();
             }
 
@@ -298,19 +313,19 @@ public class MyBidDemandModel extends BaseObservable {
             public void executeResultError(String result) {
 
             }
-        }, tid + "");
+        }, tid + "", type + "", roleid + "");
     }
 
     public void setDemandFlowLogItemData() {
         mActivityMyBidDemandBinding.llDemandFlowLogs.removeAllViews();
         for (int i = listLogInfo.size() - 1; i >= 0; i--) {
-            DemandFlowLogList.LogInfo logInfo = listLogInfo.get(i);
+            CommonLogList.CommonLogInfo logInfo = listLogInfo.get(i);
             View itemLogInfo = inflateItemLogInfo(logInfo);
             mActivityMyBidDemandBinding.llDemandFlowLogs.addView(itemLogInfo);
         }
     }
 
-    public View inflateItemLogInfo(DemandFlowLogList.LogInfo logInfo) {
+    public View inflateItemLogInfo(CommonLogList.CommonLogInfo logInfo) {
         ItemDemandFlowLogBinding itemDemandFlowLogBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_demand_flow_log, null, false);
         ItemDemandLogModel itemDemandLogModel = new ItemDemandLogModel(itemDemandFlowLogBinding, mActivity, logInfo);
         itemDemandFlowLogBinding.setItemDemanLogModel(itemDemandLogModel);

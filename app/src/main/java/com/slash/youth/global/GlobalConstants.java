@@ -124,6 +124,9 @@ public class GlobalConstants {
          * 以下为服务端各接口的相对地址
          */
 
+        //一、[通用任务日志]-需求流程日志接口
+        public static final String GET_COMMON_LOG = IP_OR_DOMAINNAME+"feed/v1/api/log";
+
         //手机验证码发送
         public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/v1/phone";
 //        public static final String SEND_PHONE_VERIFICATION_CODE = SERVER_HOST + "auth/phone";
