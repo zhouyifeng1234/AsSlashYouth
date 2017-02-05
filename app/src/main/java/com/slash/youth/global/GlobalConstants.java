@@ -67,14 +67,13 @@ public class GlobalConstants {
 //                    U:slashyouth
 //                    P:da#@I*O(
 
-        //接口地址的IP或者域名
-        public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
-//        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
+        //接口地址的IP或者域名    18915521461
+       // public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
+        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
 
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
         public static final String SERVER_HOST = IP_OR_DOMAINNAME;
-        //public static final String SERVER_HOST = "https://api.slashyounger.com/";//这是线上，zss
 
         //需求流程相关接口地址前缀
         public static final String SERVER_HOST_DEMAND = IP_OR_DOMAINNAME + "feed/v1/api/demand/";

@@ -45,6 +45,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     private String influence;
     private String commonQuestion;
     private int bannerIndex;
+    private String bannerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,10 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
             }
         }
 
+
+       /* bannerTitle = intent.getStringExtra("title");
+        webUrl = intent.getStringExtra("bannerUrl");*/
+
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
         ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding,webUrl,this);
         activityCommonQuestionBinding.setActivityCommonQuestionModel(activityCommonQuestionModel);
@@ -89,6 +94,8 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
         if(commonQuestion!=null){
             title.setText(questionTitle);
         }
+
+       // title.setText(bannerTitle);
 
         if(bannerIndex !=-1){
             switch (bannerIndex){

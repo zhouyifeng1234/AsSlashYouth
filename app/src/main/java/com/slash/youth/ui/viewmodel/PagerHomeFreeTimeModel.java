@@ -155,20 +155,21 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void initData() {
-//        x.image().clearCacheFiles();
+       // x.image().clearCacheFiles();
+
         titleArrayList.clear();
         imageArrayList.clear();
         urlArrayList.clear();
         getDataFromServer();
 
-        //setPager();
+        setPager();
     }
 
     private void setPager() {
         // mPagerHomeFreetimeBinding.lvHomeDemandAndService.setAdapter(new HomeDemandAndServiceAdapter(listDemandServiceBean));
         //  vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
-       // vpAdvStartIndex = 100000000 - 100000000 % bannerList.size();
-        vpAdvStartIndex = 100000000 - 100000000 % imageArrayList.size();
+        vpAdvStartIndex = 100000000 - 100000000 % bannerList.size();
+        //vpAdvStartIndex = 100000000 - 100000000 % imageArrayList.size();
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
             @Override
@@ -184,11 +185,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             @Override
             public Object instantiateItem(ViewGroup container, final int position) {
 
-               /* advImageUrlIndex = position % bannerList.size();
-                Bitmap roundedBitmap = bannerList.get(advImageUrlIndex);*/
+                advImageUrlIndex = position % bannerList.size();
+                Bitmap roundedBitmap = bannerList.get(advImageUrlIndex);
 
-                advImageUrlIndex = position % imageArrayList.size();
-                String advImageUrl = imageArrayList.get(advImageUrlIndex);
+              /*  advImageUrlIndex = position % imageArrayList.size();
+                String advImageUrl = imageArrayList.get(advImageUrlIndex);*/
 
                 final CardView cardView = new CardView(CommonUtils.getContext());
                 cardView.setCardBackgroundColor(Color.TRANSPARENT);
@@ -203,7 +204,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 //                ivHomeFreetimeAdv.setPadding(CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2));
                 ivHomeFreetimeAdv.setLayoutParams(imgPparams);
 
-               x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
+             /*  x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
                     @Override
                     public void onSuccess(Drawable result) {
                        // LogKit.v("Load banner pic onSuccess");
@@ -250,10 +251,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                         LogKit.v("Load banner pic onFinished");
                     }
                 });
-
-               // ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
-               // ivHomeFreetimeAdv.setScaleType(ImageView.ScaleType.FIT_XY);
-               /* ivHomeFreetimeAdv.setOnClickListener(new View.OnClickListener() {
+*/
+                ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
+                ivHomeFreetimeAdv.setScaleType(ImageView.ScaleType.FIT_XY);
+                ivHomeFreetimeAdv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //在这里 0，青年 1
@@ -272,7 +273,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                                 break;
                         }
                     }
-                });*/
+                });
 
                 cardView.addView(ivHomeFreetimeAdv);
                 container.addView(cardView);
@@ -322,6 +323,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         CommonUtils.getHandler().removeCallbacks(homeVpAdvChange);
@@ -369,12 +371,13 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void initBanner(int advImageUrlIndex) {
-
-        String title = titleArrayList.get(advImageUrlIndex);
-        String bannerUrl = urlArrayList.get(advImageUrlIndex);
+     //   String title = titleArrayList.get(advImageUrlIndex);
+      //  String bannerUrl = urlArrayList.get(advImageUrlIndex);
 
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("bannerIndex", advImageUrlIndex);
+       // intentCommonQuestionActivity.putExtra("title", title);
+       // intentCommonQuestionActivity.putExtra("bannerUrl", bannerUrl);
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
@@ -431,8 +434,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         bannerList.add(banner2);
         bannerList.add(banner3);
 
-        FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
-
+       // FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
     }
 
     public void getDemandOrServiceListData() {
@@ -452,7 +454,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 @Override
                 public void run() {
                     getDemandOrServiceListData();
-
                 }
             }, 2000);
         }
@@ -471,7 +472,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 imageArrayList.add(image);
                 urlArrayList.add(url);
             }
-            setPager();
+
+           // setPager();
         }
 
         @Override
