@@ -32,7 +32,6 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
-
         qqLoginUiListener = new QQLoginUiListener();
 
         mAuthInfo = new AuthInfo(CommonUtils.getContext(), GlobalConstants.ThirdAppId.APPID_WEIBO, "www.slashyouth.com", "");
