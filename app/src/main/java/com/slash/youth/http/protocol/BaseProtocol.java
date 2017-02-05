@@ -7,6 +7,7 @@ import com.slash.youth.domain.ResultErrorBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.utils.AuthHeaderUtils;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -121,7 +122,7 @@ abstract public class BaseProtocol<T> {
         params.addHeader("Date", date);
         params.addHeader("Authorization", authorizationStr);
         //跳过验证
-       params.addHeader("uid", LoginManager.currentLoginUserId + "");
+        params.addHeader("uid", LoginManager.currentLoginUserId + "");
         params.addHeader("pass", "1");
         params.addHeader("token", LoginManager.token);
         params.addHeader("Content-Type", "application/json");
@@ -167,12 +168,8 @@ abstract public class BaseProtocol<T> {
             certificateFactory = CertificateFactory.getInstance("X.509");
             inputStream = context.getAssets().open("213980825410312.pem");//这里导入SSL证书文件
 
-            try {
-                cer = certificateFactory.generateCertificate(inputStream);
-                // LogManager.i(TAG, cer.getPublicKey().toString());
-            } finally {
-                inputStream.close();
-            }
+            cer = certificateFactory.generateCertificate(inputStream);
+            // LogManager.i(TAG, cer.getPublicKey().toString());
 
             //创建一个证书库，并将证书导入证书库
             keystore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -211,6 +208,11 @@ abstract public class BaseProtocol<T> {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                IOUtils.close(inputStream);
+                inputStream = null;
+            }
         }
         return null;
     }

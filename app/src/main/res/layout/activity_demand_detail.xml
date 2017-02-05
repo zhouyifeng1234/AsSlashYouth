@@ -39,7 +39,7 @@
                     android:layout_centerInParent="true"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:gravity="center"
+                    
                     android:maxLines="1"
                     android:text="@{demandDetailModel.topTitle}"
                     android:textColor="#ffffff"

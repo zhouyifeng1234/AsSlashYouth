@@ -67,53 +67,56 @@ public class GlobalConstants {
 //                    U:slashyouth
 //                    P:da#@I*O(
 
+        //接口地址的IP或者域名
+        public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
+//        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
 
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
-        public static final String SERVER_HOST = "http://121.42.145.178/";
+        public static final String SERVER_HOST = IP_OR_DOMAINNAME;
         //public static final String SERVER_HOST = "https://api.slashyounger.com/";//这是线上，zss
 
         //需求流程相关接口地址前缀
-        public static final String SERVER_HOST_DEMAND = "http://121.42.145.178/feed/v1/api/demand/";
+        public static final String SERVER_HOST_DEMAND = IP_OR_DOMAINNAME + "feed/v1/api/demand/";
         //图片上传下载接口地址前缀
-        public static final String SERVER_HOST_IMG_UPLOAD_DOWNLOAD = "http://121.42.145.178/file/v1/api/";
+        public static final String SERVER_HOST_IMG_UPLOAD_DOWNLOAD = IP_OR_DOMAINNAME + "file/v1/api/";
         //我的任务列表接口 地址前缀
-        public static final String SERVER_HOST_MY_TASK_LIST = "http://121.42.145.178/feed/v1/api/mytask/";
+        public static final String SERVER_HOST_MY_TASK_LIST = IP_OR_DOMAINNAME + "feed/v1/api/mytask/";
         //用户设置接口 地址前缀
-        public static final String SERVER_HOST_USER_SETTING = "http://121.42.145.178/uinfo/v1/api/config/";
+        public static final String SERVER_HOST_USER_SETTING = IP_OR_DOMAINNAME + "uinfo/v1/api/config/";
         //评价和分享上报接口 地址前缀
-        public static final String SERVER_HOST_COMMENT_SHARE = "http://121.42.145.178/feed/v1/api/evaluation/";
+        public static final String SERVER_HOST_COMMENT_SHARE = IP_OR_DOMAINNAME + "feed/v1/api/evaluation/";
         //服务流程接口地址前缀
-        public static final String SERVER_HOST_SERVICE = "http://121.42.145.178/feed/v1/api/service/";
+        public static final String SERVER_HOST_SERVICE = IP_OR_DOMAINNAME + "feed/v1/api/service/";
         //消息系统接口 地址前缀
-        public static final String SERVER_HOST_MESSAGE_SYSTEM = "http://121.42.145.178/msg/v1/api/";
+        public static final String SERVER_HOST_MESSAGE_SYSTEM = IP_OR_DOMAINNAME + "msg/v1/api/";
         //服务者推荐接口 地址前缀
-        public static final String SERVICE_USER_RECOMMEND = "http://121.42.145.178/uinfo/v1/api/sp/recommend";
+        public static final String SERVICE_USER_RECOMMEND = IP_OR_DOMAINNAME + "uinfo/v1/api/sp/recommend";
         //需求者推荐接口  地址前缀
-        public static final String DEMAND_USER_RECOMMEND = "http://121.42.145.178/uinfo/v1/api/dp/recommend";
+        public static final String DEMAND_USER_RECOMMEND = IP_OR_DOMAINNAME + "uinfo/v1/api/dp/recommend";
         //客服系统接口地址前缀
-        public static final String CUSTOMER_SERVICE = "http://121.42.145.178/customer/v1/api";
+        public static final String CUSTOMER_SERVICE = IP_OR_DOMAINNAME + "customer/v1/api";
         //ZSS
-        public static final String SERVER_HOST_SKILLLABEL = "http://121.42.145.178/";
-        public static final String SERVER_HOST_BAR = "http://121.42.145.178/search/v1/api";
+        public static final String SERVER_HOST_SKILLLABEL = IP_OR_DOMAINNAME + "";
+        public static final String SERVER_HOST_BAR = IP_OR_DOMAINNAME + "search/v1/api";
 
         //zss [我的模块]
-        public static final String SERVER_HOST_MY_USERINFO = "http://121.42.145.178/uinfo/v1/api";
+        public static final String SERVER_HOST_MY_USERINFO = IP_OR_DOMAINNAME + "uinfo/v1/api";
         //ZSS 我的账户
-        public static final String SERVER_HOST_MY_ACCOUNT = "http://121.42.145.178/uinfo/v1/api/wallet";
+        public static final String SERVER_HOST_MY_ACCOUNT = IP_OR_DOMAINNAME + "uinfo/v1/api/wallet";
 
-      /*  //[推荐]-首页上部活动广告
-        public static final String FIRST_PAHER_ADVERTISEMENT_ONE = "http://121.42.145.178/static/ad" + "/1";
-        public static final String FIRST_PAHER_ADVERTISEMENT_TWO = "http://121.42.145.178/static/ad" + "/2";
-        public static final String FIRST_PAHER_ADVERTISEMENT_THREE = "http://121.42.145.178/static/ad" + "/3";*/
+        //[推荐]-首页上部活动广告
+        public static final String FIRST_PAHER_ADVERTISEMENT_ONE = IP_OR_DOMAINNAME + "static/ad" + "/1";
+        public static final String FIRST_PAHER_ADVERTISEMENT_TWO = IP_OR_DOMAINNAME + "static/ad" + "/2";
+        public static final String FIRST_PAHER_ADVERTISEMENT_THREE = IP_OR_DOMAINNAME + "static/ad" + "/3";
         //[闲时]-更多服务列表查询
-        public static final String FREE_TIME_MORE_HOST = "http://121.42.145.178/leisure/v1/api";
+        public static final String FREE_TIME_MORE_HOST = IP_OR_DOMAINNAME + "leisure/v1/api";
         public static final String MORE_SERVICE_LIST = FREE_TIME_MORE_HOST + "/service";
         public static final String MORE_DEMAND_LIST = FREE_TIME_MORE_HOST + "/demand";
         //[推荐]-首页需求推荐列表
-        public static final String RECOMMEND_DEMAND_HOST = "http://121.42.145.178/feed/v1/api/demand/recommend";
+        public static final String RECOMMEND_DEMAND_HOST = IP_OR_DOMAINNAME + "feed/v1/api/demand/recommend";
         public static final String FIRST_PAGER_DEMAND_LIST = RECOMMEND_DEMAND_HOST + "/list";
-        public static final String RECOMMEND_SERVICE_HOST = "http://121.42.145.178/feed/v1/api/service/recommend";
+        public static final String RECOMMEND_SERVICE_HOST = IP_OR_DOMAINNAME + "feed/v1/api/service/recommend";
         public static final String FIRST_PAGER_SERVICE_LIST = RECOMMEND_SERVICE_HOST + "/list";
 
 
@@ -352,8 +355,7 @@ public class GlobalConstants {
         //二十四、[搜索]-联想词搜索
         public static final String SEARCH_ASSOCIATIVE = SERVER_HOST_BAR + "/common/tag";
         //二十五、[搜索]-[用户&需求&服务]搜索
-       // public static final String SEARCH_ALL = "https://api.slashyounger.com/"+"search/v1/api"+ "/common/all";
-        public static final String SEARCH_ALL = SERVER_HOST+"search/v1/api"+ "/common/all";
+        public static final String SEARCH_ALL = SERVER_HOST_BAR + "/common/all";
         //二十六、[搜索]-用户搜索
         public static final String SEARCH_USER = SERVER_HOST_BAR + "/user";
         //二十七、[搜索]-需求搜索
@@ -386,12 +388,12 @@ public class GlobalConstants {
         //十二、[我的]-[用户中心]-举报用户
         public static final String CLAIMS = "/claims";
         //十三、[我的]-[用户中心]-我的首页数据
-        public static final String NEW_DEMAND_ANDSERVICE_LIST = "http://121.42.145.178/feed/v1/api/latest" + "/list";
+        public static final String NEW_DEMAND_ANDSERVICE_LIST = IP_OR_DOMAINNAME + "feed/v1/api/latest" + "/list";
         public static final String MY_INFO = SERVER_HOST_MY_USERINFO + "/my/info/get";
         //十四，[我的]-[用户中心]-认证//USER_INFO_HOST
-        public static final String MY_CHECKOUT_AUTH = "http://121.42.145.178/uinfo/v1/api" + "/real/auth";
+        public static final String MY_CHECKOUT_AUTH = IP_OR_DOMAINNAME + "uinfo/v1/api" + "/real/auth";
         //十五，[我的]-[用户中心]-用户认证流程状态
-        public static final String MY_CHECKOUT_AUTH_SRATUS = "http://121.42.145.178/uinfo/v1/api" + "/real/status";
+        public static final String MY_CHECKOUT_AUTH_SRATUS = IP_OR_DOMAINNAME + "uinfo/v1/api" + "/real/status";
         //十六，[我的]-[用户中心]-登出
         public static final String MY_LOGOUT = SERVER_HOST + "auth/v1/logout";
 
@@ -401,7 +403,7 @@ public class GlobalConstants {
         public static final String MY_TRANSACTIONRECORE = SERVER_HOST_MY_ACCOUNT + "/trade/stream";
 
         //一、[设置]-查询时间免打扰设置
-        public static final String SERVER_HOST_SETTING = "http://121.42.145.178/uinfo/v1/api/config";
+        public static final String SERVER_HOST_SETTING = IP_OR_DOMAINNAME + "uinfo/v1/api/config";
         public static final String SET_TIME_GET = SERVER_HOST_SETTING + "/dnd/time/get";
         //二、[设置]-时间免打扰设置
         //public static final String SET_TIME_SET = SERVER_HOST_SETTING +"/dnd/time/set";
@@ -411,7 +413,7 @@ public class GlobalConstants {
         //四、[设置]-消息免打扰设置
         public static final String SET_MSG_SET = "/dnd/msg/set";
         //五，上传图片
-        public static final String UPLOAD_PHOTO = "http://121.42.145.178/file/v1/api" + "/upload";
+        public static final String UPLOAD_PHOTO = IP_OR_DOMAINNAME + "file/v1/api" + "/upload";
         // 五、[设置]-设置新的交易密码
         public static final String SET_PASSWORD = SERVER_HOST_SETTING + "/tradepassword/set";
         //六、[设置]-创建交易密码，需要后台审核
@@ -427,7 +429,7 @@ public class GlobalConstants {
         public static final String UNBINDING = SERVER_HOST + "auth/v1/login/unbind";
 
         //我的收藏
-        public static final String COLLECTION_HOST = "http://121.42.145.178/feed/v1/api/myfavorite";
+        public static final String COLLECTION_HOST = IP_OR_DOMAINNAME + "feed/v1/api/myfavorite";
         public static final String MY_COLLECTION_LIST = COLLECTION_HOST + "/list";
         public static final String MY_ADD_COLLECTION_ITEM = COLLECTION_HOST + "/add";
         public static final String MY_DELETE_COLLECTION_ITEM = COLLECTION_HOST + "/del";
@@ -435,7 +437,7 @@ public class GlobalConstants {
         public static final String IS_COLLECT_TASK = COLLECTION_HOST + "/status";
 
         //管理我发布的
-        public static final String MANAGE_PUBLISH_HOST = "http://121.42.145.178/feed/v1/api/mytaskmanagement";
+        public static final String MANAGE_PUBLISH_HOST = IP_OR_DOMAINNAME + "feed/v1/api/mytaskmanagement";
         public static final String MANAGE_PUBLISH_LIST = MANAGE_PUBLISH_HOST + "/list";
         public static final String MANAGE_PUBLISH_DELETE = MANAGE_PUBLISH_HOST + "/del";
         public static final String MANAGE_PUBLISH_UP_AND_DOWN = MANAGE_PUBLISH_HOST + "/manage";
@@ -444,7 +446,7 @@ public class GlobalConstants {
         public static final String UP_AND_DOWN_TASK = MANAGE_PUBLISH_HOST + "/managebytid";
 
         //技能管理
-        public static final String SKILL_MANAGE_HOST = "http://121.42.145.178/feed/v1/api/myservicemanagement";
+        public static final String SKILL_MANAGE_HOST = IP_OR_DOMAINNAME + "feed/v1/api/myservicemanagement";
         public static final String SKILL_MANAGE_LIST = SKILL_MANAGE_HOST + "/list";
         public static final String SKILL_MANAGE_DELETE = SKILL_MANAGE_HOST + "/del";
         public static final String ADD_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/add";
@@ -452,15 +454,15 @@ public class GlobalConstants {
         public static final String GET_SKILL_TEMPLET = SKILL_MANAGE_HOST + "/one";
 
         //[我的人脉]-人脉首页
-        public static final String PERSON_RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation";
+        public static final String PERSON_RELATION_HOST = IP_OR_DOMAINNAME + "uinfo/v1/api/relation";
         //人脉首页
         public static final String PERSON_RELATION_FIRST_PAGER = PERSON_RELATION_HOST + "/facade";
         //[我的访客]-访客列表
-        public static final String MY_VISITOR_HOST = "http://121.42.145.178/uinfo/v1/api/relation/visitor";
+        public static final String MY_VISITOR_HOST = IP_OR_DOMAINNAME + "uinfo/v1/api/relation/visitor";
         public static final String MY_VISITOR_LIST = MY_VISITOR_HOST + "/list";
 
         //一、[好友]-查看我的好友列表
-        public static final String MY_FRIEND_LIST_HOST = "http://121.42.145.178/uinfo/v1/api/relation/friend";
+        public static final String MY_FRIEND_LIST_HOST = IP_OR_DOMAINNAME + "uinfo/v1/api/relation/friend";
         public static final String MY_FRIEND_LIST = MY_FRIEND_LIST_HOST + "/list";
         //[好友]-查看加我的列表
         public static final String MY_FRIEND_LIST_ADD_ME_LIST = MY_FRIEND_LIST_HOST + "/addmelist";
@@ -484,7 +486,7 @@ public class GlobalConstants {
         public static final String GET_ADD_FRIEND_STATUS = MY_FRIEND_LIST_HOST + "/statusone";
 
         //三、[关注]-查询我关注的人
-        public static final String RELATION_HOST = "http://121.42.145.178/uinfo/v1/api/relation/follow";
+        public static final String RELATION_HOST = IP_OR_DOMAINNAME + "uinfo/v1/api/relation/follow";
         public static final String MY_CARE_PERSON = RELATION_HOST + "/myfollow";
         //[关注]-查询我的粉丝
         public static final String CARE_ME_PERSON = RELATION_HOST + "/myfans";
@@ -495,22 +497,21 @@ public class GlobalConstants {
         //[关注]-取消关注动作
         public static final String CANNEL_CARE = RELATION_HOST + "/cancel";
         //[推荐]-推荐好友
-        public static final String RECOMMONEND_FRIEND_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/list";
+        public static final String RECOMMONEND_FRIEND_LIST = IP_OR_DOMAINNAME + "uinfo/v1/api/friend/recommend" + "/list";
         //[推荐]-推荐好友黑名单接口
-        public static final String RECOMMONEND_FRIEND_BLACK_LIST = "http://121.42.145.178/uinfo/v1/api/friend/recommend" + "/blacklist";
+        public static final String RECOMMONEND_FRIEND_BLACK_LIST = IP_OR_DOMAINNAME + "uinfo/v1/api/friend/recommend" + "/blacklist";
         //、[我的账户]-提现申请（由于要做到不是实时提现，所以提现改成提现申请）
         public static final String ENCHASHMENT_APPlICATION = SERVER_HOST_MY_ACCOUNT + "/withdrawdeposit";
 
         //[帮助]-检测app新版本
-        public static final String VERSION_HOST = "http://121.42.145.178/system/v1/api/config";
+        public static final String VERSION_HOST = IP_OR_DOMAINNAME + "system/v1/api/config";
         public static final String CHECK_VERSION = VERSION_HOST + "/version/check";
 
         //首页banner
-        public static final String BANNER_HOST = "https://api.slashyounger.com/static/ad";
-        public static final String GET_BANNER_CONFIG = BANNER_HOST+"/banner_config";
+        public static final String BANNER_HOST = IP_OR_DOMAINNAME + "static/ad";
+        public static final String GET_BANNER_CONFIG = BANNER_HOST + "/banner_config";
 
     }
-
 
     /**
      * rescode定义
@@ -550,7 +551,9 @@ public class GlobalConstants {
         public static final String WEB_BANNER_1 = WEB_PATH_HOST + "/banner?nav=1";
         public static final String WEB_BANNER_2 = "http://dwz.cn/51UmP8 ";
         public static final String WEB_BANNER_3 = "http://dwz.cn/51Un80";
+
     }
+
 }
 
 

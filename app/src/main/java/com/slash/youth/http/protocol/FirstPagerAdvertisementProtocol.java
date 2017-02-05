@@ -2,7 +2,6 @@ package com.slash.youth.http.protocol;
 
 import com.google.gson.Gson;
 import com.slash.youth.domain.BannerConfigBean;
-import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
