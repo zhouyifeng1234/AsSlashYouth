@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.slash.youth.R;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.http.protocol.BaseProtocol;
 
 import org.xutils.common.util.DensityUtil;
 import org.xutils.http.RequestParams;
@@ -22,6 +23,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
 
 /**
  * Created by zhouyifeng on 2016/10/15.
@@ -65,8 +68,11 @@ public class BitmapKit {
         builder.setParamsBuilder(new ImageOptions.ParamsBuilder() {
             @Override
             public RequestParams buildParams(RequestParams params, ImageOptions options) {
+                SSLContext sslContext = BaseProtocol.getSSLContext(CommonUtils.getApplication());
+                params.setSslSocketFactory(sslContext.getSocketFactory());
+
                 params.addHeader("uid", LoginManager.currentLoginUserId + "");
-//                params.addHeader("pass", "1");
+                params.addHeader("pass", "1");
 
                 params.addHeader("token", LoginManager.token);
                 String url = GlobalConstants.HttpUrl.IMG_DOWNLOAD;
