@@ -157,12 +157,13 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private void initData() {
        // x.image().clearCacheFiles();
 
+        bannerList.clear();
         titleArrayList.clear();
         imageArrayList.clear();
         urlArrayList.clear();
         getDataFromServer();
 
-        setPager();
+      //  setPager();
     }
 
     private void setPager() {
@@ -427,14 +428,14 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
-        Bitmap banner1 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner);
+       /* Bitmap banner1 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner);
         Bitmap banner2 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner2);
         Bitmap banner3 =BitmapFactory.decodeResource(CommonUtils.getContext().getResources(),R.mipmap.banner3);
         bannerList.add(banner1);
         bannerList.add(banner2);
-        bannerList.add(banner3);
+        bannerList.add(banner3);*/
 
-       // FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
+        FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
     }
 
     public void getDemandOrServiceListData() {
@@ -463,7 +464,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<BannerConfigBean> {
         @Override
         public void execute(BannerConfigBean data) {
-            List<BannerConfigBean.BannerBean> banner = data.getBanner();
+            final List<BannerConfigBean.BannerBean> banner = data.getBanner();
             for (BannerConfigBean.BannerBean bannerBean : banner) {
                 String title = bannerBean.getTitle();
                 String image = bannerBean.getImage();
@@ -471,6 +472,35 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 titleArrayList.add(title);
                 imageArrayList.add(image);
                 urlArrayList.add(url);
+            }
+
+            for (String imageUrl : imageArrayList) {
+                x.image().loadDrawable(imageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
+                    @Override
+                    public void onSuccess(Drawable result) {
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) result;
+                        Bitmap srcBitmap = bitmapDrawable.getBitmap();
+                        Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
+                        LogKit.d("=========="+roundedBitmap);
+                        bannerList.add(roundedBitmap);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        LogKit.v("Load banner pic onError");
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+                        LogKit.v("Load banner pic onCancelled");
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        LogKit.v("Load banner pic onFinished");
+                        setPager();
+                    }
+                });
             }
 
            // setPager();
