@@ -218,13 +218,15 @@ public class LoginManager {
             switch (platform) {
                 case QQ:
                     String QQ_access_token = data.get("access_token");
-                    String uid = data.get("uid");
+//                    String uid = data.get("uid");
+                    String uid = data.get("openid");
                     SpUtils.setString("QQ_token", QQ_access_token);
                     SpUtils.setString("QQ_uid", uid);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
-                    String openid = data.get("unionid");
+//                    String openid = data.get("unionid");
+                    String openid = data.get("openid");
                     SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
                     SpUtils.setString("WEIXIN_uid", openid);
                     break;

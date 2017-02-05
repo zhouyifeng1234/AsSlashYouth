@@ -17,7 +17,7 @@ public class MyBidServiceActivity extends Activity {
     public final static int activityRequestCode = 5555;
     public final static int activityResultCode=6666;//代表操作成功
 
-    private MyBidServiceModel mMyBidServiceModel;
+    public MyBidServiceModel mMyBidServiceModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,6 +5,7 @@ import com.slash.youth.http.protocol.BidTaskStatusProtocol;
 import com.slash.youth.http.protocol.CancelCollectionProtocol;
 import com.slash.youth.http.protocol.CollectionStatusProtocol;
 import com.slash.youth.http.protocol.CommentProtocol;
+import com.slash.youth.http.protocol.GetCommonLogProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
 import com.slash.youth.http.protocol.GetTaskItemProtocol;
 import com.slash.youth.http.protocol.MyTaskServiceDetailProtocol;
@@ -125,5 +126,19 @@ public class MyTaskEngine {
     public static void getCollectionStatus(BaseProtocol.IResultExecutor onGetCollectionStatusFinished, String type, String tid) {
         CollectionStatusProtocol collectionStatusProtocol = new CollectionStatusProtocol(type, tid);
         collectionStatusProtocol.getDataFromServer(onGetCollectionStatusFinished);
+    }
+
+
+    /**
+     * 一、[通用任务日志]-需求流程日志接口
+     *
+     * @param onGetLogFinished
+     * @param tid              需求or服务 任务ID
+     * @param type             1需求 or 2 服务
+     * @param roleid           1发布者 2预约者（抢单者）
+     */
+    public static void getLog(BaseProtocol.IResultExecutor onGetLogFinished, String tid, String type, String roleid) {
+        GetCommonLogProtocol getCommonLogProtocol = new GetCommonLogProtocol(tid, type, roleid);
+        getCommonLogProtocol.getDataFromServer(onGetLogFinished);
     }
 }

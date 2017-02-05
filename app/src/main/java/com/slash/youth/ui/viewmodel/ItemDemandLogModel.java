@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 
 import com.slash.youth.databinding.ItemDemandFlowLogBinding;
-import com.slash.youth.domain.DemandFlowLogList;
+import com.slash.youth.domain.CommonLogList;
 
 import java.text.SimpleDateFormat;
 
@@ -15,9 +15,9 @@ public class ItemDemandLogModel extends BaseObservable {
 
     ItemDemandFlowLogBinding mItemDemandFlowLogBinding;
     Activity mActivity;
-    DemandFlowLogList.LogInfo mLogInfo;
+    CommonLogList.CommonLogInfo mLogInfo;
 
-    public ItemDemandLogModel(ItemDemandFlowLogBinding itemDemandFlowLogBinding, Activity activity, DemandFlowLogList.LogInfo logInfo) {
+    public ItemDemandLogModel(ItemDemandFlowLogBinding itemDemandFlowLogBinding, Activity activity, CommonLogList.CommonLogInfo logInfo) {
         this.mActivity = activity;
         this.mItemDemandFlowLogBinding = itemDemandFlowLogBinding;
         this.mLogInfo = logInfo;
@@ -34,6 +34,6 @@ public class ItemDemandLogModel extends BaseObservable {
         String timeStr = sdf.format(mLogInfo.cts);
         mItemDemandFlowLogBinding.tvLogRecordTime.setText(timeStr);
 
-        mItemDemandFlowLogBinding.tvLogAction.setText(mLogInfo.action);
+        mItemDemandFlowLogBinding.tvLogAction.setText(mLogInfo.log);
     }
 }

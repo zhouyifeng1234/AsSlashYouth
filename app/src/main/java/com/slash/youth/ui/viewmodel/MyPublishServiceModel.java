@@ -18,12 +18,12 @@ import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyPublishServiceBinding;
 import com.slash.youth.databinding.ItemServiceFlowLogBinding;
+import com.slash.youth.domain.CommonLogList;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.ServiceFlowComplainResultBean;
-import com.slash.youth.domain.ServiceFlowLogList;
 import com.slash.youth.domain.ServiceInstalmentListBean;
 import com.slash.youth.domain.ServiceOrderInfoBean;
 import com.slash.youth.domain.UserInfoBean;
@@ -989,49 +989,63 @@ public class MyPublishServiceModel extends BaseObservable {
         }, soid + "");
     }
 
-    ArrayList<ServiceFlowLogList.LogInfo> logInfoList;
+    //    ArrayList<ServiceFlowLogList.LogInfo> logInfoList;
+    ArrayList<CommonLogList.CommonLogInfo> logInfoList = new ArrayList<CommonLogList.CommonLogInfo>();
 
     /**
      * 获取服务流程的日志
      */
     private void getServiceFlowLogData() {
-        ServiceEngine.getServiceFlowLog(new BaseProtocol.IResultExecutor<ServiceFlowLogList>() {
+//        ServiceEngine.getServiceFlowLog(new BaseProtocol.IResultExecutor<ServiceFlowLogList>() {
+//            @Override
+//            public void execute(ServiceFlowLogList dataBean) {
+//                logInfoList = dataBean.data.list;
+//
+//                if (logInfoList == null || logInfoList.size() <= 0) {
+//                    ServiceFlowLogList serviceFlowLogList = new ServiceFlowLogList();
+//                    ServiceFlowLogList.LogInfo logInfo2 = serviceFlowLogList.new LogInfo();
+//                    logInfo2.cts = System.currentTimeMillis();
+//                    logInfo2.action = "需求方预约了服务";
+//                    ServiceFlowLogList.LogInfo logInfo = serviceFlowLogList.new LogInfo();
+//                    logInfo.action = "开始支付";
+//                    logInfo.cts = System.currentTimeMillis() + 100;
+//                    logInfoList.add(logInfo2);
+//                    logInfoList.add(logInfo);
+//                }
+//
+//                setServiceFlowLogItemData();
+//            }
+//
+//            @Override
+//            public void executeResultError(String result) {
+//                ToastUtils.shortToast("获取服务流程日志失败:" + result);
+//            }
+//        }, tid + "");
+
+        MyTaskEngine.getLog(new BaseProtocol.IResultExecutor<CommonLogList>() {
             @Override
-            public void execute(ServiceFlowLogList dataBean) {
+            public void execute(CommonLogList dataBean) {
                 logInfoList = dataBean.data.list;
-
-                if (logInfoList == null || logInfoList.size() <= 0) {
-                    ServiceFlowLogList serviceFlowLogList = new ServiceFlowLogList();
-                    ServiceFlowLogList.LogInfo logInfo2 = serviceFlowLogList.new LogInfo();
-                    logInfo2.cts = System.currentTimeMillis();
-                    logInfo2.action = "需求方预约了服务";
-                    ServiceFlowLogList.LogInfo logInfo = serviceFlowLogList.new LogInfo();
-                    logInfo.action = "开始支付";
-                    logInfo.cts = System.currentTimeMillis() + 100;
-                    logInfoList.add(logInfo2);
-                    logInfoList.add(logInfo);
-                }
-
                 setServiceFlowLogItemData();
             }
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("获取服务流程日志失败:" + result);
+
             }
-        }, tid + "");
+        }, tid + "", "2", "1");
     }
 
     private void setServiceFlowLogItemData() {
         mActivityMyPublishServiceBinding.llServiceFlowLogs.removeAllViews();
         for (int i = logInfoList.size() - 1; i >= 0; i--) {
-            ServiceFlowLogList.LogInfo logInfo = logInfoList.get(i);
+            CommonLogList.CommonLogInfo logInfo = logInfoList.get(i);
             View itemLogInfo = inflateItemLogInfo(logInfo);
             mActivityMyPublishServiceBinding.llServiceFlowLogs.addView(itemLogInfo);
         }
     }
 
-    public View inflateItemLogInfo(ServiceFlowLogList.LogInfo logInfo) {
+    public View inflateItemLogInfo(CommonLogList.CommonLogInfo logInfo) {
         ItemServiceFlowLogBinding itemServiceFlowLogBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_service_flow_log, null, false);
         ItemServiceLogModel itemServiceLogModel = new ItemServiceLogModel(itemServiceFlowLogBinding, mActivity, logInfo);
         itemServiceFlowLogBinding.setItemServiceLogModel(itemServiceLogModel);

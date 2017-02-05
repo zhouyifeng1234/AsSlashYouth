@@ -15,9 +15,9 @@ import com.slash.youth.ui.viewmodel.MyBidDemandModel;
 public class MyBidDemandActivity extends Activity {
 
     public final static int activityRequestCode = 5555;
-    public final static int activityResultCode=6666;//代表操作成功
+    public final static int activityResultCode = 6666;//代表操作成功
 
-    private MyBidDemandModel mMyBidDemandModel;
+    public MyBidDemandModel mMyBidDemandModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

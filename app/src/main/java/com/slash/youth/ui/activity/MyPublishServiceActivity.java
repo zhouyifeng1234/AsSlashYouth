@@ -17,7 +17,7 @@ public class MyPublishServiceActivity extends Activity {
     public final static int activityRequestCode = 5555;
     public final static int activityResultCode = 6666;//代表操作成功
 
-    private MyPublishServiceModel mMyPublishServiceModel;
+    public MyPublishServiceModel mMyPublishServiceModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
