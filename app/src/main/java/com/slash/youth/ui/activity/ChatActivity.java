@@ -68,6 +68,7 @@ public class ChatActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == this.RESULT_OK) {
             if (requestCode == 10) {//从相册选择图片发送
+//                这里是用了系统自带的选择图片方式
                 if (data != null) {
                     try {
                         Bitmap bitmap = data.getParcelableExtra("data");
@@ -84,6 +85,7 @@ public class ChatActivity extends Activity {
                     }
                 }
             } else if (requestCode == 20) {//拍摄图片发送
+                //这是手机自带的拍照功能
                 if (data != null) {
                     Bitmap bmpSource = (Bitmap) data.getExtras().get("data");
                     File cacheDir = getCacheDir();

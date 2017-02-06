@@ -87,6 +87,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -1488,25 +1491,59 @@ public class ChatModel extends BaseObservable {
 
     //拍照发送图片
     public void photoGraph(View v) {
+        //这是手机自带的拍照功能
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mActivity.startActivityForResult(intentCamera, 20);
-//        sendPic("/storage/sdcard1/4.jpg");
+        sendPic("/storage/sdcard1/4.jpg");
     }
 
     //选择相册图片发送
     public void getAlbumPic(View v) {
-        Intent intentAddPicture = new Intent();
-        intentAddPicture.setType("image/*");
-        intentAddPicture.setAction(Intent.ACTION_GET_CONTENT);
-        intentAddPicture.putExtra("crop", "true");
-        intentAddPicture.putExtra("outputX", CommonUtils.dip2px(91));
-        intentAddPicture.putExtra("outputY", CommonUtils.dip2px(91));
-        intentAddPicture.putExtra("outputFormat", "JPEG");
-        intentAddPicture.putExtra("aspectX", 1);
-        intentAddPicture.putExtra("aspectY", 1);
-        intentAddPicture.putExtra("return-data", true);
-        mActivity.startActivityForResult(intentAddPicture, 10);
+        //这里是用了系统自带的选择图片的方式
+//        Intent intentAddPicture = new Intent();
+//        intentAddPicture.setType("image/*");
+//        intentAddPicture.setAction(Intent.ACTION_GET_CONTENT);
+//        intentAddPicture.putExtra("crop", "true");
+//        intentAddPicture.putExtra("outputX", CommonUtils.dip2px(91));
+//        intentAddPicture.putExtra("outputY", CommonUtils.dip2px(91));
+//        intentAddPicture.putExtra("outputFormat", "JPEG");
+//        intentAddPicture.putExtra("aspectX", 1);
+//        intentAddPicture.putExtra("aspectY", 1);
+//        intentAddPicture.putExtra("return-data", true);
+//        mActivity.startActivityForResult(intentAddPicture, 10);
+
 //        sendPic("/storage/sdcard1/4.jpg");
+
+//        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+//        GalleryFinal.openGalleryMuti(10, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+//            @Override
+//            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+//                for (PhotoInfo photoInfo : resultList) {
+//                    String photoPath = photoInfo.getPhotoPath();
+//                    sendPic(photoPath);
+//                }
+//            }
+//
+//            @Override
+//            public void onHanlderFailure(int requestCode, String errorMsg) {
+//
+//            }
+//        });
+
+        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                PhotoInfo photoInfo = resultList.get(0);
+                String photoPath = photoInfo.getPhotoPath();
+                sendPic(photoPath);
+            }
+
+            @Override
+            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+            }
+        });
     }
 
     //交换联系方式
