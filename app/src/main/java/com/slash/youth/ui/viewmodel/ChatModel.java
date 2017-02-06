@@ -2064,6 +2064,7 @@ public class ChatModel extends BaseObservable {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            LogKit.v("vpViewPicAdapter position:" + position);
             ImageView ivViewPic = new ImageView(CommonUtils.getContext());
             String sourcePicUrl;
             if (position + 1 > listHisSourcePicLocalPath.size()) {//不是历史
@@ -2083,6 +2084,7 @@ public class ChatModel extends BaseObservable {
                     sourcePicUrl = listHisThumbPicLocalPath.get(position);
                 }
             }
+            LogKit.v("sourcePicUrl:" + sourcePicUrl);
             BitmapKit.bindImage(ivViewPic, sourcePicUrl, ImageView.ScaleType.FIT_CENTER, 0);
             ivViewPic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2101,24 +2103,25 @@ public class ChatModel extends BaseObservable {
     };
 
     private void setOpenViewPicClick(View view) {
-        ImageView imgView = (ImageView) view;
-        imgView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogKit.v("点击查看大图...");
-                String tagInfo = (String) v.getTag();
-                String[] tagInfoArr = tagInfo.split(":");
-                int viewPicIndex;
-                if ("true".equals(tagInfoArr[0])) {//是历史
-                    viewPicIndex = Integer.parseInt(tagInfoArr[1]);
-                    viewPicIndex = listHisSourcePicLocalPath.size() - (viewPicIndex + 1);
-                } else {//不是历史
-                    viewPicIndex = listHisSourcePicLocalPath.size() + Integer.parseInt(tagInfoArr[1]);
-                }
-                mActivityChatBinding.vpViewPic.setCurrentItem(viewPicIndex);
-                setViewPicVisibility(View.VISIBLE);
-            }
-        });
+//        ImageView imgView = (ImageView) view;
+//        imgView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LogKit.v("点击查看大图...");
+//                String tagInfo = (String) v.getTag();
+//                String[] tagInfoArr = tagInfo.split(":");
+//                int viewPicIndex;
+//                if ("true".equals(tagInfoArr[0])) {//是历史
+//                    viewPicIndex = Integer.parseInt(tagInfoArr[1]);
+//                    viewPicIndex = listHisSourcePicLocalPath.size() - (viewPicIndex + 1);
+//                } else {//不是历史
+//                    viewPicIndex = listHisSourcePicLocalPath.size() + Integer.parseInt(tagInfoArr[1]);
+//                }
+//                LogKit.v("viewPicIndex:" + viewPicIndex);
+//                mActivityChatBinding.vpViewPic.setCurrentItem(viewPicIndex);
+//                setViewPicVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     /**
