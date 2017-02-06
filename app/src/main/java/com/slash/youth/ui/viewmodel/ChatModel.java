@@ -20,13 +20,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -66,6 +69,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
+import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
@@ -104,7 +108,7 @@ import io.rong.message.VoiceMessage;
  */
 public class ChatModel extends BaseObservable {
 
-    ActivityChatBinding mActivityChatBinding;
+    public ActivityChatBinding mActivityChatBinding;
     Activity mActivity;
     private TextView mTvChatFriendName;
     private LinearLayout mLlChatContent;//聊天内容容器
@@ -124,6 +128,14 @@ public class ChatModel extends BaseObservable {
     private int getBaseDataTotalCount = 0;
     ChatCmdShareTaskBean chatCmdShareTaskBean;
     ChatCmdBusinesssCardBean chatCmdBusinesssCardBean;
+
+    ArrayList<String> listThumbPicLocalPath = new ArrayList<String>();//聊天消息中缩略图的本地路径
+    ArrayList<String> listSourcePicLocalPath = new ArrayList<String>();//聊天消息中原图的本地保存地址
+    ArrayList<String> listSourcePicUrl = new ArrayList<String>();//聊天消息中原图的远程url
+
+    ArrayList<String> listHisThumbPicLocalPath = new ArrayList<String>();//聊天消息中缩略图的本地路径
+    ArrayList<String> listHisSourcePicLocalPath = new ArrayList<String>();//聊天消息中原图的本地保存地址
+    ArrayList<String> listHisSourcePicUrl = new ArrayList<String>();//聊天消息中原图的远程url
 
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
@@ -194,6 +206,7 @@ public class ChatModel extends BaseObservable {
                 displayRelatedTask();
             }
         }
+        mActivityChatBinding.vpViewPic.setAdapter(vpViewPicAdapter);
     }
 
     private void initView() {
@@ -821,19 +834,23 @@ public class ChatModel extends BaseObservable {
 
     }
 
+    View myPicView;
+    boolean isAttachSuccessful = false;
+
     /**
      * 发送图片
      */
     public void sendPic(String imgPath) {
         File imageSource = new File(imgPath);
-        File imageThumb = new File(CommonUtils.getContext().getCacheDir(), "thumb" + System.currentTimeMillis());
+        final File imageThumb = new File(CommonUtils.getContext().getCacheDir(), "thumb" + System.currentTimeMillis());
 
         try {
             Bitmap bmpSource = BitmapFactory.decodeFile(imgPath);
 
             // 创建缩略图变换矩阵。
             Matrix m = new Matrix();
-            m.setRectToRect(new RectF(0, 0, bmpSource.getWidth(), bmpSource.getHeight()), new RectF(0, 0, 160, 160), Matrix.ScaleToFit.CENTER);
+//            m.setRectToRect(new RectF(0, 0, bmpSource.getWidth(), bmpSource.getHeight()), new RectF(0, 0, 160, 160), Matrix.ScaleToFit.CENTER);
+            m.setRectToRect(new RectF(0, 0, bmpSource.getWidth(), bmpSource.getHeight()), new RectF(0, 0, CommonUtils.dip2px(160), CommonUtils.dip2px(160)), Matrix.ScaleToFit.CENTER);
 
             // 生成缩略图。
             Bitmap bmpThumb = Bitmap.createBitmap(bmpSource, 0, 0, bmpSource.getWidth(), bmpSource.getHeight(), m, true);
@@ -849,22 +866,57 @@ public class ChatModel extends BaseObservable {
             e.printStackTrace();
         }
 
-        ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
-        long sendTime = System.currentTimeMillis();
+        final ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
 
-        final View myPicView = createMyPicView(Uri.fromFile(imageThumb), false, imageMessage, targetId);
         RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, null, null, new RongIMClient.SendImageMessageCallback() {
 
             @Override
             public void onAttached(Message message) {
                 //保存数据库成功
                 LogKit.v("保存数据库成功");
+
+                long sendTime = System.currentTimeMillis();
+//                myPicView = createMyPicView(Uri.fromFile(imageThumb), false, imageMessage, targetId);
+                ImageMessage imageMessage1 = (ImageMessage) message.getContent();
+                myPicView = createMyPicView(imageMessage1.getThumUri(), false, imageMessage, targetId);
+                long sentTime = System.currentTimeMillis();
+                displayMsgTimeView(sentTime);
+                View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
+                SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
+                listSendMsg.add(sendMessageBean);
+                mLlChatContent.addView(myPicView);
+
+                recordSourceImageUrl(message, false);//保存原图的地址
+                View imgView = myPicView.findViewById(R.id.iv_chat_my_pic);
+                imgView.setTag("false:" + (listSourcePicLocalPath.size() - 1));
+                setOpenViewPicClick(imgView);
+                vpViewPicAdapter.notifyDataSetChanged();
+
+                isAttachSuccessful = true;
             }
 
             @Override
             public void onError(Message message, RongIMClient.ErrorCode code) {
                 //发送失败
                 LogKit.v("发送失败");
+                if (!isAttachSuccessful) {
+                    long sendTime = System.currentTimeMillis();
+//                    myPicView = createMyPicView(Uri.fromFile(imageThumb), false, imageMessage, targetId);
+                    ImageMessage imageMessage1 = (ImageMessage) message.getContent();
+                    myPicView = createMyPicView(imageMessage1.getThumUri(), false, imageMessage, targetId);
+                    long sentTime = System.currentTimeMillis();
+                    displayMsgTimeView(sentTime);
+                    View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
+                    SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
+                    listSendMsg.add(sendMessageBean);
+                    mLlChatContent.addView(myPicView);
+
+                    recordSourceImageUrl(message, false);//保存原图的地址
+                    View imgView = myPicView.findViewById(R.id.iv_chat_my_pic);
+                    imgView.setTag("false:" + (listSourcePicLocalPath.size() - 1));
+                    setOpenViewPicClick(imgView);
+                    vpViewPicAdapter.notifyDataSetChanged();
+                }
                 View view = myPicView.findViewById(R.id.iv_chat_send_msg_again);
                 view.setVisibility(View.VISIBLE);
             }
@@ -884,15 +936,6 @@ public class ChatModel extends BaseObservable {
                 LogKit.v("发送进度:" + progress);
             }
         });
-
-        long sentTime = System.currentTimeMillis();
-        displayMsgTimeView(sentTime);
-
-        View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
-        SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
-        listSendMsg.add(sendMessageBean);
-
-        mLlChatContent.addView(myPicView);
 
         setUploadPicLayerVisibility(View.GONE);
     }
@@ -1724,8 +1767,13 @@ public class ChatModel extends BaseObservable {
         }
         //接收聊天的图片消息
         else if (objectName.equals("RC:ImgMsg")) {
+            recordSourceImageUrl(message, true);//保存原图的地址
             ImageMessage imageMessage = (ImageMessage) message.getContent();
             View myPicView = createMyPicView(imageMessage.getThumUri(), isRead, null, null);
+            View imgView = myPicView.findViewById(R.id.iv_chat_my_pic);
+            imgView.setTag("true:" + (listHisSourcePicLocalPath.size() - 1));
+            setOpenViewPicClick(imgView);
+            vpViewPicAdapter.notifyDataSetChanged();
             if (!isRead) {
                 View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
@@ -1802,12 +1850,21 @@ public class ChatModel extends BaseObservable {
     }
 
     private void displayReceiveImageMsg(Message message, boolean isLoadHis) {
+        recordSourceImageUrl(message, isLoadHis);//保存原图的地址
         ImageMessage imageMessage = (ImageMessage) message.getContent();
         Uri thumUri = imageMessage.getThumUri();
 //                Uri localUri = imageMessage.getLocalUri();
         Uri remoteUri = imageMessage.getRemoteUri();
         LogKit.v("remoteUri:" + remoteUri.toString());
         View friendPicView = createFriendPicView(thumUri);
+        View imgView = friendPicView.findViewById(R.id.iv_chat_friend_pic);
+        if (isLoadHis) {
+            imgView.setTag(isLoadHis + ":" + (listHisSourcePicLocalPath.size() - 1));
+        } else {
+            imgView.setTag(isLoadHis + ":" + (listSourcePicLocalPath.size() - 1));
+        }
+        setOpenViewPicClick(imgView);
+        vpViewPicAdapter.notifyDataSetChanged();
         if (isLoadHis) {
             mLlChatContent.addView(friendPicView, 0);
         } else {
@@ -1994,6 +2051,120 @@ public class ChatModel extends BaseObservable {
         });
     }
 
+    PagerAdapter vpViewPicAdapter = new PagerAdapter() {
+        @Override
+        public int getCount() {
+            return listSourcePicLocalPath.size() + listHisSourcePicLocalPath.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+            String sourcePicUrl;
+            if (position + 1 > listHisSourcePicLocalPath.size()) {//不是历史
+                sourcePicUrl = listSourcePicLocalPath.get(position - listHisSourcePicLocalPath.size());
+                if (TextUtils.isEmpty(sourcePicUrl)) {
+                    sourcePicUrl = listSourcePicUrl.get(position - listHisSourcePicLocalPath.size());
+                }
+                if (TextUtils.isEmpty(sourcePicUrl)) {
+                    sourcePicUrl = listThumbPicLocalPath.get(position - listHisSourcePicLocalPath.size());
+                }
+            } else {//是历史
+                sourcePicUrl = listHisSourcePicLocalPath.get(position);
+                if (TextUtils.isEmpty(sourcePicUrl)) {
+                    sourcePicUrl = listHisSourcePicUrl.get(position);
+                }
+                if (TextUtils.isEmpty(sourcePicUrl)) {
+                    sourcePicUrl = listHisThumbPicLocalPath.get(position);
+                }
+            }
+            BitmapKit.bindImage(ivViewPic, sourcePicUrl, ImageView.ScaleType.FIT_CENTER, 0);
+            ivViewPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setViewPicVisibility(View.GONE);
+                }
+            });
+            container.addView(ivViewPic);
+            return ivViewPic;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    };
+
+    private void setOpenViewPicClick(View view) {
+        ImageView imgView = (ImageView) view;
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogKit.v("点击查看大图...");
+                String tagInfo = (String) v.getTag();
+                String[] tagInfoArr = tagInfo.split(":");
+                int viewPicIndex;
+                if ("true".equals(tagInfoArr[0])) {//是历史
+                    viewPicIndex = Integer.parseInt(tagInfoArr[1]);
+                    viewPicIndex = listHisSourcePicLocalPath.size() - (viewPicIndex + 1);
+                } else {//不是历史
+                    viewPicIndex = listHisSourcePicLocalPath.size() + Integer.parseInt(tagInfoArr[1]);
+                }
+                mActivityChatBinding.vpViewPic.setCurrentItem(viewPicIndex);
+                setViewPicVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * 保存原图的地址
+     *
+     * @param imageMessage
+     */
+    private void recordSourceImageUrl(Message message, boolean isLoadHis) {
+        ImageMessage imageMessage = (ImageMessage) message.getContent();
+        if (isLoadHis) {
+            if (imageMessage.getThumUri() != null) {
+                listHisThumbPicLocalPath.add(0, imageMessage.getThumUri().toString());
+            } else {
+                listHisThumbPicLocalPath.add(0, "");
+            }
+            if (imageMessage.getLocalUri() != null) {
+                listHisSourcePicLocalPath.add(0, imageMessage.getLocalUri().toString());
+            } else {
+                listHisSourcePicLocalPath.add(0, "");
+            }
+            LogKit.v("getRemoteUri:" + imageMessage.getRemoteUri());
+            if (imageMessage.getRemoteUri() != null) {
+                listHisSourcePicUrl.add(0, imageMessage.getRemoteUri().toString());
+            } else {
+                listHisSourcePicUrl.add(0, "");
+            }
+        } else {
+            if (imageMessage.getThumUri() != null) {
+                listThumbPicLocalPath.add(imageMessage.getThumUri().toString());
+            } else {
+                listThumbPicLocalPath.add("");
+            }
+            if (imageMessage.getLocalUri() != null) {
+                listSourcePicLocalPath.add(imageMessage.getLocalUri().toString());
+            } else {
+                listSourcePicLocalPath.add("");
+            }
+            LogKit.v("getRemoteUri:" + imageMessage.getRemoteUri());
+            if (imageMessage.getRemoteUri() != null) {
+                listSourcePicUrl.add(imageMessage.getRemoteUri().toString());
+            } else {
+                listSourcePicUrl.add("");
+            }
+        }
+    }
+
     private int voiceInputIconVisibility = View.VISIBLE;
     private int textInputIconVisibility = View.GONE;
     private int inputTextEtVisibility = View.VISIBLE;
@@ -2010,6 +2181,18 @@ public class ChatModel extends BaseObservable {
     private int loadLayerVisibility = View.GONE;
 
     private int targetUserIconVisibility;
+
+    private int viewPicVisibility = View.GONE;
+
+    @Bindable
+    public int getViewPicVisibility() {
+        return viewPicVisibility;
+    }
+
+    public void setViewPicVisibility(int viewPicVisibility) {
+        this.viewPicVisibility = viewPicVisibility;
+        notifyPropertyChanged(BR.viewPicVisibility);
+    }
 
     @Bindable
     public int getTargetUserIconVisibility() {

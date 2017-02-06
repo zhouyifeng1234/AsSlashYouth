@@ -65,10 +65,6 @@ public class ChatMyPicModel extends BaseObservable {
         }
     }
 
-    public void loadOriginalPic(View v) {
-
-    }
-
     //重新发送消息
     public void sendMsgAgain(View v) {
         if (mImageMessage != null && !TextUtils.isEmpty(mTargetId)) {

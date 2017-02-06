@@ -26,18 +26,20 @@
 
 
         <ImageView
-            android:scaleType="centerCrop"
-            android:maxHeight="116dp"
-            android:maxWidth="140dp"
             android:id="@+id/iv_chat_friend_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="11dp"
             android:background="@drawable/chat_box_bg"
+            android:maxHeight="160dp"
+            android:maxWidth="160dp"
             android:paddingLeft="4dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/chat_pic_test"
         />
+        <!--android:maxHeight="116dp"-->
+        <!--android:maxWidth="140dp"-->
 
 
     </LinearLayout>

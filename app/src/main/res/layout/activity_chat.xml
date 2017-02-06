@@ -20,9 +20,9 @@
                 android:background="#31C5E4">
 
                 <ImageView
-                    android:layout_gravity="center_vertical"
                     android:layout_width="36dp"
                     android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
                     android:onClick="@{chatModel.goBack}"
                     android:padding="12dp"
                     android:src="@mipmap/nav_back"
@@ -559,6 +559,17 @@
             </LinearLayout>
 
         </FrameLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_view_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:visibility="@{chatModel.viewPicVisibility}"
+        >
+            <!--android:visibility="gone"-->
+            <!--android:visibility="@{chatModel.viewPicVisibility}"-->
+        </android.support.v4.view.ViewPager>
 
     </FrameLayout>
 
