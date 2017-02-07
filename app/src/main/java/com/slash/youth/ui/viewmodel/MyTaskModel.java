@@ -567,6 +567,7 @@ public class MyTaskModel extends BaseObservable {
 //        ToastUtils.shortToast("去浏览任务");
         Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
         mActivity.startActivity(intentHomeActivity);
+        mActivity.finish();
     }
 
     //关闭发布任务对话框

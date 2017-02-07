@@ -1232,107 +1232,135 @@ public class ChatModel extends BaseObservable {
 
     //同意添加对方为好友
     public void agreeAddFriend(final TextView tvDeny, final TextView tvAgree) {
-        //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
-        if (friendRelationShipStatus != 2) {
-            //调用同意添加好友的接口
-            MsgManager.agreeAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                @Override
-                public void execute(CommonResultBean dataBean) {
-                    //同意添加好友成功，此时双方已经是好友关系了
-                    tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
-                    tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
-                    tvDeny.setEnabled(false);
-                    tvAgree.setEnabled(false);
+        MsgManager.getAddFriendStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                int status = dataBean.data.status;
+                friendRelationShipStatus = status;
 
-                    TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
-                    textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
-
-                    RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
+                if (friendRelationShipStatus == 2) {
+                    //调用同意添加好友的接口
+                    MsgManager.agreeAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                         @Override
-                        public void onSuccess(Integer integer) {
-                            long sentTime = System.currentTimeMillis();
-                            displayMsgTimeView(sentTime);
+                        public void execute(CommonResultBean dataBean) {
+                            //同意添加好友成功，此时双方已经是好友关系了
+                            tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+                            tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+                            tvDeny.setEnabled(false);
+                            tvAgree.setEnabled(false);
 
-                            View infoView = createInfoView("您已同意添加对方为好友");
+                            TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
+                            textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
+
+                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                                @Override
+                                public void onSuccess(Integer integer) {
+                                    long sentTime = System.currentTimeMillis();
+                                    displayMsgTimeView(sentTime);
+
+                                    View infoView = createInfoView("您已同意添加对方为好友");
+                                    mLlChatContent.addView(infoView);
+                                    MsgManager.updateConversationList(targetId);//更新会话列表
+                                }
+
+                                @Override
+                                public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void executeResultError(String result) {
+                            View infoView = createInfoView("同意添加好友申请失败");
                             mLlChatContent.addView(infoView);
-                            MsgManager.updateConversationList(targetId);//更新会话列表
                         }
-
-                        @Override
-                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
-                        }
-                    });
-                }
-
-                @Override
-                public void executeResultError(String result) {
-                    View infoView = createInfoView("同意添加好友申请失败");
+                    }, targetId, "对方已同意添加您为好友");
+                } else if (friendRelationShipStatus == 0) {//陌生人
+                    View infoView = createInfoView("状态错误，对方未向您发送添加好友请求");
+                    mLlChatContent.addView(infoView);
+                } else if (friendRelationShipStatus == 1) {//表示我主动加了他，他还未回复
+                    View infoView = createInfoView("状态错误，您已经向对方发送添加好友请求");
+                    mLlChatContent.addView(infoView);
+                } else if (friendRelationShipStatus == 3) {//表示我主动加了他，他还未回复
+                    View infoView = createInfoView("状态错误，你们已经是好友关系");
                     mLlChatContent.addView(infoView);
                 }
-            }, targetId, "对方已同意添加您为好友");
-        } else if (friendRelationShipStatus == 0) {//陌生人
-            View infoView = createInfoView("状态错误，对方未向您发送添加好友请求");
-            mLlChatContent.addView(infoView);
-        } else if (friendRelationShipStatus == 1) {//表示我主动加了他，他还未回复
-            View infoView = createInfoView("状态错误，您已经向对方发送添加好友请求");
-            mLlChatContent.addView(infoView);
-        } else if (friendRelationShipStatus == 3) {//表示我主动加了他，他还未回复
-            View infoView = createInfoView("状态错误，你们已经是好友关系");
-            mLlChatContent.addView(infoView);
-        }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                //这里不会执行
+            }
+        }, targetId);
+
     }
 
     //拒绝添加对方为好友
     public void refuseAddFriend(final TextView tvDeny, final TextView tvAgree) {
-        //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
-        if (friendRelationShipStatus != 2) {
-            //调用拒绝添加好友的接口
-            MsgManager.rejectAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                @Override
-                public void execute(CommonResultBean dataBean) {
-                    tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
-                    tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
-                    tvDeny.setEnabled(false);
-                    tvAgree.setEnabled(false);
+        MsgManager.getAddFriendStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                int status = dataBean.data.status;
+                friendRelationShipStatus = status;
 
-                    TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
-                    textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
-
-                    RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
+                if (friendRelationShipStatus == 2) {
+                    //调用拒绝添加好友的接口
+                    MsgManager.rejectAddFriend(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                         @Override
-                        public void onSuccess(Integer integer) {
-                            long sentTime = System.currentTimeMillis();
-                            displayMsgTimeView(sentTime);
+                        public void execute(CommonResultBean dataBean) {
+                            tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
+                            tvAgree.setBackgroundResource(R.drawable.shape_chat_agree_change_contact_way_bg);
+                            tvDeny.setEnabled(false);
+                            tvAgree.setEnabled(false);
 
-                            View infoView = createInfoView("您已拒绝添加对方为好友");
+                            TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
+                            textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
+
+                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                                @Override
+                                public void onSuccess(Integer integer) {
+                                    long sentTime = System.currentTimeMillis();
+                                    displayMsgTimeView(sentTime);
+
+                                    View infoView = createInfoView("您已拒绝添加对方为好友");
+                                    mLlChatContent.addView(infoView);
+                                    MsgManager.updateConversationList(targetId);//更新会话列表
+                                }
+
+                                @Override
+                                public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void executeResultError(String result) {
+                            View infoView = createInfoView("拒绝添加好友申请失败");
                             mLlChatContent.addView(infoView);
-                            MsgManager.updateConversationList(targetId);//更新会话列表
                         }
-
-                        @Override
-                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
-                        }
-                    });
-                }
-
-                @Override
-                public void executeResultError(String result) {
-                    View infoView = createInfoView("拒绝添加好友申请失败");
+                    }, targetId, "对方拒绝添加您为好友");
+                } else if (friendRelationShipStatus == 0) {//陌生人
+                    View infoView = createInfoView("状态错误，对方未向您发送添加好友请求");
+                    mLlChatContent.addView(infoView);
+                } else if (friendRelationShipStatus == 1) {//表示我主动加了他，他还未回复
+                    View infoView = createInfoView("状态错误，您已经向对方发送添加好友请求");
+                    mLlChatContent.addView(infoView);
+                } else if (friendRelationShipStatus == 3) {//表示我主动加了他，他还未回复
+                    View infoView = createInfoView("状态错误，你们已经是好友关系");
                     mLlChatContent.addView(infoView);
                 }
-            }, targetId, "对方拒绝添加您为好友");
-        } else if (friendRelationShipStatus == 0) {//陌生人
-            View infoView = createInfoView("状态错误，对方未向您发送添加好友请求");
-            mLlChatContent.addView(infoView);
-        } else if (friendRelationShipStatus == 1) {//表示我主动加了他，他还未回复
-            View infoView = createInfoView("状态错误，您已经向对方发送添加好友请求");
-            mLlChatContent.addView(infoView);
-        } else if (friendRelationShipStatus == 3) {//表示我主动加了他，他还未回复
-            View infoView = createInfoView("状态错误，你们已经是好友关系");
-            mLlChatContent.addView(infoView);
-        }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                //这里不会执行
+            }
+        }, targetId);
+
     }
 
 
@@ -1886,23 +1914,49 @@ public class ChatModel extends BaseObservable {
     private void displayReceiveOtherCmdMsg(Message message, boolean isLoadHis) {
         TextMessage textMessage = (TextMessage) message.getContent();
         String content = textMessage.getContent();
-        String extra = textMessage.getExtra();
+        final String extra = textMessage.getExtra();
 
 //                String name = commandMessage.getName();
 //                String data = commandMessage.getData();
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         View msgView = null;
         if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
             //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
-            boolean isCanAddFriend;
-            if (friendRelationShipStatus == 2) {
-                isCanAddFriend = true;
-            } else {
-                isCanAddFriend = false;
-            }
-            ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
-            msgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
+            if (isLoadHis) {
+                boolean isCanAddFriend;
+                if (friendRelationShipStatus == 2) {
+                    isCanAddFriend = true;
+                } else {
+                    isCanAddFriend = false;
+                }
+                ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
+                msgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
 //            mLlChatContent.addView(createOtherSendAddFriendView(chatCmdAddFriendBean));
+            } else {
+                //如果不是历史消息，当对方发送添加好友请求的时候，好友关系就已经变了，所以必须重新获取
+                MsgManager.getAddFriendStatus(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                    @Override
+                    public void execute(CommonResultBean dataBean) {
+                        int status = dataBean.data.status;
+                        friendRelationShipStatus = status;
+
+                        boolean isCanAddFriend;
+                        if (friendRelationShipStatus == 2) {
+                            isCanAddFriend = true;
+                        } else {
+                            isCanAddFriend = false;
+                        }
+                        ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
+                        View msgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
+                        mLlChatContent.addView(msgView);
+                    }
+
+                    @Override
+                    public void executeResultError(String result) {
+                        //这里不会执行
+                    }
+                }, targetId);
+            }
         } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
             ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(extra, ChatCmdShareTaskBean.class);
             msgView = createOtherShareTaskView(chatCmdShareTaskBean);

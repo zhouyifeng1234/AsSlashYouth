@@ -435,17 +435,16 @@
                                         android:layout_width="15dp"
                                         android:layout_height="15dp"
                                         android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="19dp"
                                         android:src="@mipmap/location_icon_detail"/>
+                                    <!--android:layout_marginLeft="19dp"-->
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-
+                                        android:layout_marginLeft="5dp"
                                         android:text="@{serviceDetailModel.serviceUserPlace}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"/>
-                                    <!--android:layout_marginLeft="5dp"-->
 
                                 </LinearLayout>
 

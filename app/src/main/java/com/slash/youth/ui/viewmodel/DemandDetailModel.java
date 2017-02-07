@@ -338,11 +338,14 @@ public class DemandDetailModel extends BaseObservable {
                     getCollectionStatus();
                 }
                 setDemandTitle(demand.title);
-                if (demand.uid == LoginManager.currentLoginUserId) {
-                    setTopTitle("需求详情");
-                } else {
-                    setTopTitle(demand.title);
-                }
+
+//                if (demand.uid == LoginManager.currentLoginUserId) {
+//                    setTopTitle("需求详情");
+//                } else {
+//                    setTopTitle(demand.title);
+//                }
+                setTopTitle(demand.title);
+
                 String starttimeStr = "";
                 if (demand.starttime != 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
@@ -504,7 +507,11 @@ public class DemandDetailModel extends BaseObservable {
                 } else {
                     userPlace = uinfo.province + uinfo.city;
                 }
-                setDemandUserPlace(userPlace);
+                if (TextUtils.isEmpty(userPlace)) {
+                    setDemandUserPlace("暂未填写");
+                } else {
+                    setDemandUserPlace(userPlace);
+                }
 
                 if (uid != LoginManager.currentLoginUserId) {
                     getRecommendDemandData(uid);//获取相似需求推荐

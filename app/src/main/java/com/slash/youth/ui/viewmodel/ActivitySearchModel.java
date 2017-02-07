@@ -2,51 +2,34 @@ package com.slash.youth.ui.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.blankj.utilcode.utils.RegexUtils;
-import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySearchBinding;
-import com.slash.youth.databinding.SearchNeedResultTabBinding;
-import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.ItemSearchBean;
 import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.SearchHistoryEntity;
-import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.http.protocol.SearchAssociativeProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
-import com.slash.youth.ui.adapter.PagerSearchItemAdapter;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
-import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.StringUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by zhouyifeng on 2016/9/18.
@@ -64,7 +47,7 @@ public class ActivitySearchModel extends BaseObservable {
     private SearchHistoryEntityDao searchHistoryEntityDao;
     private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding,SearchActivity searchActivity,SearchHistoryEntityDao searchHistoryEntityDao,CityHistoryEntityDao cityHistoryEntityDao) {
+    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding, SearchActivity searchActivity, SearchHistoryEntityDao searchHistoryEntityDao, CityHistoryEntityDao cityHistoryEntityDao) {
         this.mActivitySearchBinding = activitySearchBinding;
         this.searchActivity = searchActivity;
         this.searchHistoryEntityDao = searchHistoryEntityDao;
@@ -77,7 +60,7 @@ public class ActivitySearchModel extends BaseObservable {
     //点击直接搜索框,搜索历史
     public void etSearch(View v) {
         currentActivity.changeView(4);
-        SearchAssociationModel searchDialogModel = new SearchAssociationModel(currentActivity.searchListviewAssociationBinding,searchHistoryEntityDao,adapter);
+        SearchAssociationModel searchDialogModel = new SearchAssociationModel(currentActivity.searchListviewAssociationBinding, searchHistoryEntityDao, adapter);
         currentActivity.searchListviewAssociationBinding.setSearchAssociationModel(searchDialogModel);
         showHistoryData();
     }
@@ -111,12 +94,12 @@ public class ActivitySearchModel extends BaseObservable {
                     //保存在数据库
                     saveHistoryData(searchText);
                     showSearchAllReasultView(searchText);
-                } else if(!StringUtils.isSearchNumberContent(searchText)){
+                } else if (!StringUtils.isSearchNumberContent(searchText)) {
                     saveHistoryData(searchText);
                     showSearchAllReasultView(searchText);
-                }else {
+                } else {
                     ToastUtils.shortToast("输入有效字符");
-        }
+                }
                 break;
         }
     }
@@ -179,33 +162,33 @@ public class ActivitySearchModel extends BaseObservable {
     //保存数据在数据库
     private void saveHistoryData(String text) {
         long count = searchHistoryEntityDao.count();
-        SearchHistoryEntity searchHistoryEntity = new SearchHistoryEntity(count+1,text);
+        SearchHistoryEntity searchHistoryEntity = new SearchHistoryEntity(count + 1, text);
         searchHistoryEntityDao.insert(searchHistoryEntity);
     }
 
     //读取数据库
     private void showHistoryData() {
-    search_contentlist.clear();
-    List<SearchHistoryEntity> SearchHistoryList = searchHistoryEntityDao.loadAll();
+        search_contentlist.clear();
+        List<SearchHistoryEntity> SearchHistoryList = searchHistoryEntityDao.loadAll();
         Collections.reverse(SearchHistoryList);
-        if(SearchHistoryList.size()!=0){
-            if(SearchHistoryList.size()<5&&SearchHistoryList.size()>=0){
+        if (SearchHistoryList.size() != 0) {
+            if (SearchHistoryList.size() < 5 && SearchHistoryList.size() >= 0) {
                 for (SearchHistoryEntity searchHistoryEntity : SearchHistoryList) {
                     String searchHistory = searchHistoryEntity.getSearchHistory();
-                    search_contentlist.add(new ItemSearchBean(searchHistory,true));
+                    search_contentlist.add(new ItemSearchBean(searchHistory, true));
                 }
-            }else {
-                for (int i = 0; i <=5; i++) {
+            } else {
+                for (int i = 0; i < 5; i++) {
                     SearchHistoryEntity searchHistoryEntity = SearchHistoryList.get(i);
                     String searchHistory = searchHistoryEntity.getSearchHistory();
-                    search_contentlist.add(new ItemSearchBean(searchHistory,true));
+                    search_contentlist.add(new ItemSearchBean(searchHistory, true));
                 }
             }
-        }else {
+        } else {
             LogKit.d("没有搜索历史记录");
         }
 
-        adapter = new SearchHistoryListAdapter(search_contentlist,searchHistoryEntityDao);
+        adapter = new SearchHistoryListAdapter(search_contentlist, searchHistoryEntityDao);
         currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
         onItemClick();
     }
@@ -213,14 +196,14 @@ public class ActivitySearchModel extends BaseObservable {
     //直接搜索结果
     private void showSearchAllReasultView(String text) {
         currentActivity.changeView(3);
-        SearchResultAllModel searchResultAllModel = new SearchResultAllModel(currentActivity.activityResultAllBinding, text,cityHistoryEntityDao);
+        SearchResultAllModel searchResultAllModel = new SearchResultAllModel(currentActivity.activityResultAllBinding, text, cityHistoryEntityDao);
         currentActivity.activityResultAllBinding.setSearchResultAllModel(searchResultAllModel);
     }
 
     //获取搜索联想词
     private void getSearchContentData(String text, int offset, int limit) {
         String etText = mActivitySearchBinding.etActivitySearchAssociation.getText().toString();
-        if(!TextUtils.isEmpty(etText)){
+        if (!TextUtils.isEmpty(etText)) {
             SearchManager.getSearchAssociativeTag(new onGetSearchAssociativeTag(), etText, offset, limit);
         }
     }
@@ -237,10 +220,10 @@ public class ActivitySearchModel extends BaseObservable {
                     search_contentlist.add(new ItemSearchBean(tagBean.tag, false));
                 }
             }
-            if(list.size() == 0){
+            if (list.size() == 0) {
                 currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.GONE);
             }
-            adapter = new SearchHistoryListAdapter(search_contentlist,searchHistoryEntityDao);
+            adapter = new SearchHistoryListAdapter(search_contentlist, searchHistoryEntityDao);
             currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
             onItemClick();
         }

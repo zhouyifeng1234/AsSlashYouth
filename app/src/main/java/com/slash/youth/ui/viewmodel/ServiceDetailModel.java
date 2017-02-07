@@ -448,11 +448,14 @@ public class ServiceDetailModel extends BaseObservable {
                         getCollectionStatus();
                     }
                     setTitle(service.title);
-                    if (service.uid == LoginManager.currentLoginUserId) {
-                        setTopTitle("服务详情");
-                    } else {
-                        setTopTitle(service.title);
-                    }
+
+//                    if (service.uid == LoginManager.currentLoginUserId) {
+//                        setTopTitle("服务详情");
+//                    } else {
+//                        setTopTitle(service.title);
+//                    }
+                    setTopTitle(service.title);
+
                     if (service.quoteunit == 9) {
                         setQuote("¥" + (int) service.quote + "元");
                     } else if (service.quoteunit > 0 && service.quoteunit < 9) {
@@ -597,7 +600,11 @@ public class ServiceDetailModel extends BaseObservable {
                 } else {
                     userPlace = uinfo.province + uinfo.city;
                 }
-                setServiceUserPlace(userPlace);
+                if (TextUtils.isEmpty(userPlace)) {
+                    setServiceUserPlace("暂未填写");
+                } else {
+                    setServiceUserPlace(userPlace);
+                }
 
                 if (uid != LoginManager.currentLoginUserId) {
                     getRecommendServiceData(uid);//获取相似服务推荐
@@ -774,7 +781,7 @@ public class ServiceDetailModel extends BaseObservable {
             ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
             String fileId = listViewPicFileIds.get(position);
 //            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);
-            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId, ImageView.ScaleType.FIT_CENTER,0);
+            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId, ImageView.ScaleType.FIT_CENTER, 0);
             ivViewPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
