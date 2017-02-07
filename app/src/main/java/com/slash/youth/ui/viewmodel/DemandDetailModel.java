@@ -533,21 +533,26 @@ public class DemandDetailModel extends BaseObservable {
      * 从接口获取相似需求推荐的数据，当服务者视角看需求的时候，需要显示推荐需求
      */
     private void getRecommendDemandData(final long uid) {
-        DemandEngine.getDetailRecommendDemand(new BaseProtocol.IResultExecutor<DetailRecommendDemandList>() {
-            @Override
-            public void execute(DetailRecommendDemandList dataBean) {
-                listRecommendDemand = dataBean.data.list;
-                setRecommendDemandItemData();
+        if (!isFromDetail) {
+            DemandEngine.getDetailRecommendDemand(new BaseProtocol.IResultExecutor<DetailRecommendDemandList>() {
+                @Override
+                public void execute(DetailRecommendDemandList dataBean) {
+                    listRecommendDemand = dataBean.data.list;
+                    setRecommendDemandItemData();
 //                if (uid != LoginManager.currentLoginUserId) {
 //                    getBidDemandStatus(uid);
 //                }
-            }
+                }
 
-            @Override
-            public void executeResultError(String result) {
-                ToastUtils.shortToast("获取需求服务列表失败");
-            }
-        }, demandId + "", "5");
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("获取需求服务列表失败");
+                }
+            }, demandId + "", "5");
+        } else {
+            setDemandRecommendLabelVisibility(View.GONE);
+            setDemandRecommendItemVisibility(View.GONE);
+        }
     }
 
     private void setRecommendDemandItemData() {
@@ -1470,6 +1475,18 @@ public class DemandDetailModel extends BaseObservable {
     private int viewPicVisibility = View.GONE;
 
     private int demandRecommendLabelVisibility = View.GONE;
+
+    private int demandRecommendItemVisibility;
+
+    @Bindable
+    public int getDemandRecommendItemVisibility() {
+        return demandRecommendItemVisibility;
+    }
+
+    public void setDemandRecommendItemVisibility(int demandRecommendItemVisibility) {
+        this.demandRecommendItemVisibility = demandRecommendItemVisibility;
+        notifyPropertyChanged(BR.demandRecommendItemVisibility);
+    }
 
     @Bindable
     public int getDemandRecommendLabelVisibility() {

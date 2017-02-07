@@ -315,6 +315,11 @@ public class ChatModel extends BaseObservable {
 //                    //3表示是好友关系
 //                }
                 friendRelationShipStatus = status;
+                if (friendRelationShipStatus == 3) {
+                    mActivityChatBinding.tvAddfriendBtnText.setText("已是好友");
+                } else {
+                    mActivityChatBinding.tvAddfriendBtnText.setText("加好友");
+                }
 
                 getBaseDataFinishedCount++;
                 if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
@@ -1262,6 +1267,8 @@ public class ChatModel extends BaseObservable {
                                     View infoView = createInfoView("您已同意添加对方为好友");
                                     mLlChatContent.addView(infoView);
                                     MsgManager.updateConversationList(targetId);//更新会话列表
+
+                                    mActivityChatBinding.tvAddfriendBtnText.setText("已是好友");
                                 }
 
                                 @Override
@@ -1911,7 +1918,13 @@ public class ChatModel extends BaseObservable {
         }
     }
 
+    View receiveOtherCmdMsgView = null;
+    boolean isAddReceiveOtherCmdMsgView;
+
     private void displayReceiveOtherCmdMsg(Message message, boolean isLoadHis) {
+        receiveOtherCmdMsgView = null;
+        isAddReceiveOtherCmdMsgView = false;
+
         TextMessage textMessage = (TextMessage) message.getContent();
         String content = textMessage.getContent();
         final String extra = textMessage.getExtra();
@@ -1919,7 +1932,6 @@ public class ChatModel extends BaseObservable {
 //                String name = commandMessage.getName();
 //                String data = commandMessage.getData();
         final Gson gson = new Gson();
-        View msgView = null;
         if (content.contentEquals(MsgManager.CHAT_CMD_ADD_FRIEND)) {
             //0表示陌生人 1表示我主动加了他，他还未回复 2表示他主动加了我，我还未同意  3表示是好友关系
             if (isLoadHis) {
@@ -1930,7 +1942,7 @@ public class ChatModel extends BaseObservable {
                     isCanAddFriend = false;
                 }
                 ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
-                msgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
+                receiveOtherCmdMsgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
 //            mLlChatContent.addView(createOtherSendAddFriendView(chatCmdAddFriendBean));
             } else {
                 //如果不是历史消息，当对方发送添加好友请求的时候，好友关系就已经变了，所以必须重新获取
@@ -1947,8 +1959,9 @@ public class ChatModel extends BaseObservable {
                             isCanAddFriend = false;
                         }
                         ChatCmdAddFriendBean chatCmdAddFriendBean = gson.fromJson(extra, ChatCmdAddFriendBean.class);
-                        View msgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
-                        mLlChatContent.addView(msgView);
+                        receiveOtherCmdMsgView = createOtherSendAddFriendView(chatCmdAddFriendBean, isCanAddFriend);
+                        mLlChatContent.addView(receiveOtherCmdMsgView);
+                        isAddReceiveOtherCmdMsgView = true;
                     }
 
                     @Override
@@ -1959,11 +1972,11 @@ public class ChatModel extends BaseObservable {
             }
         } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
             ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(extra, ChatCmdShareTaskBean.class);
-            msgView = createOtherShareTaskView(chatCmdShareTaskBean);
+            receiveOtherCmdMsgView = createOtherShareTaskView(chatCmdShareTaskBean);
 //            mLlChatContent.addView(createOtherShareTaskView(chatCmdShareTaskBean));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
             ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = gson.fromJson(extra, ChatCmdBusinesssCardBean.class);
-            msgView = createOtherSendBusinessCardView(chatCmdBusinesssCardBean);
+            receiveOtherCmdMsgView = createOtherSendBusinessCardView(chatCmdBusinesssCardBean);
 //            mLlChatContent.addView(createOtherSendBusinessCardView(chatCmdBusinesssCardBean));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
             //1标识已经交换过  -1标识尚未交换过
@@ -1974,23 +1987,26 @@ public class ChatModel extends BaseObservable {
                 isChangeContact = false;
             }
             ChatCmdChangeContactBean chatCmdChangeContactBean = gson.fromJson(extra, ChatCmdChangeContactBean.class);
-            msgView = createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone, isChangeContact);
+            receiveOtherCmdMsgView = createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone, isChangeContact);
 //            mLlChatContent.addView(createOtherChangeContactWayView(chatCmdChangeContactBean, chatCmdChangeContactBean.phone));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND)) {
             try {
                 JSONObject jo = new JSONObject(extra);
                 String info = jo.getString("content");
-                msgView = createInfoView(info);
+                receiveOtherCmdMsgView = createInfoView(info);
 //                View infoView = createInfoView(info);
 //                mLlChatContent.addView(infoView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            if (!isLoadHis) {
+                mActivityChatBinding.tvAddfriendBtnText.setText("已是好友");
+            }
         } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
             try {
                 JSONObject jo = new JSONObject(extra);
                 String info = jo.getString("content");
-                msgView = createInfoView(info);
+                receiveOtherCmdMsgView = createInfoView(info);
 //                View infoView = createInfoView(info);
 //                mLlChatContent.addView(infoView);
             } catch (JSONException e) {
@@ -2000,7 +2016,7 @@ public class ChatModel extends BaseObservable {
             try {
                 JSONObject jo = new JSONObject(extra);
                 String phone = jo.getString("content");
-                msgView = createChangeContactWayInfoView(targetName, phone);
+                receiveOtherCmdMsgView = createChangeContactWayInfoView(targetName, phone);
 //                View changeContactWayInfoView = createChangeContactWayInfoView(targetName, phone);
 //                mLlChatContent.addView(changeContactWayInfoView);
             } catch (JSONException e) {
@@ -2010,19 +2026,20 @@ public class ChatModel extends BaseObservable {
             try {
                 JSONObject jo = new JSONObject(extra);
                 String info = jo.getString("content");
-                msgView = createInfoView(info);
+                receiveOtherCmdMsgView = createInfoView(info);
 //                View infoView = createInfoView(info);
 //                mLlChatContent.addView(infoView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        if (isLoadHis) {
-            mLlChatContent.addView(msgView, 0);
-        } else {
-            mLlChatContent.addView(msgView);
+        if (receiveOtherCmdMsgView != null && isAddReceiveOtherCmdMsgView != true) {
+            if (isLoadHis) {
+                mLlChatContent.addView(receiveOtherCmdMsgView, 0);
+            } else {
+                mLlChatContent.addView(receiveOtherCmdMsgView);
+            }
         }
-
     }
 
     public void displayRelatedTask() {

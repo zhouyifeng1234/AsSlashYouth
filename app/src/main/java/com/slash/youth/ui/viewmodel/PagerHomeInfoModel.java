@@ -69,15 +69,6 @@ public class PagerHomeInfoModel extends BaseObservable {
 //
 //            }
 //        });
-        if (MsgManager.taskMessageCount == -1) {
-            MsgManager.taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
-        }
-        if (MsgManager.taskMessageCount > 0) {
-            setTaskMessageCountPointVisibility(View.VISIBLE);
-            setTaskMessageCount(MsgManager.taskMessageCount + "");
-        } else {
-            setTaskMessageCountPointVisibility(View.GONE);
-        }
 
         getDataFromServer();
     }
@@ -106,6 +97,16 @@ public class PagerHomeInfoModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
+        if (MsgManager.taskMessageCount == -1) {
+            MsgManager.taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
+        }
+        if (MsgManager.taskMessageCount > 0) {
+            setTaskMessageCountPointVisibility(View.VISIBLE);
+            setTaskMessageCount(MsgManager.taskMessageCount + "");
+        } else {
+            setTaskMessageCountPointVisibility(View.GONE);
+        }
+
         MsgManager.getConversationList(new BaseProtocol.IResultExecutor<ConversationListBean>() {
             @Override
             public void execute(ConversationListBean dataBean) {

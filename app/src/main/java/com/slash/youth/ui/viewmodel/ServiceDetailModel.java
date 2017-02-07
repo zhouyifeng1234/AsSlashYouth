@@ -626,21 +626,26 @@ public class ServiceDetailModel extends BaseObservable {
      * 从接口获取相似服务推荐的数据，当需求者视角看服务的时候，需要显示推荐服务
      */
     public void getRecommendServiceData(final long uid) {
-        ServiceEngine.getDetailRecommendService(new BaseProtocol.IResultExecutor<DetailRecommendServiceList>() {
-            @Override
-            public void execute(DetailRecommendServiceList dataBean) {
-                listRecommendService = dataBean.data.list;
-                setRecommendServiceItemData();
+        if (!isFromDetail) {
+            ServiceEngine.getDetailRecommendService(new BaseProtocol.IResultExecutor<DetailRecommendServiceList>() {
+                @Override
+                public void execute(DetailRecommendServiceList dataBean) {
+                    listRecommendService = dataBean.data.list;
+                    setRecommendServiceItemData();
 //                if (uid != LoginManager.currentLoginUserId) {
 //                    getCollectionStatus();
 //                }
-            }
+                }
 
-            @Override
-            public void executeResultError(String result) {
-                ToastUtils.shortToast("获取推荐服务列表失败");
-            }
-        }, serviceId + "", "5");
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("获取推荐服务列表失败");
+                }
+            }, serviceId + "", "5");
+        } else {
+            setServiceRecommendLabelVisibililty(View.GONE);
+            setServiceRecommendItemVisibililty(View.GONE);
+        }
     }
 
     boolean isCollectionService;
@@ -831,6 +836,18 @@ public class ServiceDetailModel extends BaseObservable {
     private int serviceDetailLocationVisibility;
 
     private int serviceRecommendLabelVisibililty;
+
+    private int serviceRecommendItemVisibililty;
+
+    @Bindable
+    public int getServiceRecommendItemVisibililty() {
+        return serviceRecommendItemVisibililty;
+    }
+
+    public void setServiceRecommendItemVisibililty(int serviceRecommendItemVisibililty) {
+        this.serviceRecommendItemVisibililty = serviceRecommendItemVisibililty;
+        notifyPropertyChanged(BR.serviceRecommendItemVisibililty);
+    }
 
     @Bindable
     public int getServiceRecommendLabelVisibililty() {

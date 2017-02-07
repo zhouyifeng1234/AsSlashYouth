@@ -938,6 +938,7 @@
                         android:layout_marginLeft="7dp"
                         android:layout_marginRight="7dp"
                         android:orientation="vertical"
+                        android:visibility="@{serviceDetailModel.serviceRecommendItemVisibililty}"
                     >
 
                     </LinearLayout>
