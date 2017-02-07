@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
+import com.slash.youth.domain.CityHistoryEntity;
 import com.slash.youth.domain.ItemSearchBean;
+import com.slash.youth.domain.SearchHistoryEntity;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.ui.activity.CityLocationActivity;
 import com.slash.youth.ui.adapter.SearchHistoryListAdapter;
 import com.slash.youth.utils.CommonUtils;
@@ -32,6 +35,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by zss on 2016/10/18.
@@ -46,11 +50,13 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     private int locationType;
     private String fileName ="data/data/com.slash.youth";
     private File file;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public HeaderLocationCityInfoModel(HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding, Intent intent, Activity mActivity) {
+    public HeaderLocationCityInfoModel(HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding, Intent intent, Activity mActivity,CityHistoryEntityDao cityHistoryEntityDao) {
         this.headerListviewLocationCityInfoListBinding = headerListviewLocationCityInfoListBinding;
         this.intent = intent;
         this.mActivity = mActivity;
+        this.cityHistoryEntityDao = cityHistoryEntityDao;
         initData();
         initView();
         listener();
@@ -75,13 +81,18 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
                 headerListviewLocationCityInfoListBinding.tvTitle.setVisibility(View.VISIBLE);
             }
         }
-
         locationType = intent.getIntExtra("locationType", -1);
     }
 
     //保存最近访问的城市
     public void saveCity(String city) {
-        file = new File(fileName, "CurrentyCity.text");
+    LogKit.d("======save======="+city);
+
+    CityHistoryEntity cityHistoryEntity = new CityHistoryEntity();
+    cityHistoryEntity.setCity(city);
+    cityHistoryEntityDao.insert(cityHistoryEntity);
+
+        /*file = new File(fileName, "CurrentyCity.text");
         if(!file.exists()){
             try {
                 file.createNewFile();
@@ -89,20 +100,15 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
                 e.printStackTrace();
             }
         }
-
         if(!file.exists()){
             file.mkdir();
         }
-
         try {
             FileWriter fw = new FileWriter(file, true);
             fw.write(city);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         //IO 读写
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
@@ -111,18 +117,44 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     //读取最近访问的城市
     private void initCityData() {
         cityLists.clear();
         currenty_access_lists.clear();
+
+        List<CityHistoryEntity> cityHistoryEntities = cityHistoryEntityDao.loadAll();
+        for (CityHistoryEntity cityHistoryEntity : cityHistoryEntities) {
+            String city = cityHistoryEntity.getCity();
+            LogKit.d("===read====="+city);
+        }
+
+        Collections.reverse(cityHistoryEntities);
+        if(cityHistoryEntities.size()!=0){
+            if(cityHistoryEntities.size()>=0&&cityHistoryEntities.size()<3){
+                for (CityHistoryEntity cityHistoryEntity : cityHistoryEntities) {
+                    String city = cityHistoryEntity.getCity();
+                    currenty_access_lists.add(city);
+                }
+            }else {
+                for (int i = 0; i <= 3; i++) {
+                    CityHistoryEntity cityHistoryEntity = cityHistoryEntities.get(i);
+                    String city = cityHistoryEntity.getCity();
+                    currenty_access_lists.add(city);
+                }
+            }
+        }else {
+        LogKit.d("没有最近访问的城市");
+        }
+
+       /* cityLists.clear();
+        currenty_access_lists.clear();
         file = new File(fileName, "CurrentyCity.text");
         if(!file.exists()){
             file.mkdir();
         }
-
         //存储集合
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -152,7 +184,7 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
             }
         }else {
             LogKit.d("没有最近访问的城市");
-        }
+        }*/
     }
 
     private void listener() {

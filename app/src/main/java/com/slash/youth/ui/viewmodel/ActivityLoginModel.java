@@ -117,8 +117,6 @@ public class ActivityLoginModel extends BaseObservable {
 //                if (connectToRoungCloudCount > 3) {
 //                    ToastUtils.shortToast("使用临时token链接融云失败");
 //                } else {
-//
-//
 //                    connectToRongCloud();
 //                }
             }
@@ -205,6 +203,8 @@ public class ActivityLoginModel extends BaseObservable {
 
                     //链接融云
                     MsgManager.connectRongCloud(rongToken);
+
+                    SpUtils.setBoolean("showMoreDemandDialog", false);
 
                     Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
                     mActivity.startActivity(intentHomeActivity);
@@ -344,7 +344,6 @@ public class ActivityLoginModel extends BaseObservable {
             String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
             ActivityCompat.requestPermissions(loginActivity, mPermissionList, 123);
         }
-
     }
 
     public void qqLogin(View v) {
@@ -618,5 +617,4 @@ public class ActivityLoginModel extends BaseObservable {
             }
         }
     }
-
 }

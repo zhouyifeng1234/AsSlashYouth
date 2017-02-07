@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityEditorIdentityBinding;
 import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.viewmodel.EditorIdentityModel;
 import com.slash.youth.ui.viewmodel.FirstPagerDemandModel;
@@ -28,10 +29,14 @@ public class FirstPagerMoreActivity extends Activity {
     private static final String  TITLE ="更多服务";
     public static int barHeight;
     private FirstPagerDemandModel firstPagerDemandModel;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化访问最近城市数据库
+        cityHistoryEntityDao = SlashApplication.getInstances().getDaoSession().getCityHistoryEntityDao();
+
         Intent intent = getIntent();
         boolean isDemand = intent.getBooleanExtra("isDemand", false);
         activityFirstPagerMoreBinding = DataBindingUtil.setContentView(this, R.layout.activity_first_pager_more);
@@ -40,7 +45,7 @@ public class FirstPagerMoreActivity extends Activity {
         if(!isDemand){
             activityFirstPagerMoreBinding.tvFirstPagerTitle.setText(TITLE);
         }
-        firstPagerDemandModel = new FirstPagerDemandModel(activityFirstPagerMoreBinding,isDemand,this);
+        firstPagerDemandModel = new FirstPagerDemandModel(activityFirstPagerMoreBinding,isDemand,this,cityHistoryEntityDao);
         activityFirstPagerMoreBinding.setFirstPagerDemandModel(firstPagerDemandModel);
     }
 }

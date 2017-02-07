@@ -22,6 +22,8 @@ import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.engine.SearchManager;
+import com.slash.youth.gen.CityHistoryEntityDao;
+import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.adapter.ListDropDownAdapter;
@@ -77,10 +79,12 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     private int startY;
     private int startIndex;
     private HeaderLocationCityInfoModel headerLocationCityInfoModel;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding,String tag) {
+    public SearchNeedResultTabModel(SearchNeedResultTabBinding mSearchNeedResultTabBinding,String tag,CityHistoryEntityDao cityHistoryEntityDao) {
         this.mSearchNeedResultTabBinding = mSearchNeedResultTabBinding;
         this.tag = tag;
+        this.cityHistoryEntityDao = cityHistoryEntityDao;
         initData();
         addView();
         back();
@@ -276,7 +280,7 @@ public class SearchNeedResultTabModel extends BaseObservable  {
         Intent intent = currentActivity.getIntent();
         intent.putExtra("locationType",1);
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()),R.layout.header_listview_location_city_info_list,null,false);
-        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,currentActivity);
+        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,currentActivity,cityHistoryEntityDao);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
 

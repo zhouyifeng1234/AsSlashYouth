@@ -17,6 +17,7 @@ import com.slash.youth.databinding.ActivitySearchBinding;
 import com.slash.youth.databinding.SearchPagerFirstBinding;
 import com.slash.youth.domain.SearchAllBean;
 import com.slash.youth.engine.SearchManager;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SearchAllProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
@@ -51,10 +52,12 @@ public class SearchPagerFirstModel extends BaseObservable {
     private String demadHint = "搜需求";
     private String serviceHint = "搜服务";
     private String userHint = "搜人";
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public SearchPagerFirstModel(SearchPagerFirstBinding searchPagerFirstBinding,ActivitySearchBinding activitySearchBinding) {
+    public SearchPagerFirstModel(SearchPagerFirstBinding searchPagerFirstBinding,ActivitySearchBinding activitySearchBinding,CityHistoryEntityDao cityHistoryEntityDao) {
         this.searchPagerFirstBinding = searchPagerFirstBinding;
         this.activitySearchBinding = activitySearchBinding;
+        this.cityHistoryEntityDao = cityHistoryEntityDao;
     }
 
     //搜索需求
@@ -87,7 +90,7 @@ public class SearchPagerFirstModel extends BaseObservable {
     public void showView(String title) {
         currentActivity.changeView(1);
         currentActivity.searchActivityHotServiceBinding.tvSearchTitle.setText(title);
-        SearchActivityHotServiceModel searchActivityHotServiceModel = new SearchActivityHotServiceModel(currentActivity.searchActivityHotServiceBinding,currentActivity.activitySearchBinding);
+        SearchActivityHotServiceModel searchActivityHotServiceModel = new SearchActivityHotServiceModel(currentActivity.searchActivityHotServiceBinding,currentActivity.activitySearchBinding,cityHistoryEntityDao);
         currentActivity.searchActivityHotServiceBinding.setSearchActivityHotServiceModel(searchActivityHotServiceModel);
     }
 }

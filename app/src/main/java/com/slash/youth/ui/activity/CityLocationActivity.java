@@ -30,6 +30,7 @@ import com.slash.youth.domain.CityClassBean;
 import com.slash.youth.domain.ListCityBean;
 import com.slash.youth.domain.ListProvinceBean;
 import com.slash.youth.domain.LocationCityInfo;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
@@ -84,19 +85,22 @@ public class CityLocationActivity extends Activity {
     private int itemHeight;
     private int startHeight;
     private int startIndex;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化访问最近城市数据库
+        cityHistoryEntityDao = SlashApplication.getInstances().getDaoSession().getCityHistoryEntityDao();
+
         intent = getIntent();
         //打开数据库，读取最近访问的城市
-
         mActivityCityLocationBinding = DataBindingUtil.setContentView(this, R.layout.activity_city_location);
         mActivityCityLocationModel = new ActivityCityLocationModel(mActivityCityLocationBinding, this);
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
-        HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this);
+        HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this,cityHistoryEntityDao);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
         ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());

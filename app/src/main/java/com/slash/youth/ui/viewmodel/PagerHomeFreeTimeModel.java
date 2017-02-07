@@ -48,6 +48,10 @@ import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,7 +160,6 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     private void initData() {
        // x.image().clearCacheFiles();
-
         bannerList.clear();
         titleArrayList.clear();
         imageArrayList.clear();
@@ -176,6 +179,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             @Override
             public int getCount() {
                 return Integer.MAX_VALUE;
+               // return bannerList.size();
             }
 
             @Override
@@ -286,7 +290,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 container.removeView((View) object);
             }
         });
-        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
+        //pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(1);
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
 
             private float defaultScale = (float) 8 / (float) 9;
@@ -372,13 +377,13 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void initBanner(int advImageUrlIndex) {
-     //   String title = titleArrayList.get(advImageUrlIndex);
-      //  String bannerUrl = urlArrayList.get(advImageUrlIndex);
+        String title = titleArrayList.get(advImageUrlIndex);
+        String bannerUrl = urlArrayList.get(advImageUrlIndex);
 
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("bannerIndex", advImageUrlIndex);
-       // intentCommonQuestionActivity.putExtra("title", title);
-       // intentCommonQuestionActivity.putExtra("bannerUrl", bannerUrl);
+        intentCommonQuestionActivity.putExtra("title", title);
+        intentCommonQuestionActivity.putExtra("bannerUrl", bannerUrl);
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
@@ -475,13 +480,47 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             }
 
             for (String imageUrl : imageArrayList) {
-                x.image().loadDrawable(imageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
+                //缓存加载
+                x.image().loadFile(imageUrl, ImageOptions.DEFAULT, new Callback.CacheCallback<File>() {
+                    @Override
+                    public boolean onCache(File result) {
+                        if(result!=null){
+                            return true;
+                        }else {
+                            return false;
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(File result) {
+                        Bitmap srcBitmap = BitmapFactory.decodeFile(result.getAbsolutePath());
+                        Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
+                        bannerList.add(roundedBitmap);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        setPager();
+                    }
+                });
+
+                //直接下载
+              /*  x.image().loadDrawable(imageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
                     @Override
                     public void onSuccess(Drawable result) {
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) result;
                         Bitmap srcBitmap = bitmapDrawable.getBitmap();
                         Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
-                        LogKit.d("=========="+roundedBitmap);
                         bannerList.add(roundedBitmap);
                     }
 
@@ -500,10 +539,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                         LogKit.v("Load banner pic onFinished");
                         setPager();
                     }
-                });
+                });*/
             }
-
-           // setPager();
         }
 
         @Override

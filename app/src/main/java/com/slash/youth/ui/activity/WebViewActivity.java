@@ -38,9 +38,9 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private String questionTitle  = "常见问题";
     private String influenceTitle  = "影响力";
-    private String bannerTitle_1  = "只有你能决定你有多优秀";
+   /* private String bannerTitle_1  = "只有你能决定你有多优秀";
     private String bannerTitle_2  = "斜杠青年创业故事";
-    private String bannerTitle_3  = "互联网行业岗位故事全纪录";
+    private String bannerTitle_3  = "互联网行业岗位故事全纪录";*/
     private FrameLayout fl;
     private String influence;
     private String commonQuestion;
@@ -60,7 +60,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
             webUrl = GlobalConstants.WebPath.WEB_COMMON_QUESTION;
         }
 
-        bannerIndex = intent.getIntExtra("bannerIndex", -1);
+       /* bannerIndex = intent.getIntExtra("bannerIndex", -1);
         if(bannerIndex !=-1){
             switch (bannerIndex){
                 case 0:
@@ -73,11 +73,11 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
                     webUrl =GlobalConstants.WebPath.WEB_BANNER_3;
                     break;
             }
-        }
+        }*/
 
 
-       /* bannerTitle = intent.getStringExtra("title");
-        webUrl = intent.getStringExtra("bannerUrl");*/
+        bannerTitle = intent.getStringExtra("title");
+        webUrl = intent.getStringExtra("bannerUrl");
 
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
         ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding,webUrl,this);
@@ -95,9 +95,8 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
             title.setText(questionTitle);
         }
 
-       // title.setText(bannerTitle);
-
-        if(bannerIndex !=-1){
+        title.setText(bannerTitle);
+        /*if(bannerIndex !=-1){
             switch (bannerIndex){
                 case 0:
                     title.setText(bannerTitle_1);
@@ -109,7 +108,7 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
                     title.setText(bannerTitle_3);
                     break;
             }
-        }
+        }*/
         fl = (FrameLayout) findViewById(R.id.fl_title_right);
         fl.setVisibility(View.GONE);
     }

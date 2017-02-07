@@ -42,10 +42,10 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
         int isauth = data.getIsauth();
         switch (isauth){
             case 1:
-                itemListviewHomeContactsVisitorBinding.ivVisitorV.setVisibility(View.GONE);
+                itemListviewHomeContactsVisitorBinding.ivVisitorV.setVisibility(View.VISIBLE);
                 break;
             case 0:
-                itemListviewHomeContactsVisitorBinding.ivVisitorV.setVisibility(View.VISIBLE);
+                itemListviewHomeContactsVisitorBinding.ivVisitorV.setVisibility(View.GONE);
                 break;
         }
 

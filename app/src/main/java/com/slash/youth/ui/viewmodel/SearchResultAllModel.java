@@ -17,6 +17,7 @@ import com.slash.youth.domain.SearchItemDemandBean;
 import com.slash.youth.domain.SearchServiceItemBean;
 import com.slash.youth.domain.SearchUserItemBean;
 import com.slash.youth.engine.SearchManager;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SearchAllProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
@@ -48,10 +49,12 @@ public class SearchResultAllModel extends BaseObservable {
     private  ArrayList<SearchAllBean.DataBean.DemandListBean> demandListBeen = new ArrayList<>();
     private  ArrayList<SearchAllBean.DataBean.ServiceListBean> serviceListBeen = new ArrayList<>();
     private ArrayList<SearchAllBean.DataBean.UserListBean> userListBeen = new ArrayList<>();
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public SearchResultAllModel(ActivityResultAllBinding activityResultAllBinding ,String text) {
+    public SearchResultAllModel(ActivityResultAllBinding activityResultAllBinding ,String text,CityHistoryEntityDao cityHistoryEntityDao) {
         this.activityResultAllBinding = activityResultAllBinding;
         this.text = text;
+        this.cityHistoryEntityDao = cityHistoryEntityDao;
         initData();
         listener();
     }
@@ -76,7 +79,7 @@ public class SearchResultAllModel extends BaseObservable {
                 List<SearchAllBean.DataBean.UserListBean> userList = data.getUserList();
                 userListBeen.addAll(userList);
 
-                SearchResultAlAdapter searchResultAlAdapter = new SearchResultAlAdapter(demandListBeen,serviceListBeen,userListBeen,text);
+                SearchResultAlAdapter searchResultAlAdapter = new SearchResultAlAdapter(demandListBeen,serviceListBeen,userListBeen,text,cityHistoryEntityDao);
                 activityResultAllBinding.lvSearchAll.setAdapter(searchResultAlAdapter);
             }
         }

@@ -197,6 +197,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         textViewTag.setText(textTag);
         textViewTag.setTextColor(Color.parseColor("#31C5E4"));
         textViewTag.setTextSize(CommonUtils.dip2px(4));
+       // textViewTag.setTextSize(11);
         textViewTag.setPadding(CommonUtils.dip2px(8), CommonUtils.dip2px(6), CommonUtils.dip2px(8), CommonUtils.dip2px(6));
         textViewTag.setBackgroundColor(Color.parseColor("#d6f3fa"));
         return textViewTag;

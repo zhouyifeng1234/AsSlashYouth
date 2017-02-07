@@ -25,7 +25,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/logo_xuni"
+                android:src="@mipmap/slash_helper_square"
                 />
 
         </RelativeLayout>

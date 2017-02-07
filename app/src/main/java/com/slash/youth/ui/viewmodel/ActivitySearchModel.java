@@ -21,6 +21,7 @@ import com.slash.youth.domain.SearchAssociativeBean;
 import com.slash.youth.domain.SearchHistoryEntity;
 import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.engine.SearchManager;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.SearchAssociativeProtocol;
@@ -61,11 +62,13 @@ public class ActivitySearchModel extends BaseObservable {
     private int limit = 5;
     private SearchActivity searchActivity;
     private SearchHistoryEntityDao searchHistoryEntityDao;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding,SearchActivity searchActivity,SearchHistoryEntityDao searchHistoryEntityDao) {
+    public ActivitySearchModel(ActivitySearchBinding activitySearchBinding,SearchActivity searchActivity,SearchHistoryEntityDao searchHistoryEntityDao,CityHistoryEntityDao cityHistoryEntityDao) {
         this.mActivitySearchBinding = activitySearchBinding;
         this.searchActivity = searchActivity;
         this.searchHistoryEntityDao = searchHistoryEntityDao;
+        this.cityHistoryEntityDao = cityHistoryEntityDao;
 
         etSearchListener();
         getSearchContentData(searchText, offset, limit);
@@ -192,7 +195,7 @@ public class ActivitySearchModel extends BaseObservable {
                     search_contentlist.add(new ItemSearchBean(searchHistory,true));
                 }
             }else {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i <=5; i++) {
                     SearchHistoryEntity searchHistoryEntity = SearchHistoryList.get(i);
                     String searchHistory = searchHistoryEntity.getSearchHistory();
                     search_contentlist.add(new ItemSearchBean(searchHistory,true));
@@ -210,7 +213,7 @@ public class ActivitySearchModel extends BaseObservable {
     //直接搜索结果
     private void showSearchAllReasultView(String text) {
         currentActivity.changeView(3);
-        SearchResultAllModel searchResultAllModel = new SearchResultAllModel(currentActivity.activityResultAllBinding, text);
+        SearchResultAllModel searchResultAllModel = new SearchResultAllModel(currentActivity.activityResultAllBinding, text,cityHistoryEntityDao);
         currentActivity.activityResultAllBinding.setSearchResultAllModel(searchResultAllModel);
     }
 

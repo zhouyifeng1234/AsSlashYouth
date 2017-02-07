@@ -13,6 +13,7 @@ import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.databinding.SearchListviewAssociationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.databinding.SearchPagerFirstBinding;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.gen.DaoSession;
 import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
@@ -35,17 +36,19 @@ public class SearchActivity extends Activity {
     public SearchListviewAssociationBinding searchListviewAssociationBinding;
     public static int titleHeight;
     public  SearchHistoryEntityDao searchHistoryEntityDao;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化获取数据库
         searchHistoryEntityDao = SlashApplication.getInstances().getDaoSession().getSearchHistoryEntityDao();
+        cityHistoryEntityDao = SlashApplication.getInstances().getDaoSession().getCityHistoryEntityDao();
 
         CommonUtils.setCurrentActivity(this);
         //加载搜索框页面
         activitySearchBinding = DataBindingUtil.setContentView(this, R.layout.activity_search);
-        ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding,this,searchHistoryEntityDao);
+        ActivitySearchModel activitySearchModel = new ActivitySearchModel(activitySearchBinding,this,searchHistoryEntityDao,cityHistoryEntityDao);
         activitySearchBinding.setActivitySearchModel(activitySearchModel);
         CommonUtils.setCurrentActivity(SearchActivity.this);
 
@@ -60,7 +63,7 @@ public class SearchActivity extends Activity {
     private void initView() {
         //加载首页
         searchPagerFirstBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getApplication()), R.layout.search_pager_first, null, false);
-        searchPagerFirstModel = new SearchPagerFirstModel(searchPagerFirstBinding,activitySearchBinding);
+        searchPagerFirstModel = new SearchPagerFirstModel(searchPagerFirstBinding,activitySearchBinding,cityHistoryEntityDao);
         searchPagerFirstBinding.setSearchPagerFirstModel(searchPagerFirstModel);
 
         //加载搜索技能页面
@@ -101,7 +104,6 @@ public class SearchActivity extends Activity {
             case 5:
                 activitySearchBinding.flSearchFirst.addView(searchNeedResultTabBinding.getRoot());
                 break;
-
         }
         mPage = page;
     }

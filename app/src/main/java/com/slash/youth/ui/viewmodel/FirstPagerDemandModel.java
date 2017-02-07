@@ -23,6 +23,7 @@ import com.slash.youth.databinding.HeaderListviewLocationCityInfoListBinding;
 import com.slash.youth.databinding.PullToRefreshListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.domain.LocationCityInfo;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.adapter.ListDropDownAdapter;
@@ -72,11 +73,13 @@ public class FirstPagerDemandModel extends BaseObservable {
     private HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding;
     private HeaderLocationCityInfoModel headerLocationCityInfoModel;
     private int moreDemandDialogVisitibility = View.GONE;
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
-    public FirstPagerDemandModel(ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding, boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity) {
+    public FirstPagerDemandModel(ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding, boolean isDemand,FirstPagerMoreActivity firstPagerMoreActivity,CityHistoryEntityDao cityHistoryEntityDao) {
             this.activityFirstPagerMoreBinding = activityFirstPagerMoreBinding;
             this.isDemand = isDemand;
             this.firstPagerMoreActivity = firstPagerMoreActivity;
+            this.cityHistoryEntityDao = cityHistoryEntityDao;
         showMoreDemandDialogPager();
         initData();
         initView();
@@ -274,7 +277,7 @@ public class FirstPagerDemandModel extends BaseObservable {
         Intent intent = firstPagerMoreActivity.getIntent();
         intent.putExtra("locationType",0);
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
-        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,firstPagerMoreActivity);
+        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,firstPagerMoreActivity,cityHistoryEntityDao);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         searchCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
 

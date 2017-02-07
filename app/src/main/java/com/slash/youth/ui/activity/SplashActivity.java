@@ -272,14 +272,7 @@ public class SplashActivity extends Activity {
                         if (mDialog != null && mDialog.isShowing()) {
                             mDialog.dismiss();
                         }
-
                         installApk(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
-
-                       /* Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Uri data = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "SlashYouth.apk"));
-                        intent.setDataAndType(data, "application/vnd.android.package-archive");
-                        startActivity(intent);*/
                     }
 
                     @Override

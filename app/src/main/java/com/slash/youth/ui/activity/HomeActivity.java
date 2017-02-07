@@ -16,7 +16,6 @@ import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
 
 public class HomeActivity extends Activity {
-
     public static final int PAGE_FREETIME = 0;//首页闲时
     public static final int PAGE_INFO = 1;//首页消息
     public static final int PAGE_CONTACTS = 2;//首页人脉
@@ -61,7 +60,6 @@ public class HomeActivity extends Activity {
 //        });
 //    }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -70,5 +68,4 @@ public class HomeActivity extends Activity {
             activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
         }
     }
-
 }

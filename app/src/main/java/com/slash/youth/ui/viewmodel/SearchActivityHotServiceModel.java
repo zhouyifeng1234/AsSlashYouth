@@ -15,6 +15,7 @@ import com.slash.youth.databinding.SearchActivityHotServiceBinding;
 import com.slash.youth.domain.SkillLabelAllBean;
 import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.engine.SkillLabelHouseManager;
+import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
@@ -45,11 +46,13 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     private int secondId;
     private int firstId;
     private String text = "请点击";
+    private CityHistoryEntityDao cityHistoryEntityDao;
 
     public SearchActivityHotServiceModel(SearchActivityHotServiceBinding searchActivityHotServiceBinding,
-                                         ActivitySearchBinding mActivitySearchBinding) {
+                                         ActivitySearchBinding mActivitySearchBinding,CityHistoryEntityDao cityHistoryEntityDao) {
         this.searchActivityHotServiceBinding = searchActivityHotServiceBinding;
         this.mActivitySearchBinding = mActivitySearchBinding;
+        this.cityHistoryEntityDao = cityHistoryEntityDao;
         initData();
         initView();
         initListener();
@@ -335,7 +338,7 @@ public class SearchActivityHotServiceModel extends BaseObservable {
     public void showSearchResult(String tag)  {
         SearchActivity currentActivity = (SearchActivity) CommonUtils.getCurrentActivity();
         currentActivity.changeView(2);
-        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding,tag);
+        searchNeedResultTabModel = new SearchNeedResultTabModel(currentActivity.searchNeedResultTabBinding,tag,cityHistoryEntityDao);
         currentActivity.searchNeedResultTabBinding.setSearchNeedResultTabModel(searchNeedResultTabModel);
     }
 }

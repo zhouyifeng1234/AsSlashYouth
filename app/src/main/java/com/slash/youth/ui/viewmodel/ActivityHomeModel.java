@@ -87,10 +87,10 @@ public class ActivityHomeModel extends BaseObservable {
      */
     public void changePager(View v) {
         mActivityHomeBinding.flActivityHomePager.removeAllViews();
-        mActivityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#000000"));
-        mActivityHomeBinding.tvContact.setTextColor(Color.parseColor("#000000"));
-        mActivityHomeBinding.tvInfo.setTextColor(Color.parseColor("#000000"));
-        mActivityHomeBinding.tvMy.setTextColor(Color.parseColor("#000000"));
+        mActivityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#666666"));
+        mActivityHomeBinding.tvContact.setTextColor(Color.parseColor("#666666"));
+        mActivityHomeBinding.tvInfo.setTextColor(Color.parseColor("#666666"));
+        mActivityHomeBinding.tvMy.setTextColor(Color.parseColor("#666666"));
 
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
