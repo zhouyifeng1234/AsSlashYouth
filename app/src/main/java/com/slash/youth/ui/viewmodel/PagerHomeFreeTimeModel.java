@@ -44,7 +44,6 @@ import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -114,7 +113,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     //平滑到顶部
     private void smoothScrollto() {
-        pagerHomeFreetimeBinding.scrollView.smoothScrollTo(0,0);
+        pagerHomeFreetimeBinding.scrollView.smoothScrollTo(0, 0);
     }
 
     private void initScrollView() {
@@ -129,11 +128,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 public void run() {
                     getDemandOrServiceListData();
 
-                    if(homeDemandAndDemandAdapter!=null){
+                    if (homeDemandAndDemandAdapter != null) {
                         homeDemandAndDemandAdapter.notifyDataSetChanged();
                     }
 
-                    if(homeServiceAdapter!=null){
+                    if (homeServiceAdapter != null) {
                         homeServiceAdapter.notifyDataSetChanged();
                     }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
@@ -159,7 +158,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void initData() {
-       // x.image().clearCacheFiles();
+        // x.image().clearCacheFiles();
         bannerList.clear();
         titleArrayList.clear();
         imageArrayList.clear();
@@ -558,11 +557,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
-                listsize= list.size();
-                if(list.size() == 0){
+                listsize = list.size();
+                if (list.size() == 0) {
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                }else {
+                } else {
                     listDemandBean.addAll(list);
                     homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService
@@ -593,10 +592,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
-                if(list.size() == 0){
+                if (list.size() == 0) {
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                }else {
+                } else {
                     listServiceBean.addAll(list);
                     homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService

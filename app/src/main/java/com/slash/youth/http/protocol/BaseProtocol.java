@@ -158,7 +158,7 @@ abstract public class BaseProtocol<T> {
      * @param context 上下文
      * @return SSL的上下文对象
      */
-    private static SSLContext getSSLContext(Context context) {
+    public static SSLContext getSSLContext(Context context) {
         CertificateFactory certificateFactory = null;
         InputStream inputStream = null;
         Certificate cer = null;

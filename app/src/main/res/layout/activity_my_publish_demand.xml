@@ -786,10 +786,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="预约"
+                                    android:text="协商"
                                     android:textColor="#666666"
                                     android:textSize="12sp"
                                 />
+                                <!--android:text="预约"-->
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

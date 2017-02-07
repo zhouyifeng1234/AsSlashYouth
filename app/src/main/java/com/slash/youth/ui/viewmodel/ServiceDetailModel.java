@@ -500,7 +500,11 @@ public class ServiceDetailModel extends BaseObservable {
                         setOfflinePlace("约定地点:" + service.place != null ? service.place : "");//约定地点:星湖街328号星湖广场
                     }
                     if (service.instalment == 0) {//关闭分期
-                        setInstalmentItemVisibility(View.GONE);
+//                        setInstalmentItemVisibility(View.GONE);//这里不是直接隐藏，而是显示成“一次性到账”
+                        setInstalmentItemVisibility(View.VISIBLE);
+                        mActivityServiceDetailBinding.tvInstalmentLabel.setText("一次性到账");
+                        mActivityServiceDetailBinding.tvInstalmentContent.setText("服务完成后，资金一次性打入服务方账户");
+
                     } else if (service.instalment == 1) {//开启分期
                         setInstalmentItemVisibility(View.VISIBLE);
                     }

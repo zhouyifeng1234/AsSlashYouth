@@ -290,20 +290,22 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="@{myTaskModel.publishDemand}"
+                        android:layout_marginLeft="12dp"
+                        android:onClick="@{myTaskModel.publishService}"
                         android:orientation="vertical"
                     >
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/publish_task_dialog_demand_icon"
+                            android:padding="10dp"
+                            android:src="@mipmap/service_publish_icon"
                         />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="发需求"
+                            android:text="发服务"
                             android:textColor="#666666"
                             android:textSize="13sp"/>
 
@@ -312,21 +314,21 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:onClick="@{myTaskModel.publishService}"
+                        android:onClick="@{myTaskModel.publishDemand}"
                         android:orientation="vertical"
                     >
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/public_task_dialog_service_icon"
+                            android:padding="10dp"
+                            android:src="@mipmap/demand_publish_icon"
                         />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="发服务"
+                            android:text="发需求"
                             android:textColor="#666666"
                             android:textSize="13sp"/>
 
