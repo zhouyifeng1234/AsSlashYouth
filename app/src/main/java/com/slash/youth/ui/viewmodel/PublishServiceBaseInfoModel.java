@@ -79,6 +79,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         mSaplAddPic = mActivityPublishServiceBaseinfoBinding.saplPublishServiceAddpic;//在loadOriginServiceData()中会使用，所以必须在这里初始化
         serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
         if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
+            mActivityPublishServiceBaseinfoBinding.tvPublishServiceText.setText("修改服务");
             loadOriginServiceData();
         }
     }

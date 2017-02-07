@@ -77,6 +77,7 @@ public class DemandDetailModel extends BaseObservable {
     boolean isFromDetail;
     long demandUserId;
     LatLng demandLatLng;
+    int pattern;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -367,14 +368,17 @@ public class DemandDetailModel extends BaseObservable {
                     mActivityDemandDetailBinding.etBidDemandQuote.setText((int) demand.quote + "");
                 }
                 //浏览量暂时无法获取,接口中好像没有浏览量字段
+                pattern = demand.pattern;
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
-                    setDemandPlace("约定地点" + demand.place);
+                    setDemandPlace("约定地点:" + demand.place != null ? demand.place : "");
                 } else if (demand.pattern == 0) {//线上
 //                    setOfflineItemVisibility(View.GONE);
                     setOfflineItemVisibility(View.VISIBLE);
                     mActivityDemandDetailBinding.tvOnlineOfflineLabel.setText("线上");
-                    setDemandDetailLocationVisibility(View.GONE);
+//                    setDemandDetailLocationVisibility(View.GONE);
+                    setDemandPlace("线上解决，不受地域限制");
+                    mActivityDemandDetailBinding.ivOfflinePlaceIcon.setVisibility(View.GONE);
                 }
                 if (demand.instalment == 0) {//不开启
 //                    setInstalmentItemVisibility(View.GONE);//这里不是直接隐藏，而是显示成“一次性到账”
@@ -405,7 +409,7 @@ public class DemandDetailModel extends BaseObservable {
                     displayTags(tags[0], tags[1], tags[2]);
                 }
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm发布");//9月18日 8:30
+                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("yyyy年MM月dd日 HH:mm发布");//9月18日 8:30
                 String publishTimeStr = sdfPublishTime.format(demand.cts);
                 setDemandPublishTime(publishTimeStr);
                 //详情描述
@@ -920,9 +924,11 @@ public class DemandDetailModel extends BaseObservable {
 
     //定位需求详情中的地址
     public void openDemandDetailLocation(View v) {
-        Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
-        intentDemandDetailLocationActivity.putExtra("demandLatLng", demandLatLng);
-        mActivity.startActivity(intentDemandDetailLocationActivity);
+        if (pattern == 1) {
+            Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
+            intentDemandDetailLocationActivity.putExtra("demandLatLng", demandLatLng);
+            mActivity.startActivity(intentDemandDetailLocationActivity);
+        }
     }
 
     /**

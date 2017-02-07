@@ -31,6 +31,7 @@
                 />
 
                 <TextView
+                    android:id="@+id/tv_publish_service_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -614,6 +615,7 @@
                             android:layout_gravity="center"
                             android:orientation="vertical">
                             <Button
+                                android:id="@+id/btn_publish_text"
                                 android:layout_width="252dp"
                                 android:layout_height="50dp"
                                 android:background="@drawable/btn_next_step"

@@ -56,6 +56,8 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mSallSkillLabels = mActivityPublishDemandAddinfoBinding.sallPublishDemandAddedSkilllabels;
         demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
+            mActivityPublishDemandAddinfoBinding.tvPublishDemandText.setText("修改需求");
+            mActivityPublishDemandAddinfoBinding.btnPublishText.setText("发布");
             loadDemandDetailData();
         }
     }

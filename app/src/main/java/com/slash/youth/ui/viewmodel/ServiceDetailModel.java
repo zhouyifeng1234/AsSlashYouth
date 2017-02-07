@@ -67,6 +67,7 @@ public class ServiceDetailModel extends BaseObservable {
     String[] optionalPriceUnit;
     long serviceUserId;
     LatLng serviceLatLng;
+    int pattern;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -303,9 +304,11 @@ public class ServiceDetailModel extends BaseObservable {
     };
 
     public void openServiceDetailLocation(View v) {
-        Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
-        intentDemandDetailLocationActivity.putExtra("demandLatLng", serviceLatLng);
-        mActivity.startActivity(intentDemandDetailLocationActivity);
+        if (pattern == 1) {
+            Intent intentDemandDetailLocationActivity = new Intent(CommonUtils.getContext(), DemandDetailLocationActivity.class);
+            intentDemandDetailLocationActivity.putExtra("demandLatLng", serviceLatLng);
+            mActivity.startActivity(intentDemandDetailLocationActivity);
+        }
     }
 
     public void gotoUserInfo(View v) {
@@ -493,13 +496,16 @@ public class ServiceDetailModel extends BaseObservable {
                     } else {//这种情况应该不存在
                         displayTags(tags[0], tags[1], tags[2]);
                     }
+                    pattern = service.pattern;
                     if (service.pattern == 0) {//线上
 //                        setOfflineItemVisibility(View.GONE);
                         setOfflineItemVisibility(View.VISIBLE);
                         mActivityServiceDetailBinding.tvOnlineOfflineLabel.setText("线上");
-                        setServiceDetailLocationVisibility(View.GONE);
+//                        setServiceDetailLocationVisibility(View.GONE);
+                        setOfflinePlace("线上解决，不受地域限制");
+                        mActivityServiceDetailBinding.ivOfflinePlaceIcon.setVisibility(View.GONE);
                     } else if (service.pattern == 1) {//线下
-                        setOffShelfLogoVisibility(View.VISIBLE);
+                        setOfflineItemVisibility(View.VISIBLE);
                         setOfflinePlace("约定地点:" + service.place != null ? service.place : "");//约定地点:星湖街328号星湖广场
                     }
                     if (service.instalment == 0) {//关闭分期
@@ -512,7 +518,7 @@ public class ServiceDetailModel extends BaseObservable {
                         setInstalmentItemVisibility(View.VISIBLE);
                     }
                     //发布时间:9月18日 8:30
-                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("发布时间:yyyy年MM月dd日 HH:mm发布");
+                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm发布");
                     String publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
                     setPublishDatetime(publicDatetimeStr);
                     //服务描述

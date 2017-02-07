@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.engine.UserInfoEngine;
@@ -19,6 +15,7 @@ import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.ShareTaskUtils;
 
 public class HomeActivity extends Activity {
     public static final int PAGE_FREETIME = 0;//首页闲时
@@ -30,11 +27,6 @@ public class HomeActivity extends Activity {
     public static BaseHomePager currentCheckedPager;
 
     private ActivityHomeBinding activityHomeBinding;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,35 +35,34 @@ public class HomeActivity extends Activity {
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
         activityHomeBinding.setActivityHomeBinding(activityHomeModel);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent intent = getIntent();
+        boolean publishSuccessShareTask = intent.getBooleanExtra(ShareTaskUtils.PUBLISH_SUCCESS_SHARE_TASK, false);
 
         //初始化默认页面
         activityHomeBinding.flActivityHomePager.removeAllViews();
-//        TextView tv = new TextView(this);
-//        tv.setText("Text");
-        currentCheckedPager = new HomeFreeTimePager(this);
+        activityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#666666"));
+        activityHomeBinding.tvContact.setTextColor(Color.parseColor("#666666"));
+        activityHomeBinding.tvInfo.setTextColor(Color.parseColor("#666666"));
+        activityHomeBinding.tvMy.setTextColor(Color.parseColor("#666666"));
+        if (publishSuccessShareTask) {
+            setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
+            currentCheckedPager = new HomeInfoPager(this);
+            currentCheckedPageNo = PAGE_INFO;
+            activityHomeBinding.tvInfo.setTextColor(Color.parseColor("#31c5e4"));
+        } else {
+            setBottomTabIcon(R.mipmap.icon_idle_hours_press, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
+            currentCheckedPager = new HomeFreeTimePager(this);
+            currentCheckedPageNo = PAGE_FREETIME;
+            activityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#31c5e4"));
+        }
         activityHomeBinding.flActivityHomePager.addView(currentCheckedPager.getRootView());
-        currentCheckedPageNo = PAGE_FREETIME;
-        activityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#31c5e4"));
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-
-//    public void getData(View v) {
-//
-//        BaseProtocol bp = new GetUserSkillLabelProtocol();
-//        bp.getDataFromServer(new BaseProtocol.IResultExecutor() {
-//            @Override
-//            public void execute(Object dataBean) {
-//                ToastUtils.shortToast("Success");
-//            }
-//
-//            @Override
-//            public void executeError(ResultErrorBean resultErrorBean) {
-//                ToastUtils.shortToast(resultErrorBean.code + "\n" + resultErrorBean.data.message);
-//            }
-//        });
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -86,43 +77,10 @@ public class HomeActivity extends Activity {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Home Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.slash.youth.ui.activity/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(mClient, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Home Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.slash.youth.ui.activity/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(mClient, viewAction);
-        mClient.disconnect();
+    private void setBottomTabIcon(int freetimeIcon, int infoIcon, int contactsIcon, int myIcon) {
+        activityHomeBinding.ivFreetimeIcon.setImageResource(freetimeIcon);
+        activityHomeBinding.ivInfoIcon.setImageResource(infoIcon);
+        activityHomeBinding.ivContactsIcon.setImageResource(contactsIcon);
+        activityHomeBinding.ivMyIcon.setImageResource(myIcon);
     }
 }
