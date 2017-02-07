@@ -158,7 +158,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void initData() {
-        // x.image().clearCacheFiles();
+       // x.image().clearCacheFiles();
+
         bannerList.clear();
         titleArrayList.clear();
         imageArrayList.clear();
@@ -557,11 +558,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
-                listsize = list.size();
-                if (list.size() == 0) {
+                listsize= list.size();
+                if(list.size() == 0){
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                } else {
+                }else {
                     listDemandBean.addAll(list);
                     homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService
@@ -592,10 +593,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
-                if (list.size() == 0) {
+                if(list.size() == 0){
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                } else {
+                }else {
                     listServiceBean.addAll(list);
                     homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService
