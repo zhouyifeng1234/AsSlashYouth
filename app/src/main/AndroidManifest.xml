@@ -169,6 +169,7 @@
         <activity
             android:name="com.slash.youth.ui.activity.HomeActivity"
             android:label="首页"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".ui.activity.CityLocationActivity"></activity>

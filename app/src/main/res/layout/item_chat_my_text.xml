@@ -44,9 +44,10 @@
                 android:paddingRight="16dp">
 
                 <TextView
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:maxWidth="150dp"
                     android:text="@{chatMyTextModel.mySendText}"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"/>

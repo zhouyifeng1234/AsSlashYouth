@@ -80,6 +80,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         mSaplAddPic = mActivityPublishDemandBaseinfoBinding.saplPublishDemandAddpic;
         demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
+            mActivityPublishDemandBaseinfoBinding.tvPublishDemandText.setText("修改需求");
             loadDemandDetailData();
         }
     }

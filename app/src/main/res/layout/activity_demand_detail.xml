@@ -38,8 +38,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:ellipsize="end"
+                    android:gravity="center"
                     android:lines="1"
-
                     android:maxLines="1"
                     android:text="@{demandDetailModel.topTitle}"
                     android:textColor="#ffffff"
@@ -298,6 +298,7 @@
                                     <!--约定地点星湖街328号星湖广场-->
 
                                     <ImageView
+                                        android:id="@+id/iv_offline_place_icon"
                                         android:layout_width="18dp"
                                         android:layout_height="15dp"
                                         android:layout_gravity="center_vertical"
@@ -947,6 +948,7 @@
                         android:layout_marginLeft="7dp"
                         android:layout_marginRight="7dp"
                         android:orientation="vertical"
+                        android:visibility="@{demandDetailModel.demandRecommendItemVisibility}"
                     >
 
                     </LinearLayout>

@@ -289,6 +289,7 @@
                                     <!--约定地点:星湖街328号星湖广场-->
 
                                     <ImageView
+                                        android:id="@+id/iv_offline_place_icon"
                                         android:layout_width="18dp"
                                         android:layout_height="15dp"
                                         android:layout_gravity="center_vertical"
@@ -435,17 +436,16 @@
                                         android:layout_width="15dp"
                                         android:layout_height="15dp"
                                         android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="19dp"
                                         android:src="@mipmap/location_icon_detail"/>
+                                    <!--android:layout_marginLeft="19dp"-->
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-
+                                        android:layout_marginLeft="5dp"
                                         android:text="@{serviceDetailModel.serviceUserPlace}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"/>
-                                    <!--android:layout_marginLeft="5dp"-->
 
                                 </LinearLayout>
 
@@ -939,6 +939,7 @@
                         android:layout_marginLeft="7dp"
                         android:layout_marginRight="7dp"
                         android:orientation="vertical"
+                        android:visibility="@{serviceDetailModel.serviceRecommendItemVisibililty}"
                     >
 
                     </LinearLayout>

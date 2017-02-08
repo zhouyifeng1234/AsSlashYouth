@@ -16,6 +16,7 @@ import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
+import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ShareTaskUtils;
@@ -82,9 +83,11 @@ public class PublishDemandSuccessModel extends BaseObservable {
         if (isUpdate) {
             setUpdateSuccessHintVisibility(View.VISIBLE);
             setPublishSuccessHintVisibility(View.GONE);
+            mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVisibility(View.GONE);
         } else {
             setUpdateSuccessHintVisibility(View.GONE);
             setPublishSuccessHintVisibility(View.VISIBLE);
+            mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVisibility(View.VISIBLE);
         }
         mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVerticalScrollBarEnabled(false);
 
@@ -110,7 +113,7 @@ public class PublishDemandSuccessModel extends BaseObservable {
      */
     public void shareDemand(View v) {
         if (demandDetailBean != null) {
-            ArrayList<Integer> listCheckedItemId = RecommendServicePartAdapter.listCheckedItemId;
+            final ArrayList<Integer> listCheckedItemId = RecommendServicePartAdapter.listCheckedItemId;
             if (listCheckedItemId.size() == 1) {
                 //只选中了一个，分享的时候会弹出聊天框
                 int position = listCheckedItemId.get(0);
@@ -158,6 +161,22 @@ public class PublishDemandSuccessModel extends BaseObservable {
                     ShareTaskUtils.sendShareTask(chatCmdShareTaskBean, targetId);
                 }
                 ToastUtils.shortToast("邀请已经发送成功");
+                CommonUtils.getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DemandDetailBean.Demand demand = demandDetailBean.data.demand;
+                        String recommendDemandText = LoginManager.currentLoginUserName + "XX发布了需求《" + demand.title + "》，快来抢单吧";
+                        for (int position : listCheckedItemId) {
+                            RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listRecommendServiceUser.get(position);
+                            String targetId = serviceUserInfo.uid + "";
+                            ShareTaskUtils.sendText(recommendDemandText, targetId);
+                        }
+
+                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+                        intentHomeActivity.putExtra(ShareTaskUtils.PUBLISH_SUCCESS_SHARE_TASK, true);
+                        mActivity.startActivity(intentHomeActivity);
+                    }
+                }, 1500);
             }
         }
     }

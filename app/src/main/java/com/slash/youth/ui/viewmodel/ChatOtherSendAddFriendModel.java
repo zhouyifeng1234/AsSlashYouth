@@ -53,11 +53,15 @@ public class ChatOtherSendAddFriendModel extends BaseObservable {
 
     //同意添加对方为好友
     public void agreeAddFriend(View v) {
-        mChatModel.agreeAddFriend(mItemChatOtherSendAddFriendBinding.tvDeny, mItemChatOtherSendAddFriendBinding.tvAgree);
+        if (mIsCanAddFriend) {
+            mChatModel.agreeAddFriend(mItemChatOtherSendAddFriendBinding.tvDeny, mItemChatOtherSendAddFriendBinding.tvAgree);
+        }
     }
 
     //拒绝添加对方为好友
     public void refuseAddFriend(View v) {
-        mChatModel.refuseAddFriend(mItemChatOtherSendAddFriendBinding.tvDeny, mItemChatOtherSendAddFriendBinding.tvAgree);
+        if (mIsCanAddFriend) {
+            mChatModel.refuseAddFriend(mItemChatOtherSendAddFriendBinding.tvDeny, mItemChatOtherSendAddFriendBinding.tvAgree);
+        }
     }
 }

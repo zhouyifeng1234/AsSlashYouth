@@ -84,9 +84,11 @@ public class PublishServiceSuccessModel extends BaseObservable {
         if (isUpdate) {
             setUpdateSuccessHintVisibility(View.VISIBLE);
             setPublishSuccessHintVisibility(View.GONE);
+            mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVisibility(View.GONE);
         } else {
             setUpdateSuccessHintVisibility(View.GONE);
             setPublishSuccessHintVisibility(View.VISIBLE);
+            mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVisibility(View.VISIBLE);
         }
         mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVerticalScrollBarEnabled(false);
 

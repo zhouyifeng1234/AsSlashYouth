@@ -64,6 +64,8 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
         serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
         if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
+            mActivityPublishServiceAddinfoBinding.tvPublishServiceText.setText("修改服务");
+            mActivityPublishServiceAddinfoBinding.btnPublishText.setText("修改");
             loadOriginServiceData();
         }
     }

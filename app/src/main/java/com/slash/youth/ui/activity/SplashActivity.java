@@ -24,6 +24,7 @@ import com.slash.youth.domain.TokenLoginResultBean;
 import com.slash.youth.domain.VersionBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.DialogVersionUpdateModel;
@@ -150,8 +151,15 @@ public class SplashActivity extends Activity {
 //    }
 
     private void gotoGuidActivity() {
-        Intent intentGuidActivity = new Intent(CommonUtils.getContext(), GuidActivity.class);
-        startActivity(intentGuidActivity);
+        boolean isGuid = SpUtils.getBoolean(GlobalConstants.SpConfigKey.IS_GUID, false);
+        if (isGuid) {
+            Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+            startActivity(intentHomeActivity);
+        } else {
+            Intent intentGuidActivity = new Intent(CommonUtils.getContext(), GuidActivity.class);
+            startActivity(intentGuidActivity);
+            SpUtils.setBoolean(GlobalConstants.SpConfigKey.IS_GUID, true);
+        }
         finish();
     }
 
@@ -186,7 +194,7 @@ public class SplashActivity extends Activity {
                     SpUtils.setString("downloadurl", url);
                 }
 
-               // url = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";
+                // url = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";
                 int forceupdate = data.getForceupdate();//是否强制更新 0表示不强制，1表示强制
                 long NetVersionCode = data.getCode();//服务端更新的版本
                 // 检测版本更新
