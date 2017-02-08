@@ -153,8 +153,8 @@ public class SplashActivity extends Activity {
     private void gotoGuidActivity() {
         boolean isGuid = SpUtils.getBoolean(GlobalConstants.SpConfigKey.IS_GUID, false);
         if (isGuid) {
-            Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-            startActivity(intentHomeActivity);
+            Intent intentLoginActivity = new Intent(CommonUtils.getContext(), LoginActivity.class);
+            startActivity(intentLoginActivity);
         } else {
             Intent intentGuidActivity = new Intent(CommonUtils.getContext(), GuidActivity.class);
             startActivity(intentGuidActivity);
