@@ -371,7 +371,8 @@ public class DemandDetailModel extends BaseObservable {
                 pattern = demand.pattern;
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
-                    setDemandPlace("约定地点:" + demand.place != null ? demand.place : "");
+//                    setDemandPlace("约定地点:" + demand.place != null ? demand.place : "");
+                    setDemandPlace(demand.place != null ? demand.place : "");
                 } else if (demand.pattern == 0) {//线上
 //                    setOfflineItemVisibility(View.GONE);
                     setOfflineItemVisibility(View.VISIBLE);
@@ -1212,6 +1213,9 @@ public class DemandDetailModel extends BaseObservable {
             bidDemandInstalmentRatioList.add(100d);
         } else if (bidDemandInstalmentRatioList.size() <= 0) {
             ToastUtils.shortToast("请先完善分期比例信息");
+            return;
+        } else if (bidDemandInstalmentRatioList.size() == 1) {
+            ToastUtils.shortToast("开启分期至少分两期");
             return;
         } else {
             double totalRatio = 0;

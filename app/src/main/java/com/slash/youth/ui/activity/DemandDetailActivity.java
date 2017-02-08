@@ -19,5 +19,6 @@ public class DemandDetailActivity extends Activity {
         ActivityDemandDetailBinding activityDemandDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_demand_detail);
         DemandDetailModel demandDetailModel = new DemandDetailModel(activityDemandDetailBinding, this);
         activityDemandDetailBinding.setDemandDetailModel(demandDetailModel);
+
     }
 }

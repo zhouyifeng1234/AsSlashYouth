@@ -3,11 +3,13 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemDemandChooseServiceBinding;
 import com.slash.youth.domain.CommonResultBean;
@@ -119,10 +121,15 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
             mItemDemandChooseServiceBinding.tvBpText.setText("协商处理纠纷");
         }
 
-        if (mDemandChooseServiceBean.status == 1) {
+        if (mDemandChooseServiceBean.status == 1) {//服务方竞标
             mItemDemandChooseServiceBinding.tvPurposeChoose.setText("选择Ta");
-        } else if (mDemandChooseServiceBean.status == 2) {
+        } else if (mDemandChooseServiceBean.status == 2) {//需求方选择了服务方
             mItemDemandChooseServiceBinding.tvPurposeChoose.setText("已选择");
+        } else if (mDemandChooseServiceBean.status == 3) {//服务方确认了需求方
+            //这里不需要处理，因为当服务方选择确认了需求方，就会跳转到四个圈的需求订单详情页面
+        } else if (mDemandChooseServiceBean.status == 4) {//服务方拒绝了需求方
+            mItemDemandChooseServiceBinding.tvPurposeChoose.setVisibility(View.GONE);
+            setRefusedIconVisibility(View.VISIBLE);
         }
     }
 
@@ -171,4 +178,15 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
         mActivty.startActivity(intentUserInfoActivity);
     }
 
+    private int refusedIconVisibility = View.GONE;
+
+    @Bindable
+    public int getRefusedIconVisibility() {
+        return refusedIconVisibility;
+    }
+
+    public void setRefusedIconVisibility(int refusedIconVisibility) {
+        this.refusedIconVisibility = refusedIconVisibility;
+        notifyPropertyChanged(BR.refusedIconVisibility);
+    }
 }

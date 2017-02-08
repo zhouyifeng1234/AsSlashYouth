@@ -11,11 +11,7 @@ import android.widget.PopupWindow;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
-import com.slash.youth.domain.MyFirstPageBean;
-import com.slash.youth.domain.OtherInfoBean;
-import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.utils.CommonUtils;
@@ -49,7 +45,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
         String skillTag = intent.getStringExtra("skillTag");
         anonymity = intent.getIntExtra("anonymity", 1);
         activityUserinfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
-        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag,anonymity);
+        userInfoModel = new ActivityUserInfoModel(activityUserinfoBinding, uid, this, skillTag, anonymity);
         activityUserinfoBinding.setActivityUserInfoModel(userInfoModel);
         back();
         title();
@@ -59,21 +55,21 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     private void title() {
         userInfoModel.setOnNameListener(new ActivityUserInfoModel.OnNameListener() {
             @Override
-            public void OnNameListener(String name, long myUid,String company) {
-                setTitle(userInfoModel.isOther, name,company);
+            public void OnNameListener(String name, long myUid, String company) {
+                setTitle(userInfoModel.isOther, name, company);
                 myId = myUid;
             }
         });
     }
 
-    private void setTitle(boolean isOther, String name,String company) {
+    private void setTitle(boolean isOther, String name, String company) {
 
         if (isOther) {//我看其他人
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.GONE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.VISIBLE);
-            switch (anonymity){
+            switch (anonymity) {
                 case 1://实名
                     break;
                 case 0://匿名
@@ -81,7 +77,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                     break;
             }
         } else {
-            activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO );
+            activityUserinfoBinding.tvUserinfoTitle.setText(ContactsManager.USER_INFO);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.GONE);
             activityUserinfoBinding.tvUserinfoSave.setVisibility(View.VISIBLE);
             activityUserinfoBinding.llAddFriend.setVisibility(View.GONE);
@@ -135,7 +131,7 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 R.layout.pop_window, null);
 
         contentView.findViewById(R.id.tv_reportTA).setOnClickListener(this);
-       contentView.findViewById(R.id.tv_shieldTA).setOnClickListener(this);
+        contentView.findViewById(R.id.tv_shieldTA).setOnClickListener(this);
 
         popupWindow = new PopupWindow(contentView,
                 RandomLayout.LayoutParams.WRAP_CONTENT, RandomLayout.LayoutParams.WRAP_CONTENT, true);

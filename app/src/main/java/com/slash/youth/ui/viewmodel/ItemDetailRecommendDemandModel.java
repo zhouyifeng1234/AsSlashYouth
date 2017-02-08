@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -59,13 +60,24 @@ public class ItemDetailRecommendDemandModel extends BaseObservable {
             setPatternText("线下");
         }
         if (mRecommendDemandInfo.instalment == 1) {//开启分期
-            setInstalmentVisibility(View.VISIBLE);
-        } else {//未开启
             setInstalmentVisibility(View.GONE);
+        } else {//未开启
+            setInstalmentVisibility(View.VISIBLE);
         }
-        setDemandPlace(mRecommendDemandInfo.place);
+        if (mRecommendDemandInfo.pattern == 0) {//线上
+            setDemandPlace("不限城市");
+            mItemDetailRecommendDemandBinding.tvDistance.setVisibility(View.GONE);
+        } else {//线下
+            if (TextUtils.isEmpty(mRecommendDemandInfo.place)) {
+                setDemandPlace("火星村");
+                mItemDetailRecommendDemandBinding.tvDistance.setVisibility(View.GONE);
+            } else {
+                setDemandPlace(mRecommendDemandInfo.place);
+            }
+        }
+
         double distance = DistanceUtils.getDistance(SlashApplication.getCurrentLatitude(), SlashApplication.getCurrentLongitude(), mRecommendDemandInfo.lat, mRecommendDemandInfo.lng);
-        setDistanceStr("距离 " + distance + "KM");
+        setDistanceStr("距您" + distance + "KM");
     }
 
     private int authVisibility;

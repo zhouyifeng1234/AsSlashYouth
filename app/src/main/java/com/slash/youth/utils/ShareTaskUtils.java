@@ -14,8 +14,6 @@ import io.rong.message.TextMessage;
  */
 public class ShareTaskUtils {
 
-    public static final String PUBLISH_SUCCESS_SHARE_TASK = "publishSuccessShareTask";
-
     public static void sendShareTask(final ChatCmdShareTaskBean chatCmdShareTaskBean, final String targetId) {
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdShareTaskBean);
