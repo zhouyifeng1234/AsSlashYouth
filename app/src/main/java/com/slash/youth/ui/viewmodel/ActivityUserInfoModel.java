@@ -87,11 +87,10 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int footerHeight;
     private int startY;
     private int anonymity = 1;
-    private OtherInfoBean.DataBean.UinfoBean uinfo;
+    public OtherInfoBean.DataBean.UinfoBean uinfo;
     private  int friendStatus;
     private int attentionStatus;
     private int  myAnonymity = 2;
-    public MyFirstPageBean.DataBean myData;
     private long taskProgress;
     private int relationshipscount;
     private int relationshipscount1;
@@ -227,7 +226,6 @@ public class ActivityUserInfoModel extends BaseObservable {
     //加载数据
     private void initData() {
         if(otherUid == LoginManager.currentLoginUserId){//自己看自己
-          //  MyManager.getMyUserinfo(new OnGetMyUserinfo());
             MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(),otherUid,anonymity);
             UserInfoEngine.getNewDemandAndServiceList(new onGetNewDemandAndServiceList(),LoginManager.currentLoginUserId,offset,limit,myAnonymity);//自己看自己全部展示
             isOther = false;
@@ -255,26 +253,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             }
         }
     }
-
-   /* //获取我的用户信息数据
-    public class OnGetMyUserinfo implements BaseProtocol.IResultExecutor<MyFirstPageBean> {
-        @Override
-        public void execute(MyFirstPageBean dataBean) {
-            int rescode = dataBean.getRescode();
-            if (rescode == 0) {
-                myData = dataBean.getData();
-                MyFirstPageBean.DataBean.MyinfoBean uinfo=  myData.getMyinfo();
-                updateUserInfo(uinfo);
-            } else {
-                LogKit.d("rescode : " + rescode);
-            }
-        }
-
-        @Override
-        public void executeResultError(String result) {
-        }
-    }
-*/
 
     //最新任务
     public class onGetNewDemandAndServiceList implements BaseProtocol.IResultExecutor<NewDemandAandServiceBean> {
@@ -304,7 +282,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                 }
             }
         }
-
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:"+result);
@@ -354,152 +331,6 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.ivInto.setVisibility(View.VISIBLE);
         }
     }
-
-
-    /*private void updateUserInfo(MyFirstPageBean.DataBean.MyinfoBean uinfo){
-        //粉丝数
-        fanscount = uinfo.getFanscount();
-        //粉丝比率
-        fansratio = uinfo.getFansratio();
-        if(fansratio>0&&fansratio<=1){
-            fansratio = 1;
-        }
-        activityUserinfoBinding.tvUserInfoFansCount.setText("人脉数"+fanscount);
-        activityUserinfoBinding.pbFans.setProgress((int)fansratio);
-        activityUserinfoBinding.tvUserInfoFansratio.setText(String.valueOf(fansratio) + "%");
-        activityUserinfoBinding.tvFansCount.setText("超过" + String.valueOf(fansratio) + "%的用户");
-        //完成任务的单数
-        achievetaskcount = uinfo.getAchievetaskcount();
-        totoltaskcount = uinfo.getTotoltaskcount();
-        if(totoltaskcount!=0){
-            taskProgress =   (achievetaskcount / totoltaskcount) * 100;
-        }else {
-            taskProgress = 0;
-        }
-        activityUserinfoBinding.pbTask.setProgress((int)taskProgress);
-        activityUserinfoBinding.tvUserInfoAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
-        activityUserinfoBinding.tvAchieveTaskCount.setText(achievetaskcount + "");
-        //任务总数
-        activityUserinfoBinding.tvTotolTaskCount.setText("共" + totoltaskcount + "单任务");
-        //平均服务点
-        averageservicepoint = uinfo.getAverageservicepoint();
-        int serviceProgress = (int)((averageservicepoint * 100) / 5);
-        //用户服务指向
-        userservicepoint = uinfo.getUserservicepoint();
-        activityUserinfoBinding.pbService.setProgress((int)serviceProgress);
-        activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
-        activityUserinfoBinding.tvAverageServicePoint.setText(userservicepoint + "");
-        activityUserinfoBinding.averageServicePoint.setText("---平台平均服务力为" + averageservicepoint + "星");
-
-        //   技能标签
-        String tag = uinfo.getTag();
-        if(!TextUtils.isEmpty(tag)){
-            String[] split = tag.split(",");
-            for (String textTag : split) {
-                skillLabelList.add(textTag);
-                textViewTag = new TextView(CommonUtils.getContext());
-                textViewTag.setText(textTag);
-                textViewTag.setTextColor(Color.parseColor("#31C5E4"));
-                textViewTag.setTextSize(CommonUtils.dip2px(4));
-                textViewTag.setPadding(CommonUtils.dip2px(8),CommonUtils.dip2px(6),CommonUtils.dip2px(8),CommonUtils.dip2px(6));
-                textViewTag.setBackgroundColor(Color.parseColor("#d6f3fa"));
-                activityUserinfoBinding.llSkilllabelContainer.addView(textViewTag);
-            }
-        }
-
-        //职业类型
-        careertype = uinfo.getCareertype();
-        if(careertype == 1){//固定职业者
-            company = uinfo.getCompany();//公司
-            position = uinfo.getPosition();//技术专家
-            String companyAndPosition = company+"-"+position;
-            if(!company.isEmpty()){
-                activityUserinfoBinding.tvUserInfoCompany.setText(companyAndPosition);
-            }else {
-                activityUserinfoBinding.tvUserInfoCompany.setText("暂未填写职务信息");
-            }
-        }else if(careertype == 2){//自由职业者
-            activityUserinfoBinding.tvUserInfoCompany.setText("自雇者");
-        }
-
-        //用户ID
-        myUid = uinfo.getId();
-        //用户头像
-        avatar = uinfo.getAvatar();
-        if(!TextUtils.isEmpty(avatar)){
-            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD+"?fileId="+avatar);
-        }
-        //用户姓名
-        name = uinfo.getName();
-        activityUserinfoBinding.tvUserinfoUsername.setText(name);
-        if(!TextUtils.isEmpty(name)){
-            onNameListener.OnNameListener(name,myUid,company);
-        }else {
-            activityUserinfoBinding.tvUserinfoUsername.setText(ContactsManager.USER_INFO);
-        }
-
-        //是否认证
-        isauth = uinfo.getIsauth();
-        if(isauth == 1){
-            //认证过的
-            activityUserinfoBinding.ivUserinfoV.setVisibility(View.VISIBLE);
-        }else if(isauth == 0){
-            //非认证
-            if(!isOther){
-                activityUserinfoBinding.ivUserinfoV.setVisibility(View.GONE);
-            }
-        }
-
-        //身份,斜杠 斜杠身份  没填写斜杠身份时，显示暂未填写 ,如果有的话，就填写
-        identity = uinfo.getIdentity();
-        if(!identity.contains(",")){
-            if(identity.isEmpty()){
-                activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份: "+slashIdentity);
-            }else {
-                activityUserinfoBinding.tvSlashIdentity.setText("斜杠身份: "+identity);
-            }
-        }else {
-            String[] splitIdentity = identity.split(",");
-            stringBuffer.append("斜杠身份: ");
-            for (int i = 0; i < splitIdentity.length; i++) {
-                if(i == splitIdentity.length-1){
-                    stringBuffer.append(splitIdentity[i]);
-                }else {
-                    stringBuffer.append(splitIdentity[i]+"/");
-                }
-            }
-            activityUserinfoBinding.tvSlashIdentity.setText(stringBuffer.toString());
-        }
-
-        //技能描述
-        desc = uinfo.getDesc();
-        if(!TextUtils.isEmpty(desc)){
-            activityUserinfoBinding.tvUserinfoSkilldescribe.setText(desc);
-        }
-
-        //方向
-        direction = uinfo.getDirection();
-        industry = uinfo.getIndustry();
-        if(!TextUtils.isEmpty(direction)){
-            activityUserinfoBinding.tvProfession.setText(direction);
-            activityUserinfoBinding.tvUserInfoTag.setText(direction);
-        }
-
-        //专家  用户身份，是否是专家，专家几级,默认是不显示
-        expert = uinfo.getExpertlevel();
-        activityUserinfoBinding.tvUserinfoIdentity.setText("专家"+expert+"级");
-
-        //城市  //省份
-        city = uinfo.getCity();
-        province = uinfo.getProvince();
-        if(!city.equals(province)){
-            place = province+""+city;
-        }else {
-            place = city;
-        }
-        activityUserinfoBinding.tvPlace.setText(place);
-    }*/
-
     public   OtherInfoBean.DataBean.UinfoBean otherUinfo;
 
     //更新用户信息
@@ -657,6 +488,9 @@ public class ActivityUserInfoModel extends BaseObservable {
             place = city;
         }
         activityUserinfoBinding.tvPlace.setText(place);
+        if(!TextUtils.isEmpty(place)){
+            activityUserinfoBinding.ivUserinfoLocation.setVisibility(View.VISIBLE);
+        }
     }
 
     //接口回调

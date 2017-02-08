@@ -124,7 +124,7 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 if(quote<=0){
                     itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(FirstPagerManager.DEMAND_QUOTE);
                 }else {
-                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
+                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote+"元");
                 }
 
                /* if(starttime <=0){
@@ -169,9 +169,9 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 if (quoteUnit == 9) {
                     itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote+"元");
                 } else if (quoteUnit > 0 && quoteUnit < 9) {
-                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote + "/" + MyManager.unitArr[quoteUnit - 1]);
+                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote + "元/" + MyManager.unitArr[quoteUnit - 1]);
                 } else {//这种情况应该不存在
-                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote);
+                    itemManagePublishHolderBinding.tvManageMyPublishQuote.setText(MyManager.QOUNT + (int) quote+"元");
                 }
 
                 int timetype = data.getTimetype();

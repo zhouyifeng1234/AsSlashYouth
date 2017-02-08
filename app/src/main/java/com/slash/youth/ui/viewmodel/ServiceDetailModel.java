@@ -25,6 +25,7 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DetailRecommendServiceList;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UserInfoBean;
+import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.ServiceEngine;

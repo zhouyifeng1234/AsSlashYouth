@@ -48,6 +48,15 @@ public class HomeContactsVisitorBean {
             private String position;
             private long uid;
             private long uts;
+            private int isfriend;
+
+            public int getIsfriend() {
+                return isfriend;
+            }
+
+            public void setIsfriend(int isfriend) {
+                this.isfriend = isfriend;
+            }
 
             public String getAvatar() {
                 return avatar;

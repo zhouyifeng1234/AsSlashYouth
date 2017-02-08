@@ -11,12 +11,9 @@ import org.xutils.http.RequestParams;
  * Created by zss on 2016/12/2.
  */
 public class DeleteMyPublishTaskItemProtocol extends BaseProtocol<SetBean> {
-    private int type;
     private long tid;
 
-
-    public DeleteMyPublishTaskItemProtocol(int type, long tid) {
-        this.type = type;
+    public DeleteMyPublishTaskItemProtocol( long tid) {
         this.tid = tid;
     }
 
@@ -27,9 +24,7 @@ public class DeleteMyPublishTaskItemProtocol extends BaseProtocol<SetBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-
-        params.addBodyParameter("type", String.valueOf(type));
-        params.addBodyParameter("tid", String.valueOf(tid));
+        params.addBodyParameter("id", String.valueOf(tid));
     }
 
     @Override

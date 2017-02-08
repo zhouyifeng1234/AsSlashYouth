@@ -164,7 +164,7 @@ public class PagerHomeContactsModel extends BaseObservable {
                 setUpdatePager(personRelationRecode?View.GONE:View.VISIBLE);
             }
         });
-}
+    }
 
     //获取我的访客的列表
     public class onGetMyVisitorList implements BaseProtocol.IResultExecutor<HomeContactsVisitorBean> {
@@ -177,12 +177,10 @@ public class PagerHomeContactsModel extends BaseObservable {
                 if (getBaseDataFinishedCount >= getBaseDataTotalCount) {
                     hideLoadLayer();
                 }
-
                 HomeContactsVisitorBean.DataBean data = dataBean.getData();
                 List<HomeContactsVisitorBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
                 listHomeContactsVisitorBean.addAll(list);
-
                 //访客列表没有数据
                 if(listSize == 0){
                     View rl = mPagerHomeContactsBinding.more.findViewById(R.id.rl_progress);

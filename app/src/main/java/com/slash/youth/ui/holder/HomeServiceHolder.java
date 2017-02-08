@@ -31,6 +31,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
     private Activity mActivity;
     private ItemDemandLayoutBinding itemDemandLayoutBinding;
     private ItemDemandModel itemDemandModel;
+    private String unit;
 
 
     public HomeServiceHolder(Activity mActivity) {
@@ -78,7 +79,12 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         itemDemandModel.setTitle(title);
 
         long quote = data.getQuote();
-        String quoteString = FirstPagerManager.QUOTE + quote + "元";
+        int quoteunit = data.getQuoteunit();
+        if(quoteunit>=1&&quoteunit<=8){
+            unit = FirstPagerManager.QUOTEUNITS[quoteunit-1];
+            unit ="/"+unit;
+        }
+        String quoteString = FirstPagerManager.QUOTE + quote + "元"+unit;
         itemDemandModel.setQuote(quoteString);
 
         int pattern = data.getPattern();
@@ -104,7 +110,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         }
 
         int instalment = data.getInstalment();
-        itemDemandModel.setInstalment(FirstPagerManager.DEMAND_INSTALMENT);
+        itemDemandModel.setInstalment(FirstPagerManager.SERVICE_INSTALMENT);
         switch (instalment){
             case 0:
                 itemDemandModel.setInstalmentVisibility(View.VISIBLE);
@@ -119,6 +125,5 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         if(timetype!=0){
             itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype-1]);
         }
-
     }
 }

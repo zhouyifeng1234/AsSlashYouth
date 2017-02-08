@@ -95,9 +95,8 @@ public class ManagePublishAdapter extends SlashBaseAdapter<ManagerMyPublishTaskB
              public void OnDeleteClick() {
                  if(index!=-1){
                      ManagerMyPublishTaskBean.DataBean.ListBean listBean = managePublishList.get(index);
-                     int type = listBean.getType();
                      long id = listBean.getId();
-                     MyManager.onDeleteManagerMyPublishTaskItem(new onAddMyCollectionList(),type,id);
+                     MyManager.onDeleteManagerMyPublishTaskItem(new onAddMyCollectionList(),id);
                  }
              }
          });

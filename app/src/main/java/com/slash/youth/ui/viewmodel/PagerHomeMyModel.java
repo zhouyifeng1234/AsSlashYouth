@@ -80,6 +80,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int loadLayerVisibility = View.GONE;
     private int approvalDialog = View.GONE;
     private int taskProgress;
+    private String[] grades= {"少侠","大侠","宗师","至尊"};
 
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
@@ -205,7 +206,6 @@ public class PagerHomeMyModel extends BaseObservable {
         }
     }
 
-
     //设置我的数据
     private void setMyInfoData() {
         //描述详情
@@ -303,19 +303,24 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为" + averageservicepoint + "星");
 
         //数量,网络获取的分数
-        int expertscore = myinfo.getExpertscore();//超过多少个用户
-        mPagerHomeMyBinding.tvLeastMark.setText(expertscore + "");
+       /* int expertscore = myinfo.getExpertscore();
+        mPagerHomeMyBinding.tvLeastMark.setText(expertscore + "");*/
         //超出用户的百分比
         double expertratio = myinfo.getExpertratio();
         int v = (int) (expertratio * 100);
         mPagerHomeMyBinding.tvOver.setText(v + "%");
 
-        int expertlevel = myinfo.getExpertlevel();//对应的等级
         List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
-//        if (expertlevel != 0) {
-//            expertMarks = (float) expertlevels.get(expertlevel - 1);
-//        }
         expertMarks = myinfo.getExpertscore();
+        int expertlevel = myinfo.getExpertlevel();//当前对应的等级
+        if(expertlevel>0&&expertlevel<=4){
+            String grade = grades[expertlevel];
+            mPagerHomeMyBinding.tvGrade.setText(grade);
+            int expertscore = expertlevels.get(expertlevel);
+            int  mark  = (int) (expertscore - expertMarks);
+            mPagerHomeMyBinding.tvLeastMark.setText(mark + "");
+        }
+
         if (expertlevels.size() != 0) {
             for (int i = 0; i < expertlevels.size(); i++) {
                 if (i == 0) {
@@ -333,6 +338,7 @@ public class PagerHomeMyModel extends BaseObservable {
                 }
             }
         }
+
         setExpertMarks();
         initAnimation();
         initScoreView();

@@ -51,6 +51,12 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
+
+        bannerTitle = intent.getStringExtra("title");
+        if(bannerTitle!=null){
+            webUrl = intent.getStringExtra("bannerUrl");
+        }
+
         influence = intent.getStringExtra("influence");
         if(influence !=null){
             webUrl = GlobalConstants.WebPath.WEB_INFLUENCE;
@@ -75,10 +81,6 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
             }
         }*/
 
-
-        bannerTitle = intent.getStringExtra("title");
-        webUrl = intent.getStringExtra("bannerUrl");
-
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
         ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding,webUrl,this);
         activityCommonQuestionBinding.setActivityCommonQuestionModel(activityCommonQuestionModel);
@@ -88,6 +90,11 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
+
+        if(bannerTitle!=null){
+            title.setText(bannerTitle);
+        }
+
         if(influence!=null){
             title.setText(influenceTitle);
         }
@@ -95,7 +102,6 @@ public class WebViewActivity extends Activity implements View.OnClickListener {
             title.setText(questionTitle);
         }
 
-        title.setText(bannerTitle);
         /*if(bannerIndex !=-1){
             switch (bannerIndex){
                 case 0:

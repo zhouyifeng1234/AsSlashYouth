@@ -70,7 +70,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private int myAddFriendLocalCount;
     private int addMeFriendLocalCount;
 
-
     public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding, Activity mActivity) {
         this.mHeaderListviewHomeContactsBinding = headerListviewHomeContactsBinding;
         this.mActivity = mActivity;
@@ -221,8 +220,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 mHeaderListviewHomeContactsBinding.tvMyCare.setText(String.valueOf(myFansCount));
                 mHeaderListviewHomeContactsBinding.tvMyAdd.setText(String.valueOf(myAddFriendCount));
                 mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
-
-
 
                 //保存一下在本地
                 if(myFollowLocalCount!=0){

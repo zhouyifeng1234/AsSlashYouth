@@ -428,7 +428,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="8dp"
-                                android:text="宗师与至尊级别需平台审核"
+                                android:text="宗师与至尊级别需审核"
                                 android:textColor="#CCCCCC"
                                 android:textSize="11sp"/>
 
@@ -444,9 +444,25 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
-                                    android:text="距离大侠还有 "
+                                    android:text="距离"
                                     android:textColor="#999999"
                                     android:textSize="11dp"/>
+                                <TextView
+                                    android:id="@+id/tv_grade"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="大侠"
+                                    android:textColor="#999999"
+                                    android:textSize="11dp"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:text="还有 "
+                                    android:textColor="#999999"
+                                    android:textSize="11dp"/>
+
                                 <TextView
                                     android:id="@+id/tv_least_mark"
                                     android:layout_width="wrap_content"

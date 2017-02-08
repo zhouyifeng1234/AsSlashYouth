@@ -43,6 +43,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
     private int isfriend;
     private TextView title;
     private int status;
+    private TextView tvCompany;
 
     public ContactsCareHolder(int type) {
         this.type = type;
@@ -60,6 +61,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
         tvDirection = (TextView) itemView.findViewById(R.id.tv_addme_direction);
         title = (TextView) itemView.findViewById(R.id.tv_btn_title);
         btn = (CardView) itemView.findViewById(R.id.cd_btn);
+        tvCompany = (TextView) itemView.findViewById(R.id.tv_addme_company);
         return itemView;
     }
 
@@ -97,11 +99,11 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
         tvDirection.setText(direction);
         }
         if(!TextUtils.isEmpty(company)&&!TextUtils.isEmpty(position)){
-            tvPosition.setText(company+" "+position);
+            tvCompany.setText(company);
+            tvPosition.setText("-"+position);
         }
 
         btn.setOnClickListener(this);
-
         iv.setVisibility(View.GONE);
 
        // isfriend = data.getIsfriend();

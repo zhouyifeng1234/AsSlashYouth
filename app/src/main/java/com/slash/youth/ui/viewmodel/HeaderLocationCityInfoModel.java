@@ -86,7 +86,6 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
 
     //保存最近访问的城市
     public void saveCity(String city) {
-    LogKit.d("======save======="+city);
 
     CityHistoryEntity cityHistoryEntity = new CityHistoryEntity();
     cityHistoryEntity.setCity(city);
@@ -126,11 +125,6 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         currenty_access_lists.clear();
 
         List<CityHistoryEntity> cityHistoryEntities = cityHistoryEntityDao.loadAll();
-        for (CityHistoryEntity cityHistoryEntity : cityHistoryEntities) {
-            String city = cityHistoryEntity.getCity();
-            LogKit.d("===read====="+city);
-        }
-
         Collections.reverse(cityHistoryEntities);
         if(cityHistoryEntities.size()!=0){
             if(cityHistoryEntities.size()>=0&&cityHistoryEntities.size()<3){

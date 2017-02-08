@@ -23,6 +23,7 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
     private HomeContactsVisitorModel mHomeContactsVisitorModel;
     private ItemListviewHomeContactsVisitorBinding itemListviewHomeContactsVisitorBinding;
     private Long uid;
+    private String name;
 
     @Override
     public View initView() {
@@ -49,12 +50,15 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
                 break;
         }
 
-        String name = data.getName();
+        name = data.getName();
         itemListviewHomeContactsVisitorBinding.tvVisitorName.setText(name);
 
         String company = data.getCompany();
         String position = data.getPosition();
-        itemListviewHomeContactsVisitorBinding.tvVisitorPosition.setText(company+""+position);
+        if(company!=null&&position!=null){
+            itemListviewHomeContactsVisitorBinding.tvCompany.setText(company);
+            itemListviewHomeContactsVisitorBinding.tvVisitorPosition.setText("-"+position);
+        }
 
          uid = data.getUid();
         //点击头像到个人中心页面
@@ -66,10 +70,25 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
             itemListviewHomeContactsVisitorBinding.tvVisitorDirection.setText(direction);
         }
 
-
         long uts = data.getUts();//最后访问时间，毫秒时间戳
         String time = TimeUtils.getTime(uts);
         itemListviewHomeContactsVisitorBinding.tvContactsVisitorTime.setText(time);
+
+        int isfriend = data.getIsfriend();
+        switch (isfriend){
+            case 0:
+              //  itemListviewHomeContactsVisitorBinding.tvContactsVisitorAddfriend.setVisibility(View.VISIBLE);
+                itemListviewHomeContactsVisitorBinding.tvContactsVisitorAddfriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                break;
+            case 1:
+                //itemListviewHomeContactsVisitorBinding.tvFriendState.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     @Override

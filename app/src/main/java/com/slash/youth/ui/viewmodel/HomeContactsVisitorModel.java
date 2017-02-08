@@ -17,10 +17,5 @@ public class HomeContactsVisitorModel extends BaseObservable {
     }
 
     private void initView() {
-
     }
-
-
-
-
 }

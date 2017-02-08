@@ -33,7 +33,7 @@ public class FirstPagerManager {
     public static final String  AFTER_WORK_AND_WEEKEND = "下班后和周末";
     public static final int SERVICE_TIMETYPE_ANYTIME = 4;
     public static final String TIMETYPE_ANYTIME = "随时";
-    public static final String[] TIMETYPES = {"下班以后","周末","下班后和周末","随时"};
+    public static final String[] TIMETYPES = {"下班以后","周末","下班后及周末","随时"};
 
 
     //首页广告

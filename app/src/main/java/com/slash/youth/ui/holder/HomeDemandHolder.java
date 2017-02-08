@@ -56,9 +56,11 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
                 break;
             case 0://匿名
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
-                String firstName = name.substring(0, 1);
-                String anonymityName = firstName + "xx";
-                itemDemandModel.setName(anonymityName );
+                if(!TextUtils.isEmpty(name)){
+                    String firstName = name.substring(0, 1);
+                    String anonymityName = firstName + "xx";
+                    itemDemandModel.setName(anonymityName );
+                }
                 break;
         }
 

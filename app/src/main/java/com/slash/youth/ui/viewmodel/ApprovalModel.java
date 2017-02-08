@@ -88,7 +88,6 @@ public class ApprovalModel extends BaseObservable {
     //点击修改
     public void modify(View view){
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_PERFECT_APPROVE);
-
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("myId",uid);
        approvalActivity.startActivity(intentUserinfoEditorActivity);

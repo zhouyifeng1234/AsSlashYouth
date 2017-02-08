@@ -104,8 +104,8 @@ public class MyManager {
     }
 
     //管理我发布的-删除管理项
-    public static void  onDeleteManagerMyPublishTaskItem(BaseProtocol.IResultExecutor onDeleteManagerMyPublishTaskItem,int type,long tid) {
-        DeleteMyPublishTaskItemProtocol deleteMyPublishTaskItemProtocol = new DeleteMyPublishTaskItemProtocol(type,tid);
+    public static void  onDeleteManagerMyPublishTaskItem(BaseProtocol.IResultExecutor onDeleteManagerMyPublishTaskItem,long tid) {
+        DeleteMyPublishTaskItemProtocol deleteMyPublishTaskItemProtocol = new DeleteMyPublishTaskItemProtocol(tid);
         deleteMyPublishTaskItemProtocol.getDataFromServer(onDeleteManagerMyPublishTaskItem);
     }
 

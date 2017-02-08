@@ -12,6 +12,7 @@ import android.widget.PopupWindow;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.domain.MyFirstPageBean;
+import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.global.SlashApplication;
@@ -111,8 +112,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
                 Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
                 intentUserinfoEditorActivity.putExtra("phone", phone);
                 intentUserinfoEditorActivity.putExtra("myId", myId);
-                MyFirstPageBean.DataBean.MyinfoBean myUninfo = userInfoModel.myData.getMyinfo();
-                intentUserinfoEditorActivity.putExtra("uifo",myUninfo);
                 UserInfoActivity.this.startActivity(intentUserinfoEditorActivity);
                 break;
             case R.id.iv_userinfo_menu:
