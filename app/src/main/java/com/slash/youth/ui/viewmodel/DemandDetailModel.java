@@ -429,17 +429,17 @@ public class DemandDetailModel extends BaseObservable {
                 String publicDatetimeStr;
                 if (ctsYear != currentYear) {//去年
                     publsihDatetimeSdf = new SimpleDateFormat("yyyy年MM月dd日发布");
-                    publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
-                    setPublishDatetime(publicDatetimeStr);
+                    publicDatetimeStr = publsihDatetimeSdf.format(demand.cts);
+                    setDemandPublishTime(publicDatetimeStr);
                 } else {
                     if (currentMonth == ctsMonth && currentDay == ctsDay) {//今天
                         publsihDatetimeSdf = new SimpleDateFormat("HH:mm发布");
-                        publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
-                        setPublishDatetime(publicDatetimeStr);
+                        publicDatetimeStr = publsihDatetimeSdf.format(demand.cts);
+                        setDemandPublishTime(publicDatetimeStr);
                     } else {//之前
                         publsihDatetimeSdf = new SimpleDateFormat("MM月dd日发布");
-                        publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
-                        setPublishDatetime(publicDatetimeStr);
+                        publicDatetimeStr = publsihDatetimeSdf.format(demand.cts);
+                        setDemandPublishTime(publicDatetimeStr);
                     }
                 }
 

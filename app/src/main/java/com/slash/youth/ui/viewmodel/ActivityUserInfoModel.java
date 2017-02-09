@@ -14,14 +14,11 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.databinding.DialogRecommendBinding;
 import com.slash.youth.domain.ChatCmdBusinesssCardBean;
-import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.FansBean;
 import com.slash.youth.domain.FriendStatusBean;
-import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.NewDemandAandServiceBean;
 import com.slash.youth.domain.OtherInfoBean;
 import com.slash.youth.domain.SetBean;
-import com.slash.youth.domain.UserInfoItemBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
@@ -50,11 +47,11 @@ import java.util.List;
  */
 public class ActivityUserInfoModel extends BaseObservable {
     private ActivityUserinfoBinding activityUserinfoBinding;
-    private  ArrayList<NewDemandAandServiceBean.DataBean.ListBean> userInfoListView = new ArrayList<>();
+    private ArrayList<NewDemandAandServiceBean.DataBean.ListBean> userInfoListView = new ArrayList<>();
     private ArrayList<String> skillLabelList = new ArrayList<>();
     private UserInfoAdapter userInfoAdapter;
     private String slashIdentity = "暂未填写";//默认
-    private String defaultArea  = "暂未填写";
+    private String defaultArea = "暂未填写";
     public String name;
     private int expert;
     private int isauth;
@@ -88,9 +85,9 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int startY;
     private int anonymity = 1;
     public OtherInfoBean.DataBean.UinfoBean uinfo;
-    private  int friendStatus;
+    private int friendStatus;
     private int attentionStatus;
-    private int  myAnonymity = 2;
+    private int myAnonymity = 2;
     private long taskProgress;
     private int relationshipscount;
     private int relationshipscount1;
