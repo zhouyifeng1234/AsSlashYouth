@@ -1572,7 +1572,7 @@ public class ChatModel extends BaseObservable {
         //这是手机自带的拍照功能
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mActivity.startActivityForResult(intentCamera, 20);
-        sendPic("/storage/sdcard1/4.jpg");
+//        sendPic("/storage/sdcard1/4.jpg");
     }
 
     //选择相册图片发送

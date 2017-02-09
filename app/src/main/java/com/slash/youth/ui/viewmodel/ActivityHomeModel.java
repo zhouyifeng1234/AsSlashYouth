@@ -101,6 +101,7 @@ public class ActivityHomeModel extends BaseObservable {
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_FREETIME;
 
                 mActivityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#31c5e4"));
+                HomeActivity.goBackPageNo = HomeActivity.PAGE_FREETIME;
                 break;
             case R.id.ll_activity_home_info:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
@@ -110,6 +111,7 @@ public class ActivityHomeModel extends BaseObservable {
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_INFO;
 
                 mActivityHomeBinding.tvInfo.setTextColor(Color.parseColor("#31c5e4"));
+                HomeActivity.goBackPageNo = HomeActivity.PAGE_INFO;
                 break;
             case R.id.ll_activity_home_contacts:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_press, R.mipmap.home_wode_btn);
@@ -119,6 +121,7 @@ public class ActivityHomeModel extends BaseObservable {
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_CONTACTS;
 
                 mActivityHomeBinding.tvContact.setTextColor(Color.parseColor("#31c5e4"));
+                HomeActivity.goBackPageNo = HomeActivity.PAGE_CONTACTS;
                 break;
             case R.id.ll_activity_home_my:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.icon_my_center_press);
@@ -128,6 +131,7 @@ public class ActivityHomeModel extends BaseObservable {
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_MY;
 
                 mActivityHomeBinding.tvMy.setTextColor(Color.parseColor("#31c5e4"));
+                HomeActivity.goBackPageNo = HomeActivity.PAGE_MY;
                 break;
         }
     }

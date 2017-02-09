@@ -879,6 +879,9 @@ public class MyBidDemandModel extends BaseObservable {
         } else if (bidDemandInstalmentRatioList.size() <= 0) {
             ToastUtils.shortToast("请先完善分期比例信息");
             return;
+        } else if (bidDemandInstalmentRatioList.size() == 1) {
+            ToastUtils.shortToast("开启分期至少分两期");
+            return;
         } else {
             double totalRatio = 0;
             for (double ratio : bidDemandInstalmentRatioList) {

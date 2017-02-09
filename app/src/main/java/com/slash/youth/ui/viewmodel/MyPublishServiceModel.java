@@ -393,6 +393,9 @@ public class MyPublishServiceModel extends BaseObservable {
         } else if (updateInstalmentRatioList.size() <= 0) {
             ToastUtils.shortToast("请先完善分期比例信息");
             return;
+        } else if (updateInstalmentRatioList.size() == 1) {
+            ToastUtils.shortToast("开启分期至少分两期");
+            return;
         } else {
             double totalRatio = 0;
             for (double ratio : updateInstalmentRatioList) {

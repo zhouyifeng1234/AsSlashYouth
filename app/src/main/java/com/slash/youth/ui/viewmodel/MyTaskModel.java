@@ -566,8 +566,8 @@ public class MyTaskModel extends BaseObservable {
     public void gotoBrowseTask(View v) {
 //        ToastUtils.shortToast("去浏览任务");
         Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+        HomeActivity.goBackPageNo = HomeActivity.PAGE_FREETIME;
         mActivity.startActivity(intentHomeActivity);
-        mActivity.finish();
     }
 
     //关闭发布任务对话框

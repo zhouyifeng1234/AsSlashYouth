@@ -33,6 +33,7 @@ import com.slash.youth.domain.DetailRecommendDemandList;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -371,7 +372,8 @@ public class DemandDetailModel extends BaseObservable {
                 pattern = demand.pattern;
                 if (demand.pattern == 1) {//线下
                     setOfflineItemVisibility(View.VISIBLE);
-                    setDemandPlace("约定地点:" + demand.place != null ? demand.place : "");
+//                    setDemandPlace("约定地点:" + demand.place != null ? demand.place : "");
+                    setDemandPlace(demand.place != null ? demand.place : "");
                 } else if (demand.pattern == 0) {//线上
 //                    setOfflineItemVisibility(View.GONE);
                     setOfflineItemVisibility(View.VISIBLE);
@@ -408,10 +410,39 @@ public class DemandDetailModel extends BaseObservable {
                 } else {//这种情况应该不存在
                     displayTags(tags[0], tags[1], tags[2]);
                 }
+
                 //发布时间
-                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("yyyy年MM月dd日 HH:mm发布");//9月18日 8:30
-                String publishTimeStr = sdfPublishTime.format(demand.cts);
-                setDemandPublishTime(publishTimeStr);
+//                SimpleDateFormat sdfPublishTime = new SimpleDateFormat("yyyy年MM月dd日 HH:mm发布");//9月18日 8:30
+//                String publishTimeStr = sdfPublishTime.format(demand.cts);
+//                setDemandPublishTime(publishTimeStr);
+                //如果是今天发的，就显示时分;如果是之前发的，就显示月日;如果是去年发的，就显示年月日
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(demand.cts);
+                int ctsYear = calendar.get(Calendar.YEAR);
+                int ctsMonth = calendar.get(Calendar.MONTH);
+                int ctsDay = calendar.get(Calendar.DAY_OF_MONTH);
+                calendar.setTime(new Date());
+                int currentYear = calendar.get(Calendar.YEAR);
+                int currentMonth = calendar.get(Calendar.MONTH);
+                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                SimpleDateFormat publsihDatetimeSdf;
+                String publicDatetimeStr;
+                if (ctsYear != currentYear) {//去年
+                    publsihDatetimeSdf = new SimpleDateFormat("yyyy年MM月dd日发布");
+                    publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                    setPublishDatetime(publicDatetimeStr);
+                } else {
+                    if (currentMonth == ctsMonth && currentDay == ctsDay) {//今天
+                        publsihDatetimeSdf = new SimpleDateFormat("HH:mm发布");
+                        publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                        setPublishDatetime(publicDatetimeStr);
+                    } else {//之前
+                        publsihDatetimeSdf = new SimpleDateFormat("MM月dd日发布");
+                        publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                        setPublishDatetime(publicDatetimeStr);
+                    }
+                }
+
                 //详情描述
                 setDemandDesc(demand.desc);
                 //设置备注
@@ -1213,6 +1244,9 @@ public class DemandDetailModel extends BaseObservable {
         } else if (bidDemandInstalmentRatioList.size() <= 0) {
             ToastUtils.shortToast("请先完善分期比例信息");
             return;
+        } else if (bidDemandInstalmentRatioList.size() == 1) {
+            ToastUtils.shortToast("开启分期至少分两期");
+            return;
         } else {
             double totalRatio = 0;
             for (double ratio : bidDemandInstalmentRatioList) {
@@ -1377,7 +1411,7 @@ public class DemandDetailModel extends BaseObservable {
      */
     public void chatToSlashHelper(View v) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-        intentChatActivity.putExtra("targetId", "1000");
+        intentChatActivity.putExtra("targetId", MsgManager.customerServiceUid);
         mActivity.startActivity(intentChatActivity);
     }
 

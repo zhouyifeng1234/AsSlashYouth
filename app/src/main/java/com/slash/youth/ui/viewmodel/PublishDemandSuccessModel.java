@@ -171,9 +171,8 @@ public class PublishDemandSuccessModel extends BaseObservable {
                             String targetId = serviceUserInfo.uid + "";
                             ShareTaskUtils.sendText(recommendDemandText, targetId);
                         }
-
                         Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                        intentHomeActivity.putExtra(ShareTaskUtils.PUBLISH_SUCCESS_SHARE_TASK, true);
+                        HomeActivity.goBackPageNo = HomeActivity.PAGE_INFO;
                         mActivity.startActivity(intentHomeActivity);
                     }
                 }, 1500);

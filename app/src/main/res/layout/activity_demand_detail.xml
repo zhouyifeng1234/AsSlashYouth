@@ -839,7 +839,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="9dp"
-                                    android:text="该需求已参加"
+                                    android:text="该需求已同意"
                                     android:textColor="#999999"
                                     android:textSize="13sp"/>
                                 <TextView
@@ -847,7 +847,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:onClick="@{demandDetailModel.viewZeroCommissionContent}"
-                                    android:text="斜杠零佣金活动"
+                                    android:text="《斜杠青年顺利成交保障规则》"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>
                             </LinearLayout>
@@ -872,15 +872,22 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="9dp"
-                                    android:text="报价不含税，若需要发票，请到“我的”中申请"
+                                    android:text="如有任何问题或需要发票，请联系"
                                     android:textColor="#999999"
                                     android:textSize="13sp"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:onClick="@{demandDetailModel.chatToSlashHelper}"
+                                    android:text="斜杠客服小助手"
+                                    android:textColor="#31C5E4"
+                                    android:textSize="14sp"/>
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="45dp"
                                 android:layout_marginLeft="14dp"
                                 android:layout_marginTop="7dp"
                                 android:orientation="horizontal">
@@ -898,17 +905,35 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="9dp"
-                                    android:text="如有任何问题，请点击"
+                                    android:text="以上信息为发布者意向，最终合作结论可根据双方协商情况修改"
                                     android:textColor="#999999"
                                     android:textSize="13sp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="45dp"
+                                android:layout_marginLeft="14dp"
+                                android:layout_marginTop="7dp"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/shape_circle_point"
+                                    android:gravity="center"
+                                    android:text="4"
+                                    android:textColor="#31C5E4"
+                                    android:textSize="12sp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:onClick="@{demandDetailModel.chatToSlashHelper}"
-                                    android:text="斜杠客服"
-                                    android:textColor="#31C5E4"
-                                    android:textSize="14sp"/>
+                                    android:layout_marginLeft="9dp"
+                                    android:text="客服介入双方纠纷，斜杠青年聊天记录可作为处理纠纷依据，第三方聊天内容截图无效。"
+                                    android:textColor="#999999"
+                                    android:textSize="13sp"/>
                             </LinearLayout>
 
                         </LinearLayout>
