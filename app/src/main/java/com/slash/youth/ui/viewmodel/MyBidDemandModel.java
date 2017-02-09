@@ -19,7 +19,6 @@ import com.slash.youth.databinding.ItemDemandFlowLogBinding;
 import com.slash.youth.domain.CommonLogList;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DemandDetailBean;
-import com.slash.youth.domain.DemandFlowLogList;
 import com.slash.youth.domain.DemandInstalmentListBean;
 import com.slash.youth.domain.InterventionBean;
 import com.slash.youth.domain.MyTaskBean;
@@ -411,11 +410,12 @@ public class MyBidDemandModel extends BaseObservable {
                     continue;
                 }
                 if (i == ratios.length - 1) {
-                    ratioStr += ratio + "%";
+                    ratioStr += (int) (Double.parseDouble(ratio) * 100) + "%";
                 } else {
-                    ratioStr += ratio + "%/";
+                    ratioStr += (int) (Double.parseDouble(ratio) * 100) + "%/";
                 }
             }
+            setInstalmentRatio(ratioStr);
         } else {//不分期
             setInstalmentVisibility(View.GONE);
         }

@@ -730,7 +730,7 @@ public class DemandDetailModel extends BaseObservable {
     }
 
     /**
-     * 取消分销按钮
+     * 取消分享按钮
      *
      * @param v
      */
@@ -755,6 +755,8 @@ public class DemandDetailModel extends BaseObservable {
         chatCmdShareTaskBean.tid = demandId;
         intentMyFriendActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
         mActivity.startActivity(intentMyFriendActivity);
+
+        setShareLayerVisibility(View.GONE);
     }
 
     /**
@@ -769,6 +771,8 @@ public class DemandDetailModel extends BaseObservable {
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
+
+        setShareLayerVisibility(View.GONE);
     }
 
     /**
@@ -783,6 +787,8 @@ public class DemandDetailModel extends BaseObservable {
         if (mShareAPI.isInstall(mActivity, SHARE_MEDIA.WEIXIN_CIRCLE)) {
             new ShareAction(mActivity).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
         }
+
+        setShareLayerVisibility(View.GONE);
     }
 
     /**
@@ -799,6 +805,8 @@ public class DemandDetailModel extends BaseObservable {
         } else {
             ToastUtils.shortToast("请先安装qq客户端");
         }
+
+        setShareLayerVisibility(View.GONE);
     }
 
     /**
@@ -808,6 +816,8 @@ public class DemandDetailModel extends BaseObservable {
      */
     public void shareToQZone(View v) {
         new ShareAction(mActivity).setPlatform(SHARE_MEDIA.QZONE).withMedia(shareAvatar).withTitle(shareTitle).withText(shareContent).withTargetUrl(shareUrl).setCallback(umShareListener).share();
+
+        setShareLayerVisibility(View.GONE);
     }
 
 

@@ -85,16 +85,25 @@ public class PublishServiceSuccessModel extends BaseObservable {
             setUpdateSuccessHintVisibility(View.VISIBLE);
             setPublishSuccessHintVisibility(View.GONE);
             mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVisibility(View.GONE);
+            mActivityPublishServiceSuccessBinding.tvPublishServiceText.setText("修改服务");
+            mActivityPublishServiceSuccessBinding.tvPublishSuccessText.setText("修改成功");
+
+            setUpdateSuccessVisibility(View.VISIBLE);
+            setPublishSuccessVisibility(View.GONE);
         } else {
             setUpdateSuccessHintVisibility(View.GONE);
             setPublishSuccessHintVisibility(View.VISIBLE);
             mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVisibility(View.VISIBLE);
+
+            setUpdateSuccessVisibility(View.GONE);
+            setPublishSuccessVisibility(View.VISIBLE);
         }
         mActivityPublishServiceSuccessBinding.lvRecommendDemand.setVerticalScrollBarEnabled(false);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("展示有效期至yyyy年MM月dd日HH:mm");
         String displayValidityDatetime = simpleDateFormat.format(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
         mActivityPublishServiceSuccessBinding.tvDisplayValidityDatetime.setText(displayValidityDatetime);
+        setAfterUpdateValidDate(displayValidityDatetime);
     }
 
     public void closeSuccessActivity(View v) {
@@ -132,6 +141,40 @@ public class PublishServiceSuccessModel extends BaseObservable {
     private int updateSuccessHintVisibility;
     private int authLayerVisibility;
     private int noAuthLayerVisibility;
+
+    private int updateSuccessVisibility = View.GONE;
+    private int publishSuccessVisibility;
+    private String afterUpdateValidDate;
+
+    @Bindable
+    public int getPublishSuccessVisibility() {
+        return publishSuccessVisibility;
+    }
+
+    public void setPublishSuccessVisibility(int publishSuccessVisibility) {
+        this.publishSuccessVisibility = publishSuccessVisibility;
+        notifyPropertyChanged(BR.publishSuccessVisibility);
+    }
+
+    @Bindable
+    public String getAfterUpdateValidDate() {
+        return afterUpdateValidDate;
+    }
+
+    public void setAfterUpdateValidDate(String afterUpdateValidDate) {
+        this.afterUpdateValidDate = afterUpdateValidDate;
+        notifyPropertyChanged(BR.afterUpdateValidDate);
+    }
+
+    @Bindable
+    public int getUpdateSuccessVisibility() {
+        return updateSuccessVisibility;
+    }
+
+    public void setUpdateSuccessVisibility(int updateSuccessVisibility) {
+        this.updateSuccessVisibility = updateSuccessVisibility;
+        notifyPropertyChanged(BR.updateSuccessVisibility);
+    }
 
     @Bindable
     public int getNoAuthLayerVisibility() {

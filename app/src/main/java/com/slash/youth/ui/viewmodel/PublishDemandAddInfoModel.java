@@ -57,7 +57,8 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
             mActivityPublishDemandAddinfoBinding.tvPublishDemandText.setText("修改需求");
-            mActivityPublishDemandAddinfoBinding.btnPublishText.setText("发布");
+            mActivityPublishDemandAddinfoBinding.btnPublishText.setText("修改");
+            mActivityPublishDemandAddinfoBinding.tvPublishSuccessText.setText("修改成功");
             loadDemandDetailData();
         }
     }
@@ -332,6 +333,52 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
             }
         }, slashZeroCommissionInfoText, slashZeroCommissionInfoTitle);
+    }
+
+    private static final String instalmentInfoTitle = "分期到账";
+    private static final String instalmentInfoContent = "基于任务的阶段性特征，若双方将任务划分成若干个阶段，预支付的资金也将会被划分成对应的若干个部分，在需求方确认服务方提交的某阶段的服务时，该阶段的资金将被划转给服务方。";
+
+    /**
+     * 开启分期付问号
+     *
+     * @param v
+     */
+    public void openInstalmentInfo(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+
+            }
+        }, instalmentInfoContent, instalmentInfoTitle);
+    }
+
+    private static final String bpInfoTitle = "纠纷处理规则";
+    private static final String bpInfoContent = "针对交易过程中出现的争议、纠纷等情况，本平台提供平台处理规则和双方协商规则的两种方式。\n" +
+            "\n" +
+            "平台处理规则：\n" +
+            "若任务开启了分期到账，\n" +
+            "1）未开始的分期阶段对应的资金，全额退给需求方\n" +
+            "2）已开始未完成的或已完成未被需求方认可的分期阶段对应的资金，扣除顺利成交保证金（5%）后退款给需求方\n" +
+            "3）已完成并被需求方认可的分期阶段对应的资金，扣除顺利成交保证金（5%）后划转给服务方。\n" +
+            "若任务未开启分期到账，任务没有顺利完成的（需求方支付后，并没有认可对方的服务结果），扣除顺利成交保证金（5%）后退款给需求方。\n" +
+            "\n" +
+            "上述“开始”是指需求方支付后开始第一期服务或需求方确认某期服务后开始下期服务。\n" +
+            "\n" +
+            "双方协商规则：除平台处理方规则外，交易双方还可以选择“双方协商规则”方式处理纠纷。纠纷出现时，平台将依据双方提供的本客户端聊天截图、协议等资料来判断退款金额。对于处理结果双方不满意的，双方可以通过专业鉴定机构等第三方进行裁决，客服根据双方认可的裁决进行退款。\n" +
+            "附则：本客户端之外的其他第三方聊天、通讯记录不具备法律效用。";
+
+    /**
+     * 纠纷处理问号
+     *
+     * @param v
+     */
+    public void openBpInfo(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+
+            }
+        }, bpInfoContent, bpInfoTitle);
     }
 
     private int offlineItemVisibility = View.GONE;
