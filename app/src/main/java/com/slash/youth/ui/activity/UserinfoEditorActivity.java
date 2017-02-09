@@ -134,9 +134,11 @@ public class UserinfoEditorActivity extends Activity {
         //最近访问的城市
         if(resultCode == Constants.CURRENT_ACCESS_CITY){
             String currentCityAccess = data.getStringExtra("currentCityAccess");
-            activityUserinfoEditorBinding.tvLocation.setText(currentCityAccess);
+            String currentyProvince = data.getStringExtra("currentyProvince");
+            activityUserInfoEditorModel.city =  currentCityAccess;
+            activityUserInfoEditorModel.province =  currentyProvince;
+            activityUserinfoEditorBinding.tvLocation.setText(currentyProvince+""+currentCityAccess);
         }
-
     }
 
     private void WriteFile(Bitmap bitmap,File file) {

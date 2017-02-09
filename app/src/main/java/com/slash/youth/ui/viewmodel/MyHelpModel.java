@@ -58,6 +58,8 @@ public class MyHelpModel extends BaseObservable {
     }
 
     private void initView() {
+        String version = SpUtils.getString("version", "");
+        activityMyHelpBinding.tvVersion.setText("斜杠青年"+version);
         activityMyHelpBinding.tvLineText1.setText(text1);
         activityMyHelpBinding.tvLineText2.setText(text2);
     }

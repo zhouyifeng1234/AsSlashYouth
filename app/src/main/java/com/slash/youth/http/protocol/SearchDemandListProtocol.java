@@ -51,7 +51,9 @@ public class SearchDemandListProtocol extends BaseProtocol<SearchItemDemandBean>
             params.addBodyParameter("isauth", String.valueOf(isauth));
         }
         if(city!=null){
-            params.addBodyParameter("city",city);
+            if(!city.equals("全国")){
+                params.addBodyParameter("city",city);
+            }
         }
         if(sort ==1||sort==2||sort==3){
             params.addBodyParameter("sort", String.valueOf(sort));

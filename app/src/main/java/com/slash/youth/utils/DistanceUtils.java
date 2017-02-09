@@ -90,7 +90,9 @@ public class DistanceUtils {
                     mCurrentAoiName = aMapLocation.getAoiName();
                     mCurrentCityCode = aMapLocation.getCityCode();
                     String city = aMapLocation.getCity();
+                    String province = aMapLocation.getProvince();
                     SpUtils.setString("currentyCity", city);
+                    SpUtils.setString("currentyProvince",province);
                     // String country = aMapLocation.getCountry();
                     LogKit.v("currentLatitude:" + currentLatitude + " currentLongitude:" + currentLongitude + "city = " + city);
                    /* LatLng latLng = new LatLng(currentLatitude, currentLongitude);

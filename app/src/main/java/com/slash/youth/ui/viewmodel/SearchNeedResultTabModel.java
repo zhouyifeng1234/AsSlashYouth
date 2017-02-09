@@ -443,6 +443,13 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                 public void OnMoreCityClick(String city) {
                 }
             });
+
+            headerLocationCityInfoModel.setOnAllCityClickCListener(new HeaderLocationCityInfoModel.OnAllCityClickCListener() {
+                @Override
+                public void OnAllCityClick() {
+                    closeCity("全国");
+                }
+            });
         }
     }
 

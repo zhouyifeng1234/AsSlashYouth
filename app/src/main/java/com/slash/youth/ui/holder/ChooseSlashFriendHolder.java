@@ -1,5 +1,6 @@
 package com.slash.youth.ui.holder;
 
+import android.service.vr.VrListenerService;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
     private ImageView friendV;
     private TextView tvdirection;
     private ImageView ivavatar;
+    private TextView tvCompany;
 
     @Override
     public View initView() {
@@ -30,6 +32,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
         friendName = (TextView) view.findViewById(R.id.tv_friend_name);
         friendV = (ImageView) view.findViewById(R.id.iv_friend_v);
         tvdirection = (TextView) view.findViewById(R.id.tv_direction);
+        tvCompany = (TextView) view.findViewById(R.id.tv_company);
         ivavatar = (ImageView) view.findViewById(R.id.iv_friend_icon);
         return view;
     }
@@ -55,8 +58,18 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
 
         String company = data.getCompany();
         String position = data.getPosition();
-        tvdirection.setText(company+""+position);
-
+        int careertype = data.getCareertype();
+        switch (careertype){
+            case 1:
+                if(company!=null&&position!=null){
+                    tvdirection.setText("-"+position);
+                    tvCompany.setText(company);
+                }
+                break;
+            case 2:
+                tvdirection.setText("自顾者");
+                break;
+        }
         String direction = data.getDirection();
         String industry = data.getIndustry();
         int status = data.getStatus();

@@ -50,7 +50,6 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         int type = data.getType();
         switch (type){
             case 1://需求
-
              /*   if(starttime == 0&&endtime == 0){
                     itemUserinfoBinding.tvTime.setText(UserInfoEngine.ANY_TIME);
                 }else {
@@ -63,19 +62,7 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
                 }else {
                     itemUserinfoBinding.tvQuote.setText(FirstPagerManager.DEMAND_QUOTE);
                 }
-
-                itemUserinfoBinding.tvInstalment.setText(FirstPagerManager.DEMAND_INSTALMENT);
-                switch (instalment){
-                    case 0:
-                        itemUserinfoBinding.tvInstalment.setVisibility(View.VISIBLE);
-                        break;
-                    case 1:
-                        itemUserinfoBinding.tvInstalment.setVisibility(View.GONE);
-                        break;
-                }
                 break;
-
-
             case 2://服务
                 if(quoteunit>=1&&quoteunit<=8){
                     String quoteString = FirstPagerManager.QUOTE + quote + "元" + "/" + FirstPagerManager.QUOTEUNITS[quoteunit-1];
@@ -93,16 +80,16 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
                 }else {
                     itemUserinfoBinding.tvTime.setText(FirstPagerManager.TIMETYPES[timetype-1]);
                 }
+                break;
+        }
 
+        itemUserinfoBinding.tvInstalment.setVisibility(View.VISIBLE);
+        switch (instalment){
+            case 0:
+                itemUserinfoBinding.tvInstalment.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                break;
+            case 1:
                 itemUserinfoBinding.tvInstalment.setText(FirstPagerManager.SERVICE_INSTALMENT);
-                switch (instalment){
-                    case 0:
-                        itemUserinfoBinding.tvInstalment.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        itemUserinfoBinding.tvInstalment.setVisibility(View.VISIBLE);
-                        break;
-                }
                 break;
         }
 
@@ -141,22 +128,22 @@ public class UserInfoHolder extends BaseHolder<NewDemandAandServiceBean.DataBean
         //用户的经纬度
         double lat = data.getLat();
         double lng = data.getLng();
-
-        itemUserinfoBinding.tvPattern.setVisibility(View.GONE);
             switch (pattern){
             case 0:
-                itemUserinfoBinding.tvLocation.setText("全国");
+                itemUserinfoBinding.tvPattern.setVisibility(View.VISIBLE);
+                itemUserinfoBinding.tvLocation.setText("不限城市");
                 itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_UP);
+                itemUserinfoBinding.tvDistance.setText("");
                 break;
             case 1:
+                itemUserinfoBinding.tvPattern.setVisibility(View.VISIBLE);
                 itemUserinfoBinding.tvLocation.setText(place);
                 itemUserinfoBinding.tvPattern.setText(FirstPagerManager.PATTERN_DOWN);
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemUserinfoBinding.tvDistance.setText("距离"+distance+"KM");
+                itemUserinfoBinding.tvDistance.setText("距您"+distance+"KM");
                 break;
         }
-
     }
 }

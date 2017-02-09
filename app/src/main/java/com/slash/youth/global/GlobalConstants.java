@@ -74,7 +74,6 @@ public class GlobalConstants {
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";
         public static final String SERVER_HOST = IP_OR_DOMAINNAME;
-        //public static final String SERVER_HOST = "https://api.slashyounger.com/";//这是线上，zss
 
         //需求流程相关接口地址前缀
         public static final String SERVER_HOST_DEMAND = IP_OR_DOMAINNAME + "feed/v1/api/demand/";

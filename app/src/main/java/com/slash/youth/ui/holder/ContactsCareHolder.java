@@ -98,9 +98,18 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
         if(!TextUtils.isEmpty(direction)){
         tvDirection.setText(direction);
         }
-        if(!TextUtils.isEmpty(company)&&!TextUtils.isEmpty(position)){
-            tvCompany.setText(company);
-            tvPosition.setText("-"+position);
+
+        int careertype = data.getCareertype();
+        switch (careertype){
+            case 1:
+                if(!TextUtils.isEmpty(company)&&!TextUtils.isEmpty(position)){
+                    tvCompany.setText(company);
+                    tvPosition.setText("-"+position);
+                }
+                break;
+            case 2:
+                tvCompany.setText("自顾者");
+                break;
         }
 
         btn.setOnClickListener(this);

@@ -402,26 +402,39 @@ public class FirstPagerDemandModel extends BaseObservable {
     }
 
     private void listener() {
-        //点击条目，获取的城市
-        searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
-            @Override
-            public void OnClick(String cityName) {
-                setCurrentyCity(cityName);
-                headerLocationCityInfoModel.saveCity(cityName);
-            }
-        });
-        //点击定位当前城市
-        headerLocationCityInfoModel.setOnCityClickCListener(new HeaderLocationCityInfoModel.OnCityClickCListener() {
-            @Override
-            public void OnSearchCityClick(String city) {
+        if(searchActivityCityLocationModel!=null){
+            //点击条目，获取的城市
+            searchActivityCityLocationModel.setOnClickListener(new SearchActivityCityLocationModel.onClickCListener() {
+                @Override
+                public void OnClick(String cityName) {
+                    setCurrentyCity(cityName);
+                    headerLocationCityInfoModel.saveCity(cityName);
+                }
+            });
+        }
 
-            }
+        if(headerLocationCityInfoModel!=null){
+            //点击定位当前城市
+            headerLocationCityInfoModel.setOnCityClickCListener(new HeaderLocationCityInfoModel.OnCityClickCListener() {
+                @Override
+                public void OnSearchCityClick(String city) {
 
-            @Override
-            public void OnMoreCityClick(String city) {
-                setCurrentyCity(city);
-            }
-        });
+                }
+
+                @Override
+                public void OnMoreCityClick(String city) {
+                    setCurrentyCity(city);
+                }
+            });
+
+            //点击全国
+            headerLocationCityInfoModel.setOnAllCityClickCListener(new HeaderLocationCityInfoModel.OnAllCityClickCListener() {
+                @Override
+                public void OnAllCityClick() {
+                    setCurrentyCity("全国");
+                }
+            });
+        }
     }
 
     public void setCurrentyCity(String cityName) {

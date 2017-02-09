@@ -57,6 +57,24 @@ public class MyFriendListBean {
             private int status;
             private long  uid;
             private long uts;
+            private int careertype;
+            private int isfriend;
+
+            public int getCareertype() {
+                return careertype;
+            }
+
+            public void setCareertype(int careertype) {
+                this.careertype = careertype;
+            }
+
+            public int getIsfriend() {
+                return isfriend;
+            }
+
+            public void setIsfriend(int isfriend) {
+                this.isfriend = isfriend;
+            }
 
             public String getAvatar() {
                 return avatar;

@@ -55,9 +55,17 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
 
         String company = data.getCompany();
         String position = data.getPosition();
-        if(company!=null&&position!=null){
-            itemListviewHomeContactsVisitorBinding.tvCompany.setText(company);
-            itemListviewHomeContactsVisitorBinding.tvVisitorPosition.setText("-"+position);
+        int careertype = data.getCareertype();
+        switch (careertype){
+            case 1:
+                if(company!=null&&position!=null){
+                    itemListviewHomeContactsVisitorBinding.tvCompany.setText(company);
+                    itemListviewHomeContactsVisitorBinding.tvVisitorPosition.setText("-"+position);
+                }
+                break;
+            case 2:
+                itemListviewHomeContactsVisitorBinding.tvCompany.setText("自顾者");
+                break;
         }
 
          uid = data.getUid();

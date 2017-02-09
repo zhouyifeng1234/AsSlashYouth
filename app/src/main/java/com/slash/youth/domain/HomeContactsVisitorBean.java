@@ -49,6 +49,15 @@ public class HomeContactsVisitorBean {
             private long uid;
             private long uts;
             private int isfriend;
+            private int careertype;
+
+            public int getCareertype() {
+                return careertype;
+            }
+
+            public void setCareertype(int careertype) {
+                this.careertype = careertype;
+            }
 
             public int getIsfriend() {
                 return isfriend;

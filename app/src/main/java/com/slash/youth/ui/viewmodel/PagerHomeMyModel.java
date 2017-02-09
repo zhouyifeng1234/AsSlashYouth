@@ -316,7 +316,7 @@ public class PagerHomeMyModel extends BaseObservable {
         if(expertlevel>0&&expertlevel<=4){
             String grade = grades[expertlevel];
             mPagerHomeMyBinding.tvGrade.setText(grade);
-            int expertscore = expertlevels.get(expertlevel);
+            int expertscore = expertlevels.get(expertlevel-1);
             int  mark  = (int) (expertscore - expertMarks);
             mPagerHomeMyBinding.tvLeastMark.setText(mark + "");
         }

@@ -269,7 +269,6 @@ public class ActivityUserInfoModel extends BaseObservable {
                     }
                 }
                 listSize = userInfoListView.size();
-
                 //最新的任务没有
                 if(listSize == 0){
                     View rl = userInfoActivity.findViewById(R.id.rl_progress);
@@ -545,7 +544,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     //聊一聊
     public void chat(View view) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-        intentChatActivity.putExtra("targetId",String.valueOf(myUid));
+        intentChatActivity.putExtra("targetId",String.valueOf(otherUid));
         intentChatActivity.putExtra("anonymity",String.valueOf(anonymity));
         userInfoActivity.startActivity(intentChatActivity);
         //个人信息聊一聊的埋点

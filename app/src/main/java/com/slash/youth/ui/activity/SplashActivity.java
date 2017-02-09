@@ -184,6 +184,7 @@ public class SplashActivity extends Activity {
                 String versionTime = TimeUtils.getTimeData(cts);//发版本时间
 
                 String version = data.getVersion();//展示给用户的新版本信息
+                SpUtils.setString("version",version);
                 String content = data.getContent();//更新文案
 
                 int type = data.getType();//1表示android,2表示ios

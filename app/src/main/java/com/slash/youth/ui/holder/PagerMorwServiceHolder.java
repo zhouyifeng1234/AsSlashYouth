@@ -87,18 +87,18 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         switch (pattern){
             case 0:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_UP);
-                itemDemandModel.setPlace("全国");
+                itemDemandModel.setPlace("不限城市");
+                itemDemandModel.setDistance("");
                 break;
             case 1:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_DOWN);
-
                 if(!TextUtils.isEmpty(place)){
                     itemDemandModel.setPlace(place);
                 }
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemDemandModel.setDistance(distance+"km");
+                itemDemandModel.setDistance("距您"+distance+"km");
                 break;
         }
 

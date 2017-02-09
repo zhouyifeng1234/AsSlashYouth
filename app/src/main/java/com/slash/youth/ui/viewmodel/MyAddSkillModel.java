@@ -17,6 +17,7 @@ import com.slash.youth.domain.SkillMamagerOneTempletBean;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.FinishPhoneActivity;
@@ -276,11 +277,9 @@ public class MyAddSkillModel extends BaseObservable {
 
     //获取要提交的内容
     public void getSumbitData() {
-
         if (!TextUtils.isEmpty(quoteString)) {
             //quote = Double.parseDouble(quoteString);
             quote = Integer.parseInt(quoteString);
-
         }
         quoteunit = value + 1;
         anonymity = 1;
@@ -336,8 +335,6 @@ public class MyAddSkillModel extends BaseObservable {
             }, filePath);
         }
     }
-
-
 
     //获取一个技能模板
     public class onGetOneSkillTemplet implements BaseProtocol.IResultExecutor<SkillMamagerOneTempletBean> {
@@ -443,6 +440,10 @@ public class MyAddSkillModel extends BaseObservable {
         place = service.getPlace();
         desc = service.getDesc();
         activityMyAddSkillBinding.etSkillManageDesc.setText(desc);
+        if(quoteunit>=0&&quoteunit<=7){
+            activityMyAddSkillBinding.tvUnit.setText(FirstPagerManager.QUOTEUNITS[quoteunit-1]);
+        }
+
         //回显图片
         String[] picFileIds = service.getPic().split(",");
         final String picCachePath = myAddSkillActivity.getCacheDir().getAbsoluteFile() + "/addpicache/";

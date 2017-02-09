@@ -152,7 +152,10 @@ public class ItemFriendRecommendModel extends BaseObservable {
         if(avatar!=null){
             BitmapKit.bindImage(mItemHscFriendRecommendBinding.ivAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
-        setCompany(listBean.getCompany());
+        String company = listBean.getCompany();
+        if(company!=null){
+            setCompany(company);
+        }
         String direction = listBean.getDirection();
         String industry = listBean.getIndustry();
         long uid = listBean.getUid();

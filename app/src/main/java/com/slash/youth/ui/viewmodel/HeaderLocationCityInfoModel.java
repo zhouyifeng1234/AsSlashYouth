@@ -48,9 +48,8 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     private  ArrayList<String> currenty_access_lists = new ArrayList<>();
     private String currentyCity;
     private int locationType;
-    private String fileName ="data/data/com.slash.youth";
-    private File file;
     private CityHistoryEntityDao cityHistoryEntityDao;
+    private String currentyProvince;
 
     public HeaderLocationCityInfoModel(HeaderListviewLocationCityInfoListBinding headerListviewLocationCityInfoListBinding, Intent intent, Activity mActivity,CityHistoryEntityDao cityHistoryEntityDao) {
         this.headerListviewLocationCityInfoListBinding = headerListviewLocationCityInfoListBinding;
@@ -64,6 +63,7 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
 
     private void initData() {
         currentyCity = SpUtils.getString("currentyCity", "");
+        currentyProvince = SpUtils.getString("currentyProvince", "");
         initCityData();
     }
 
@@ -86,37 +86,9 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
 
     //保存最近访问的城市
     public void saveCity(String city) {
-
     CityHistoryEntity cityHistoryEntity = new CityHistoryEntity();
     cityHistoryEntity.setCity(city);
     cityHistoryEntityDao.insert(cityHistoryEntity);
-
-        /*file = new File(fileName, "CurrentyCity.text");
-        if(!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if(!file.exists()){
-            file.mkdir();
-        }
-        try {
-            FileWriter fw = new FileWriter(file, true);
-            fw.write(city);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //IO 读写
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-            bw.write(city);
-            bw.newLine();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     //读取最近访问的城市
@@ -133,7 +105,7 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
                     currenty_access_lists.add(city);
                 }
             }else {
-                for (int i = 0; i <= 3; i++) {
+                for (int i = 0; i < 3; i++) {
                     CityHistoryEntity cityHistoryEntity = cityHistoryEntities.get(i);
                     String city = cityHistoryEntity.getCity();
                     currenty_access_lists.add(city);
@@ -142,51 +114,24 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         }else {
         LogKit.d("没有最近访问的城市");
         }
-
-       /* cityLists.clear();
-        currenty_access_lists.clear();
-        file = new File(fileName, "CurrentyCity.text");
-        if(!file.exists()){
-            file.mkdir();
-        }
-        //存储集合
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line= br.readLine())!=null){
-                if(TextUtils.isEmpty(line)){
-                    continue;
-                }
-                cityLists.add(line);
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //倒序，最多取3个
-        Collections.reverse(cityLists);
-        if(cityLists.size()!=0){
-            if(cityLists.size()<3&&cityLists.size()>=0){
-                for (String city : cityLists) {
-                    currenty_access_lists.add(city);
-                }
-            }else if(cityLists.size()>=3){
-                for (int i = 0; i < 3; i++) {
-                    String city = cityLists.get(i);
-                    currenty_access_lists.add(city);
-                }
-            }
-        }else {
-            LogKit.d("没有最近访问的城市");
-        }*/
     }
 
     private void listener() {
+        //点击去哪国
+        headerListviewLocationCityInfoListBinding.rlAllCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                allCityListener.OnAllCityClick();
+
+            }
+        });
+
         //当前城市定位
         headerListviewLocationCityInfoListBinding.tvCurrentCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cityName = headerListviewLocationCityInfoListBinding.tvCurrentCity.getText().toString();
+               String cityName = headerListviewLocationCityInfoListBinding.tvCurrentCity.getText().toString();
                 switch (locationType){
                     case 0://首页更多
                         listener.OnMoreCityClick(cityName);
@@ -195,7 +140,8 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
                         listener.OnSearchCityClick(cityName);
                         break;
                     case -1://个人编辑
-                        intent.putExtra("currentCityAccess",cityName);
+                        intent.putExtra("currentCityAccess",currentyCity);
+                        intent.putExtra("currentyProvince",currentyProvince);
                         mActivity.setResult(Constants.CURRENT_ACCESS_CITY,intent);
                         mActivity.finish();
                         break;
@@ -218,7 +164,6 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         textView.setLayoutParams(ll);
         return textView;
     }
-
 
     //最近访问的城市点击事件
     public class CityNameListener implements View.OnClickListener {
@@ -256,4 +201,15 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
     public void setOnCityClickCListener(OnCityClickCListener listener) {
         this.listener = listener;
     }
+
+    //监听回调返回键
+    public interface OnAllCityClickCListener{
+        void OnAllCityClick();
+    }
+
+    private OnAllCityClickCListener allCityListener;
+    public void setOnAllCityClickCListener(OnAllCityClickCListener listener) {
+        this.allCityListener = listener;
+    }
+
 }

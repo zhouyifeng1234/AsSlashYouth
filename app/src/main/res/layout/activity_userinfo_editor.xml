@@ -513,7 +513,7 @@
                                 android:layout_marginTop="15dp"
                                 />
                             <!--  技能描述内容-->
-                            <LinearLayout
+                            <ScrollView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -534,10 +534,11 @@
                                     android:cursorVisible="true"
                                     android:gravity="left|top"
                                     android:maxLines="4"
+                                    android:scrollbars="vertical"
                                     android:maxEms="50"
                                     android:lineSpacingExtra="2dp"
                                     android:hint="请输入技能描述，50字内\n 例：从事UI设计行业5年，具有丰富的设计经验..."/>
-                            </LinearLayout>
+                            </ScrollView>
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_marginLeft="10dp"
