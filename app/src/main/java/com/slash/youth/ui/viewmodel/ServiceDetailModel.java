@@ -25,8 +25,8 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.DetailRecommendServiceList;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UserInfoBean;
-import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.engine.UserInfoEngine;
@@ -42,6 +42,7 @@ import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ShareUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -54,6 +55,8 @@ import com.umeng.socialize.media.UMImage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by zhouyifeng on 2016/11/9.
@@ -518,10 +521,39 @@ public class ServiceDetailModel extends BaseObservable {
                     } else if (service.instalment == 1) {//开启分期
                         setInstalmentItemVisibility(View.VISIBLE);
                     }
+
                     //发布时间:9月18日 8:30
-                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm发布");
-                    String publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
-                    setPublishDatetime(publicDatetimeStr);
+//                    SimpleDateFormat publsihDatetimeSdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm发布");
+//                    String publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+//                    setPublishDatetime(publicDatetimeStr);
+                    //如果是今天发的，就显示时分;如果是之前发的，就显示月日;如果是去年发的，就显示年月日
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(service.cts);
+                    int ctsYear = calendar.get(Calendar.YEAR);
+                    int ctsMonth = calendar.get(Calendar.MONTH);
+                    int ctsDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    calendar.setTime(new Date());
+                    int currentYear = calendar.get(Calendar.YEAR);
+                    int currentMonth = calendar.get(Calendar.MONTH);
+                    int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    SimpleDateFormat publsihDatetimeSdf;
+                    String publicDatetimeStr;
+                    if (ctsYear != currentYear) {//去年
+                        publsihDatetimeSdf = new SimpleDateFormat("yyyy年MM月dd日发布");
+                        publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                        setPublishDatetime(publicDatetimeStr);
+                    } else {
+                        if (currentMonth == ctsMonth && currentDay == ctsDay) {//今天
+                            publsihDatetimeSdf = new SimpleDateFormat("HH:mm发布");
+                            publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                            setPublishDatetime(publicDatetimeStr);
+                        } else {//之前
+                            publsihDatetimeSdf = new SimpleDateFormat("MM月dd日发布");
+                            publicDatetimeStr = publsihDatetimeSdf.format(service.cts);
+                            setPublishDatetime(publicDatetimeStr);
+                        }
+                    }
+
                     //服务描述
                     setServiceDesc(service.desc);
                     //服务相关图片
@@ -808,6 +840,67 @@ public class ServiceDetailModel extends BaseObservable {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
+    }
+
+    /**
+     * 点击斜杠客服，与小助手聊天
+     *
+     * @param v
+     */
+    public void chatToSlashHelper(View v) {
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", MsgManager.customerServiceUid);
+        mActivity.startActivity(intentChatActivity);
+    }
+
+    String bpContent = "针对交易过程中出现的争议、纠纷等情况，本平台提供平台处理规则和双方协商规则的两种方式。\n" +
+            "\n" +
+            "平台处理规则：\n" +
+            "若任务开启了分期到账，\n" +
+            "1）未开始的分期阶段对应的资金，全额退给需求方\n" +
+            "2）已开始未完成的或已完成未被需求方认可的分期阶段对应的资金，扣除顺利成交保证金（5%）后退款给需求方\n" +
+            "3）已完成并被需求方认可的分期阶段对应的资金，扣除顺利成交保证金（5%）后划转给服务方。\n" +
+            "若任务未开启分期到账，任务没有顺利完成的（需求方支付后，并没有认可对方的服务结果），扣除顺利成交保证金（5%）后退款给需求方。\n" +
+            "\n" +
+            "上述“开始”是指需求方支付后开始第一期服务或需求方确认某期服务后开始下期服务。\n" +
+            "\n" +
+            "双方协商规则：除平台处理方规则外，交易双方还可以选择“双方协商规则”方式处理纠纷。纠纷出现时，平台将依据双方提供的本客户端聊天截图、协议等资料来判断退款金额。对于处理结果双方不满意的，双方可以通过专业鉴定机构等第三方进行裁决，客服根据双方认可的裁决进行退款。\n" +
+            "附则：本客户端之外的其他第三方聊天、通讯记录不具备法律效用。\n";
+    String bpTitle = "纠纷处理";
+
+    /**
+     * 点击纠纷处理方式问号
+     *
+     * @param v
+     */
+    public void viewBpExplain(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+                LogKit.d("close viewBpExplain");
+            }
+        }, bpContent, bpTitle);
+    }
+
+    final String ZeroCommissionContentText = "零佣金承诺及顺利成交保证金是什么？\n斜杠青年倡导“人才开放共享”理念，承诺在双方用户交易过程中，不收取任何佣金。\n" +
+            "\n" +
+            "本服务平台将实际交易金额的5%计提为“顺利成交保证金”，任务顺利完成并且服务、需求双方评价分享后，平台将以交易金额的2.5%奖励形式返还给双方。\n" +
+            "\n" +
+            "如果任务并未顺利成交，已经开始的“服务阶段”对应的“顺利成交保证金”将，不予退还，存放奖金池 用于活动基金；未开始“服务阶段”对应的“顺利成交保证金”将退还给需求方。上述“服务阶段”是指双方用户达成的“分期到账”后各期对应的服务阶段。";
+    final String ZeroCommissionContentTitle = "零佣金活动？";
+
+    /**
+     * 点击零佣金活动，查看内容
+     *
+     * @param v
+     */
+    public void viewZeroCommissionContent(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+                LogKit.d("close viewZeroCommissionContent");
+            }
+        }, ZeroCommissionContentText, ZeroCommissionContentTitle);
     }
 
 
