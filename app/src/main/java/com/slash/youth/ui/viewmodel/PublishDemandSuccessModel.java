@@ -84,16 +84,25 @@ public class PublishDemandSuccessModel extends BaseObservable {
             setUpdateSuccessHintVisibility(View.VISIBLE);
             setPublishSuccessHintVisibility(View.GONE);
             mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVisibility(View.GONE);
+            mActivityPublishDemandSuccessBinding.tvPublishDemandText.setText("修改需求");
+            mActivityPublishDemandSuccessBinding.tvPublishSuccessText.setText("修改成功");
+            setUpdateSuccessVisibility(View.VISIBLE);
+            setPublishSuccessVisibility(View.GONE);
         } else {
             setUpdateSuccessHintVisibility(View.GONE);
             setPublishSuccessHintVisibility(View.VISIBLE);
             mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVisibility(View.VISIBLE);
+            mActivityPublishDemandSuccessBinding.tvPublishDemandText.setText("发布需求");
+            mActivityPublishDemandSuccessBinding.tvPublishSuccessText.setText("发布成功");
+            setUpdateSuccessVisibility(View.GONE);
+            setPublishSuccessVisibility(View.VISIBLE);
         }
         mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setVerticalScrollBarEnabled(false);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("展示有效期至yyyy年MM月dd日HH:mm");
         String displayValidityDatetime = simpleDateFormat.format(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
         mActivityPublishDemandSuccessBinding.tvDisplayValidityDatetime.setText(displayValidityDatetime);
+        setAfterUpdateValidDate(displayValidityDatetime);
     }
 
     public void closeSuccessActivity(View v) {
@@ -139,6 +148,9 @@ public class PublishDemandSuccessModel extends BaseObservable {
                 intentChatActivity.putExtra("chatCmdShareTaskBean", chatCmdShareTaskBean);
                 mActivity.startActivity(intentChatActivity);
 
+//                String recommendDemandText = "我发布了需求《" + demand.title + "》，快来抢单吧";
+//                ShareTaskUtils.sendText(recommendDemandText, targetId);
+
             } else if (listCheckedItemId.size() >= 2) {
                 //选中了多个，分享的时候不弹出聊天框
                 for (int position : listCheckedItemId) {
@@ -165,7 +177,8 @@ public class PublishDemandSuccessModel extends BaseObservable {
                     @Override
                     public void run() {
                         DemandDetailBean.Demand demand = demandDetailBean.data.demand;
-                        String recommendDemandText = LoginManager.currentLoginUserName + "XX发布了需求《" + demand.title + "》，快来抢单吧";
+//                        String recommendDemandText = LoginManager.currentLoginUserName + "发布了需求《" + demand.title + "》，快来抢单吧";
+                        String recommendDemandText = "我发布了需求《" + demand.title + "》，快来抢单吧";
                         for (int position : listCheckedItemId) {
                             RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listRecommendServiceUser.get(position);
                             String targetId = serviceUserInfo.uid + "";
@@ -182,6 +195,39 @@ public class PublishDemandSuccessModel extends BaseObservable {
 
     private int publishSuccessHintVisibility;
     private int updateSuccessHintVisibility;
+    private int publishSuccessVisibility;
+    private int updateSuccessVisibility = View.GONE;
+    private String afterUpdateValidDate;
+
+    @Bindable
+    public String getAfterUpdateValidDate() {
+        return afterUpdateValidDate;
+    }
+
+    public void setAfterUpdateValidDate(String afterUpdateValidDate) {
+        this.afterUpdateValidDate = afterUpdateValidDate;
+        notifyPropertyChanged(BR.afterUpdateValidDate);
+    }
+
+    @Bindable
+    public int getUpdateSuccessVisibility() {
+        return updateSuccessVisibility;
+    }
+
+    public void setUpdateSuccessVisibility(int updateSuccessVisibility) {
+        this.updateSuccessVisibility = updateSuccessVisibility;
+        notifyPropertyChanged(BR.updateSuccessVisibility);
+    }
+
+    @Bindable
+    public int getPublishSuccessVisibility() {
+        return publishSuccessVisibility;
+    }
+
+    public void setPublishSuccessVisibility(int publishSuccessVisibility) {
+        this.publishSuccessVisibility = publishSuccessVisibility;
+        notifyPropertyChanged(BR.publishSuccessVisibility);
+    }
 
     @Bindable
     public int getUpdateSuccessHintVisibility() {

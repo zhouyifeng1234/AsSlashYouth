@@ -23,6 +23,7 @@ import com.slash.youth.ui.activity.PublishDemandAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -81,6 +82,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         demandDetailBean = (DemandDetailBean) mActivity.getIntent().getSerializableExtra("demandDetailBean");
         if (demandDetailBean != null) {
             mActivityPublishDemandBaseinfoBinding.tvPublishDemandText.setText("修改需求");
+            mActivityPublishDemandBaseinfoBinding.tvPublishSuccessText.setText("修改成功");
             loadDemandDetailData();
         }
     }
@@ -326,6 +328,28 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         mActivity.finish();
     }
 
+    private static final String publishWayTitle = "发布方式（实名/匿名）";
+    private static final String publishWayContent = "1 匿名发布任务是什么？\n" +
+            "用户在自己不便于公开身份发布服务或者需求时，可使用匿名功能进行发布。当你匿名发布服务或者需求后，其他用户浏览该任务时，则无法查看你的姓名、头像等个人信息；通过搜索、点击头像等方式查看你的个人信息时，你匿名状态下发布的任务将会被隐藏。\n" +
+            "\n" +
+            "2 匿名状态有什么影响？\n" +
+            "匿名发布任务后，其他用户暂时看不到你的姓名、头像等个人信息。在合作意向达成后，匿名状态解除，交易双方恢复实名状态，可查看双方的个人信息。\n" +
+            "\n" +
+            "匿名发布不影响交易流程，但可能会降低其他用户对你发布服务或者需求的信任程度。";
+
+    /**
+     * 发布方式的问号
+     *
+     * @param v
+     */
+    public void openPublishWayInfo(View v) {
+        DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
+            @Override
+            public void OkDown() {
+
+            }
+        }, publishWayContent, publishWayTitle);
+    }
 
     private int chooseDateTimeLayerVisibility = View.GONE;
     private String startTimeStr;

@@ -124,6 +124,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
                 <TextView
+                    android:id="@+id/tv_publish_success_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -165,6 +166,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:onClick="@{publishDemandbaseInfoModel.openPublishWayInfo}"
                                 android:text="发布方式"
                                 android:textColor="#333333"
                                 android:textSize="14sp"/>
@@ -174,6 +176,7 @@
                                 android:layout_height="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
+                                android:onClick="@{publishDemandbaseInfoModel.openPublishWayInfo}"
                                 android:src="@mipmap/question_icon"/>
 
                             <View

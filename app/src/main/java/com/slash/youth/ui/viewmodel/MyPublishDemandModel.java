@@ -377,11 +377,12 @@ public class MyPublishDemandModel extends BaseObservable {
                     continue;
                 }
                 if (i == ratios.length - 1) {
-                    ratioStr += ratio + "%";
+                    ratioStr += (int) (Double.parseDouble(ratio) * 100) + "%";
                 } else {
-                    ratioStr += ratio + "%/";
+                    ratioStr += (int) (Double.parseDouble(ratio) * 100) + "%/";
                 }
             }
+            setInstalmentRatio(ratioStr);
         } else {//不分期
             setInstalmentVisibility(View.GONE);
         }

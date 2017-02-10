@@ -9,13 +9,14 @@ import android.widget.ListView;
  * Created by zhouyifeng on 2016/9/12.
  */
 public class ScrollListView extends ListView {
+
+
     public ScrollListView(Context context) {
-        this(context, null);
+        super(context);
     }
 
-
     public ScrollListView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public ScrollListView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -23,7 +24,8 @@ public class ScrollListView extends ListView {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return super.onInterceptTouchEvent(ev);
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        this.getParent().requestDisallowInterceptTouchEvent(true);
+        return super.dispatchTouchEvent(ev);
     }
 }

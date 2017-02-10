@@ -509,7 +509,7 @@ public class MyBidServiceModel extends BaseObservable {
                     setInstalmentVisibility(View.VISIBLE);
                     String instalmentRatioStr = "";
                     for (int i = 0; i < instalmentInfoList.size(); i++) {
-                        String ratio = instalmentInfoList.get(i).percent * 100 + "";
+                        String ratio = (int) (instalmentInfoList.get(i).percent * 100) + "";
                         if (TextUtils.isEmpty(ratio)) {
                             continue;
                         }
