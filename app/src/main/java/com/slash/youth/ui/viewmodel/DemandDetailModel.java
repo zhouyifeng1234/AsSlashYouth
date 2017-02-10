@@ -1420,6 +1420,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void chatToSlashHelper(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_SLASH_SERVICE);
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", MsgManager.customerServiceUid);
         mActivity.startActivity(intentChatActivity);
@@ -1446,6 +1447,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void viewBpExplain(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_DISPUTE_CONDUCT_BEHIND_QUESTION);
         DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {
@@ -1467,6 +1469,7 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void viewZeroCommissionContent(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_SLASH_FREE_COMMISSION_ACTIVITY);
         DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {

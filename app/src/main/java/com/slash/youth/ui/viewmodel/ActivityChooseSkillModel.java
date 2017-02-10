@@ -25,9 +25,11 @@ import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -267,6 +269,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
                     tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
                     choosedThirdLabels.remove(tag_3);
                 } else {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_EXCLUSIVE_SKILLS_CHOOSE_LABEL);
+
                     tvSkillLabel.setTextColor(0xffffffff);
                     tvSkillLabel.setBackgroundResource(R.mipmap.choose_skill_label_bg);
                     choosedThirdLabels.add(tag_3);
@@ -281,6 +285,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
             ToastUtils.shortToast("请选择技能标签");
             return;
         }
+
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_EXCLUSIVE_SKILLS_CLICK_ENTER);
 
         final ArrayList<String> listTag = new ArrayList<String>();//这里存放三级标签
 
@@ -343,6 +349,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
      * @param v
      */
     public void chooseMainSkillLabel(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_EXCLUSIVE_SKILLS_CHOOSE_INDUSTRY);
+
         isChooseMainLabel = true;
         setChooseSkillLayerVisibility(View.VISIBLE);
 
@@ -371,6 +379,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
      * @param v
      */
     public void chooseSecondSkillLabel(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_EXCLUSIVE_SKILLS_CHOOSE_STATION);
+
         if (TextUtils.isEmpty(choosedMainLabel)) {
             return;
         }

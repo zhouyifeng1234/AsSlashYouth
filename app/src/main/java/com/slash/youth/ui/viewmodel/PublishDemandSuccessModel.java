@@ -19,8 +19,10 @@ import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.ShareTaskUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -106,10 +108,14 @@ public class PublishDemandSuccessModel extends BaseObservable {
     }
 
     public void closeSuccessActivity(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_CLOSE);
+
         mActivity.finish();
     }
 
     public void gotoDemandDetail(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_CLICK_DETAIL);
+
         Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
         intentDemandDetailActivity.putExtra("demandId", demandId);
         mActivity.startActivity(intentDemandDetailActivity);
@@ -121,9 +127,11 @@ public class PublishDemandSuccessModel extends BaseObservable {
      * @param v
      */
     public void shareDemand(View v) {
-        if (demandDetailBean != null) {
+        if (demandDetailBean != null && listRecommendServiceUser != null) {
             final ArrayList<Integer> listCheckedItemId = RecommendServicePartAdapter.listCheckedItemId;
             if (listCheckedItemId.size() == 1) {
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_INVITE_ONE);
+
                 //只选中了一个，分享的时候会弹出聊天框
                 int position = listCheckedItemId.get(0);
                 RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listRecommendServiceUser.get(position);
@@ -152,6 +160,17 @@ public class PublishDemandSuccessModel extends BaseObservable {
 //                ShareTaskUtils.sendText(recommendDemandText, targetId);
 
             } else if (listCheckedItemId.size() >= 2) {
+                int size = listCheckedItemId.size();
+                if (size == 2) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_INVITE_TWO);
+                } else if (size == 3) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_INVITE_THREE);
+                } else if (size == 4) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_INVITE_FOUR);
+                } else if (size == 5) {
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_SUCCESS_INVITE_FIVE);
+                }
+
                 //选中了多个，分享的时候不弹出聊天框
                 for (int position : listCheckedItemId) {
                     RecommendServiceUserBean.ServiceUserInfo serviceUserInfo = listRecommendServiceUser.get(position);

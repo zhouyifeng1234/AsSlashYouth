@@ -37,8 +37,10 @@ import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -132,6 +134,9 @@ public class MyPublishDemandModel extends BaseObservable {
      * @param v
      */
     public void havaAChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_CHAT);
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_MISSONDETAIL_CLICK_MISSON_CHAT);
+
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", innerDemandCardInfo.suid + "");//对方的uid
         Bundle taskInfoBundle = new Bundle();
@@ -144,6 +149,8 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //需求方评论
     public void comment(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_EVALUATION);
+
         Intent intentCommentActivity = new Intent(CommonUtils.getContext(), CommentActivity.class);
 
         Bundle commentInfo = new Bundle();
@@ -164,6 +171,8 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //申请退款
     public void refund(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_APPLY_REFUND);
+
         Intent intentRefundActivity = new Intent(CommonUtils.getContext(), RefundActivity.class);
         intentRefundActivity.putExtra("tid", tid);
         intentRefundActivity.putExtra("type", type);
@@ -172,6 +181,7 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //延期支付,出现他弹框
     public void rectifyPayment(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_DELAY_PAY);
         setRectifyLayerVisibility(View.VISIBLE);
     }
 
@@ -207,6 +217,7 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //需求方确认完成
     public void confirmFinish(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_CONFIRM_MISSON);
         int fid = innerDemandCardInfo.instalmentcurr;
         DemandEngine.demandPartyConfirmComplete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
@@ -232,6 +243,8 @@ public class MyPublishDemandModel extends BaseObservable {
 
     //打开支付界面
     public void openPaymentActivity(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_PAY);
+
         Intent intentPaymentActivity = new Intent(CommonUtils.getContext(), PaymentActivity.class);
 
         Bundle payInfo = new Bundle();

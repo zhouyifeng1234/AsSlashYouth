@@ -23,10 +23,12 @@ import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
 import com.slash.youth.ui.view.SlashAddPicLayout;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -465,6 +467,8 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
      * @param v
      */
     public void openPublishWayInfo(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_SERVICE_PUBLISH_MANNER_QUESTION);
+
         DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {

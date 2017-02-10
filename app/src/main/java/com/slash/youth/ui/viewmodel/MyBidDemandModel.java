@@ -36,8 +36,10 @@ import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -136,6 +138,9 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void havaAChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_CHAT);
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_MISSONDETAIL_CLICK_MISSON_CHAT);
+
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", innerDemandCardInfo.uid + "");//对方的uid
         Bundle taskInfoBundle = new Bundle();
@@ -153,6 +158,7 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void accept(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_ACCEPT);
         DemandEngine.servicePartyConfirmServant(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -173,6 +179,8 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void noAccept(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_REJECT);
+
         DemandEngine.servicePartyReject(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -193,6 +201,8 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void complete(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_COMPLETE_MISSON);
+
         DemandEngine.servicePartyComplete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -219,6 +229,7 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void agreeRefund(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_AGREEN_REFUND);
         DemandEngine.servicePartyAgreeRefund(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -239,6 +250,7 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void complain(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_APPEAL);
         DemandEngine.servicePartyIntervention(new BaseProtocol.IResultExecutor<InterventionBean>() {
             @Override
             public void execute(InterventionBean dataBean) {
@@ -672,6 +684,8 @@ public class MyBidDemandModel extends BaseObservable {
      * @param v
      */
     public void updateBidDemandInfo(View v) {
+
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_MODIFY_CONDITION);
         setUpdateBidInfoVisibility(View.VISIBLE);
     }
 
