@@ -311,14 +311,18 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvOver.setText(v + "%");
 
         List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
-        expertMarks = myinfo.getExpertscore();
-        int expertlevel = myinfo.getExpertlevel();//当前对应的等级
-        if(expertlevel>0&&expertlevel<=4){
-            String grade = grades[expertlevel];
-            mPagerHomeMyBinding.tvGrade.setText(grade);
-            int expertscore = expertlevels.get(expertlevel-1);
-            int  mark  = (int) (expertscore - expertMarks);
-            mPagerHomeMyBinding.tvLeastMark.setText(mark + "");
+        if(expertlevels.size()!=0){
+            expertMarks = myinfo.getExpertscore();
+            int expertlevel = myinfo.getExpertlevel();//当前对应的等级
+            if(expertlevel>0&&expertlevel<=4){
+                String grade = grades[expertlevel];
+                mPagerHomeMyBinding.tvGrade.setText(grade);
+                int expertscore = expertlevels.get(expertlevel-1);
+                int  mark  = (int) (expertscore - expertMarks);
+                mPagerHomeMyBinding.tvLeastMark.setText(mark + "");
+            }
+        }else {
+            mPagerHomeMyBinding.tvLeastMark.setText("0");
         }
 
         if (expertlevels.size() != 0) {
@@ -377,28 +381,23 @@ public class PagerHomeMyModel extends BaseObservable {
 
                 switch (careertype) {
                     case 1:
-
                         if (TextUtils.isEmpty(myinfo.getCompany()) || TextUtils.isEmpty(myinfo.getName()) || TextUtils.isEmpty(myinfo.getPosition())) {
                             setApprovalDialog(View.VISIBLE);
                         } else {
                             jumpApprovalActivity();
-
                         }
                         break;
                     case 2:
-
                         if (TextUtils.isEmpty(myinfo.getName())) {
                             setApprovalDialog(View.VISIBLE);
                         } else {
                             jumpApprovalActivity();
-
                         }
                         break;
                     case 0:
                         setApprovalDialog(View.VISIBLE);
                         break;
                 }
-
             }
         });
     }
@@ -407,8 +406,7 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.putExtra("careertype", careertype);
         intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
-        intentApprovalActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        CommonUtils.getContext().startActivity(intentApprovalActivity);
+        mActivity.startActivityForResult(intentApprovalActivity,Constants.APPROVAL);
     }
 
     //编辑点击事件

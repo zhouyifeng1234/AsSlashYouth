@@ -68,8 +68,8 @@ public class GlobalConstants {
 //                    P:da#@I*O(
 
         //接口地址的IP或者域名
-        public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
-//        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
+      //  public static final String IP_OR_DOMAINNAME = "http://121.42.145.178/";
+        public static final String IP_OR_DOMAINNAME = "https://api.slashyounger.com/";
 
         //服务器主机地址
         //public static final String SERVER_HOST = "http://121.42.145.178:8400/";

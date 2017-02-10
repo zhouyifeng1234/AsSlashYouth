@@ -24,6 +24,7 @@ import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.engine.SearchManager;
 import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.gen.SearchHistoryEntityDao;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.adapter.ListDropDownAdapter;
@@ -236,6 +237,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                                 break;
                             case 2:
                                 pullToRefreshListTabViewModel.sort = 4;
+                                pullToRefreshListTabViewModel.lat= SlashApplication.getCurrentLatitude();
+                                pullToRefreshListTabViewModel.lng= SlashApplication.getCurrentLongitude();
                                 break;
                         }
 
@@ -249,6 +252,8 @@ public class SearchNeedResultTabModel extends BaseObservable  {
                                 break;
                             case 2:
                                 pullToRefreshListTabViewModel.sort = 3;
+                                pullToRefreshListTabViewModel.lat= SlashApplication.getCurrentLatitude();
+                                pullToRefreshListTabViewModel.lng= SlashApplication.getCurrentLongitude();
                                 break;
                         }
                     }
@@ -454,6 +459,21 @@ public class SearchNeedResultTabModel extends BaseObservable  {
     }
 
     private void closeCity(String cityName) {
+        if(cityName.endsWith("市")){
+            cityName = cityName.substring(0, cityName.length()-1);
+        }
+
+        if(cityName.endsWith("区")){
+            if(!cityName.endsWith("地区")){
+                cityName = cityName.substring(0, cityName.length()-1);
+            }
+        }
+
+        if(cityName.endsWith("县")){
+            if(cityName.endsWith("自治县")){
+                cityName = cityName.substring(0, cityName.length()-1);
+            }
+        }
         pullToRefreshListTabViewModel.clear();
         pullToRefreshListTabViewModel.city = cityName;
         pullToRefreshListTabViewModel.getData(searchType);

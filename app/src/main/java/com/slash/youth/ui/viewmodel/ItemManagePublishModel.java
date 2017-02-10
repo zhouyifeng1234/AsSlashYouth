@@ -14,6 +14,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class ItemManagePublishModel extends BaseObservable {
     private MySkillManageActivity mySkillManageActivity;
     private ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList;
     private ItemManagePublishHolderBinding itemManagePublishHolderBinding;
+    private int actionType;
 
     public ItemManagePublishModel( MySkillManageActivity mySkillManageActivity, ArrayList<ManagerMyPublishTaskBean.DataBean.ListBean> managePublishList, ItemManagePublishHolderBinding itemManagePublishHolderBinding) {
         this.mySkillManageActivity = mySkillManageActivity;
@@ -33,6 +35,7 @@ public class ItemManagePublishModel extends BaseObservable {
 
     //上架，下架
     public void UpAndDown(long id,int action){
+        actionType = action;
         MyManager.onManagerMyPublishTaskItemUpAndDown(new onAddMyCollectionList(),id,action);
     }
 
@@ -43,7 +46,38 @@ public class ItemManagePublishModel extends BaseObservable {
             if(rescode == 0){
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                LogKit.d("status:"+status);
+                switch (status){
+                    case 1:
+                        switch (actionType){
+                            case 0:
+                                ToastUtils.shortToast("下架成功");
+                                itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
+                                itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));
+                                break;
+                            case 1:
+                                ToastUtils.shortToast("上架成功");
+                                itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
+                                itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
+                                break;
+                        }
+                        break;
+                    case 5:
+                        //状态错误
+                        ToastUtils.shortToast("状态错误");
+                        break;
+                    case 4:
+                        //服务端错误
+                        ToastUtils.shortToast("服务端错误");
+                        break;
+                    case 6:
+                        //未绑定手机号
+                        ToastUtils.shortToast("未绑定手机号");
+                        break;
+                    case 7:
+                        //未实名认证
+                        ToastUtils.shortToast("请进行实名认证");
+                        break;
+                }
             }
         }
 
@@ -52,5 +86,4 @@ public class ItemManagePublishModel extends BaseObservable {
             LogKit.d("result:"+result);
         }
     }
-
 }

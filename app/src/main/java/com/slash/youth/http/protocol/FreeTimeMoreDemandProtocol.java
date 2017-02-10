@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.slash.youth.domain.FreeTimeMoreDemandBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 
@@ -53,11 +54,11 @@ public class FreeTimeMoreDemandProtocol extends BaseProtocol<FreeTimeMoreDemandB
             }
         }
 
-        if (sort==1||sort==2||sort==3) {
-            params.addBodyParameter("sort", String.valueOf(sort));
+        if (sort==1||sort==2||sort==3||sort== 4) {
+            params.addBodyParameter("sort", String.valueOf(4));
         }
 
-        if(lng<180&&lng>-180){
+       if(lng<180&&lng>-180){
             params.addBodyParameter("lng", String.valueOf(lng));
         }
         if(lat>-99&&lat<90){

@@ -189,6 +189,21 @@ public class SearchActivityCityLocationModel extends BaseObservable {
         searchActivityCityLocationBinding.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(cityName.endsWith("市")){
+                    cityName = cityName.substring(0, cityName.length()-1);
+                }
+
+                if(cityName.endsWith("区")){
+                    if(!cityName.endsWith("地区")){
+                        cityName = cityName.substring(0, cityName.length()-1);
+                    }
+                }
+
+                if(cityName.endsWith("县")){
+                    if(cityName.endsWith("自治县")){
+                        cityName = cityName.substring(0, cityName.length()-1);
+                    }
+                }
                 listener.OnClick(cityName);
             }
         });

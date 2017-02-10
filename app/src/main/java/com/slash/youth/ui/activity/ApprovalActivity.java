@@ -3,16 +3,20 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityApprovalBinding;
+import com.slash.youth.domain.AgreeRefundBean;
 import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
 import com.slash.youth.ui.viewmodel.ApprovalModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Cardtype;
@@ -34,7 +38,7 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
     private int careertype;
     private ApprovalModel approvalModel;
     private String titleText = "认证";
-   // private String submint = "提交";
+    // private String submint = "提交";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,4 +73,13 @@ public class ApprovalActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case Constants.APPROVAL_TYPE:
+                approvalModel.initData();
+                break;
+        }
+    }
 }

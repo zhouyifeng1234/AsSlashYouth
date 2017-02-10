@@ -24,6 +24,7 @@ import com.slash.youth.databinding.PullToRefreshListviewBinding;
 import com.slash.youth.databinding.SearchActivityCityLocationBinding;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.gen.CityHistoryEntityDao;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.adapter.GirdDropDownAdapter;
 import com.slash.youth.ui.adapter.ListDropDownAdapter;
@@ -197,7 +198,7 @@ public class FirstPagerDemandModel extends BaseObservable {
                     switch (position){
                         case 0:
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_USER_TYPE_ALL_USER);
-                            pullToRefreshListViewModel.isauth = 0;
+                            pullToRefreshListViewModel.isauth = -1;
                             break;
                         case 1:
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_USER_TYPE_APPROVE_USER);
@@ -233,6 +234,8 @@ public class FirstPagerDemandModel extends BaseObservable {
                             break;
                         case 2:
                             pullToRefreshListViewModel.sort = 4;
+                            pullToRefreshListViewModel.lat = SlashApplication.getCurrentLatitude();
+                            pullToRefreshListViewModel.lng= SlashApplication.getCurrentLongitude();
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_REQUIREMENT_COMPOSITE_DISTACE_NAEREST);
                             break;
                     }
@@ -247,7 +250,9 @@ public class FirstPagerDemandModel extends BaseObservable {
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_RANK_RELEASE_TIME_NEAREST);
                             break;
                         case 2:
-                            pullToRefreshListViewModel.sort = 1;
+                            pullToRefreshListViewModel.sort = 3;
+                            pullToRefreshListViewModel.lat = SlashApplication.getCurrentLatitude();
+                            pullToRefreshListViewModel.lng= SlashApplication.getCurrentLongitude();
                             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_MORE_SERVICE_RANK_DISTACE_NAEREST);
                             break;
                     }
@@ -418,7 +423,6 @@ public class FirstPagerDemandModel extends BaseObservable {
             headerLocationCityInfoModel.setOnCityClickCListener(new HeaderLocationCityInfoModel.OnCityClickCListener() {
                 @Override
                 public void OnSearchCityClick(String city) {
-
                 }
 
                 @Override
@@ -438,6 +442,21 @@ public class FirstPagerDemandModel extends BaseObservable {
     }
 
     public void setCurrentyCity(String cityName) {
+        if(cityName.endsWith("市")){
+            cityName = cityName.substring(0, cityName.length()-1);
+        }
+
+        if(cityName.endsWith("区")){
+            if(!cityName.endsWith("地区")){
+                cityName = cityName.substring(0, cityName.length()-1);
+            }
+        }
+
+        if(cityName.endsWith("县")){
+            if(cityName.endsWith("自治县")){
+                cityName = cityName.substring(0, cityName.length()-1);
+            }
+        }
         pullToRefreshListViewModel.clear();
         pullToRefreshListViewModel.city = cityName;
         pullToRefreshListViewModel.getData(isDemand);

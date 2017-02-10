@@ -58,13 +58,13 @@ public class MyHelpModel extends BaseObservable {
     }
 
     private void initView() {
-        String version = SpUtils.getString("version", "");
+        String version = SpUtils.getString("version", "1.0.1v");
         activityMyHelpBinding.tvVersion.setText("斜杠青年"+version);
         activityMyHelpBinding.tvLineText1.setText(text1);
         activityMyHelpBinding.tvLineText2.setText(text2);
     }
 
-    //commonQuestion 常见问题
+    // 常见问题
     public void commonQuestion(View view){
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("commonQuestion","commonQuestion");
@@ -73,7 +73,7 @@ public class MyHelpModel extends BaseObservable {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_COMMON_PROBLEM);
     }
 
-    //contactUs 联系我们
+    // 联系我们
     public void contactUs(View view){
        Intent intentContactUsActivity = new Intent(CommonUtils.getContext(), ContactUsActivity.class);
         myHelpActivity.startActivity(intentContactUsActivity);
@@ -82,7 +82,7 @@ public class MyHelpModel extends BaseObservable {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_CONTACT_US);
     }
 
-     //updateVersion 版本更新
+     // 版本更新
     public void updateVersion(View view){
         //埋点
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_HELP_VERSION_UPDATE);
@@ -97,7 +97,7 @@ public class MyHelpModel extends BaseObservable {
                 if(downloadurl.equals("none")){
                     ToastUtils.shortToast("目前最新版本");
                 }else {
-                    downloadurl = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";
+                  //  downloadurl = "http://dldir1.qq.com/weixin/android/weixin653android980.apk";//用来测试
                     showVersionUpdateDialog(1, downloadurl);
                 }
             }

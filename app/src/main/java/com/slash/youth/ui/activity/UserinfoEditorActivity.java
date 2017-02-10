@@ -78,7 +78,11 @@ public class UserinfoEditorActivity extends Activity {
                     if (city != null && province != null) {
                         activityUserInfoEditorModel.city = city;
                         activityUserInfoEditorModel.province = province;
-                        activityUserinfoEditorBinding.tvLocation.setText(province + "" + city);
+                        if(city.equals(province)){
+                            activityUserinfoEditorBinding.tvLocation.setText(city);
+                        }else {
+                            activityUserinfoEditorBinding.tvLocation.setText(province + "" + city);
+                        }
                     }
                 }
                 break;
@@ -137,7 +141,11 @@ public class UserinfoEditorActivity extends Activity {
             String currentyProvince = data.getStringExtra("currentyProvince");
             activityUserInfoEditorModel.city =  currentCityAccess;
             activityUserInfoEditorModel.province =  currentyProvince;
-            activityUserinfoEditorBinding.tvLocation.setText(currentyProvince+""+currentCityAccess);
+            if(currentCityAccess.equals(currentyProvince)){
+                activityUserinfoEditorBinding.tvLocation.setText(currentCityAccess);
+            }else {
+                activityUserinfoEditorBinding.tvLocation.setText(currentyProvince+""+currentCityAccess);
+            }
         }
     }
 

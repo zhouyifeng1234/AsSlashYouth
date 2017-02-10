@@ -67,7 +67,7 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
                 }
                 break;
             case 2:
-                tvdirection.setText("自顾者");
+                tvdirection.setText("自雇者");
                 break;
         }
         String direction = data.getDirection();
@@ -75,6 +75,5 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
         int status = data.getStatus();
         long uid = data.getUid();
         long uts = data.getUts();
-
     }
 }

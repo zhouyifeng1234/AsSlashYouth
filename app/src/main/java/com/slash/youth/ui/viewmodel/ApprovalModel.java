@@ -22,6 +22,7 @@ import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SkillManagerBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -90,10 +91,10 @@ public class ApprovalModel extends BaseObservable {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_APPROVE_PERFECT_APPROVE);
         Intent intentUserinfoEditorActivity = new Intent(CommonUtils.getContext(), UserinfoEditorActivity.class);
         intentUserinfoEditorActivity.putExtra("myId",uid);
-       approvalActivity.startActivity(intentUserinfoEditorActivity);
+        approvalActivity.startActivityForResult(intentUserinfoEditorActivity, Constants.APPROVAL_TYPE);
     }
 
-    private void initData() {
+    public  void initData() {
         MyManager.checkoutAuthProcess(new checkoutAuthProcess());
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
     }
@@ -135,6 +136,7 @@ public class ApprovalModel extends BaseObservable {
             if(rescode == 0){
                 MyFirstPageBean.DataBean data = dataBean.getData();
                 myinfo = data.getMyinfo();
+                 careertype = myinfo.getCareertype();
                 initView();
             }else {
                 LogKit.d("rescode : "+rescode);
@@ -331,7 +333,6 @@ public class ApprovalModel extends BaseObservable {
     }
 
     private void jumpAlbumActivity(int careertype,int cardType,String url) {
-        approvalActivity.finish();
         Intent intentExamineActivity = new Intent(CommonUtils.getContext(), ExamineActivity.class);
         intentExamineActivity.putExtra("careertype", careertype);
         intentExamineActivity.putExtra("cardType", cardType);

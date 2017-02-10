@@ -108,7 +108,7 @@ public class ContactsCareHolder extends BaseHolder<ContactsBean.DataBean.ListBea
                 }
                 break;
             case 2:
-                tvCompany.setText("自顾者");
+                tvCompany.setText("自雇者");
                 break;
         }
 

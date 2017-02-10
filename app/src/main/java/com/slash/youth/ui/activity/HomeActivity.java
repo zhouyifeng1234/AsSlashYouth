@@ -16,6 +16,7 @@ import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
 public class HomeActivity extends Activity {
@@ -99,9 +100,15 @@ public class HomeActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UserInfoEngine.MY_USER_EDITOR) {
-            activityHomeBinding.flActivityHomePager.removeAllViews();
-            activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+        switch (requestCode){
+            case  UserInfoEngine.MY_USER_EDITOR:
+                activityHomeBinding.flActivityHomePager.removeAllViews();
+                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+                break;
+            case Constants.APPROVAL:
+                activityHomeBinding.flActivityHomePager.removeAllViews();
+                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+                break;
         }
     }
 

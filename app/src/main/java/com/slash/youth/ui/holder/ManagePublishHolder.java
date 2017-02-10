@@ -21,6 +21,7 @@ import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
+import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -112,10 +113,10 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                         itemManagePublishHolderBinding.tvManageMyPublishType.setVisibility(View.VISIBLE);
                         switch (instalment) {
                             case 1:
-                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
                                 break;
                             case 0:
-                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.SERVICE_INSTALMENT);
+                                itemManagePublishHolderBinding.tvManageMyPublishType.setText(FirstPagerManager.DEMAND_INSTALMENT);
                                 break;
                         }
                         break;
@@ -226,17 +227,12 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 if (text.equals(MyManager.UP)) {
                     //下架埋点
                     MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_RELEASE_UNSHELVE);
-
                     action = 1;
-                    itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.DOWN);
-                    itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#999999"));
+
                 } else if (text.equals(MyManager.DOWN)) {
                     //上架埋点
                     MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_MY_RELEASE_TASK_RESHELF);
-
                     action = 0;
-                    itemManagePublishHolderBinding.tvMyBtn.setText(MyManager.UP);
-                    itemManagePublishHolderBinding.tvMyBtn.setTextColor(Color.parseColor("#31C6E4"));
                 }
 
                 ManagerMyPublishTaskBean.DataBean.ListBean listBean = managePublishList.get(position);
@@ -246,7 +242,6 @@ public class ManagePublishHolder extends BaseHolder<ManagerMyPublishTaskBean.Dat
                 }
             }
         });
-
     }
 
     public interface OnDeleteClickListener {
