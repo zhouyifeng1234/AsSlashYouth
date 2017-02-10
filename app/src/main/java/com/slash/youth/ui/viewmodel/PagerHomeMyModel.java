@@ -81,6 +81,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int approvalDialog = View.GONE;
     private int taskProgress;
     private String[] grades= {"少侠","大侠","宗师","至尊"};
+    private String grade;
 
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
@@ -315,7 +316,7 @@ public class PagerHomeMyModel extends BaseObservable {
             expertMarks = myinfo.getExpertscore();
             int expertlevel = myinfo.getExpertlevel();//当前对应的等级
             if(expertlevel>0&&expertlevel<=4){
-                String grade = grades[expertlevel];
+                grade = grades[expertlevel];
                 mPagerHomeMyBinding.tvGrade.setText(grade);
                 int expertscore = expertlevels.get(expertlevel-1);
                 int  mark  = (int) (expertscore - expertMarks);

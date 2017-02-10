@@ -63,7 +63,6 @@ public class UserInfoActivity extends Activity implements View.OnClickListener {
     }
 
     private void setTitle(boolean isOther, String name, String company) {
-
         if (isOther) {//我看其他人
             activityUserinfoBinding.tvUserinfoTitle.setText(name);
             activityUserinfoBinding.ivUserinfoMenu.setVisibility(View.VISIBLE);

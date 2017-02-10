@@ -90,8 +90,7 @@ public class ActivityUserInfoModel extends BaseObservable {
     private int myAnonymity = 2;
     private long taskProgress;
     private int relationshipscount;
-    private int relationshipscount1;
-
+    private String[] grades= {"少侠","大侠","宗师","至尊"};
     public ActivityUserInfoModel(ActivityUserinfoBinding activityUserinfoBinding, long otherUid,
                                  UserInfoActivity userInfoActivity,String tag,int anonymity
                                 ) {
@@ -472,9 +471,9 @@ public class ActivityUserInfoModel extends BaseObservable {
             activityUserinfoBinding.tvProfession.setText(direction);
         }
 
-        //专家  用户身份，是否是专家，专家几级,默认是不显示
+        //等级
         expert = uinfo.getExpert();
-        activityUserinfoBinding.tvUserinfoIdentity.setText("专家" + expert + "级");
+        activityUserinfoBinding.tvUserinfoIdentity.setText(grades[expert]);
 
         //城市  //省份
         city = uinfo.getCity();

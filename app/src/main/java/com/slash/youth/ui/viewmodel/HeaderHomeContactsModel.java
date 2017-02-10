@@ -69,13 +69,26 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private int myFollowLocalCount;
     private int myAddFriendLocalCount;
     private int addMeFriendLocalCount;
+    private ActivityHomeModel activityHomeModel;
+    private boolean isMyFans;
+    private boolean isMyFollow;
+    private boolean isMyAddFriend;
+    private boolean isAddMeFriend;
 
-    public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding, Activity mActivity) {
+    public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding, Activity mActivity,ActivityHomeModel activityHomeModel) {
         this.mHeaderListviewHomeContactsBinding = headerListviewHomeContactsBinding;
         this.mActivity = mActivity;
+        this.activityHomeModel = activityHomeModel;
         initLocalData();
         initView();
         initData();
+        lisitener();
+    }
+
+    private void lisitener() {
+        if(isMyFans&&isMyFollow&&isAddMeFriend&&isMyAddFriend){
+            activityHomeModel.setRedPointHintVisibility(View.GONE);
+        }
     }
 
     //获取本地的数据
@@ -87,6 +100,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
     }
 
     private void initView() {
+        activityHomeModel.setRedPointHintVisibility(View.GONE);
         mHeaderListviewHomeContactsBinding.hsvHomeContactsRecommend.setHorizontalScrollBarEnabled(false);
         //获取首页的信息
         PagerHomeContactsModel.getBaseDataTotalCount++;
@@ -103,7 +117,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
         space.setLayoutParams(params);
         return space;
     }
-
 
     public void getFriendRecommendData() {
         listFriendRecommendBean.clear();
@@ -146,6 +159,8 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.CARE_ME);
         type = 1;
         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
+        SpUtils.setInt("myFollowCount",myFollowCount);
+        isMyFollow = false;
     }
 
     //我关注
@@ -156,6 +171,8 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.MY_CARE);
         type = 2;
         mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.GONE);
+        SpUtils.setInt("myFansCount",myFansCount);
+        isMyFans = false;
     }
 
     //加我的
@@ -166,6 +183,8 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.ADD_ME);
         type = 3;
         mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.GONE);
+        SpUtils.setInt("addMeFriendCount",addMeFriendCount);
+        isAddMeFriend = false;
     }
 
     //我加的
@@ -176,6 +195,8 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.MY_ADD);
         type = 4;
         mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.GONE);
+        SpUtils.setInt("myAddFriendCount",myAddFriendCount);
+        isMyAddFriend = false;
     }
 
     //人脉潜能
@@ -194,7 +215,6 @@ public class HeaderHomeContactsModel extends BaseObservable {
         intentContactsCareActivity.putExtra("type", type);
         mActivity.startActivity(intentContactsCareActivity);
     }
-
 
     //首页展示的数据
     public class onPersonRelationFirstPage implements BaseProtocol.IResultExecutor<PersonRelationBean> {
@@ -222,33 +242,37 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
 
                 //保存一下在本地
-                if(myFollowLocalCount!=0){
+               // if(myFollowLocalCount!=0){
                     if(myFansCount!=myFansLocalCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
-                        SpUtils.setInt("myFansCount",myFansCount);
+                        activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                        isMyFans = true;
                     }
-                }
+               // }
 
-                if(myFansLocalCount!=0){
-                    if(myFansCount!=myFansLocalCount){
+               // if(myFansLocalCount!=0){
+                    if(myFollowCount!=myFollowLocalCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
-                        SpUtils.setInt("myFollowCount",myFollowCount);
+                        activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                        isMyFollow = true;
                     }
-                }
+              //  }
 
-                if(addMeFriendCount!=0){
+               // if(addMeFriendCount!=0){
                     if(addMeFriendLocalCount!=addMeFriendCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
-                        SpUtils.setInt("addMeFriendCount",addMeFriendCount);
+                       activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                        isAddMeFriend = true;
                     }
-                }
+               // }
 
-                if(myAddFriendCount!=0){
+              //  if(myAddFriendCount!=0){
                     if(myAddFriendLocalCount!=myAddFriendCount){
                         mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
-                        SpUtils.setInt("myAddFriendCount",myAddFriendCount);
+                        activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                        isMyAddFriend = true;
                     }
-                }
+               // }
             }
         }
         @Override

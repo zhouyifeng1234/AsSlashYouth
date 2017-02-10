@@ -31,13 +31,14 @@ public class HomeActivity extends Activity {
     private ActivityHomeBinding activityHomeBinding;
 
     public static int goBackPageNo;//从其他页面返回首页时需要首页展示的pager
+    public static ActivityHomeModel activityHomeModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.setCurrentActivity(this);
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
+        activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
         activityHomeBinding.setActivityHomeBinding(activityHomeModel);
 
         setBottomTabIcon(R.mipmap.icon_idle_hours_press, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
