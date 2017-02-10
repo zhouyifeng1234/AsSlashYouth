@@ -8,6 +8,7 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemChatDatetimeBinding;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by zhouyifeng on 2016/11/16.
@@ -33,7 +34,7 @@ public class ChatDatetimeModel extends BaseObservable {
     }
 
     private void initView() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
         String datetimeStr = sdf.format(mDatetime);
         setDatetimeText(datetimeStr);
     }

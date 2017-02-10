@@ -389,7 +389,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         //用户服务指向
         userservicepoint = uinfo.getUserservicepoint();
         int  serviceProgress=  (int)((averageservicepoint*100)/5);
-        activityUserinfoBinding.pbService.setProgress((int)serviceProgress);
+        activityUserinfoBinding.pbService.setProgress(serviceProgress);
         activityUserinfoBinding.tvUserInfoServicePoint.setText("服务力" + userservicepoint + "星");
         activityUserinfoBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
         activityUserinfoBinding.averageServicePoint.setText("平台平均服务力为" + averageservicepoint + "星");

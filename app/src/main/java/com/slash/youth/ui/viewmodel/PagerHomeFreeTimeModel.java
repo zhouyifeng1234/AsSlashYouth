@@ -366,14 +366,16 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 });
 
         //加载更多的点击事件
-        listMoreView.findViewById(R.id.tv_search_more).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickMore();
-                //点击右侧搜索更多埋点
-                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_RIGHT_MORE);
-            }
-        });
+        if(listMoreView!=null){
+            listMoreView.findViewById(R.id.tv_search_more).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickMore();
+                    //点击右侧搜索更多埋点
+                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_RIGHT_MORE);
+                }
+            });
+        }
     }
 
     private void initBanner(int advImageUrlIndex) {

@@ -33,6 +33,7 @@ public class ActivityHomeModel extends BaseObservable {
     ActivityHomeBinding mActivityHomeBinding;
     private int chooseServiceAndDemandLayerVisibility = View.INVISIBLE;
     public Activity mActivity;
+    private int redPointHintVisibility = View.GONE;
 
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
         this.mActivity = activity;
@@ -187,5 +188,15 @@ public class ActivityHomeModel extends BaseObservable {
 //        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
 //        intentServiceDetailActivity.putExtra("serviceId", 103l);
 //        mActivity.startActivity(intentServiceDetailActivity);
+    }
+
+    @Bindable
+    public int getRedPointHintVisibility() {
+        return redPointHintVisibility;
+    }
+
+    public void setRedPointHintVisibility(int redPointHintVisibility) {
+        this.redPointHintVisibility = redPointHintVisibility;
+        notifyPropertyChanged(BR.redPointHintVisibility);
     }
 }

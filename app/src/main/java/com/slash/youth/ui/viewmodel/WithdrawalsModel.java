@@ -92,7 +92,6 @@ public class WithdrawalsModel extends BaseObservable {
                 if(s.toString().trim().substring(0,1).equals(".") || s.toString().trim().substring(s.toString().trim().length()-1,s.toString().trim().length()).equals(".")){
                     return;
                 }
-
             }
 
         @Override
@@ -133,7 +132,16 @@ public class WithdrawalsModel extends BaseObservable {
             if(number == null||number.isEmpty()||number.equals("请输入想要转入的账号")){
                 ToastUtils.shortToast("请填写账号");
             }else {
-                layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+                double totalMoneny = Double.parseDouble(currentMoney);
+                if(totalMoneny<amount){
+                    ToastUtils.shortToast("金额超限");
+                }else {
+                    if(amount<10&&amount>0){
+                        ToastUtils.shortToast("提现金额不低于10元");
+                    }else {
+                        layoutWithdrawalsBinding.flHint.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     }
