@@ -82,6 +82,10 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
             }
         }
         locationType = intent.getIntExtra("locationType", -1);
+        if(locationType==-1){
+            headerListviewLocationCityInfoListBinding.rlAllCity.setVisibility(View.GONE);
+            headerListviewLocationCityInfoListBinding.view.setVisibility(View.GONE);
+        }
     }
 
     //保存最近访问的城市
@@ -121,9 +125,7 @@ public class HeaderLocationCityInfoModel extends BaseObservable {
         headerListviewLocationCityInfoListBinding.rlAllCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 allCityListener.OnAllCityClick();
-
             }
         });
 

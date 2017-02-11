@@ -38,9 +38,9 @@ public class PullToRefreshListViewModel extends BaseObservable {
     public int  pattern = -1;
     public   int isauth = -1;
     public String city = null;
-    public int sort = 1;
-    public double lat;//-180 到 180
-    public double lng;//-90 到 90
+    public int sort = 0;
+    public double lat=91;
+    public double lng = 181;
     private FirstPagerMoreActivity firstPagerMoreActivity;
     private int listsize;
     private SearchActivity currentActivity;

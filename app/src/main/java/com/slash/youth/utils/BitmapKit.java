@@ -56,6 +56,43 @@ public class BitmapKit {
         bindImage(iv, url, null, -1);
     }
 
+    public static void bindImage(ImageView iv, String url,int width, int height) {
+        //这里对url做个容错
+        if (url.contains("?fileId=http")) {
+            String[] urlInfo = url.split("\\?fileId=");
+            url = urlInfo[urlInfo.length - 1];
+        }
+
+        ImageOptions.Builder builder = new ImageOptions.Builder();
+        ImageOptions imageOptions = builder.build();
+        builder.setParamsBuilder(new ImageOptions.ParamsBuilder() {
+            @Override
+            public RequestParams buildParams(RequestParams params, ImageOptions options) {
+                SSLContext sslContext = BaseProtocol.getSSLContext(CommonUtils.getApplication());
+                params.setSslSocketFactory(sslContext.getSocketFactory());
+
+                params.addHeader("uid", LoginManager.currentLoginUserId + "");
+                params.addHeader("pass", "1");
+
+                params.addHeader("token", LoginManager.token);
+                String url = GlobalConstants.HttpUrl.IMG_DOWNLOAD;
+                Map headerMap = AuthHeaderUtils.getBasicAuthHeader("POST", url);
+                String date = (String) headerMap.get("Date");
+                String authorizationStr = (String) headerMap.get("Authorization");
+                params.addHeader("Date", date);
+                params.addHeader("Authorization", authorizationStr);
+                return params;
+            }
+        });
+
+        builder.setSize(width,height);
+        builder.setSquare(true);
+        builder.setLoadingDrawableId(R.mipmap.default_avatar);//设置加载过程中的图片
+        builder.setFailureDrawableId(R.mipmap.default_avatar);//设置加载失败后的图片
+        builder.setImageScaleType(ImageView.ScaleType.CENTER);
+        x.image().bind(iv, url, imageOptions);
+    }
+
     public static void bindImage(ImageView iv, String url, ImageView.ScaleType scaleType, int connerRadius) {
         //这里对url做个容错
         if (url.contains("?fileId=http")) {
@@ -91,7 +128,6 @@ public class BitmapKit {
         } else {
             builder.setRadius(DensityUtil.dip2px(connerRadius));
         }
-        // builder.setSize(CommonUtils.dip2px(59),CommonUtils.dip2px(59));//zss
         builder.setSquare(true);
         builder.setLoadingDrawableId(R.mipmap.default_avatar);//设置加载过程中的图片
         builder.setFailureDrawableId(R.mipmap.default_avatar);//设置加载失败后的图片

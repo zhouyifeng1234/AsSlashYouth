@@ -116,7 +116,7 @@ public class ExamineCertificatesModel extends BaseObservable {
                         ToastUtils.shortCenterToast("上传图片失败");
                         break;
                     case 1:
-                        LogKit.d("status:"+status+"上传成功");
+                        ToastUtils.shortCenterToast("上传图片成功");
                         examineActivity.finish();
                         break;
                     default:

@@ -57,10 +57,12 @@ public class PagerHomeContactsModel extends BaseObservable {
 
     public static int getBaseDataFinishedCount = 0;
     public static int getBaseDataTotalCount = 0;
+    private ActivityHomeModel activityHomeModel;
 
-    public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity) {
+    public PagerHomeContactsModel(PagerHomeContactsBinding pagerHomeContactsBinding, Activity activity,ActivityHomeModel activityHomeModel) {
         this.mPagerHomeContactsBinding = pagerHomeContactsBinding;
         this.mActivity = activity;
+        this.activityHomeModel =activityHomeModel;
       //  displayLoadLayer();
         initListView();
         initView();
@@ -122,7 +124,7 @@ public class PagerHomeContactsModel extends BaseObservable {
 
     private void initView() {
         headerListviewHomeContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_home_contacts, null, false);
-        headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding,mActivity);
+        headerHomeContactsModel = new HeaderHomeContactsModel(headerListviewHomeContactsBinding,mActivity,activityHomeModel);
         headerListviewHomeContactsBinding.setHeaderHomeContactsModel(headerHomeContactsModel);
         View vContactsHeader = headerListviewHomeContactsBinding.getRoot();
         mPagerHomeContactsBinding.lvHomeContactsVisitor.addHeaderView(vContactsHeader);
