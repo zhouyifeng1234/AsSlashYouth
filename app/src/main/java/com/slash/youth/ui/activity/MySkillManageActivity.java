@@ -119,5 +119,4 @@ public class MySkillManageActivity extends Activity implements View.OnClickListe
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 }

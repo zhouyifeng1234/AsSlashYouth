@@ -64,7 +64,7 @@ public class HomeContactsVisitorHolder extends BaseHolder<HomeContactsVisitorBea
                 }
                 break;
             case 2:
-                itemListviewHomeContactsVisitorBinding.tvCompany.setText("自顾者");
+                itemListviewHomeContactsVisitorBinding.tvCompany.setText("自雇者");
                 break;
         }
 

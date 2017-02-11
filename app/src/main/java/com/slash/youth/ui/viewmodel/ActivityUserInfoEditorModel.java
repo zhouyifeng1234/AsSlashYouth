@@ -87,7 +87,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     public String avatar;
     public String industry;
     private String identity;
-    private int careertype;
+    public static int careertype;
     private String tag;
     private String slashIdentity;
     private int isauth;
@@ -132,9 +132,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             activityUserinfoEditorBinding.tvUserphone.setText(phone);
         }
         //所在地
-        if (province.equals(city) && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(province)) {
-            activityUserinfoEditorBinding.tvLocation.setText(province);
-        } else {
+        if (province.equals(city) &&  !TextUtils.isEmpty(city)) {
+            activityUserinfoEditorBinding.tvLocation.setText(city);
+        } else if(!province.equals(city)){
             activityUserinfoEditorBinding.tvLocation.setText(province + "" + city);
         }
         //斜杠身份
@@ -520,7 +520,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                         ToastUtils.shortCenterToast("个人简介字数不超过50");
                     } else {
                         int childCount = llSkilllabelContainer.getChildCount();
-
                         if (childCount == 0) {
                             ToastUtils.shortCenterToast("请填写技能标签");
                         } else {
@@ -537,7 +536,6 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
                                 savePersonInfo();
                                 userinfoEditorActivity.finish();
                             }
-
                         }
                     }
                 }
@@ -586,6 +584,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         //保存所在地
         if (city != null && province != null) {
             paramsMap.put("province", province);
+            paramsMap.put("city", city);
+            SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION, paramsMap);
+        }else if(TextUtils.isEmpty(province)&&city!=null){
+            paramsMap.put("province", city);
             paramsMap.put("city", city);
             SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION, paramsMap);
         }
