@@ -16,6 +16,7 @@ import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
 
 public class HomeActivity extends Activity {
@@ -30,13 +31,14 @@ public class HomeActivity extends Activity {
     private ActivityHomeBinding activityHomeBinding;
 
     public static int goBackPageNo;//从其他页面返回首页时需要首页展示的pager
+    public static ActivityHomeModel activityHomeModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.setCurrentActivity(this);
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        ActivityHomeModel activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
+        activityHomeModel = new ActivityHomeModel(activityHomeBinding, this);
         activityHomeBinding.setActivityHomeBinding(activityHomeModel);
 
         setBottomTabIcon(R.mipmap.icon_idle_hours_press, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
@@ -99,9 +101,15 @@ public class HomeActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UserInfoEngine.MY_USER_EDITOR) {
-            activityHomeBinding.flActivityHomePager.removeAllViews();
-            activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+        switch (requestCode){
+            case  UserInfoEngine.MY_USER_EDITOR:
+                activityHomeBinding.flActivityHomePager.removeAllViews();
+                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+                break;
+            case Constants.APPROVAL:
+                activityHomeBinding.flActivityHomePager.removeAllViews();
+                activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
+                break;
         }
     }
 

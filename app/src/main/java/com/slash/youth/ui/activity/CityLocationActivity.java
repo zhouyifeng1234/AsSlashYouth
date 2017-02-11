@@ -86,6 +86,7 @@ public class CityLocationActivity extends Activity {
     private int startHeight;
     private int startIndex;
     private CityHistoryEntityDao cityHistoryEntityDao;
+    private HeaderLocationCityInfoModel headerLocationCityInfoModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +101,7 @@ public class CityLocationActivity extends Activity {
         mActivityCityLocationBinding.setActivityCityLocationModel(mActivityCityLocationModel);
 
         headerListviewLocationCityInfoListBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.header_listview_location_city_info_list, null, false);
-        HeaderLocationCityInfoModel headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this,cityHistoryEntityDao);
+        headerLocationCityInfoModel = new HeaderLocationCityInfoModel(headerListviewLocationCityInfoListBinding,intent,this,cityHistoryEntityDao);
         headerListviewLocationCityInfoListBinding.setHeaderLocationCityInfoModel(headerLocationCityInfoModel);
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.addHeaderView(headerListviewLocationCityInfoListBinding.getRoot());
         ivLocationCityFirstLetterListHeader = new ImageView(CommonUtils.getContext());
@@ -214,6 +215,12 @@ public class CityLocationActivity extends Activity {
 
     private int index =-1;
     private void initListener() {
+        headerLocationCityInfoModel.setOnAllCityClickCListener(new HeaderLocationCityInfoModel.OnAllCityClickCListener() {
+            @Override
+            public void OnAllCityClick() {
+            }
+        });
+
         //点击条目，获得省市，传递到所在地
         mActivityCityLocationBinding.lvActivityCityLocationCityinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
