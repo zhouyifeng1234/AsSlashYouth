@@ -10,7 +10,7 @@ import android.icu.text.DecimalFormat;
 public class CountUtils {
     public static String  DecimalFormat(double count){
         if(count!=0) {
-            double v = (double) (Math.round(count * 100) / 100.0);
+            double v = (Math.round(count * 100) / 100.0);
             return String.valueOf(v);
         }
 
@@ -20,5 +20,4 @@ public class CountUtils {
         }*/
         return String.valueOf(count);
     }
-
 }

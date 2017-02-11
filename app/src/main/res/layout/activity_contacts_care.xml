@@ -43,7 +43,7 @@
         app:cardElevation="@dimen/cardElevation"
         android:background="@mipmap/dialog_search_clean_bg"
         app:cardUseCompatPadding="true"
-        tools:showIn="@layout/activity_userinfo">\
+        tools:showIn="@layout/activity_userinfo">
 
       <!--  <ListView
             android:id="@+id/lv"

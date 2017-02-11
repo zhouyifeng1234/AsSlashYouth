@@ -36,7 +36,6 @@
                     android:layout_gravity="right|bottom"
                     android:src="@mipmap/small_v_icon"
                     android:visibility="@{itemRecommendDemandModel.authVisibility}"/>
-                />
 
             </FrameLayout>
 

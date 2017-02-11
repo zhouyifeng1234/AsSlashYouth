@@ -41,4 +41,8 @@ public class Constants {
     public static final int  MY_SETTING_TAKE_PHOTO= 0;
     //设置-相册
     public static final int  MY_SETTING_TAKE_ABLEM= 1;
+    //认证去修改
+    public static final int  APPROVAL_TYPE= 1;
+    //刷新认证
+    public static final int  APPROVAL= 2;
 }
