@@ -240,7 +240,6 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
         }
     }
 
-
     public static String getCurProcessName(Context context) {
 
         int pid = android.os.Process.myPid();
