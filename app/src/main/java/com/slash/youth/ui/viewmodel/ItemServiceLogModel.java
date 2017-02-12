@@ -34,6 +34,12 @@ public class ItemServiceLogModel extends BaseObservable {
         String timeStr = sdf.format(mLogInfo.cts);
         mItemServiceFlowLogBinding.tvLogRecordTime.setText(timeStr);
 
-        mItemServiceFlowLogBinding.tvLogAction.setText(mLogInfo.log);
+        int splitIndex = mLogInfo.log.indexOf(',');
+        if (splitIndex != -1) {
+            String log = mLogInfo.log.substring(splitIndex + 1, mLogInfo.log.length());
+            mItemServiceFlowLogBinding.tvLogAction.setText(log);
+        } else {
+            mItemServiceFlowLogBinding.tvLogAction.setText(mLogInfo.log);
+        }
     }
 }

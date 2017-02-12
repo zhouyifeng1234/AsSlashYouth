@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -376,6 +378,8 @@ public class ChatModel extends BaseObservable {
 
     long startRecorderTime = 0;
     long endRecorderTime = 0;
+    boolean isStartRecording = false;
+    boolean isActionDown = false;
 
     private void initListener() {
         setMessageListener();
@@ -421,7 +425,7 @@ public class ChatModel extends BaseObservable {
 
         mActivityChatBinding.tvChatInputVoice.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(final View v, MotionEvent event) {
                 int width = v.getWidth();
                 int[] locationOnScreen = new int[2];
                 v.getLocationOnScreen(locationOnScreen);
@@ -432,12 +436,21 @@ public class ChatModel extends BaseObservable {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        v.setBackgroundResource(R.drawable.shape_chat_input_voice_bg);
-                        setSendVoiceCmdLayerVisibility(View.VISIBLE);
-                        setUpCancelSendVoiceVisibility(View.VISIBLE);
-                        setRelaseCancelSendVoiceVisibility(View.GONE);
-                        startRecorderTime = System.currentTimeMillis();
-                        startSoundRecording();
+                        isActionDown = true;
+                        CommonUtils.getHandler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (isActionDown) {
+                                    v.setBackgroundResource(R.drawable.shape_chat_input_voice_bg);
+                                    setSendVoiceCmdLayerVisibility(View.VISIBLE);
+                                    setUpCancelSendVoiceVisibility(View.VISIBLE);
+                                    setRelaseCancelSendVoiceVisibility(View.GONE);
+                                    startRecorderTime = System.currentTimeMillis();
+                                    startSoundRecording();
+                                    isStartRecording = true;
+                                }
+                            }
+                        }, 500);
                         break;
                     case MotionEvent.ACTION_MOVE:
                         float rawX = event.getRawX();
@@ -453,19 +466,23 @@ public class ChatModel extends BaseObservable {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        v.setBackgroundResource(R.drawable.shape_chat_input_voice_untouch_bg);
-                        setSendVoiceCmdLayerVisibility(View.GONE);
-                        endRecorderTime = System.currentTimeMillis();
-                        long timeSpan = endRecorderTime - startRecorderTime;
-                        if (timeSpan > 500) {
-                            stopSoundRecording();
-                        } else {//这个判断只是为了防止不崩溃
-                            CommonUtils.getHandler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    stopSoundRecording();
-                                }
-                            }, (500 - timeSpan));
+                        isActionDown = false;
+                        if (isStartRecording) {
+                            v.setBackgroundResource(R.drawable.shape_chat_input_voice_untouch_bg);
+                            setSendVoiceCmdLayerVisibility(View.GONE);
+                            endRecorderTime = System.currentTimeMillis();
+                            long timeSpan = endRecorderTime - startRecorderTime;
+                            if (timeSpan > 500) {
+                                stopSoundRecording();
+                            } else {//这个判断只是为了防止不崩溃
+                                CommonUtils.getHandler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        stopSoundRecording();
+                                    }
+                                }, (500 - timeSpan));
+                            }
+                            isStartRecording = false;
                         }
                         break;
                 }
@@ -614,7 +631,11 @@ public class ChatModel extends BaseObservable {
                 return;
             }
         }
-        soundRecord();
+        if (checkVoiceRecordPermission()) {
+            soundRecord();
+        } else {
+            ToastUtils.longToast("麦克风没有声音，可能是录音权限被禁用，请到手机设置中心开启应用录音权限");
+        }
     }
 
     public void soundRecord() {
@@ -643,33 +664,37 @@ public class ChatModel extends BaseObservable {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (mediaRecorder != null) {
-                    int maxAmplitude = 0;
-                    try {
-                        maxAmplitude = mediaRecorder.getMaxAmplitude();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    LogKit.v("maxAmplitude:" + maxAmplitude);
-                    int volumeLevel;
-                    if (maxAmplitude >= 0 && maxAmplitude < 2000) {
-                        volumeLevel = 1;
-                    } else if (maxAmplitude >= 1000 && maxAmplitude < 4000) {
-                        volumeLevel = 2;
-                    } else if (maxAmplitude >= 2000 && maxAmplitude < 6000) {
-                        volumeLevel = 3;
-                    } else if (maxAmplitude >= 3000 && maxAmplitude < 8000) {
-                        volumeLevel = 4;
-                    } else {
-                        volumeLevel = 5;
-                    }
+                try {
+                    while (mediaRecorder != null) {
+                        int maxAmplitude = 0;
+                        try {
+                            maxAmplitude = mediaRecorder.getMaxAmplitude();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        LogKit.v("maxAmplitude:" + maxAmplitude);
+                        int volumeLevel;
+                        if (maxAmplitude >= 0 && maxAmplitude < 2000) {
+                            volumeLevel = 1;
+                        } else if (maxAmplitude >= 1000 && maxAmplitude < 4000) {
+                            volumeLevel = 2;
+                        } else if (maxAmplitude >= 2000 && maxAmplitude < 6000) {
+                            volumeLevel = 3;
+                        } else if (maxAmplitude >= 3000 && maxAmplitude < 8000) {
+                            volumeLevel = 4;
+                        } else {
+                            volumeLevel = 5;
+                        }
 
-                    setRecorderVolumeLevelIcon(volumeLevel);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        setRecorderVolumeLevelIcon(volumeLevel);
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         }).start();
@@ -694,6 +719,38 @@ public class ChatModel extends BaseObservable {
         });
     }
 
+    private boolean checkVoiceRecordPermission() {
+        // 音频获取源
+        int audioSource = MediaRecorder.AudioSource.MIC;
+        // 设置音频采样率，44100是目前的标准，但是某些设备仍然支持22050，16000，11025
+        int sampleRateInHz = 44100;
+        // 设置音频的录制的声道CHANNEL_IN_STEREO为双声道，CHANNEL_CONFIGURATION_MONO为单声道
+        int channelConfig = AudioFormat.CHANNEL_IN_STEREO;
+        // 音频数据格式:PCM 16位每个样本。保证设备支持。PCM 8位每个样本。不一定能得到设备支持。
+        int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+        // 缓冲区字节大小
+        int bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz,
+                channelConfig, audioFormat);
+        AudioRecord audioRecord = new AudioRecord(audioSource, sampleRateInHz,
+                channelConfig, audioFormat, bufferSizeInBytes);
+
+        boolean isHasPermission = false;
+        //开始录制音频
+        try {
+            // 防止某些手机崩溃，例如联想
+            audioRecord.startRecording();
+            if (audioRecord.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
+                isHasPermission = true;
+            }
+            audioRecord.stop();
+            audioRecord.release();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } finally {
+            audioRecord = null;
+        }
+        return isHasPermission;
+    }
 
     /**
      * 停止录音
@@ -712,12 +769,23 @@ public class ChatModel extends BaseObservable {
             mediaRecorder.release();
             mediaRecorder = null;
 
+            long voiceFileLength = tmpVoiceFile.length();
+            LogKit.v("voiceFileLength:" + voiceFileLength);
+            if (voiceFileLength == 94) {
+                ToastUtils.longToast("麦克风没有声音，可能是录音权限被禁用，请到手机设置中心开启应用录音权限");
+                return;
+            }
+
             int duration = 0;
             MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(tmpVoiceFile.getAbsolutePath());
                 mediaPlayer.prepare();
                 duration = mediaPlayer.getDuration() / 1000;
+
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -755,7 +823,8 @@ public class ChatModel extends BaseObservable {
         final long sendTime = System.currentTimeMillis();
 
         final View mySendVoiceView = null;
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, vocMsg, null, null, new RongIMClient.SendMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":[语音消息],请查看";
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, vocMsg, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onError(Integer messageId, RongIMClient.ErrorCode e) {
                 deleteTmpRecordingFile();
@@ -804,7 +873,8 @@ public class ChatModel extends BaseObservable {
         TextMessage textMessage = TextMessage.obtain(inputText);
         final long sendTime = System.currentTimeMillis();
         final View myTextView = createMyTextView(inputText, false, textMessage, targetId);
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":" + inputText;
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             //发送消息的回调
             @Override
             public void onSuccess(Integer integer) {
@@ -872,8 +942,8 @@ public class ChatModel extends BaseObservable {
         }
 
         final ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
-
-        RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, null, null, new RongIMClient.SendImageMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":[图片],请查看";
+        RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, pushContent, null, new RongIMClient.SendImageMessageCallback() {
 
             @Override
             public void onAttached(Message message) {
@@ -968,7 +1038,8 @@ public class ChatModel extends BaseObservable {
                             TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND);
                             textMessage.setExtra(jsonData);
                             //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
-                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                            String pushContent = LoginManager.currentLoginUserName + ":[好友请求],请查看";
+                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
                                 @Override
                                 public void onSuccess(Integer integer) {
                                     long sentTime = System.currentTimeMillis();
@@ -1052,7 +1123,8 @@ public class ChatModel extends BaseObservable {
                         textMessage.setExtra(jsonData);
 
                         //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
-                        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                        String pushContent = LoginManager.currentLoginUserName + ":[交换手机号],请查看";
+                        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
                             @Override
                             public void onSuccess(Integer integer) {
                                 long sentTime = System.currentTimeMillis();
@@ -1098,7 +1170,8 @@ public class ChatModel extends BaseObservable {
 
 //        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
         final long sendTime = System.currentTimeMillis();
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":[任务分享],请查看";
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 long sentTime = System.currentTimeMillis();
@@ -1140,7 +1213,8 @@ public class ChatModel extends BaseObservable {
 
 //        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
         final long sendTime = System.currentTimeMillis();
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":[名片],请查看";
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 long sentTime = System.currentTimeMillis();
@@ -1170,7 +1244,8 @@ public class ChatModel extends BaseObservable {
         String myPhone = LoginManager.currentLoginUserPhone;
         textMessage.setExtra("{\"content\":\"" + myPhone + "\",\"otherPhone\":\"" + otherPhone + "\"}");//这里的otherPhone好像没有用到
 
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":[同意交换手机号],请查看";
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
@@ -1211,7 +1286,8 @@ public class ChatModel extends BaseObservable {
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT);
         textMessage.setExtra("{\"content\":\"对方拒绝交换联系方式\"}");
 
-        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+        String pushContent = LoginManager.currentLoginUserName + ":[拒绝交换手机号],请查看";
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 tvDeny.setBackgroundResource(R.drawable.shape_chat_deny_change_contact_way_bg);
@@ -1258,7 +1334,8 @@ public class ChatModel extends BaseObservable {
                             TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
                             textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
 
-                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                            String pushContent = LoginManager.currentLoginUserName + ":[同意添加好友],请查看";
+                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
                                 @Override
                                 public void onSuccess(Integer integer) {
                                     long sentTime = System.currentTimeMillis();
@@ -1326,7 +1403,8 @@ public class ChatModel extends BaseObservable {
                             TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
                             textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
 
-                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, null, null, new RongIMClient.SendMessageCallback() {
+                            String pushContent = LoginManager.currentLoginUserName + ":[拒绝添加好友],请查看";
+                            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
                                 @Override
                                 public void onSuccess(Integer integer) {
                                     long sentTime = System.currentTimeMillis();
