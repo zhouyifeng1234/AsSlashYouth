@@ -55,7 +55,7 @@ public class FreeTimeMoreServiceBean {
             private String location;
             private String name;
             private int pattern;
-            private long quote;
+            private double quote;
             private int quoteunit;
             private long starttime;
             private int timetype;
@@ -192,11 +192,11 @@ public class FreeTimeMoreServiceBean {
                 this.pattern = pattern;
             }
 
-            public long getQuote() {
+            public double getQuote() {
                 return quote;
             }
 
-            public void setQuote(long quote) {
+            public void setQuote(double quote) {
                 this.quote = quote;
             }
 

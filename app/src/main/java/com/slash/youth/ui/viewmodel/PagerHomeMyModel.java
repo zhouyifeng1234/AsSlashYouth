@@ -80,7 +80,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int loadLayerVisibility = View.GONE;
     private int approvalDialog = View.GONE;
     private int taskProgress;
-    private String[] grades= {"少侠","大侠","宗师","至尊"};
+    private String[] grades= {"少侠","大侠","宗师","至尊"};//4000  10000 请等待客服审核
     private String grade;
 
 
