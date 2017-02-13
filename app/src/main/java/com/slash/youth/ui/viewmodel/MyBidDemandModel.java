@@ -31,6 +31,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.CommentActivity;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
@@ -1045,6 +1046,17 @@ public class MyBidDemandModel extends BaseObservable {
         } else {//不延迟，直接重新加载
             getDataFromServer();
         }
+    }
+
+    /**
+     * 点击任务标题，跳转到详情页
+     *
+     * @param v
+     */
+    public void gotoDemandDetail(View v) {
+        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+        intentDemandDetailActivity.putExtra("demandId", tid);
+        mActivity.startActivity(intentDemandDetailActivity);
     }
 
     private int acceptItemVisibility = View.GONE;

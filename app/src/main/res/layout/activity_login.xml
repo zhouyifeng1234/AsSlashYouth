@@ -16,7 +16,7 @@
             android:layout_marginTop="15dp"
             android:onClick="@{activityLoginModel.chatToSlashHelper}"
             android:text="遇到问题?"
-            android:textColor="#ffffff"
+            android:textColor="#8affffff"
             android:textSize="15sp"/>
 
         <ImageView
@@ -124,7 +124,7 @@
                     android:layout_gravity="center_vertical"
                     android:onClick="@{activityLoginModel.viewSlashProtocol}"
                     android:text="同意《用户协议》"
-                    android:textColor="#ffffff"
+                    android:textColor="#8affffff"
                     android:textSize="15sp"/>
 
             </LinearLayout>

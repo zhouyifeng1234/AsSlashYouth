@@ -171,7 +171,7 @@ public class ActivityLoginModel extends BaseObservable {
     public void login(View v) {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_ENTER);
         if (!isCheckedSlashProtocol) {
-            ToastUtils.shortToast("请先同意《用户协议》");
+            ToastUtils.shortToast("请同意用户协议");
             return;
         }
 

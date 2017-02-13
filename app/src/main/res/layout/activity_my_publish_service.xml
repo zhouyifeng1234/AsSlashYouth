@@ -203,6 +203,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:onClick="@{myPublishServiceModel.gotoServiceDetail}"
                                         android:text="@{myPublishServiceModel.serviceTitle}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"

@@ -218,7 +218,8 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
                 String starttimeStr = sdf.format(startTimeMill);
                 String endtimeStr = sdf.format(endTimeMill);
-                return "闲置时间:" + starttimeStr + "-" + endtimeStr;
+//                return "闲置时间:" + starttimeStr + "-" + endtimeStr;
+                return starttimeStr + "-" + endtimeStr;
             } else {
                 String idleTimeName = "";
                 if (timetype == 1) {
@@ -230,7 +231,8 @@ public class MyTaskHolder extends BaseHolder<MyTaskBean> {
                 } else if (timetype == 4) {
                     idleTimeName = "随时";
                 }
-                return "闲置时间:" + idleTimeName;
+//                return "闲置时间:" + idleTimeName;
+                return idleTimeName;
             }
         }
         return "";

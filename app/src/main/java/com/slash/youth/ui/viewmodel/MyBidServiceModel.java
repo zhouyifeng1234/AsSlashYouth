@@ -33,6 +33,7 @@ import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
@@ -61,6 +62,7 @@ public class MyBidServiceModel extends BaseObservable {
     private int quoteunit = -1;
     private long duid;//服务订单中的需求方ID
     String[] optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
+    private long serviceId;
 
     public MyBidServiceModel(ActivityMyBidServiceBinding activityMyBidServiceBinding, Activity activity) {
         this.mActivity = activity;
@@ -178,7 +180,8 @@ public class MyBidServiceModel extends BaseObservable {
         commentInfo.putString("dname", dname);
         commentInfo.putString("sname", sname);
 
-        commentInfo.putDouble("quote", Double.parseDouble(quote));
+//        commentInfo.putDouble("quote", Double.parseDouble(quote));
+//        commentInfo.putString("quote", quote);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivityForResult(intentCommentActivity, MyBidServiceActivity.activityRequestCode);
@@ -347,6 +350,7 @@ public class MyBidServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceDetailBean dataBean) {
                 ServiceDetailBean.Service service = dataBean.data.service;
+                serviceId = service.id;
                 //服务标题，布局文件中有两个地方需要设置
                 setServiceTitle(service.title + "订单");
                 //闲置时间
@@ -830,6 +834,17 @@ public class MyBidServiceModel extends BaseObservable {
         } else {//不延迟，直接重新加载
             getDataFromServer();
         }
+    }
+
+    /**
+     * 点击标题，进入任务详情页
+     *
+     * @param v
+     */
+    public void gotoServiceDetail(View v) {
+        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+        intentServiceDetailActivity.putExtra("serviceId", serviceId);
+        mActivity.startActivity(intentServiceDetailActivity);
     }
 
     private String serviceTitle;

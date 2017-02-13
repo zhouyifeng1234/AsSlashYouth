@@ -30,6 +30,7 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.CommentActivity;
+import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.activity.PaymentActivity;
 import com.slash.youth.ui.activity.RefundActivity;
@@ -163,7 +164,8 @@ public class MyPublishDemandModel extends BaseObservable {
         commentInfo.putString("dname", dname);
         commentInfo.putString("sname", sname);
 
-        commentInfo.putDouble("quote", innerDemandCardInfo.quote);
+//        commentInfo.putDouble("quote", innerDemandCardInfo.quote);
+//        commentInfo.putString("quote", quote);
         intentCommentActivity.putExtras(commentInfo);
 
         mActivity.startActivityForResult(intentCommentActivity, MyPublishDemandActivity.activityRequestCode);
@@ -680,6 +682,17 @@ public class MyPublishDemandModel extends BaseObservable {
         } else {//不延迟，直接重新加载
             getDataFromServer();
         }
+    }
+
+    /**
+     * 点击任务标题，跳转到详情页
+     *
+     * @param v
+     */
+    public void gotoDemandDetail(View v) {
+        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+        intentDemandDetailActivity.putExtra("demandId", tid);
+        mActivity.startActivity(intentDemandDetailActivity);
     }
 
     private int paymentVisibility = View.GONE;

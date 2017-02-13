@@ -49,7 +49,7 @@ public class CommentModel extends BaseObservable {
     String dname;//需求放名字
     String sname;//服务方名字
 
-    double quote;//任务报价，用来计算分享后的奖金，奖金为报价的2.5%
+//    String quote;//任务报价，用来计算分享后的奖金，奖金为报价的2.5%（这个参数不需要传过来了，评价接口直接会返回）
 
     boolean isCompleteComment = false;
 
@@ -74,7 +74,8 @@ public class CommentModel extends BaseObservable {
         dname = commentInfo.getString("dname");
         sname = commentInfo.getString("sname");
 
-        quote = commentInfo.getDouble("quote");
+//        quote = commentInfo.getDouble("quote");
+//        quote = commentInfo.getString("quote");
         initShareInfo();
 
         MyTaskEngine.getCommentStatus(new BaseProtocol.IResultExecutor<CommentStatusBean>() {
@@ -214,7 +215,10 @@ public class CommentModel extends BaseObservable {
             public void execute(CommentResultBean dataBean) {
                 //评论成功
                 //ToastUtils.shortToast("评论成功");
-                mActivityCommentBinding.tvShareRewardMoney.setText((int) (quote * 0.025) + "元");
+//                String[] quoteInfoArr = quote.split("元");
+//                double quoteDouble = Double.parseDouble(quoteInfoArr[0]);
+//                mActivityCommentBinding.tvShareRewardMoney.setText((int) (quoteDouble * 0.025) + "元");//取整(这里不要理，直接使用评价接口返回的amount)
+                mActivityCommentBinding.tvShareRewardMoney.setText(dataBean.data.evaluation.amount + "元");
                 setCommentSuccessDialogVisibility(View.VISIBLE);
                 isCompleteComment = true;
                 setGoBackIconVisibility(View.GONE);

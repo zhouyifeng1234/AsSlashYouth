@@ -113,6 +113,8 @@ public class MyTaskModel extends BaseObservable {
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
             mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            setMyTaskListVisibility(View.VISIBLE);
+            setNoTaskVisibility(View.GONE);
         }
     }
 
@@ -121,6 +123,8 @@ public class MyTaskModel extends BaseObservable {
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
             mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            setMyTaskListVisibility(View.VISIBLE);
+            setNoTaskVisibility(View.GONE);
         }
     }
 
@@ -129,6 +133,8 @@ public class MyTaskModel extends BaseObservable {
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
             mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            setMyTaskListVisibility(View.VISIBLE);
+            setNoTaskVisibility(View.GONE);
         }
     }
 

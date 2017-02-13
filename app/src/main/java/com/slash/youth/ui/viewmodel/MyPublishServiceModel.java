@@ -33,6 +33,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
@@ -66,6 +67,7 @@ public class MyPublishServiceModel extends BaseObservable {
     private long duid;//服务订单中的需求方ID
     String[] optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
     private boolean isUpdateInstalment = true;//修改条件按钮中的分期是否开启，默认为true开启
+    private long serviceId;
 
     public MyPublishServiceModel(ActivityMyPublishServiceBinding activityMyPublishServiceBinding, Activity activity) {
         this.mActivity = activity;
@@ -777,6 +779,7 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(ServiceDetailBean dataBean) {
                 ServiceDetailBean.Service service = dataBean.data.service;
+                serviceId = service.id;
                 //服务标题，布局文件中有两个地方需要设置
                 setServiceTitle(service.title + "订单");
                 //闲置时间
@@ -1261,6 +1264,17 @@ public class MyPublishServiceModel extends BaseObservable {
         } else {//不延迟，直接重新加载
             getDataFromServer();
         }
+    }
+
+    /**
+     * 点击标题，进入任务详情页
+     *
+     * @param v
+     */
+    public void gotoServiceDetail(View v) {
+        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+        intentServiceDetailActivity.putExtra("serviceId", serviceId);
+        mActivity.startActivity(intentServiceDetailActivity);
     }
 
     private String serviceTitle;

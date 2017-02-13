@@ -8,11 +8,12 @@ import android.webkit.WebView;
  * Created by zhouyifeng on 2017/2/13.
  */
 public class SlashProtocolActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         WebView webView = new WebView(this);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("http://web.slashyounger.com/#!/agreement");
         setContentView(webView);
     }
