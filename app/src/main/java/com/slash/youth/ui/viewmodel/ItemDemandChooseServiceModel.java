@@ -21,7 +21,9 @@ import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 
@@ -56,6 +58,8 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
 
     //打开聊天界面 聊一聊
     public void haveAChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_CHAT);
+
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", mDemandChooseServiceBean.uid + "");
         Bundle taskInfoBundle = new Bundle();
@@ -135,6 +139,8 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
 
     //需求方选择服务者
     public void selectService(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_CHOOSE_TA);
+
         if (mDemandChooseServiceBean.status == 1) {
             DemandEngine.demandPartySelectServiceParty(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
@@ -153,6 +159,8 @@ public class ItemDemandChooseServiceModel extends BaseObservable {
 
     //需求方淘汰服务方（右上角的删除按钮）
     public void eliminateService(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_ELIMINATE_TA);
+
         DemandEngine.demandEliminateService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {

@@ -27,10 +27,12 @@ import com.slash.youth.ui.activity.test.RoundedImageTestActivity;
 import com.slash.youth.ui.activity.test.ScaleViewPagerTestActivity;
 import com.slash.youth.ui.activity.test.TestActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PhoneNumUtils;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -148,6 +150,8 @@ public class PerfectInfoModel extends BaseObservable {
     private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
 
     public void openCamera(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_PICTURE);
+
 //        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        mActivity.startActivityForResult(intentCamera, 0);
 
@@ -290,6 +294,8 @@ public class PerfectInfoModel extends BaseObservable {
                             ToastUtils.shortToast("真实姓名不能为空");
                             return;
                         }
+
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_WRITE_NAME_CLICK_COMPLETE);
 
                         LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
                             @Override

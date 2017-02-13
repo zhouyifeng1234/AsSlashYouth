@@ -34,6 +34,7 @@ public class ChatDatetimeModel extends BaseObservable {
     }
 
     private void initView() {
+//这个Locale.CHINA好像不是我加的 2017年2月11号
         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
         String datetimeStr = sdf.format(mDatetime);
         setDatetimeText(datetimeStr);

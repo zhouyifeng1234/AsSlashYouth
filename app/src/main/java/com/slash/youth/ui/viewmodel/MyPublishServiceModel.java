@@ -38,8 +38,10 @@ import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -241,6 +243,9 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void havaAChat(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_CHAT);
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_MISSONDETAIL_CLICK_MISSON_CHAT);
+
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", duid + "");//对方的uid
         Bundle taskInfoBundle = new Bundle();
@@ -257,6 +262,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void complain(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_APPEAL);
         ServiceEngine.serviceComplain(new BaseProtocol.IResultExecutor<ServiceFlowComplainResultBean>() {
             @Override
             public void execute(ServiceFlowComplainResultBean dataBean) {
@@ -277,6 +283,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void agreeRefund(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_AGREEN_REFUND);
         ServiceEngine.serviceAgreeRefund(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -297,6 +304,8 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void complete(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_COMPLETE_MISSON);
+
         ServiceEngine.complete(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -323,6 +332,8 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void noAccept(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_REJECT);
+
         ServiceEngine.noAccept(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
@@ -343,6 +354,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void accept(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_ACCEPT);
         selectedDemandUser();
     }
 
@@ -488,6 +500,7 @@ public class MyPublishServiceModel extends BaseObservable {
      * @param v
      */
     public void updateCondition(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_MODIFY_CONDITION);
         setUpdateLayerVisibility(View.VISIBLE);
     }
 

@@ -117,8 +117,10 @@ public class SplashActivity extends Activity {
                     if (uid != -1) {
                         LogKit.v("token登录成功，直接跳转到首页");
                         LoginManager.currentLoginUserId = uid;
-                        LoginManager.token = token;
+//                        LoginManager.token = token;
+                        LoginManager.token = dataBean.data.token;//每次token登录，都保存服务端返回过来的最新token
                         LoginManager.rongToken = rongToken;
+                        SpUtils.setString("token", token);
                         //链接融云
                         MsgManager.connectRongCloud(LoginManager.rongToken);
 
@@ -184,7 +186,7 @@ public class SplashActivity extends Activity {
                 String versionTime = TimeUtils.getTimeData(cts);//发版本时间
 
                 String version = data.getVersion();//展示给用户的新版本信息
-                SpUtils.setString("version",version);
+                SpUtils.setString("version", version);
                 String content = data.getContent();//更新文案
 
                 int type = data.getType();//1表示android,2表示ios

@@ -20,9 +20,12 @@ import com.slash.youth.engine.AccountManager;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.engine.ServiceEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.MD5Utils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zhouyifeng on 2016/11/12.
@@ -125,6 +128,7 @@ public class PaymentModel extends BaseObservable {
     //去支付
     public void payment(View v) {
         if (currentCheckedPayType == PAY_TYPE_BALANCE) {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_PAY_BALANCE);
 //            ToastUtils.shortToast("余额支付");
 
             //余额支付,这里不需要判断有没有交易密码，因为按照正常的逻辑走下来，这里肯定会有交易密码
@@ -137,9 +141,11 @@ public class PaymentModel extends BaseObservable {
                 setInputPasswordVisibility(View.VISIBLE);
             }
         } else if (currentCheckedPayType == PAY_TYPE_ALIPAY) {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_PAY_ALIPAY);
 //            ToastUtils.shortToast("支付宝支付");
             doAlipay();
         } else if (currentCheckedPayType == PAY_TYPE_WEIXIN_PAY) {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_PAY_WECHAT);
 //            ToastUtils.shortToast("微信支付");
             doWXpayment();
         }
@@ -330,6 +336,8 @@ public class PaymentModel extends BaseObservable {
 
     //跳转到设置交易密码的界面（或者就在当前界面设置交易密码？）
     public void gotoSettingTransactionPassword(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_MY_MISSON_CLICK_MISSON_PAY_SET_TRADE_PASSWORD);
+
         inputPasswordType = INPUT_PASSWORD_TYPE_SETTING;
         setInputPasswordHintText("设置交易密码");
         setInputPasswordVisibility(View.VISIBLE);

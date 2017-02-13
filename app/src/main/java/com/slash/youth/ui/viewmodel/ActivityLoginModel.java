@@ -29,10 +29,12 @@ import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PhoneNumUtils;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UmengTool;
@@ -166,6 +168,8 @@ public class ActivityLoginModel extends BaseObservable {
      * @param v
      */
     public void login(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_ENTER);
+
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         String pin = mActivityLoginBinding.etActivityLoginVerificationCode.getText().toString();
         if (TextUtils.isEmpty(phoenNum) || TextUtils.isEmpty(pin)) {
@@ -300,6 +304,8 @@ public class ActivityLoginModel extends BaseObservable {
     boolean isSendPin = false;
 
     public void sendPhoneVerificationCode(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_VERTIFYCODE);
+
         if (isSendPin) {
             return;
         }
@@ -337,6 +343,8 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     public void wechatLogin(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_WECHAT_ENTER);
+
         //  LoginManager.loginWeChat();
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
         mShareAPI.doOauthVerify(loginActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
@@ -347,6 +355,8 @@ public class ActivityLoginModel extends BaseObservable {
     }
 
     public void qqLogin(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_QQ_ENTER);
+
 //        LoginManager.loginQQ(qqLoginUiListener, loginActivity);
         UMShareAPI mShareAPI = UMShareAPI.get(loginActivity);
         if (mShareAPI.isInstall(loginActivity, SHARE_MEDIA.QQ)) {

@@ -23,8 +23,10 @@ import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.SubscribeActivity;
 import com.slash.youth.ui.view.SlashAddLabelsLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -327,6 +329,8 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     private static final String slashZeroCommissionInfoTitle = "零佣金承诺及顺利成交保证金是什么？";
 
     public void openSlashZeroCommissionInfo(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_CLICK_COMMISSION_ACTIVITY);
+
         DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {
@@ -344,6 +348,8 @@ public class PublishDemandAddInfoModel extends BaseObservable {
      * @param v
      */
     public void openInstalmentInfo(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.PUBLISH_REQUIREMENT_OPEN_INSTALL_ACCOUNT_QUESTION);
+
         DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {

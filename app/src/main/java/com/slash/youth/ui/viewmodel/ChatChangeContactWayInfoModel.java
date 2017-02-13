@@ -9,6 +9,9 @@ import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ItemChatChangeContactWayInfoBinding;
+import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zhouyifeng on 2016/11/17.
@@ -44,6 +47,7 @@ public class ChatChangeContactWayInfoModel extends BaseObservable {
      * @param v
      */
     public void callToOther(View v) {
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CHAT_CLICK_CALL);
         Uri uri = Uri.parse("tel:" + otherPhone);
         Intent phoneIntent = new Intent(Intent.ACTION_DIAL, uri);
         mActivity.startActivity(phoneIntent);
