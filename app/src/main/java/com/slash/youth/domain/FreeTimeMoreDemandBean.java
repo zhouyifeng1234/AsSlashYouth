@@ -54,7 +54,7 @@ public class FreeTimeMoreDemandBean {
             private String location;
             private String name;
             private int pattern;
-            private long quote;
+            private double quote;
             private long starttime;
             private String title;
             private int uid;
@@ -180,11 +180,11 @@ public class FreeTimeMoreDemandBean {
                 this.pattern = pattern;
             }
 
-            public long getQuote() {
+            public double getQuote() {
                 return quote;
             }
 
-            public void setQuote(long quote) {
+            public void setQuote(double quote) {
                 this.quote = quote;
             }
 

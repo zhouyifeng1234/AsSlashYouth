@@ -17,6 +17,7 @@ import com.slash.youth.ui.viewmodel.ItemDemandModel;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
@@ -77,9 +78,10 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         String title = data.getTitle();
         itemDemandModel.setTitle(title);
 
-        long quote = data.getQuote();
+        double quote = data.getQuote();
         if(quote>0){
-            String quoteString = FirstPagerManager.QUOTE + quote + "元";
+            String quotes = CountUtils.DecimalFormat(quote);
+            String quoteString = FirstPagerManager.QUOTE + quotes + "元";
             itemDemandModel.setQuote(quoteString);
         }else {
             itemDemandModel.setQuote(FirstPagerManager.DEMAND_QUOTE);

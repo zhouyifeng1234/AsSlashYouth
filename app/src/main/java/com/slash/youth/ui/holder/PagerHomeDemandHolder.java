@@ -18,6 +18,7 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
 
 /**
@@ -51,9 +52,11 @@ public class PagerHomeDemandHolder extends BaseHolder<SearchItemDemandBean.DataB
                 break;
             case 0://匿名
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
-                String firstName = name.substring(0, 1);
-                String anonymityName = firstName + "xx";
-                itemDemandModel.setName(anonymityName );
+                if(!TextUtils.isEmpty(name)){
+                    String firstName = name.substring(0, 1);
+                    String anonymityName = firstName + "xx";
+                    itemDemandModel.setName(anonymityName );
+                }
                 break;
         }
 

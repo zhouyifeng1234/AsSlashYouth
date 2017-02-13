@@ -2,6 +2,7 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
+import android.icu.math.BigDecimal;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.slash.youth.ui.viewmodel.ItemDemandModel;
 import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.TimeUtils;
@@ -57,9 +59,11 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
                 break;
             case 0://匿名
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
-                String firstName = name.substring(0, 1);
-                String anonymityName = firstName + "xx";
-                itemDemandModel.setName(anonymityName );
+                if(!TextUtils.isEmpty(name)){
+                    String firstName = name.substring(0, 1);
+                    String anonymityName = firstName + "xx";
+                    itemDemandModel.setName(anonymityName );
+                }
                 break;
         }
 
@@ -76,9 +80,15 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         String title = data.getTitle();
         itemDemandModel.setTitle(title);
 
-        long quote = data.getQuote();
-        String quoteString = FirstPagerManager.QUOTE + quote + "元";
-        itemDemandModel.setQuote(quoteString);
+        double quote = data.getQuote();
+        if(quote>0){
+            String quotes = CountUtils.DecimalFormat(quote);
+            String quoteString = FirstPagerManager.QUOTE + quotes + "元";
+            itemDemandModel.setQuote(quoteString);
+        }else if(quote==0){
+            itemDemandModel.setQuote( FirstPagerManager.QUOTE + "0" + "元");
+        }
+
 
         int pattern = data.getPattern();
         String place = data.getPlace();
