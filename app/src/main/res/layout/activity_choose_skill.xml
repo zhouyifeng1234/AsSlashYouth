@@ -102,32 +102,32 @@
                 android:textColor="#ffffff"
                 android:textSize="14.5sp"/>
             <!--android:background="@drawable/dalei_ok_icon"-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/xz_icon"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="9dp"
-                    android:text="已阅读并同意"
-                    android:textColor="#999999"
-                    android:textSize="13sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="相关协议"
-                    android:textColor="#31c5e4"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@mipmap/xz_icon"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="9dp"-->
+                    <!--android:text="已阅读并同意"-->
+                    <!--android:textColor="#999999"-->
+                    <!--android:textSize="13sp"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="相关协议"-->
+                    <!--android:textColor="#31c5e4"-->
+                    <!--android:textSize="13sp"/>-->
+            <!--</LinearLayout>-->
 
 
         </RelativeLayout>

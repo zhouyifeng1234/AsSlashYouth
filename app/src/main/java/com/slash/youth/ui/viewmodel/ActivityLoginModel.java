@@ -28,6 +28,7 @@ import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
+import com.slash.youth.ui.activity.SlashProtocolActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
@@ -169,6 +170,10 @@ public class ActivityLoginModel extends BaseObservable {
      */
     public void login(View v) {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_ENTER);
+        if (!isCheckedSlashProtocol) {
+            ToastUtils.shortToast("请先同意《用户协议》");
+            return;
+        }
 
         String phoenNum = mActivityLoginBinding.etActivityLoginPhonenum.getText().toString();
         String pin = mActivityLoginBinding.etActivityLoginVerificationCode.getText().toString();
@@ -608,6 +613,23 @@ public class ActivityLoginModel extends BaseObservable {
             //这里不会执行
         }
     };
+
+    boolean isCheckedSlashProtocol = true;
+
+    public void checkSlashProtocol(View v) {
+        if (isCheckedSlashProtocol) {//选中变成不选中
+            mActivityLoginBinding.ivCheckProtocolIcon.setImageResource(R.mipmap.xz_no_icon);
+        } else {//不选中变成选中
+            mActivityLoginBinding.ivCheckProtocolIcon.setImageResource(R.mipmap.xz_icon);
+        }
+
+        isCheckedSlashProtocol = !isCheckedSlashProtocol;
+    }
+
+    public void viewSlashProtocol(View v) {
+        Intent intentSlashProtocolActivity = new Intent(CommonUtils.getContext(), SlashProtocolActivity.class);
+        mActivity.startActivity(intentSlashProtocolActivity);
+    }
 
     int pinSecondsCount;
 

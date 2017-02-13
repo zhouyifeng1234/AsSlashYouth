@@ -166,6 +166,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.slash.youth.ui.activity.SlashProtocolActivity">
+
+        </activity>
         <activity
             android:name="com.slash.youth.ui.activity.HomeActivity"
             android:label="首页"
