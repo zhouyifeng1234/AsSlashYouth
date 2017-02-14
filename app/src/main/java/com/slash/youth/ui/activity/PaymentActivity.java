@@ -35,6 +35,10 @@ public class PaymentActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getExtras().getString("pay_result");
 
+                for (String key : data.getExtras().keySet()) {
+                    LogKit.v("----------------" + key + ":" + data.getExtras().get(key) + "----------------");
+                }
+
                 // 处理返回值
                 // "success" - 支付成功
                 // "fail"    - 支付失败
