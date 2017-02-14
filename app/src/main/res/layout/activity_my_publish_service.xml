@@ -186,12 +186,21 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_marginTop="5dp"
+                                android:onClick="@{myPublishServiceModel.gotoServiceDetail}"
 
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="8dp"
                                 app:cardElevation="5dp"
                                 app:cardUseCompatPadding="true"
                             >
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_marginLeft="10dp"
+                                    android:src="@mipmap/right1_icon"
+                                />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -203,7 +212,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:onClick="@{myPublishServiceModel.gotoServiceDetail}"
+
                                         android:text="@{myPublishServiceModel.serviceTitle}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"
@@ -213,6 +222,9 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="14dp"
+                                        android:drawableLeft="@mipmap/time_icon"
+                                        android:drawablePadding="5dp"
+                                        android:gravity="center_vertical"
                                         android:text="@{myPublishServiceModel.idleTime}"
                                         android:textColor="#999999"
                                         android:textSize="13sp"/>
@@ -258,12 +270,15 @@
 
                                 </LinearLayout>
 
+                                <!--android:layout_gravity="right|top"-->
+                                <!--android:layout_marginRight="15dp"-->
+                                <!--android:layout_marginTop="15dp"-->
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="right|top"
-                                    android:layout_marginRight="15dp"
-                                    android:layout_marginTop="15dp"
+                                    android:layout_gravity="right|bottom"
+                                    android:layout_marginBottom="16dp"
+                                    android:layout_marginRight="10dp"
                                     android:orientation="vertical"
                                     android:visibility="@{myPublishServiceModel.bpConsultVisibility}">
                                     <ImageView
@@ -341,6 +356,99 @@
                             android:orientation="vertical">
 
                             <View android:layout_width="0dp" android:layout_height="41dp"/>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:visibility="@{myPublishServiceModel.viewCommentItemVisibility}"
+
+                                app:cardBackgroundColor="#ffffff"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="5dp"
+                                app:cardUseCompatPadding="true"
+                            >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_marginTop="11dp"
+                                        android:orientation="horizontal">
+                                        <ImageView
+                                            android:layout_width="13dp"
+                                            android:layout_height="13dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginLeft="6dp"
+                                            android:text="@{myPublishServiceModel.taskUts}"
+                                            android:textColor="#333333"
+                                            android:textSize="13sp"/>
+                                        <!--android:text="2015年6月23 15:28"-->
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginTop="3dp"
+                                        android:orientation="horizontal">
+
+                                        <View
+                                            android:layout_width="2dp"
+                                            android:layout_height="79dp"
+                                            android:background="#E5E5E5"
+                                        />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="13sp"
+                                                android:layout_marginTop="11dp"
+                                                android:text="需求方已完成评价，在此查看"
+                                                android:textColor="#333333"
+                                                android:textSize="14sp"/>
+
+                                            <View
+                                                android:layout_width="match_parent"
+                                                android:layout_height="1dp"
+                                                android:layout_marginTop="13dp"
+                                                android:background="#E5E5E5"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_horizontal"
+                                                android:layout_marginTop="4dp"
+                                                android:background="@mipmap/task_demand_btn_bg"
+                                                android:gravity="center"
+                                                android:onClick="@{myPublishServiceModel.viewComment}"
+                                                android:text="查看评价"
+                                                android:textColor="#31C6E4"
+                                                android:textSize="13sp"/>
+
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </android.support.v7.widget.CardView>
 
                             <android.support.v7.widget.CardView
                                 android:layout_width="match_parent"

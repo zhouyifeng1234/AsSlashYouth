@@ -58,10 +58,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
                 android:layout_marginTop="19dp"
-                android:text="已选服务"
+                android:text="已选标签"
                 android:textColor="#333333"
                 android:textSize="16.5sp"
             />
+            <!--android:text="已选服务"-->
 
             <ScrollView
                 android:id="@+id/sv_activity_subscribe_checked_labels"
@@ -353,31 +354,31 @@
                     <Button
                         android:id="@+id/btn_cannelChooseMainLabel"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="45dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="4dp"
                         android:layout_marginTop="4dp"
+                        android:layout_weight="1"
                         android:background="@drawable/btn1"
                         android:onClick="@{activitySubscribeModel.cannelChooseMainLabel}"
                         android:text="取消"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"
-                        />
+                    />
                     <Button
                         android:id="@+id/btn_okChooseMainLabel"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="45dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="4dp"
                         android:layout_marginTop="4dp"
+                        android:layout_weight="1"
                         android:background="@drawable/btn_next_step"
                         android:onClick="@{activitySubscribeModel.okChooseMainLabel}"
                         android:text="确定"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"
-                        />
+                    />
 
                 </LinearLayout>
             </LinearLayout>

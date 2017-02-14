@@ -360,15 +360,20 @@ public class MyBidServiceModel extends BaseObservable {
                         SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
                         String starttimeStr = sdfIdleTime.format(service.starttime);
                         String endtimeStr = sdfIdleTime.format(service.endtime);
-                        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+//                        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                        setIdleTime(starttimeStr + "-" + endtimeStr);
                     } else if (timetype == 1) {
-                        setIdleTime("闲置时间:下班后");
+//                        setIdleTime("闲置时间:下班后");
+                        setIdleTime("下班后");
                     } else if (timetype == 2) {
-                        setIdleTime("闲置时间:周末");
+//                        setIdleTime("闲置时间:周末");
+                        setIdleTime("周末");
                     } else if (timetype == 3) {
-                        setIdleTime("闲置时间:下班后及周末");
+//                        setIdleTime("闲置时间:下班后及周末");
+                        setIdleTime("下班后及周末");
                     } else if (timetype == 4) {
-                        setIdleTime("闲置时间:随时");
+//                        setIdleTime("闲置时间:随时");
+                        setIdleTime("随时");
                     }
                 }
                 //报价 这里不能使用服务详情接口返回的报价
@@ -481,7 +486,8 @@ public class MyBidServiceModel extends BaseObservable {
                     SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
                     String starttimeStr = sdfIdleTime.format(dataBean.data.order.starttime);
                     String endtimeStr = sdfIdleTime.format(dataBean.data.order.endtime);
-                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+//                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                    setIdleTime(starttimeStr + "-" + endtimeStr);
                 }
 
                 int status = dataBean.data.order.status;

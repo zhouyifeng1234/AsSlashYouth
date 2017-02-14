@@ -634,7 +634,8 @@ public class ChatModel extends BaseObservable {
         if (checkVoiceRecordPermission()) {
             soundRecord();
         } else {
-            ToastUtils.longToast("麦克风没有声音，可能是录音权限被禁用，请到手机设置中心开启应用录音权限");
+            ToastUtils.longToast("麦克风没有声音，可能是录音权限被禁用，请到手机设置中心开启应用录音权限，\n如果允许之后还未获得录音权限,请退出当前聊天界面，再重新进入");
+//            ToastUtils.longToast("麦克风没有声音，可能是录音权限被禁用，请到手机设置中心开启应用录音权限，\n部分手机允许之后可能还未获得录音权限,请退出当前聊天界面，再重新进入");
         }
     }
 

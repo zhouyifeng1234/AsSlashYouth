@@ -69,12 +69,15 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:drawableLeft="@mipmap/"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
+                            android:drawableLeft="@mipmap/time_icon"
+                            android:drawablePadding="5dp"
+                            android:gravity="center_vertical"
                             android:text="@{itemMyTaskModel.startTime}"
                             android:textColor="#666666" android:textSize="14sp"/>
+
 
                     </LinearLayout>
 

@@ -77,6 +77,10 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     public void onCreate() {
         super.onCreate();
 
+        //捕获全局异常
+//        SlashUncaughtExceptionHandler slashUncaughtExceptionHandler = SlashUncaughtExceptionHandler.getInstance();
+//        slashUncaughtExceptionHandler.init(this);
+
         //设置数据库
         instances = this;
         setDatabase();
@@ -137,6 +141,7 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
                 listActivities.remove(activity);
             }
         });
+
 
         UMShareAPI.get(this);
         Config.REDIRECT_URL = "www.slashyouth.com";
@@ -202,6 +207,48 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
         int memoryClass = activityManager.getMemoryClass();
         LogKit.v("heapinfo--activityManager.getLargeMemoryClass():" + largeMemoryClass);
         LogKit.v("heapinfo--activityManager.getMemoryClass():" + memoryClass);
+    }
+
+    public static class SlashUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+        private Context mContext;
+
+        private static Object objLock = new Object();
+        private static SlashUncaughtExceptionHandler instance;
+
+        private SlashUncaughtExceptionHandler() {
+
+        }
+
+        public static SlashUncaughtExceptionHandler getInstance() {
+            if (instance == null) {
+                synchronized (objLock) {
+                    if (instance == null) {
+                        instance = new SlashUncaughtExceptionHandler();
+                    }
+                }
+            }
+            return instance;
+        }
+
+        public void init(Context context) {
+            this.mContext = context;
+//            Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();//获取系统默认的UncaughtException处理器
+            Thread.setDefaultUncaughtExceptionHandler(this);
+        }
+
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+            //这里可以做全局异常的处理，可以将异常日志保存到本地，或者上传到服务器
+
+            e.printStackTrace();
+
+            LogKit.v("kill process start");
+            android.os.Process.killProcess(android.os.Process.myPid());
+            LogKit.v("System exit start");
+            System.exit(1);
+            LogKit.v("System exit end");
+            LogKit.v("kill process end");
+        }
     }
 
 
@@ -319,4 +366,6 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     public SQLiteDatabase getDb() {
         return db;
     }
+
+
 }

@@ -7,13 +7,15 @@ import java.io.Serializable;
  */
 public class ServiceDetailBean implements Serializable {
 
-    public ServiceDetailBean(int i){
-        this.data=new Data();
-        this.data.service=new Service();
+    public ServiceDetailBean(int i) {
+        this.data = new Data();
+        this.data.service = new Service();
     }
-    public ServiceDetailBean(){
+
+    public ServiceDetailBean() {
 
     }
+
     public int rescode;
     public Data data;
 
@@ -37,7 +39,7 @@ public class ServiceDetailBean implements Serializable {
         public int pattern;
         public String pic;
         public String place;
-        public int quote;
+        public double quote;
         public int quoteunit;
         public String remark;
         public long starttime;

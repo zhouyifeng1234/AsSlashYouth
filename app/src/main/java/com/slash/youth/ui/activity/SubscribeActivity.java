@@ -109,9 +109,9 @@ public class SubscribeActivity extends Activity {
         isEditor = intent.getBooleanExtra("isEditor", false);
         if (isEditor) {
             mActivitySubscribeBinding.tvSubscribeTitle.setText(titleText);
-            mActivitySubscribeBinding.tvTitleTwo.setText(tabTitle);
+//            mActivitySubscribeBinding.tvTitleTwo.setText(tabTitle);//这里都显示“已选标签”，所以不需要判断设置
         }
-        activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this, isEditor,isAddSkill);
+        activitySubscribeModel = new ActivitySubscribeModel(mActivitySubscribeBinding, this, isEditor, isAddSkill);
         mActivitySubscribeBinding.setActivitySubscribeModel(activitySubscribeModel);
 
         mActivitySubscribeBinding.lvActivitySubscribeSecondSkilllableList.setVerticalScrollBarEnabled(false);
@@ -181,6 +181,7 @@ public class SubscribeActivity extends Activity {
                         LogKit.d("rescode :" + rescode);
                     }
                 }
+
                 @Override
                 public void executeResultError(String result) {
                     LogKit.d("result :" + result);
@@ -191,7 +192,7 @@ public class SubscribeActivity extends Activity {
             getSkillLabelAllArrayList(arrayList);
             ArrayList<SkillLabelGetBean.DataBean> data = getDateFromLocal("userSkillLabel");
             getUserSkillLabelArrayList(data);
-             postThridSkillLabel();
+            postThridSkillLabel();
         }
         //一级标签
         industry = getIntent().getStringExtra("industry");

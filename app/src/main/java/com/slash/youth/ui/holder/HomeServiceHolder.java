@@ -18,8 +18,6 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
@@ -52,7 +50,7 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
-        switch (anonymity){
+        switch (anonymity) {
             case 1://实名
                 BitmapKit.bindImage(itemDemandLayoutBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 itemDemandModel.setName(name);
@@ -61,12 +59,12 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
-                itemDemandModel.setName(anonymityName );
+                itemDemandModel.setName(anonymityName);
                 break;
         }
 
         int isauth = data.getIsauth();
-        switch (isauth){
+        switch (isauth) {
             case 0:
                 itemDemandModel.setIsAuthVisivity(View.GONE);
                 break;
@@ -78,20 +76,20 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
         String title = data.getTitle();
         itemDemandModel.setTitle(title);
 
-        long quote = data.getQuote();
+        double quote = data.getQuote();
         int quoteunit = data.getQuoteunit();
-        if(quoteunit>=1&&quoteunit<=8){
-            unit = FirstPagerManager.QUOTEUNITS[quoteunit-1];
-            unit ="/"+unit;
+        if (quoteunit >= 1 && quoteunit <= 8) {
+            unit = FirstPagerManager.QUOTEUNITS[quoteunit - 1];
+            unit = "/" + unit;
         }
-        String quoteString = FirstPagerManager.QUOTE + quote + "元"+unit;
+        String quoteString = FirstPagerManager.QUOTE + quote + "元" + unit;
         itemDemandModel.setQuote(quoteString);
 
         int pattern = data.getPattern();
         String place = data.getPlace();
         double lat = data.getLat();
         double lng = data.getLng();
-        switch (pattern){
+        switch (pattern) {
             case 0:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_UP);
                 itemDemandModel.setPlace("不限城市");
@@ -100,19 +98,19 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
             case 1:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_DOWN);
 
-                if(!TextUtils.isEmpty(place)){
+                if (!TextUtils.isEmpty(place)) {
                     itemDemandModel.setPlace(place);
                     double currentLatitude = SlashApplication.getCurrentLatitude();
                     double currentLongitude = SlashApplication.getCurrentLongitude();
                     double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                    itemDemandModel.setDistance("距您"+distance+"km");
+                    itemDemandModel.setDistance("距您" + distance + "km");
                 }
                 break;
         }
 
         int instalment = data.getInstalment();
         itemDemandModel.setInstalment(FirstPagerManager.SERVICE_INSTALMENT);
-        switch (instalment){
+        switch (instalment) {
             case 0:
                 itemDemandModel.setInstalmentVisibility(View.GONE);
                 break;
@@ -123,8 +121,8 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
 
         int timetype = data.getTimetype();
         itemDemandModel.setTimeVisibility(View.VISIBLE);
-        if(timetype!=0){
-            itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype-1]);
+        if (timetype != 0) {
+            itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype - 1]);
         }
     }
 }

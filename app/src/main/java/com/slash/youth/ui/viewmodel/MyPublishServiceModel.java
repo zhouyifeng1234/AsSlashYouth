@@ -33,6 +33,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.CommentActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
@@ -789,31 +790,36 @@ public class MyPublishServiceModel extends BaseObservable {
                         SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
                         String starttimeStr = sdfIdleTime.format(service.starttime);
                         String endtimeStr = sdfIdleTime.format(service.endtime);
-                        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+//                        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                        setIdleTime(starttimeStr + "-" + endtimeStr);
                         //回填修改条件中的开始时间和结束时间
                         starttime = service.starttime;
                         endtime = service.endtime;
                         mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText(starttimeStr + "-" + endtimeStr);
                     } else if (timetype == 1) {
-                        setIdleTime("闲置时间:下班后");
+//                        setIdleTime("闲置时间:下班后");
+                        setIdleTime("下班后");
                         //回填修改条件中的开始时间和结束时间
                         starttime = 0;
                         endtime = 0;
                         mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
                     } else if (timetype == 2) {
-                        setIdleTime("闲置时间:周末");
+//                        setIdleTime("闲置时间:周末");
+                        setIdleTime("周末");
                         //回填修改条件中的开始时间和结束时间
                         starttime = 0;
                         endtime = 0;
                         mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
                     } else if (timetype == 3) {
-                        setIdleTime("闲置时间:下班后及周末");
+//                        setIdleTime("闲置时间:下班后及周末");
+                        setIdleTime("下班后及周末");
                         //回填修改条件中的开始时间和结束时间
                         starttime = 0;
                         endtime = 0;
                         mActivityMyPublishServiceBinding.tvServiceStartEndTime.setText("");
                     } else if (timetype == 4) {
-                        setIdleTime("闲置时间:随时");
+//                        setIdleTime("闲置时间:随时");
+                        setIdleTime("随时");
                         //回填修改条件中的开始时间和结束时间
                         starttime = 0;
                         endtime = 0;
@@ -931,7 +937,8 @@ public class MyPublishServiceModel extends BaseObservable {
                     SimpleDateFormat sdfIdleTime = new SimpleDateFormat("MM月dd日 HH:mm");
                     String starttimeStr = sdfIdleTime.format(dataBean.data.order.starttime);
                     String endtimeStr = sdfIdleTime.format(dataBean.data.order.endtime);
-                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+//                    setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+                    setIdleTime(starttimeStr + "-" + endtimeStr);
                     //回填修改条件中的开始时间和结束时间
                     starttime = dataBean.data.order.starttime;
                     endtime = dataBean.data.order.endtime;
@@ -1071,6 +1078,9 @@ public class MyPublishServiceModel extends BaseObservable {
         return itemServiceFlowLogBinding.getRoot();
     }
 
+    String dAvatarUrl;
+    String dname;
+
     /**
      * 获取需求者信息
      */
@@ -1079,12 +1089,15 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityMyPublishServiceBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                dAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+//                BitmapKit.bindImage(mActivityMyPublishServiceBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                BitmapKit.bindImage(mActivityMyPublishServiceBinding.ivDemandUserAvatar, dAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setDemandUserIsAuthVisibility(View.GONE);
                 } else {
                     setDemandUserIsAuthVisibility(View.VISIBLE);
                 }
+                dname = uinfo.name;
                 setDemandUsername("需求方:" + uinfo.name);
 
                 LogKit.v("需求方信息 uinfo.id:" + uinfo.id);
@@ -1102,6 +1115,10 @@ public class MyPublishServiceModel extends BaseObservable {
         }, duid + "", "0");
     }
 
+    String sAvatarUrl;
+    String sname;
+
+
     /**
      * 获取服务者信息
      */
@@ -1110,12 +1127,15 @@ public class MyPublishServiceModel extends BaseObservable {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
-                BitmapKit.bindImage(mActivityMyPublishServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                sAvatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
+//                BitmapKit.bindImage(mActivityMyPublishServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar);
+                BitmapKit.bindImage(mActivityMyPublishServiceBinding.ivServiceUserAvatar, sAvatarUrl);
                 if (uinfo.isauth == 0) {//未认证
                     setServiceUserIsAuthVisibility(View.GONE);
                 } else {
                     setServiceUserIsAuthVisibility(View.VISIBLE);
                 }
+                sname = uinfo.name;
                 setServiceUsername("服务方:" + uinfo.name);
 
                 LogKit.v("服务方信息 uinfo.id:" + uinfo.id);
@@ -1141,12 +1161,12 @@ public class MyPublishServiceModel extends BaseObservable {
         switch (order.status) {
             case 1:/*初始化订单*/
 //                setAcceptItemVisibility(View.VISIBLE);
-                setStatusButtonVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);
+                setStatusButtonVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
                 break;
             case 2:/*服务者确认*/
             case 3:/*需求方支付中*/
 //                setUpdateBidInfotItemVisibility(View.VISIBLE);
-                setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.VISIBLE);
+                setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.VISIBLE, View.GONE);
                 break;
             case 5:/*订单进行中*/
                 //获取分期情况 来判断是否需要显示完成按钮
@@ -1161,7 +1181,7 @@ public class MyPublishServiceModel extends BaseObservable {
                                 fid = instalmentInfo.id;
                                 if (instalmentInfo.status == 0) {
 //                                    setFinishItemVisibility(View.VISIBLE);
-                                    setStatusButtonVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                                    setStatusButtonVisibility(View.GONE, View.VISIBLE, View.GONE, View.GONE, View.GONE);
                                     mActivityMyPublishServiceBinding.tvCompleteText.setText("完成(" + fid + "/" + totalInstalment + ")");
                                 }
                                 break;
@@ -1177,9 +1197,16 @@ public class MyPublishServiceModel extends BaseObservable {
                 break;
             case 8:/*申请退款*/
 //                setRefundItemVisibility(View.VISIBLE);
-                setStatusButtonVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE);
+                setStatusButtonVisibility(View.VISIBLE, View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
             case 7:/*订单确认完成*/
+                //这里需要判断，如果已经评价过了，就显示查看评价按钮
+                if (order.iscommit == 0) {//未评论
+                    setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                } else {//已评论
+                    setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
+                }
+                break;
             case 6:/*订单完成*/
             case 9:/*同意退款*/
             case 10:/*平台申诉处理*/
@@ -1190,16 +1217,17 @@ public class MyPublishServiceModel extends BaseObservable {
 //                setAcceptItemVisibility(View.GONE);
 //                setRefundItemVisibility(View.GONE);
 //                setUpdateBidInfotItemVisibility(View.GONE);
-                setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                setStatusButtonVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
                 break;
         }
     }
 
-    private void setStatusButtonVisibility(int refundItemVisibility, int finishItemVisibility, int acceptItemVisibility, int updateBidInfotItemVisibility) {
+    private void setStatusButtonVisibility(int refundItemVisibility, int finishItemVisibility, int acceptItemVisibility, int updateBidInfotItemVisibility, int viewCommentItemVisibility) {
         setRefundItemVisibility(refundItemVisibility);
         setFinishItemVisibility(finishItemVisibility);
         setAcceptItemVisibility(acceptItemVisibility);
         setUpdateBidInfotItemVisibility(updateBidInfotItemVisibility);
+        setViewCommentItemVisibility(viewCommentItemVisibility);
     }
 
 
@@ -1277,6 +1305,25 @@ public class MyPublishServiceModel extends BaseObservable {
         mActivity.startActivity(intentServiceDetailActivity);
     }
 
+    public void viewComment(View v) {
+
+        Intent intentCommentActivity = new Intent(CommonUtils.getContext(), CommentActivity.class);
+
+        Bundle commentInfo = new Bundle();
+        commentInfo.putLong("tid", tid);
+        commentInfo.putInt("type", 2);
+        commentInfo.putLong("suid", suid);
+        commentInfo.putLong("duid", duid);
+        commentInfo.putString("dAvatarUrl", dAvatarUrl);
+        commentInfo.putString("sAvatarUrl", sAvatarUrl);
+        commentInfo.putString("dname", dname);
+        commentInfo.putString("sname", sname);
+        intentCommentActivity.putExtras(commentInfo);
+
+        mActivity.startActivity(intentCommentActivity);
+
+    }
+
     private String serviceTitle;
     private String idleTime;
     private String quote;
@@ -1309,6 +1356,18 @@ public class MyPublishServiceModel extends BaseObservable {
     private int addInstalmentIconVisibility;
 
     private String taskUts;
+
+    private int viewCommentItemVisibility = View.GONE;
+
+    @Bindable
+    public int getViewCommentItemVisibility() {
+        return viewCommentItemVisibility;
+    }
+
+    public void setViewCommentItemVisibility(int viewCommentItemVisibility) {
+        this.viewCommentItemVisibility = viewCommentItemVisibility;
+        notifyPropertyChanged(BR.viewCommentItemVisibility);
+    }
 
     @Bindable
     public String getTaskUts() {

@@ -1032,6 +1032,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="@{demandDetailModel.shareDemandBottom}"
                     android:orientation="vertical"
                     android:visibility="@{demandDetailModel.bottomBtnDemandVisibility}"
                 >
@@ -1040,7 +1041,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="7dp"
-                        android:onClick="@{demandDetailModel.shareDemandBottom}"
+
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"

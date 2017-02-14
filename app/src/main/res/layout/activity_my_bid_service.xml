@@ -186,12 +186,21 @@
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
                                 android:layout_marginTop="5dp"
+                                android:onClick="@{myBidServiceModel.gotoServiceDetail}"
 
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="8dp"
                                 app:cardElevation="5dp"
                                 app:cardUseCompatPadding="true"
                             >
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|center_vertical"
+                                    android:layout_marginLeft="10dp"
+                                    android:src="@mipmap/right1_icon"
+                                />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -203,7 +212,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:onClick="@{myBidServiceModel.gotoServiceDetail}"
+
                                         android:text="@{myBidServiceModel.serviceTitle}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"
@@ -213,6 +222,9 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="14dp"
+                                        android:drawableLeft="@mipmap/time_icon"
+                                        android:drawablePadding="5dp"
+                                        android:gravity="center_vertical"
                                         android:text="@{myBidServiceModel.idleTime}"
                                         android:textColor="#999999"
                                         android:textSize="13sp"/>
@@ -258,12 +270,15 @@
 
                                 </LinearLayout>
 
+                                <!--android:layout_gravity="right|top"-->
+                                <!--android:layout_marginRight="15dp"-->
+                                <!--android:layout_marginTop="15dp"-->
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="right|top"
-                                    android:layout_marginRight="15dp"
-                                    android:layout_marginTop="15dp"
+                                    android:layout_gravity="right|bottom"
+                                    android:layout_marginBottom="16dp"
+                                    android:layout_marginRight="10dp"
                                     android:orientation="vertical"
                                     android:visibility="@{myBidServiceModel.bpConsultVisibility}">
                                     <ImageView
