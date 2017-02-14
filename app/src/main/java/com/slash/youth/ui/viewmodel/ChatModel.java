@@ -640,28 +640,28 @@ public class ChatModel extends BaseObservable {
     }
 
     public void soundRecord() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    tmpVoiceFile = new File(CommonUtils.getContext().getCacheDir(), "tmpVoice" + System.currentTimeMillis());
-                    mediaRecorder = new MediaRecorder();
-                    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-                    mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
-                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                    try {
-                        mediaRecorder.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mediaRecorder.start();
-                } catch (Exception ex) {
-                    LogKit.v("-----------聊天中的录音异常，比较诡异的未知异常，多半和权限有关-------------");
-                    ex.printStackTrace();
-                }
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+        try {
+            tmpVoiceFile = new File(CommonUtils.getContext().getCacheDir(), "tmpVoice" + System.currentTimeMillis());
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+            mediaRecorder.setOutputFile(tmpVoiceFile.getAbsolutePath());
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            try {
+                mediaRecorder.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }).start();
+            mediaRecorder.start();
+        } catch (Exception ex) {
+            LogKit.v("-----------聊天中的录音异常，比较诡异的未知异常，多半和权限有关-------------");
+            ex.printStackTrace();
+        }
+//            }
+//        }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1221,7 +1221,7 @@ public class ChatModel extends BaseObservable {
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
 
-                View mySendBusinessCardView = createMySendBusinessCardView(false);
+                View mySendBusinessCardView = createMySendBusinessCardView(chatCmdBusinesssCardBean, false);
 
                 View vReadStatus = mySendBusinessCardView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
@@ -1299,6 +1299,7 @@ public class ChatModel extends BaseObservable {
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
 
+                createDenyChangeContactInfoFile();//保存拒绝交还联系方式的记录
                 View infoView = createInfoView("您已拒绝和对方交换联系方式");
                 mLlChatContent.addView(infoView);
                 MsgManager.updateConversationList(targetId);//更新会话列表
@@ -1577,21 +1578,21 @@ public class ChatModel extends BaseObservable {
 
     private View createOtherSendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
         ItemChatOtherSendBusinessCardBinding itemChatOtherSendBusinessCardBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_send_business_card, null, false);
-        ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity, targetAvatar);
+        ChatOtherSendBusinessCardModel chatOtherSendBusinessCardModel = new ChatOtherSendBusinessCardModel(itemChatOtherSendBusinessCardBinding, mActivity, targetAvatar, chatCmdBusinesssCardBean);
         itemChatOtherSendBusinessCardBinding.setChatOtherSendBusinessCardModel(chatOtherSendBusinessCardModel);
         return itemChatOtherSendBusinessCardBinding.getRoot();
     }
 
-    private View createMySendBusinessCardView(boolean isRead) {
+    private View createMySendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean, boolean isRead) {
         ItemChatMySendBusinessCardBinding itemChatMySendBusinessCardBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_send_business_card, null, false);
-        ChatMySendBusinessCardModel chatMySendBusinessCardModel = new ChatMySendBusinessCardModel(itemChatMySendBusinessCardBinding, mActivity, isRead);
+        ChatMySendBusinessCardModel chatMySendBusinessCardModel = new ChatMySendBusinessCardModel(itemChatMySendBusinessCardBinding, mActivity, isRead, chatCmdBusinesssCardBean);
         itemChatMySendBusinessCardBinding.setChatMySendBusinessCardModel(chatMySendBusinessCardModel);
         return itemChatMySendBusinessCardBinding.getRoot();
     }
 
     private View createOtherChangeContactWayView(ChatCmdChangeContactBean chatCmdChangeContactBean, String otherPhone, boolean isChangeContact) {
         ItemChatOtherChangeContactWayBinding itemChatOtherChangeContactWayBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_other_change_contact_way, null, false);
-        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone, targetAvatar, isChangeContact);
+        ChatOtherChangeContactWayModel chatOtherChangeContactWayModel = new ChatOtherChangeContactWayModel(itemChatOtherChangeContactWayBinding, mActivity, this, otherPhone, targetAvatar, isChangeContact, targetId);
         itemChatOtherChangeContactWayBinding.setChatOtherChangeContactWayModel(chatOtherChangeContactWayModel);
         return itemChatOtherChangeContactWayBinding.getRoot();
     }
@@ -1848,7 +1849,8 @@ public class ChatModel extends BaseObservable {
                     }
                     mLlChatContent.addView(myShareTaskView, 0);
                 } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
-                    View mySendBusinessCardView = createMySendBusinessCardView(isRead);
+                    ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = gson.fromJson(extra, ChatCmdBusinesssCardBean.class);
+                    View mySendBusinessCardView = createMySendBusinessCardView(chatCmdBusinesssCardBean, isRead);
                     if (!isRead) {
                         View vReadStatus = mySendBusinessCardView.findViewById(R.id.tv_chat_msg_read_status);
                         SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
@@ -2058,6 +2060,9 @@ public class ChatModel extends BaseObservable {
             receiveOtherCmdMsgView = createOtherSendBusinessCardView(chatCmdBusinesssCardBean);
 //            mLlChatContent.addView(createOtherSendBusinessCardView(chatCmdBusinesssCardBean));
         } else if (content.contentEquals(MsgManager.CHAT_CMD_CHANGE_CONTACT)) {
+            if (!isLoadHis) {
+                deleteDenyChangeContactInfoFile();//删除拒绝交还联系方式的记录
+            }
             //1标识已经交换过  -1标识尚未交换过
             boolean isChangeContact;
             if (changeContactStatus == 1) {
@@ -2118,6 +2123,32 @@ public class ChatModel extends BaseObservable {
             } else {
                 mLlChatContent.addView(receiveOtherCmdMsgView);
             }
+        }
+    }
+
+    private void createDenyChangeContactInfoFile() {
+        File dataDir = CommonUtils.getContext().getFilesDir();
+        File denyChangeContactInfoDir = new File(dataDir, "denyChangeContactInfoDir/");
+        if (!denyChangeContactInfoDir.exists()) {
+            denyChangeContactInfoDir.mkdir();
+        }
+        File denyChangeContactInfoFile = new File(dataDir,
+                "denyChangeContactInfoDir/" + LoginManager.currentLoginUserId + "to" + targetId);
+        if (!denyChangeContactInfoFile.exists()) {
+            try {
+                denyChangeContactInfoFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void deleteDenyChangeContactInfoFile() {
+        File dataDir = CommonUtils.getContext().getFilesDir();
+        File denyChangeContactInfoFile = new File(dataDir,
+                "denyChangeContactInfoDir/" + LoginManager.currentLoginUserId + "to" + targetId);
+        if (denyChangeContactInfoFile.exists()) {
+            denyChangeContactInfoFile.delete();
         }
     }
 
@@ -2316,6 +2347,13 @@ public class ChatModel extends BaseObservable {
                 listSourcePicUrl.add("");
             }
         }
+    }
+
+    /**
+     * Activity Destory生命周期方法的回调，用来退出时清楚未读消息数
+     */
+    public void onActivityDestory() {
+        clearOtherMessagesUnreadCount();
     }
 
     private int voiceInputIconVisibility = View.VISIBLE;

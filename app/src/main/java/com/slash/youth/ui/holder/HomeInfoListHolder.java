@@ -65,7 +65,15 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
             } else {
                 mItemHomeInfoModel.setAddVVisibility(View.GONE);
             }
-            mItemHomeInfoModel.setCompanyAndPosition("(" + data.company + "," + data.position + ")");
+            String companyAndPosition = "";
+            if (!TextUtils.isEmpty(data.company) && !TextUtils.isEmpty(data.position)) {//两个都不为空
+                companyAndPosition = "(" + data.company + "," + data.position + ")";
+            } else if (!TextUtils.isEmpty(data.company) || !TextUtils.isEmpty(data.position)) {//其中一个不为空,另一个为空
+                companyAndPosition = "(" + data.company + data.position + ")";
+            } else {//两个都为空,就不需要显示了
+
+            }
+            mItemHomeInfoModel.setCompanyAndPosition(companyAndPosition);
         }
 
         RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, data.uid + "", new RongIMClient.ResultCallback<Integer>() {

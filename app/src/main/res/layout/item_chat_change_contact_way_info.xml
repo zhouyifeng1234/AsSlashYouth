@@ -10,7 +10,7 @@
     >
 
         <FrameLayout
-            android:layout_width="210dp"
+            android:layout_width="140dp"
             android:layout_height="39dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="11dp"
@@ -31,14 +31,16 @@
             </FrameLayout>
 
             <TextView
-                android:layout_width="159dp"
+                android:layout_width="90dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
-                android:text="@{chatChangeContactWayInfoModel.otherContactInfo}"
+                android:layout_marginLeft="10dp"
+                android:text="18915521461"
                 android:textColor="#333333"
                 android:textSize="11sp"/>
             <!--顾振强的手机号：18611051582-->
+            <!--android:text="@{chatChangeContactWayInfoModel.otherContactInfo}"-->
 
         </FrameLayout>
 

@@ -228,80 +228,86 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:visibility="@{publishDemandSuccessModel.recommendServiceInfoVisibility}"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="16dp"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@mipmap/bar_left"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:text="系统已自动推荐优质服务方"
-                            android:textColor="#666666"
-                            android:textSize="12sp"
-                        />
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@mipmap/bar_right"/>
-                    </LinearLayout>
-
-                    <com.slash.youth.ui.view.ScrollListView
-                        android:id="@+id/lv_recommend_service_part"
-                        android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="8dp"
-                        android:divider="@android:color/transparent"
-                        android:dividerHeight="0dp"
-                    >
-
-                    </com.slash.youth.ui.view.ScrollListView>
-
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="91dp"
-                        android:background="@mipmap/demand_layer_3">
-
+                        android:orientation="vertical">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-                            <Button
-                                android:layout_width="252dp"
-                                android:layout_height="50dp"
-                                android:background="@drawable/btn_next_step"
-                                android:onClick="@{publishDemandSuccessModel.shareDemand}"
-                                android:text="马上邀请他们"
-                                android:textColor="#FFFFFF"
-                                android:textSize="15sp"/>
-
-                            <TextView
-                                android:id="@+id/tv_display_validity_datetime"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+                            <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="3dp"
-                                android:text="展示有效期至2016年6月28日24:00"
-                                android:textColor="#999999"
-                                android:textSize="12sp"/>
+                                android:layout_gravity="center_vertical"
+                                android:src="@mipmap/bar_left"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:text="系统已自动推荐优质服务方"
+                                android:textColor="#666666"
+                                android:textSize="12sp"
+                            />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:src="@mipmap/bar_right"/>
                         </LinearLayout>
 
-                    </FrameLayout>
+                        <com.slash.youth.ui.view.ScrollListView
+                            android:id="@+id/lv_recommend_service_part"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="8dp"
+                            android:divider="@android:color/transparent"
+                            android:dividerHeight="0dp"
+                        >
+
+                        </com.slash.youth.ui.view.ScrollListView>
+
+                        <View android:layout_width="0dp" android:layout_height="0dp"
+                              android:layout_weight="1"/>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="91dp"
+                            android:background="@mipmap/demand_layer_3">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+                                <Button
+                                    android:layout_width="252dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/btn_next_step"
+                                    android:onClick="@{publishDemandSuccessModel.shareDemand}"
+                                    android:text="马上邀请他们"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="15sp"/>
+
+                                <TextView
+                                    android:id="@+id/tv_display_validity_datetime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="3dp"
+                                    android:text="展示有效期至2016年6月28日24:00"
+                                    android:textColor="#999999"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+                        </FrameLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 

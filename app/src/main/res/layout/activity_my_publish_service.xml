@@ -1047,9 +1047,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="请确认或修改信息后抢单"
+                        android:text="请确认或修改信息后选定需求方"
                         android:textColor="#999999"
                         android:textSize="13sp"/>
+                    <!--android:text="请确认或修改信息后抢单"-->
 
                     <ImageView
                         android:layout_width="24dp"
@@ -1570,9 +1571,10 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/btn2"
                     android:onClick="@{myPublishServiceModel.bidDemand}"
-                    android:text="抢单"
+                    android:text="修改订单"
                     android:textColor="#ffffff"
                     android:textSize="14sp"/>
+                <!--android:text="抢单"-->
 
             </FrameLayout>
 

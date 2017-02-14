@@ -79,7 +79,7 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
 
         //捕获全局异常
 //        SlashUncaughtExceptionHandler slashUncaughtExceptionHandler = SlashUncaughtExceptionHandler.getInstance();
-//        slashUncaughtExceptionHandler.init(this);
+//        slashUncaughtExceptionHandler.init(this, listActivities);
 
         //设置数据库
         instances = this;
@@ -211,9 +211,11 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
 
     public static class SlashUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         private Context mContext;
+        private ArrayList<Activity> listActivities;
 
         private static Object objLock = new Object();
         private static SlashUncaughtExceptionHandler instance;
+        private static Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
 
         private SlashUncaughtExceptionHandler() {
 
@@ -230,24 +232,35 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
             return instance;
         }
 
-        public void init(Context context) {
+        public void init(Context context, ArrayList<Activity> listActivities) {
             this.mContext = context;
-//            Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();//获取系统默认的UncaughtException处理器
+            this.listActivities = listActivities;
+            defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();//获取系统默认的UncaughtException处理器
             Thread.setDefaultUncaughtExceptionHandler(this);
         }
 
         @Override
         public void uncaughtException(Thread t, Throwable e) {
             //这里可以做全局异常的处理，可以将异常日志保存到本地，或者上传到服务器
+//            e.printStackTrace();
+            //循环遍历并关闭Activity
+            LogKit.v("finish activity start");
+            for (Activity activity : listActivities) {
+                if (activity != null) {
+                    activity.finish();
+                    listActivities.remove(activity);
+                    activity = null;
+                }
+            }
+            LogKit.v("finish activity end");
+            defaultUncaughtExceptionHandler.uncaughtException(t, e);
 
-            e.printStackTrace();
-
-            LogKit.v("kill process start");
-            android.os.Process.killProcess(android.os.Process.myPid());
-            LogKit.v("System exit start");
-            System.exit(1);
-            LogKit.v("System exit end");
-            LogKit.v("kill process end");
+//            LogKit.v("kill process start");
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            LogKit.v("System exit start");
+//            System.exit(1);
+//            LogKit.v("System exit end");
+//            LogKit.v("kill process end");
         }
     }
 

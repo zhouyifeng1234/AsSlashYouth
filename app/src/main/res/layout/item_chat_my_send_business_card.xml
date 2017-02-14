@@ -27,6 +27,7 @@
                 android:textSize="11sp"/>
 
             <LinearLayout
+                android:onClick="@{chatMySendBusinessCardModel.gotoUserInfoPage}"
                 android:layout_width="202dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
@@ -47,6 +48,7 @@
                         android:layout_height="39dp"
                     >
                         <ImageView
+                            android:id="@+id/iv_business_card_avatar"
                             android:layout_width="39dp"
                             android:layout_height="39dp"
                             android:scaleType="fitXY"
@@ -66,6 +68,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_business_card_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
@@ -77,6 +80,7 @@
                         />
 
                         <TextView
+                            android:id="@+id/tv_business_industry_profession"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="1dp"

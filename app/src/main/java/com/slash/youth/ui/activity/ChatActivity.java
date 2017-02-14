@@ -37,6 +37,8 @@ public class ChatActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        mChatModel.onActivityDestory();
+
         MsgManager.removeChatTextListener();
         MsgManager.removeChatPicListener();
         MsgManager.removeChatVoiceListener();

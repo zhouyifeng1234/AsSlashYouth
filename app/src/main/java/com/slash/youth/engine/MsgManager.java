@@ -107,11 +107,17 @@ public class MsgManager {
             public void onChanged(ConnectionStatus connectionStatus) {
                 String connMessage = connectionStatus.getMessage();
                 LogKit.v("connectionStatus:" + connMessage);
-                if (connMessage.equals("Login on the other device, and be kicked offline.")) {
-                    ToastUtils.shortToast(connMessage);
-                }
+                //这里用toast可能会报错，跨进程的原因，需要handler
+//                if (connMessage.equals("Login on the other device, and be kicked offline.")) {
+//                    ToastUtils.shortToast(connMessage);
+//                }
             }
         });
+
+        //首先断开链接，然后才去链接融云
+//        RongIMClient.getInstance().disconnect();//断开与融云服务器的连接。当调用此接口断开连接后，仍然可以接收 Push 消息。
+        RongIMClient.getInstance().logout();//断开与融云服务器的连接，并且不再接收 Push 消息。
+
         /**
          * IMKit SDK调用第二步,建立与服务器的连接
          */
@@ -135,6 +141,8 @@ public class MsgManager {
                     @Override
                     public void execute(RongTokenBean dataBean) {
                         String rongToken = dataBean.data.token;
+                        LoginManager.rongToken = rongToken;
+                        SpUtils.setString("rongToken", rongToken);
                         connectRongCloud(rongToken);
                     }
 

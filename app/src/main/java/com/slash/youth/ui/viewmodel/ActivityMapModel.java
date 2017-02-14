@@ -79,7 +79,7 @@ public class ActivityMapModel extends BaseObservable {
             mActivity.setResult(20, intentResult);
             mActivity.finish();
         } else {
-            ToastUtils.shortToast("未获取到定位信息");
+            ToastUtils.shortToast("未获取到定位信息，可能没有开启定位权限，请到手机设置中心开启");
         }
     }
 

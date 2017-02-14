@@ -71,7 +71,12 @@ public class PublishDemandSuccessModel extends BaseObservable {
             @Override
             public void execute(RecommendServiceUserBean dataBean) {
                 listRecommendServiceUser = dataBean.data.list;
-                mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setAdapter(new RecommendServicePartAdapter(listRecommendServiceUser));
+                if (listRecommendServiceUser != null && listRecommendServiceUser.size() > 0) {
+                    setRecommendServiceInfoVisibility(View.VISIBLE);
+                    mActivityPublishDemandSuccessBinding.lvRecommendServicePart.setAdapter(new RecommendServicePartAdapter(listRecommendServiceUser));
+                } else {
+                    setRecommendServiceInfoVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -217,6 +222,18 @@ public class PublishDemandSuccessModel extends BaseObservable {
     private int publishSuccessVisibility;
     private int updateSuccessVisibility = View.GONE;
     private String afterUpdateValidDate;
+
+    private int recommendServiceInfoVisibility;
+
+    @Bindable
+    public int getRecommendServiceInfoVisibility() {
+        return recommendServiceInfoVisibility;
+    }
+
+    public void setRecommendServiceInfoVisibility(int recommendServiceInfoVisibility) {
+        this.recommendServiceInfoVisibility = recommendServiceInfoVisibility;
+        notifyPropertyChanged(BR.recommendServiceInfoVisibility);
+    }
 
     @Bindable
     public String getAfterUpdateValidDate() {

@@ -586,6 +586,8 @@ public class ActivityLoginModel extends BaseObservable {
                     public void execute(RongTokenBean dataBean) {
                         String rongToken = dataBean.data.token;
                         LoginManager.rongToken = rongToken;
+                        SpUtils.setString("rongToken", rongToken);
+                        //这里可能需要先断开和融云的链接，然后重新再链接
                         MsgManager.connectRongCloud(rongToken);
                     }
 
