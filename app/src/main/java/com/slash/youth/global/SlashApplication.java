@@ -64,6 +64,8 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
         PlatformConfig.setWeixin(GlobalConstants.ThirdAppId.APPID_WECHAT, GlobalConstants.ThirdAppId.AppSecret_WECHAT);
 //        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
         PlatformConfig.setQQZone(GlobalConstants.ThirdAppId.APPID_QQ, GlobalConstants.ThirdAppId.APPKEY_QQ);
+
+        LogKit.v("Application Static code:" + System.currentTimeMillis());
     }
 
     private static double currentLatitude;
@@ -76,6 +78,8 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LogKit.v("Application onCreate:" + System.currentTimeMillis());
 
         //捕获全局异常
 //        SlashUncaughtExceptionHandler slashUncaughtExceptionHandler = SlashUncaughtExceptionHandler.getInstance();

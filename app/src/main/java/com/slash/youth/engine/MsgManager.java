@@ -90,6 +90,7 @@ public class MsgManager {
     private static HistoryListener mHistoryListener;
     private static RelatedTaskListener mRelatedTaskListener;
     private static SlashMessageListener mSlashMessageListener;
+    private static TotalUnReadCountListener mTotalUnReadCountListener;
 
     private static int getRongTokenTimes = 0;
     public static int taskMessageCount = -1;
@@ -369,6 +370,23 @@ public class MsgManager {
                 });
             } else {//聊天消息
                 if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//判断是单聊消息
+
+                    //获取总的未读消息数
+                    if (mTotalUnReadCountListener != null) {
+                        RongIMClient.getInstance().getUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+                            @Override
+                            public void onSuccess(Integer integer) {
+                                int totalUnreadCount = integer;
+                                mTotalUnReadCountListener.displayTotalUnReadCount(totalUnreadCount);
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                            }
+                        }, Conversation.ConversationType.PRIVATE);
+                    }
+
                     CommonUtils.getHandler().post(new Runnable() {
                         public void run() {
                             updateConversationList(senderUserId);
@@ -618,23 +636,35 @@ public class MsgManager {
         return translateAnimation;
     }
 
-    public static void loadHistoryChatRecord() {
-        getHisMsgFromLocal();
+    public static void loadHistoryChatRecord(int oldestMessageId) {
+        getHisMsgFromLocal(oldestMessageId);
 //        getHisMsgFromRemote();
     }
 
     /**
      * 从客户端本地读取聊天记录
      */
-    private static void getHisMsgFromLocal() {
+    private static void getHisMsgFromLocal(int oldestMessageId) {
         if (mHistoryListener != null) {
-            RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 20, new RongIMClient.ResultCallback<List<Message>>() {
+//            RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 20, new RongIMClient.ResultCallback<List<Message>>() {
+//                @Override
+//                public void onSuccess(List<Message> messages) {
+////                    LogKit.v("Message Count:" + messages.size());
+////                    for (Message message : messages) {
+////                        LogKit.v("SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
+////                    }
+//                    mHistoryListener.displayHistory(messages);
+//                }
+//
+//                @Override
+//                public void onError(RongIMClient.ErrorCode errorCode) {
+//                    LogKit.v("getHisMsgFromLocal error");
+//                }
+//            });
+
+            RongIMClient.getInstance().getHistoryMessages(Conversation.ConversationType.PRIVATE, targetId, oldestMessageId, 20, new RongIMClient.ResultCallback<List<Message>>() {
                 @Override
                 public void onSuccess(List<Message> messages) {
-//                    LogKit.v("Message Count:" + messages.size());
-//                    for (Message message : messages) {
-//                        LogKit.v("SenderId:" + message.getSenderUserId() + "  sentTime:" + message.getSentTime() + "   Direction:" + message.getMessageDirection() + " objectName:" + message.getObjectName());
-//                    }
                     mHistoryListener.displayHistory(messages);
                 }
 
@@ -714,6 +744,10 @@ public class MsgManager {
 
     }
 
+    public interface TotalUnReadCountListener {
+        public void displayTotalUnReadCount(int count);
+    }
+
     /**
      * 斜杠消息助手（1000号）消息监听器
      */
@@ -781,6 +815,13 @@ public class MsgManager {
         mSlashMessageListener = null;
     }
 
+    public static void setTotalUnReadCountListener(TotalUnReadCountListener totalUnReadCountListener) {
+        mTotalUnReadCountListener = totalUnReadCountListener;
+    }
+
+    public static void removeTotalUnReadCountListener() {
+        mTotalUnReadCountListener = null;
+    }
 
     /**
      * 序列化每个任务对应的消息数量的HashMap

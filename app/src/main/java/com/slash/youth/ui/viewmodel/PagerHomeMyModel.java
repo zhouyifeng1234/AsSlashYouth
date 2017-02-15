@@ -11,7 +11,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.slash.youth.BR;
-import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.OtherInfoBean;
@@ -38,6 +37,7 @@ import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.umeng.analytics.MobclickAgent;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -80,7 +80,7 @@ public class PagerHomeMyModel extends BaseObservable {
     private int loadLayerVisibility = View.GONE;
     private int approvalDialog = View.GONE;
     private int taskProgress;
-    private String[] grades= {"少侠","大侠","宗师","至尊"};//4000  10000 请等待客服审核
+    private String[] grades = {"少侠", "大侠", "宗师", "至尊"};//4000  10000 请等待客服审核
     private String grade;
 
 
@@ -295,13 +295,15 @@ public class PagerHomeMyModel extends BaseObservable {
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
 
+        DecimalFormat df = new DecimalFormat("######0.0");
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
         int servicepoint = (int) ((averageservicepoint * 100) / 5);
         mPagerHomeMyBinding.pbProgressbarService.setProgress((int) servicepoint);
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
-        mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
-        mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为" + averageservicepoint + "星");
+//        mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
+        mPagerHomeMyBinding.tvAverageServicePoint.setText(df.format(averageservicepoint));
+        mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为" + df.format(averageservicepoint) + "星");
 
         //数量,网络获取的分数
        /* int expertscore = myinfo.getExpertscore();
@@ -312,17 +314,17 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvOver.setText(v + "%");
 
         List<Integer> expertlevels = myinfo.getExpertlevels();//每个等级对应的分数
-        if(expertlevels.size()!=0){
+        if (expertlevels.size() != 0) {
             expertMarks = myinfo.getExpertscore();
             int expertlevel = myinfo.getExpertlevel();//当前对应的等级
-            if(expertlevel>0&&expertlevel<=4){
+            if (expertlevel > 0 && expertlevel <= 4) {
                 grade = grades[expertlevel];
                 mPagerHomeMyBinding.tvGrade.setText(grade);
-                int expertscore = expertlevels.get(expertlevel-1);
-                int  mark  = (int) (expertscore - expertMarks);
+                int expertscore = expertlevels.get(expertlevel - 1);
+                int mark = (int) (expertscore - expertMarks);
                 mPagerHomeMyBinding.tvLeastMark.setText(mark + "");
             }
-        }else {
+        } else {
             mPagerHomeMyBinding.tvLeastMark.setText("0");
         }
 
@@ -407,7 +409,7 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentApprovalActivity = new Intent(CommonUtils.getContext(), ApprovalActivity.class);
         intentApprovalActivity.putExtra("careertype", careertype);
         intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
-        mActivity.startActivityForResult(intentApprovalActivity,Constants.APPROVAL);
+        mActivity.startActivityForResult(intentApprovalActivity, Constants.APPROVAL);
     }
 
     //编辑点击事件

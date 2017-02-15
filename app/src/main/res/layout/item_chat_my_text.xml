@@ -40,8 +40,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
                 android:background="@drawable/chat_box_blue_bg"
+                android:paddingBottom="10dp"
                 android:paddingLeft="12dp"
-                android:paddingRight="16dp">
+                android:paddingRight="16dp"
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
                     android:text="@{chatMyTextModel.mySendText}"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"/>
-
+                <!--android:text="@{chatMyTextModel.mySendText}"-->
             </FrameLayout>
 
             <ImageView

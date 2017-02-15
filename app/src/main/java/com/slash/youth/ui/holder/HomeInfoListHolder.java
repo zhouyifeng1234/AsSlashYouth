@@ -53,10 +53,14 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
             mItemHomeInfoModel.setUsername("斜杠消息助手");
             mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.message_icon);
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
+            //把时间隐藏
+            mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.GONE);
         } else if (MsgManager.customerServiceUid.equals(data.uid + "")) {
             mItemHomeInfoModel.setUsername("斜杠客服助手");
             mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.customer_service_icon);
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
+            //把时间隐藏
+            mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.GONE);
         } else {
             mItemHomeInfoModel.setUsername(data.name);
             BitmapKit.bindImage(mItemListviewHomeInfoBinding.ivInfoConversationAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + data.avatar);
@@ -139,7 +143,9 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
                             //接收到的消息
                             if (message.getSenderUserId().equals("1000")) {
                                 //斜杠小助手向我发送的消息
-                                mItemHomeInfoModel.setLastMsg("斜杠小助手向您发送了一条消息");
+//                                mItemHomeInfoModel.setLastMsg("斜杠小助手向您发送了一条消息");//后来确定斜杠消息助手也需要显示具体内容
+                                TextMessage textMessage = (TextMessage) message.getContent();
+                                mItemHomeInfoModel.setLastMsg(textMessage.getContent());
                                 return;
                             }
                             if (objectName.equals("RC:TxtMsg")) {

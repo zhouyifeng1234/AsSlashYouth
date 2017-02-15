@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
@@ -18,6 +19,9 @@ import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 public class HomeActivity extends Activity {
     public static final int PAGE_FREETIME = 0;//首页闲时
@@ -54,6 +58,29 @@ public class HomeActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        //刚进入首页的时候，或者是回退到首页的时候(这两种情况都会调用onStart方法)，通过融云的API获取总的未读消息数，初始化小圆点数量
+        RongIMClient.getInstance().getUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                int totalUnreadCount = integer;
+                LogKit.v("HomeActivity unReadCount:" + totalUnreadCount);
+                if (totalUnreadCount <= 0) {
+                    activityHomeBinding.tvChatInfoCount.setVisibility(View.GONE);
+                } else if (totalUnreadCount <= 99) {
+                    activityHomeBinding.tvChatInfoCount.setText(totalUnreadCount + "");
+                    activityHomeBinding.tvChatInfoCount.setVisibility(View.VISIBLE);
+                } else {
+                    activityHomeBinding.tvChatInfoCount.setText("99+");
+                    activityHomeBinding.tvChatInfoCount.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        }, Conversation.ConversationType.PRIVATE);
+
         if (goBackPageNo != currentCheckedPageNo) {
             activityHomeBinding.flActivityHomePager.removeAllViews();
             activityHomeBinding.tvFreeTime.setTextColor(Color.parseColor("#666666"));
@@ -101,8 +128,8 @@ public class HomeActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case  UserInfoEngine.MY_USER_EDITOR:
+        switch (requestCode) {
+            case UserInfoEngine.MY_USER_EDITOR:
                 activityHomeBinding.flActivityHomePager.removeAllViews();
                 activityHomeBinding.flActivityHomePager.addView(new HomeMyPager(this).getRootView());
                 break;

@@ -23,6 +23,7 @@ import com.slash.youth.http.protocol.FileUploadProtocol;
 import com.slash.youth.http.protocol.GetDemandDescProtocol;
 import com.slash.youth.http.protocol.GetDemandFlowLogProtocol;
 import com.slash.youth.http.protocol.InterventionProtocol;
+import com.slash.youth.http.protocol.LoadBidInfoProtocol;
 import com.slash.youth.http.protocol.MyPublishDemandListProtocol;
 import com.slash.youth.http.protocol.MyPublishHistoryDemandListProtocol;
 import com.slash.youth.http.protocol.PublishDemandProtocol;
@@ -86,6 +87,14 @@ public class DemandEngine {
     public static void servicePartyBidDemand(BaseProtocol.IResultExecutor onBidDemandFinished, String id, String quote, ArrayList<Double> bidDemandInstalmentRatioList, String bp, String starttime) {
         ServicePartyBidDemandProtocol servicePartyBidDemandProtocol = new ServicePartyBidDemandProtocol(id, quote, bidDemandInstalmentRatioList, bp, starttime);
         servicePartyBidDemandProtocol.getDataFromServer(onBidDemandFinished);
+    }
+
+    /**
+     * 五、[需求]-加载抢单信息(用于抢单人加载自己的抢单信息)
+     */
+    public static void loadBidInfo(BaseProtocol.IResultExecutor onLoadBidInfoFinished, String id, String uid) {
+        LoadBidInfoProtocol loadBidInfoProtocol = new LoadBidInfoProtocol(id, uid);
+        loadBidInfoProtocol.getDataFromServer(onLoadBidInfoFinished);
     }
 
 

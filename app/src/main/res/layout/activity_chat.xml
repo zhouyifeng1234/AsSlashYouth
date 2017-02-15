@@ -167,7 +167,7 @@
                 android:orientation="vertical"
             >
 
-                <ScrollView
+                <com.slash.youth.ui.view.RefreshScrollView
                     android:id="@+id/sv_chat_content"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -175,16 +175,50 @@
                     android:background="#f3f3f3"
                     android:paddingBottom="10dp">
 
-                    <LinearLayout
-                        android:id="@+id/ll_chat_content"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                    >
+                        android:layout_height="match_parent">
 
-                    </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_chat_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                        >
 
-                </ScrollView>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#edf1f2"
+                            android:visibility="@{chatModel.loadHisMsgProgressVisibility}"
+                        >
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:orientation="horizontal">
+                                <ProgressBar
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="9dp"
+                                    android:text="加载中..."
+                                    android:textColor="#999999"
+                                    android:textSize="14dp"/>
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </FrameLayout>
+
+                </com.slash.youth.ui.view.RefreshScrollView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -532,7 +566,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
-            android:visibility="gone"
+            android:visibility="@{chatModel.loadLayerVisibility}"
 
         >
             <!--android:visibility="gone"-->

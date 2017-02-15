@@ -29,7 +29,6 @@ import com.slash.youth.domain.SkillLabelBean;
 import com.slash.youth.domain.SkillLabelGetBean;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.http.protocol.CreateSkillLabelProtocol;
 import com.slash.youth.http.protocol.DeleteSkillLabelProtocol;
@@ -48,7 +47,6 @@ import com.slash.youth.utils.ToastUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -926,7 +924,8 @@ public class SubscribeActivity extends Activity {
         llCheckedLabel.addView(tvLabelName);
         llCheckedLabel.addView(ivbtnUnCheckedLabel);
 
-        ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
+//        ivbtnUnCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));//现在要把删除时间添加到整个标签上
+        llCheckedLabel.setOnClickListener(new deleteCheckedLabelListener(llCheckedLabel));
         return llCheckedLabel;
     }
 

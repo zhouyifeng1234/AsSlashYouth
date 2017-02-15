@@ -18,6 +18,7 @@ import com.slash.youth.databinding.ActivityMyBidDemandBinding;
 import com.slash.youth.databinding.ItemDemandFlowLogBinding;
 import com.slash.youth.domain.CommonLogList;
 import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.DemandBidInfoBean;
 import com.slash.youth.domain.DemandDetailBean;
 import com.slash.youth.domain.DemandInstalmentListBean;
 import com.slash.youth.domain.InterventionBean;
@@ -25,6 +26,7 @@ import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -373,7 +375,6 @@ public class MyBidDemandModel extends BaseObservable {
                 innerDemandCardInfo.rectify = taskinfo.rectify;//是否使用过延期付款  1使用过，0未使用过
                 innerDemandCardInfo.status = taskinfo.status;//使用我的任务中的status定义
 
-
                 //通过调用需求详情接口补充一些信息，bp、suid、iscomment
                 getDemandDetail();
             }
@@ -391,10 +392,10 @@ public class MyBidDemandModel extends BaseObservable {
             public void execute(DemandDetailBean dataBean) {
                 innerDemandCardInfo.uid = dataBean.data.demand.uid;//使用需求详情接口中的uid
                 innerDemandCardInfo.suid = dataBean.data.demand.suid;
-                innerDemandCardInfo.bp = dataBean.data.demand.bp;
+//                innerDemandCardInfo.bp = dataBean.data.demand.bp;//这个字段好像不对，用loadBid接口中的bp字段
                 innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
 
-                setMyPublishDemandInfo();
+                loadBidInfo();
             }
 
             @Override
@@ -402,6 +403,23 @@ public class MyBidDemandModel extends BaseObservable {
 
             }
         }, tid + "");
+    }
+
+    private void loadBidInfo() {
+        DemandEngine.loadBidInfo(new BaseProtocol.IResultExecutor<DemandBidInfoBean>() {
+            @Override
+            public void execute(DemandBidInfoBean dataBean) {
+                innerDemandCardInfo.bp = dataBean.data.bidinfo.bp;
+                setMyPublishDemandInfo();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+
+            }
+        }, tid + "", innerDemandCardInfo.suid + "");
+
+
     }
 
     private void setMyPublishDemandInfo() {

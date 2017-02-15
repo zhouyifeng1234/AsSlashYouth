@@ -746,16 +746,16 @@
                                                     android:textColor="#999999"
                                                     android:textSize="13sp"/>
 
-                                                <TextView
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_marginLeft="16dp"
-                                                    android:background="@mipmap/task_demand_btn_bg"
-                                                    android:gravity="center"
-                                                    android:onClick="@{myPublishServiceModel.accept}"
-                                                    android:text="接受"
-                                                    android:textColor="#2ACDA9"
-                                                    android:textSize="13sp"/>
+                                                <!--<TextView-->
+                                                <!--android:layout_width="wrap_content"-->
+                                                <!--android:layout_height="wrap_content"-->
+                                                <!--android:layout_marginLeft="16dp"-->
+                                                <!--android:background="@mipmap/task_demand_btn_bg"-->
+                                                <!--android:gravity="center"-->
+                                                <!--android:onClick="@{myPublishServiceModel.accept}"-->
+                                                <!--android:text="接受"-->
+                                                <!--android:textColor="#2ACDA9"-->
+                                                <!--android:textSize="13sp"/>-->
 
                                                 <TextView
                                                     android:layout_width="wrap_content"
@@ -764,9 +764,11 @@
                                                     android:background="@mipmap/task_demand_btn_bg"
                                                     android:gravity="center"
                                                     android:onClick="@{myPublishServiceModel.updateCondition}"
-                                                    android:text="修改条件"
+                                                    android:text="接受"
                                                     android:textColor="#31C6E4"
                                                     android:textSize="13sp"/>
+
+                                                <!--android:text="修改条件"-->
 
                                             </LinearLayout>
 

@@ -71,6 +71,7 @@ import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
+import com.slash.youth.ui.view.RefreshScrollView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -139,6 +140,9 @@ public class ChatModel extends BaseObservable {
     ArrayList<String> listHisSourcePicLocalPath = new ArrayList<String>();//聊天消息中原图的本地保存地址
     ArrayList<String> listHisSourcePicUrl = new ArrayList<String>();//聊天消息中原图的远程url
 
+    private int oldestMessageId = -1;//读取本地历史消息记录的时候用这个。最后一条消息的 Id，获取此消息之前的 count 条消息，没有消息第一次调用应设置为:-1。
+    private long oldestMessageDateTime = 0;//读取远程历史消息的时候使用这个。从该时间点开始获取消息。即：消息中的 sentTime；第一次可传 0，获取最新 count 条。
+
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
         this.mActivity = activity;
@@ -168,7 +172,7 @@ public class ChatModel extends BaseObservable {
     private void initData() {
 
         MsgManager.setHistoryListener(new ChatHistoryListener());
-        MsgManager.loadHistoryChatRecord();
+        MsgManager.loadHistoryChatRecord(-1);
 
         if ("1000".equals(targetId)) {//如果是斜杠小助手
             targetName = "斜杠消息助手";
@@ -487,6 +491,16 @@ public class ChatModel extends BaseObservable {
                         break;
                 }
                 return true;
+            }
+        });
+
+        mActivityChatBinding.svChatContent.setRefreshTask(new RefreshScrollView.IRefreshTask() {
+            @Override
+            public void refresh() {
+                //显示加载历史消息的进度
+                setLoadHisMsgProgressVisibility(View.VISIBLE);
+
+                MsgManager.loadHistoryChatRecord(oldestMessageId);
             }
         });
     }
@@ -1777,6 +1791,9 @@ public class ChatModel extends BaseObservable {
 
         @Override
         public void displayHistory(List<Message> messages) {
+            //隐藏加载历史消息的进度
+            setLoadHisMsgProgressVisibility(View.GONE);
+
             if (isLoadHisMsgFirst && messages.size() > 0) {
                 View hisInfoView = createInfoView("----以上是历史消息----");
                 mLlChatContent.addView(hisInfoView);
@@ -1785,6 +1802,10 @@ public class ChatModel extends BaseObservable {
 
             LogKit.v("Message Count:" + messages.size());
             for (Message message : messages) {
+                //获取历史消息的消息ID，和消息时间，用来做历史消息分页的功能
+                oldestMessageId = message.getMessageId();
+                oldestMessageDateTime = message.getSentTime();
+
                 long sendTime = message.getSentTime();
                 displayHisMsgTimeView(sendTime);
 
@@ -2374,6 +2395,17 @@ public class ChatModel extends BaseObservable {
     private int targetUserIconVisibility;
 
     private int viewPicVisibility = View.GONE;
+    private int loadHisMsgProgressVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadHisMsgProgressVisibility() {
+        return loadHisMsgProgressVisibility;
+    }
+
+    public void setLoadHisMsgProgressVisibility(int loadHisMsgProgressVisibility) {
+        this.loadHisMsgProgressVisibility = loadHisMsgProgressVisibility;
+        notifyPropertyChanged(BR.loadHisMsgProgressVisibility);
+    }
 
     @Bindable
     public int getViewPicVisibility() {

@@ -121,11 +121,11 @@
 
     <application
         android:name=".global.SlashApplication"
-        android:allowBackup="true"
         android:icon="@mipmap/slash_helper_square"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--android:allowBackup="true"-->
+        <!--android:supportsRtl="true"-->
 
         <!--高德地图 APPID-->
         <meta-data
@@ -223,7 +223,9 @@
         <activity android:name=".ui.activity.DemandDetailLocationActivity"></activity>
         <activity android:name=".ui.activity.MyTaskActivity"></activity>
         <activity android:name=".ui.activity.DemandChooseServiceActivity"></activity>
-        <activity android:name=".ui.activity.MyBidDemandActivity"></activity>
+        <activity android:name=".ui.activity.MyBidDemandActivity"
+                  android:windowSoftInputMode="adjustPan"
+        ></activity>
         <activity android:name=".ui.activity.MyPublishDemandActivity"></activity>
         <activity
             android:name=".ui.activity.PublishServiceBaseInfoActivity"
@@ -372,13 +374,6 @@
         <activity
             android:name=".ui.activity.test.TestActivity"
             android:windowSoftInputMode="adjustPan"></activity>
-        <!--
-     ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
         <!-- 服务端接口测试页面 -->
 
 

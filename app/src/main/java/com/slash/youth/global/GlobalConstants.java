@@ -185,6 +185,8 @@ public class GlobalConstants {
         public static final String SERVICE_PARTY_BID_DEMAND = SERVER_HOST_DEMAND + "bid";
         //五、[需求]-需求方选择服务方
         public static final String DEMAND_PARTY_SELECT_SERVICE_PARTY = SERVER_HOST_DEMAND + "select";
+        //五、[需求]-加载抢单信息(用于抢单人加载自己的抢单信息)
+        public static final String DEMAND_LOAD_BID_FINFO = SERVER_HOST_DEMAND + "loadbid";
         //六、[需求]-服务方确认一个服务者
         public static final String SERVICE_PARTY_CONFIRM_SERVANT = SERVER_HOST_DEMAND + "confirm";
         //七、[需求]-查看需求流程日志

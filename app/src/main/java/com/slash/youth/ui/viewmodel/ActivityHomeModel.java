@@ -13,6 +13,7 @@ import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.domain.MyHomeInfoBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
@@ -33,13 +34,33 @@ public class ActivityHomeModel extends BaseObservable {
     ActivityHomeBinding mActivityHomeBinding;
     private int chooseServiceAndDemandLayerVisibility = View.INVISIBLE;
     public Activity mActivity;
-    private int redPointHintVisibility = View.GONE;
 
     public ActivityHomeModel(ActivityHomeBinding activityHomeBinding, Activity activity) {
         this.mActivity = activity;
         this.mActivityHomeBinding = activityHomeBinding;
         getCurrentLoginUserInfo();//二、[用戶信息]-获取个人资料 接口中的数据，获取当前登录者的个人信息
         getCurrentLoginUserInfo2();//十三、[用戶信息]-我的首页数据  接口中的数据，用来获取手机号
+        initData();
+    }
+
+    private void initData() {
+        //首先注册未读消息的监听器，这样每次来新的聊天消息都会有更新
+        MsgManager.setTotalUnReadCountListener(new MsgManager.TotalUnReadCountListener() {
+
+            @Override
+            public void displayTotalUnReadCount(int count) {
+                LogKit.v("HomeActivity unReadCount:" + count);
+                if (count <= 0) {
+                    mActivityHomeBinding.tvChatInfoCount.setVisibility(View.GONE);
+                } else if (count <= 99) {
+                    mActivityHomeBinding.tvChatInfoCount.setText(count + "");
+                    mActivityHomeBinding.tvChatInfoCount.setVisibility(View.VISIBLE);
+                } else {
+                    mActivityHomeBinding.tvChatInfoCount.setText("99+");
+                    mActivityHomeBinding.tvChatInfoCount.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void getCurrentLoginUserInfo() {
@@ -189,6 +210,8 @@ public class ActivityHomeModel extends BaseObservable {
 //        intentServiceDetailActivity.putExtra("serviceId", 103l);
 //        mActivity.startActivity(intentServiceDetailActivity);
     }
+
+    private int redPointHintVisibility = View.GONE;
 
     @Bindable
     public int getRedPointHintVisibility() {

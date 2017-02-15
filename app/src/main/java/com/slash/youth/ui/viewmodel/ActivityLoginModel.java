@@ -143,7 +143,7 @@ public class ActivityLoginModel extends BaseObservable {
         if (customerServiceUid > 0) {
             //sp中保存有随机客服的uid
             MsgManager.customerServiceUid = customerServiceUid + "";
-            intentChatActivity.putExtra("targetId", customerServiceUid);
+            intentChatActivity.putExtra("targetId", customerServiceUid + "");
             mActivity.startActivity(intentChatActivity);
         } else {
             MsgManager.getCustomerService(new BaseProtocol.IResultExecutor<CustomerServiceBean>() {
@@ -151,7 +151,7 @@ public class ActivityLoginModel extends BaseObservable {
                 public void execute(CustomerServiceBean dataBean) {
                     long customerServiceUid = dataBean.data.uid;
                     MsgManager.customerServiceUid = customerServiceUid + "";
-                    intentChatActivity.putExtra("targetId", customerServiceUid);
+                    intentChatActivity.putExtra("targetId", customerServiceUid + "");
                     mActivity.startActivity(intentChatActivity);
                 }
 
