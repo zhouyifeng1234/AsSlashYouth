@@ -50,17 +50,13 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
     @Override
     public void refreshView(ConversationListBean.ConversationInfo data) {
         if (data.uid == 1000) {
-            mItemHomeInfoModel.setUsername("斜杠消息助手");
+            mItemHomeInfoModel.setUsername("消息小助手");
             mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.message_icon);
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
-            //把时间隐藏
-            mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.GONE);
         } else if (MsgManager.customerServiceUid.equals(data.uid + "")) {
-            mItemHomeInfoModel.setUsername("斜杠客服助手");
+            mItemHomeInfoModel.setUsername("斜杠客服");
             mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.customer_service_icon);
             mItemHomeInfoModel.setAddVVisibility(View.GONE);
-            //把时间隐藏
-            mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.GONE);
         } else {
             mItemHomeInfoModel.setUsername(data.name);
             BitmapKit.bindImage(mItemListviewHomeInfoBinding.ivInfoConversationAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + data.avatar);
@@ -191,17 +187,30 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
         //相关任务的加载，通过本地文件存储,暂时路劲上有点BUG
         displayRelatedTask(data);
         //显示会话时间信息（例：6分钟前）
-        long timeSpan = System.currentTimeMillis() - data.uts;
-        long minutes = timeSpan / 1000 / 60;
-        if (minutes < 60) {
-            mItemHomeInfoModel.setConversationTimeInfo(minutes + "分钟前");
+        mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.VISIBLE);
+        if (data.uts == 0) {
+            //如果data.uts为0，代表没有消息记录时间，需要隐藏时间，这种情况应该只有消息助手和客服助手才会出现
+            mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.GONE);
         } else {
-            long hours = minutes / 60;
-            if (hours < 24) {
-                mItemHomeInfoModel.setConversationTimeInfo(hours + "小时前");
+            long timeSpan = System.currentTimeMillis() - data.uts;
+            long minutes = timeSpan / 1000 / 60;
+            if (minutes <= 0) {
+                if (data.uid == 1000 || MsgManager.customerServiceUid.equals(data.uid + "")) {
+                    //没有和斜杠助手或客服助手收发消息，列表上显示“0 分钟前”-》应该不显示时间
+                    mItemListviewHomeInfoBinding.tvConversationTime.setVisibility(View.GONE);
+                } else {
+                    mItemHomeInfoModel.setConversationTimeInfo("刚刚");
+                }
+            } else if (minutes < 60) {
+                mItemHomeInfoModel.setConversationTimeInfo(minutes + "分钟前");
             } else {
-                long days = hours / 24;
-                mItemHomeInfoModel.setConversationTimeInfo(days + "天前");
+                long hours = minutes / 60;
+                if (hours < 24) {
+                    mItemHomeInfoModel.setConversationTimeInfo(hours + "小时前");
+                } else {
+                    long days = hours / 24;
+                    mItemHomeInfoModel.setConversationTimeInfo(days + "天前");
+                }
             }
         }
 //        if (data.isSlashLittleHelper) {

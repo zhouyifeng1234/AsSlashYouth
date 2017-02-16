@@ -704,7 +704,8 @@ public class SubscribeActivity extends Activity {
         });
     }
 
-    private String text = "新建标签";
+    //    private String text = "新建标签";
+    private String text = "自定义";
     private String logText = "创建的标签是空白";
 
     private View getAddLableView(final int f1, final int f2) {

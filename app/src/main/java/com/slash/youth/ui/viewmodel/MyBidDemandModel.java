@@ -26,6 +26,7 @@ import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -405,6 +406,9 @@ public class MyBidDemandModel extends BaseObservable {
     }
 
     private void loadBidInfo() {
+        LogKit.v("loadBidInfo LoginManager.currentLoginUserId:" + LoginManager.currentLoginUserId);
+        LogKit.v("loadBidInfo innerDemandCardInfo.suid:" + innerDemandCardInfo.suid);
+        LogKit.v("loadBidInfo tid:" + tid);
         DemandEngine.loadBidInfo(new BaseProtocol.IResultExecutor<DemandBidInfoBean>() {
             @Override
             public void execute(DemandBidInfoBean dataBean) {
@@ -416,7 +420,8 @@ public class MyBidDemandModel extends BaseObservable {
             public void executeResultError(String result) {
                 ToastUtils.shortToast("加载抢单信息失败:" + result);
             }
-        }, tid + "", innerDemandCardInfo.suid + "");
+        }, tid + "", LoginManager.currentLoginUserId + "");
+        //这里不能使用innerDemandCardInfo.suid + ""，因为还没有形成1 V 1的关系，所以需求详情接口中的suid字段仍然是0
     }
 
     private void setMyPublishDemandInfo() {
@@ -543,6 +548,7 @@ public class MyBidDemandModel extends BaseObservable {
                 LogKit.v("获取服务方用户信息失败");
             }
         }, innerDemandCardInfo.suid + "", "0");
+        LogKit.v("getServiceUserInfo innerDemandCardInfo.suid:" + innerDemandCardInfo.suid);
     }
 
 

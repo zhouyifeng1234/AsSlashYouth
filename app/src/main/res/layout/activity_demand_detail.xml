@@ -88,6 +88,7 @@
                             android:visibility="@{demandDetailModel.remarkBtnVisibility}"/>
 
                         <TextView
+                            android:id="@+id/tv_onshelf_offshelf"
                             android:layout_width="32dp"
                             android:layout_height="22dp"
                             android:layout_marginLeft="9dp"
@@ -97,7 +98,9 @@
                             android:text="下架"
                             android:textColor="#31C5E4"
                             android:textSize="12sp"
-                            android:visibility="@{demandDetailModel.offShelfBtnVisibility}"/>
+                            android:visibility="gone"
+                        />
+                        <!--android:visibility="@{demandDetailModel.offShelfBtnVisibility}"-->
 
                     </LinearLayout>
                 </FrameLayout>
@@ -356,6 +359,7 @@
                         android:layout_height="78dp"
                         android:layout_marginLeft="7dp"
                         android:layout_marginRight="7dp"
+                        android:onClick="@{demandDetailModel.gotoUserInfo}"
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="3dp"
@@ -375,7 +379,7 @@
                                     android:id="@+id/iv_demand_user_avatar"
                                     android:layout_width="58dp"
                                     android:layout_height="58dp"
-                                    android:onClick="@{demandDetailModel.gotoUserInfo}"
+
                                     android:src="@mipmap/assistant_icon"/>
                                 <ImageView
                                     android:layout_width="15dp"
@@ -846,7 +850,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:onClick="@{demandDetailModel.viewZeroCommissionContent}"
+                                    android:onClick="@{demandDetailModel.openSecurityRules}"
                                     android:text="《斜杠青年顺利成交保障规则》"
                                     android:textColor="#31C5E4"
                                     android:textSize="14sp"/>

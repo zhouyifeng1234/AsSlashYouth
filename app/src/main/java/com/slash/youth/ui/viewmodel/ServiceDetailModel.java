@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.amap.api.maps2d.model.LatLng;
+import com.google.gson.Gson;
 import com.slash.youth.BR;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityServiceDetailBinding;
@@ -72,6 +73,7 @@ public class ServiceDetailModel extends BaseObservable {
     long serviceUserId;
     LatLng serviceLatLng;
     int pattern;
+    int isonline;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -115,19 +117,50 @@ public class ServiceDetailModel extends BaseObservable {
 
     //下架服务
     public void offShelfService(View v) {
-        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_UNSHELVE);
+        if (isonline == 0) {//上架埋点
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_SHELVE);
+        } else {//下架埋点
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_UNSHELVE);
+        }
+
 
         MyTaskEngine.upAndDownTask(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
-                setOffShelfLogoVisibility(View.VISIBLE);
+                String cmdStr;
+                if (isonline == 0) {
+                    cmdStr = "上架成功";
+                    isonline = 1;
+                    mActivityServiceDetailBinding.tvOnshelfOffshelf.setText("下架");
+                } else {
+                    cmdStr = "下架成功";
+                    isonline = 0;
+                    mActivityServiceDetailBinding.tvOnshelfOffshelf.setText("上架");
+                }
+                ToastUtils.shortToast(cmdStr);
             }
 
             @Override
             public void executeResultError(String result) {
-                ToastUtils.shortToast("下架服务失败:" + result);
+                //这里需要根据返回的状态做判断
+                Gson gson = new Gson();
+                CommonResultBean commonResultBean = gson.fromJson(result, CommonResultBean.class);
+                int status = commonResultBean.data.status;
+                if (status == 2) {
+                    ToastUtils.shortToast("未认证，请先认证");
+                } else if (status == 6) {
+                    ToastUtils.shortToast("未绑定手机号，请先绑定手机号");
+                } else if (status == 7) {
+                    ToastUtils.shortToast("您还未实名认证，请先进行实名人认证");
+                } else {
+                    if (isonline == 0) {
+                        ToastUtils.shortToast("上架失败:" + result);
+                    } else {
+                        ToastUtils.shortToast("下架失败:" + result);
+                    }
+                }
             }
-        }, serviceId + "", "2", "0");
+        }, serviceId + "", "2", (isonline == 0 ? 1 : 0) + "");
     }
 
     //聊一聊
@@ -452,6 +485,16 @@ public class ServiceDetailModel extends BaseObservable {
 
                         setBottomBtnServiceVisibility(View.VISIBLE);
                         setBottomBtnDemandVisibility(View.INVISIBLE);
+
+                        //这里使用isonline字段来判断是否已经上架
+                        isonline = service.isonline;
+                        mActivityServiceDetailBinding.tvOnshelfOffshelf.setVisibility(View.VISIBLE);
+                        if (isonline == 0) {//未上架，需要显示上架
+                            mActivityServiceDetailBinding.tvOnshelfOffshelf.setText("上架");
+                        } else {//已上架，需要显示下架
+                            mActivityServiceDetailBinding.tvOnshelfOffshelf.setText("下架");
+                        }
+
                     } else {
                         //需求者视角
                         setServiceRecommendLabelVisibililty(View.VISIBLE);
@@ -894,26 +937,43 @@ public class ServiceDetailModel extends BaseObservable {
         }, bpContent, bpTitle);
     }
 
-    final String ZeroCommissionContentText = "零佣金承诺及顺利成交保证金是什么？\n斜杠青年倡导“人才开放共享”理念，承诺在双方用户交易过程中，不收取任何佣金。\n" +
+    private static final String securityRulesTitle = "斜杠青年顺利成交保障规则";
+    private static final String securityRulesContent = "斜杠青年通过顺利成交保证金、预支付、分期到账等一系列规则来保障双方的顺利成交。\n" +
+            "\n" +
+            "1、顺利成交保证金规则\n" +
             "\n" +
             "本服务平台将实际交易金额的5%计提为“顺利成交保证金”，任务顺利完成并且服务、需求双方评价分享后，平台将以交易金额的2.5%奖励形式返还给双方。\n" +
             "\n" +
-            "如果任务并未顺利成交，已经开始的“服务阶段”对应的“顺利成交保证金”将，不予退还，存放奖金池 用于活动基金；未开始“服务阶段”对应的“顺利成交保证金”将退还给需求方。上述“服务阶段”是指双方用户达成的“分期到账”后各期对应的服务阶段。";
-    final String ZeroCommissionContentTitle = "零佣金活动？";
+            "如果任务并未顺利成交，已经开始的“服务阶段”对应的“顺利成交保证金”将，不予退还，存放奖金池 用于活动基金；未开始“服务阶段”对应的“顺利成交保证金”将退还给需求方。上述“服务阶段”是指双方用户达成的“分期到账”后各期对应的服务阶段。\n" +
+            "\n" +
+            "\n" +
+            "2、预支付与分期到账规则\n" +
+            "\n" +
+            "预支付：为了保障交易双方的权益，双方确认交易意向后，应支付的全部款项将会一次性预支付且托管在斜杠平台。\n" +
+            "\n" +
+            "分期到帐：基于任务的阶段性特征，若双方将任务划分成若干个阶段，预支付的资金也将会被划分成对应的若干个部分，在需求方确认服务方提交的某阶段的服务时，该阶段的资金将被划转给服务方。\n" +
+            "\n" +
+            "3、到账与冻结规则\n" +
+            "到账：\n" +
+            "在没有开启分期付功能的情况下，任务顺利完成后，需求方确认服务后款项立即到账，即可提现；\n" +
+            "在开启分期付功能后，非尾期账款在需求方确认服务后款项立即到账，暂时处于冻结状态；尾期账款在需求方确认服务后款项立即到账，全部资金可提现。\n" +
+            "\n" +
+            "冻结：\n" +
+            "为了保障交易双方的权益，服务期间，涉及到当前任务的已到账资金处于冻结状态。冻结是暂时的，在全部任务顺利完成后，资金将解冻，服务方可以用于提现或支付。如果没有顺利完成，将按照双方选择的平台处理规则或者双方协商的规则来处理，具体请见“帮助-常见问题”。";
+
 
     /**
-     * 点击零佣金活动，查看内容
+     * 打开《斜杠青年顺利成交保障规则》
      *
      * @param v
      */
-    public void viewZeroCommissionContent(View v) {
-        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_SLASH_FREE_COMMISSION_ACTIVITY);
+    public void openSecurityRules(View v) {
         DialogUtils.showDialogOne(mActivity, new DialogUtils.DialogCallUnderStandBack() {
             @Override
             public void OkDown() {
-                LogKit.d("close viewZeroCommissionContent");
+                LogKit.d("close SecurityRules");
             }
-        }, ZeroCommissionContentText, ZeroCommissionContentTitle);
+        }, securityRulesContent, securityRulesTitle);
     }
 
 

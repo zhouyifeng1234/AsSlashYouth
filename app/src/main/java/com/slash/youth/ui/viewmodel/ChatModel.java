@@ -175,13 +175,13 @@ public class ChatModel extends BaseObservable {
         MsgManager.loadHistoryChatRecord(-1);
 
         if ("1000".equals(targetId)) {//如果是斜杠小助手
-            targetName = "斜杠消息助手";
+            targetName = "消息小助手";
             MsgManager.targetName = targetName;
             setOtherUsername(targetName);
             targetAvatarResource = R.mipmap.message_icon;
             MsgManager.targetAvatarResource = targetAvatarResource;
         } else if (MsgManager.customerServiceUid.equals(targetId)) {
-            targetName = "斜杠客服助手";
+            targetName = "斜杠客服";
             MsgManager.targetName = targetName;
             setOtherUsername(targetName);
             targetAvatarResource = R.mipmap.customer_service_icon;
@@ -243,6 +243,11 @@ public class ChatModel extends BaseObservable {
             mActivityChatBinding.flTextVoiceSwitchBtn.setVisibility(View.GONE);
             mActivityChatBinding.llChatInfoCmd.setVisibility(View.GONE);
             setTargetUserIconVisibility(View.GONE);
+        }
+        if ("1000".equals(targetId)) {
+            //如果是"斜杠消息助手"，隐藏掉底部的输入框
+            setChatInputContentLineVisibility(View.GONE);
+            mActivityChatBinding.vMessageHelperBottom.setVisibility(View.VISIBLE);
         }
 
         //自动滚动到底部
@@ -2396,6 +2401,18 @@ public class ChatModel extends BaseObservable {
 
     private int viewPicVisibility = View.GONE;
     private int loadHisMsgProgressVisibility = View.GONE;
+
+    private int chatInputContentLineVisibility = View.VISIBLE;
+
+    @Bindable
+    public int getChatInputContentLineVisibility() {
+        return chatInputContentLineVisibility;
+    }
+
+    public void setChatInputContentLineVisibility(int chatInputContentLineVisibility) {
+        this.chatInputContentLineVisibility = chatInputContentLineVisibility;
+        notifyPropertyChanged(BR.chatInputContentLineVisibility);
+    }
 
     @Bindable
     public int getLoadHisMsgProgressVisibility() {

@@ -177,7 +177,8 @@ public class PagerHomeInfoModel extends BaseObservable {
                             MsgManager.conversationUidList.add(index, targetId);
                         } else {
                             //本地没有消息
-                            conversationInfo.uts = System.currentTimeMillis();
+//                            conversationInfo.uts = System.currentTimeMillis();
+                            conversationInfo.uts = 0;
                             listConversation.add(conversationInfo);
                             MsgManager.conversationUidList.add(targetId);
                         }

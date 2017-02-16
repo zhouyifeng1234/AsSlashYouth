@@ -933,18 +933,23 @@
             android:background="#66000000"
             android:clickable="true"
             android:visibility="@{pagerHomeMyModel.approvalDialog}"
-            >
-            <RelativeLayout
+        >
+            <!--android:visibility="@{pagerHomeMyModel.approvalDialog}"-->
+            <!--android:visibility="visible"-->
+
+            <LinearLayout
                 android:layout_width="280dp"
-                android:layout_height="260dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                >
+                android:orientation="vertical"
+            >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/shape_tishi_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -957,53 +962,54 @@
 
                     <TextView
                         android:id="@+id/tv_hint"
-                        android:layout_marginTop="14dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="25dp"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="25dp"
-                        android:textSize="14dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="14dp"
                         android:lineSpacingExtra="5dp"
                         android:text="请在个人信息页面完善需认证的信息"
                         android:textColor="#666666"
-                        android:layout_gravity="center_horizontal"
-                        />
+                        android:textSize="14dp"
+                    />
 
                     <TextView
-                        android:layout_marginTop="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="25dp"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="25dp"
-                        android:textSize="14dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="10dp"
                         android:lineSpacingExtra="5dp"
                         android:text="1、若你是上班族需完善：职业类型、姓名、最近公司、公司职位"
                         android:textColor="#666666"
-                        android:layout_gravity="center_horizontal"
-                        />
+                        android:textSize="14dp"
+                    />
 
                     <TextView
-                        android:layout_marginTop="14dp"
-                        android:layout_marginBottom="14dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="25dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="14dp"
                         android:layout_marginLeft="25dp"
-                        android:textSize="14dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="14dp"
                         android:lineSpacingExtra="5dp"
                         android:text="2、若你是自雇者需完善：职业类型和姓名"
                         android:textColor="#666666"
-                        android:layout_gravity="center_horizontal"
-                        />
+                        android:textSize="14dp"
+                    />
 
                 </LinearLayout>
+
                 <FrameLayout
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
                     android:background="@drawable/shape_tishi_button_bg"
-                    >
+                >
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -1011,48 +1017,49 @@
                         android:orientation="horizontal">
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
                             <RelativeLayout
-                                android:onClick="@{pagerHomeMyModel.makeCannel}"
-                                android:layout_centerInParent="true"
                                 android:layout_width="96dp"
                                 android:layout_height="29dp"
-                                android:background="@drawable/btn_cancel_n">
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/btn_cancel_n"
+                                android:onClick="@{pagerHomeMyModel.makeCannel}">
                                 <TextView
-                                    android:layout_centerInParent="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textSize="13dp"
+                                    android:layout_centerInParent="true"
+                                    android:text="取消"
                                     android:textColor="#FFFFFF"
-                                    android:text="取消"/>
+                                    android:textSize="13dp"/>
 
                             </RelativeLayout>
                         </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
                             <RelativeLayout
-                                android:onClick="@{pagerHomeMyModel.makeSure}"
-                                android:layout_centerInParent="true"
                                 android:layout_width="96dp"
                                 android:layout_height="29dp"
-                                android:background="@drawable/btn_determine_n">
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/btn_determine_n"
+                                android:onClick="@{pagerHomeMyModel.makeSure}">
 
                                 <TextView
-                                    android:layout_centerInParent="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textSize="13dp"
+                                    android:layout_centerInParent="true"
+                                    android:text="确定"
                                     android:textColor="#FFFFFF"
-                                    android:text="确定"/>
+                                    android:textSize="13dp"/>
                             </RelativeLayout>
                         </RelativeLayout>
                     </LinearLayout>
                 </FrameLayout>
-            </RelativeLayout>
+
+            </LinearLayout>
         </FrameLayout>
 
     </FrameLayout>
