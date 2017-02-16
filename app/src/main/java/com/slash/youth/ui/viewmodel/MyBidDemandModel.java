@@ -26,7 +26,6 @@ import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskItemBean;
 import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.DemandEngine;
-import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
@@ -415,11 +414,9 @@ public class MyBidDemandModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
-
+                ToastUtils.shortToast("加载抢单信息失败:" + result);
             }
         }, tid + "", innerDemandCardInfo.suid + "");
-
-
     }
 
     private void setMyPublishDemandInfo() {
