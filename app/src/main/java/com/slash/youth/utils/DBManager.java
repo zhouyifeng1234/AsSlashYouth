@@ -3,14 +3,11 @@ package com.slash.youth.utils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import android.util.Log;
 
 import com.slash.youth.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class DBManager {
@@ -48,6 +45,9 @@ public class DBManager {
                 }
                 IOUtils.close(fos);
                 IOUtils.close(isr);
+                LogKit.v("not exists copy fileDB size:" + file.length());
+            } else {
+                LogKit.v("exists fileDB size:" + file.length());
             }
 
             database = SQLiteDatabase.openOrCreateDatabase(dbfile, null);

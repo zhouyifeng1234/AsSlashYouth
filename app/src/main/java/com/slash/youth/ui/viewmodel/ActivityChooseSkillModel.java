@@ -114,6 +114,14 @@ public class ActivityChooseSkillModel extends BaseObservable {
         Collection<AllSkillLablesBean.Tag_1> tag1Coll = allSkillLablesBean.mapTag_1.values();
         tag1Arr = new AllSkillLablesBean.Tag_1[tag1Coll.size()];
         tag1Coll.toArray(tag1Arr);
+        //默认选中的一级标签是“发展|规划”,所以需要遍历出“发展|规划”这个一级标签
+        for (int i = 0; i < tag1Arr.length; i++) {
+            String tag1Name = tag1Arr[i].tag;
+            if (tag1Name.equals("发展|规划")) {
+                chooseTag1Index = i;
+                break;
+            }
+        }
 
         AllSkillLablesBean.Tag_1 tag_1 = tag1Arr[chooseTag1Index];
         Collection<AllSkillLablesBean.Tag_2> tag2Coll = tag_1.mapTag_2.values();
@@ -259,18 +267,29 @@ public class ActivityChooseSkillModel extends BaseObservable {
         llSkillLabelsLine.setLayoutParams(params);
     }
 
+    int checkedThirdLabelsCount = 0;
+
     private void setSkillLabelSelectedListener(final TextView tvSkillLabel, final AllSkillLablesBean.Tag_3 tag_3) {
         tvSkillLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isSelected = (boolean) tvSkillLabel.getTag();
                 if (isSelected) {
+                    checkedThirdLabelsCount--;
+                    if (checkedThirdLabelsCount < 0) {
+                        checkedThirdLabelsCount = 0;
+                    }
                     tvSkillLabel.setTextColor(0xff31c5e4);
                     tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
                     choosedThirdLabels.remove(tag_3);
                 } else {
                     MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_EXCLUSIVE_SKILLS_CHOOSE_LABEL);
 
+                    if (checkedThirdLabelsCount >= 3) {
+                        ToastUtils.shortToast("最多选择3个技能标签");
+                        return;
+                    }
+                    checkedThirdLabelsCount++;
                     tvSkillLabel.setTextColor(0xffffffff);
                     tvSkillLabel.setBackgroundResource(R.mipmap.choose_skill_label_bg);
                     choosedThirdLabels.add(tag_3);
@@ -416,6 +435,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
         int value = mNpChooseSkillLabel.getValue();
         if (isChooseMainLabel) {
             if (value != chooseTag1Index) {
+                clearCheckedThirdLabels();//选择了不同的一级标签，清空已选择的三级标签
                 chooseTag1Index = value;
                 chooseTag2Index = -1;
                 setChoosedMainLabel(optionalMainLabels[value]);
@@ -424,12 +444,21 @@ public class ActivityChooseSkillModel extends BaseObservable {
             }
         } else {
             if (value != chooseTag2Index) {
+                clearCheckedThirdLabels();//选择了不同的二级标签，清空已选择的三级标签
                 chooseTag2Index = value;
                 setChoosedSecondLabel(optionalSecondLabels[value]);
                 setThirdSkillLabels();
             }
         }
 //        ToastUtils.shortToast("value:" + value);
+    }
+
+    /**
+     * 当重新选择了不同的一级或者二级标签的时候，需要清空已选的三级标签（因为只能选择一个类别下的三级标签）
+     */
+    private void clearCheckedThirdLabels() {
+        checkedThirdLabelsCount = 0;
+        choosedThirdLabels.clear();
     }
 
     private int chooseSkillLayerVisibility = View.INVISIBLE;//选择行业（一级标签）或岗位（二级标签）的浮层是否显示，默认为隐藏
