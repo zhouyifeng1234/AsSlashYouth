@@ -1088,22 +1088,24 @@
                         android:textColor="#333333"
                         android:textSize="13sp"/>
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <!--<View android:layout_width="0dp" android:layout_height="0dp"-->
+                    <!--android:layout_weight="1"/>-->
 
 
                     <EditText
                         android:id="@+id/et_service_update_quote"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="11dp"
+                        android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:gravity="right"
+                        android:gravity="right|center"
                         android:inputType="number"
+                        android:paddingRight="11dp"
                         android:text=""
                         android:textColor="#CCCCCC"
-                        android:textSize="10sp"/>
+                        android:textSize="15sp"/>
+                    <!--android:layout_marginRight="11dp"-->
 
                     <TextView
                         android:layout_width="wrap_content"

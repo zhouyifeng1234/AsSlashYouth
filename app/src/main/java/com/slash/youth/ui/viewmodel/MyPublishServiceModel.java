@@ -390,8 +390,9 @@ public class MyPublishServiceModel extends BaseObservable {
             ToastUtils.shortToast("请先完善开始时间和结束时间");
             return;
         }
-        if (starttime <= System.currentTimeMillis() + 60 * 60 * 1000) {
-            ToastUtils.shortToast("开始时间必须大于当前时间1个小时");
+        if (starttime <= System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
+//            ToastUtils.shortToast("开始时间必须大于当前时间2个小时");
+            ToastUtils.shortToast("开始时间必须是2小时以后");
             return;
         }
         if (endtime <= starttime) {

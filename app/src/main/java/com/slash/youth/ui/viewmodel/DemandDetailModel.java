@@ -81,6 +81,7 @@ public class DemandDetailModel extends BaseObservable {
     LatLng demandLatLng;
     int pattern;
     int isonline;
+    int anonymity;
 
     public DemandDetailModel(ActivityDemandDetailBinding activityDemandDetailBinding, Activity activity) {
         this.mActivityDemandDetailBinding = activityDemandDetailBinding;
@@ -306,6 +307,7 @@ public class DemandDetailModel extends BaseObservable {
             public void execute(DemandDetailBean dataBean) {
                 demandDetailBean = dataBean;
                 DemandDetailBean.Demand demand = dataBean.data.demand;
+                anonymity = demand.anonymity;
                 demandLatLng = new LatLng(demand.lat, demand.lng);
                 demandUserId = demand.uid;
                 if (LoginManager.currentLoginUserId == demand.uid) {//需求者视角
@@ -361,11 +363,11 @@ public class DemandDetailModel extends BaseObservable {
 
                 String starttimeStr = "";
                 if (demand.starttime != 0) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("开始时间:MM月dd日 HH:mm");
                     starttimeStr = sdf.format(demand.starttime);
                     setDemandStartTime(starttimeStr);
                 } else {
-                    setDemandStartTime("随时");
+                    setDemandStartTime("开始时间:随时");
                 }
                 //回填抢单浮层中的开始时间
                 mActivityDemandDetailBinding.tvBidDemandStarttime.setText(starttimeStr);
@@ -537,13 +539,24 @@ public class DemandDetailModel extends BaseObservable {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
                 demandUserAvatar = uinfo.avatar;
                 avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
-                BitmapKit.bindImage(mActivityDemandDetailBinding.ivDemandUserAvatar, avatarUrl);
+                if (anonymity == 1) {//实名
+                    BitmapKit.bindImage(mActivityDemandDetailBinding.ivDemandUserAvatar, avatarUrl);
+                    setUsername(uinfo.name);
+                } else {//匿名
+                    mActivityDemandDetailBinding.ivDemandUserAvatar.setImageResource(R.mipmap.anonymity_avater);
+                    String anonymityName;
+                    if (TextUtils.isEmpty(uinfo.name)) {
+                        anonymityName = "XXX";
+                    } else {
+                        anonymityName = uinfo.name.substring(0, 1) + "XX";
+                    }
+                    setUsername(anonymityName);
+                }
                 if (uinfo.isauth == 0) {//未认证
                     setIsAuthVisibility(View.INVISIBLE);
                 } else if (uinfo.isauth == 1) {//已认证
                     setIsAuthVisibility(View.VISIBLE);
                 }
-                setUsername(uinfo.name);
 //                setFanscount("粉丝数" + uinfo.fanscount);
                 setFanscount("人脉数" + uinfo.fanscount);
                 setTaskcount("顺利成交单数" + uinfo.achievetaskcount + "/" + uinfo.totoltaskcount);//顺利成交单数9/12
@@ -959,6 +972,7 @@ public class DemandDetailModel extends BaseObservable {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_REQUIREMENT_DETAIL_ENTER_PERSON_MESSAGE);
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("Uid", demandUserId);
+        intentUserInfoActivity.putExtra("anonymity", anonymity);
         mActivity.startActivity(intentUserInfoActivity);
     }
 
@@ -1282,8 +1296,9 @@ public class DemandDetailModel extends BaseObservable {
             ToastUtils.shortToast("请先完善开始时间");
             return;
         }
-        if (bidDemandStarttime <= System.currentTimeMillis() + 60 * 60 * 1000) {
-            ToastUtils.shortToast("开始时间必须大于当前时间1个小时");
+        if (bidDemandStarttime <= System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
+//            ToastUtils.shortToast("开始时间必须大于当前时间1个小时");
+            ToastUtils.shortToast("开始时间必须是2小时以后");
             return;
         }
 

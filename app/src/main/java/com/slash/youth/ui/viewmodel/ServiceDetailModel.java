@@ -74,6 +74,7 @@ public class ServiceDetailModel extends BaseObservable {
     LatLng serviceLatLng;
     int pattern;
     int isonline;
+    int anonymity;
 
     public ServiceDetailModel(ActivityServiceDetailBinding activityServiceDetailBinding, Activity activity) {
         this.mActivityServiceDetailBinding = activityServiceDetailBinding;
@@ -362,6 +363,7 @@ public class ServiceDetailModel extends BaseObservable {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_ENTER_PERSON_DETAIL);
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
         intentUserInfoActivity.putExtra("Uid", serviceUserId);
+        intentUserInfoActivity.putExtra("anonymity", anonymity);
         mActivity.startActivity(intentUserInfoActivity);
     }
 
@@ -474,6 +476,7 @@ public class ServiceDetailModel extends BaseObservable {
                     LogKit.v("service data:" + dataBean.data.service.title);
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
+                    anonymity = service.anonymity;
                     serviceLatLng = new LatLng(service.lat, service.lng);
                     serviceUserId = service.uid;
                     if (service.uid == LoginManager.currentLoginUserId) {
@@ -529,15 +532,20 @@ public class ServiceDetailModel extends BaseObservable {
                         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 hh:mm");
                         String starttimeStr = sdf.format(service.starttime);
                         String endtimeStr = sdf.format(service.endtime);
-                        setServiceTime("时间:" + starttimeStr + "-" + endtimeStr);
+//                        setServiceTime("时间:" + starttimeStr + "-" + endtimeStr);
+                        setServiceTime(starttimeStr + "-" + endtimeStr);
                     } else if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_AFTER_WORK) {//下班后
-                        setServiceTime("时间:下班后");
+//                        setServiceTime("时间:下班后");
+                        setServiceTime("下班后");
                     } else if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_WEEKEND) {//周末
-                        setServiceTime("时间:周末");
+//                        setServiceTime("时间:周末");
+                        setServiceTime("周末");
                     } else if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_AFTER_WORK_AND_WEEKEND) {//下班后及周末
-                        setServiceTime("时间:下班后及周末");
+//                        setServiceTime("时间:下班后及周末");
+                        setServiceTime("下班后及周末");
                     } else if (service.timetype == ServiceEngine.SERVICE_TIMETYPE_ANYTIME) {//随时
-                        setServiceTime("时间:随时");
+//                        setServiceTime("时间:随时");
+                        setServiceTime("随时");
                     }
                     //接口中好像没有浏览量字段
                     //相关技能标签
@@ -676,13 +684,26 @@ public class ServiceDetailModel extends BaseObservable {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
                 serviceUserAvatar = uinfo.avatar;
                 avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + uinfo.avatar;
-                BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceUserAvatar, avatarUrl);
+
+                if (anonymity == 1) {//实名
+                    BitmapKit.bindImage(mActivityServiceDetailBinding.ivServiceUserAvatar, avatarUrl);
+                    setUsername(uinfo.name);
+                } else {//匿名
+                    mActivityServiceDetailBinding.ivServiceUserAvatar.setImageResource(R.mipmap.anonymity_avater);
+                    String anonymityName;
+                    if (TextUtils.isEmpty(uinfo.name)) {
+                        anonymityName = "XXX";
+                    } else {
+                        anonymityName = uinfo.name.substring(0, 1) + "XX";
+                    }
+                    setUsername(anonymityName);
+                }
+
                 if (uinfo.isauth == 0) {//未认证
                     setIsAuthVisibility(View.INVISIBLE);
                 } else if (uinfo.isauth == 1) {//已认证
                     setIsAuthVisibility(View.VISIBLE);
                 }
-                setUsername(uinfo.name);
 //                setFanscount("粉丝数" + uinfo.fanscount);
                 setFanscount("人脉数" + uinfo.fanscount);
                 setTaskcount("顺利成交单数" + uinfo.achievetaskcount + "/" + uinfo.totoltaskcount);//顺利成交单数9/12
