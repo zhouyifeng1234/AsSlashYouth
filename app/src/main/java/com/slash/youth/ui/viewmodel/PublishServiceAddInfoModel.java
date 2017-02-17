@@ -218,6 +218,8 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         checkedDisputeHandingTypeIndex = 1;
     }
 
+    boolean isClickPublish = false;
+
     public void publish(View v) {
         //发布成功以后才能跳转到成功页面,这里只是为了方便测试直接跳转
 //        Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
@@ -229,8 +231,14 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 //            PublishServiceBaseInfoActivity.activity = null;
 //        }
 
+        if (isClickPublish) {
+            return;
+        }
+        isClickPublish = true;
+
         if (!isCheckedSlashProtocol) {
             ToastUtils.shortToast("请查阅零佣金活动，并勾选");
+            isClickPublish = false;
             return;
         }
 
@@ -248,31 +256,37 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTags();
         if (addedSkillLabels.size() < 1) {
             ToastUtils.shortToast("请选择技能标签");
+            isClickPublish = false;
             return;
         }
         if (addedSkillLabels.size() > 3) {
             ToastUtils.shortToast("技能标签不能超过3个");
+            isClickPublish = false;
             return;
         }
         double quote = 0;
         String quoteStr = mActivityPublishServiceAddinfoBinding.etServiceQuote.getText().toString();
         if (TextUtils.isEmpty(quoteStr)) {
             ToastUtils.shortToast("请填写报价");
+            isClickPublish = false;
             return;
         } else {
             try {
                 quote = Double.parseDouble(quoteStr);
                 if (quote <= 0) {
                     ToastUtils.shortToast("报价必须大于0");
+                    isClickPublish = false;
                     return;
                 }
             } catch (Exception ex) {
                 ToastUtils.shortToast("请正确填写报价");
+                isClickPublish = false;
                 return;
             }
         }
         if (quoteunit == -1) {
             ToastUtils.shortToast("请选择价格单位");
+            isClickPublish = false;
             return;
         }
 
@@ -283,6 +297,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         if (pattern == 1) {
             if (TextUtils.isEmpty(place)) {
                 ToastUtils.shortToast("请输入线下见面地点");
+                isClickPublish = false;
                 return;
             }
         }
@@ -291,6 +306,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
             ServiceEngine.updateService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
                 public void execute(CommonResultBean dataBean) {
+                    isClickPublish = false;
                     //这里是修改服务成功后跳转
                     Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
                     intentPublishServiceSuccessActivity.putExtra("serviceId", serviceDetailBean.data.service.id);
@@ -305,6 +321,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
                 @Override
                 public void executeResultError(String result) {
+                    isClickPublish = false;
                     ToastUtils.shortToast("修改失败：" + result);
                 }
             }, serviceDetailBean.data.service.id + "", title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);
@@ -312,6 +329,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
             ServiceEngine.publishService(new BaseProtocol.IResultExecutor<PublishServiceResultBean>() {
                 @Override
                 public void execute(PublishServiceResultBean dataBean) {
+                    isClickPublish = false;
                     LogKit.v("发布成功，id:" + dataBean.data.id);
                     //发布成功以后才能跳转到成功页面
                     Intent intentPublishServiceSuccessActivity = new Intent(CommonUtils.getContext(), PublishServiceSucceddActivity.class);
@@ -326,6 +344,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
                 @Override
                 public void executeResultError(String result) {
+                    isClickPublish = false;
                     ToastUtils.shortToast("发布服务失败：" + result);
                 }
             }, title, addedSkillLabels, starttime, endtime, anonymity, desc, timetype, listPic, instalment, bp, pattern, place, lng, lat, quote, quoteunit);

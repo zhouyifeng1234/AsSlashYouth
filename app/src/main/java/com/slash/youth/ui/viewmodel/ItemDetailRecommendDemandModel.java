@@ -64,6 +64,8 @@ public class ItemDetailRecommendDemandModel extends BaseObservable {
         } else {//未开启
             setInstalmentVisibility(View.VISIBLE);
         }
+
+
         if (mRecommendDemandInfo.pattern == 0) {//线上
             setDemandPlace("不限城市");
             mItemDetailRecommendDemandBinding.tvDistance.setVisibility(View.GONE);

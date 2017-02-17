@@ -24,8 +24,9 @@ public class ServiceFlowSelectedProtocol extends BaseProtocol<CommonResultBean> 
     private String endtime;
     private ArrayList<Double> instalment;
     private String bp;
+    private String ismodify;
 
-    public ServiceFlowSelectedProtocol(String soid, String uid, String quote, String starttime, String endtime, ArrayList<Double> instalment, String bp) {
+    public ServiceFlowSelectedProtocol(String soid, String uid, String quote, String starttime, String endtime, ArrayList<Double> instalment, String bp, String ismodify) {
         this.soid = soid;
         this.uid = uid;
         this.quote = quote;
@@ -33,6 +34,7 @@ public class ServiceFlowSelectedProtocol extends BaseProtocol<CommonResultBean> 
         this.endtime = endtime;
         this.instalment = instalment;
         this.bp = bp;
+        this.ismodify = ismodify;
     }
 
 
@@ -56,6 +58,7 @@ public class ServiceFlowSelectedProtocol extends BaseProtocol<CommonResultBean> 
             }
             jo.put("instalment", jaInstalmentRatio);
             jo.put("bp", bp);
+            jo.put("ismodify", ismodify);
 
             LogKit.v(jo.toString());
             StringBody stringBody = new StringBody(jo.toString(), null);

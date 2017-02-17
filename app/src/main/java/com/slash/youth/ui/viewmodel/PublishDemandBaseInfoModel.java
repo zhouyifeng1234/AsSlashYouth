@@ -239,8 +239,15 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         startTime = calendar.getTimeInMillis();
     }
 
+    boolean isClickNext = false;
+
     //下一步操作
     public void nextStep(View v) {
+        if (isClickNext) {
+            return;
+        }
+        isClickNext = true;
+
         final Intent intentPublishDemandAddInfoActivity = new Intent(CommonUtils.getContext(), PublishDemandAddInfoActivity.class);
 
         //标记是否为修改需求
@@ -254,18 +261,22 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         demandTitle = mActivityPublishDemandBaseinfoBinding.etPublishDemandTitle.getText().toString();
         if (demandTitle.length() < 5 || demandTitle.length() > 20) {
             ToastUtils.shortToast("标题必须为5-20字之间");
+            isClickNext = false;
             return;
         }
         publishDemandData.putString("demandTitle", demandTitle);
         demandDesc = mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.getText().toString();
         if (demandDesc.length() <= 0) {
             ToastUtils.shortToast("请输入需求描述");
+            isClickNext = false;
             return;
         } else if (demandDesc.length() < 5) {
             ToastUtils.shortToast("需求描述必须是5-300字之间");
+            isClickNext = false;
             return;
         } else if (demandDesc.length() > 300) {
             ToastUtils.shortToast("需求描述不能超过300字");
+            isClickNext = false;
             return;
         }
         publishDemandData.putString("demandDesc", demandDesc);
@@ -276,6 +287,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         if (startTime != -1) {
             if (startTime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
                 ToastUtils.shortToast("开始时间必须大于当前时间两个小时");
+                isClickNext = false;
                 return;
             }
         }
@@ -287,6 +299,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         if (addedPicTempPath.size() <= 0) {
 //            ToastUtils.shortToast("至少上传一张图片");
 //            return;
+            isClickNext = false;
             intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
             mActivity.startActivity(intentPublishDemandAddInfoActivity);
             return;
@@ -303,6 +316,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
                     imgUrl.add(dataBean.data.fileId);
 
                     if (uploadCount[0] >= addedPicTempPath.size()) {
+                        isClickNext = false;
                         intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
                         mActivity.startActivity(intentPublishDemandAddInfoActivity);
                     }
@@ -314,6 +328,7 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
                     uploadCount[0]++;
                     LogKit.v("uploadCount:" + uploadCount[0]);
                     if (uploadCount[0] >= addedPicTempPath.size()) {
+                        isClickNext = false;
                         intentPublishDemandAddInfoActivity.putExtras(publishDemandData);
                         mActivity.startActivity(intentPublishDemandAddInfoActivity);
                     }

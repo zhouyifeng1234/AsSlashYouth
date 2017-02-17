@@ -136,10 +136,17 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mActivity.finish();
     }
 
+    boolean isClickPublish = false;
+
     public void publish(View v) {
+        if (isClickPublish) {
+            return;
+        }
+        isClickPublish = true;
 
         if (!isCheckedSlashProtocol) {
             ToastUtils.shortToast("请查阅零佣金活动，并勾选");
+            isClickPublish = false;
             return;
         }
 
@@ -155,10 +162,12 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         ArrayList<String> addedSkillLabels = mSallSkillLabels.getAddedTags();
         if (addedSkillLabels.size() < 1) {
             ToastUtils.shortToast("请选择技能标签");
+            isClickPublish = false;
             return;
         }
         if (addedSkillLabels.size() > 3) {
             ToastUtils.shortToast("技能标签不能超过3个");
+            isClickPublish = false;
             return;
         }
         double quote = 0;//报价
@@ -172,10 +181,12 @@ public class PublishDemandAddInfoModel extends BaseObservable {
                 quote = Double.parseDouble(quoteStr);
                 if (quote <= 0) {
                     ToastUtils.shortToast("报价必须大于0");
+                    isClickPublish = false;
                     return;
                 }
             } catch (Exception ex) {
                 ToastUtils.shortToast("请正确填写报价");
+                isClickPublish = false;
                 return;
             }
         }
@@ -187,6 +198,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         if (pattern == 1) {
             if (TextUtils.isEmpty(place)) {
                 ToastUtils.shortToast("请输入线下见面地点");
+                isClickPublish = false;
                 return;
             }
         }
@@ -195,6 +207,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
             DemandEngine.updateDemand(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
                 public void execute(CommonResultBean dataBean) {
+                    isClickPublish = false;
                     Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
                     intentPublishDemandSuccessActivity.putExtra("demandId", demandDetailBean.data.demand.id);
                     intentPublishDemandSuccessActivity.putExtra("isUpdate", true);
@@ -208,6 +221,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
                 @Override
                 public void executeResultError(String result) {
+                    isClickPublish = false;
                     ToastUtils.shortToast("修改需求失败:" + result);
                 }
             }, demandDetailBean.data.demand.id + "", demandTitle, addedSkillLabels, startTime + "", anonymity + "", demandDesc, listPic, instalment + "", bp + "", pattern + "", place, place, lng + "", lat + "", offer + "", quote + "");
@@ -215,6 +229,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
             DemandEngine.publishDemand(new BaseProtocol.IResultExecutor<PublishDemandResultBean>() {
                 @Override
                 public void execute(PublishDemandResultBean dataBean) {
+                    isClickPublish = false;
                     Intent intentPublishDemandSuccessActivity = new Intent(CommonUtils.getContext(), PublishDemandSuccessActivity.class);
                     intentPublishDemandSuccessActivity.putExtra("demandId", dataBean.data.id);
                     mActivity.startActivity(intentPublishDemandSuccessActivity);
@@ -227,6 +242,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
 
                 @Override
                 public void executeResultError(String result) {
+                    isClickPublish = false;
                     ToastUtils.shortToast("发布需求失败：" + result);
                 }
             }, demandTitle, addedSkillLabels, startTime + "", anonymity + "", demandDesc, listPic, instalment + "", bp + "", pattern + "", place, place, lng + "", lat + "", offer + "", quote + "");

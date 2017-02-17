@@ -113,8 +113,8 @@ public class ServiceEngine {
     /**
      * 五、[服务]-服务方选定
      */
-    public static void selected(BaseProtocol.IResultExecutor onSelectedFinished, String soid, String uid, String quote, String starttime, String endtime, ArrayList<Double> instalment, String bp) {
-        ServiceFlowSelectedProtocol serviceFlowSelectedProtocol = new ServiceFlowSelectedProtocol(soid, uid, quote, starttime, endtime, instalment, bp);
+    public static void selected(BaseProtocol.IResultExecutor onSelectedFinished, String soid, String uid, String quote, String starttime, String endtime, ArrayList<Double> instalment, String bp, String ismodify) {
+        ServiceFlowSelectedProtocol serviceFlowSelectedProtocol = new ServiceFlowSelectedProtocol(soid, uid, quote, starttime, endtime, instalment, bp, ismodify);
         serviceFlowSelectedProtocol.getDataFromServer(onSelectedFinished);
     }
 

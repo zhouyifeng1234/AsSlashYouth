@@ -3,6 +3,7 @@ package com.slash.youth.ui.viewmodel;
 import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -55,10 +56,29 @@ public class ItemServiceDetailRecommendServiceModel extends BaseObservable {
         } else {//如果数据正确，这种情况应该不存在
             setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元");
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
-        String starttimeStr = sdf.format(mRecommendServiceInfo.starttime);
-        String endtimeStr = sdf.format(mRecommendServiceInfo.endtime);
-        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+//        String starttimeStr = sdf.format(mRecommendServiceInfo.starttime);
+//        String endtimeStr = sdf.format(mRecommendServiceInfo.endtime);
+//        setIdleTime("闲置时间:" + starttimeStr + "-" + endtimeStr);
+
+        //因为发布服务时，去掉了具体的开始时间和结束时间，所以现在只有 周末、下班后这种模糊时间
+        int timetype = mRecommendServiceInfo.timetype;
+        if (timetype == 0) {//这种情况应该不存在了
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+            String starttimeStr = sdf.format(mRecommendServiceInfo.starttime);
+            String endtimeStr = sdf.format(mRecommendServiceInfo.endtime);
+            setIdleTime(starttimeStr + "-" + endtimeStr);
+        } else if (timetype == 1) {//下班后
+            setIdleTime("下班后");
+        } else if (timetype == 2) {//周末
+            setIdleTime("周末");
+        } else if (timetype == 3) {//下班后及周末
+            setIdleTime("下班后及周末");
+        } else if (timetype == 4) {//随时
+            setIdleTime("随时");
+        }
+
         //pattern  1线下 0线上
         if (mRecommendServiceInfo.pattern == 0) {//线上
             setPatternText("线上");
@@ -71,9 +91,21 @@ public class ItemServiceDetailRecommendServiceModel extends BaseObservable {
         } else {
             setInstalmentVisibility(View.GONE);
         }
-        setServicePlace(mRecommendServiceInfo.place);
+
+        if (mRecommendServiceInfo.pattern == 0) {//线上
+            setServicePlace("不限城市");
+            mItemServiceDetailRecommendServiceBinding.tvDistance.setVisibility(View.GONE);
+        } else {//线下
+            if (TextUtils.isEmpty(mRecommendServiceInfo.place)) {
+                setServicePlace("火星村");
+                mItemServiceDetailRecommendServiceBinding.tvDistance.setVisibility(View.GONE);
+            } else {
+                setServicePlace(mRecommendServiceInfo.place);
+            }
+        }
+
         double distance = DistanceUtils.getDistance(SlashApplication.getCurrentLatitude(), SlashApplication.getCurrentLongitude(), mRecommendServiceInfo.lat, mRecommendServiceInfo.lng);
-        setDistanceStr("距离 " + distance + "KM");
+        setDistanceStr("距您 " + distance + "KM");
     }
 
     private int authVisibility;

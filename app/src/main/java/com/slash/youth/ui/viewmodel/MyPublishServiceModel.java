@@ -422,10 +422,21 @@ public class MyPublishServiceModel extends BaseObservable {
                 return;
             }
         }
+        //这里判断ismodify字段是传0还是传1
+        final int ismodify;
+        if (updateBidInfotItemVisibility == View.VISIBLE) {//如果修改按钮可见，就是修改操作；否则就是服务方第一次选定需求方的操作
+            ismodify = 1;
+        } else {
+            ismodify = 0;
+        }
         ServiceEngine.selected(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
-                ToastUtils.shortToast("服务方选定成功");
+                if (ismodify == 1) {
+                    ToastUtils.shortToast("修改成功");
+                } else {
+                    ToastUtils.shortToast("服务方选定成功");
+                }
                 setUpdateLayerVisibility(View.GONE);
                 reloadData();
             }
@@ -434,7 +445,7 @@ public class MyPublishServiceModel extends BaseObservable {
             public void executeResultError(String result) {
                 ToastUtils.shortToast("服务方选定失败:" + result);
             }
-        }, soid + "", duid + "", updateQuote + "", starttime + "", endtime + "", updateInstalmentRatioList, updateBp + "");
+        }, soid + "", duid + "", updateQuote + "", starttime + "", endtime + "", updateInstalmentRatioList, updateBp + "", ismodify + "");
     }
 
     private void getInputInstalmentRatio() {

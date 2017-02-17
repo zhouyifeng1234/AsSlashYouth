@@ -273,13 +273,13 @@ public class PagerHomeMyModel extends BaseObservable {
 
         //粉丝数
         fansratio = myinfo.getFansratio();
-        if (fansratio > 0 && fansratio <= 1) {
-            fansratio = 1;
-        }
-        mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) fansratio);
+//        if (fansratio > 0 && fansratio <= 1) {
+//            fansratio = 1;
+//        }
+        mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) (fansratio * 100));
         //粉丝比率
-        mPagerHomeMyBinding.tvFansRadio.setText(String.valueOf(fansratio) + "%");
-        mPagerHomeMyBinding.tvOverFansCount.setText("超过" + String.valueOf(fansratio) + "%" + "的用户");
+        mPagerHomeMyBinding.tvFansRadio.setText((int) (fansratio * 100) + "%");
+        mPagerHomeMyBinding.tvOverFansCount.setText("超过" + (int) (fansratio * 100) + "%" + "的用户");
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();

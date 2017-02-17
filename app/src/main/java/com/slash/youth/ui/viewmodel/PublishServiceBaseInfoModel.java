@@ -262,7 +262,14 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         mActivityPublishServiceBaseinfoBinding.tvIdletimeAnytime.setBackgroundResource(anytimeBg);
     }
 
+    boolean isClickNext = false;
+
     public void nextStep(View v) {
+        if (isClickNext) {
+            return;
+        }
+        isClickNext = true;
+
         final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
         if (serviceDetailBean != null) {
             intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
@@ -271,38 +278,46 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         String title = mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.getText().toString();
         if (title.length() < 5 || title.length() > 20) {
             ToastUtils.shortToast("标题必须为5-20字之间");
+            isClickNext = false;
             return;
         }
         bundleServiceData.putString("title", title);
         String desc = mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.getText().toString();
         if (desc.length() <= 0) {
             ToastUtils.shortToast("请输入服务描述");
+            isClickNext = false;
             return;
         } else if (desc.length() < 5) {
             ToastUtils.shortToast("服务描述必须是5-300字之间");
+            isClickNext = false;
             return;
         } else if (desc.length() > 300) {
             ToastUtils.shortToast("服务描述不能超过300字");
+            isClickNext = false;
             return;
         }
         bundleServiceData.putString("desc", desc);
         bundleServiceData.putInt("anonymity", anonymity);//取值只能1或者0 (1实名 0匿名)
         if (timetype < 0 || timetype > 4) {
             ToastUtils.shortToast("时间类型错误");
+            isClickNext = false;
             return;
         }
         bundleServiceData.putInt("timetype", timetype);
         if (timetype == 0) {
             if (starttime == -1 || endtime == -1) {
                 ToastUtils.shortToast("请选择闲置时间标签");
+                isClickNext = false;
                 return;
             }
             if (starttime < System.currentTimeMillis() + 2 * 60 * 60 * 1000) {
                 ToastUtils.shortToast("开始时间必须大于当前时间两个小时");
+                isClickNext = false;
                 return;
             }
             if (endtime <= starttime) {
                 ToastUtils.shortToast("结束时间必须大于开始时间");
+                isClickNext = false;
                 return;
             }
         }
@@ -316,6 +331,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
 //            return;
             intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
             mActivity.startActivity(intentPublishServiceAddInfoActivity);
+            isClickNext = false;
             return;
         }
         LogKit.v(addedPicTempPath.size() + "");
@@ -331,6 +347,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
                     imgUrl.add(dataBean.data.fileId);
 
                     if (uploadCount[0] >= addedPicTempPath.size()) {
+                        isClickNext = false;
                         intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
                         mActivity.startActivity(intentPublishServiceAddInfoActivity);
                     }
@@ -342,6 +359,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
                     uploadCount[0]++;
                     LogKit.v("uploadCount:" + uploadCount[0]);
                     if (uploadCount[0] >= addedPicTempPath.size()) {
+                        isClickNext = false;
                         intentPublishServiceAddInfoActivity.putExtras(bundleServiceData);
                         mActivity.startActivity(intentPublishServiceAddInfoActivity);
                     }

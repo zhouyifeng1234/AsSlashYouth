@@ -90,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="6dp"
+                    android:gravity="center"
                     android:text="@{itemDetailRecommendDemandModel.demandUsername}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
@@ -178,15 +179,19 @@
                     android:src="@mipmap/mark_icon"/>
 
                 <TextView
-                    android:layout_width="91dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="6dp"
-                    android:ellipsize="end" android:maxLines="1"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:text="@{itemDetailRecommendDemandModel.demandPlace}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
                 <!--苏州市圆融星座苏州市圆融星座苏州市圆融星座.-->
+                <!--android:layout_width="91dp"-->
 
                 <TextView
                     android:id="@+id/tv_distance"
@@ -194,14 +199,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginRight="20dp"
                     android:text="@{itemDetailRecommendDemandModel.distanceStr}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
                 <!--&lt; 4.5KM-->
 
 
-                <View android:layout_width="0dp" android:layout_height="0dp"
-                      android:layout_weight="1"/>
+                <!--<View android:layout_width="0dp" android:layout_height="0dp"-->
+                <!--android:layout_weight="1"/>-->
 
             </LinearLayout>
 
