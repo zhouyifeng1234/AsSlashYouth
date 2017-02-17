@@ -1,9 +1,7 @@
 package com.slash.youth.ui.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,11 +9,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityRevisePasswordBinding;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.viewmodel.MySkillManageModel;
 import com.slash.youth.ui.viewmodel.RevisePassWordModel;
-import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -33,7 +27,7 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRevisePasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_revise_password);
-        revisePassWordModel = new RevisePassWordModel(activityRevisePasswordBinding);
+        revisePassWordModel = new RevisePassWordModel(activityRevisePasswordBinding, this);
         activityRevisePasswordBinding.setRevisePassWordModel(revisePassWordModel);
         listener();
     }
@@ -49,7 +43,7 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();
                 break;
@@ -57,17 +51,17 @@ public class RevisePasswordActivity extends Activity implements View.OnClickList
                 String oldpass = revisePassWordModel.oldPassWordMap.get("oldpass");
                 String newpass = revisePassWordModel.newPassWordMap.get("newpass");
                 String surepass = revisePassWordModel.surePassWordMap.get("surepass");
-                if(!TextUtils.isEmpty(oldpass) &&!TextUtils.isEmpty(newpass) && !TextUtils.isEmpty(surepass)){
-                    if(newpass.equals(surepass)){
-                        revisePassWordModel.setNewPassWord(oldpass,newpass);
-                    }else {
+                if (!TextUtils.isEmpty(oldpass) && !TextUtils.isEmpty(newpass) && !TextUtils.isEmpty(surepass)) {
+                    if (newpass.equals(surepass)) {
+                        revisePassWordModel.setNewPassWord(oldpass, newpass);
+                    } else {
                         ToastUtils.shortToast("输入的新密码不一致,请重新输入");
                     }
 
-                }else {
+                } else {
                     ToastUtils.shortToast("请填写完整");
                 }
-                finish();
+//                finish();
                 break;
         }
     }

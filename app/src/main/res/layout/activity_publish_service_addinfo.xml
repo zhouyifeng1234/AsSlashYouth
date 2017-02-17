@@ -175,23 +175,31 @@
                             android:layout_weight="1"
                         />
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="把服务精确匹配给对方"
-                            android:textColor="#CCCCCC"
-                            android:textSize="13sp"
-                        />
-
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="6dp"
                             android:onClick="@{publishServiceAddInfoModel.openLabelsActivity}"
-                            android:src="@mipmap/towards_right_icon"
-                        />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="把服务精确匹配给对方"
+                                android:textColor="#CCCCCC"
+                                android:textSize="13sp"
+                            />
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:src="@mipmap/towards_right_icon"
+                            />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

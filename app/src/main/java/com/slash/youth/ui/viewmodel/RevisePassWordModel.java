@@ -1,18 +1,16 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.app.Activity;
 import android.databinding.BaseObservable;
-import android.net.sip.SipSession;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 
 import com.slash.youth.databinding.ActivityRevisePasswordBinding;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.http.protocol.SetPassWordProtocol;
-import com.slash.youth.ui.activity.RevisePasswordActivity;
+import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
@@ -27,10 +25,11 @@ public class RevisePassWordModel extends BaseObservable {
     public Map<String, String> oldPassWordMap = new HashMap<>();
     public Map<String, String> newPassWordMap = new HashMap<>();
     public Map<String, String> surePassWordMap = new HashMap<>();
+    private Activity mActivity;
 
-
-    public RevisePassWordModel(ActivityRevisePasswordBinding activityRevisePasswordBinding) {
+    public RevisePassWordModel(ActivityRevisePasswordBinding activityRevisePasswordBinding, Activity activity) {
         this.activityRevisePasswordBinding = activityRevisePasswordBinding;
+        this.mActivity = activity;
         initData();
         listener();
     }
@@ -43,6 +42,7 @@ public class RevisePassWordModel extends BaseObservable {
         getNewPassWord(activityRevisePasswordBinding.etNewPassword);
         getSurePassWord(activityRevisePasswordBinding.etCheckNewPassword);
     }
+
     //原来的密码
     private void getOldPassWord(EditText v) {
         v.addTextChangedListener(new TextWatcher() {
@@ -56,11 +56,12 @@ public class RevisePassWordModel extends BaseObservable {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String  passWord =  s.toString();
-                oldPassWordMap.put("oldpass",passWord);
+                String passWord = s.toString();
+                oldPassWordMap.put("oldpass", passWord);
             }
         });
     }
+
     //新的密码
     private void getNewPassWord(EditText v) {
         v.addTextChangedListener(new TextWatcher() {
@@ -74,11 +75,12 @@ public class RevisePassWordModel extends BaseObservable {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String  passWord =  s.toString();
-                newPassWordMap.put("newpass",passWord);
+                String passWord = s.toString();
+                newPassWordMap.put("newpass", passWord);
             }
         });
     }
+
     //确认密码
     private void getSurePassWord(EditText v) {
         v.addTextChangedListener(new TextWatcher() {
@@ -92,15 +94,15 @@ public class RevisePassWordModel extends BaseObservable {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String  passWord =  s.toString();
-                surePassWordMap.put("surepass",passWord);
+                String passWord = s.toString();
+                surePassWordMap.put("surepass", passWord);
             }
         });
     }
 
     //修改新的密码
-    public void setNewPassWord(String oldpass,String newpass){
-        ContactsManager.onSetNewPassWord(new onSetNewPassWord(),oldpass,newpass);
+    public void setNewPassWord(String oldpass, String newpass) {
+        ContactsManager.onSetNewPassWord(new onSetNewPassWord(), oldpass, newpass);
     }
 
     //创建交易密码
@@ -108,13 +110,19 @@ public class RevisePassWordModel extends BaseObservable {
         @Override
         public void execute(SetBean dataBean) {
             int rescode = dataBean.rescode;
-            if(rescode == 0){
+            if (rescode == 0) {
                 SetBean.DataBean data = dataBean.getData();
                 int status = data.getStatus();
-                switch (status){
+                switch (status) {
                     case 1:
                         LogKit.d("设置成功");
                         ToastUtils.shortCenterToast("修改成功");
+                        CommonUtils.getHandler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivity.finish();
+                            }
+                        }, 1000);
                         break;
                     case 0:
                         LogKit.d("设置失败");
@@ -124,6 +132,8 @@ public class RevisePassWordModel extends BaseObservable {
                         ToastUtils.shortCenterToast("修改失败,新密码和原密码一样");
                         break;
                 }
+            } else {
+                ToastUtils.shortToast("修改交易密码失败");
             }
         }
 

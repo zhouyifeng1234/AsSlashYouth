@@ -86,10 +86,10 @@
                 android:layout_marginTop="3dp"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="6dp"
                     android:text="@{itemDetailRecommendDemandModel.demandUsername}"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"/>
@@ -104,15 +104,14 @@
                 <!--android:textSize="13sp"/>-->
                 <!--报价:¥300-->
 
-                <View android:layout_width="0dp" android:layout_height="0dp"
-                      android:layout_weight="1"/>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="7dp"
                     android:background="@drawable/shape_rounded_demand_service_maker_bg"
-                    android:paddingLeft="2dp" android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
                     android:text="@{itemDetailRecommendDemandModel.patternText}"
                     android:textColor="#31C5E4"
                     android:textSize="12sp"/>
@@ -129,6 +128,33 @@
                     android:textColor="#31C5E4"
                     android:textSize="12sp"
                     android:visibility="@{itemDetailRecommendDemandModel.instalmentVisibility}"/>
+
+
+                <View android:layout_width="0dp" android:layout_height="0dp"
+                      android:layout_weight="1"/>
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:background="@drawable/shape_rounded_demand_service_maker_bg"-->
+                <!--android:paddingLeft="2dp" android:paddingRight="2dp"-->
+                <!--android:text="@{itemDetailRecommendDemandModel.patternText}"-->
+                <!--android:textColor="#31C5E4"-->
+                <!--android:textSize="12sp"/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@drawable/shape_rounded_demand_service_maker_bg"-->
+                <!--android:paddingLeft="2dp"-->
+                <!--android:paddingRight="2dp"-->
+                <!--android:text="一次性到账"-->
+                <!--android:textColor="#31C5E4"-->
+                <!--android:textSize="12sp"-->
+                <!--android:visibility="@{itemDetailRecommendDemandModel.instalmentVisibility}"/>-->
 
             </LinearLayout>
 
