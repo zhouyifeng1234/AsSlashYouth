@@ -430,7 +430,8 @@ public class SubscribeActivity extends Activity {
             public void run() {
                 scrollViewWidth = mActivitySubscribeBinding.llActivitySubscribeThirdSkilllabel.getMeasuredWidth();
                 scrollViewWidth = scrollViewWidth - CommonUtils.dip2px(30);
-                labelRightMargin = CommonUtils.dip2px(10);
+//                labelRightMargin = CommonUtils.dip2px(10);
+                labelRightMargin = 10;
                 updateLableView();
             }
         });

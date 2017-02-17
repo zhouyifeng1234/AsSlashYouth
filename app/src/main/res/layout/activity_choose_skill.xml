@@ -47,8 +47,7 @@
 
                         <TextView
                             android:layout_width="90dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_height="45dp"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:lines="1"
@@ -85,8 +84,7 @@
 
                         <TextView
                             android:layout_width="90dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_height="45dp"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:lines="1"

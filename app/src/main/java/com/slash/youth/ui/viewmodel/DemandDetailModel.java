@@ -512,7 +512,11 @@ public class DemandDetailModel extends BaseObservable {
                     checkConsultProcessing(null);
                 }
                 //上架、下架显示 用isonline字段判断
-//                    if(demand.isonline)
+                if (demand.isonline == 0) {//下架状态
+                    setOffShelfLogoVisibility(View.VISIBLE);
+                } else {//上架状态
+                    setOffShelfLogoVisibility(View.GONE);
+                }
 
                 getDemandUserInfo(demand.uid);//获取需求发布者的信息
             }
@@ -887,10 +891,12 @@ public class DemandDetailModel extends BaseObservable {
                     cmdStr = "上架成功";
                     isonline = 1;
                     mActivityDemandDetailBinding.tvOnshelfOffshelf.setText("下架");
+                    setOffShelfLogoVisibility(View.GONE);
                 } else {
                     cmdStr = "下架成功";
                     isonline = 0;
                     mActivityDemandDetailBinding.tvOnshelfOffshelf.setText("上架");
+                    setOffShelfLogoVisibility(View.VISIBLE);
                 }
                 ToastUtils.shortToast(cmdStr);
             }

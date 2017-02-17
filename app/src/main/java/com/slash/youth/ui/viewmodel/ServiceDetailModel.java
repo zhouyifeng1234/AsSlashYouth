@@ -133,10 +133,12 @@ public class ServiceDetailModel extends BaseObservable {
                     cmdStr = "上架成功";
                     isonline = 1;
                     mActivityServiceDetailBinding.tvOnshelfOffshelf.setText("下架");
+                    setOffShelfLogoVisibility(View.GONE);
                 } else {
                     cmdStr = "下架成功";
                     isonline = 0;
                     mActivityServiceDetailBinding.tvOnshelfOffshelf.setText("上架");
+                    setOffShelfLogoVisibility(View.VISIBLE);
                 }
                 ToastUtils.shortToast(cmdStr);
             }
@@ -656,7 +658,11 @@ public class ServiceDetailModel extends BaseObservable {
                         setDisputeHandingType("协商方式");
                     }
                     //上架、下架显示 用isonline字段判断
-//                    if(service.isonline)
+                    if (service.isonline == 0) {//下架状态
+                        setOffShelfLogoVisibility(View.VISIBLE);
+                    } else {//上架状态
+                        setOffShelfLogoVisibility(View.GONE);
+                    }
 
                     getServiceUserInfo(service.uid);//获取服务发布者的个人信息
                 }

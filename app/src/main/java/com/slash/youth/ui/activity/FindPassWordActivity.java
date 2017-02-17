@@ -2,38 +2,20 @@ package com.slash.youth.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
-import com.slash.youth.domain.CommonResultBean;
-import com.slash.youth.engine.AccountManager;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
-import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/3.
@@ -46,11 +28,11 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     private String createPassWord;
     private String surePassWord;
     private Intent intent;
-    private String findPassWord ="找回密码";
-    private String setPassWord ="设置密码";
-    private String findPassWordText ="请上传手持身份证正面照, 用于找回交易密码";
-    private String setPassWordText ="请上传手持身份证正面照, 用于设置交易密码";
-    private String titleRight ="提交";
+    private String findPassWord = "找回密码";
+    private String setPassWord = "设置密码";
+    private String findPassWordText = "请上传手持身份证正面照, 用于找回交易密码";
+    private String setPassWordText = "请上传手持身份证正面照, 用于设置交易密码";
+    private String titleRight = "提交";
     private Bitmap bitmap;
     private Bitmap photo;
     private String toastText = "两次输入的密码不一致";
@@ -64,12 +46,13 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
         Intent intent = getIntent();
         type = intent.getIntExtra("type", -1);
         activityFindPasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_find_password);
-        findPassWordModel = new FindPassWordModel(activityFindPasswordBinding,this, type);
+        findPassWordModel = new FindPassWordModel(activityFindPasswordBinding, this, type);
         activityFindPasswordBinding.setFindPassWordModel(findPassWordModel);
         this.intent = new Intent();
         listener();
         initView();
     }
+
     private void listener() {
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
@@ -79,7 +62,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     }
 
     private void initView() {
-        switch (type){
+        switch (type) {
             case 1://设置了交易密码
                 title.setText(findPassWord);
                 activityFindPasswordBinding.tvDesc.setText(findPassWordText);
@@ -95,7 +78,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_userinfo_back:
-                switch (type){
+                switch (type) {
                     case 1://设置了交易密码,找回密码
                         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_FIND_TRADE_PASSWORD_RETURE);
                         break;
@@ -107,7 +90,7 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.tv_userinfo_save://提交
-                switch (type){
+                switch (type) {
                     case 1:
                         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_SET_FIND_TRADE_PASSWORD_SUBMIT);
                         break;
@@ -118,27 +101,27 @@ public class FindPassWordActivity extends Activity implements View.OnClickListen
 
                 createPassWord = findPassWordModel.createPassWordMap.get("createPassWord");
                 surePassWord = findPassWordModel.surePassWordMap.get("surePassWord");
-                if(createPassWord!=null&&surePassWord!=null){
-                    if(!createPassWord.equals(surePassWord)){
+                if (createPassWord != null && surePassWord != null) {
+                    if (!createPassWord.equals(surePassWord)) {
                         ToastUtils.shortToast(toastText);
                     }
 
-                    if(TextUtils.isEmpty(findPassWordModel.fileId)){
+                    if (TextUtils.isEmpty(findPassWordModel.fileId)) {
                         ToastUtils.shortToast(toastTextString);
                     }
 
-                    if(createPassWord.equals(surePassWord)&&!(findPassWordModel.fileId).isEmpty()){
-                        switch (type){
+                    if (createPassWord.equals(surePassWord) && !TextUtils.isEmpty(findPassWordModel.fileId)) {
+                        switch (type) {
                             case 1://设置了交易密码,找回密码
-                                findPassWordModel.findPassWord(surePassWord,findPassWordModel.fileId);
+                                findPassWordModel.findPassWord(surePassWord, findPassWordModel.fileId);
                                 break;
                             case 2://没有设置密码，创建密码
-                                findPassWordModel.createPassWord(surePassWord,findPassWordModel.fileId);
+                                findPassWordModel.createPassWord(surePassWord, findPassWordModel.fileId);
                                 break;
                         }
                         finish();
                     }
-                }else {
+                } else {
                     ToastUtils.shortToast(toastString);
                 }
                 break;
