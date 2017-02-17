@@ -69,6 +69,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     String starttimeStr;
     String endtimeStr;
     ServiceDetailBean serviceDetailBean;
+    boolean isFromSkillManager;
 
     public PublishServiceBaseInfoModel(ActivityPublishServiceBaseinfoBinding activityPublishServiceBaseinfoBinding, Activity activity) {
         this.mActivity = activity;
@@ -81,9 +82,15 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     private void initData() {
         mSaplAddPic = mActivityPublishServiceBaseinfoBinding.saplPublishServiceAddpic;//在loadOriginServiceData()中会使用，所以必须在这里初始化
         serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
+        isFromSkillManager = mActivity.getIntent().getBooleanExtra("isFromSkillManager", false);
+        if (isFromSkillManager) {
+            setGotoSkillManagerVisibility(View.GONE);
+        }
         if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
-            mActivityPublishServiceBaseinfoBinding.tvPublishServiceText.setText("修改服务");
-            mActivityPublishServiceBaseinfoBinding.tvPublishSuccessText.setText("修改成功");
+            if (!isFromSkillManager) {
+                mActivityPublishServiceBaseinfoBinding.tvPublishServiceText.setText("修改服务");
+                mActivityPublishServiceBaseinfoBinding.tvPublishSuccessText.setText("修改成功");
+            }
             loadOriginServiceData();
         }
     }
@@ -498,6 +505,17 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     private int chooseDateTimeLayerVisibility = View.GONE;
     private int setStartTimeAndEndTimeLayerVisibility = View.GONE;
     private int deleteCustomTimeIconVisibility = View.GONE;
+    private int gotoSkillManagerVisibility;
+
+    @Bindable
+    public int getGotoSkillManagerVisibility() {
+        return gotoSkillManagerVisibility;
+    }
+
+    public void setGotoSkillManagerVisibility(int gotoSkillManagerVisibility) {
+        this.gotoSkillManagerVisibility = gotoSkillManagerVisibility;
+        notifyPropertyChanged(BR.gotoSkillManagerVisibility);
+    }
 
     @Bindable
     public int getDeleteCustomTimeIconVisibility() {
