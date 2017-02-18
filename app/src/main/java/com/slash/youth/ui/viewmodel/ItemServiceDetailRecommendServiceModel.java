@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemServiceDetailRecommendServiceBinding;
 import com.slash.youth.domain.DetailRecommendServiceList;
 import com.slash.youth.global.GlobalConstants;
@@ -39,7 +40,21 @@ public class ItemServiceDetailRecommendServiceModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemServiceDetailRecommendServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mRecommendServiceInfo.avatar);
+        //头像和名字需要进行匿名判断
+        if (mRecommendServiceInfo.anonymity == 1) {//实名
+            BitmapKit.bindImage(mItemServiceDetailRecommendServiceBinding.ivServiceUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mRecommendServiceInfo.avatar);
+            setServiceUsername(mRecommendServiceInfo.name);
+        } else {//匿名
+            mItemServiceDetailRecommendServiceBinding.ivServiceUserAvatar.setImageResource(R.mipmap.anonymity_avater);
+            String anonymityName;
+            if (TextUtils.isEmpty(mRecommendServiceInfo.name)) {
+                anonymityName = "XXX";
+            } else {
+                anonymityName = mRecommendServiceInfo.name.substring(0, 1) + "XX";
+            }
+            setServiceUsername(anonymityName);
+        }
+
         if (mRecommendServiceInfo.isauth == 0) {
             //未认证
             setAuthVisibility(View.GONE);
@@ -47,7 +62,6 @@ public class ItemServiceDetailRecommendServiceModel extends BaseObservable {
             //已认证
             setAuthVisibility(View.VISIBLE);
         }
-        setServiceUsername(mRecommendServiceInfo.name);
         setServiceTitle(mRecommendServiceInfo.title);
         if (mRecommendServiceInfo.quoteunit == 9) {
             setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元");

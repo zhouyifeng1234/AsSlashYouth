@@ -15,6 +15,7 @@ import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
@@ -25,6 +26,7 @@ import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
 /**
@@ -50,6 +52,10 @@ public class ActivityHomeModel extends BaseObservable {
             @Override
             public void displayTotalUnReadCount(int count) {
                 LogKit.v("HomeActivity unReadCount:" + count);
+                if (MsgManager.taskMessageCount == -1) {
+                    MsgManager.taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
+                }
+                count += MsgManager.taskMessageCount;
                 if (count <= 0) {
                     mActivityHomeBinding.tvChatInfoCount.setVisibility(View.GONE);
                 } else if (count <= 99) {

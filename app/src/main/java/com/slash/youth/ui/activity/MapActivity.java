@@ -67,7 +67,7 @@ public class MapActivity extends Activity {
     PoiSearch poiSearch;
     PoiSearch.Query query;
     public String mCurrentAddress;
-    private String mCurrentAoiName;
+    public String mCurrentAoiName;
     private ArrayList<NearLocationBean> mListNearLocation;
     private ActivityMapModel mActivityMapModel;
     private ActivityMapBinding mActivityMapBinding;
@@ -310,6 +310,7 @@ public class MapActivity extends Activity {
                 LogKit.v("lat:" + nearLocationBean.lat + "  lng:" + nearLocationBean.lng);
                 mCurrentLatlng = new LatLng(nearLocationBean.lat, nearLocationBean.lng);
                 mCurrentAddress = nearLocationBean.address;
+                mCurrentAoiName = nearLocationBean.name;
 
                 isMoveByGestures = false;
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLatlng, mapZoom));
@@ -585,8 +586,15 @@ public class MapActivity extends Activity {
                     List<AoiItem> aois = result.getRegeocodeAddress().getAois();
                     if (aois != null && aois.size() > 0) {
                         aoiName = aois.get(0).getAoiName();
+                        mCurrentAoiName = aoiName;
+                    } else {
+                        mCurrentAoiName = "";
                     }
+                } else {
+                    mCurrentAddress = "";
+                    mCurrentAoiName = "";
                 }
+
                 mMarker.setTitle("");
                 mMap.setInfoWindowAdapter(new SlashMapInfoWindowAdapter(aoiName));
                 mMarker.showInfoWindow();

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemDetailRecommendDemandBinding;
 import com.slash.youth.domain.DetailRecommendDemandList;
 import com.slash.youth.global.GlobalConstants;
@@ -37,14 +38,26 @@ public class ItemDetailRecommendDemandModel extends BaseObservable {
     }
 
     private void initView() {
-        BitmapKit.bindImage(mItemDetailRecommendDemandBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mRecommendDemandInfo.avatar);
+        //头像和名字需要进行匿名判断
+        if (mRecommendDemandInfo.anonymity == 1) {//实名
+            BitmapKit.bindImage(mItemDetailRecommendDemandBinding.ivDemandUserAvatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + mRecommendDemandInfo.avatar);
+            setDemandUsername(mRecommendDemandInfo.name);
+        } else {
+            mItemDetailRecommendDemandBinding.ivDemandUserAvatar.setImageResource(R.mipmap.anonymity_avater);
+            String anonymityName;
+            if (TextUtils.isEmpty(mRecommendDemandInfo.name)) {
+                anonymityName = "XXX";
+            } else {
+                anonymityName = mRecommendDemandInfo.name.substring(0, 1) + "XX";
+            }
+            setDemandUsername(anonymityName);
+        }
 
         if (mRecommendDemandInfo.isauth == 0) {//未认证
             setAuthVisibility(View.GONE);
         } else {//已认证
             setAuthVisibility(View.VISIBLE);
         }
-        setDemandUsername(mRecommendDemandInfo.name);
         if (mRecommendDemandInfo.quote <= 0) {
             setQuote("服务方报价");
         } else {

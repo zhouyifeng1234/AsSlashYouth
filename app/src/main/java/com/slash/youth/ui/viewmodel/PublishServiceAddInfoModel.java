@@ -360,8 +360,12 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         mActivity.startActivityForResult(intentMapActivity, 20);
     }
 
-    public void setLocationInfo(String address, double lng, double lat) {
-        mActivityPublishServiceAddinfoBinding.etPublishServiceAddress.setText(address);
+    public void setLocationInfo(String address, String name, double lng, double lat) {
+        if (!TextUtils.isEmpty(name)) {
+            mActivityPublishServiceAddinfoBinding.etPublishServiceAddress.setText(name);
+        } else {
+            mActivityPublishServiceAddinfoBinding.etPublishServiceAddress.setText(address);
+        }
         this.lng = lng;
         this.lat = lat;
     }

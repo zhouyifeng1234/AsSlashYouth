@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -71,13 +72,18 @@ public class ActivityMapModel extends BaseObservable {
     }
 
     public void okChooseLocation(View v) {
-        if (mActivity.mCurrentAddress != null) {
-            Intent intentResult = new Intent();
-            intentResult.putExtra("mCurrentAddress", mActivity.mCurrentAddress);
-            intentResult.putExtra("lng", mActivity.mCurrentLatlng.longitude);//线下服务地点地图经度
-            intentResult.putExtra("lat", mActivity.mCurrentLatlng.latitude);//线下服务地点地图纬度
-            mActivity.setResult(20, intentResult);
-            mActivity.finish();
+        if (mActivity.mCurrentAddress != null && mActivity.mCurrentAoiName != null && mActivity.mCurrentLatlng != null) {
+            if (TextUtils.isEmpty(mActivity.mCurrentAddress) && TextUtils.isEmpty(mActivity.mCurrentAoiName)) {
+                ToastUtils.shortToast("没有获取到当前位置的地理信息");
+            } else {
+                Intent intentResult = new Intent();
+                intentResult.putExtra("mCurrentAddress", mActivity.mCurrentAddress);
+                intentResult.putExtra("mCurrentAoiName", mActivity.mCurrentAoiName);
+                intentResult.putExtra("lng", mActivity.mCurrentLatlng.longitude);//线下服务地点地图经度
+                intentResult.putExtra("lat", mActivity.mCurrentLatlng.latitude);//线下服务地点地图纬度
+                mActivity.setResult(20, intentResult);
+                mActivity.finish();
+            }
         } else {
             ToastUtils.shortToast("未获取到定位信息，可能没有开启定位权限，请到手机设置中心开启");
         }

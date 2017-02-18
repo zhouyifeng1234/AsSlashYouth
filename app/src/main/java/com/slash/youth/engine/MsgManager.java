@@ -318,13 +318,51 @@ public class MsgManager {
                             currentActivity.mMyPublishServiceModel.reloadData(true);
                         }
                     }
+
+                    //100号的消息数量，必须等到上面的代码执行完毕，才会更新，所以在这里去刷新消息数
+                    //获取总的未读消息数
+                    if (mTotalUnReadCountListener != null) {
+                        RongIMClient.getInstance().getUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+                            @Override
+                            public void onSuccess(Integer integer) {
+                                int totalUnreadCount = integer;
+                                mTotalUnReadCountListener.displayTotalUnReadCount(totalUnreadCount);
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                            }
+                        }, Conversation.ConversationType.PRIVATE);
+                    }
+
                 }
             } else if (senderUserId.equals("1000")) {//斜杠消息助手
                 CommonUtils.getHandler().post(new Runnable() {
                     public void run() {
-                        updateConversationList(senderUserId);
+
                         //目前还不知道后台斜杠小助手发送过来的内容是什么格式，暂时认为它是"RC:TxtMsg"，其中的content就是内容
                         if (objectName.equals("RC:TxtMsg")) {
+
+                            updateConversationList(senderUserId);
+
+                            //获取总的未读消息数
+                            if (mTotalUnReadCountListener != null) {
+                                RongIMClient.getInstance().getUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+                                    @Override
+                                    public void onSuccess(Integer integer) {
+                                        int totalUnreadCount = integer;
+                                        mTotalUnReadCountListener.displayTotalUnReadCount(totalUnreadCount);
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                    }
+                                }, Conversation.ConversationType.PRIVATE);
+                            }
+
+
                             TextMessage textMessage = (TextMessage) message.getContent();
                             String extraInfo = textMessage.getExtra();
                             if (mSlashMessageListener != null && targetId.equals(senderUserId)) {

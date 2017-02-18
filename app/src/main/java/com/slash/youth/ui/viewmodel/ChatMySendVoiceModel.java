@@ -37,8 +37,9 @@ public class ChatMySendVoiceModel extends BaseObservable {
     boolean mIsRead;
     VoiceMessage mVoiceMessage;
     String mTargetId;
+    boolean isFail;
 
-    public ChatMySendVoiceModel(ItemChatMySendVoiceBinding itemChatMySendVoiceBinding, Activity activity, Uri voiceUri, int duration, boolean isRead, VoiceMessage voiceMessage, String targetId) {
+    public ChatMySendVoiceModel(ItemChatMySendVoiceBinding itemChatMySendVoiceBinding, Activity activity, Uri voiceUri, int duration, boolean isRead, VoiceMessage voiceMessage, String targetId, boolean isFail) {
         this.mItemChatMySendVoiceBinding = itemChatMySendVoiceBinding;
         this.mActivity = activity;
         this.mVoiceUri = voiceUri;
@@ -46,6 +47,7 @@ public class ChatMySendVoiceModel extends BaseObservable {
         this.mIsRead = isRead;
         this.mVoiceMessage = voiceMessage;
         this.mTargetId = targetId;
+        this.isFail = isFail;
 
         initData();
         initView();
@@ -80,8 +82,15 @@ public class ChatMySendVoiceModel extends BaseObservable {
 
         if (mIsRead) {
             mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("已读");
+            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setBackgroundResource(R.drawable.shape_chat_text_readed_marker_bg);
         } else {
-            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("未读");
+//            mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("未读");
+            if (isFail) {
+                mItemChatMySendVoiceBinding.ivChatSendMsgAgain.setVisibility(View.VISIBLE);
+            } else {
+                mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setText("送达");
+                mItemChatMySendVoiceBinding.tvChatMsgReadStatus.setBackgroundResource(R.drawable.shape_chat_text_unreaded_marker_bg);
+            }
         }
     }
 
@@ -151,7 +160,8 @@ public class ChatMySendVoiceModel extends BaseObservable {
     //重新发送消息
     public void sendMsgAgain(View v) {
         if (mVoiceMessage != null && !TextUtils.isEmpty(mTargetId)) {
-            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, mTargetId, mVoiceMessage, null, null, new RongIMClient.SendMessageCallback() {
+            String pushContent = LoginManager.currentLoginUserName + ":[语音消息],请查看";
+            RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, mTargetId, mVoiceMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
                 @Override
                 public void onError(Integer messageId, RongIMClient.ErrorCode e) {
                 }
@@ -159,6 +169,25 @@ public class ChatMySendVoiceModel extends BaseObservable {
                 @Override
                 public void onSuccess(Integer integer) {
                     mItemChatMySendVoiceBinding.ivChatSendMsgAgain.setVisibility(View.GONE);
+                    //重新发送以后，需要在容易的消息记录里把原来这表messageId的消息删除掉
+                    int messageId = (int) mItemChatMySendVoiceBinding.ivChatSendMsgAgain.getTag();
+                    int[] ids = new int[]{messageId};
+                    RongIMClient.getInstance().deleteMessages(ids, new RongIMClient.ResultCallback<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            //删除消息成功
+                            //UI上面，要把这个View,提取到最下面
+                            View messageView = mItemChatMySendVoiceBinding.getRoot();
+                            ViewGroup parent = (ViewGroup) messageView.getParent();
+                            parent.removeView(messageView);
+                            parent.addView(messageView);
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
                 }
             }, new RongIMClient.ResultCallback<Message>() {
                 @Override

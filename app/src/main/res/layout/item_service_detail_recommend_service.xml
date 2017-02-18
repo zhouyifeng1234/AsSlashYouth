@@ -87,7 +87,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="10dp"
-                            android:text="周末"
+                            android:text="@{itemServiceDetailRecommendServiceModel.idleTime}"
                             android:textColor="#666666"
                             android:textSize="14sp"/>
                         <!--闲置时间:2016年9月18日 8:00-->

@@ -9,7 +9,9 @@ import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHomeBinding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
@@ -19,6 +21,7 @@ import com.slash.youth.ui.viewmodel.ActivityHomeModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -64,6 +67,10 @@ public class HomeActivity extends Activity {
             public void onSuccess(Integer integer) {
                 int totalUnreadCount = integer;
                 LogKit.v("HomeActivity unReadCount:" + totalUnreadCount);
+                if (MsgManager.taskMessageCount == -1) {
+                    MsgManager.taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
+                }
+                totalUnreadCount += MsgManager.taskMessageCount;
                 if (totalUnreadCount <= 0) {
                     activityHomeBinding.tvChatInfoCount.setVisibility(View.GONE);
                 } else if (totalUnreadCount <= 99) {

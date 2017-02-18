@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatMyPicBinding;
@@ -31,14 +32,16 @@ public class ChatMyPicModel extends BaseObservable {
     boolean mIsRead;
     ImageMessage mImageMessage;
     String mTargetId;
+    boolean isFail;
 
-    public ChatMyPicModel(ItemChatMyPicBinding itemChatMyPicBinding, Activity activity, Uri thumUri, boolean isRead, ImageMessage imageMessage, String targetId) {
+    public ChatMyPicModel(ItemChatMyPicBinding itemChatMyPicBinding, Activity activity, Uri thumUri, boolean isRead, ImageMessage imageMessage, String targetId, boolean isFail) {
         this.mItemChatMyPicBinding = itemChatMyPicBinding;
         this.mActivity = activity;
         this.mThumUri = thumUri;
         this.mIsRead = isRead;
         this.mImageMessage = imageMessage;
         this.mTargetId = targetId;
+        this.isFail = isFail;
 
         initData();
         initView();
@@ -60,15 +63,23 @@ public class ChatMyPicModel extends BaseObservable {
 
         if (mIsRead) {
             mItemChatMyPicBinding.tvChatMsgReadStatus.setText("已读");
+            mItemChatMyPicBinding.tvChatMsgReadStatus.setBackgroundResource(R.drawable.shape_chat_text_readed_marker_bg);
         } else {
-            mItemChatMyPicBinding.tvChatMsgReadStatus.setText("未读");
+//            mItemChatMyPicBinding.tvChatMsgReadStatus.setText("未读");
+            if (isFail) {
+                mItemChatMyPicBinding.ivChatSendMsgAgain.setVisibility(View.VISIBLE);
+            } else {
+                mItemChatMyPicBinding.tvChatMsgReadStatus.setText("送达");
+                mItemChatMyPicBinding.tvChatMsgReadStatus.setBackgroundResource(R.drawable.shape_chat_text_unreaded_marker_bg);
+            }
         }
     }
 
     //重新发送消息
     public void sendMsgAgain(View v) {
         if (mImageMessage != null && !TextUtils.isEmpty(mTargetId)) {
-            RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, mTargetId, mImageMessage, null, null, new RongIMClient.SendImageMessageCallback() {
+            String pushContent = LoginManager.currentLoginUserName + ":[图片],请查看";
+            RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, mTargetId, mImageMessage, pushContent, null, new RongIMClient.SendImageMessageCallback() {
 
                 @Override
                 public void onAttached(Message message) {
@@ -91,6 +102,25 @@ public class ChatMyPicModel extends BaseObservable {
                     LogKit.v(imageMessage1.getRemoteUri().toString());
 
                     mItemChatMyPicBinding.ivChatSendMsgAgain.setVisibility(View.GONE);
+                    //重新发送以后，需要在容易的消息记录里把原来这表messageId的消息删除掉
+                    int messageId = (int) mItemChatMyPicBinding.ivChatSendMsgAgain.getTag();
+                    int[] ids = new int[]{messageId};
+                    RongIMClient.getInstance().deleteMessages(ids, new RongIMClient.ResultCallback<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            //删除消息成功
+                            //UI上面，要把这个View,提取到最下面
+                            View messageView = mItemChatMyPicBinding.getRoot();
+                            ViewGroup parent = (ViewGroup) messageView.getParent();
+                            parent.removeView(messageView);
+                            parent.addView(messageView);
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
                 }
 
                 @Override

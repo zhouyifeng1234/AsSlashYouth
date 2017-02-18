@@ -605,6 +605,7 @@ public class ChatModel extends BaseObservable {
                             public void run() {
                                 LogKit.v("标记已读");
                                 tvReadStatus.setText("已读");
+                                tvReadStatus.setBackgroundResource(R.drawable.shape_chat_text_readed_marker_bg);
                             }
                         });
                         listNeedRemove.add(sendMessageBean);
@@ -850,6 +851,7 @@ public class ChatModel extends BaseObservable {
                 deleteTmpRecordingFile();
                 if (mySendVoiceView != null) {
                     View view = mySendVoiceView.findViewById(R.id.iv_chat_send_msg_again);
+                    view.setTag(messageId);
                     view.setVisibility(View.VISIBLE);
                 }
             }
@@ -868,7 +870,7 @@ public class ChatModel extends BaseObservable {
                 displayMsgTimeView(sentTime);
 
                 VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
-                View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), duration, false, savedVoiceMessage, targetId);
+                View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), duration, false, savedVoiceMessage, targetId, false);
 
                 View vReadStatus = mySendVoiceView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
@@ -892,7 +894,7 @@ public class ChatModel extends BaseObservable {
         final String inputText = mActivityChatBinding.etChatInput.getText().toString();
         TextMessage textMessage = TextMessage.obtain(inputText);
         final long sendTime = System.currentTimeMillis();
-        final View myTextView = createMyTextView(inputText, false, textMessage, targetId);
+        final View myTextView = createMyTextView(inputText, false, textMessage, targetId, false);
         String pushContent = LoginManager.currentLoginUserName + ":" + inputText;
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             //发送消息的回调
@@ -904,6 +906,7 @@ public class ChatModel extends BaseObservable {
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
                 View view = myTextView.findViewById(R.id.iv_chat_send_msg_again);
+                view.setTag(integer);
                 view.setVisibility(View.VISIBLE);
             }
         }, new RongIMClient.ResultCallback<Message>() {
@@ -973,7 +976,7 @@ public class ChatModel extends BaseObservable {
                 long sendTime = System.currentTimeMillis();
 //                myPicView = createMyPicView(Uri.fromFile(imageThumb), false, imageMessage, targetId);
                 ImageMessage imageMessage1 = (ImageMessage) message.getContent();
-                myPicView = createMyPicView(imageMessage1.getThumUri(), false, imageMessage, targetId);
+                myPicView = createMyPicView(imageMessage1.getThumUri(), false, imageMessage, targetId, false);
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
                 View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
@@ -998,7 +1001,7 @@ public class ChatModel extends BaseObservable {
                     long sendTime = System.currentTimeMillis();
 //                    myPicView = createMyPicView(Uri.fromFile(imageThumb), false, imageMessage, targetId);
                     ImageMessage imageMessage1 = (ImageMessage) message.getContent();
-                    myPicView = createMyPicView(imageMessage1.getThumUri(), false, imageMessage, targetId);
+                    myPicView = createMyPicView(imageMessage1.getThumUri(), false, imageMessage, targetId, true);
                     long sentTime = System.currentTimeMillis();
                     displayMsgTimeView(sentTime);
                     View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
@@ -1013,6 +1016,7 @@ public class ChatModel extends BaseObservable {
                     vpViewPicAdapter.notifyDataSetChanged();
                 }
                 View view = myPicView.findViewById(R.id.iv_chat_send_msg_again);
+                view.setTag(message.getMessageId());
                 view.setVisibility(View.VISIBLE);
             }
 
@@ -1191,14 +1195,12 @@ public class ChatModel extends BaseObservable {
 //        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
         final long sendTime = System.currentTimeMillis();
         String pushContent = LoginManager.currentLoginUserName + ":[任务分享],请查看";
+        final View myShareTaskView = createMyShareTaskView(false, chatCmdShareTaskBean, textMessage, targetId, false);
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
-
-                View myShareTaskView = createMyShareTaskView(false, chatCmdShareTaskBean);
-
 
                 View vReadStatus = myShareTaskView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
@@ -1210,7 +1212,11 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
+                if (myShareTaskView != null) {
+                    View view = myShareTaskView.findViewById(R.id.iv_chat_send_msg_again);
+                    view.setTag(integer);
+                    view.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -1234,13 +1240,12 @@ public class ChatModel extends BaseObservable {
 //        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD, jsonData);
         final long sendTime = System.currentTimeMillis();
         String pushContent = LoginManager.currentLoginUserName + ":[名片],请查看";
+        final View mySendBusinessCardView = createMySendBusinessCardView(chatCmdBusinesssCardBean, false, textMessage, targetId, false);
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, textMessage, pushContent, null, new RongIMClient.SendMessageCallback() {
             @Override
             public void onSuccess(Integer integer) {
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
-
-                View mySendBusinessCardView = createMySendBusinessCardView(chatCmdBusinesssCardBean, false);
 
                 View vReadStatus = mySendBusinessCardView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime - 60 * 1000, vReadStatus);
@@ -1252,7 +1257,11 @@ public class ChatModel extends BaseObservable {
 
             @Override
             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-
+                if (mySendBusinessCardView != null) {
+                    View view = mySendBusinessCardView.findViewById(R.id.iv_chat_send_msg_again);
+                    view.setTag(integer);
+                    view.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -1515,9 +1524,9 @@ public class ChatModel extends BaseObservable {
     }
 
     //创建我发的文本消息View
-    private View createMyTextView(String inputText, boolean isRead, TextMessage textMessage, String targetId) {
+    private View createMyTextView(String inputText, boolean isRead, TextMessage textMessage, String targetId, boolean isFail) {
         ItemChatMyTextBinding itemChatMyTextBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_text, null, false);
-        ChatMyTextModel chatMyTextModel = new ChatMyTextModel(itemChatMyTextBinding, mActivity, inputText, isRead, textMessage, targetId);
+        ChatMyTextModel chatMyTextModel = new ChatMyTextModel(itemChatMyTextBinding, mActivity, inputText, isRead, textMessage, targetId, isFail);
         itemChatMyTextBinding.setChatMyTextModel(chatMyTextModel);
         return itemChatMyTextBinding.getRoot();
     }
@@ -1541,9 +1550,9 @@ public class ChatModel extends BaseObservable {
     }
 
     //创建我发的图片View
-    private View createMyPicView(Uri thumUri, boolean isRead, ImageMessage imageMessage, String targetId) {
+    private View createMyPicView(Uri thumUri, boolean isRead, ImageMessage imageMessage, String targetId, boolean isFail) {
         ItemChatMyPicBinding itemChatMyPicBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_pic, null, false);
-        ChatMyPicModel chatMyPicModel = new ChatMyPicModel(itemChatMyPicBinding, mActivity, thumUri, isRead, imageMessage, targetId);
+        ChatMyPicModel chatMyPicModel = new ChatMyPicModel(itemChatMyPicBinding, mActivity, thumUri, isRead, imageMessage, targetId, isFail);
         itemChatMyPicBinding.setChatMyPicModel(chatMyPicModel);
         return itemChatMyPicBinding.getRoot();
     }
@@ -1586,9 +1595,9 @@ public class ChatModel extends BaseObservable {
         return shareTaskView;
     }
 
-    private View createMyShareTaskView(boolean isRead, ChatCmdShareTaskBean chatCmdShareTaskBean) {
+    private View createMyShareTaskView(boolean isRead, ChatCmdShareTaskBean chatCmdShareTaskBean, TextMessage textMessage, String targetId, boolean isFail) {
         ItemChatMyShareTaskBinding itemChatMyShareTaskBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_share_task, null, false);
-        ChatMyShareTaskModel chatMyShareTaskModel = new ChatMyShareTaskModel(itemChatMyShareTaskBinding, mActivity, isRead, chatCmdShareTaskBean);
+        ChatMyShareTaskModel chatMyShareTaskModel = new ChatMyShareTaskModel(itemChatMyShareTaskBinding, mActivity, isRead, chatCmdShareTaskBean, textMessage, targetId, isFail);
         itemChatMyShareTaskBinding.setChatMyShareTaskModel(chatMyShareTaskModel);
         View shareView = itemChatMyShareTaskBinding.getRoot();
         shareView.setOnClickListener(new ShareTaskClickListener(chatCmdShareTaskBean));
@@ -1602,9 +1611,9 @@ public class ChatModel extends BaseObservable {
         return itemChatOtherSendBusinessCardBinding.getRoot();
     }
 
-    private View createMySendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean, boolean isRead) {
+    private View createMySendBusinessCardView(ChatCmdBusinesssCardBean chatCmdBusinesssCardBean, boolean isRead, TextMessage textMessage, String targetId, boolean isFail) {
         ItemChatMySendBusinessCardBinding itemChatMySendBusinessCardBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_send_business_card, null, false);
-        ChatMySendBusinessCardModel chatMySendBusinessCardModel = new ChatMySendBusinessCardModel(itemChatMySendBusinessCardBinding, mActivity, isRead, chatCmdBusinesssCardBean);
+        ChatMySendBusinessCardModel chatMySendBusinessCardModel = new ChatMySendBusinessCardModel(itemChatMySendBusinessCardBinding, mActivity, isRead, chatCmdBusinesssCardBean, textMessage, targetId, isFail);
         itemChatMySendBusinessCardBinding.setChatMySendBusinessCardModel(chatMySendBusinessCardModel);
         return itemChatMySendBusinessCardBinding.getRoot();
     }
@@ -1630,9 +1639,9 @@ public class ChatModel extends BaseObservable {
         return itemChatOtherSendVoiceBinding.getRoot();
     }
 
-    private View createMySendVoiceView(Uri voiceUri, int duration, boolean isRead, VoiceMessage voiceMessage, String targetId) {
+    private View createMySendVoiceView(Uri voiceUri, int duration, boolean isRead, VoiceMessage voiceMessage, String targetId, boolean isFail) {
         ItemChatMySendVoiceBinding itemChatMySendVoiceBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_my_send_voice, null, false);
-        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity, voiceUri, duration, isRead, voiceMessage, targetId);
+        ChatMySendVoiceModel chatMySendVoiceModel = new ChatMySendVoiceModel(itemChatMySendVoiceBinding, mActivity, voiceUri, duration, isRead, voiceMessage, targetId, isFail);
         itemChatMySendVoiceBinding.setChatMySendVoiceModel(chatMySendVoiceModel);
         return itemChatMySendVoiceBinding.getRoot();
     }
@@ -1841,9 +1850,16 @@ public class ChatModel extends BaseObservable {
     private void loadSendHisMsg(Message message) {
         Message.SentStatus sentStatus = message.getSentStatus();
         boolean isRead = false;//对方是否已读
+        boolean isFail = false;
         if (sentStatus == Message.SentStatus.READ) {
             isRead = true;
+        } else {
+            //如果是未读状态，需要判断是否发送失败
+            if (sentStatus == Message.SentStatus.FAILED) {
+                isFail = true;
+            }
         }
+
         long sendTime = message.getSentTime();
 
         String objectName = message.getObjectName();
@@ -1853,8 +1869,10 @@ public class ChatModel extends BaseObservable {
             Gson gson = new Gson();
             //接收聊天的文本消息
             if (TextUtils.isEmpty(extra)) {
-                View myTextView = createMyTextView(textMessage.getContent(), isRead, null, null);
-                if (!isRead) {
+                View myTextView = createMyTextView(textMessage.getContent(), isRead, textMessage, targetId, isFail);
+                View failView = myTextView.findViewById(R.id.iv_chat_send_msg_again);
+                failView.setTag(message.getMessageId());
+                if (!isRead && !isFail) {
                     View vReadStatus = myTextView.findViewById(R.id.tv_chat_msg_read_status);
                     SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
                     listSendMsg.add(sendMessageBean);
@@ -1867,8 +1885,10 @@ public class ChatModel extends BaseObservable {
                     mLlChatContent.addView(infoView, 0);
                 } else if (content.contentEquals(MsgManager.CHAT_CMD_SHARE_TASK)) {
                     ChatCmdShareTaskBean chatCmdShareTaskBean = gson.fromJson(extra, ChatCmdShareTaskBean.class);
-                    View myShareTaskView = createMyShareTaskView(isRead, chatCmdShareTaskBean);
-                    if (!isRead) {
+                    View myShareTaskView = createMyShareTaskView(isRead, chatCmdShareTaskBean, textMessage, targetId, isFail);
+                    View failView = myShareTaskView.findViewById(R.id.iv_chat_send_msg_again);
+                    failView.setTag(message.getMessageId());
+                    if (!isRead && !isFail) {
                         View vReadStatus = myShareTaskView.findViewById(R.id.tv_chat_msg_read_status);
                         SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
                         listSendMsg.add(sendMessageBean);
@@ -1876,8 +1896,10 @@ public class ChatModel extends BaseObservable {
                     mLlChatContent.addView(myShareTaskView, 0);
                 } else if (content.contentEquals(MsgManager.CHAT_CMD_BUSINESS_CARD)) {
                     ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = gson.fromJson(extra, ChatCmdBusinesssCardBean.class);
-                    View mySendBusinessCardView = createMySendBusinessCardView(chatCmdBusinesssCardBean, isRead);
-                    if (!isRead) {
+                    View mySendBusinessCardView = createMySendBusinessCardView(chatCmdBusinesssCardBean, isRead, textMessage, targetId, isFail);
+                    View failView = mySendBusinessCardView.findViewById(R.id.iv_chat_send_msg_again);
+                    failView.setTag(message.getMessageId());
+                    if (!isRead && !isFail) {
                         View vReadStatus = mySendBusinessCardView.findViewById(R.id.tv_chat_msg_read_status);
                         SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
                         listSendMsg.add(sendMessageBean);
@@ -1911,12 +1933,14 @@ public class ChatModel extends BaseObservable {
         else if (objectName.equals("RC:ImgMsg")) {
             recordSourceImageUrl(message, true);//保存原图的地址
             ImageMessage imageMessage = (ImageMessage) message.getContent();
-            View myPicView = createMyPicView(imageMessage.getThumUri(), isRead, null, null);
+            View myPicView = createMyPicView(imageMessage.getThumUri(), isRead, imageMessage, targetId, isFail);
+            View failView = myPicView.findViewById(R.id.iv_chat_send_msg_again);
+            failView.setTag(message.getMessageId());
             View imgView = myPicView.findViewById(R.id.iv_chat_my_pic);
             imgView.setTag("true:" + (listHisSourcePicLocalPath.size() - 1));
             setOpenViewPicClick(imgView);
             vpViewPicAdapter.notifyDataSetChanged();
-            if (!isRead) {
+            if (!isRead && !isFail) {
                 View vReadStatus = myPicView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
                 listSendMsg.add(sendMessageBean);
@@ -1926,8 +1950,10 @@ public class ChatModel extends BaseObservable {
         //接受聊天的语音消息
         else if (objectName.equals("RC:VcMsg")) {
             VoiceMessage savedVoiceMessage = (VoiceMessage) message.getContent();
-            View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), savedVoiceMessage.getDuration(), isRead, null, null);
-            if (!isRead) {
+            View mySendVoiceView = createMySendVoiceView(savedVoiceMessage.getUri(), savedVoiceMessage.getDuration(), isRead, savedVoiceMessage, targetId, isFail);
+            View failView = mySendVoiceView.findViewById(R.id.iv_chat_send_msg_again);
+            failView.setTag(message.getMessageId());
+            if (!isRead && !isFail) {
                 View vReadStatus = mySendVoiceView.findViewById(R.id.tv_chat_msg_read_status);
                 SendMessageBean sendMessageBean = new SendMessageBean(sendTime, vReadStatus);
                 listSendMsg.add(sendMessageBean);

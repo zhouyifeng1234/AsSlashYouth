@@ -441,9 +441,13 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         notifyPropertyChanged(BR.offlineItemVisibility);
     }
 
-    public void setLocationAddress(String address, double lng, double lat) {
+    public void setLocationAddress(String address, String name, double lng, double lat) {
 //        ToastUtils.shortToast(address);
-        mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.setText(address);
+        if (!TextUtils.isEmpty(name)) {
+            mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.setText(name);
+        } else {
+            mActivityPublishDemandAddinfoBinding.etPublishDemandAddress.setText(address);
+        }
         this.lng = lng;
         this.lat = lat;
     }
