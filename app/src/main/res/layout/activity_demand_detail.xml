@@ -170,10 +170,10 @@
                                         android:layout_marginTop="10dp"
                                         android:orientation="horizontal">
                                         <!--<ImageView-->
-                                            <!--android:layout_width="15dp"-->
-                                            <!--android:layout_height="15dp"-->
-                                            <!--android:layout_gravity="center_vertical"-->
-                                            <!--android:src="@mipmap/time_icon_detail"/>-->
+                                        <!--android:layout_width="15dp"-->
+                                        <!--android:layout_height="15dp"-->
+                                        <!--android:layout_gravity="center_vertical"-->
+                                        <!--android:src="@mipmap/time_icon_detail"/>-->
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -1981,6 +1981,38 @@
             <!--android:visibility="gone"-->
             <!--android:visibility="@{demandDetailModel.viewPicVisibility}"-->
         </android.support.v4.view.ViewPager>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="@{demandDetailModel.loadLayerVisibility}"
+        >
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
 
     </FrameLayout>
 

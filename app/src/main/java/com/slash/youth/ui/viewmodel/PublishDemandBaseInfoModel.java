@@ -132,6 +132,8 @@ public class PublishDemandBaseInfoModel extends BaseObservable {
         mActivityPublishDemandBaseinfoBinding.etPublishDemandTitle.setText(demand.title);
         //回填描述
         mActivityPublishDemandBaseinfoBinding.etPublishDemandDesc.setText(demand.desc);
+        int descWordsCount = demand.desc.length();
+        mActivityPublishDemandBaseinfoBinding.tvDescTextCount.setText(descWordsCount + "/300");
         //回填开始时间
         if (demand.starttime <= 0) {
             startTime = -1;

@@ -120,7 +120,7 @@ public class SplashActivity extends Activity {
 //                        LoginManager.token = token;
                         LoginManager.token = dataBean.data.token;//每次token登录，都保存服务端返回过来的最新token
                         LoginManager.rongToken = rongToken;
-                        SpUtils.setString("token", token);
+                        SpUtils.setString("token", LoginManager.token);
                         //链接融云
                         MsgManager.connectRongCloud(LoginManager.rongToken);
 

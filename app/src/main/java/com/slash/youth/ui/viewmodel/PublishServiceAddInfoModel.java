@@ -52,10 +52,13 @@ public class PublishServiceAddInfoModel extends BaseObservable {
     private double lng = 0;
     private double lat = 0;
     ServiceDetailBean serviceDetailBean;
+    boolean isFromSkillManager;
 
     public PublishServiceAddInfoModel(ActivityPublishServiceAddinfoBinding activityPublishServiceAddinfoBinding, Activity activity) {
         this.mActivityPublishServiceAddinfoBinding = activityPublishServiceAddinfoBinding;
         this.mActivity = activity;
+        //原来分期默认为开启的，现在需要改成默认为关闭，调用一次该方法就变成关闭了
+        toggleInstalment(null);
         initData();
         initView();
     }
@@ -65,10 +68,13 @@ public class PublishServiceAddInfoModel extends BaseObservable {
         optionalPriceUnit = new String[]{"次", "个", "幅", "份", "单", "小时", "分钟", "天", "其他"};
 
         serviceDetailBean = (ServiceDetailBean) mActivity.getIntent().getSerializableExtra("serviceDetailBean");
+        isFromSkillManager = mActivity.getIntent().getBooleanExtra("isFromSkillManager", false);
         if (serviceDetailBean != null) {//表示是修改服务，首先需要把服务的数据填充
-            mActivityPublishServiceAddinfoBinding.tvPublishServiceText.setText("修改服务");
-            mActivityPublishServiceAddinfoBinding.btnPublishText.setText("修改");
-            mActivityPublishServiceAddinfoBinding.tvPublishSuccessText.setText("修改成功");
+            if (!isFromSkillManager) {
+                mActivityPublishServiceAddinfoBinding.tvPublishServiceText.setText("修改服务");
+                mActivityPublishServiceAddinfoBinding.btnPublishText.setText("修改");
+                mActivityPublishServiceAddinfoBinding.tvPublishSuccessText.setText("修改成功");
+            }
             loadOriginServiceData();
         }
     }
@@ -80,9 +86,6 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 
         mSallSkillLabels.setActivity(mActivity);
         mSallSkillLabels.initSkillLabels();
-
-        //原来分期默认为开启的，现在需要改成默认为关闭，调用一次该方法就变成关闭了
-        toggleInstalment(null);
     }
 
     /**
@@ -101,6 +104,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
 //            setPriceUnit("元");
 //        }
         setPriceUnit("元");
+        mActivityPublishServiceAddinfoBinding.tvChooseQuoteunit.setText(mChoosePriceUnit);
         //分期
         RelativeLayout.LayoutParams layoutParams
                 = (RelativeLayout.LayoutParams) mActivityPublishServiceAddinfoBinding.ivPublishServiceInstalmentHandle.getLayoutParams();
@@ -302,7 +306,7 @@ public class PublishServiceAddInfoModel extends BaseObservable {
             }
         }
 
-        if (serviceDetailBean != null) {//修改服务
+        if (serviceDetailBean != null && isFromSkillManager == false) {//修改服务
             ServiceEngine.updateService(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                 @Override
                 public void execute(CommonResultBean dataBean) {

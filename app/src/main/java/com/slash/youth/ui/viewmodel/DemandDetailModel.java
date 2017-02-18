@@ -302,9 +302,14 @@ public class DemandDetailModel extends BaseObservable {
      * 获取需求详情信息
      */
     private void getDemandDetailDataFromServer() {
+        //显示加载层
+        setLoadLayerVisibility(View.VISIBLE);
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
             public void execute(DemandDetailBean dataBean) {
+                //隐藏加载层
+                setLoadLayerVisibility(View.GONE);
+
                 demandDetailBean = dataBean;
                 DemandDetailBean.Demand demand = dataBean.data.demand;
                 anonymity = demand.anonymity;
@@ -1609,6 +1614,18 @@ public class DemandDetailModel extends BaseObservable {
     private int demandRecommendLabelVisibility = View.GONE;
 
     private int demandRecommendItemVisibility;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public int getDemandRecommendItemVisibility() {

@@ -150,28 +150,38 @@ public class MySkillManageHolder extends BaseHolder<SkillManagerBean.DataBean.Li
     }
 
     private void setBean(SkillManagerBean.DataBean.ListBean listBean, ServiceDetailBean.Service service) {
-        service.anonymity = listBean.getAnonymity();
-        service.bp = listBean.getBp();
-        service.cts = listBean.getCts();
+        //技能管理里面，这有这6项是需要填写的，其余的都使用默认值
+        service.title = listBean.getTitle();
         service.desc = listBean.getDesc();
-        service.endtime = listBean.getEndtime();
+        service.quote = listBean.getQuote();
+        service.quoteunit = listBean.getQuoteunit();
+        service.pic = listBean.getPic();
+        service.tag = listBean.getTag();
+        //下面的都使用默认值
+        service.anonymity = listBean.getAnonymity();
+//        service.bp = listBean.getBp();
+        service.bp = 0;//默认的纠纷处理方式是平台处理
+        service.cts = listBean.getCts();
+//        service.endtime = listBean.getEndtime();
+        service.endtime = 0;
         service.id = listBean.getId();
-        service.instalment = listBean.getInstalment();
+//        service.instalment = listBean.getInstalment();
+        service.instalment = 0;//分期默认是关闭的
         service.iscomment = listBean.getIscomment();
         service.isonline = listBean.getIsonline();
-        service.lat = listBean.getLat();
-        service.lng = listBean.getLng();
+//        service.lat = listBean.getLat();
+//        service.lng = listBean.getLng();
+        service.lat = 0;
+        service.lng = 0;
         service.loop = listBean.getLoop();
-        service.pattern = listBean.getPattern();
-        service.pic = listBean.getPic();
-        service.place = listBean.getPlace();
-        service.quoteunit = listBean.getQuoteunit();
-        service.starttime = listBean.getStarttime();
+//        service.pattern = listBean.getPattern();
+        service.pattern = 0;//默认服务方式是线上
+//        service.place = listBean.getPlace();
+        service.place = "";
+//        service.starttime = listBean.getStarttime();
+        service.starttime = 0;
         service.status = listBean.getStatus();
-        service.title = listBean.getTitle();
-        service.tag = listBean.getTag();
         service.uid = listBean.getUid();
-        service.quote = listBean.getQuote();
-        service.timetype = 4;
+        service.timetype = -1;
     }
 }

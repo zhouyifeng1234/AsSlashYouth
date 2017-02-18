@@ -17,6 +17,7 @@ import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.PublishServiceAddInfoActivity;
@@ -137,6 +138,8 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         }
         mActivityPublishServiceBaseinfoBinding.etPublishServiceTitle.setText(service.title);
         mActivityPublishServiceBaseinfoBinding.etPublishServiceDesc.setText(service.desc);
+        int descWordsCount = service.desc.length();
+        mActivityPublishServiceBaseinfoBinding.tvDescTextCount.setText(descWordsCount + "/300");
         if (service.timetype == SERVICE_TIMETYPE_USER_DEFINED) {//自定义
             timetype = 0;
             starttime = service.starttime;
@@ -209,6 +212,8 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
     public void gotoSkillManagerActivity(View v) {
         Intent intentMySkillManageActivity = new Intent(CommonUtils.getContext(), MySkillManageActivity.class);
         intentMySkillManageActivity.putExtra("Title", "技能列表");
+        intentMySkillManageActivity.putExtra("avater", LoginManager.currentLoginUserAvatar);
+        intentMySkillManageActivity.putExtra("name", LoginManager.currentLoginUserName);
         mActivity.startActivity(intentMySkillManageActivity);
     }
 
@@ -278,6 +283,7 @@ public class PublishServiceBaseInfoModel extends BaseObservable {
         isClickNext = true;
 
         final Intent intentPublishServiceAddInfoActivity = new Intent(CommonUtils.getContext(), PublishServiceAddInfoActivity.class);
+        intentPublishServiceAddInfoActivity.putExtra("isFromSkillManager", isFromSkillManager);
         if (serviceDetailBean != null) {
             intentPublishServiceAddInfoActivity.putExtra("serviceDetailBean", serviceDetailBean);
         }

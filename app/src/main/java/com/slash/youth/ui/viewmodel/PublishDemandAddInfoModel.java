@@ -51,6 +51,8 @@ public class PublishDemandAddInfoModel extends BaseObservable {
     public PublishDemandAddInfoModel(ActivityPublishDemandAddinfoBinding activityPublishDemandAddinfoBinding, Activity activity) {
         this.mActivityPublishDemandAddinfoBinding = activityPublishDemandAddinfoBinding;
         this.mActivity = activity;
+        //原来分期默认为开启的，现在需要改成默认为关闭，调用一次该方法就变成关闭了
+        toggleInstalment(null);
         initData();
         initView();
     }
@@ -71,8 +73,7 @@ public class PublishDemandAddInfoModel extends BaseObservable {
         mSallSkillLabels.setActivity(mActivity);
         mSallSkillLabels.initSkillLabels();
 
-        //原来分期默认为开启的，现在需要改成默认为关闭，调用一次该方法就变成关闭了
-        toggleInstalment(null);
+
     }
 
     /**

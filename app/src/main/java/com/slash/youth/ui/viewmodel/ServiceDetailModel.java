@@ -471,10 +471,15 @@ public class ServiceDetailModel extends BaseObservable {
      * 获取服务详情信息
      */
     private void getServiceDetailData() {
+        //显示加载层
+        setLoadLayerVisibility(View.VISIBLE);
         if (serviceId != -1) {
             ServiceEngine.getServiceDetail(new BaseProtocol.IResultExecutor<ServiceDetailBean>() {
                 @Override
                 public void execute(ServiceDetailBean dataBean) {
+                    //隐藏加载层
+                    setLoadLayerVisibility(View.GONE);
+
                     LogKit.v("service data:" + dataBean.data.service.title);
                     serviceDetailBean = dataBean;
                     ServiceDetailBean.Service service = dataBean.data.service;
@@ -1038,6 +1043,18 @@ public class ServiceDetailModel extends BaseObservable {
     private int serviceRecommendLabelVisibililty;
 
     private int serviceRecommendItemVisibililty;
+
+    private int loadLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getLoadLayerVisibility() {
+        return loadLayerVisibility;
+    }
+
+    public void setLoadLayerVisibility(int loadLayerVisibility) {
+        this.loadLayerVisibility = loadLayerVisibility;
+        notifyPropertyChanged(BR.loadLayerVisibility);
+    }
 
     @Bindable
     public int getServiceRecommendItemVisibililty() {
