@@ -240,7 +240,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@id/ivbtn_activity_subscribe_main_categories"
                     android:onClick="@{activitySubscribeModel.openRlChooseMainLabel}"
-                    android:text="战略规划"
+                    android:text="发展|规划"
                     android:textColor="#333333"
                     android:textSize="14.5sp"/>
 

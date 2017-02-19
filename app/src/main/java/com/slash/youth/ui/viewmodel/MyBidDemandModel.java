@@ -367,11 +367,13 @@ public class MyBidDemandModel extends BaseObservable {
                 innerDemandCardInfo.title = taskinfo.title;
                 innerDemandCardInfo.starttime = taskinfo.starttime;
                 innerDemandCardInfo.quote = taskinfo.quote;
-                innerDemandCardInfo.instalment = taskinfo.instalment;//0 or 1 表示是否开启分期 0不允许分期 1允许分期
+                //这个字段使用分期列表接口中的
+//                innerDemandCardInfo.instalment = taskinfo.instalment;//0 or 1 表示是否开启分期 0不允许分期 1允许分期
                 innerDemandCardInfo.instalmentcurr = taskinfo.instalmentcurr;//表示当前处于第几个分期
                 LogKit.v("taskinfo.instalmentcurr:" + taskinfo.instalmentcurr);
                 innerDemandCardInfo.instalmentcurrfinish = taskinfo.instalmentcurrfinish;//表示当期是否服务方完成 0未完成 1已经完成
-                innerDemandCardInfo.instalmentratio = taskinfo.instalmentratio;//表示分期情况，格式为30,20,10,40 (英文逗号分隔)
+                //这个字段也使用分期列表接口来计算
+//                innerDemandCardInfo.instalmentratio = taskinfo.instalmentratio;//表示分期情况，格式为30,20,10,40 (英文逗号分隔)
                 innerDemandCardInfo.rectify = taskinfo.rectify;//是否使用过延期付款  1使用过，0未使用过
                 innerDemandCardInfo.status = taskinfo.status;//使用我的任务中的status定义
 
@@ -413,7 +415,7 @@ public class MyBidDemandModel extends BaseObservable {
             @Override
             public void execute(DemandBidInfoBean dataBean) {
                 innerDemandCardInfo.bp = dataBean.data.bidinfo.bp;
-                setMyPublishDemandInfo();
+                getInstalmentList();
             }
 
             @Override
@@ -422,6 +424,37 @@ public class MyBidDemandModel extends BaseObservable {
             }
         }, tid + "", LoginManager.currentLoginUserId + "");
         //这里不能使用innerDemandCardInfo.suid + ""，因为还没有形成1 V 1的关系，所以需求详情接口中的suid字段仍然是0
+    }
+
+    private void getInstalmentList() {
+        //通过instalmentlist接口获取分期比例
+        DemandEngine.getDemandInstalmentList(new BaseProtocol.IResultExecutor<DemandInstalmentListBean>() {
+            @Override
+            public void execute(DemandInstalmentListBean dataBean) {
+                ArrayList<DemandInstalmentListBean.InstalmentInfo> instalmentList = dataBean.data.list;
+                if (instalmentList.size() >= 2) {//分期至少分两期，如果只分一起，则视为不分期
+                    innerDemandCardInfo.instalment = 1;
+                } else {
+                    innerDemandCardInfo.instalment = 0;
+                }
+                innerDemandCardInfo.instalmentratio = "";
+                for (int i = 0; i < instalmentList.size(); i++) {
+                    if (i < instalmentList.size() - 1) {
+                        innerDemandCardInfo.instalmentratio += (instalmentList.get(i).percent + ",");
+                    } else {
+                        innerDemandCardInfo.instalmentratio += instalmentList.get(i).percent;
+                    }
+                }
+
+                setMyPublishDemandInfo();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取需求分期信息失败:" + result);
+                ToastUtils.shortToast("获取需求分期信息失败:" + result);
+            }
+        }, tid + "");
     }
 
     private void setMyPublishDemandInfo() {

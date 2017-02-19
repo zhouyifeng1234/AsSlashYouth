@@ -321,27 +321,27 @@ public class DemandDetailModel extends BaseObservable {
                     setTopShareBtnVisibility(View.GONE);
                     setTopDemandBtnVisibility(View.VISIBLE);
 
-//                    int status = demand.status;
-//                    if (status == 0 || status == 1) {
-//                        setUpdateBtnVisibility(View.VISIBLE);
-//                        setOffShelfBtnVisibility(View.VISIBLE);
-//                        setRemarkBtnVisibility(View.GONE);
-//                    } else if (status == 2) {
-//                        setUpdateBtnVisibility(View.GONE);
-//                        setOffShelfBtnVisibility(View.GONE);
-//                        setRemarkBtnVisibility(View.VISIBLE);
-//                    } else {
-//                        setUpdateBtnVisibility(View.GONE);
-//                        setOffShelfBtnVisibility(View.GONE);
-//                        setRemarkBtnVisibility(View.GONE);
-//                    }
-                    //这里使用isonline字段来判断是否已经上架
-                    isonline = demand.isonline;
-                    mActivityDemandDetailBinding.tvOnshelfOffshelf.setVisibility(View.VISIBLE);
-                    if (isonline == 0) {//未上架，需要显示上架
-                        mActivityDemandDetailBinding.tvOnshelfOffshelf.setText("上架");
-                    } else {//已上架，需要显示下架
-                        mActivityDemandDetailBinding.tvOnshelfOffshelf.setText("下架");
+                    int status = demand.status;
+                    if (status == 0 || status == 1) {
+                        setUpdateBtnVisibility(View.VISIBLE);
+                        setOffShelfBtnVisibility(View.VISIBLE);
+                        setRemarkBtnVisibility(View.GONE);
+                        //这里使用isonline字段来判断是否已经上架
+                        isonline = demand.isonline;
+                        mActivityDemandDetailBinding.tvOnshelfOffshelf.setVisibility(View.VISIBLE);
+                        if (isonline == 0) {//未上架，需要显示上架
+                            mActivityDemandDetailBinding.tvOnshelfOffshelf.setText("上架");
+                        } else {//已上架，需要显示下架
+                            mActivityDemandDetailBinding.tvOnshelfOffshelf.setText("下架");
+                        }
+                    } else if (status == 2) {
+                        setUpdateBtnVisibility(View.GONE);
+                        setOffShelfBtnVisibility(View.GONE);
+                        setRemarkBtnVisibility(View.VISIBLE);
+                    } else {
+                        setUpdateBtnVisibility(View.GONE);
+                        setOffShelfBtnVisibility(View.GONE);
+                        setRemarkBtnVisibility(View.GONE);
                     }
 
                     setBottomBtnServiceVisibility(View.GONE);
@@ -1616,6 +1616,17 @@ public class DemandDetailModel extends BaseObservable {
     private int demandRecommendItemVisibility;
 
     private int loadLayerVisibility = View.GONE;
+    private int offShelfBtnVisibility;
+
+    @Bindable
+    public int getOffShelfBtnVisibility() {
+        return offShelfBtnVisibility;
+    }
+
+    public void setOffShelfBtnVisibility(int offShelfBtnVisibility) {
+        this.offShelfBtnVisibility = offShelfBtnVisibility;
+        notifyPropertyChanged(BR.offShelfBtnVisibility);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {

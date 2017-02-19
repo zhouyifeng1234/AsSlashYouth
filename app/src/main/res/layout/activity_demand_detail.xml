@@ -98,9 +98,9 @@
                             android:text="下架"
                             android:textColor="#31C5E4"
                             android:textSize="12sp"
-                            android:visibility="gone"
+                            android:visibility="@{demandDetailModel.offShelfBtnVisibility}"
                         />
-                        <!--android:visibility="@{demandDetailModel.offShelfBtnVisibility}"-->
+                        <!--android:visibility="gone"-->
 
                     </LinearLayout>
                 </FrameLayout>

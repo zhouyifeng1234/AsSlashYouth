@@ -341,14 +341,16 @@ public class SubscribeActivity extends Activity {
                 String tag = skillLabelBean.getTag();
                 if (size != 0) {
                     if (tag.equals(industry)) {
+                        //这里不需要进行操作
                         //一级显示
-                        mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(checkedFirstLabel);
+//                        mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(checkedFirstLabel);
                         //选择二级
-                        chooseSecondSkillLabelList(skillLabelBean);
+//                        chooseSecondSkillLabelList(skillLabelBean);
                     } else {
                         ToastUtils.shortCenterToast("只能选择同一类型的标签");
                     }
                 } else {
+                    SubscribeSecondSkilllabelHolder.clickItemPosition = 0;
                     chooseSecondSkillLabelList(skillLabelBean);
                     mActivitySubscribeBinding.tvFirstSkillLabelTitle.setText(checkedFirstLabel);
                 }
