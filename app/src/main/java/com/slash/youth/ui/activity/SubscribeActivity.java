@@ -910,7 +910,7 @@ public class SubscribeActivity extends Activity {
 
         LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(-2, -2);
         TextView tvLabelName = new TextView(CommonUtils.getContext());
-        tvParams.topMargin = CommonUtils.dip2px(5);
+        tvParams.topMargin = CommonUtils.dip2px(12);
         tvLabelName.setBackgroundResource(R.drawable.shape_rounded_rectangle_skilllabel_gray);
         tvLabelName.setText(labelName);
         tvLabelName.setTextColor(Color.parseColor("#333333"));

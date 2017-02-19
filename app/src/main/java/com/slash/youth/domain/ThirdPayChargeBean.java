@@ -46,6 +46,7 @@ public class ThirdPayChargeBean {
 
     public class Credential {
         public Alipay alipay;
+        public WX wx;
         public String object;
     }
 
@@ -66,6 +67,16 @@ public class ThirdPayChargeBean {
 
     public class Alipay {
         public String orderInfo;
+    }
+
+    public class WX {
+        public String appId;
+        public String nonceStr;
+        public String packageValue;
+        public String partnerId;
+        public String prepayId;
+        public String sign;
+        public String timeStamp;
     }
 
 }
