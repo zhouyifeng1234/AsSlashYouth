@@ -147,6 +147,9 @@
 
         <!-- 友盟渠道分析 -->
         <meta-data android:name="UMENG_CHANNEL" android:value="xiaomiMarket"/>
+        <!--<meta-data android:name="UMENG_CHANNEL" android:value="yingyongbao"/>-->
+        <!--<meta-data android:name="UMENG_CHANNEL" android:value="fuwuqi_pc"/>-->
+        <!--<meta-data android:name="UMENG_CHANNEL" android:value="fuwuqi_mobile"/>-->
         <!-- 友盟渠道分析 -->
 
         <activity

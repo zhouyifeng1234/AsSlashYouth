@@ -328,8 +328,13 @@ public class ChatModel extends BaseObservable {
                 friendRelationShipStatus = status;
                 if (friendRelationShipStatus == 3) {
                     mActivityChatBinding.tvAddfriendBtnText.setText("已是好友");
-                } else {
+                    mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.add_friend_icon);
+                } else if (friendRelationShipStatus == 0 || friendRelationShipStatus == 2) {
                     mActivityChatBinding.tvAddfriendBtnText.setText("加好友");
+                    mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.add_friends_icon);
+                } else if (friendRelationShipStatus == 1) {
+                    mActivityChatBinding.tvAddfriendBtnText.setText("已申请");
+                    mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.added_friend_icon);
                 }
 
                 getBaseDataFinishedCount++;
@@ -1072,6 +1077,9 @@ public class ChatModel extends BaseObservable {
                                     View infoView = createInfoView("您已发送添加好友请求");
                                     mLlChatContent.addView(infoView);
                                     MsgManager.updateConversationList(targetId);//更新会话列表
+
+                                    mActivityChatBinding.tvAddfriendBtnText.setText("已申请");
+                                    mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.added_friend_icon);
                                 }
 
                                 @Override
@@ -1376,6 +1384,7 @@ public class ChatModel extends BaseObservable {
                                     MsgManager.updateConversationList(targetId);//更新会话列表
 
                                     mActivityChatBinding.tvAddfriendBtnText.setText("已是好友");
+                                    mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.add_friend_icon);
                                 }
 
                                 @Override
@@ -1443,6 +1452,9 @@ public class ChatModel extends BaseObservable {
                                     View infoView = createInfoView("您已拒绝添加对方为好友");
                                     mLlChatContent.addView(infoView);
                                     MsgManager.updateConversationList(targetId);//更新会话列表
+
+                                    mActivityChatBinding.tvAddfriendBtnText.setText("加好友");
+                                    mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.add_friends_icon);
                                 }
 
                                 @Override
@@ -1532,11 +1544,12 @@ public class ChatModel extends BaseObservable {
     }
 
     //创建好友发的文本消息View
-    private View createFriendTextView(String content) {
+    private View createFriendTextView(String content, String extra) {
         ItemChatFriendTextBinding itemChatFriendTextBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_chat_friend_text, null, false);
         ChatFriendTextModel chatFriendTextModel = new ChatFriendTextModel(itemChatFriendTextBinding, mActivity, targetAvatar);
         itemChatFriendTextBinding.setChatFriendTextModel(chatFriendTextModel);
         chatFriendTextModel.setTextContent(content);
+        chatFriendTextModel.setExtraInfo(extra);
         return itemChatFriendTextBinding.getRoot();
     }
 
@@ -1998,7 +2011,7 @@ public class ChatModel extends BaseObservable {
         TextMessage textMessage = (TextMessage) message.getContent();
         String content = textMessage.getContent();
         String extra = textMessage.getExtra();//这里面是“{"tid":663,"type":1,"uid":10091}”
-        View friendTextView = createFriendTextView(content);
+        View friendTextView = createFriendTextView(content, extra);
         if (isLoadHis) {
             mLlChatContent.addView(friendTextView, 0);
         } else {
@@ -2009,7 +2022,7 @@ public class ChatModel extends BaseObservable {
     private void displayReceiveTextMsg(Message message, boolean isLoadHis) {
         TextMessage textMessage = (TextMessage) message.getContent();
         String content = textMessage.getContent();
-        View friendTextView = createFriendTextView(content);
+        View friendTextView = createFriendTextView(content, "");
         if (isLoadHis) {
             mLlChatContent.addView(friendTextView, 0);
         } else {
@@ -2137,6 +2150,7 @@ public class ChatModel extends BaseObservable {
             }
             if (!isLoadHis) {
                 mActivityChatBinding.tvAddfriendBtnText.setText("已是好友");
+                mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.add_friend_icon);
             }
         } else if (content.contentEquals(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND)) {
             try {
@@ -2147,6 +2161,10 @@ public class ChatModel extends BaseObservable {
 //                mLlChatContent.addView(infoView);
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+            if (!isLoadHis) {
+                mActivityChatBinding.tvAddfriendBtnText.setText("加好友");
+                mActivityChatBinding.ivAddfriendIcon.setImageResource(R.mipmap.add_friends_icon);
             }
         } else if (content.contentEquals(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT)) {
             try {

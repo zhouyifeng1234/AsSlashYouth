@@ -31,6 +31,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginTop="11dp"
             android:background="@drawable/chat_box_bg"
+            android:onClick="@{chatFriendTextModel.gotoTask}"
             android:paddingBottom="10dp"
             android:paddingLeft="17dp"
             android:paddingRight="12dp"

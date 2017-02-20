@@ -81,31 +81,37 @@ public class SearchResultAllModel extends BaseObservable {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position > 0 && position < demandListBeen.size() + 1) {
-                    SearchAllBean.DataBean.DemandListBean demandListBean = demandListBeen.get(position - 1);
+                    if (position - 1 <= demandListBeen.size() - 1) {
+                        SearchAllBean.DataBean.DemandListBean demandListBean = demandListBeen.get(position - 1);
 //                    long demandId = demandListBean.getUid();
-                    long demandId = demandListBean.getId();
-                    Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                    intentDemandDetailActivity.putExtra("demandId", demandId);
-                    currentActivity.startActivity(intentDemandDetailActivity);
+                        long demandId = demandListBean.getId();
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", demandId);
+                        currentActivity.startActivity(intentDemandDetailActivity);
+                    }
                 }
 
                 if (position > demandListBeen.size() + 3 && position < demandListBeen.size() + serviceListBeen.size() + 4) {
                     int i = position - 3 - demandListBeen.size();
-                    SearchAllBean.DataBean.ServiceListBean serviceListBean = serviceListBeen.get(i);
+                    if (i <= serviceListBeen.size() - 1) {
+                        SearchAllBean.DataBean.ServiceListBean serviceListBean = serviceListBeen.get(i);
 //                    long serviceId = serviceListBean.getUid();
-                    long serviceId = serviceListBean.getId();
-                    Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                    intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                    currentActivity.startActivity(intentServiceDetailActivity);
+                        long serviceId = serviceListBean.getId();
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                        currentActivity.startActivity(intentServiceDetailActivity);
+                    }
                 }
 
                 if (position > demandListBeen.size() + serviceListBeen.size() + 4 && position < demandListBeen.size() + serviceListBeen.size() + userListBeen.size() + 6) {
                     int i = position - 5 - demandListBeen.size() - serviceListBeen.size();
-                    SearchAllBean.DataBean.UserListBean userListBean = userListBeen.get(i);
-                    long uid = userListBean.getUid();
-                    Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-                    intentUserInfoActivity.putExtra("Uid", uid);
-                    currentActivity.startActivity(intentUserInfoActivity);
+                    if (i <= userListBeen.size() - 1) {
+                        SearchAllBean.DataBean.UserListBean userListBean = userListBeen.get(i);
+                        long uid = userListBean.getUid();
+                        Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
+                        intentUserInfoActivity.putExtra("Uid", uid);
+                        currentActivity.startActivity(intentUserInfoActivity);
+                    }
                 }
             }
         });

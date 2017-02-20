@@ -65,7 +65,7 @@ public class ItemServiceDetailRecommendServiceModel extends BaseObservable {
         setServiceTitle(mRecommendServiceInfo.title);
         if (mRecommendServiceInfo.quoteunit == 9) {
             setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元");
-        } else if (mRecommendServiceInfo.quote < 9 && mRecommendServiceInfo.quote > 0) {
+        } else if (mRecommendServiceInfo.quoteunit < 9 && mRecommendServiceInfo.quoteunit > 0) {
             setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元/" + optionalPriceUnit[mRecommendServiceInfo.quoteunit - 1]);
         } else {//如果数据正确，这种情况应该不存在
             setQuote("报价:" + (int) mRecommendServiceInfo.quote + "元");
