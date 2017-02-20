@@ -56,7 +56,7 @@ public class BitmapKit {
         bindImage(iv, url, null, -1);
     }
 
-    public static void bindImage(ImageView iv, String url,int width, int height) {
+    public static void bindImage(ImageView iv, String url, int width, int height) {
         //这里对url做个容错
         if (url.contains("?fileId=http")) {
             String[] urlInfo = url.split("\\?fileId=");
@@ -85,7 +85,7 @@ public class BitmapKit {
             }
         });
 
-        builder.setSize(width,height);
+        builder.setSize(width, height);
         builder.setSquare(true);
         builder.setLoadingDrawableId(R.mipmap.default_avatar);//设置加载过程中的图片
         builder.setFailureDrawableId(R.mipmap.default_avatar);//设置加载失败后的图片
@@ -134,6 +134,18 @@ public class BitmapKit {
         if (scaleType != null) {
             builder.setImageScaleType(scaleType);
         }
+        x.image().bind(iv, url, imageOptions);
+    }
+
+    /**
+     * 这个方法只用来加载融云的远程图片(融云保存在七牛云服务器上的原图链接，https的图片地址)
+     */
+    public static void bindImageFromRongClound(ImageView iv, String url) {
+        ImageOptions.Builder builder = new ImageOptions.Builder();
+        ImageOptions imageOptions = builder.build();
+        builder.setLoadingDrawableId(R.mipmap.default_avatar);//设置加载过程中的图片
+        builder.setFailureDrawableId(R.mipmap.default_avatar);//设置加载失败后的图片
+        builder.setImageScaleType(ImageView.ScaleType.FIT_CENTER);
         x.image().bind(iv, url, imageOptions);
     }
 

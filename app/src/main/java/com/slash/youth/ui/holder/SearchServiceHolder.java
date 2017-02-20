@@ -32,13 +32,13 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
     public View initView() {
         mRootView = View.inflate(CommonUtils.getContext(), R.layout.item_listview_search_needandservice, null);
         iv_item_listview_home_service_avatar = (ImageView) mRootView.findViewById(R.id.iv_item_listview_home_demand_avatar);
-        iv_authentication = (ImageView)mRootView.findViewById(R.id.iv_authentication);
+        iv_authentication = (ImageView) mRootView.findViewById(R.id.iv_authentication);
         tv_item_listview_home_demand_username = (TextView) mRootView.findViewById(R.id.tv_item_listview_home_demand_username);
         tv_item_listview_home_demand_title = (TextView) mRootView.findViewById(R.id.tv_item_listview_home_demand_title);
         tv_item_listview_home_demand_date = (TextView) mRootView.findViewById(R.id.tv_item_listview_home_demand_date);
-        tv_quote= (TextView)mRootView.findViewById(R.id.tv_quote);
-        tv_line= (TextView) mRootView.findViewById(R.id.tv_line);
-        tv_pay= (TextView) mRootView.findViewById(R.id.tv_pay);
+        tv_quote = (TextView) mRootView.findViewById(R.id.tv_quote);
+        tv_line = (TextView) mRootView.findViewById(R.id.tv_line);
+        tv_pay = (TextView) mRootView.findViewById(R.id.tv_pay);
         iv_time = (ImageView) mRootView.findViewById(R.id.iv_time);
         return mRootView;
     }
@@ -50,7 +50,7 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
         String name = demandListBean.getName();
         String avatar = demandListBean.getAvatar();
         //匿名，实名
-        switch (anonymity){
+        switch (anonymity) {
             case 1://实名
                 BitmapKit.bindImage(iv_item_listview_home_service_avatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 tv_item_listview_home_demand_username.setText(name);
@@ -63,42 +63,43 @@ public class SearchServiceHolder extends SearchViewHolder<SearchAllBean.DataBean
                 break;
         }
 
-        if(demandListBean.getIsauth() == 1){
+        if (demandListBean.getIsauth() == 1) {
             iv_authentication.setVisibility(View.VISIBLE);
-        }else if(demandListBean.getIsauth() == 0){
+        } else if (demandListBean.getIsauth() == 0) {
             iv_authentication.setVisibility(View.GONE);
         }
 
-       tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
+        tv_item_listview_home_demand_title.setText(demandListBean.getTitle());
         long starttime = demandListBean.getStarttime();
         int timetype = demandListBean.getTimetype();
         iv_time.setVisibility(View.VISIBLE);
-        if(timetype == 0){
+        if (timetype == 0) {
             String startData = TimeUtils.getTime(starttime);
             tv_item_listview_home_demand_date.setText(startData);
-        }else {
-            tv_item_listview_home_demand_date.setText(FirstPagerManager.TIMETYPES[timetype]);
+        } else {
+//            tv_item_listview_home_demand_date.setText(FirstPagerManager.TIMETYPES[timetype]);
+            tv_item_listview_home_demand_date.setText(FirstPagerManager.TIMETYPES[timetype - 1]);
         }
 
         int quoteunit = demandListBean.getQuoteunit();
-        if(quoteunit>=1&&quoteunit<=8){
-            tv_quote.setText(FirstPagerManager.QUOTE+demandListBean.getQuote()+"元/"+FirstPagerManager.QUOTEUNITS[quoteunit-1]);
-        }else {
-            tv_quote.setText(FirstPagerManager.QUOTE+demandListBean.getQuote()+"元");
+        if (quoteunit >= 1 && quoteunit <= 8) {
+            tv_quote.setText(FirstPagerManager.QUOTE + demandListBean.getQuote() + "元/" + FirstPagerManager.QUOTEUNITS[quoteunit - 1]);
+        } else {
+            tv_quote.setText(FirstPagerManager.QUOTE + demandListBean.getQuote() + "元");
         }
 
-        if(demandListBean.getPattern() == 0){
-           tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_UP);
-        }else if(demandListBean.getPattern() == 1){
+        if (demandListBean.getPattern() == 0) {
+            tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_UP);
+        } else if (demandListBean.getPattern() == 1) {
             tv_line.setText(SearchManager.SEARCH_FIELD_PATTERN_LINE_DOWN);
         }
 
         //1开启 0关闭
         tv_pay.setText(FirstPagerManager.SERVICE_INSTALMENT);
-        if(demandListBean.getInstalment() == 1){
-           tv_pay.setVisibility(View.VISIBLE);
-        }else if(demandListBean.getInstalment() == 0){
-          tv_pay.setVisibility(View.GONE);
+        if (demandListBean.getInstalment() == 1) {
+            tv_pay.setVisibility(View.VISIBLE);
+        } else if (demandListBean.getInstalment() == 0) {
+            tv_pay.setVisibility(View.GONE);
         }
     }
 }

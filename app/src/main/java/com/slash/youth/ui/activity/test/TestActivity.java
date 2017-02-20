@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.slash.youth.R;
 import com.slash.youth.domain.ServiceDetailBean;
 import com.slash.youth.domain.UploadFileResultBean;
@@ -22,11 +21,6 @@ import com.slash.youth.utils.ToastUtils;
  * Created by zhouyifeng on 2016/9/30.
  */
 public class TestActivity extends Activity {
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +202,7 @@ public class TestActivity extends Activity {
             public void executeResultError(String result) {
 
             }
-        }, "22","1");
+        }, "22", "1");
     }
 
     //十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)

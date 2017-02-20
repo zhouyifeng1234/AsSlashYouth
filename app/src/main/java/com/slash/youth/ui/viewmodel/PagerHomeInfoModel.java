@@ -77,21 +77,22 @@ public class PagerHomeInfoModel extends BaseObservable {
         mPagerHomeInfoBinding.lvPagerHomeInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position <= listConversation.size() - 1) {
+                    ConversationListBean.ConversationInfo conversationInfo = listConversation.get(position);
+                    long uid = conversationInfo.uid;
+                    if (uid == 1000) {
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_SLASH_SIGNPICS);
+                    } else {
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_OTHER_CHAT);
+                    }
+                    Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+                    intentChatActivity.putExtra("targetId", uid + "");
+                    mActivity.startActivity(intentChatActivity);
 
-                ConversationListBean.ConversationInfo conversationInfo = listConversation.get(position);
-                long uid = conversationInfo.uid;
-                if (uid == 1000) {
-                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_SLASH_SIGNPICS);
-                } else {
-                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_OTHER_CHAT);
+                    //清楚小圆点
+                    View viewUnReadPoint = view.findViewById(R.id.tv_info_unread_msg_count);
+                    viewUnReadPoint.setVisibility(View.INVISIBLE);
                 }
-                Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-                intentChatActivity.putExtra("targetId", uid + "");
-                mActivity.startActivity(intentChatActivity);
-
-                //清楚小圆点
-                View viewUnReadPoint = view.findViewById(R.id.tv_info_unread_msg_count);
-                viewUnReadPoint.setVisibility(View.INVISIBLE);
             }
         });
     }

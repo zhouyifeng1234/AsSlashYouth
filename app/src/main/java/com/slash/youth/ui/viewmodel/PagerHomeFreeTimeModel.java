@@ -7,8 +7,6 @@ import android.databinding.Bindable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
@@ -48,9 +46,6 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,7 +153,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void initData() {
-       // x.image().clearCacheFiles();
+        // x.image().clearCacheFiles();
 
         bannerList.clear();
         titleArrayList.clear();
@@ -166,7 +161,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         urlArrayList.clear();
         getDataFromServer();
 
-      //  setPager();
+        //  setPager();
     }
 
     private void setPager() {
@@ -179,7 +174,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             @Override
             public int getCount() {
                 return Integer.MAX_VALUE;
-               // return bannerList.size();
+                // return bannerList.size();
             }
 
             @Override
@@ -266,7 +261,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                         //点击的时候，到banner页面
                         initBanner(advImageUrlIndex);
                         //埋点
-                        switch (advImageUrlIndex){
+                        switch (advImageUrlIndex) {
                             case 0:
                                 MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_CLICK_BANNER_ONE);
                                 break;
@@ -349,24 +344,28 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (mIsDisplayDemandList) {
                             //需求
-                            FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
-                            long demandId = listBean.getId();
-                            Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
-                            intentDemandDetailActivity.putExtra("demandId", demandId);
-                            mActivity.startActivity(intentDemandDetailActivity);
+                            if (position <= listDemandBean.size() - 1) {
+                                FreeTimeDemandBean.DataBean.ListBean listBean = listDemandBean.get(position);
+                                long demandId = listBean.getId();
+                                Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                                intentDemandDetailActivity.putExtra("demandId", demandId);
+                                mActivity.startActivity(intentDemandDetailActivity);
+                            }
                         } else {
                             //服务
-                            FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
-                            long serviceId = listBean.getId();
-                            Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
-                            intentServiceDetailActivity.putExtra("serviceId", serviceId);
-                            mActivity.startActivity(intentServiceDetailActivity);
+                            if (position <= listServiceBean.size() - 1) {
+                                FreeTimeServiceBean.DataBean.ListBean listBean = listServiceBean.get(position);
+                                long serviceId = listBean.getId();
+                                Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                                intentServiceDetailActivity.putExtra("serviceId", serviceId);
+                                mActivity.startActivity(intentServiceDetailActivity);
+                            }
                         }
                     }
                 });
 
         //加载更多的点击事件
-        if(listMoreView!=null){
+        if (listMoreView != null) {
             listMoreView.findViewById(R.id.tv_search_more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -486,9 +485,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 x.image().loadFile(imageUrl, ImageOptions.DEFAULT, new Callback.CacheCallback<File>() {
                     @Override
                     public boolean onCache(File result) {
-                        if(result!=null){
+                        if (result != null) {
                             return true;
-                        }else {
+                        } else {
                             return false;
                         }
                     }
@@ -560,11 +559,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
                 FreeTimeDemandBean.DataBean dataBean = data.getData();
                 List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
-                listsize= list.size();
-                if(list.size() == 0){
+                listsize = list.size();
+                if (list.size() == 0) {
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                }else {
+                } else {
                     listDemandBean.addAll(list);
                     homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService
@@ -595,10 +594,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 FreeTimeServiceBean.DataBean dataBean = data.getData();
                 List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
                 listsize = list.size();
-                if(list.size() == 0){
+                if (list.size() == 0) {
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                }else {
+                } else {
                     listServiceBean.addAll(list);
                     homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService

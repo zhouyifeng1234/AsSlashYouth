@@ -39,6 +39,7 @@ public class MyCollectionBean {
         }
 
         public static class ListBean {
+            public int anonymity;
             private String avatar;
             private long cts;
             private int instalment;
