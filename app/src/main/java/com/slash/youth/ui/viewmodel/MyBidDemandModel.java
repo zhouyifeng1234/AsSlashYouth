@@ -388,6 +388,8 @@ public class MyBidDemandModel extends BaseObservable {
         }, tid + "", type + "", roleid + "");
     }
 
+    int demandDetailStatus;//这个主要用来判断当需求方申请退款后，服务方是否已经同意退款或者申诉平台接入
+
     private void getDemandDetail() {
         DemandEngine.getDemandDetail(new BaseProtocol.IResultExecutor<DemandDetailBean>() {
             @Override
@@ -396,6 +398,7 @@ public class MyBidDemandModel extends BaseObservable {
                 innerDemandCardInfo.suid = dataBean.data.demand.suid;
 //                innerDemandCardInfo.bp = dataBean.data.demand.bp;//这个字段好像不对，用loadBid接口中的bp字段
                 innerDemandCardInfo.isComment = dataBean.data.demand.iscomment;
+                demandDetailStatus = dataBean.data.demand.status;
 
                 loadBidInfo();
             }
@@ -640,7 +643,18 @@ public class MyBidDemandModel extends BaseObservable {
 //                }
                 break;
             case 9:/*申请退款*/
-                setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                //这里要使用需求详情接口中的状态来判断，如果已经同意退款，或者申诉，按钮需要隐藏
+                /*同意退款*/
+                //public static final int DEMAND_STATUS_REFUNDED = 12;
+                /*需求企业付款完成或者退款(彻底完成)*/
+                //public static final int DEMAND_STATUS_FINISH = 13;
+                /*需求出现纠纷进入申诉平台介入状态*/
+                //public static final int DEMAND_STATUS_INTERVENTION = 14;
+                if (demandDetailStatus == 12 || demandDetailStatus == 13 || demandDetailStatus == 14) {
+                    setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.GONE);
+                } else {
+                    setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE, View.GONE);
+                }
                 break;
             case 8:/*已完成*/
                 //服务方完成了最后一期（需求方可能还没去确认完成，也可能确认了完成），当需求方确认完成以后，并且进行了评价，才显示"查看评价"按钮

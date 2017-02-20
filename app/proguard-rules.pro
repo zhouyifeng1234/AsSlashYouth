@@ -61,3 +61,59 @@ public static final int *;
     public static ** valueOf(java.lang.String);
 }
 #友盟统计相关
+
+#高德地图相关
+#3D 地图
+-keep   class com.amap.api.maps.**{*;}
+-keep   class com.autonavi.amap.mapcore.*{*;}
+-keep   class com.amap.api.trace.**{*;}
+
+#定位
+-keep class com.amap.api.location.**{*;}
+-keep class com.amap.api.fence.**{*;}
+-keep class com.autonavi.aps.amapapi.model.**{*;}
+
+#搜索
+-keep   class com.amap.api.services.**{*;}
+
+#2D地图
+-keep class com.amap.api.maps2d.**{*;}
+-keep class com.amap.api.mapcore2d.**{*;}
+
+#导航
+-keep class com.amap.api.navi.**{*;}
+-keep class com.autonavi.**{*;}
+#高德地图相关
+
+#融云相关
+-keepattributes Exceptions,InnerClasses
+
+-keepattributes Signature
+
+# RongCloud SDK
+-keep class io.rong.** {*;}
+-keep class * implements io.rong.imlib.model.MessageContent {*;}
+-dontwarn io.rong.push.**
+-dontnote com.xiaomi.**
+-dontnote com.google.android.gms.gcm.**
+-dontnote io.rong.**
+
+# VoIP
+-keep class io.agora.rtc.** {*;}
+
+# Location
+-keep class com.amap.api.**{*;}
+-keep class com.amap.api.services.**{*;}
+
+# 红包
+-keep class com.google.gson.** { *; }
+-keep class com.uuhelper.Application.** {*;}
+-keep class net.sourceforge.zbar.** { *; }
+-keep class com.google.android.gms.** { *; }
+-keep class com.alipay.** {*;}
+-keep class com.jrmf360.rylib.** {*;}
+
+-ignorewarnings
+
+#另外，您需要 keep 自定义的 BroadcastReceiver 。自定义的 BroadcastReceiver 继承PushMessageReceiver，使用下面的代码是不行的。
+#融云相关

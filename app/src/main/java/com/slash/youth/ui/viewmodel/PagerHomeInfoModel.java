@@ -107,21 +107,38 @@ public class PagerHomeInfoModel extends BaseObservable {
             setTaskMessageCountPointVisibility(View.GONE);
         }
 
+        listConversation.clear();
+        homeInfoListAdapter = null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
+        if (listConversation == null) {
+            listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
+        }
+        MsgManager.conversationUidList.clear();
+        getConversationList();
+    }
+
+    int loadConversationListTimes = 0;
+
+    /**
+     * 这个方法，只能在getDataFromServer中调用，或者就是自己内部回调，不能在其它地方调用，否则会出错
+     */
+    private void getConversationList() {
         MsgManager.getConversationList(new BaseProtocol.IResultExecutor<ConversationListBean>() {
             @Override
             public void execute(ConversationListBean dataBean) {
-                listConversation.clear();
-                listConversation = dataBean.data.list;
-                homeInfoListAdapter = null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
-                if (listConversation == null) {
-                    listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
+                loadConversationListTimes++;
+//                listConversation = dataBean.data.list;
+                if (dataBean.data.list != null) {
+                    listConversation.addAll(dataBean.data.list);
                 }
-                MsgManager.conversationUidList.clear();
-                for (int i = 0; i < listConversation.size(); i++) {
-                    ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
-                    MsgManager.conversationUidList.add(conversationInfo.uid + "");
+                if (dataBean.data.list.size() < 20 || loadConversationListTimes >= 3) {//加载完毕
+                    for (int i = 0; i < listConversation.size(); i++) {
+                        ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
+                        MsgManager.conversationUidList.add(conversationInfo.uid + "");
+                    }
+                    setConversationList();
+                } else {//加载未完成，继续加载
+                    getConversationList();
                 }
-                setConversationList();
             }
 
             @Override

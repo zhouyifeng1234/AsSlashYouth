@@ -65,6 +65,7 @@ public class SplashActivity extends Activity {
         setContentView(ivSplash);
 
         getCustomerServiceUid();
+        login();
 
         checkVersion();
     }
@@ -206,7 +207,7 @@ public class SplashActivity extends Activity {
                     showVersionUpdateDialog(forceupdate, url);
                 } else {
                     //不用更新
-                    login();
+//                    login();
                 }
             }
         }
@@ -242,7 +243,7 @@ public class SplashActivity extends Activity {
             public void onClick(View v) {
                 dialogVersion.dismiss();
                 //进入登录页
-                login();
+//                login();
             }
         });
     }
@@ -265,7 +266,7 @@ public class SplashActivity extends Activity {
         String state = Environment.getExternalStorageState();
         if (!state.equals(Environment.MEDIA_MOUNTED)) {
             Toast.makeText(this, "没有SD卡！", Toast.LENGTH_SHORT).show();
-            login();
+//            login();
             return;
         }
 
