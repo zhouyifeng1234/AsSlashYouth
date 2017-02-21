@@ -49,7 +49,7 @@ public class PaymentModel extends BaseObservable {
     String title;//服务或者需求标题
 
     int type = -1;//1需求 2服务
-    int balance;
+    double balance;
 
     public PaymentModel(ActivityPaymentBinding activityPaymentBinding, Activity activity) {
         this.mActivity = activity;
@@ -71,7 +71,8 @@ public class PaymentModel extends BaseObservable {
         AccountManager.getMyAccountInfo(new BaseProtocol.IResultExecutor<MyAccountBean>() {
             @Override
             public void execute(MyAccountBean dataBean) {
-                balance = (int) (dataBean.getData().getData().getCurrentmoney());
+//                balance = (int) (dataBean.getData().getData().getCurrentmoney());
+                balance = dataBean.getData().getData().getCurrentmoney();
                 setCurrentmoney(balance + "");
                 hideLoadLayer();
             }

@@ -24,7 +24,7 @@ public class ChatOtherSendBusinessCardModel extends BaseObservable {
     String mTargetAvatar;
     ChatCmdBusinesssCardBean mChatCmdBusinesssCardBean;
 
-    public ChatOtherSendBusinessCardModel(ItemChatOtherSendBusinessCardBinding itemChatOtherSendBusinessCardBinding, Activity activity, String targetAvatar,ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
+    public ChatOtherSendBusinessCardModel(ItemChatOtherSendBusinessCardBinding itemChatOtherSendBusinessCardBinding, Activity activity, String targetAvatar, ChatCmdBusinesssCardBean chatCmdBusinesssCardBean) {
         this.mItemChatOtherSendBusinessCardBinding = itemChatOtherSendBusinessCardBinding;
         this.mActivity = activity;
         this.mTargetAvatar = targetAvatar;
@@ -57,7 +57,7 @@ public class ChatOtherSendBusinessCardModel extends BaseObservable {
 
     public void gotoUserInfoPage(View v) {
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-        intentUserInfoActivity.putExtra("Uid", mChatCmdBusinesssCardBean.uid);
+        intentUserInfoActivity.putExtra("Uid", Long.parseLong(mChatCmdBusinesssCardBean.uid));
         mActivity.startActivity(intentUserInfoActivity);
     }
 

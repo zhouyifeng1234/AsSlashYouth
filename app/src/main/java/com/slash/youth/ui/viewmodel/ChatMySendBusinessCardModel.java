@@ -81,7 +81,7 @@ public class ChatMySendBusinessCardModel extends BaseObservable {
 
     public void gotoUserInfoPage(View v) {
         Intent intentUserInfoActivity = new Intent(CommonUtils.getContext(), UserInfoActivity.class);
-        intentUserInfoActivity.putExtra("Uid", mChatCmdBusinesssCardBean.uid);
+        intentUserInfoActivity.putExtra("Uid", Long.parseLong(mChatCmdBusinesssCardBean.uid));
         mActivity.startActivity(intentUserInfoActivity);
     }
 

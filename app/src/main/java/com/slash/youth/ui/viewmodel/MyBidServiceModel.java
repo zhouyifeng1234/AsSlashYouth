@@ -760,9 +760,10 @@ public class MyBidServiceModel extends BaseObservable {
                 setConfirmFinishVisibility(View.GONE);
                 setPaymentVisibility(View.GONE);
                 if (order.iscommit == 0) {//未评论
-                    setCommentVisibility(View.VISIBLE);
+                    setCommentVisibility(View.VISIBLE);//显示去评价
                 } else {//已评论
-                    setCommentVisibility(View.GONE);
+                    setCommentVisibility(View.VISIBLE);//显示查看评价
+                    mActivityMyBidServiceBinding.tvBtnComment.setText("查看评价");
                 }
                 break;
             case 1:/*初始化订单*/

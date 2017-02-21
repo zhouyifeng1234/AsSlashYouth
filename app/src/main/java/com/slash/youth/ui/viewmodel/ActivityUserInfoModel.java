@@ -579,7 +579,7 @@ public class ActivityUserInfoModel extends BaseObservable {
         chatCmdBusinesssCardBean.name = name;
         chatCmdBusinesssCardBean.profession = position;
 //        chatCmdBusinesssCardBean.uid = uid;
-        chatCmdBusinesssCardBean.uid = otherUid;
+        chatCmdBusinesssCardBean.uid = otherUid + "";
         DialogRecommendBinding dialogRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.dialog_recommend, null, false);
         DialogRecommendModel dialogRecommendModel = new DialogRecommendModel(dialogRecommendBinding, userInfoActivity, activityUserinfoBinding, chatCmdBusinesssCardBean);
         dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);

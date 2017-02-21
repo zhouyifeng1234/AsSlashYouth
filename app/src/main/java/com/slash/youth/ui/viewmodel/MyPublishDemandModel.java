@@ -614,9 +614,11 @@ public class MyPublishDemandModel extends BaseObservable {
                 break;
             case 8:
                 if (innerDemandCardInfo.isComment == 0) {
-                    setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);
+                    setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);//显示去评价
+                    mActivityMyPublishDemandBinding.tvBtnComment.setText("去评价");
                 } else {
-                    setStatusButtonsVisibility(View.GONE, View.GONE, View.GONE, View.GONE);
+                    setStatusButtonsVisibility(View.GONE, View.GONE, View.VISIBLE, View.GONE);//显示查看评价
+                    mActivityMyPublishDemandBinding.tvBtnComment.setText("查看评价");
                 }
                 break;
             case 9:
