@@ -426,7 +426,7 @@ public class ActivityLoginModel extends BaseObservable {
                     }
                     QQ_access_token = data.get("access_token");
 //                    QQ_uid = data.get("uid");
-                    QQ_uid = data.get("openid");
+                    QQ_uid = data.get("openid");//通过日志发现， 这里的uid和openid是一样的
                     SpUtils.setString("QQ_token", QQ_access_token);
                     SpUtils.setString("QQ_uid", QQ_uid);
                     LogKit.v("QQ_access_token:" + QQ_access_token + " QQ_uid:" + QQ_uid);
@@ -443,8 +443,8 @@ public class ActivityLoginModel extends BaseObservable {
                         LogKit.v("-----------WEIXIN Login------------" + key + ":" + data.get(key));
                     }
                     WEIXIN_access_token = data.get("access_token");
-//                    WEIXIN_unionid = data.get("unionid");
-                    WEIXIN_unionid = data.get("openid");
+                    WEIXIN_unionid = data.get("unionid");
+//                    WEIXIN_unionid = data.get("openid");
                     SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
                     SpUtils.setString("WEIXIN_uid", WEIXIN_unionid);
                     LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + " openid:" + WEIXIN_unionid);

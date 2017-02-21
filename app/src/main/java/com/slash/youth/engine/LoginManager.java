@@ -225,8 +225,8 @@ public class LoginManager {
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
-//                    String openid = data.get("unionid");
-                    String openid = data.get("openid");
+                    String openid = data.get("unionid");
+//                    String openid = data.get("openid");
                     SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
                     SpUtils.setString("WEIXIN_uid", openid);
                     break;

@@ -139,16 +139,23 @@ public class PagerHomeInfoModel extends BaseObservable {
 //                listConversation = dataBean.data.list;
                 if (dataBean.data.list != null) {
                     listConversation.addAll(dataBean.data.list);
-                }
-                if (dataBean.data.list.size() < 20 || loadConversationListTimes >= 3) {//加载完毕
+                    if (dataBean.data.list.size() < 20 || loadConversationListTimes >= 3) {//加载完毕
+                        for (int i = 0; i < listConversation.size(); i++) {
+                            ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
+                            MsgManager.conversationUidList.add(conversationInfo.uid + "");
+                        }
+                        setConversationList();
+                    } else {//加载未完成，继续加载
+                        getConversationList();
+                    }
+                } else {//加载完毕
                     for (int i = 0; i < listConversation.size(); i++) {
                         ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
                         MsgManager.conversationUidList.add(conversationInfo.uid + "");
                     }
                     setConversationList();
-                } else {//加载未完成，继续加载
-                    getConversationList();
                 }
+
             }
 
             @Override

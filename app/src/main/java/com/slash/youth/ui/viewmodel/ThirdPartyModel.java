@@ -5,9 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMyThridPartyBinding;
@@ -23,7 +21,6 @@ import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
@@ -46,7 +43,7 @@ public class ThirdPartyModel extends BaseObservable {
     private int type;
     private int unBindVisibility = View.GONE;
 
-    public ThirdPartyModel(ActivityMyThridPartyBinding activityMyThridPartyBinding,BindThridPartyActivity bindThridPartyActivity) {
+    public ThirdPartyModel(ActivityMyThridPartyBinding activityMyThridPartyBinding, BindThridPartyActivity bindThridPartyActivity) {
         this.activityMyThridPartyBinding = activityMyThridPartyBinding;
         this.bindThridPartyActivity = bindThridPartyActivity;
         loginManager = new LoginManager();
@@ -57,19 +54,20 @@ public class ThirdPartyModel extends BaseObservable {
         bindPlatform(LoginManager.token);
     }
 
-    private void initView(boolean isWinxinBing,boolean isQQBing,boolean isWinboBing){
-        if(isWinxinBing){
+    private void initView(boolean isWinxinBing, boolean isQQBing, boolean isWinboBing) {
+        if (isWinxinBing) {
             activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
-        }else {
+        } else {
             activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
         }
 
-        if(isQQBing){
+        if (isQQBing) {
             activityMyThridPartyBinding.tvQQBinding.setText("解绑");
-        }else {
+        } else {
             activityMyThridPartyBinding.tvQQBinding.setText("去绑定");
         }
     }
+
     @Bindable
     public int getUnBindVisibility() {
         return unBindVisibility;
@@ -80,14 +78,14 @@ public class ThirdPartyModel extends BaseObservable {
         notifyPropertyChanged(BR.unBindVisibility);
     }
 
-    public void cannelDialog(View view){
+    public void cannelDialog(View view) {
         setUnBindVisibility(View.GONE);
     }
 
-    public void sureDialog(View view){
+    public void sureDialog(View view) {
         setUnBindVisibility(View.GONE);
-        switch (type){
-            case  GlobalConstants.LoginPlatformType.WECHAT:
+        switch (type) {
+            case GlobalConstants.LoginPlatformType.WECHAT:
                 MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING_CONFIRM_UNBUNDING);
                 loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
                 break;
@@ -105,38 +103,39 @@ public class ThirdPartyModel extends BaseObservable {
             @Override
             public void execute(GetBindBean dataBean) {
                 int rescode = dataBean.getRescode();
-                if(rescode == 0){
+                if (rescode == 0) {
                     GetBindBean.DataBean data = dataBean.getData();
                     List<String> platforms = data.getPlatforms();
                     for (String platform : platforms) {
-                        if(platform.equals("1")){
+                        if (platform.equals("1")) {
                             isWinxinBing = true;
                             //type = GlobalConstants.LoginPlatformType.WECHAT;
-                        }else if(platform.equals("2")){
+                        } else if (platform.equals("2")) {
                             isQQBing = true;
                             //type = GlobalConstants.LoginPlatformType.QQ;
-                        }else if(platform.equals("3")){
+                        } else if (platform.equals("3")) {
                             isWinboBing = true;
                             //type = GlobalConstants.LoginPlatformType.WEIBO;
                         }
                     }
-                    initView(isWinxinBing,isQQBing,isWinboBing);
+                    initView(isWinxinBing, isQQBing, isWinboBing);
                 }
             }
+
             @Override
             public void executeResultError(String result) {
-                LogKit.d("result:"+result);
+                LogKit.d("result:" + result);
             }
         });
     }
 
     //微信
-    public void weixin(View view){
+    public void weixin(View view) {
         type = GlobalConstants.LoginPlatformType.WECHAT;
-        if(isWinxinBing){
+        if (isWinxinBing) {
             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING);
             setUnBindVisibility(View.VISIBLE);
-        }else {
+        } else {
             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_BINDING);
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             mShareAPI.doOauthVerify(bindThridPartyActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
@@ -148,12 +147,12 @@ public class ThirdPartyModel extends BaseObservable {
     }
 
     //qq
-    public void qq(View view){
+    public void qq(View view) {
         type = GlobalConstants.LoginPlatformType.QQ;
-        if(isQQBing){
+        if (isQQBing) {
             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_UNBINDING);
             setUnBindVisibility(View.VISIBLE);
-        }else {
+        } else {
             MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_BINDING);
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             if (mShareAPI.isInstall(bindThridPartyActivity, SHARE_MEDIA.QQ)) {
@@ -165,7 +164,6 @@ public class ThirdPartyModel extends BaseObservable {
     }
 
 
-
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
@@ -173,14 +171,15 @@ public class ThirdPartyModel extends BaseObservable {
             UMShareAPI mShareAPI = UMShareAPI.get(bindThridPartyActivity);
             switch (platform) {
                 case QQ:
-                    String  QQ_access_token = data.get("access_token");
-                    String  QQ_uid = data.get("uid");
-                    loginBind(QQ_access_token,QQ_uid, GlobalConstants.LoginPlatformType.QQ);
+                    String QQ_access_token = data.get("access_token");
+//                    String QQ_uid = data.get("uid");
+                    String QQ_uid = data.get("openid");
+                    loginBind(QQ_access_token, QQ_uid, GlobalConstants.LoginPlatformType.QQ);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
                     String openid = data.get("unionid");
-                    loginBind(WEIXIN_access_token,openid, GlobalConstants.LoginPlatformType.WECHAT);
+                    loginBind(WEIXIN_access_token, openid, GlobalConstants.LoginPlatformType.WECHAT);
                     break;
             }
         }
@@ -197,14 +196,14 @@ public class ThirdPartyModel extends BaseObservable {
     };
 
     //绑定第三方账号
-    public void loginBind(String token,String uid,Byte loginPlatform) {
-        final LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token,uid,loginPlatform);
+    public void loginBind(String token, String uid, Byte loginPlatform) {
+        final LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token, uid, loginPlatform);
         loginBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
             @Override
             public void execute(LoginBindBean dataBean) {
                 int rescode = dataBean.getRescode();
-                if(rescode == 0){
-                    switch (type){
+                if (rescode == 0) {
+                    switch (type) {
                         case GlobalConstants.LoginPlatformType.WECHAT://微信
                             activityMyThridPartyBinding.tvWeixinBinding.setText("解绑");
                             isWinxinBing = true;
@@ -214,13 +213,14 @@ public class ThirdPartyModel extends BaseObservable {
                             isQQBing = true;
                             break;
                     }
-                }else {
+                } else {
                     ToastUtils.shortCenterToast("绑定失败");
                 }
             }
+
             @Override
             public void executeResultError(String result) {
-                LogKit.d("result:"+result);
+                LogKit.d("result:" + result);
             }
         });
     }
@@ -232,8 +232,8 @@ public class ThirdPartyModel extends BaseObservable {
             @Override
             public void execute(LoginBindBean dataBean) {
                 int rescode = dataBean.getRescode();
-                if(rescode == 0){
-                    switch (type){
+                if (rescode == 0) {
+                    switch (type) {
                         case GlobalConstants.LoginPlatformType.WECHAT://微信
                             activityMyThridPartyBinding.tvWeixinBinding.setText("去绑定");
                             isWinxinBing = false;
@@ -243,19 +243,20 @@ public class ThirdPartyModel extends BaseObservable {
                             isQQBing = false;
                             break;
                     }
-                }else {
+                } else {
                     ToastUtils.shortCenterToast("解绑失败");
                 }
             }
+
             @Override
             public void executeResultError(String result) {
-                LogKit.d("result:"+result);
+                LogKit.d("result:" + result);
             }
         });
     }
 
     //微博
-    public void weibo(View view){
+    public void weibo(View view) {
        /* if(isWinboBing){
             activityMyThridPartyBinding.tvWeiboBinding.setText("去绑定");
            // LoginManager.serverThirdPartyLogin();
