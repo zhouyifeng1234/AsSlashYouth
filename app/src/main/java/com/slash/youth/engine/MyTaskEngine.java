@@ -9,6 +9,8 @@ import com.slash.youth.http.protocol.GetCommonLogProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
 import com.slash.youth.http.protocol.GetTaskItemProtocol;
 import com.slash.youth.http.protocol.MyTaskServiceDetailProtocol;
+import com.slash.youth.http.protocol.ShareForwardProtocol;
+import com.slash.youth.http.protocol.ShareReportProtocol;
 import com.slash.youth.http.protocol.UpAndDownTaskProtocol;
 
 /**
@@ -70,11 +72,35 @@ public class MyTaskEngine {
     }
 
     /**
+     * 二、[分享]-服务者分享上报接口
+     *
+     * @param onReportFinished
+     * @param type             1需求 2服务
+     * @param tid              需求or服务ID
+     * @param rsslink          1QQ好友、2QQ空间、4微信好友、8微信朋友圈
+     */
+    public static void shareReport(BaseProtocol.IResultExecutor onReportFinished, String type, String tid, String rsslink) {
+        ShareReportProtocol shareReportProtocol = new ShareReportProtocol(type, tid, rsslink);
+        shareReportProtocol.getDataFromServer(onReportFinished);
+    }
+
+    /**
      * 三、[需求]-查看评价和分享状态接口
      */
     public static void getCommentStatus(BaseProtocol.IResultExecutor onGetCommentStatusFinished, String tid, String type) {
         QueryCommentStatusProtocol queryCommentStatusProtocol = new QueryCommentStatusProtocol(tid, type);
         queryCommentStatusProtocol.getDataFromServer(onGetCommentStatusFinished);
+    }
+
+    /**
+     * 四、[转发]-服务者转发服务到外界专家系统加分
+     *
+     * @param onForwardFinished
+     * @param id                需求or服务ID
+     */
+    public static void shareForward(BaseProtocol.IResultExecutor onForwardFinished, String id) {
+        ShareForwardProtocol shareForwardProtocol = new ShareForwardProtocol(id);
+        shareForwardProtocol.getDataFromServer(onForwardFinished);
     }
 
 

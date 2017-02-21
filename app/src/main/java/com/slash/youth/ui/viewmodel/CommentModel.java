@@ -14,6 +14,8 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommentBinding;
 import com.slash.youth.domain.CommentResultBean;
 import com.slash.youth.domain.CommentStatusBean;
+import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.ShareReportResultBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -330,7 +332,46 @@ public class CommentModel extends BaseObservable {
         @Override
         public void onResult(SHARE_MEDIA platform) {
             LogKit.v("platform" + platform);
-            ToastUtils.shortToast(platform + " 分享成功");
+            int rsslink;
+            if (platform == SHARE_MEDIA.QQ) {
+                rsslink = 1;
+            } else if (platform == SHARE_MEDIA.QZONE) {
+                rsslink = 2;
+            } else if (platform == SHARE_MEDIA.WEIXIN) {
+                rsslink = 4;
+            } else if (platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                rsslink = 8;
+            } else {
+                ToastUtils.shortToast("分享平台类型错误");
+                return;
+            }
+            //ToastUtils.shortToast(platform + " 分享成功");
+            ToastUtils.shortToast("分享成功");
+
+            //调用 [分享]-服务者分享上报接口
+            MyTaskEngine.shareReport(new BaseProtocol.IResultExecutor<ShareReportResultBean>() {
+                @Override
+                public void execute(ShareReportResultBean dataBean) {
+
+                }
+
+                @Override
+                public void executeResultError(String result) {
+                    ToastUtils.shortToast("分享上报失败:" + result);
+                }
+            }, type + "", tid + "", rsslink + "");
+            //调用 [转发]-服务者转发服务到外界专家系统加分
+            MyTaskEngine.shareForward(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+                @Override
+                public void execute(CommonResultBean dataBean) {
+
+                }
+
+                @Override
+                public void executeResultError(String result) {
+//                    ToastUtils.shortToast("服务者转发服务到外界专家系统加分:" + result);
+                }
+            }, tid + "");
         }
 
         @Override

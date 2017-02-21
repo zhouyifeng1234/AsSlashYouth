@@ -166,8 +166,12 @@ public class GlobalConstants {
         public static final String GET_BID_TASK_STATUS = SERVER_HOST_MY_TASK_LIST + "isparticipation";
         //一、[需求]-需求方评价接口
         public static final String DEMAND_PARTY_COMMENT = SERVER_HOST_COMMENT_SHARE + "publish";
+        //二、[分享]-服务者分享上报接口
+        public static final String SHARE_REPORT = SERVER_HOST_COMMENT_SHARE + "share";
         //三、[需求]-查看评价和分享状态接口
         public static final String QUERY_COMMENT_STATUS = SERVER_HOST_COMMENT_SHARE + "query";
+        //四、[转发]-服务者转发服务到外界专家系统加分
+        public static final String SHARE_FORWARD = SERVER_HOST_COMMENT_SHARE + "forward";
 
         //一、[文件]-图片上传
         public static final String IMG_UPLOAD = SERVER_HOST_IMG_UPLOAD_DOWNLOAD + "upload";
