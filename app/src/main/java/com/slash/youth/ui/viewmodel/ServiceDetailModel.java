@@ -170,7 +170,7 @@ public class ServiceDetailModel extends BaseObservable {
     public void haveAChat(View v) {
         MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.IDLE_TIME_SERVICE_DETAIL_CHAT);
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-        intentChatActivity.putExtra("targetId", serviceId + "");
+        intentChatActivity.putExtra("targetId", serviceUserId + "");
         mActivity.startActivity(intentChatActivity);
     }
 

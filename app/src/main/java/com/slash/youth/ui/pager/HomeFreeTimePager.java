@@ -2,7 +2,6 @@ package com.slash.youth.ui.pager;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -20,10 +19,14 @@ public class HomeFreeTimePager extends BaseHomePager {
         super(activity);
     }
 
+    public HomeFreeTimePager(Activity activity, Runnable runnable) {
+        super(activity, runnable);
+    }
+
     @Override
     public View initView() {
         PagerHomeFreetimeBinding pagerHomeFreetimeBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_freetime, null, false);
-        PagerHomeFreeTimeModel pagerHomeFreeTimeModel = new PagerHomeFreeTimeModel(pagerHomeFreetimeBinding, mActivity);
+        PagerHomeFreeTimeModel pagerHomeFreeTimeModel = new PagerHomeFreeTimeModel(pagerHomeFreetimeBinding, mActivity, runnable);
         pagerHomeFreetimeBinding.setPagerHomeFreeTimeModel(pagerHomeFreeTimeModel);
         return pagerHomeFreetimeBinding.getRoot();
     }

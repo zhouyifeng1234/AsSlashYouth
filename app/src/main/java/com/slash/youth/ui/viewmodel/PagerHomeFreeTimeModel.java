@@ -68,10 +68,14 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private View listMoreView;
     private int advImageUrlIndex;
     private int freeTimeLoadingPager = View.GONE;
+    private Runnable runnable;
+    private int totalGetDataTimes = 0;
+    private int finishedGetDataTimes = 0;
 
-    public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity) {
+    public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity, Runnable runnable) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
         this.mActivity = activity;
+        this.runnable = runnable;
         //displayLoadLayer();
         initView();
         initScrollView();
@@ -275,6 +279,23 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     }
                 });
 
+                ivHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                isClickDown = true;
+                                LogKit.v("Adv Pager ACTION_DOWN");
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                isClickDown = false;
+                                LogKit.v("Adv Pager ACTION_UP");
+                                break;
+                        }
+                        return false;
+                    }
+                });
+
                 cardView.addView(ivHomeFreetimeAdv);
                 container.addView(cardView);
                 return cardView;
@@ -318,7 +339,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private void initListener() {
         final HomeVpAdvChange homeVpAdvChange = new HomeVpAdvChange();
         //设置首页广告条自动滚动
-        CommonUtils.getHandler().postDelayed(homeVpAdvChange, 2000);
+        CommonUtils.getHandler().postDelayed(homeVpAdvChange, 3000);
 
         //当点击的时候停止滚动，松开手指的时候继续滚动
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOnTouchListener(new View.OnTouchListener() {
@@ -327,10 +348,13 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        CommonUtils.getHandler().removeCallbacks(homeVpAdvChange);
+//                        CommonUtils.getHandler().removeCallbacks(homeVpAdvChange);
+                        isClickDown = true;
                         break;
                     case MotionEvent.ACTION_UP:
-                        CommonUtils.getHandler().postDelayed(homeVpAdvChange, 2000);
+//                        CommonUtils.getHandler().removeCallbacks(homeVpAdvChange);
+//                        CommonUtils.getHandler().postDelayed(homeVpAdvChange, 3000);
+                        isClickDown = false;
                         break;
                 }
                 return false;
@@ -388,11 +412,15 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
+    boolean isClickDown = false;
+
     public class HomeVpAdvChange implements Runnable {
         @Override
         public void run() {
-            pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
-            CommonUtils.getHandler().postDelayed(this, 2000);
+            if (!isClickDown) {
+                pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
+            }
+            CommonUtils.getHandler().postDelayed(this, 3000);
         }
     }
 
@@ -423,6 +451,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public void displayDemanList() {
         setDemandButtonVisibility(View.VISIBLE);
         setServiceButtonVisibility(View.INVISIBLE);
+        totalGetDataTimes++;
         getDemandOrServiceListData();
     }
 
@@ -441,10 +470,12 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         bannerList.add(banner2);
         bannerList.add(banner3);*/
 
+        totalGetDataTimes++;
         FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
     }
 
     public void getDemandOrServiceListData() {
+        totalGetDataTimes++;
         if (mIsDisplayDemandList) {
             listDemandBean.clear();
             FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(), limit);
@@ -470,6 +501,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<BannerConfigBean> {
         @Override
         public void execute(BannerConfigBean data) {
+
             final List<BannerConfigBean.BannerBean> banner = data.getBanner();
             for (BannerConfigBean.BannerBean bannerBean : banner) {
                 String title = bannerBean.getTitle();
@@ -542,6 +574,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     }
                 });*/
             }
+
+            finishedGetDataTimes++;
+            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                runnable.run();
+            }
         }
 
         @Override
@@ -554,6 +591,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onFreeTimeDemandList implements BaseProtocol.IResultExecutor<FreeTimeDemandBean> {
         @Override
         public void execute(FreeTimeDemandBean data) {
+            finishedGetDataTimes++;
+            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                runnable.run();
+            }
+
             int rescode = data.getRescode();
             if (rescode == 0) {
                 pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
@@ -588,6 +630,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onFreeTimeServiceList implements BaseProtocol.IResultExecutor<FreeTimeServiceBean> {
         @Override
         public void execute(FreeTimeServiceBean data) {
+            finishedGetDataTimes++;
+            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                runnable.run();
+            }
+
             int rescode = data.getRescode();
             if (rescode == 0) {
                 pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);

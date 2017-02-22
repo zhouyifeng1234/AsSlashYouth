@@ -108,6 +108,12 @@ public class ActivityHomeModel extends BaseObservable {
         notifyPropertyChanged(BR.chooseServiceAndDemandLayerVisibility);
     }
 
+
+    View freeTimeRootView;
+    View infoRootView;
+    View contactsRootView;
+    View myRootView;
+
     /**
      * 首页底部Tab点击切换页面
      *
@@ -123,8 +129,28 @@ public class ActivityHomeModel extends BaseObservable {
         switch (v.getId()) {
             case R.id.ll_activity_home_freetime:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_press, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
+
+//                if (freeTimeRootView == null) {
                 HomeActivity.currentCheckedPager = new HomeFreeTimePager(mActivity);
-                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
+                freeTimeRootView = HomeActivity.currentCheckedPager.getRootView();
+                mActivityHomeBinding.flActivityHomePager.addView(freeTimeRootView);
+//                } else {
+//                    //先remove然后再add可以把rootView提取到最上面
+//                    mActivityHomeBinding.flActivityHomePager.removeView(freeTimeRootView);
+//                    mActivityHomeBinding.flActivityHomePager.addView(freeTimeRootView);
+//                    //重新创建rootView，并且在网络数据加载完毕之后，把原来的rootView删除掉，然后把新的rootView加入进去
+//                    HomeActivity.currentCheckedPager = new HomeFreeTimePager(mActivity, new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            View newFreeTimeRootView = HomeActivity.currentCheckedPager.getRootView();
+//                            mActivityHomeBinding.flActivityHomePager.removeView(freeTimeRootView);
+//                            mActivityHomeBinding.flActivityHomePager.addView(newFreeTimeRootView);
+//                            freeTimeRootView = newFreeTimeRootView;
+//                        }
+//                    });
+//                }
+
                 LogKit.v("freetime");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_FREETIME;
 
@@ -133,8 +159,14 @@ public class ActivityHomeModel extends BaseObservable {
                 break;
             case R.id.ll_activity_home_info:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.icon_message_press, R.mipmap.icon_contacts_moren, R.mipmap.home_wode_btn);
+
+//                if (infoRootView == null) {
                 HomeActivity.currentCheckedPager = new HomeInfoPager(mActivity);
-                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
+                infoRootView = HomeActivity.currentCheckedPager.getRootView();
+//                }
+//                mActivityHomeBinding.flActivityHomePager.removeView(infoRootView);
+                mActivityHomeBinding.flActivityHomePager.addView(infoRootView);
+
                 LogKit.v("info");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_INFO;
 
@@ -143,8 +175,14 @@ public class ActivityHomeModel extends BaseObservable {
                 break;
             case R.id.ll_activity_home_contacts:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_press, R.mipmap.home_wode_btn);
+
+//                if (contactsRootView == null) {
                 HomeActivity.currentCheckedPager = new HomeContactsPager(mActivity);
-                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
+                contactsRootView = HomeActivity.currentCheckedPager.getRootView();
+//                }
+//                mActivityHomeBinding.flActivityHomePager.removeView(contactsRootView);
+                mActivityHomeBinding.flActivityHomePager.addView(contactsRootView);
+
                 LogKit.v("contacts");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_CONTACTS;
 
@@ -153,8 +191,14 @@ public class ActivityHomeModel extends BaseObservable {
                 break;
             case R.id.ll_activity_home_my:
                 setBottomTabIcon(R.mipmap.icon_idle_hours_moren, R.mipmap.home_message_btn, R.mipmap.icon_contacts_moren, R.mipmap.icon_my_center_press);
+
+//                if (myRootView == null) {
                 HomeActivity.currentCheckedPager = new HomeMyPager(mActivity);
-                mActivityHomeBinding.flActivityHomePager.addView(HomeActivity.currentCheckedPager.getRootView());
+                myRootView = HomeActivity.currentCheckedPager.getRootView();
+//                }
+//                mActivityHomeBinding.flActivityHomePager.removeView(myRootView);
+                mActivityHomeBinding.flActivityHomePager.addView(myRootView);
+
                 LogKit.v("my");
                 HomeActivity.currentCheckedPageNo = HomeActivity.PAGE_MY;
 

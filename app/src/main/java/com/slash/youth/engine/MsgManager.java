@@ -257,85 +257,88 @@ public class MsgManager {
 
             if (senderUserId.equals("100")) {//系统推送账号
                 if (objectName.equals("RC:CmdNtf")) {
-                    //总的任务消息数据的处理
-                    if (taskMessageCount != -1) {
-                        taskMessageCount++;
-                        SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, taskMessageCount);
-                    } else {
-                        taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
-                        taskMessageCount++;
-                        SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, taskMessageCount);
-                    }
-                    if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
-                        HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
-                        PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
-                        if (MsgManager.taskMessageCount > 0) {
-                            pagerHomeInfoModel.setTaskMessageCountPointVisibility(View.VISIBLE);
-                            pagerHomeInfoModel.setTaskMessageCount(MsgManager.taskMessageCount + "");
-                        } else {
-                            pagerHomeInfoModel.setTaskMessageCountPointVisibility(View.GONE);
-                        }
-                    }
-                    //每一个任务对应的消息数量的处理
-                    if (everyTaskMessageCount == null) {
-                        everyTaskMessageCount = deserializeEveryTaskMessageCount();
-                        if (everyTaskMessageCount == null) {
-                            everyTaskMessageCount = new HashMap<Long, Integer>();
-                        }
-                    }
                     CommandNotificationMessage commandNotificationMessage = (CommandNotificationMessage) message.getContent();
-                    String data = commandNotificationMessage.getData();
-                    Gson gson = new Gson();
-                    TaskMessageBean taskMessageBean = gson.fromJson(data, TaskMessageBean.class);
-                    long id = taskMessageBean.id;
-                    Integer integer = everyTaskMessageCount.get(id);
-                    int count;
-                    if (integer == null) {
-                        count = 0;
-                    } else {
-                        count = integer;
-                    }
-                    count++;
-                    everyTaskMessageCount.put(id, count);
-                    //次数更新了，重新序列化到磁盘
-                    serializeEveryTaskMessageCount(everyTaskMessageCount);
-
-                    //如果当前页面是任务订单详情页，则实时刷新页面数据
-                    if (taskMessageBean.type == 1) {//需求订单页
-                        if (ActivityUtils.currentActivity instanceof MyBidDemandActivity) {
-                            MyBidDemandActivity currentActivity = (MyBidDemandActivity) ActivityUtils.currentActivity;
-                            currentActivity.mMyBidDemandModel.reloadData(true);
-                        } else if (ActivityUtils.currentActivity instanceof MyPublishDemandActivity) {
-                            MyPublishDemandActivity currentActivity = (MyPublishDemandActivity) ActivityUtils.currentActivity;
-                            currentActivity.mMyPublishDemandModel.reloadData(true);
+                    String cmdNtfData = commandNotificationMessage.getData();
+                    if (cmdNtfData.contains("\"tid\"")) {
+                        //总的任务消息数据的处理
+                        if (taskMessageCount != -1) {
+                            taskMessageCount++;
+                            SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, taskMessageCount);
+                        } else {
+                            taskMessageCount = SpUtils.getInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, 0);
+                            taskMessageCount++;
+                            SpUtils.setInt(GlobalConstants.SpConfigKey.TASK_MESSAGE_COUNT, taskMessageCount);
                         }
-                    } else if (taskMessageBean.type == 2) {//服务订单页
-                        if (ActivityUtils.currentActivity instanceof MyBidServiceActivity) {
-                            MyBidServiceActivity currentActivity = (MyBidServiceActivity) ActivityUtils.currentActivity;
-                            currentActivity.mMyBidServiceModel.reloadData(true);
-                        } else if (ActivityUtils.currentActivity instanceof MyPublishServiceActivity) {
-                            MyPublishServiceActivity currentActivity = (MyPublishServiceActivity) ActivityUtils.currentActivity;
-                            currentActivity.mMyPublishServiceModel.reloadData(true);
+                        if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
+                            HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
+                            PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
+                            if (MsgManager.taskMessageCount > 0) {
+                                pagerHomeInfoModel.setTaskMessageCountPointVisibility(View.VISIBLE);
+                                pagerHomeInfoModel.setTaskMessageCount(MsgManager.taskMessageCount + "");
+                            } else {
+                                pagerHomeInfoModel.setTaskMessageCountPointVisibility(View.GONE);
+                            }
+                        }
+                        //每一个任务对应的消息数量的处理
+                        if (everyTaskMessageCount == null) {
+                            everyTaskMessageCount = deserializeEveryTaskMessageCount();
+                            if (everyTaskMessageCount == null) {
+                                everyTaskMessageCount = new HashMap<Long, Integer>();
+                            }
+                        }
+//                        CommandNotificationMessage commandNotificationMessage = (CommandNotificationMessage) message.getContent();
+                        String data = commandNotificationMessage.getData();
+                        Gson gson = new Gson();
+                        TaskMessageBean taskMessageBean = gson.fromJson(data, TaskMessageBean.class);
+                        long id = taskMessageBean.id;
+                        Integer integer = everyTaskMessageCount.get(id);
+                        int count;
+                        if (integer == null) {
+                            count = 0;
+                        } else {
+                            count = integer;
+                        }
+                        count++;
+                        everyTaskMessageCount.put(id, count);
+                        //次数更新了，重新序列化到磁盘
+                        serializeEveryTaskMessageCount(everyTaskMessageCount);
+
+                        //如果当前页面是任务订单详情页，则实时刷新页面数据
+                        if (taskMessageBean.type == 1) {//需求订单页
+                            if (ActivityUtils.currentActivity instanceof MyBidDemandActivity) {
+                                MyBidDemandActivity currentActivity = (MyBidDemandActivity) ActivityUtils.currentActivity;
+                                currentActivity.mMyBidDemandModel.reloadData(true);
+                            } else if (ActivityUtils.currentActivity instanceof MyPublishDemandActivity) {
+                                MyPublishDemandActivity currentActivity = (MyPublishDemandActivity) ActivityUtils.currentActivity;
+                                currentActivity.mMyPublishDemandModel.reloadData(true);
+                            }
+                        } else if (taskMessageBean.type == 2) {//服务订单页
+                            if (ActivityUtils.currentActivity instanceof MyBidServiceActivity) {
+                                MyBidServiceActivity currentActivity = (MyBidServiceActivity) ActivityUtils.currentActivity;
+                                currentActivity.mMyBidServiceModel.reloadData(true);
+                            } else if (ActivityUtils.currentActivity instanceof MyPublishServiceActivity) {
+                                MyPublishServiceActivity currentActivity = (MyPublishServiceActivity) ActivityUtils.currentActivity;
+                                currentActivity.mMyPublishServiceModel.reloadData(true);
+                            }
+                        }
+
+                        //100号的消息数量，必须等到上面的代码执行完毕，才会更新，所以在这里去刷新消息数
+                        //获取总的未读消息数
+                        if (mTotalUnReadCountListener != null) {
+                            RongIMClient.getInstance().getUnreadCount(new RongIMClient.ResultCallback<Integer>() {
+                                @Override
+                                public void onSuccess(Integer integer) {
+                                    int totalUnreadCount = integer;
+                                    mTotalUnReadCountListener.displayTotalUnReadCount(totalUnreadCount);
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                }
+                            }, Conversation.ConversationType.PRIVATE);
                         }
                     }
-
-                    //100号的消息数量，必须等到上面的代码执行完毕，才会更新，所以在这里去刷新消息数
-                    //获取总的未读消息数
-                    if (mTotalUnReadCountListener != null) {
-                        RongIMClient.getInstance().getUnreadCount(new RongIMClient.ResultCallback<Integer>() {
-                            @Override
-                            public void onSuccess(Integer integer) {
-                                int totalUnreadCount = integer;
-                                mTotalUnReadCountListener.displayTotalUnReadCount(totalUnreadCount);
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {
-
-                            }
-                        }, Conversation.ConversationType.PRIVATE);
-                    }
-
                 }
             } else if (senderUserId.equals("1000")) {//斜杠消息助手
                 CommonUtils.getHandler().post(new Runnable() {

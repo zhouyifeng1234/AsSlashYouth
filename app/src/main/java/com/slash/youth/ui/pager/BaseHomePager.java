@@ -13,11 +13,9 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeBaseBinding;
 import com.slash.youth.domain.DemandBean;
 import com.slash.youth.ui.adapter.PagerHomeDemandtAdapter;
-import com.slash.youth.ui.adapter.PagerSearchDemandtAdapter;
 import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.ui.viewmodel.PagerHomeBaseModel;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
@@ -34,14 +32,23 @@ abstract public class BaseHomePager {
     private static double currentLatitude;
     private static double currentLongitude;
 
+    public Runnable runnable;//回调,执行网络数据加载完毕后的一些回调操作
+
     public BaseHomePager(Activity activity) {
+//        this.mActivity = activity;
+//        rootView = initView();
+//        initListener();
+//        setData();
+        this(activity, null);
+    }
+
+    public BaseHomePager(Activity activity, Runnable runnable) {
+        this.runnable = runnable;
         this.mActivity = activity;
         rootView = initView();
         initListener();
         setData();
     }
-
-
 
 
     public View initView() {
