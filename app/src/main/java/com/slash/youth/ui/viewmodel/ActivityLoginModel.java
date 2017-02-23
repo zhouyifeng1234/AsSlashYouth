@@ -21,10 +21,13 @@ import com.slash.youth.domain.PhoneLoginResultBean;
 import com.slash.youth.domain.RongTokenBean;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.domain.ThirdPartyLoginResultBean;
+import com.slash.youth.domain.UserInfoBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.ui.activity.HomeActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
@@ -215,12 +218,8 @@ public class ActivityLoginModel extends BaseObservable {
 
                     SpUtils.setBoolean("showMoreDemandDialog", false);
 
-                    Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                    mActivity.startActivity(intentHomeActivity);
-                    if (LoginActivity.activity != null) {
-                        LoginActivity.activity.finish();
-                        LoginActivity.activity = null;
-                    }
+                    //这里需要判断是否设置了个人信息和技能标签，来跳转不同的页面
+                    oldUserInfoCheck();
                 } else if (dataBean.rescode == 11) {
                     //登陆成功，新用户
                     savaLoginState(uid, token, rongToken);
@@ -289,6 +288,44 @@ public class ActivityLoginModel extends BaseObservable {
 //        intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        CommonUtils.getContext().startActivity(intentChatActivity);
 
+    }
+
+    /**
+     * 根据是否设置了个人信息（真实姓名）和技能标签来跳转到不同的页面
+     */
+    private void oldUserInfoCheck() {
+        //这里需要真实姓名、用户的一级、二级和三级技能标签来做判断
+        UserInfoEngine.getMyUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                String realName = uinfo.name;
+                if (TextUtils.isEmpty(realName)) {
+                    Intent intentPerfectInfoActivity = new Intent(CommonUtils.getContext(), PerfectInfoActivity.class);
+                    mActivity.startActivity(intentPerfectInfoActivity);
+                } else {
+                    String industry = uinfo.industry;
+                    String direction = uinfo.direction;
+                    String tag = uinfo.tag;
+                    if (!TextUtils.isEmpty(industry) && !TextUtils.isEmpty(direction) && !TextUtils.isEmpty(tag)) {
+                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+                        mActivity.startActivity(intentHomeActivity);
+                        if (LoginActivity.activity != null) {
+                            LoginActivity.activity.finish();
+                            LoginActivity.activity = null;
+                        }
+                    } else {
+                        Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
+                        mActivity.startActivity(intentChooseSkillActivity);
+                    }
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取个人信息失败:" + result);
+            }
+        });
     }
 
     /**
@@ -598,12 +635,14 @@ public class ActivityLoginModel extends BaseObservable {
                 }, uid + "", "111");//这里的phone随便传一直值
 
                 //跳转到首页
-                Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                mActivity.startActivity(intentHomeActivity);
-                if (LoginActivity.activity != null) {
-                    LoginActivity.activity.finish();
-                    LoginActivity.activity = null;
-                }
+//                Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//                mActivity.startActivity(intentHomeActivity);
+//                if (LoginActivity.activity != null) {
+//                    LoginActivity.activity.finish();
+//                    LoginActivity.activity = null;
+//                }
+                //这里需要判断是否完善里技能标签
+                thirdOldUserCheck();
             } else {
                 LogKit.v("服务端第三方登录失败");
                 ToastUtils.shortToast("服务端第三方登录失败");
@@ -615,6 +654,34 @@ public class ActivityLoginModel extends BaseObservable {
             //这里不会执行
         }
     };
+
+    private void thirdOldUserCheck() {
+        UserInfoEngine.getMyHomeInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                UserInfoBean.UInfo uinfo = dataBean.data.uinfo;
+                String industry = uinfo.industry;
+                String direction = uinfo.direction;
+                String tag = uinfo.tag;
+                if (!TextUtils.isEmpty(industry) && !TextUtils.isEmpty(direction) && !TextUtils.isEmpty(tag)) {
+                    Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+                    mActivity.startActivity(intentHomeActivity);
+                    if (LoginActivity.activity != null) {
+                        LoginActivity.activity.finish();
+                        LoginActivity.activity = null;
+                    }
+                } else {
+                    Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
+                    mActivity.startActivity(intentChooseSkillActivity);
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("thirdOldUserCheck 获取用户个人信息失败:" + result);
+            }
+        });
+    }
 
     boolean isCheckedSlashProtocol = true;
 

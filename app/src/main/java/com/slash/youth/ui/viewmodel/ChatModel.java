@@ -100,6 +100,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 import io.rong.message.CommandMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.ReadReceiptMessage;
@@ -143,6 +144,8 @@ public class ChatModel extends BaseObservable {
     private int oldestMessageId = -1;//读取本地历史消息记录的时候用这个。最后一条消息的 Id，获取此消息之前的 count 条消息，没有消息第一次调用应设置为:-1。
     private long oldestMessageDateTime = 0;//读取远程历史消息的时候使用这个。从该时间点开始获取消息。即：消息中的 sentTime；第一次可传 0，获取最新 count 条。
 
+    private UserInfo rongUserInfo;
+
     public ChatModel(ActivityChatBinding activityChatBinding, Activity activity) {
         this.mActivityChatBinding = activityChatBinding;
         this.mActivity = activity;
@@ -170,6 +173,7 @@ public class ChatModel extends BaseObservable {
     }
 
     private void initData() {
+        rongUserInfo = new UserInfo(LoginManager.currentLoginUserId + "", LoginManager.currentLoginUserName, Uri.parse(LoginManager.currentLoginUserAvatar));
 
         MsgManager.setHistoryListener(new ChatHistoryListener());
         MsgManager.loadHistoryChatRecord(-1);
@@ -846,6 +850,9 @@ public class ChatModel extends BaseObservable {
     public void sendVoice(String voiceFilePath, final int duration) {
         final File voiceFile = new File(voiceFilePath);
         final VoiceMessage vocMsg = VoiceMessage.obtain(Uri.fromFile(voiceFile), duration);
+        if (rongUserInfo != null) {
+            vocMsg.setUserInfo(rongUserInfo);
+        }
         final long sendTime = System.currentTimeMillis();
 
         final View mySendVoiceView = null;
@@ -898,6 +905,9 @@ public class ChatModel extends BaseObservable {
     public void sendText() {
         final String inputText = mActivityChatBinding.etChatInput.getText().toString();
         TextMessage textMessage = TextMessage.obtain(inputText);
+        if (rongUserInfo != null) {
+            textMessage.setUserInfo(rongUserInfo);
+        }
         final long sendTime = System.currentTimeMillis();
         final View myTextView = createMyTextView(inputText, false, textMessage, targetId, false);
         String pushContent = LoginManager.currentLoginUserName + ":" + inputText;
@@ -970,6 +980,9 @@ public class ChatModel extends BaseObservable {
         }
 
         final ImageMessage imageMessage = ImageMessage.obtain(Uri.fromFile(imageThumb), Uri.fromFile(imageSource));
+        if (rongUserInfo != null) {
+            imageMessage.setUserInfo(rongUserInfo);
+        }
         String pushContent = LoginManager.currentLoginUserName + ":[图片],请查看";
         RongIMClient.getInstance().sendImageMessage(Conversation.ConversationType.PRIVATE, targetId, imageMessage, pushContent, null, new RongIMClient.SendImageMessageCallback() {
 
@@ -1065,6 +1078,9 @@ public class ChatModel extends BaseObservable {
                             String jsonData = gson.toJson(chatCmdAddFriendBean);
                             //{"content":"addFriend","extra":"{\"QQ_uid\":\"10003\"}"}
                             TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND);
+                            if (rongUserInfo != null) {
+                                textMessage.setUserInfo(rongUserInfo);
+                            }
                             textMessage.setExtra(jsonData);
                             //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_ADD_FRIEND, jsonData);
                             String pushContent = LoginManager.currentLoginUserName + ":[好友请求],请查看";
@@ -1152,6 +1168,9 @@ public class ChatModel extends BaseObservable {
                         Gson gson = new Gson();
                         String jsonData = gson.toJson(chatCmdChangeContactBean);
                         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_CHANGE_CONTACT);
+                        if (rongUserInfo != null) {
+                            textMessage.setUserInfo(rongUserInfo);
+                        }
                         textMessage.setExtra(jsonData);
 
                         //CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
@@ -1198,6 +1217,9 @@ public class ChatModel extends BaseObservable {
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdShareTaskBean);
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK);
+        if (rongUserInfo != null) {
+            textMessage.setUserInfo(rongUserInfo);
+        }
         textMessage.setExtra(jsonData);
 
 //        CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_CMD_SHARE_TASK, jsonData);
@@ -1242,6 +1264,9 @@ public class ChatModel extends BaseObservable {
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatCmdBusinesssCardBean);
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_BUSINESS_CARD);
+        if (rongUserInfo != null) {
+            textMessage.setUserInfo(rongUserInfo);
+        }
         textMessage.setExtra(jsonData);
 
 
@@ -1278,6 +1303,9 @@ public class ChatModel extends BaseObservable {
     public void agreeChangeContact(final String otherPhone, final TextView tvDeny, final TextView tvAgree) {
         //需要调用服务端保存已交换过联系方式状态的接口
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_CHANGE_CONTACT);
+        if (rongUserInfo != null) {
+            textMessage.setUserInfo(rongUserInfo);
+        }
         String myPhone = LoginManager.currentLoginUserPhone;
         textMessage.setExtra("{\"content\":\"" + myPhone + "\",\"otherPhone\":\"" + otherPhone + "\"}");//这里的otherPhone好像没有用到
 
@@ -1321,6 +1349,9 @@ public class ChatModel extends BaseObservable {
     //拒绝交换联系方式
     public void refuseChangeContact(final TextView tvDeny, final TextView tvAgree) {
         TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_CHANGE_CONTACT);
+        if (rongUserInfo != null) {
+            textMessage.setUserInfo(rongUserInfo);
+        }
         textMessage.setExtra("{\"content\":\"对方拒绝交换联系方式\"}");
 
         String pushContent = LoginManager.currentLoginUserName + ":[拒绝交换手机号],请查看";
@@ -1370,6 +1401,9 @@ public class ChatModel extends BaseObservable {
                             tvAgree.setEnabled(false);
 
                             TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_AGREE_ADD_FRIEND);
+                            if (rongUserInfo != null) {
+                                textMessage.setUserInfo(rongUserInfo);
+                            }
                             textMessage.setExtra("{\"content\":\"对方同意加我为好友\"}");
 
                             String pushContent = LoginManager.currentLoginUserName + ":[同意添加好友],请查看";
@@ -1440,6 +1474,9 @@ public class ChatModel extends BaseObservable {
                             tvAgree.setEnabled(false);
 
                             TextMessage textMessage = TextMessage.obtain(MsgManager.CHAT_CMD_REFUSE_ADD_FRIEND);
+                            if (rongUserInfo != null) {
+                                textMessage.setUserInfo(rongUserInfo);
+                            }
                             textMessage.setExtra("{\"content\":\"对方拒绝加我为好友\"}");
 
                             String pushContent = LoginManager.currentLoginUserName + ":[拒绝添加好友],请查看";
@@ -1500,6 +1537,9 @@ public class ChatModel extends BaseObservable {
         Gson gson = new Gson();
         String jsonData = gson.toJson(chatTaskInfoBean);
         CommandMessage commandMessage = CommandMessage.obtain(MsgManager.CHAT_TASK_INFO, jsonData);
+        if (rongUserInfo != null) {
+            commandMessage.setUserInfo(rongUserInfo);
+        }
 
         RongIMClient.getInstance().sendMessage(Conversation.ConversationType.PRIVATE, targetId, commandMessage, null, null, new RongIMClient.SendMessageCallback() {
             @Override

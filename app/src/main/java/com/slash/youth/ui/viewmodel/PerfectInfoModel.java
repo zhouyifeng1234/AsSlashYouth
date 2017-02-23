@@ -314,6 +314,8 @@ public class PerfectInfoModel extends BaseObservable {
                                     setRealname();
                                 } else if (dataBean.rescode == 0) {
                                     ToastUtils.shortToast("该手机号已经被注册过");
+                                } else if (dataBean.rescode == 7) {
+                                    ToastUtils.shortToast("验证码错误");
                                 } else {
                                     ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                                 }
@@ -352,6 +354,8 @@ public class PerfectInfoModel extends BaseObservable {
             public void execute(CommonResultBean dataBean) {
                 Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
                 mActivity.startActivity(intentChooseSkillActivity);
+                mActivity.finish();
+                mActivity = null;
             }
 
             @Override
