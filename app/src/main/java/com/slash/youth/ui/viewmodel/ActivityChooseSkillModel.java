@@ -67,6 +67,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
     }
 
     private void initData() {
+        //清空SharePreferences中的登录信息,解决token时未完成个人信息的注册账号直接进入首页的问题
+        LoginManager.clearSpLoginInfo();
         getDataFromServer();
 
 //        optionalMainLabels = new String[]{"金融", "IT", "医学", "手工业", "文学"};//加载可选的一级标签（行业），实际应该从服务端接口获取
@@ -363,7 +365,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
     private int chooseTag1Index = -1;
 
     /**
-     * 选择一级标签（选择行业）
+     * 选择一级标签（选择行业）(打开一级标签列表操作)
      *
      * @param v
      */
@@ -393,7 +395,7 @@ public class ActivityChooseSkillModel extends BaseObservable {
     private int chooseTag2Index = -1;
 
     /**
-     * 选择二级标签（选择岗位）
+     * 选择二级标签（选择岗位）(打开二级标签列表操作)
      *
      * @param v
      */
@@ -437,10 +439,23 @@ public class ActivityChooseSkillModel extends BaseObservable {
             if (value != chooseTag1Index) {
                 clearCheckedThirdLabels();//选择了不同的一级标签，清空已选择的三级标签
                 chooseTag1Index = value;
-                chooseTag2Index = -1;
+//                chooseTag2Index = -1;
+                chooseTag2Index = 0;
                 setChoosedMainLabel(optionalMainLabels[value]);
-                setChoosedSecondLabel(null);
-                mActivityChooseSkillBinding.llActivityChooseSkillLabels.removeAllViews();
+
+//                setChoosedSecondLabel(null);
+                AllSkillLablesBean.Tag_1 tag_1 = tag1Arr[chooseTag1Index];
+                Collection<AllSkillLablesBean.Tag_2> tag2Coll = tag_1.mapTag_2.values();
+                tag2Arr = new AllSkillLablesBean.Tag_2[tag2Coll.size()];
+                tag2Coll.toArray(tag2Arr);
+                optionalSecondLabels = new String[tag2Arr.length];
+                for (int i = 0; i < tag2Arr.length; i++) {
+                    optionalSecondLabels[i] = tag2Arr[i].tag;
+                }
+                setChoosedSecondLabel(optionalSecondLabels[chooseTag2Index]);
+
+//                mActivityChooseSkillBinding.llActivityChooseSkillLabels.removeAllViews();
+                setThirdSkillLabels();
             }
         } else {
             if (value != chooseTag2Index) {

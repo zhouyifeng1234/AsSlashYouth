@@ -30,7 +30,6 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PhoneNumUtils;
-import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -65,6 +64,9 @@ public class PerfectInfoModel extends BaseObservable {
     }
 
     private void initData() {
+        //清空SharePreferences中的登录信息,解决token时未完成个人信息的注册账号直接进入首页的问题
+        LoginManager.clearSpLoginInfo();
+
         thirdPlatformBundle = mActivity.getIntent().getExtras();
         if (thirdPlatformBundle == null) {
             //表示是由手机号登录进入的，所以不再需要输入手机号，隐藏手机号输入框
@@ -376,9 +378,9 @@ public class PerfectInfoModel extends BaseObservable {
         LoginManager.token = token;
         LoginManager.rongToken = rongToken;
 
-        SpUtils.setLong("uid", uid);
-        SpUtils.setString("token", token);
-        SpUtils.setString("rongToken", rongToken);
+//        SpUtils.setLong("uid", uid);
+//        SpUtils.setString("token", token);
+//        SpUtils.setString("rongToken", rongToken);
     }
 
 

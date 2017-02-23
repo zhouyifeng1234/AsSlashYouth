@@ -656,7 +656,7 @@ public class ActivityLoginModel extends BaseObservable {
     };
 
     private void thirdOldUserCheck() {
-        UserInfoEngine.getMyHomeInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+        UserInfoEngine.getMyUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
             @Override
             public void execute(UserInfoBean dataBean) {
                 UserInfoBean.UInfo uinfo = dataBean.data.uinfo;

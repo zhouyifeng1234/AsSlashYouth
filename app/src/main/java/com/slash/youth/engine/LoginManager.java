@@ -256,6 +256,14 @@ public class LoginManager {
         loginoutProtocol.getDataFromServer(onLogout);
     }
 
+    /**
+     * 清空SharePreferences中的登录信息,解决token时未完成个人信息的注册账号直接进入首页的问题
+     */
+    public static void clearSpLoginInfo() {
+        SpUtils.setLong("uid", 0);
+        SpUtils.setString("token", "");
+        SpUtils.setString("rongToken", "");
+    }
 
 }
 

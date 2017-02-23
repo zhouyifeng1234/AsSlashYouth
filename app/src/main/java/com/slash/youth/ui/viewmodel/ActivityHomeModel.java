@@ -46,6 +46,11 @@ public class ActivityHomeModel extends BaseObservable {
     }
 
     private void initData() {
+        //把用户的登录信息保存到SharePreferences中
+        SpUtils.setLong("uid", LoginManager.currentLoginUserId);
+        SpUtils.setString("token", LoginManager.token);
+        SpUtils.setString("rongToken", LoginManager.rongToken);
+
         //首先注册未读消息的监听器，这样每次来新的聊天消息都会有更新
         MsgManager.setTotalUnReadCountListener(new MsgManager.TotalUnReadCountListener() {
 
