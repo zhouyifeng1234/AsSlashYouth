@@ -303,7 +303,7 @@ public class PagerHomeMyModel extends BaseObservable {
         mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
 //        mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
         mPagerHomeMyBinding.tvAverageServicePoint.setText(df.format(averageservicepoint));
-        mPagerHomeMyBinding.tvUserServicePoint.setText("平均服务力为" + df.format(averageservicepoint) + "星");
+        mPagerHomeMyBinding.tvUserServicePoint.setText("平台平均服务力为" + df.format(averageservicepoint) + "星");
 
         //数量,网络获取的分数
        /* int expertscore = myinfo.getExpertscore();

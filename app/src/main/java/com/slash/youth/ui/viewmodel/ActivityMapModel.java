@@ -12,6 +12,7 @@ import com.slash.youth.databinding.ActivityMapBinding;
 import com.slash.youth.domain.NearLocationBean;
 import com.slash.youth.ui.activity.MapActivity;
 import com.slash.youth.ui.adapter.MapNearLocationAdapter;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -72,6 +73,10 @@ public class ActivityMapModel extends BaseObservable {
     }
 
     public void okChooseLocation(View v) {
+        //异常闪退调试
+//        int a = 5 / 0;
+//        LogKit.v(a + "");
+
         if (mActivity.mCurrentAddress != null && mActivity.mCurrentAoiName != null && mActivity.mCurrentLatlng != null) {
             if (TextUtils.isEmpty(mActivity.mCurrentAddress) && TextUtils.isEmpty(mActivity.mCurrentAoiName)) {
                 ToastUtils.shortToast("没有获取到当前位置的地理信息");

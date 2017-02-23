@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
@@ -93,6 +94,13 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 LogKit.v("onActivityCreated");
+                //设置状态栏的颜色
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(0xff31c5e4);
+                }
+
                 activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//禁止Activity横屏
                 if (activity instanceof LoginActivity) {
                     activity.requestWindowFeature(Window.FEATURE_NO_TITLE);//无标题

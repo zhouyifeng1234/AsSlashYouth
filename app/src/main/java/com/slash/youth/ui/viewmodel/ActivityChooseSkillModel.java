@@ -195,7 +195,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
 
     LinearLayout llSkillLabelsLine = null;
     int lineLeftRightMargin = CommonUtils.dip2px(11);
-    int labelRightMargin = CommonUtils.dip2px(20);
+    //    int labelRightMargin = CommonUtils.dip2px(20);
+    int labelRightMargin = CommonUtils.dip2px(18);
     int currentLabelsWidth = 0;
 
     AllSkillLablesBean.Tag_3[] tag3Arr;
@@ -222,13 +223,18 @@ public class ActivityChooseSkillModel extends BaseObservable {
                 for (int i = 0; i < tag3Arr.length; i++) {
                     AllSkillLablesBean.Tag_3 tag_3 = tag3Arr[i];
                     String labelName = tag_3.tag;
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, CommonUtils.dip2px(60));
+                    if (labelName.length() <= 3) {
+                        labelName = " " + labelName + " ";
+                    }
+//                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, CommonUtils.dip2px(60));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, CommonUtils.dip2px(40));
                     params.rightMargin = labelRightMargin;
                     TextView tvSkillLabel = new TextView(CommonUtils.getContext());
                     tvSkillLabel.setTag(false);
                     tvSkillLabel.setText(labelName);
                     tvSkillLabel.setPadding(CommonUtils.dip2px(21), CommonUtils.dip2px(10), CommonUtils.dip2px(21), CommonUtils.dip2px(10));
-                    tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
+//                    tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
+                    tvSkillLabel.setBackgroundResource(R.drawable.label_unselected);
                     tvSkillLabel.setGravity(Gravity.CENTER);
                     tvSkillLabel.setTextColor(0xff31c5e4);
                     tvSkillLabel.setTextSize(13.5f);
@@ -282,7 +288,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
                         checkedThirdLabelsCount = 0;
                     }
                     tvSkillLabel.setTextColor(0xff31c5e4);
-                    tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
+//                    tvSkillLabel.setBackgroundResource(R.mipmap.unchoose_skill_label_bg);
+                    tvSkillLabel.setBackgroundResource(R.drawable.label_unselected);
                     choosedThirdLabels.remove(tag_3);
                 } else {
                     MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_EXCLUSIVE_SKILLS_CHOOSE_LABEL);
@@ -293,7 +300,8 @@ public class ActivityChooseSkillModel extends BaseObservable {
                     }
                     checkedThirdLabelsCount++;
                     tvSkillLabel.setTextColor(0xffffffff);
-                    tvSkillLabel.setBackgroundResource(R.mipmap.choose_skill_label_bg);
+//                    tvSkillLabel.setBackgroundResource(R.mipmap.choose_skill_label_bg);
+                    tvSkillLabel.setBackgroundResource(R.drawable.label_selected);
                     choosedThirdLabels.add(tag_3);
                 }
                 tvSkillLabel.setTag(!isSelected);

@@ -173,7 +173,9 @@ public class ChatModel extends BaseObservable {
     }
 
     private void initData() {
-        rongUserInfo = new UserInfo(LoginManager.currentLoginUserId + "", LoginManager.currentLoginUserName, Uri.parse(LoginManager.currentLoginUserAvatar));
+        if (LoginManager.currentLoginUserId != 0 && !TextUtils.isEmpty(LoginManager.currentLoginUserName) && !TextUtils.isEmpty(LoginManager.currentLoginUserAvatar)) {
+            rongUserInfo = new UserInfo(LoginManager.currentLoginUserId + "", LoginManager.currentLoginUserName, Uri.parse(LoginManager.currentLoginUserAvatar));
+        }
 
         MsgManager.setHistoryListener(new ChatHistoryListener());
         MsgManager.loadHistoryChatRecord(-1);
