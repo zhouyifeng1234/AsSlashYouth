@@ -20,6 +20,7 @@ import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
+import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -117,11 +118,13 @@ public class PagerHomeInfoModel extends BaseObservable {
             setTaskMessageCountPointVisibility(View.GONE);
         }
 
-        listConversation.clear();
-        homeInfoListAdapter = null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
+        mPagerHomeInfoBinding.lvPagerHomeInfo.setEnabled(false);
+        //这里应该不可能为null
         if (listConversation == null) {
             listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
         }
+        listConversation.clear();
+//        homeInfoListAdapter = null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
         MsgManager.conversationUidList.clear();
         getConversationList();
     }
@@ -160,12 +163,16 @@ public class PagerHomeInfoModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
-
+                mPagerHomeInfoBinding.lvPagerHomeInfo.setEnabled(true);
             }
         }, conversationListOffset + "", conversationListLimit + "");
     }
 
     HomeInfoListAdapter homeInfoListAdapter;
+
+    //这两个参数用来避免for循环遍历的时候重复执行
+    int totalCount;
+    int currentCount;
 
     public void setConversationList() {
         //这里当做listConversation中的数据是全部的会话列表数据，MsgManager.conversationUidList中就是全部会话的uid，并且是按时间顺序排列的
@@ -177,10 +184,16 @@ public class PagerHomeInfoModel extends BaseObservable {
             if (!MsgManager.conversationUidList.contains(MsgManager.customerServiceUid)) {
                 listAddConversationUid.add(MsgManager.customerServiceUid);
             }
+            totalCount = listAddConversationUid.size();
+            currentCount = 0;
             for (final String targetId : listAddConversationUid) {
                 RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, targetId, 1, new RongIMClient.ResultCallback<List<Message>>() {
                     @Override
                     public void onSuccess(List<Message> messages) {
+                        //打印主线程id和当前线程id
+                        LogKit.v("Main Thread id:" + CommonUtils.getMainThreadId());
+                        LogKit.v("Current Thread id:" + android.os.Process.myTid());
+
                         ConversationListBean conversationListBean = new ConversationListBean();
                         ConversationListBean.ConversationInfo conversationInfo = conversationListBean.new ConversationInfo();
                         conversationInfo.uid = Long.parseLong(targetId);
@@ -216,17 +229,23 @@ public class PagerHomeInfoModel extends BaseObservable {
                             listConversation.add(conversationInfo);
                             MsgManager.conversationUidList.add(targetId);
                         }
-                        if (homeInfoListAdapter == null) {
-                            homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
-                            mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
-                        } else {
-                            homeInfoListAdapter.notifyDataSetChanged();
+                        currentCount++;
+                        if (currentCount >= totalCount) {//避免for循环遍历的时候重复执行
+                            if (homeInfoListAdapter == null) {
+                                homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
+                                mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
+                                LogKit.v("----HomeInfoListAdapter new HomeInfoListAdapter");
+                            } else {
+                                homeInfoListAdapter.notifyDataSetChanged();
+                                LogKit.v("----HomeInfoListAdapter notifyDataSetChanged 1111");
+                            }
+                            mPagerHomeInfoBinding.lvPagerHomeInfo.setEnabled(true);
                         }
                     }
 
                     @Override
                     public void onError(RongIMClient.ErrorCode errorCode) {
-
+                        currentCount++;
                     }
                 });
             }
@@ -234,9 +253,12 @@ public class PagerHomeInfoModel extends BaseObservable {
             if (homeInfoListAdapter == null) {
                 homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
                 mPagerHomeInfoBinding.lvPagerHomeInfo.setAdapter(homeInfoListAdapter);
+                LogKit.v("----HomeInfoListAdapter new HomeInfoListAdapter 2222");
             } else {
                 homeInfoListAdapter.notifyDataSetChanged();
+                LogKit.v("----HomeInfoListAdapter notifyDataSetChanged 2222");
             }
+            mPagerHomeInfoBinding.lvPagerHomeInfo.setEnabled(true);
         }
     }
 

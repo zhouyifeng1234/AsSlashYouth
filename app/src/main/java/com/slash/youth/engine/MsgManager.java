@@ -107,11 +107,17 @@ public class MsgManager {
             @Override
             public void onChanged(ConnectionStatus connectionStatus) {
                 String connMessage = connectionStatus.getMessage();
-                LogKit.v("connectionStatus:" + connMessage);
-                //这里用toast可能会报错，跨进程的原因，需要handler
-//                if (connMessage.equals("Login on the other device, and be kicked offline.")) {
-//                    ToastUtils.shortToast(connMessage);
-//                }
+                int value = connectionStatus.getValue();
+                LogKit.v("----ConnectionStatusListener connMessage:" + connMessage);
+                LogKit.v("----ConnectionStatusListener value:" + value);
+                if (value == 3) {//下线通知
+                    CommonUtils.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
             }
         });
 
@@ -706,7 +712,9 @@ public class MsgManager {
             RongIMClient.getInstance().getHistoryMessages(Conversation.ConversationType.PRIVATE, targetId, oldestMessageId, 20, new RongIMClient.ResultCallback<List<Message>>() {
                 @Override
                 public void onSuccess(List<Message> messages) {
-                    mHistoryListener.displayHistory(messages);
+                    if (mHistoryListener != null) {
+                        mHistoryListener.displayHistory(messages);
+                    }
                 }
 
                 @Override

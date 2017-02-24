@@ -524,7 +524,8 @@ public class ActivityLoginModel extends BaseObservable {
     private UMAuthListener umAuthListenerForUserInfo = new UMAuthListener() {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            ToastUtils.shortToast("GetUserInfo succeed");
+//            ToastUtils.shortToast("GetUserInfo succeed");
+            LogKit.v("GetUserInfo succeed");
             switch (platform) {
                 case QQ:
                     LogKit.v("qq data size:" + data.size());
@@ -573,12 +574,14 @@ public class ActivityLoginModel extends BaseObservable {
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            ToastUtils.shortToast("GetUserInfo fail");
+//            ToastUtils.shortToast("GetUserInfo fail");
+            LogKit.v("GetUserInfo fail");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            ToastUtils.shortToast("GetUserInfo cancel");
+//            ToastUtils.shortToast("GetUserInfo cancel");
+            LogKit.v("GetUserInfo cancel");
         }
     };
 
