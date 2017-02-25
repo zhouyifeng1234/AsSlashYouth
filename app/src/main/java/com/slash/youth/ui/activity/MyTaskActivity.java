@@ -1,18 +1,18 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyTaskBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.MyTaskModel;
 
 /**
  * Created by zhouyifeng on 2016/10/26.
  */
-public class MyTaskActivity extends Activity {
+public class MyTaskActivity extends BaseActivity {
 
     private MyTaskModel mMyTaskModel;
 

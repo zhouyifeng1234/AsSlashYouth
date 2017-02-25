@@ -1,18 +1,18 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceAddinfoBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishServiceAddInfoModel;
 
 /**
  * Created by zhouyifeng on 2016/11/8.
  */
-public class PublishServiceAddInfoActivity extends Activity {
+public class PublishServiceAddInfoActivity extends BaseActivity {
 
     private PublishServiceAddInfoModel mPublishServiceAddInfoModel;
 

@@ -1,10 +1,6 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,19 +8,13 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMySettingBinding;
-import com.slash.youth.domain.CommonResultBean;
-import com.slash.youth.engine.AccountManager;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.viewmodel.MyAddSkillModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.MySettingModel;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.SpUtils;
 
 /**
  * Created by acer on 2016/11/3.
  */
-public class MySettingActivity extends Activity implements View.OnClickListener {
+public class MySettingActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private FrameLayout fl;
     private ActivityMySettingBinding activityMySettingBinding;

@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.widget.PopupWindow;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoBinding;
 import com.slash.youth.engine.ContactsManager;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoModel;
 import com.slash.youth.utils.CommonUtils;
@@ -22,7 +22,7 @@ import com.umeng.socialize.UMShareAPI;
 /**
  * Created by zss on 2016/10/31.
  */
-public class UserInfoActivity extends Activity implements View.OnClickListener {
+public class UserInfoActivity extends BaseActivity implements View.OnClickListener {
     private ActivityUserinfoBinding activityUserinfoBinding;
     private PopupWindow popupWindow;
     private ActivityUserInfoModel userInfoModel;

@@ -10,6 +10,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityLoginBinding;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ActivityLoginModel;
 import com.slash.youth.utils.CommonUtils;
 import com.tencent.tauth.IUiListener;
@@ -19,7 +20,7 @@ import com.tencent.tauth.UiError;
 /**
  * Created by zhouyifeng on 2016/9/5.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
 
     public QQLoginUiListener qqLoginUiListener;
     public AuthInfo mAuthInfo;

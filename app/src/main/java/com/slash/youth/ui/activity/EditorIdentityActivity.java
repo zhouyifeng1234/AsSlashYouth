@@ -1,25 +1,23 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityEditorIdentityBinding;
-import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.EditorIdentityModel;
-import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/1.
  */
-public class EditorIdentityActivity extends Activity implements View.OnClickListener {
+public class EditorIdentityActivity extends BaseActivity implements View.OnClickListener {
     private View root;
     private EditorIdentityModel editorIdentityModel;
     private ActivityEditorIdentityBinding activityEditorIdentityBinding;

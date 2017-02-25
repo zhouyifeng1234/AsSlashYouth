@@ -1,29 +1,20 @@
 package com.slash.youth.ui.activity;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityContactUsBinding;
-import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ContactUsModel;
-import com.slash.youth.ui.viewmodel.MyHelpModel;
-import com.slash.youth.utils.CommonUtils;
 
 /**
  * Created by zss on 2016/11/4.
  */
-public class ContactUsActivity extends Activity implements View.OnClickListener {
+public class ContactUsActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private FrameLayout fl;
     private ActivityContactUsBinding activityContactUsBinding;

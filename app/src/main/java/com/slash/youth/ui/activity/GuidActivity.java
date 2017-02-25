@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
@@ -21,7 +21,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by zhouyifeng on 2017/1/6.
  */
-public class GuidActivity extends Activity {
+public class GuidActivity extends BaseActivity {
 
     private ViewPager mVpGuidPagers;
     private int[] guidPicResources;

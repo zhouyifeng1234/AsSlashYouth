@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,13 +8,14 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityRevisePasswordBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.RevisePassWordModel;
 import com.slash.youth.utils.ToastUtils;
 
 /**
  * Created by zss on 2016/11/3.
  */
-public class RevisePasswordActivity extends Activity implements View.OnClickListener {
+public class RevisePasswordActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private TextView save;
     private ActivityRevisePasswordBinding activityRevisePasswordBinding;

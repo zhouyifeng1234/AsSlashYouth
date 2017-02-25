@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityFindPasswordBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.FindPassWordModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -20,7 +20,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by zss on 2016/11/3.
  */
-public class FindPassWordActivity extends Activity implements View.OnClickListener {
+public class FindPassWordActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private TextView save;
     private ActivityFindPasswordBinding activityFindPasswordBinding;

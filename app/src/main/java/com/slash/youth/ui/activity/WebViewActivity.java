@@ -1,38 +1,22 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.SslErrorHandler;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommonQuestionBinding;
 import com.slash.youth.global.GlobalConstants;
-import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ActivityCommonQuestionModel;
-import com.slash.youth.ui.viewmodel.ContactUsModel;
-import com.slash.youth.ui.viewmodel.MyHelpModel;
-import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zss on 2016/12/21.
  */
-public class WebViewActivity extends Activity implements View.OnClickListener {
+public class WebViewActivity extends BaseActivity implements View.OnClickListener {
     private ActivityCommonQuestionBinding activityCommonQuestionBinding;
     private String webUrl;
     private TextView title;

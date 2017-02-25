@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +21,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceModeBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishServiceModeModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -29,7 +29,7 @@ import com.slash.youth.utils.ToastUtils;
 /**
  * Created by zhouyifeng on 2016/9/20.
  */
-public class PublishServiceModeActivity extends Activity {
+public class PublishServiceModeActivity extends BaseActivity {
 
     MapView mMapView;
     public AMap aMap;

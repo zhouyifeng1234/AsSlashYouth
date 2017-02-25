@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,17 +9,16 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyAddSkillBinding;
-import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.MyAddSkillModel;
 import com.slash.youth.utils.Constants;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/3.
  */
-public class MyAddSkillActivity extends Activity implements View.OnClickListener {
+public class MyAddSkillActivity extends BaseActivity implements View.OnClickListener {
 
     private ActivityMyAddSkillBinding activityMyAddSkillBinding;
     private TextView title;

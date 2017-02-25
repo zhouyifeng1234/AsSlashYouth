@@ -1,26 +1,20 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivitySheildBinding;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.viewmodel.MySettingModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.SheildModel;
-import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zss on 2016/11/3.
  */
-public class SheildActivity extends Activity implements View.OnClickListener {
+public class SheildActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private TextView save;
     private ActivitySheildBinding activitySheildBinding;

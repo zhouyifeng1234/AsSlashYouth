@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandBaseinfoBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishDemandBaseInfoModel;
 
 /**
@@ -14,7 +15,7 @@ import com.slash.youth.ui.viewmodel.PublishDemandBaseInfoModel;
  * <p/>
  * Created by zhouyifeng on 2016/10/17.
  */
-public class PublishDemandBaseInfoActivity extends Activity {
+public class PublishDemandBaseInfoActivity extends BaseActivity {
 
     public static Activity mActivity;
 

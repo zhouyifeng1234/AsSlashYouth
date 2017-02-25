@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityDemandDetailLocationBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.DemandDetailLocationModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by zhouyifeng on 2016/10/25.
  */
-public class DemandDetailLocationActivity extends Activity {
+public class DemandDetailLocationActivity extends BaseActivity {
 
     private LatLng mDemandLatLng;
     private MapView mMapView = null;

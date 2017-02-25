@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -34,6 +33,7 @@ import com.slash.youth.http.protocol.CreateSkillLabelProtocol;
 import com.slash.youth.http.protocol.DeleteSkillLabelProtocol;
 import com.slash.youth.http.protocol.SkillLabelAllProtocol;
 import com.slash.youth.http.protocol.SkillLabelGetProtocol;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.adapter.SubscribeSecondSkilllabelAdapter;
 import com.slash.youth.ui.holder.SubscribeSecondSkilllabelHolder;
 import com.slash.youth.ui.viewmodel.ActivitySubscribeModel;
@@ -55,7 +55,7 @@ import java.util.HashMap;
 /**
  * Created by zss on 2016/9/8.
  */
-public class SubscribeActivity extends Activity {
+public class SubscribeActivity extends BaseActivity {
     public ActivitySubscribeBinding mActivitySubscribeBinding;
     private LinearLayout mLlCheckedLabels;
     public String checkedFirstLabel;

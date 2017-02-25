@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.DataBindingUtil;
@@ -42,6 +41,7 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMapBinding;
 import com.slash.youth.domain.NearLocationBean;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.holder.MapNearLocationHolder;
 import com.slash.youth.ui.viewmodel.ActivityMapModel;
 import com.slash.youth.utils.CommonUtils;
@@ -55,7 +55,7 @@ import java.util.List;
 /**
  * Created by zhouyifeng on 2016/9/13.
  */
-public class MapActivity extends Activity {
+public class MapActivity extends BaseActivity {
 
     MapView mMapView = null;
     private AMap mMap;

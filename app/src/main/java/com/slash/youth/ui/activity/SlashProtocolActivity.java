@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -9,11 +8,12 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.slash.youth.R;
+import com.slash.youth.ui.activity.base.BaseActivity;
 
 /**
  * Created by zhouyifeng on 2017/2/13.
  */
-public class SlashProtocolActivity extends Activity {
+public class SlashProtocolActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

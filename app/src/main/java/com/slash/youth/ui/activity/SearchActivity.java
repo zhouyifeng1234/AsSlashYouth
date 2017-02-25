@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +13,9 @@ import com.slash.youth.databinding.SearchListviewAssociationBinding;
 import com.slash.youth.databinding.SearchNeedResultTabBinding;
 import com.slash.youth.databinding.SearchPagerFirstBinding;
 import com.slash.youth.gen.CityHistoryEntityDao;
-import com.slash.youth.gen.DaoSession;
 import com.slash.youth.gen.SearchHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ActivitySearchModel;
 import com.slash.youth.ui.viewmodel.SearchPagerFirstModel;
 import com.slash.youth.utils.CommonUtils;
@@ -24,7 +23,7 @@ import com.slash.youth.utils.CommonUtils;
 /**
  * Created by zss on 2016/9/18.
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
     public SearchNeedResultTabBinding searchNeedResultTabBinding;
     public SearchActivityHotServiceBinding searchActivityHotServiceBinding;
     public ActivitySearchBinding activitySearchBinding;

@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +26,7 @@ import com.slash.youth.domain.ListProvinceBean;
 import com.slash.youth.domain.LocationCityInfo;
 import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
 import com.slash.youth.ui.adapter.LocationCityInfoAdapter;
 import com.slash.youth.ui.adapter.LocationCitySearchListAdapter;
@@ -45,7 +45,7 @@ import java.util.HashMap;
 /**
  * Created by zhouyifeng on 2016/9/7.
  */
-public class CityLocationActivity extends Activity {
+public class CityLocationActivity extends BaseActivity {
     private ActivityCityLocationBinding mActivityCityLocationBinding;
     private ActivityCityLocationModel mActivityCityLocationModel;
     private SQLiteDatabase database;

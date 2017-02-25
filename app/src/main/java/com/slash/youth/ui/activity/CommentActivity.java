@@ -1,11 +1,11 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityCommentBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.CommentModel;
 
 /**
@@ -13,7 +13,7 @@ import com.slash.youth.ui.viewmodel.CommentModel;
  * <p/>
  * Created by zhouyifeng on 2016/11/11.
  */
-public class CommentActivity extends Activity {
+public class CommentActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

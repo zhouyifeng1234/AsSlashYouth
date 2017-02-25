@@ -6,12 +6,13 @@ import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceSuccessBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishServiceSuccessModel;
 
 /**
  * Created by zhouyifeng on 2016/11/9.
  */
-public class PublishServiceSucceddActivity extends Activity {
+public class PublishServiceSucceddActivity extends BaseActivity {
     public static Activity activity;
 
     @Override

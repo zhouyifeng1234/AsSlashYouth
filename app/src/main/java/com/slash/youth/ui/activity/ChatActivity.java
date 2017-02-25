@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ChatModel;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.ToastUtils;
@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 /**
  * Created by zhouyifeng on 2016/11/16.
  */
-public class ChatActivity extends Activity {
+public class ChatActivity extends BaseActivity {
 
     private ChatModel mChatModel;
 

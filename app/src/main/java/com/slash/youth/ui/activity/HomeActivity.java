@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -12,6 +11,7 @@ import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeContactsPager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
@@ -26,7 +26,10 @@ import com.slash.youth.utils.SpUtils;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
-public class HomeActivity extends Activity {
+/**
+ * V1.0版的HomeActivity
+ */
+public class HomeActivity extends BaseActivity {
     public static final int PAGE_FREETIME = 0;//首页闲时
     public static final int PAGE_INFO = 1;//首页消息
     public static final int PAGE_CONTACTS = 2;//首页人脉

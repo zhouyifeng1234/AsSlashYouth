@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,17 +10,16 @@ import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityReplacePhoneBinding;
 import com.slash.youth.domain.SendPinResultBean;
 import com.slash.youth.engine.LoginManager;
-import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ReplacePhoneModel;
-import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 
 /**
  * Created by zss on 2016/11/2.
  */
-public class ReplacePhoneActivity extends Activity implements View.OnClickListener {
+public class ReplacePhoneActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private TextView save;
     private ActivityReplacePhoneBinding activityReplacePhoneBinding;

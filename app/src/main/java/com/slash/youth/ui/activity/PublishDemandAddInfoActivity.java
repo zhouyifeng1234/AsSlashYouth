@@ -1,18 +1,18 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishDemandAddinfoBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishDemandAddInfoModel;
 
 /**
  * Created by zhouyifeng on 2016/10/18.
  */
-public class PublishDemandAddInfoActivity extends Activity {
+public class PublishDemandAddInfoActivity extends BaseActivity {
 
     private PublishDemandAddInfoModel mPublishDemandAddInfoModel;
 

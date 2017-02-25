@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.pingplusplus.android.Pingpp;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPaymentBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PaymentModel;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
@@ -15,7 +16,7 @@ import com.slash.youth.utils.ToastUtils;
 /**
  * Created by zhouyifeng on 2016/11/12.
  */
-public class PaymentActivity extends Activity {
+public class PaymentActivity extends BaseActivity {
 
     private PaymentModel mPaymentModel;
 

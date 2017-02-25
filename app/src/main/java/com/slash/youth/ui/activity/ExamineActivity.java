@@ -1,23 +1,20 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityExamineCertificatesBinding;
-import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ExamineCertificatesModel;
-import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zss on 2016/11/6.
  */
-public class ExamineActivity extends Activity implements View.OnClickListener {
+public class ExamineActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private ActivityExamineCertificatesBinding activityExamineCertificatesBinding;
     private int type;

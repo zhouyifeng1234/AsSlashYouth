@@ -14,6 +14,7 @@ import com.slash.youth.databinding.ActivityPerfectInfoBinding;
 import com.slash.youth.domain.UploadFileResultBean;
 import com.slash.youth.engine.DemandEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PerfectInfoModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
@@ -30,7 +31,7 @@ import java.io.FileOutputStream;
 /**
  * Created by zhouyifeng on 2016/9/12.
  */
-public class PerfectInfoActivity extends Activity {
+public class PerfectInfoActivity extends BaseActivity {
 
     private ActivityPerfectInfoBinding mActivityPerfectInfoBinding;
     private PerfectInfoModel mPerfectInfoModel;

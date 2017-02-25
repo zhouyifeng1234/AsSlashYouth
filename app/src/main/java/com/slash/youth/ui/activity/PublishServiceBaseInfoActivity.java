@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityPublishServiceBaseinfoBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishServiceBaseInfoModel;
-
-import java.io.Serializable;
 
 /**
  * Created by zhouyifeng on 2016/11/8.
  */
-public class PublishServiceBaseInfoActivity extends Activity {
+public class PublishServiceBaseInfoActivity extends BaseActivity {
 
     private PublishServiceBaseInfoModel mPublishServiceBaseInfoModel;
 

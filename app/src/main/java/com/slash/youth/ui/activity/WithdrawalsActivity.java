@@ -1,23 +1,20 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.LayoutWithdrawalsBinding;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.viewmodel.MyAccountModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.WithdrawalsModel;
 
 /**
  * Created by zss on 2016/11/6.
  */
-public class WithdrawalsActivity extends Activity implements View.OnClickListener {
+public class WithdrawalsActivity extends BaseActivity implements View.OnClickListener {
     private TextView title;
     private LayoutWithdrawalsBinding layoutWithdrawalsBinding;
     private String titleText ="提现";

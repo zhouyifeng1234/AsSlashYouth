@@ -1,17 +1,17 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityRefundBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.RefundModel;
 
 /**
  * Created by zhouyifeng on 2016/11/12.
  */
-public class RefundActivity extends Activity {
+public class RefundActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

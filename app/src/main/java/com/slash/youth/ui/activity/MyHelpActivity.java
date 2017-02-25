@@ -1,8 +1,6 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -10,14 +8,13 @@ import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyHelpBinding;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.viewmodel.MyAddSkillModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.MyHelpModel;
 
 /**
  * Created by zss on 2016/11/4.
  */
-public class MyHelpActivity extends Activity implements View.OnClickListener {
+public class MyHelpActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView title;
     private FrameLayout fl;

@@ -1,11 +1,8 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -14,11 +11,8 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMyThridPartyBinding;
-import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.global.GlobalConstants;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.viewmodel.PagerHomeMyModel;
-import com.slash.youth.ui.viewmodel.SheildModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ThirdPartyModel;
 import com.slash.youth.utils.CommonUtils;
 import com.tencent.tauth.IUiListener;
@@ -28,7 +22,7 @@ import com.tencent.tauth.UiError;
 /**
  * Created by zss on 2016/11/4.
  */
-public class BindThridPartyActivity extends Activity implements View.OnClickListener {
+public class BindThridPartyActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView title;
     private FrameLayout fl;

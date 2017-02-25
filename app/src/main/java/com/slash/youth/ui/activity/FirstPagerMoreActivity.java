@@ -1,30 +1,20 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.slash.youth.R;
-import com.slash.youth.databinding.ActivityEditorIdentityBinding;
 import com.slash.youth.databinding.ActivityFirstPagerMoreBinding;
 import com.slash.youth.gen.CityHistoryEntityDao;
 import com.slash.youth.global.SlashApplication;
-import com.slash.youth.ui.viewmodel.EditorIdentityModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.FirstPagerDemandModel;
-import com.slash.youth.utils.Constants;
-import com.slash.youth.utils.LogKit;
-
-import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/1.
  */
-public class FirstPagerMoreActivity extends Activity {
+public class FirstPagerMoreActivity extends BaseActivity {
     private ActivityFirstPagerMoreBinding activityFirstPagerMoreBinding;
     private static final String  TITLE ="更多服务";
     public static int barHeight;

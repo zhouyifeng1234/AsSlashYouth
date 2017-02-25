@@ -1,17 +1,17 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.Activity2ndPublishServiceBinding;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.PublishService2ndModel;
 
 /**
  * Created by zhouyifeng on 2016/9/19.
  */
-public class SecondTimePublishServiceActivity extends Activity {
+public class SecondTimePublishServiceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,37 +3,25 @@ package com.slash.youth.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.slash.youth.R;
-import com.slash.youth.databinding.ActivityHomeBinding;
 import com.slash.youth.databinding.ActivityMySkillManageBinding;
-import com.slash.youth.domain.SkillManagerBean;
-import com.slash.youth.engine.MyManager;
-import com.slash.youth.global.SlashApplication;
-import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.adapter.MySkillManageAdapter;
-import com.slash.youth.ui.viewmodel.ActivityHomeModel;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.MySkillManageModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
-import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zss on 2016/11/3.
  */
-public class MySkillManageActivity extends Activity implements View.OnClickListener {
+public class MySkillManageActivity extends BaseActivity implements View.OnClickListener {
     private ActivityMySkillManageBinding activityMySkillManageBinding;
     private TextView title;
     private TextView save;

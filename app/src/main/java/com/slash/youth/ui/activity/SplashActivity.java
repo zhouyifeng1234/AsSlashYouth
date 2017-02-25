@@ -1,6 +1,5 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,6 +25,7 @@ import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.view.fly.RandomLayout;
 import com.slash.youth.ui.viewmodel.DialogVersionUpdateModel;
 import com.slash.youth.utils.CommonUtils;
@@ -45,7 +45,7 @@ import java.io.File;
 /**
  * Created by zhouyifeng on 2016/12/11.
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
     private int type = 1;//1表示android,2表示ios
     private int versionCode;
     private ProgressDialog mDialog;

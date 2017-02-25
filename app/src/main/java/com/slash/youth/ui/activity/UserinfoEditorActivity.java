@@ -1,43 +1,28 @@
 package com.slash.youth.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityUserinfoEditorBinding;
-import com.slash.youth.domain.MyFirstPageBean;
-import com.slash.youth.domain.UserInfoItemBean;
-import com.slash.youth.engine.LoginManager;
-import com.slash.youth.global.SlashApplication;
+import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel;
-import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.Constants;
-import com.slash.youth.utils.LogKit;
-
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by zss on 2016/11/1.
  */
-public class UserinfoEditorActivity extends Activity {
+public class UserinfoEditorActivity extends BaseActivity {
     private ActivityUserinfoEditorBinding activityUserinfoEditorBinding;
     private ActivityUserInfoEditorModel activityUserInfoEditorModel;
 
