@@ -8,11 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
@@ -27,14 +26,15 @@ import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.FirstPagerMoreActivity;
+import com.slash.youth.ui.activity.PublishActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
+import com.slash.youth.ui.view.DemandServiceToggleView;
 import com.slash.youth.ui.view.NewRefreshListView;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
-import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
@@ -58,9 +58,9 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private ArrayList<FreeTimeServiceBean.DataBean.ListBean> listServiceBean = new ArrayList<>();
     private ArrayList<FreeTimeDemandBean.DataBean.ListBean> listDemandBean = new ArrayList<>();
     private ArrayList<Bitmap> bannerList = new ArrayList<>();
-    private ArrayList<String> titleArrayList = new ArrayList<>();
-    private ArrayList<String> imageArrayList = new ArrayList<>();
-    private ArrayList<String> urlArrayList = new ArrayList<>();
+    private static ArrayList<String> titleArrayList = new ArrayList<>();
+    private static ArrayList<String> imageArrayList = new ArrayList<>();
+    private static ArrayList<String> urlArrayList = new ArrayList<>();
     public boolean mIsDisplayDemandList = true;//如果存true，表示展示需求列表，false为展示服务列表,默认为true
     private int limit = 10;
     private HomeDemandAdapter homeDemandAndDemandAdapter;
@@ -71,6 +71,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private Runnable runnable;
     private int totalGetDataTimes = 0;
     private int finishedGetDataTimes = 0;
+    private DemandServiceToggleView viewToggleServiceDemand;
 
     public PagerHomeFreeTimeModel(PagerHomeFreetimeBinding pagerHomeFreetimeBinding, Activity activity, Runnable runnable) {
         this.pagerHomeFreetimeBinding = pagerHomeFreetimeBinding;
@@ -112,7 +113,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 
     //平滑到顶部
     private void smoothScrollto() {
-        pagerHomeFreetimeBinding.scrollView.smoothScrollTo(0, 0);
+        pagerHomeFreetimeBinding.svPullData.smoothScrollTo(0, 0);
     }
 
     private void initScrollView() {
@@ -148,11 +149,15 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     int vpAdvStartIndex;
 
     private void initView() {
+        viewToggleServiceDemand = pagerHomeFreetimeBinding.viewToggleServiceDemand;
+
         mIsDisplayDemandList = SpUtils.getBoolean(GlobalConstants.SpConfigKey.HOME_IS_DISPLAY_DEMAND_LIST, false);
         if (mIsDisplayDemandList) {
             displayDemanList();
+            viewToggleServiceDemand.initView(false);
         } else {
             displayServiceList();
+            viewToggleServiceDemand.initView(true);
         }
     }
 
@@ -173,7 +178,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         //  vpAdvStartIndex = 100000000 - 100000000 % listAdvImageUrl.size();
         vpAdvStartIndex = 100000000 - 100000000 % bannerList.size();
         //vpAdvStartIndex = 100000000 - 100000000 % imageArrayList.size();
-        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
+//        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setOffscreenPageLimit(3);
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
@@ -190,23 +195,24 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
             public Object instantiateItem(ViewGroup container, final int position) {
 
                 advImageUrlIndex = position % bannerList.size();
-                Bitmap roundedBitmap = bannerList.get(advImageUrlIndex);
+//                Bitmap roundedBitmap = bannerList.get(advImageUrlIndex);\
+                Bitmap srcBitmap = bannerList.get(advImageUrlIndex);
 
               /*  advImageUrlIndex = position % imageArrayList.size();
                 String advImageUrl = imageArrayList.get(advImageUrlIndex);*/
 
-                final CardView cardView = new CardView(CommonUtils.getContext());
-                cardView.setCardBackgroundColor(Color.TRANSPARENT);
-//                cardView.setCardBackgroundColor(0xffff0000);
-                cardView.setRadius(CommonUtils.dip2px(5));
-                cardView.setCardElevation(CommonUtils.dip2px(3));
-                cardView.setMaxCardElevation(CommonUtils.dip2px(3));
-                cardView.setUseCompatPadding(true);
+//                final CardView cardView = new CardView(CommonUtils.getContext());
+//                cardView.setCardBackgroundColor(Color.TRANSPARENT);
+////                cardView.setCardBackgroundColor(0xffff0000);
+//                cardView.setRadius(CommonUtils.dip2px(5));
+//                cardView.setCardElevation(CommonUtils.dip2px(3));
+//                cardView.setMaxCardElevation(CommonUtils.dip2px(3));
+//                cardView.setUseCompatPadding(true);
 
-                CardView.LayoutParams imgPparams = new CardView.LayoutParams(-1, -1);
-                final ImageView ivHomeFreetimeAdv = new ImageView(CommonUtils.getContext());
+//                CardView.LayoutParams imgPparams = new CardView.LayoutParams(-1, -1);
+                ImageView ivHomeFreetimeAdv = new ImageView(CommonUtils.getContext());
 //                ivHomeFreetimeAdv.setPadding(CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2), CommonUtils.dip2px(2));
-                ivHomeFreetimeAdv.setLayoutParams(imgPparams);
+//                ivHomeFreetimeAdv.setLayoutParams(imgPparams);
 
              /*  x.image().loadDrawable(advImageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
                     @Override
@@ -256,7 +262,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     }
                 });
 */
-                ivHomeFreetimeAdv.setImageBitmap(roundedBitmap);
+                ivHomeFreetimeAdv.setImageBitmap(srcBitmap);
                 ivHomeFreetimeAdv.setScaleType(ImageView.ScaleType.FIT_XY);
                 ivHomeFreetimeAdv.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -296,9 +302,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     }
                 });
 
-                cardView.addView(ivHomeFreetimeAdv);
-                container.addView(cardView);
-                return cardView;
+//                cardView.addView(ivHomeFreetimeAdv);
+//                container.addView(cardView);
+//                return cardView;
+                container.addView(ivHomeFreetimeAdv);
+                return ivHomeFreetimeAdv;
             }
 
             @Override
@@ -308,32 +316,32 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         });
         //pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(vpAdvStartIndex);
         pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(1);
-        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
-
-            private float defaultScale = (float) 8 / (float) 9;
-            int translationX = CommonUtils.dip2px(13);
-
-            @Override
-            public void transformPage(View page, float position) {
-                if (position < -1) { // [-Infinity,-1)
-                    page.setScaleX(defaultScale);
-                    page.setScaleY(defaultScale);
-                    page.setTranslationX(translationX);
-                } else if (position <= 0) { // [-1,0]
-                    page.setScaleX((float) 1 + position / (float) 9);
-                    page.setScaleY((float) 1 + position / (float) 9);
-                    page.setTranslationX((0 - position) * translationX);
-                } else if (position <= 1) { // (0,1]
-                    page.setScaleX((float) 1 - position / (float) 9);
-                    page.setScaleY((float) 1 - position / (float) 9);
-                    page.setTranslationX((0 - position) * translationX);
-                } else { // (1,+Infinity]
-                    page.setScaleX(defaultScale);
-                    page.setScaleY(defaultScale);
-                    page.setTranslationX(-translationX);
-                }
-            }
-        });
+//        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setPageTransformer(false, new ViewPager.PageTransformer() {
+//
+//            private float defaultScale = (float) 8 / (float) 9;
+//            int translationX = CommonUtils.dip2px(13);
+//
+//            @Override
+//            public void transformPage(View page, float position) {
+//                if (position < -1) { // [-Infinity,-1)
+//                    page.setScaleX(defaultScale);
+//                    page.setScaleY(defaultScale);
+//                    page.setTranslationX(translationX);
+//                } else if (position <= 0) { // [-1,0]
+//                    page.setScaleX((float) 1 + position / (float) 9);
+//                    page.setScaleY((float) 1 + position / (float) 9);
+//                    page.setTranslationX((0 - position) * translationX);
+//                } else if (position <= 1) { // (0,1]
+//                    page.setScaleX((float) 1 - position / (float) 9);
+//                    page.setScaleY((float) 1 - position / (float) 9);
+//                    page.setTranslationX((0 - position) * translationX);
+//                } else { // (1,+Infinity]
+//                    page.setScaleX(defaultScale);
+//                    page.setScaleY(defaultScale);
+//                    page.setTranslationX(-translationX);
+//                }
+//            }
+//        });
     }
 
     private void initListener() {
@@ -399,6 +407,53 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 }
             });
         }
+
+        viewToggleServiceDemand.setServiceDemandToggle(new DemandServiceToggleView.IServiceDemandToggle() {
+            @Override
+            public void toggleServiceDemand(boolean isCheckedService) {
+                if (isCheckedService) {
+                    displayServiceList(null);
+                } else {
+                    displayDemanList(null);
+                }
+            }
+        });
+        //这个方法只能在6.0以上的版本中使用
+//        pagerHomeFreetimeBinding.svPullData.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                int distanceTopPosition = pagerHomeFreetimeBinding.svPullData.getScrollY();
+//                LogKit.v("distanceTopPosition:" + distanceTopPosition);
+//            }
+//        });
+        pagerHomeFreetimeBinding.svPullData.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int scrollY = pagerHomeFreetimeBinding.svPullData.getScrollY();
+                LogKit.v("scrollY:" + scrollY);
+                //以最大值为50dp来计算
+                float maxValue = 50;
+                float scrollYdp = CommonUtils.px2dip(scrollY);
+                if (scrollYdp > maxValue) {
+                    scrollYdp = maxValue;
+                }
+                float alpha = 255 * scrollYdp / maxValue;
+                int argb = Color.argb((int) alpha, 0x31, 0xc5, 0xe4);
+                pagerHomeFreetimeBinding.rlTitleBar.setBackgroundColor(argb);
+            }
+        });
+        pagerHomeFreetimeBinding.refreshView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                int topToParent = pagerHomeFreetimeBinding.svPullData.getTop();
+                LogKit.v("topToParent:" + topToParent);
+                if (topToParent > 0) {
+                    pagerHomeFreetimeBinding.rlTitleBar.setVisibility(View.GONE);
+                } else {
+                    pagerHomeFreetimeBinding.rlTitleBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void initBanner(int advImageUrlIndex) {
@@ -427,6 +482,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public void gotoSearchActivity(View v) {
         Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
         mActivity.startActivity(intentSearchActivity);
+    }
+
+    public void gotoPublishActivity(View v) {
+        Intent intentPublishActivity = new Intent(CommonUtils.getContext(), PublishActivity.class);
+        mActivity.startActivity(intentPublishActivity);
     }
 
     //切换为展示需求列条
@@ -470,8 +530,12 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         bannerList.add(banner2);
         bannerList.add(banner3);*/
 
+//        if (titleArrayList != null && titleArrayList.size() > 0 && imageArrayList != null && imageArrayList.size() > 0 && urlArrayList != null && urlArrayList.size() > 0 && urlArrayList.size() == imageArrayList.size() && imageArrayList.size() == titleArrayList.size()) {
+//            loadImage();
+//        } else {
         totalGetDataTimes++;
         FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
+//        }
     }
 
     public void getDemandOrServiceListData() {
@@ -497,11 +561,15 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         }
     }
 
+    private int currentLoadImageCount = 0;
+
     //广告
     public class onGetFirstPagerAdvertisement implements BaseProtocol.IResultExecutor<BannerConfigBean> {
         @Override
         public void execute(BannerConfigBean data) {
-
+            titleArrayList.clear();
+            imageArrayList.clear();
+            urlArrayList.clear();
             final List<BannerConfigBean.BannerBean> banner = data.getBanner();
             for (BannerConfigBean.BannerBean bannerBean : banner) {
                 String title = bannerBean.getTitle();
@@ -512,68 +580,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 urlArrayList.add(url);
             }
 
-            for (String imageUrl : imageArrayList) {
-                //缓存加载
-                x.image().loadFile(imageUrl, ImageOptions.DEFAULT, new Callback.CacheCallback<File>() {
-                    @Override
-                    public boolean onCache(File result) {
-                        if (result != null) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-
-                    @Override
-                    public void onSuccess(File result) {
-                        Bitmap srcBitmap = BitmapFactory.decodeFile(result.getAbsolutePath());
-                        Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
-                        bannerList.add(roundedBitmap);
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        setPager();
-                    }
-                });
-
-                //直接下载
-              /*  x.image().loadDrawable(imageUrl, ImageOptions.DEFAULT, new Callback.CommonCallback<Drawable>() {
-                    @Override
-                    public void onSuccess(Drawable result) {
-                        BitmapDrawable bitmapDrawable = (BitmapDrawable) result;
-                        Bitmap srcBitmap = bitmapDrawable.getBitmap();
-                        Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
-                        bannerList.add(roundedBitmap);
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        LogKit.v("Load banner pic onError");
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-                        LogKit.v("Load banner pic onCancelled");
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        LogKit.v("Load banner pic onFinished");
-                        setPager();
-                    }
-                });*/
-            }
+            loadImage();
 
             finishedGetDataTimes++;
             if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
@@ -584,6 +591,48 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
+        }
+    }
+
+    private void loadImage() {
+        for (String imageUrl : imageArrayList) {
+            //缓存加载
+            x.image().loadFile(imageUrl, ImageOptions.DEFAULT, new Callback.CacheCallback<File>() {
+                @Override
+                public boolean onCache(File result) {
+                    if (result != null) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                @Override
+                public void onSuccess(File result) {
+                    Bitmap srcBitmap = BitmapFactory.decodeFile(result.getAbsolutePath());
+//                        Bitmap roundedBitmap = BitmapKit.createRoundedBitmap(srcBitmap, 5);
+//                        bannerList.add(roundedBitmap);
+                    bannerList.add(srcBitmap);
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+                    currentLoadImageCount++;
+                    if (currentLoadImageCount >= imageArrayList.size()) {
+                        setPager();
+                    }
+                }
+            });
         }
     }
 
