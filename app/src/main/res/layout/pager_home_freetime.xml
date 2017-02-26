@@ -113,7 +113,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="14dp"
                                 android:layout_marginLeft="12dp"
-                                android:layout_marginRight="12dp"
                                 android:layout_marginTop="14dp"
                                 android:orientation="horizontal">
 
@@ -240,6 +239,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="33dp"
+                                    android:layout_marginRight="24dp"
                                     android:orientation="vertical">
                                     <ImageView
                                         android:layout_width="48dp"
