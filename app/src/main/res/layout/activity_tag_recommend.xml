@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="tagRecommendModel" type="com.slash.youth.ui.viewmodel.TagRecommendModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="#31C5E4">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="43dp"
+                android:layout_centerVertical="true"
+                android:onClick="@{tagRecommendModel.goBack}"
+                android:paddingBottom="11dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="11dp"
+                android:src="@mipmap/nav_back"
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@{tagRecommendModel.firstTagName}"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+            />
+            <!--android:text="运营|市场"-->
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>
+

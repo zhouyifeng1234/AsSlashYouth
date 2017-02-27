@@ -519,6 +519,10 @@ public class GlobalConstants {
         public static final String BANNER_HOST = IP_OR_DOMAINNAME + "static/ad";
         public static final String GET_BANNER_CONFIG = BANNER_HOST + "/banner_config";
 
+
+        //二、[推广]-首页Tag配置信息接口  V1.1首页
+        public static final String HOME_TAG_CONFIG = IP_OR_DOMAINNAME + "static/type/type_config";
+
     }
 
     /**

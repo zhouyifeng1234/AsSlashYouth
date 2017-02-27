@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
@@ -22,6 +24,7 @@ import com.slash.youth.databinding.PagerHomeFreetimeBinding;
 import com.slash.youth.domain.BannerConfigBean;
 import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeServiceBean;
+import com.slash.youth.domain.HomeTagInfoBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
@@ -30,6 +33,7 @@ import com.slash.youth.ui.activity.FirstPagerMoreActivity;
 import com.slash.youth.ui.activity.PublishActivity;
 import com.slash.youth.ui.activity.SearchActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.activity.TagRecommendActivity;
 import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.ui.adapter.HomeDemandAdapter;
 import com.slash.youth.ui.adapter.HomeServiceAdapter;
@@ -364,14 +368,17 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     }
 
     private void setSelectedVpPointer(int index) {
-        index = index % bannerList.size();
-        int childCount = pagerHomeFreetimeBinding.llVpIndicator.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View vPoint = pagerHomeFreetimeBinding.llVpIndicator.getChildAt(i);
-            if (i == index) {//选中
-                vPoint.setBackgroundResource(R.drawable.shape_vpindicator_selected);
-            } else {//未选中
-                vPoint.setBackgroundResource(R.drawable.shape_vpindicator_unselected);
+        //这里需要做判断，因为可能执行这段代码的时候，bannerList中的数据还没有从网络加载完毕
+        if (bannerList != null && bannerList.size() > 0) {
+            index = index % bannerList.size();
+            int childCount = pagerHomeFreetimeBinding.llVpIndicator.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View vPoint = pagerHomeFreetimeBinding.llVpIndicator.getChildAt(i);
+                if (i == index) {//选中
+                    vPoint.setBackgroundResource(R.drawable.shape_vpindicator_selected);
+                } else {//未选中
+                    vPoint.setBackgroundResource(R.drawable.shape_vpindicator_unselected);
+                }
             }
         }
     }
@@ -523,6 +530,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         mActivity.startActivity(intentPublishActivity);
     }
 
+    public void gotoTagRecommendActivity(View v) {
+//        Intent intentTagRecommendActivity = new Intent(CommonUtils.getContext(), TagRecommendActivity.class);
+//        mActivity.startActivity(intentTagRecommendActivity);
+    }
+
     //切换为展示需求列条
     public void displayDemanList(View v) {
         mIsDisplayDemandList = true;
@@ -570,6 +582,75 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         totalGetDataTimes++;
         FirstPagerManager.onGetFirstPagerAdvertisement(new onGetFirstPagerAdvertisement());
 //        }
+        totalGetDataTimes++;
+        FirstPagerManager.getHomeTagConfig(new OnGetTagConfigFinished());
+    }
+
+    private class OnGetTagConfigFinished implements BaseProtocol.IResultExecutor<HomeTagInfoBean> {
+        @Override
+        public void execute(HomeTagInfoBean dataBean) {
+            ArrayList<HomeTagInfoBean.TagInfo> listTag = dataBean.tag;
+            pagerHomeFreetimeBinding.llHomeFirstTags.removeAllViews();
+            for (int i = 0; i < listTag.size(); i++) {
+                HomeTagInfoBean.TagInfo tagInfo = listTag.get(i);
+                final long tagId = tagInfo.id;//标签id
+                final String tagName = tagInfo.name;//标签名字
+                String tagIconUrl = tagInfo.icon;//标签图标的url
+
+                LinearLayout.LayoutParams llParams1 = new LinearLayout.LayoutParams(-2, -2);
+                if (i > 0) {
+                    llParams1.leftMargin = CommonUtils.dip2px(33);
+                }
+                if (i == listTag.size() - 1) {
+                    llParams1.rightMargin = CommonUtils.dip2px(24);
+                }
+                LinearLayout llTag = new LinearLayout(CommonUtils.getContext());
+                llTag.setOrientation(LinearLayout.VERTICAL);
+                llTag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentTagRecommendActivity = new Intent(CommonUtils.getContext(), TagRecommendActivity.class);
+                        intentTagRecommendActivity.putExtra("tagId", tagId);
+                        intentTagRecommendActivity.putExtra("tagName", tagName);
+                        mActivity.startActivity(intentTagRecommendActivity);
+                    }
+                });
+                llTag.setLayoutParams(llParams1);
+
+                LinearLayout.LayoutParams ivParams2 = new LinearLayout.LayoutParams(CommonUtils.dip2px(48), CommonUtils.dip2px(48));
+                ivParams2.gravity = Gravity.CENTER_HORIZONTAL;
+                ImageView ivTagIcon = new ImageView(CommonUtils.getContext());
+                ivTagIcon.setLayoutParams(ivParams2);
+                x.image().bind(ivTagIcon, tagIconUrl);
+
+                LinearLayout.LayoutParams tvParams3 = new LinearLayout.LayoutParams(-2, -2);
+                tvParams3.gravity = Gravity.CENTER_HORIZONTAL;
+                tvParams3.topMargin = CommonUtils.dip2px(8);
+                TextView tvTagName = new TextView(CommonUtils.getContext());
+                tvTagName.setLayoutParams(tvParams3);
+                tvTagName.setText(tagName);
+                tvTagName.setTextSize(12);
+                tvTagName.setTextColor(0xff333333);
+
+                llTag.addView(ivTagIcon);
+                llTag.addView(tvTagName);
+
+                pagerHomeFreetimeBinding.llHomeFirstTags.addView(llTag);
+            }
+
+            finishedGetDataTimes++;
+            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                runnable.run();
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            finishedGetDataTimes++;
+            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                runnable.run();
+            }
+        }
     }
 
     public void getDemandOrServiceListData() {
@@ -625,6 +706,10 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
+            finishedGetDataTimes++;
+            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                runnable.run();
+            }
         }
     }
 

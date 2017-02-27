@@ -292,6 +292,8 @@
         <activity android:name="com.slash.youth.ui.activity.PublishActivity">
         </activity>
 
+        <activity android:name="com.slash.youth.ui.activity.TagRecommendActivity"/>
+
         <!-- 微信相关 -->
         <!-- <activity -->
         <!-- android:name="com.slash.youth.wxapi.WXEntryActivity" -->
