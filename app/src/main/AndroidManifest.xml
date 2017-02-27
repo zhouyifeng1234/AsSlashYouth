@@ -290,10 +290,6 @@
         <activity android:name=".ui.activity.WebViewActivity"/>
 
         <activity android:name="com.slash.youth.ui.activity.PublishActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <!-- 微信相关 -->

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
@@ -342,6 +343,37 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 //                }
 //            }
 //        });
+//        bannerList
+        //显示ViewPager 的指示器小圆点
+        for (int i = 0; i < bannerList.size(); i++) {
+            LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(CommonUtils.dip2px(6), CommonUtils.dip2px(6));
+            if (i > 0) {
+                llParams.leftMargin = CommonUtils.dip2px(10);
+            }
+            View vPoint = new View(CommonUtils.getContext());
+            vPoint.setLayoutParams(llParams);
+//            if (currentItem == i) {//选中的那个圆点
+//                vPoint.setBackgroundResource(R.drawable.shape_vpindicator_selected);
+//            } else {//没有选中的那个圆点
+//                vPoint.setBackgroundResource(R.drawable.shape_vpindicator_unselected);
+//            }
+            pagerHomeFreetimeBinding.llVpIndicator.addView(vPoint);
+        }
+        int currentItem = pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem();
+        setSelectedVpPointer(currentItem);
+    }
+
+    private void setSelectedVpPointer(int index) {
+        index = index % bannerList.size();
+        int childCount = pagerHomeFreetimeBinding.llVpIndicator.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View vPoint = pagerHomeFreetimeBinding.llVpIndicator.getChildAt(i);
+            if (i == index) {//选中
+                vPoint.setBackgroundResource(R.drawable.shape_vpindicator_selected);
+            } else {//未选中
+                vPoint.setBackgroundResource(R.drawable.shape_vpindicator_unselected);
+            }
+        }
     }
 
     private void initListener() {
@@ -474,6 +506,8 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
         public void run() {
             if (!isClickDown) {
                 pagerHomeFreetimeBinding.vpHomeFreetimeAdv.setCurrentItem(pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem() + 1);
+                int currentItem = pagerHomeFreetimeBinding.vpHomeFreetimeAdv.getCurrentItem();
+                setSelectedVpPointer(currentItem);
             }
             CommonUtils.getHandler().postDelayed(this, 3000);
         }
