@@ -16,6 +16,7 @@ import com.slash.youth.ui.viewmodel.MessageModel;
 public class MessageActivity extends BaseActivity {
 
     MessageModel mMessageModel;
+    boolean isStartActivity = false;//这个变量用来区分是否是第一次启动Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,8 @@ public class MessageActivity extends BaseActivity {
         ActivityMessageBinding activityMessageBinding = DataBindingUtil.setContentView(this, R.layout.activity_message);
         mMessageModel = new MessageModel(activityMessageBinding, this);
         activityMessageBinding.setMessageModel(mMessageModel);
+
+        isStartActivity = true;
     }
 
     @Override
@@ -32,6 +35,13 @@ public class MessageActivity extends BaseActivity {
 
         //目前通过返回MessageActivity执行onStart()方法的，只有需求和服务的发布成功页面，以及聊天页面返回，这几种情况都需要刷新会话列表，所有不需要做判断
         //如果以后有其它情况，再做处理
-        mMessageModel.getDataFromServer();
+        if (!isStartActivity) {
+            mMessageModel.getDataFromServer();
+        }
+        isStartActivity = false;
+    }
+
+    public MessageModel getMessageModel() {
+        return mMessageModel;
     }
 }

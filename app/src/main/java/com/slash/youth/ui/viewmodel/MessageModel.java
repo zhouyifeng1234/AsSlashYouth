@@ -48,7 +48,7 @@ public class MessageModel extends BaseObservable {
         mActivity.finish();
     }
 
-    ArrayList<ConversationListBean.ConversationInfo> listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
+    static ArrayList<ConversationListBean.ConversationInfo> listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
     ArrayList<ConversationListBean.ConversationInfo> listNewConversation = new ArrayList<ConversationListBean.ConversationInfo>();
 
 
@@ -90,12 +90,24 @@ public class MessageModel extends BaseObservable {
     }
 
     public void getDataFromServer() {
-        mActivityMessageBinding.lvConversationList.setEnabled(false);
         //这里应该不可能为null
         if (listConversation == null) {
             listConversation = new ArrayList<ConversationListBean.ConversationInfo>();
+        } else {
+            if (listConversation.size() > 0) {
+                if (homeInfoListAdapter == null) {
+                    homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
+                    mActivityMessageBinding.lvConversationList.setAdapter(homeInfoListAdapter);
+                } else {
+                    homeInfoListAdapter.notifyDataSetChanged();
+                }
+            }
         }
-        listConversation.clear();
+        if (listNewConversation == null) {
+            listNewConversation = new ArrayList<ConversationListBean.ConversationInfo>();
+        }
+
+        listNewConversation.clear();
 //        homeInfoListAdapter = null;//因为这里listConversation的引用变了，如果仍然调用 homeInfoListAdapter.notifyDataSetChanged()，刷新的是原来的引用，里面的数据都被clear了
         MsgManager.conversationUidList.clear();
         getConversationList();
@@ -111,12 +123,11 @@ public class MessageModel extends BaseObservable {
             @Override
             public void execute(ConversationListBean dataBean) {
                 loadConversationListTimes++;
-//                listConversation = dataBean.data.list;
                 if (dataBean.data.list != null) {
-                    listConversation.addAll(dataBean.data.list);
+                    listNewConversation.addAll(dataBean.data.list);
                     if (dataBean.data.list.size() < 20 || loadConversationListTimes >= 3) {//加载完毕
-                        for (int i = 0; i < listConversation.size(); i++) {
-                            ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
+                        for (int i = 0; i < listNewConversation.size(); i++) {
+                            ConversationListBean.ConversationInfo conversationInfo = listNewConversation.get(i);
                             MsgManager.conversationUidList.add(conversationInfo.uid + "");
                         }
                         setConversationList();
@@ -125,18 +136,17 @@ public class MessageModel extends BaseObservable {
                         getConversationList();
                     }
                 } else {//加载完毕
-                    for (int i = 0; i < listConversation.size(); i++) {
-                        ConversationListBean.ConversationInfo conversationInfo = listConversation.get(i);
+                    for (int i = 0; i < listNewConversation.size(); i++) {
+                        ConversationListBean.ConversationInfo conversationInfo = listNewConversation.get(i);
                         MsgManager.conversationUidList.add(conversationInfo.uid + "");
                     }
                     setConversationList();
                 }
-
             }
 
             @Override
             public void executeResultError(String result) {
-                mActivityMessageBinding.lvConversationList.setEnabled(true);
+
             }
         }, conversationListOffset + "", conversationListLimit + "");
     }
@@ -148,7 +158,7 @@ public class MessageModel extends BaseObservable {
     int currentCount;
 
     public void setConversationList() {
-        //这里当做listConversation中的数据是全部的会话列表数据，MsgManager.conversationUidList中就是全部会话的uid，并且是按时间顺序排列的
+        //这里当做listNewConversation中的数据是全部的会话列表数据，MsgManager.conversationUidList中就是全部会话的uid，并且是按时间顺序排列的
         if ((!MsgManager.conversationUidList.contains("1000")) || (!MsgManager.conversationUidList.contains(MsgManager.customerServiceUid))) {
             ArrayList<String> listAddConversationUid = new ArrayList<String>();
             if (!MsgManager.conversationUidList.contains("1000")) {
@@ -181,10 +191,10 @@ public class MessageModel extends BaseObservable {
                                 msgtime = message.getReceivedTime();
                             }
                             conversationInfo.uts = msgtime;
-                            //这里认为listConversation中的数据都是按照时间顺序排列的
-                            int index = listConversation.size() - 1;
-                            for (int i = 0; i < listConversation.size(); i++) {
-                                ConversationListBean.ConversationInfo conversation = listConversation.get(i);
+                            //这里认为listNewConversation中的数据都是按照时间顺序排列的
+                            int index = listNewConversation.size() - 1;
+                            for (int i = 0; i < listNewConversation.size(); i++) {
+                                ConversationListBean.ConversationInfo conversation = listNewConversation.get(i);
                                 if (conversation.uts < conversationInfo.uts) {
                                     index = i;
                                     break;
@@ -193,17 +203,19 @@ public class MessageModel extends BaseObservable {
                             if (index < 0) {
                                 index = 0;
                             }
-                            listConversation.add(index, conversationInfo);
+                            listNewConversation.add(index, conversationInfo);
                             MsgManager.conversationUidList.add(index, targetId);
                         } else {
                             //本地没有消息
 //                            conversationInfo.uts = System.currentTimeMillis();
                             conversationInfo.uts = 0;
-                            listConversation.add(conversationInfo);
+                            listNewConversation.add(conversationInfo);
                             MsgManager.conversationUidList.add(targetId);
                         }
                         currentCount++;
                         if (currentCount >= totalCount) {//避免for循环遍历的时候重复执行
+                            listConversation.clear();
+                            listConversation.addAll(listNewConversation);
                             if (homeInfoListAdapter == null) {
                                 homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
                                 mActivityMessageBinding.lvConversationList.setAdapter(homeInfoListAdapter);
@@ -212,7 +224,6 @@ public class MessageModel extends BaseObservable {
                                 homeInfoListAdapter.notifyDataSetChanged();
                                 LogKit.v("----HomeInfoListAdapter notifyDataSetChanged 1111");
                             }
-                            mActivityMessageBinding.lvConversationList.setEnabled(true);
                         }
                     }
 
@@ -223,6 +234,8 @@ public class MessageModel extends BaseObservable {
                 });
             }
         } else {
+            listConversation.clear();
+            listConversation.addAll(listNewConversation);
             if (homeInfoListAdapter == null) {
                 homeInfoListAdapter = new HomeInfoListAdapter(listConversation);
                 mActivityMessageBinding.lvConversationList.setAdapter(homeInfoListAdapter);
@@ -231,7 +244,6 @@ public class MessageModel extends BaseObservable {
                 homeInfoListAdapter.notifyDataSetChanged();
                 LogKit.v("----HomeInfoListAdapter notifyDataSetChanged 2222");
             }
-            mActivityMessageBinding.lvConversationList.setEnabled(true);
         }
     }
 

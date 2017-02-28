@@ -43,9 +43,11 @@ public class HomeActivity2 extends BaseActivity {
         if (REQUEST_CODE_TO_TASK_DETAIL == requestCode) {
             //如果当前显示的是任务Pager，就刷新任务列表
             BaseHomePager currentPager = mActivityHomeModel2.getCurrentPager();
-            if (currentPager instanceof HomeWorkbenchPager) {
-                HomeWorkbenchPager homeWorkbenchPager = (HomeWorkbenchPager) currentPager;
-                homeWorkbenchPager.mPagerHomeWorkbenchModel.backRefreshTaskListStatus();
+            if (currentPager != null) {
+                if (currentPager instanceof HomeWorkbenchPager) {
+                    HomeWorkbenchPager homeWorkbenchPager = (HomeWorkbenchPager) currentPager;
+                    homeWorkbenchPager.mPagerHomeWorkbenchModel.backRefreshTaskListStatus();
+                }
             }
         }
     }
