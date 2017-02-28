@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.slash.youth.BR;
 import com.slash.youth.R;
-import com.slash.youth.databinding.ActivityMyTaskBinding;
+import com.slash.youth.databinding.PagerHomeWorkbenchBinding;
 import com.slash.youth.domain.MyTaskBean;
 import com.slash.youth.domain.MyTaskList;
 import com.slash.youth.engine.MsgManager;
@@ -42,9 +43,9 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 /**
- * Created by zhouyifeng on 2016/10/26.
+ * Created by zhouyifeng on 2017/2/27.
  */
-public class MyTaskModel extends BaseObservable {
+public class PagerHomeWorkbenchModel extends BaseObservable {
 
     public static final int REFRESH_TASK_LIST_STATUS = 100;
 
@@ -52,7 +53,7 @@ public class MyTaskModel extends BaseObservable {
     private static final int LOAD_DATA_TYPE_REFRESH = 1;//刷新数据
     private static final int LOAD_DATA_TYPE_MORE = 2;//加载更多数据
 
-    ActivityMyTaskBinding mActivityMyTaskBinding;
+    PagerHomeWorkbenchBinding mPagerHomeWorkbenchBinding;
     Activity mActivity;
 
     private int offset = 0;
@@ -62,8 +63,8 @@ public class MyTaskModel extends BaseObservable {
     private int currentFilterTaskType = MyTaskEngine.USER_TASK_ALL_TYPE;//当前过滤展示的任务类型，默认为全部，type=0
     private int currentLoadDataType = LOAD_DATA_TYPE_LOAD;
 
-    public MyTaskModel(ActivityMyTaskBinding activityMyTaskBinding, Activity activity) {
-        this.mActivityMyTaskBinding = activityMyTaskBinding;
+    public PagerHomeWorkbenchModel(PagerHomeWorkbenchBinding pagerHomeWorkbenchBinding, Activity activity) {
+        this.mPagerHomeWorkbenchBinding = pagerHomeWorkbenchBinding;
         this.mActivity = activity;
         initData();
         initListener();
@@ -101,7 +102,7 @@ public class MyTaskModel extends BaseObservable {
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
             myTaskAdapter = new MyTaskAdapter(listMyTask);
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            mPagerHomeWorkbenchBinding.lvMyTaskList.setAdapter(myTaskAdapter);
         } else {
             setMyTaskListVisibility(View.GONE);
             setNoTaskVisibility(View.VISIBLE);
@@ -112,7 +113,7 @@ public class MyTaskModel extends BaseObservable {
         setMyTaskTypeText("发布的任务");
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            mPagerHomeWorkbenchBinding.lvMyTaskList.setAdapter(myTaskAdapter);
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
         }
@@ -122,7 +123,7 @@ public class MyTaskModel extends BaseObservable {
         setMyTaskTypeText("抢到的任务");
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            mPagerHomeWorkbenchBinding.lvMyTaskList.setAdapter(myTaskAdapter);
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
         }
@@ -132,7 +133,7 @@ public class MyTaskModel extends BaseObservable {
         setMyTaskTypeText("历史任务");
         if (listMyTask != null && listMyTask.size() > 0) {
             myTaskAdapter = new MyTaskAdapter(listMyTask);
-            mActivityMyTaskBinding.lvMyTaskList.setAdapter(myTaskAdapter);
+            mPagerHomeWorkbenchBinding.lvMyTaskList.setAdapter(myTaskAdapter);
             setMyTaskListVisibility(View.VISIBLE);
             setNoTaskVisibility(View.GONE);
         }
@@ -142,7 +143,7 @@ public class MyTaskModel extends BaseObservable {
 
     private void initListener() {
 
-        mActivityMyTaskBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPagerHomeWorkbenchBinding.lvMyTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (isMoveListView) {
@@ -229,7 +230,7 @@ public class MyTaskModel extends BaseObservable {
             }
         });
 
-        mActivityMyTaskBinding.lvMyTaskList.setOnTouchListener(new View.OnTouchListener() {
+        mPagerHomeWorkbenchBinding.lvMyTaskList.setOnTouchListener(new View.OnTouchListener() {
             int startY = -1;
 
             @Override
@@ -261,8 +262,8 @@ public class MyTaskModel extends BaseObservable {
             }
         });
 
-        mActivityMyTaskBinding.lvMyTaskList.setRefreshDataTask(new RefreshDataTask());
-        mActivityMyTaskBinding.lvMyTaskList.setLoadMoreNewsTast(new LoadMoreNewsTask());
+        mPagerHomeWorkbenchBinding.lvMyTaskList.setRefreshDataTask(new RefreshDataTask());
+        mPagerHomeWorkbenchBinding.lvMyTaskList.setLoadMoreNewsTast(new LoadMoreNewsTask());
     }
 
     private void initView() {
@@ -295,32 +296,32 @@ public class MyTaskModel extends BaseObservable {
                 ArrayList<MyTaskBean> loadData = dataBean.data.list;
                 if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
                     listMyTask = loadData;
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     setTotalTaskData();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
                     listMyTask.clear();
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setTotalTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.refreshDataFinish();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else {
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setTotalTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.loadMoreNewsFinished();
                     if (loadData.size() < limit) {
-                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                        mPagerHomeWorkbenchBinding.lvMyTaskList.setLoadToLast();
                         ToastUtils.shortToast("已经是最后一条了");
                     }
                 }
@@ -353,32 +354,32 @@ public class MyTaskModel extends BaseObservable {
                 ArrayList<MyTaskBean> loadData = dataBean.data.list;
                 if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
                     listMyTask = loadData;
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     setMyPublishTaskData();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
                     listMyTask.clear();
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setMyPublishTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.refreshDataFinish();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else {
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setMyPublishTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.loadMoreNewsFinished();
                     if (loadData.size() < limit) {
-                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                        mPagerHomeWorkbenchBinding.lvMyTaskList.setLoadToLast();
                     }
                 }
 
@@ -409,32 +410,32 @@ public class MyTaskModel extends BaseObservable {
                 ArrayList<MyTaskBean> loadData = dataBean.data.list;
                 if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
                     listMyTask = loadData;
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     setMyBidTaskData();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
                     listMyTask.clear();
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setMyBidTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.refreshDataFinish();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else {
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setMyBidTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.loadMoreNewsFinished();
                     if (loadData.size() < limit) {
-                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                        mPagerHomeWorkbenchBinding.lvMyTaskList.setLoadToLast();
                     }
                 }
 
@@ -469,32 +470,32 @@ public class MyTaskModel extends BaseObservable {
                 ArrayList<MyTaskBean> loadData = dataBean.data.list;
                 if (currentLoadDataType == LOAD_DATA_TYPE_LOAD) {
                     listMyTask = loadData;
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     setMyHistoryTaskData();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {
                     listMyTask.clear();
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setMyHistoryTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.refreshDataFinish();
-                    mActivityMyTaskBinding.lvMyTaskList.setNotLoadToLast();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.refreshDataFinish();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
                 } else {
                     listMyTask.addAll(loadData);
-                    MyTaskModel.this.offset = listMyTask.size();
+                    PagerHomeWorkbenchModel.this.offset = listMyTask.size();
                     LogKit.v("----------load more listMyTask.size():" + listMyTask.size());
                     if (myTaskAdapter != null) {
                         myTaskAdapter.notifyDataSetChanged();
                     } else {
                         setMyHistoryTaskData();
                     }
-                    mActivityMyTaskBinding.lvMyTaskList.loadMoreNewsFinished();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.loadMoreNewsFinished();
                     if (loadData.size() < limit) {
-                        mActivityMyTaskBinding.lvMyTaskList.setLoadToLast();
+                        mPagerHomeWorkbenchBinding.lvMyTaskList.setLoadToLast();
                     }
                 }
 
@@ -570,12 +571,9 @@ public class MyTaskModel extends BaseObservable {
 
     //去浏览任务
     public void gotoBrowseTask(View v) {
-//        ToastUtils.shortToast("去浏览任务");
-//        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-//        HomeActivity.goBackPageNo = HomeActivity.PAGE_FREETIME;
-//        mActivity.startActivity(intentHomeActivity);
-        Intent intentHomeActivity2 = new Intent(CommonUtils.getContext(), HomeActivity2.class);
-        mActivity.startActivity(intentHomeActivity2);
+        HomeActivity2 homeActivity2 = (HomeActivity2) mActivity;
+        ViewPager innerViewPager = homeActivity2.getInnerViewPager();
+        innerViewPager.setCurrentItem(0);
     }
 
     //关闭发布任务对话框

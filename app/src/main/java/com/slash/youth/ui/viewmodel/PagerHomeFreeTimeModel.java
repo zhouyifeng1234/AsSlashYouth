@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -491,6 +492,22 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                 } else {
                     pagerHomeFreetimeBinding.rlTitleBar.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+        pagerHomeFreetimeBinding.vpHomeFreetimeAdv.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setSelectedVpPointer(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }

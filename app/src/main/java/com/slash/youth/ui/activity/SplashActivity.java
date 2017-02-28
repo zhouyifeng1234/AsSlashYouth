@@ -125,8 +125,10 @@ public class SplashActivity extends BaseActivity {
                         //链接融云
                         MsgManager.connectRongCloud(LoginManager.rongToken);
 
-                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                        startActivity(intentHomeActivity);
+//                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//                        startActivity(intentHomeActivity);
+                        Intent intentHomeActivity2 = new Intent(CommonUtils.getContext(), HomeActivity2.class);
+                        startActivity(intentHomeActivity2);
                         finish();
                     } else {
 //                        gotoLoginActivity();
