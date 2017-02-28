@@ -16,7 +16,7 @@ import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.DemandDetailActivity;
-import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.MessageActivity;
 import com.slash.youth.ui.adapter.RecommendServicePartAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -208,9 +208,11 @@ public class PublishDemandSuccessModel extends BaseObservable {
                             String targetId = serviceUserInfo.uid + "";
                             ShareTaskUtils.sendText(recommendDemandText, targetId);
                         }
-                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                        HomeActivity.goBackPageNo = HomeActivity.PAGE_INFO;
-                        mActivity.startActivity(intentHomeActivity);
+//                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//                        HomeActivity.goBackPageNo = HomeActivity.PAGE_INFO;
+//                        mActivity.startActivity(intentHomeActivity);
+                        Intent intentMessageActivity = new Intent(CommonUtils.getContext(), MessageActivity.class);
+                        mActivity.startActivity(intentMessageActivity);
                     }
                 }, 1500);
             }

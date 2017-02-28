@@ -298,6 +298,7 @@
         </activity>
 
         <activity android:name="com.slash.youth.ui.activity.TagRecommendActivity"/>
+        <activity android:name="com.slash.youth.ui.activity.MessageActivity"/>
 
         <!-- 微信相关 -->
         <!-- <activity -->

@@ -47,8 +47,6 @@ import io.rong.imlib.model.Conversation;
  */
 public class PagerHomeWorkbenchModel extends BaseObservable {
 
-    public static final int REFRESH_TASK_LIST_STATUS = 100;
-
     private static final int LOAD_DATA_TYPE_LOAD = 0;//首次加载数据
     private static final int LOAD_DATA_TYPE_REFRESH = 1;//刷新数据
     private static final int LOAD_DATA_TYPE_MORE = 2;//加载更多数据
@@ -169,7 +167,7 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
                             case 5:
                                 Intent intentDemandChooseServiceActivity = new Intent(CommonUtils.getContext(), DemandChooseServiceActivity.class);
                                 intentDemandChooseServiceActivity.putExtras(taskInfo);
-                                mActivity.startActivityForResult(intentDemandChooseServiceActivity, REFRESH_TASK_LIST_STATUS);
+                                mActivity.startActivityForResult(intentDemandChooseServiceActivity, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                                 break;
                             case 6:
                             case 7:
@@ -177,20 +175,20 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
                             case 9:
                                 Intent intentMyPublishDemandActivity = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
                                 intentMyPublishDemandActivity.putExtras(taskInfo);
-                                mActivity.startActivityForResult(intentMyPublishDemandActivity, REFRESH_TASK_LIST_STATUS);
+                                mActivity.startActivityForResult(intentMyPublishDemandActivity, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                                 break;
                             default:
                                 //其它情况应该跳转到需求详情页
                                 //这里有疑问，是跳到需求详情页还是四个圈的页面，暂时先写成四个圈的页面
                                 Intent intentMyPublishDemandActivity2 = new Intent(CommonUtils.getContext(), MyPublishDemandActivity.class);
                                 intentMyPublishDemandActivity2.putExtras(taskInfo);
-                                mActivity.startActivityForResult(intentMyPublishDemandActivity2, REFRESH_TASK_LIST_STATUS);
+                                mActivity.startActivityForResult(intentMyPublishDemandActivity2, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                                 break;
                         }
                     } else if (myTaskBean.type == 2) {//我发的服务
                         Intent intentMyPublishServiceActivity = new Intent(CommonUtils.getContext(), MyPublishServiceActivity.class);
                         intentMyPublishServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
-                        mActivity.startActivityForResult(intentMyPublishServiceActivity, REFRESH_TASK_LIST_STATUS);
+                        mActivity.startActivityForResult(intentMyPublishServiceActivity, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                     }
 
                 } else if (myTaskBean.roleid == 2) {//抢单者
@@ -203,20 +201,20 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
                             case 9:
                                 Intent intentMyBidDemandActivity = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
                                 intentMyBidDemandActivity.putExtras(taskInfo);
-                                mActivity.startActivityForResult(intentMyBidDemandActivity, REFRESH_TASK_LIST_STATUS);
+                                mActivity.startActivityForResult(intentMyBidDemandActivity, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                                 break;
                             default:
                                 //其它情况应该跳转到需求详情页
                                 //这里有疑问，是跳到需求详情页还是四个圈的页面，暂时先写成四个圈的页面
                                 Intent intentMyBidDemandActivity2 = new Intent(CommonUtils.getContext(), MyBidDemandActivity.class);
                                 intentMyBidDemandActivity2.putExtras(taskInfo);
-                                mActivity.startActivityForResult(intentMyBidDemandActivity2, REFRESH_TASK_LIST_STATUS);
+                                mActivity.startActivityForResult(intentMyBidDemandActivity2, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                                 break;
                         }
                     } else if (myTaskBean.type == 2) {//我抢的服务(我预约的服务)
                         Intent intentMyBidServiceActivity = new Intent(CommonUtils.getContext(), MyBidServiceActivity.class);
                         intentMyBidServiceActivity.putExtra("myTaskBean", listMyTask.get(position));
-                        mActivity.startActivityForResult(intentMyBidServiceActivity, REFRESH_TASK_LIST_STATUS);
+                        mActivity.startActivityForResult(intentMyBidServiceActivity, HomeActivity2.REQUEST_CODE_TO_TASK_DETAIL);
                     }
                 }
                 //清空任务item对应的消息数量
@@ -288,6 +286,7 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
 //        listMyTask.add(new MyTaskBean());
 //        listMyTask.add(new MyTaskBean());
 
+        mPagerHomeWorkbenchBinding.tvSelectedTaskText.setText("进行中");
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
@@ -346,6 +345,7 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
 //        listMyTask.add(new MyTaskBean());
 //        listMyTask.add(new MyTaskBean());
 
+        mPagerHomeWorkbenchBinding.tvSelectedTaskText.setText("我发的");
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
@@ -402,6 +402,7 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
 //        listMyTask.add(new MyTaskBean());
 //        listMyTask.add(new MyTaskBean());
 
+        mPagerHomeWorkbenchBinding.tvSelectedTaskText.setText("我抢的");
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
@@ -462,6 +463,7 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
 //        listMyTask.add(new MyTaskBean());
 //        listMyTask.add(new MyTaskBean());
 
+        mPagerHomeWorkbenchBinding.tvSelectedTaskText.setText("历史");
         MyTaskEngine.getMyTaskList(new BaseProtocol.IResultExecutor<MyTaskList>() {
             @Override
             public void execute(MyTaskList dataBean) {
@@ -527,6 +529,14 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
             } else {
                 getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, offset, pageSize);
             }
+            //避免数据加载错误的情况
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.refreshDataFinish();
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.setNotLoadToLast();
+                }
+            }, 15000);
         }
     }
 
@@ -547,11 +557,14 @@ public class PagerHomeWorkbenchModel extends BaseObservable {
             } else {
                 getMyHistoryTaskList(MyTaskEngine.USER_TASK_MY_HIS_TYPE, offset, pageSize);
             }
+            //避免数据加载错误的情况
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPagerHomeWorkbenchBinding.lvMyTaskList.loadMoreNewsFinished();
+                }
+            }, 15000);
         }
-    }
-
-    public void goBack(View v) {
-        mActivity.finish();
     }
 
     //打开或关闭筛选任务的下拉框

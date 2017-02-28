@@ -82,6 +82,16 @@ public class ActivityHomeModel2 extends BaseObservable {
         listPagers.add(new HomeMyPager(mActivity));
     }
 
+    public BaseHomePager getCurrentPager() {
+        if (listPagers != null && listPagers.size() > 0) {
+            int currentItem = mActivityHome2Binding.vpHomePager.getCurrentItem();
+            currentItem = currentItem % listPagers.size();
+            return listPagers.get(currentItem);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * 切换到发现
      *
