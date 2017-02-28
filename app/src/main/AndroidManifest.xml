@@ -177,6 +177,11 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        <activity
+            android:name="com.slash.youth.ui.activity.HomeActivity2"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity android:name=".ui.activity.CityLocationActivity"></activity>
         <activity android:name=".ui.activity.SubscribeActivity"></activity>
         <activity

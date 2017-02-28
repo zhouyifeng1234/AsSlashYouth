@@ -19,7 +19,7 @@ import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandChooseServiceActivity;
-import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.HomeActivity2;
 import com.slash.youth.ui.activity.MyBidDemandActivity;
 import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
@@ -571,9 +571,11 @@ public class MyTaskModel extends BaseObservable {
     //去浏览任务
     public void gotoBrowseTask(View v) {
 //        ToastUtils.shortToast("去浏览任务");
-        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-        HomeActivity.goBackPageNo = HomeActivity.PAGE_FREETIME;
-        mActivity.startActivity(intentHomeActivity);
+//        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//        HomeActivity.goBackPageNo = HomeActivity.PAGE_FREETIME;
+//        mActivity.startActivity(intentHomeActivity);
+        Intent intentHomeActivity2 = new Intent(CommonUtils.getContext(), HomeActivity2.class);
+        mActivity.startActivity(intentHomeActivity2);
     }
 
     //关闭发布任务对话框

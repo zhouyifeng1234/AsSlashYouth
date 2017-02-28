@@ -28,7 +28,7 @@ import com.slash.youth.engine.UserInfoEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.ChooseSkillActivity;
-import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.HomeActivity2;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.ui.activity.SlashProtocolActivity;
@@ -308,8 +308,10 @@ public class ActivityLoginModel extends BaseObservable {
                     String direction = uinfo.direction;
                     String tag = uinfo.tag;
                     if (!TextUtils.isEmpty(industry) && !TextUtils.isEmpty(direction) && !TextUtils.isEmpty(tag)) {
-                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                        mActivity.startActivity(intentHomeActivity);
+//                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//                        mActivity.startActivity(intentHomeActivity);
+                        Intent intentHomeActivity2 = new Intent(CommonUtils.getContext(), HomeActivity2.class);
+                        mActivity.startActivity(intentHomeActivity2);
                         if (LoginActivity.activity != null) {
                             LoginActivity.activity.finish();
                             LoginActivity.activity = null;
@@ -667,8 +669,10 @@ public class ActivityLoginModel extends BaseObservable {
                 String direction = uinfo.direction;
                 String tag = uinfo.tag;
                 if (!TextUtils.isEmpty(industry) && !TextUtils.isEmpty(direction) && !TextUtils.isEmpty(tag)) {
-                    Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                    mActivity.startActivity(intentHomeActivity);
+//                    Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//                    mActivity.startActivity(intentHomeActivity);
+                    Intent intentHomeActivity2 = new Intent(CommonUtils.getContext(), HomeActivity2.class);
+                    mActivity.startActivity(intentHomeActivity2);
                     if (LoginActivity.activity != null) {
                         LoginActivity.activity.finish();
                         LoginActivity.activity = null;

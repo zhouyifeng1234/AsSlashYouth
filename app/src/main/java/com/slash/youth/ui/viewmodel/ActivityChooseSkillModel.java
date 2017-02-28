@@ -21,7 +21,7 @@ import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.domain.LoginTagBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.HomeActivity2;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.utils.CommonUtils;
@@ -342,8 +342,10 @@ public class ActivityChooseSkillModel extends BaseObservable {
                 LoginManager.loginSetTag(new BaseProtocol.IResultExecutor<CommonResultBean>() {
                     @Override
                     public void execute(CommonResultBean dataBean) {
-                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
-                        mActivity.startActivity(intentHomeActivity);
+//                        Intent intentHomeActivity = new Intent(CommonUtils.getContext(), HomeActivity.class);
+//                        mActivity.startActivity(intentHomeActivity);
+                        Intent intentHomeActivity2 = new Intent(CommonUtils.getContext(), HomeActivity2.class);
+                        mActivity.startActivity(intentHomeActivity2);
                         if (LoginActivity.activity != null) {
                             LoginActivity.activity.finish();
                             LoginActivity.activity = null;
