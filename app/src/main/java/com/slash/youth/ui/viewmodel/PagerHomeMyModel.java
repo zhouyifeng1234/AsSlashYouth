@@ -197,7 +197,7 @@ public class PagerHomeMyModel extends BaseObservable {
                 OtherInfoBean.DataBean data = dataBean.getData();//myinfo
                 OtherInfoBean.DataBean.UinfoBean uinfo = data.getUinfo();
                 int relationshipscount = uinfo.getRelationshipscount();
-                mPagerHomeMyBinding.tvFansCount.setText("人脉数" + relationshipscount);
+                mPagerHomeMyBinding.tvFansCount.setText("" + relationshipscount);
             }
         }
 
@@ -242,7 +242,7 @@ public class PagerHomeMyModel extends BaseObservable {
         direction = myinfo.getDirection();
         tag = myinfo.getTag();
         if (!TextUtils.isEmpty(direction)) {
-            mPagerHomeMyBinding.tvIndustry.setText(direction);
+//            mPagerHomeMyBinding.tvIndustry.setText(direction);
         }
 
         //职业类型
@@ -254,12 +254,12 @@ public class PagerHomeMyModel extends BaseObservable {
             position = myinfo.getPosition();
             String companyAndPosition = company + "-" + position;
             if (!company.isEmpty()) {
-                mPagerHomeMyBinding.tvMyUserInfoCompany.setText(companyAndPosition);
+//                mPagerHomeMyBinding.tvMyUserInfoCompany.setText(companyAndPosition);
             } else {
-                mPagerHomeMyBinding.tvMyUserInfoCompany.setText("暂未填写职务信息");
+//                mPagerHomeMyBinding.tvMyUserInfoCompany.setText("暂未填写职务信息");
             }
         } else if (careertype == 2) {//自由职业者
-            mPagerHomeMyBinding.tvMyUserInfoCompany.setText(careertypeString);
+//            mPagerHomeMyBinding.tvMyUserInfoCompany.setText(careertypeString);
         }
 
         //城市    //省份
@@ -276,10 +276,10 @@ public class PagerHomeMyModel extends BaseObservable {
 //        if (fansratio > 0 && fansratio <= 1) {
 //            fansratio = 1;
 //        }
-        mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) (fansratio * 100));
-        //粉丝比率
-        mPagerHomeMyBinding.tvFansRadio.setText((int) (fansratio * 100) + "%");
-        mPagerHomeMyBinding.tvOverFansCount.setText("超过" + (int) (fansratio * 100) + "%" + "的用户");
+//        mPagerHomeMyBinding.pbProgressbarFans.setProgress((int) (fansratio * 100));
+//        //粉丝比率
+//        mPagerHomeMyBinding.tvFansRadio.setText((int) (fansratio * 100) + "%");
+//        mPagerHomeMyBinding.tvOverFansCount.setText("超过" + (int) (fansratio * 100) + "%" + "的用户");
         //完成任务的单数
         achievetaskcount = myinfo.getAchievetaskcount();
         totoltaskcount = myinfo.getTotoltaskcount();
@@ -288,10 +288,10 @@ public class PagerHomeMyModel extends BaseObservable {
         } else {
             taskProgress = 0;
         }
-        mPagerHomeMyBinding.pbProgressbarTask.setProgress((int) taskProgress);
-        mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("顺利成交" + achievetaskcount + "单");
-        mPagerHomeMyBinding.tvMyTask.setText(String.valueOf(achievetaskcount));
-        mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共" + totoltaskcount + "单任务");
+//        mPagerHomeMyBinding.pbProgressbarTask.setProgress((int) taskProgress);
+        mPagerHomeMyBinding.tvMyAchieveTaskCount.setText("" + achievetaskcount + "");
+//        mPagerHomeMyBinding.tvMyTask.setText(String.valueOf(achievetaskcount));
+//        mPagerHomeMyBinding.tvMyTotolTaskCount.setText("共" + totoltaskcount + "单任务");
         //平均服务点
         averageservicepoint = myinfo.getAverageservicepoint();
 
@@ -299,11 +299,11 @@ public class PagerHomeMyModel extends BaseObservable {
         //用户服务指向
         userservicepoint = myinfo.getUserservicepoint();
         int servicepoint = (int) ((averageservicepoint * 100) / 5);
-        mPagerHomeMyBinding.pbProgressbarService.setProgress((int) servicepoint);
-        mPagerHomeMyBinding.tvServicePoint1.setText("服务力" + userservicepoint + "星");
-//        mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
-        mPagerHomeMyBinding.tvAverageServicePoint.setText(df.format(averageservicepoint));
-        mPagerHomeMyBinding.tvUserServicePoint.setText("平台平均服务力为" + df.format(averageservicepoint) + "星");
+//        mPagerHomeMyBinding.pbProgressbarService.setProgress((int) servicepoint);
+        mPagerHomeMyBinding.tvServicePoint1.setText("" + userservicepoint + "");
+////        mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
+//        mPagerHomeMyBinding.tvAverageServicePoint.setText(df.format(averageservicepoint));
+//        mPagerHomeMyBinding.tvUserServicePoint.setText("平台平均服务力为" + df.format(averageservicepoint) + "星");
 
         //数量,网络获取的分数
        /* int expertscore = myinfo.getExpertscore();
@@ -531,15 +531,15 @@ public class PagerHomeMyModel extends BaseObservable {
         mActivity.startActivity(intentCommonQuestionActivity);
     }
 
-    private int myloadLayerVisibility = View.GONE;
-
-    @Bindable
-    public int getMyloadLayerVisibility() {
-        return myloadLayerVisibility;
-    }
-
-    public void setMyloadLayerVisibility(int myloadLayerVisibility) {
-        this.myloadLayerVisibility = myloadLayerVisibility;
-        notifyPropertyChanged(BR.myloadLayerVisibility);
-    }
+//    private int myloadLayerVisibility = View.GONE;
+//
+//    @Bindable
+//    public int getMyloadLayerVisibility() {
+//        return myloadLayerVisibility;
+//    }
+//
+//    public void setMyloadLayerVisibility(int myloadLayerVisibility) {
+//        this.myloadLayerVisibility = myloadLayerVisibility;
+//        notifyPropertyChanged(BR.myloadLayerVisibility);
+//    }
 }

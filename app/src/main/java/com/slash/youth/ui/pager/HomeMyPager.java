@@ -26,6 +26,11 @@ public class HomeMyPager extends BaseHomePager {
     @Override
     public View initView() {
         PagerHomeMyBinding pagerHomeMyBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_my, null, false);
+        pagerHomeMyBinding.svPagerHomeMy.setHightView(pagerHomeMyBinding.rlHead,pagerHomeMyBinding.ivMine);
+        pagerHomeMyBinding.rlHead.getBackground().setAlpha(0);
+        pagerHomeMyBinding.svPagerHomeMy.setBeforView(pagerHomeMyBinding.ivEdit,pagerHomeMyBinding.ivSet);
+        pagerHomeMyBinding.svPagerHomeMy.setTitleTextView(pagerHomeMyBinding.tvTitle,pagerHomeMyBinding.tvTitleUp);
+        pagerHomeMyBinding.svPagerHomeMy.setAfterView(pagerHomeMyBinding.ivSetUp,pagerHomeMyBinding.ivEditUp);
         pagerHomeMyModel = new PagerHomeMyModel(pagerHomeMyBinding, mActivity);
         pagerHomeMyBinding.setPagerHomeMyModel(pagerHomeMyModel);
         return pagerHomeMyBinding.getRoot();
