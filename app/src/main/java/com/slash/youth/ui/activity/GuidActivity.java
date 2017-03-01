@@ -41,7 +41,7 @@ public class GuidActivity extends BaseActivity {
     }
 
     private void initData() {
-        guidPicResources = new int[]{R.mipmap.guid_pic_1, R.mipmap.guid_pic_2, R.mipmap.guid_pic_3};
+        guidPicResources = new int[]{R.mipmap.guid_pic_1, R.mipmap.guid_pic_2, R.mipmap.guid_pic_3, R.mipmap.guid_pic_4};
         mVpGuidPagers.setAdapter(new GuidPagerAdapter());
     }
 

@@ -57,13 +57,13 @@ public class ActivityHomeModel2 extends BaseObservable {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    setBottomTabIcon(R.mipmap.found_activation, R.mipmap.home_message_btn, R.mipmap.home_wode_btn);
+                    setBottomTabIcon(R.mipmap.found_icon_activation, R.mipmap.task_icon_unactivation, R.mipmap.my_center_icon);
                     setBottomTabTextColor(0xff31c5e4, 0xff666666, 0xff666666);
                 } else if (position == 1) {
-                    setBottomTabIcon(R.mipmap.found_default, R.mipmap.icon_message_press, R.mipmap.home_wode_btn);
+                    setBottomTabIcon(R.mipmap.found_icon, R.mipmap.task_icon_activation, R.mipmap.my_center_icon);
                     setBottomTabTextColor(0xff666666, 0xff31c5e4, 0xff666666);
                 } else if (position == 2) {
-                    setBottomTabIcon(R.mipmap.found_default, R.mipmap.home_message_btn, R.mipmap.icon_my_center_press);
+                    setBottomTabIcon(R.mipmap.found_icon, R.mipmap.task_icon_unactivation, R.mipmap.my_center_icon_activation);
                     setBottomTabTextColor(0xff666666, 0xff666666, 0xff31c5e4);
                 }
             }
@@ -98,7 +98,7 @@ public class ActivityHomeModel2 extends BaseObservable {
      * @param v
      */
     public void checkedFind(View v) {
-        setBottomTabIcon(R.mipmap.found_activation, R.mipmap.home_message_btn, R.mipmap.home_wode_btn);
+        setBottomTabIcon(R.mipmap.found_icon_activation, R.mipmap.task_icon_unactivation, R.mipmap.my_center_icon);
         setBottomTabTextColor(0xff31c5e4, 0xff666666, 0xff666666);
         mActivityHome2Binding.vpHomePager.setCurrentItem(0);
     }
@@ -109,7 +109,7 @@ public class ActivityHomeModel2 extends BaseObservable {
      * @param v
      */
     public void checkedWorkbench(View v) {
-        setBottomTabIcon(R.mipmap.found_default, R.mipmap.icon_message_press, R.mipmap.home_wode_btn);
+        setBottomTabIcon(R.mipmap.found_icon, R.mipmap.task_icon_activation, R.mipmap.my_center_icon);
         setBottomTabTextColor(0xff666666, 0xff31c5e4, 0xff666666);
         mActivityHome2Binding.vpHomePager.setCurrentItem(1);
     }
@@ -120,7 +120,7 @@ public class ActivityHomeModel2 extends BaseObservable {
      * @param v
      */
     public void checkedMyPager(View v) {
-        setBottomTabIcon(R.mipmap.found_default, R.mipmap.home_message_btn, R.mipmap.icon_my_center_press);
+        setBottomTabIcon(R.mipmap.found_icon, R.mipmap.task_icon_unactivation, R.mipmap.my_center_icon_activation);
         setBottomTabTextColor(0xff666666, 0xff666666, 0xff31c5e4);
         mActivityHome2Binding.vpHomePager.setCurrentItem(2);
     }

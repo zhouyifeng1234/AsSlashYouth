@@ -41,7 +41,7 @@
                     android:id="@+id/iv_find_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/found_activation"/>
+                    android:src="@mipmap/found_icon_activation"/>
                 <TextView
                     android:id="@+id/tv_find"
                     android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                     android:id="@+id/iv_workbench_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/home_message_btn"/>
+                    android:src="@mipmap/task_icon_unactivation"/>
                 <TextView
                     android:id="@+id/tv_workbench"
                     android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                     android:id="@+id/iv_my_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@mipmap/home_wode_btn"/>
+                    android:src="@mipmap/my_center_icon"/>
                 <TextView
                     android:id="@+id/tv_my"
                     android:layout_width="wrap_content"
