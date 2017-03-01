@@ -14,7 +14,9 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityTagRecommendBinding;
 import com.slash.youth.domain.AllSkillLablesBean;
 import com.slash.youth.domain.LoginTagBean;
+import com.slash.youth.domain.TagRecommendList;
 import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
@@ -159,11 +161,25 @@ public class TagRecommendModel extends BaseObservable {
         }
     }
 
+    private int offset = 0;
+    private int limit = 20;
+
     /**
      * 根据二级标签的ID,从接口获取推荐的需求服务列表
      */
     private void loadTag2RecommendList(long tag2Id) {
         LogKit.v("load tag2 recommend list,tag2Id:" + tag2Id);
+        MyTaskEngine.getTagRecommendList(new BaseProtocol.IResultExecutor<TagRecommendList>() {
+            @Override
+            public void execute(TagRecommendList dataBean) {
+
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("获取二级标签推荐的服务需求失败,result:" + result);
+            }
+        }, tag2Id + "", "2", offset + "", limit + "");
     }
 
     AllSkillLablesBean allSkillLablesBean;

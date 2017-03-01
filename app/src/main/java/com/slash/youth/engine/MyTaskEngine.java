@@ -11,6 +11,7 @@ import com.slash.youth.http.protocol.GetTaskItemProtocol;
 import com.slash.youth.http.protocol.MyTaskServiceDetailProtocol;
 import com.slash.youth.http.protocol.ShareForwardProtocol;
 import com.slash.youth.http.protocol.ShareReportProtocol;
+import com.slash.youth.http.protocol.TagRecommendProtocol;
 import com.slash.youth.http.protocol.UpAndDownTaskProtocol;
 
 /**
@@ -166,5 +167,19 @@ public class MyTaskEngine {
     public static void getLog(BaseProtocol.IResultExecutor onGetLogFinished, String tid, String type, String roleid) {
         GetCommonLogProtocol getCommonLogProtocol = new GetCommonLogProtocol(tid, type, roleid);
         getCommonLogProtocol.getDataFromServer(onGetLogFinished);
+    }
+
+    /**
+     * 一、[标签]-标签查询 首页分级标签查询接口
+     *
+     * @param onGetRecommendListFinished
+     * @param tag                        tag对应的唯一ID
+     * @param level                      tag的level 1表示一级标签，2表示二级标签
+     * @param offset
+     * @param limit
+     */
+    public static void getTagRecommendList(BaseProtocol.IResultExecutor onGetRecommendListFinished, String tag, String level, String offset, String limit) {
+        TagRecommendProtocol tagRecommendProcotol = new TagRecommendProtocol(tag, level, offset, limit);
+        tagRecommendProcotol.getDataFromServer(onGetRecommendListFinished);
     }
 }
