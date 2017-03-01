@@ -18,6 +18,7 @@ import com.slash.youth.domain.TagRecommendList;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.adapter.TagRecommendAdapter;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
@@ -172,7 +173,8 @@ public class TagRecommendModel extends BaseObservable {
         MyTaskEngine.getTagRecommendList(new BaseProtocol.IResultExecutor<TagRecommendList>() {
             @Override
             public void execute(TagRecommendList dataBean) {
-
+                ArrayList<TagRecommendList.TagRecommendInfo> listTagRecommend = dataBean.data.list;
+                mActivityTagRecommendBinding.lvTagRecommend.setAdapter(new TagRecommendAdapter(listTagRecommend));
             }
 
             @Override
