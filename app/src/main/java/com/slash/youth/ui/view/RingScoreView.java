@@ -112,4 +112,8 @@ public class RingScoreView extends View {
     public void setTotalProgressAngle(float totalProgressAngle) {
         this.totalProgressAngle = totalProgressAngle;
     }
+
+    public void setStartProgressAngle(float startProgressAngle) {
+        this.progressSweepAngle = startProgressAngle;
+    }
 }

@@ -2,13 +2,11 @@ package com.slash.youth.ui.pager;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
-import com.slash.youth.domain.AgreeRefundBean;
 import com.slash.youth.ui.viewmodel.PagerHomeMyModel;
 import com.slash.youth.utils.CommonUtils;
 
@@ -26,11 +24,11 @@ public class HomeMyPager extends BaseHomePager {
     @Override
     public View initView() {
         PagerHomeMyBinding pagerHomeMyBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_my, null, false);
-        pagerHomeMyBinding.svPagerHomeMy.setHightView(pagerHomeMyBinding.rlHead,pagerHomeMyBinding.ivMine);
+        pagerHomeMyBinding.svPagerHomeMy.setHightView(pagerHomeMyBinding.rlHead, pagerHomeMyBinding.ivMine);
         pagerHomeMyBinding.rlHead.getBackground().setAlpha(0);
-        pagerHomeMyBinding.svPagerHomeMy.setBeforView(pagerHomeMyBinding.ivEdit,pagerHomeMyBinding.ivSet);
-        pagerHomeMyBinding.svPagerHomeMy.setTitleTextView(pagerHomeMyBinding.tvTitle,pagerHomeMyBinding.tvTitleUp);
-        pagerHomeMyBinding.svPagerHomeMy.setAfterView(pagerHomeMyBinding.ivSetUp,pagerHomeMyBinding.ivEditUp);
+        pagerHomeMyBinding.svPagerHomeMy.setBeforView(pagerHomeMyBinding.ivEdit, pagerHomeMyBinding.ivSet);
+        pagerHomeMyBinding.svPagerHomeMy.setTitleTextView(pagerHomeMyBinding.tvTitle, pagerHomeMyBinding.tvTitleUp);
+        pagerHomeMyBinding.svPagerHomeMy.setAfterView(pagerHomeMyBinding.ivSetUp, pagerHomeMyBinding.ivEditUp);
         pagerHomeMyModel = new PagerHomeMyModel(pagerHomeMyBinding, mActivity);
         pagerHomeMyBinding.setPagerHomeMyModel(pagerHomeMyModel);
         return pagerHomeMyBinding.getRoot();
@@ -44,5 +42,9 @@ public class HomeMyPager extends BaseHomePager {
     @Override
     public void setData() {
 
+    }
+
+    public void doMarksAnimation() {
+        pagerHomeMyModel.doMarksAnimation();
     }
 }

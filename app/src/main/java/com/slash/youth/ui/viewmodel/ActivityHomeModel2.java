@@ -13,6 +13,7 @@ import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.pager.HomeWorkbenchPager;
+import com.slash.youth.utils.LogKit;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public class ActivityHomeModel2 extends BaseObservable {
 
             @Override
             public void onPageSelected(int position) {
+                LogKit.v("--------------onPageSelected----------------");
                 if (position == 0) {
                     setBottomTabIcon(R.mipmap.found_icon_activation, R.mipmap.task_icon_unactivation, R.mipmap.my_center_icon);
                     setBottomTabTextColor(0xff31c5e4, 0xff666666, 0xff666666);
@@ -65,6 +67,11 @@ public class ActivityHomeModel2 extends BaseObservable {
                 } else if (position == 2) {
                     setBottomTabIcon(R.mipmap.found_icon, R.mipmap.task_icon_unactivation, R.mipmap.my_center_icon_activation);
                     setBottomTabTextColor(0xff666666, 0xff666666, 0xff31c5e4);
+                    BaseHomePager baseHomePager = listPagers.get(position);
+                    if (baseHomePager instanceof HomeMyPager) {//这个条件正常情况应该是肯定成立的
+                        HomeMyPager homeMyPager = (HomeMyPager) baseHomePager;
+                        homeMyPager.doMarksAnimation();
+                    }
                 }
             }
 

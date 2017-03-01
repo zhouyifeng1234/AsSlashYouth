@@ -20,11 +20,11 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private ActivityCommonQuestionBinding activityCommonQuestionBinding;
     private String webUrl;
     private TextView title;
-    private String questionTitle  = "常见问题";
-    private String influenceTitle  = "影响力";
-   /* private String bannerTitle_1  = "只有你能决定你有多优秀";
-    private String bannerTitle_2  = "斜杠青年创业故事";
-    private String bannerTitle_3  = "互联网行业岗位故事全纪录";*/
+    private String questionTitle = "常见问题";
+    private String influenceTitle = "影响力";
+    /* private String bannerTitle_1  = "只有你能决定你有多优秀";
+     private String bannerTitle_2  = "斜杠青年创业故事";
+     private String bannerTitle_3  = "互联网行业岗位故事全纪录";*/
     private FrameLayout fl;
     private String influence;
     private String commonQuestion;
@@ -37,16 +37,17 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         Intent intent = getIntent();
 
         bannerTitle = intent.getStringExtra("title");
-        if(bannerTitle!=null){
+        if (bannerTitle != null) {
             webUrl = intent.getStringExtra("bannerUrl");
+            webUrl = webUrl.trim().replace(" ", "");
         }
 
         influence = intent.getStringExtra("influence");
-        if(influence !=null){
+        if (influence != null) {
             webUrl = GlobalConstants.WebPath.WEB_INFLUENCE;
         }
         commonQuestion = intent.getStringExtra("commonQuestion");
-        if(commonQuestion !=null){
+        if (commonQuestion != null) {
             webUrl = GlobalConstants.WebPath.WEB_COMMON_QUESTION;
         }
 
@@ -66,7 +67,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         }*/
 
         activityCommonQuestionBinding = DataBindingUtil.setContentView(this, R.layout.activity_common_question);
-        ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding,webUrl,this);
+        ActivityCommonQuestionModel activityCommonQuestionModel = new ActivityCommonQuestionModel(activityCommonQuestionBinding, webUrl, this);
         activityCommonQuestionBinding.setActivityCommonQuestionModel(activityCommonQuestionModel);
         listener();
     }
@@ -75,14 +76,14 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.iv_userinfo_back).setOnClickListener(this);
         title = (TextView) findViewById(R.id.tv_userinfo_title);
 
-        if(bannerTitle!=null){
+        if (bannerTitle != null) {
             title.setText(bannerTitle);
         }
 
-        if(influence!=null){
+        if (influence != null) {
             title.setText(influenceTitle);
         }
-        if(commonQuestion!=null){
+        if (commonQuestion != null) {
             title.setText(questionTitle);
         }
 
@@ -105,7 +106,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_userinfo_back:
                 finish();
                 break;
