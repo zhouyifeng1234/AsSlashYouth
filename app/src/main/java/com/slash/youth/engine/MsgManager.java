@@ -189,6 +189,10 @@ public class MsgManager {
         });
     }
 
+    public static void exit() {
+        RongIMClient.getInstance().disconnect();
+    }
+
     private static class MyReceiveMessageListener implements RongIMClient.OnReceiveMessageListener {
 
         /**

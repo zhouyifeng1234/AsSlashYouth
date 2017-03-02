@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHome2Binding;
+import com.slash.youth.engine.MsgManager;
 import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.activity.base.BusActivity;
 import com.slash.youth.ui.event.MessageEvent;
@@ -67,5 +68,11 @@ public class HomeActivity2 extends BusActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        MsgManager.exit();
+        super.onBackPressed();
     }
 }
