@@ -7,6 +7,8 @@ import com.slash.youth.http.protocol.FreeTimeMoreDemandProtocol;
 import com.slash.youth.http.protocol.FreeTimeMoreServiceListProtocol;
 import com.slash.youth.http.protocol.FreeTimeServiceListProtocol;
 import com.slash.youth.http.protocol.HomeTagConfigProtocol;
+import com.slash.youth.http.protocol.RecommendDemand2Protocol;
+import com.slash.youth.http.protocol.RecommendService2Protocol;
 
 
 /**
@@ -74,6 +76,23 @@ public class FirstPagerManager {
         HomeTagConfigProtocol homeTagConfigProtocol = new HomeTagConfigProtocol();
         homeTagConfigProtocol.getDataFromServer(onGetTagConfigFinished);
 
+    }
+
+
+    /**
+     * V1.1版首页需求推荐列表
+     */
+    public static void getRecommendDemand2(BaseProtocol.IResultExecutor onGetRecommendDemandFinished, String limit) {
+        RecommendDemand2Protocol recommendDemand2Protocol = new RecommendDemand2Protocol(limit);
+        recommendDemand2Protocol.getDataFromServer(onGetRecommendDemandFinished);
+    }
+
+    /**
+     * V1.1版首页服务推荐列表
+     */
+    public static void getRecommendService2(BaseProtocol.IResultExecutor onGetRecommendServiceFinished, String limit) {
+        RecommendService2Protocol recommendDemand2Protocol = new RecommendService2Protocol(limit);
+        recommendDemand2Protocol.getDataFromServer(onGetRecommendServiceFinished);
     }
 
 }

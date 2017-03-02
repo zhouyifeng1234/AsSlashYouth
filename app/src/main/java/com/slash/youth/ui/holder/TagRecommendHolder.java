@@ -5,8 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
+import com.slash.youth.databinding.ItemTagRecommendBinding;
+import com.slash.youth.domain.ItemTagRecommendModel;
 import com.slash.youth.domain.TagRecommendList;
-import com.slash.youth.ui.viewmodel.DemandDetailModel;
 import com.slash.youth.utils.CommonUtils;
 
 /**
@@ -14,21 +15,18 @@ import com.slash.youth.utils.CommonUtils;
  */
 public class TagRecommendHolder extends BaseHolder<TagRecommendList.TagRecommendInfo> {
 
+    ItemTagRecommendModel mItemTagRecommendModel;
+
     @Override
     public View initView() {
-        DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_tag_recommend, null, false);
-
-
-        DemandDetailModel
+        ItemTagRecommendBinding itemTagRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_tag_recommend, null, false);
+        mItemTagRecommendModel = new ItemTagRecommendModel(itemTagRecommendBinding);
+        itemTagRecommendBinding.setItemTagRecommendModel(mItemTagRecommendModel);
+        return itemTagRecommendBinding.getRoot();
     }
 
     @Override
     public void refreshView(TagRecommendList.TagRecommendInfo data) {
-        //data.type为2是服务，其它的为需求
-        if (data.type == 2) {//服务
-
-        } else {//需求，这里希求的type可能是0
-
-        }
+        mItemTagRecommendModel.setData(data);
     }
 }

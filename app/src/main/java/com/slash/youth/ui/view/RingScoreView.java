@@ -89,7 +89,9 @@ public class RingScoreView extends View {
                         long startMill = System.currentTimeMillis();
                         postInvalidate();
                         long endMill = System.currentTimeMillis();
-                        Thread.sleep(16 - (endMill - startMill));
+                        if (endMill - startMill <= 16) {
+                            Thread.sleep(16 - (endMill - startMill));
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

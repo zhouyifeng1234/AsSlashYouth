@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class TagRecommendAdapter extends SlashBaseAdapter<TagRecommendList.TagRecommendInfo> {
 
+
     public TagRecommendAdapter(ArrayList<TagRecommendList.TagRecommendInfo> listData) {
         super(listData);
     }

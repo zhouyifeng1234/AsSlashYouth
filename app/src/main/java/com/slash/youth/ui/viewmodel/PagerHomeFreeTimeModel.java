@@ -680,11 +680,11 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public void getDemandOrServiceListData() {
         totalGetDataTimes++;
         if (mIsDisplayDemandList) {
-            listDemandBean.clear();
             FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(), limit);
+
         } else {
-            listServiceBean.clear();
             FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(), limit);
+
         }
     }
 
@@ -798,6 +798,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
                 } else {
+                    listDemandBean.clear();
                     listDemandBean.addAll(list);
                     homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService
@@ -837,6 +838,7 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
                     pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
                 } else {
+                    listServiceBean.clear();
                     listServiceBean.addAll(list);
                     homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
                     pagerHomeFreetimeBinding.lvHomeDemandAndService
