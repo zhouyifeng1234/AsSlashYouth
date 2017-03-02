@@ -293,6 +293,7 @@
         <activity android:name=".ui.activity.ContactsCareActivity"/>
         <activity android:name=".ui.activity.FirstPagerMoreActivity"/>
         <activity android:name=".ui.activity.WebViewActivity"/>
+        <activity android:name=".ui.activity.VisitorsActivity"/>
 
         <activity android:name="com.slash.youth.ui.activity.PublishActivity">
         </activity>

@@ -75,7 +75,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
     private boolean isMyAddFriend;
     private boolean isAddMeFriend;
 
-    public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding, Activity mActivity,ActivityHomeModel activityHomeModel) {
+    public HeaderHomeContactsModel(HeaderListviewHomeContactsBinding headerListviewHomeContactsBinding, Activity mActivity, ActivityHomeModel activityHomeModel) {
         this.mHeaderListviewHomeContactsBinding = headerListviewHomeContactsBinding;
         this.mActivity = mActivity;
         this.activityHomeModel = activityHomeModel;
@@ -86,7 +86,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
     }
 
     private void lisitener() {
-        if(isMyFans&&isMyFollow&&isAddMeFriend&&isMyAddFriend){
+        if (isMyFans && isMyFollow && isAddMeFriend && isMyAddFriend) {
             activityHomeModel.setRedPointHintVisibility(View.GONE);
         }
     }
@@ -131,7 +131,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
             ItemHscFriendRecommendBinding itemHscFriendRecommendBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_hsc_friend_recommend, null, false);
             View itemFriendRecommend = itemHscFriendRecommendBinding.getRoot();
             View recommendSpace = createRecommendHorizontalSpace();
-            ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, listFriendRecommendBean, i,recommendSpace);
+            ItemFriendRecommendModel itemFriendRecommendModel = new ItemFriendRecommendModel(itemHscFriendRecommendBinding, itemFriendRecommend, listFriendRecommendBean, i, recommendSpace);
             itemHscFriendRecommendBinding.setItemFriendRecommendModel(itemFriendRecommendModel);
             mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(itemFriendRecommend);
             mHeaderListviewHomeContactsBinding.llHomeContactsRecommend.addView(recommendSpace);
@@ -159,7 +159,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.CARE_ME);
         type = 1;
         mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.GONE);
-        SpUtils.setInt("myFollowCount",myFollowCount);
+        SpUtils.setInt("myFollowCount", myFollowCount);
         isMyFollow = false;
     }
 
@@ -171,7 +171,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.MY_CARE);
         type = 2;
         mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.GONE);
-        SpUtils.setInt("myFansCount",myFansCount);
+        SpUtils.setInt("myFansCount", myFansCount);
         isMyFans = false;
     }
 
@@ -183,7 +183,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.ADD_ME);
         type = 3;
         mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.GONE);
-        SpUtils.setInt("addMeFriendCount",addMeFriendCount);
+        SpUtils.setInt("addMeFriendCount", addMeFriendCount);
         isAddMeFriend = false;
     }
 
@@ -195,7 +195,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
         openContactsCareActivity(ContactsManager.MY_ADD);
         type = 4;
         mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.GONE);
-        SpUtils.setInt("myAddFriendCount",myAddFriendCount);
+        SpUtils.setInt("myAddFriendCount", myAddFriendCount);
         isMyAddFriend = false;
     }
 
@@ -224,7 +224,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
             if (rescode == 0) {
                 //隐藏加载页面
                 PagerHomeContactsModel.getBaseDataFinishedCount++;
-                if(PagerHomeContactsModel.getBaseDataFinishedCount >= PagerHomeContactsModel.getBaseDataTotalCount){
+                if (PagerHomeContactsModel.getBaseDataFinishedCount >= PagerHomeContactsModel.getBaseDataTotalCount) {
                     listener.OnRelationLoadData(true);
                 }
 
@@ -242,39 +242,40 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 mHeaderListviewHomeContactsBinding.tvAddMe.setText(String.valueOf(addMeFriendCount));
 
                 //保存一下在本地
-               // if(myFollowLocalCount!=0){
-                    if(myFansCount!=myFansLocalCount){
-                        mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
-                        activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
-                        isMyFans = true;
-                    }
-               // }
+                // if(myFollowLocalCount!=0){
+                if (myFansCount != myFansLocalCount) {
+                    mHeaderListviewHomeContactsBinding.viewRedSpot2.setVisibility(View.VISIBLE);
+                    activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                    isMyFans = true;
+                }
+                // }
 
-               // if(myFansLocalCount!=0){
-                    if(myFollowCount!=myFollowLocalCount){
-                        mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
-                        activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
-                        isMyFollow = true;
-                    }
-              //  }
+                // if(myFansLocalCount!=0){
+                if (myFollowCount != myFollowLocalCount) {
+                    mHeaderListviewHomeContactsBinding.viewRedSpot1.setVisibility(View.VISIBLE);
+                    activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                    isMyFollow = true;
+                }
+                //  }
 
-               // if(addMeFriendCount!=0){
-                    if(addMeFriendLocalCount!=addMeFriendCount){
-                        mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
-                       activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
-                        isAddMeFriend = true;
-                    }
-               // }
+                // if(addMeFriendCount!=0){
+                if (addMeFriendLocalCount != addMeFriendCount) {
+                    mHeaderListviewHomeContactsBinding.viewRedSpot3.setVisibility(View.VISIBLE);
+                    activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                    isAddMeFriend = true;
+                }
+                // }
 
-              //  if(myAddFriendCount!=0){
-                    if(myAddFriendLocalCount!=myAddFriendCount){
-                        mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
-                        activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
-                        isMyAddFriend = true;
-                    }
-               // }
+                //  if(myAddFriendCount!=0){
+                if (myAddFriendLocalCount != myAddFriendCount) {
+                    mHeaderListviewHomeContactsBinding.viewRedSpot4.setVisibility(View.VISIBLE);
+                    activityHomeModel.setRedPointHintVisibility(View.VISIBLE);
+                    isMyAddFriend = true;
+                }
+                // }
             }
         }
+
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
@@ -289,7 +290,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
             if (rescode == 0) {
                 //隐藏加载页面
                 PagerHomeContactsModel.getBaseDataFinishedCount++;
-                if(PagerHomeContactsModel.getBaseDataFinishedCount >= PagerHomeContactsModel.getBaseDataTotalCount){
+                if (PagerHomeContactsModel.getBaseDataFinishedCount >= PagerHomeContactsModel.getBaseDataTotalCount) {
                     listener.OnRecommendLoadData(true);
                 }
 
@@ -302,6 +303,7 @@ public class HeaderHomeContactsModel extends BaseObservable {
                 displayFriendRecommend();
             }
         }
+
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
@@ -310,12 +312,14 @@ public class HeaderHomeContactsModel extends BaseObservable {
 
 
     //监听数据获取
-    public interface OnLoadDataListener{
+    public interface OnLoadDataListener {
         void OnRecommendLoadData(boolean MyRecommendFriendRecode);
+
         void OnRelationLoadData(boolean personRelationRecode);
     }
 
     private OnLoadDataListener listener;
+
     public void setOnLoadDataListener(OnLoadDataListener listener) {
         this.listener = listener;
     }

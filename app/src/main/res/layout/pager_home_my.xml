@@ -106,10 +106,14 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_gravity="center_vertical"
                                                 android:layout_marginLeft="9dp"
+                                                android:background="@drawable/shape_mine_identification_bg"
                                                 android:drawableLeft="@mipmap/exclamation"
-                                                android:drawablePadding="5dp"
+                                                android:drawablePadding="2dp"
+                                                android:paddingLeft="5dp"
+                                                android:paddingRight="5dp"
                                                 android:text="去认证"
-                                                android:textColor="#ef3e3e"
+                                                android:textColor="@color/white"
+                                                android:textSize="12sp"
                                                 android:visibility="gone" />
 
                                         </LinearLayout>
@@ -223,243 +227,6 @@
                                         android:layout_weight="1"
                                         android:src="@mipmap/icon_nav_back" />
                                 </LinearLayout>
-
-                                <!--<LinearLayout-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginLeft="22dp"-->
-                                <!--android:layout_marginRight="15dp"-->
-                                <!--android:layout_marginTop="19dp"-->
-                                <!--android:orientation="horizontal">-->
-
-                                <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:src="@mipmap/fans_icon" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_fans_count"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:textColor="#999999"-->
-                                <!--android:textSize="12sp" />-->
-
-                                <!--<View-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1" />-->
-
-                                <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:src="@mipmap/dea_iconl" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_my_Achieve_Task_Count"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:textColor="#999999"-->
-                                <!--android:textSize="12sp" />-->
-
-                                <!--<View-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1" />-->
-
-                                <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:src="@mipmap/service_orce_icon" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_service_point1"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:textColor="#999999"-->
-                                <!--android:textSize="12sp" />-->
-
-                                <!--</LinearLayout>-->
-
-                                <!--<LinearLayout-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="10dp"-->
-                                <!--android:layout_marginLeft="18dp"-->
-                                <!--android:layout_marginRight="18dp"-->
-                                <!--android:layout_marginTop="7dp"-->
-                                <!--android:orientation="horizontal">-->
-
-                                <!--<FrameLayout-->
-                                <!--android:layout_width="78dp"-->
-                                <!--android:layout_height="match_parent">-->
-
-                                <!--<View-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="@drawable/shape_home_my_info_bg"-->
-                                <!--android:visibility="gone" />-->
-
-                                <!--<View-->
-                                <!--android:layout_width="57dp"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="@drawable/shape_home_my_info_fanscount_bg"-->
-                                <!--android:visibility="gone" />-->
-
-
-                                <!--<ProgressBar-->
-                                <!--android:id="@+id/pb_progressbar_fans"-->
-                                <!--style="@style/StyleProgressBarMini_fans"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="#ffffff"-->
-                                <!--android:max="100" />-->
-
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_fans_radio"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center"-->
-                                <!--android:gravity="center"-->
-                                <!--android:textColor="#FFFFFF"-->
-                                <!--android:textSize="8dp" />-->
-                                <!--</FrameLayout>-->
-
-                                <!--<View-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1" />-->
-
-                                <!--<FrameLayout-->
-                                <!--android:id="@+id/fl2"-->
-                                <!--android:layout_width="78dp"-->
-                                <!--android:layout_height="match_parent">-->
-
-                                <!--<View-->
-                                <!--android:id="@+id/v2"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="@drawable/shape_home_my_info_bg"-->
-                                <!--android:visibility="gone" />-->
-
-                                <!--<View-->
-                                <!--android:id="@+id/view2"-->
-                                <!--android:layout_width="57dp"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="@drawable/shape_home_my_info_trade_ticket_bg"-->
-                                <!--android:visibility="gone" />-->
-
-                                <!--<ProgressBar-->
-                                <!--android:id="@+id/pb_progressbar_task"-->
-                                <!--style="@style/StyleProgressBarMini_task"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="#ffffff"-->
-                                <!--android:max="100" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_my_task"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center"-->
-                                <!--android:gravity="center"-->
-                                <!--android:textColor="#FFFFFF"-->
-                                <!--android:textSize="8dp" />-->
-                                <!--</FrameLayout>-->
-
-                                <!--<View-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1" />-->
-
-                                <!--<FrameLayout-->
-                                <!--android:layout_width="78dp"-->
-                                <!--android:layout_height="match_parent">-->
-
-                                <!--<View-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="@drawable/shape_home_my_info_bg"-->
-                                <!--android:visibility="gone" />-->
-
-                                <!--<View-->
-                                <!--android:layout_width="68dp"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="@drawable/shape_home_my_info_service_star_bg"-->
-                                <!--android:visibility="gone" />-->
-
-                                <!--<ProgressBar-->
-                                <!--android:id="@+id/pb_progressbar_service"-->
-                                <!--style="@style/StyleProgressBarMini_service"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="match_parent"-->
-                                <!--android:background="#ffffff"-->
-                                <!--android:max="100" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_Average_Service_Point"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center"-->
-                                <!--android:gravity="center"-->
-                                <!--android:textColor="#FFFFFF"-->
-                                <!--android:textSize="8dp" />-->
-                                <!--</FrameLayout>-->
-
-                                <!--</LinearLayout>-->
-
-                                <!--<LinearLayout-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginLeft="17dp"-->
-                                <!--android:layout_marginRight="17dp"-->
-                                <!--android:layout_marginTop="7dp"-->
-                                <!--android:orientation="horizontal">-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_over_Fans_Count"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:textColor="#CCCCCC"-->
-                                <!--android:textSize="9sp" />-->
-
-                                <!--<View-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_my_totol_task_count"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:textColor="#CCCCCC"-->
-                                <!--android:textSize="9sp" />-->
-
-                                <!--<View-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1" />-->
-
-                                <!--<TextView-->
-                                <!--android:id="@+id/tv_user_service_point"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_gravity="center_vertical"-->
-                                <!--android:textColor="#CCCCCC"-->
-                                <!--android:textSize="9sp" />-->
-
-                                <!--</LinearLayout>-->
-
                             </LinearLayout>
 
                         </android.support.v7.widget.CardView>
@@ -804,7 +571,8 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="43dp">
+                            android:layout_height="43dp"
+                            android:onClick="@{pagerHomeMyModel.MyFriend}">
 
                             <ImageView
                                 android:layout_width="23dp"
@@ -828,12 +596,14 @@
                                 android:layout_weight="1" />
 
                             <ImageView
+                                android:id="@+id/iv_mine_contacts"
                                 android:layout_width="10dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="9dp"
                                 android:layout_marginRight="10dp"
-                                android:src="@mipmap/towardsright_icon" />
+                                android:src="@mipmap/icon_mine_dot"
+                                android:visibility="gone" />
                         </LinearLayout>
 
                         <View
@@ -845,7 +615,8 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="43dp">
+                            android:layout_height="43dp"
+                            android:onClick="@{pagerHomeMyModel.visitor}">
 
                             <ImageView
                                 android:layout_width="23dp"
@@ -869,12 +640,14 @@
                                 android:layout_weight="1" />
 
                             <ImageView
+                                android:id="@+id/iv_mine_visitors"
                                 android:layout_width="10dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="9dp"
                                 android:layout_marginRight="10dp"
-                                android:src="@mipmap/towardsright_icon" />
+                                android:src="@mipmap/icon_mine_dot"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1007,216 +780,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!--<android.support.v7.widget.CardView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="7dp"-->
-                    <!--android:layout_marginRight="7dp"-->
-                    <!--app:cardBackgroundColor="#ffffff"-->
-                    <!--app:cardCornerRadius="5dp"-->
-                    <!--app:cardElevation="@dimen/cardElevation"-->
-                    <!--app:cardUseCompatPadding="true">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="174dp"-->
-                    <!--android:background="@drawable/shape_rounded_my_news_center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:orientation="horizontal">-->
-
-                    <!--&lt;!&ndash;技能管理&ndash;&gt;-->
-                    <!--<FrameLayout-->
-                    <!--android:id="@+id/fl_skillManage"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:onClick="@{pagerHomeMyModel.skillManage }">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:src="@mipmap/shop_icon" />-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="技能列表"-->
-                    <!--android:textColor="#718083"-->
-                    <!--android:textSize="12sp" />-->
-                    <!--</LinearLayout>-->
-                    <!--</FrameLayout>-->
-
-                    <!--&lt;!&ndash;管理我发布的&ndash;&gt;-->
-                    <!--<FrameLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:onClick="@{pagerHomeMyModel.managePublish }">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:src="@mipmap/task_management_icon" />-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="发布管理"-->
-                    <!--android:textColor="#718083"-->
-                    <!--android:textSize="12sp" />-->
-                    <!--</LinearLayout>-->
-                    <!--</FrameLayout>-->
-
-                    <!--&lt;!&ndash;第三方绑定&ndash;&gt;-->
-                    <!--<FrameLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:onClick="@{pagerHomeMyModel.myThirdParty}">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:src="@mipmap/third_party_icon" />-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="第三方绑定"-->
-                    <!--android:textColor="#718083"-->
-                    <!--android:textSize="12sp" />-->
-                    <!--</LinearLayout>-->
-                    <!--</FrameLayout>-->
-
-                    <!--</LinearLayout>-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:orientation="horizontal">-->
-
-                    <!--&lt;!&ndash;我的收藏&ndash;&gt;-->
-                    <!--<FrameLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:onClick="@{pagerHomeMyModel.collection}">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:src="@mipmap/my_collection_icon" />-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="收藏"-->
-                    <!--android:textColor="#718083"-->
-                    <!--android:textSize="12sp" />-->
-                    <!--</LinearLayout>-->
-                    <!--</FrameLayout>-->
-
-                    <!--&lt;!&ndash;帮助&ndash;&gt;-->
-                    <!--<FrameLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:onClick="@{pagerHomeMyModel.help}">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:src="@mipmap/problem_icon" />-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="帮助"-->
-                    <!--android:textColor="#718083"-->
-                    <!--android:textSize="12sp" />-->
-                    <!--</LinearLayout>-->
-                    <!--</FrameLayout>-->
-
-                    <!--&lt;!&ndash;设置&ndash;&gt;-->
-                    <!--<FrameLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:onClick="@{pagerHomeMyModel.mySetting}">-->
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:src="@mipmap/setup_icon" />-->
-
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="设置"-->
-                    <!--android:textColor="#718083"-->
-                    <!--android:textSize="12sp" />-->
-                    <!--</LinearLayout>-->
-                    <!--</FrameLayout>-->
-
-                    <!--</LinearLayout>-->
-
-                    <!--</LinearLayout>-->
-
-                    <!--</android.support.v7.widget.CardView>-->
                 </LinearLayout>
             </com.slash.youth.ui.view.AlphaViewScrollView>
 
@@ -1224,73 +787,77 @@
                 android:id="@+id/rl_head"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:background="#31C5E4">
+                android:background="#00000000">
 
-                <FrameLayout
+                <TextView
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:text="我的"
+                    android:textColor="#333333"
+                    android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/tv_title_up"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="我的"
-                        android:textColor="@color/white"
-                        android:textSize="17sp" />
-
-                    <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="我的"
-                        android:textColor="#333333"
-                        android:textSize="17sp" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/fl_edit"
+                <ImageView
+                    android:id="@+id/iv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="15dp"
-                    android:onClick="@{pagerHomeMyModel.editor}">
+                    android:background="@mipmap/icon_mine_editor"
+                    android:onClick="@{pagerHomeMyModel.editor}" />
 
-                    <ImageView
-                        android:id="@+id/iv_edit_up"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_mine_editor_up" />
-
-                    <ImageView
-                        android:id="@+id/iv_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_mine_editor" />
-                </FrameLayout>
-
-                <FrameLayout
+                <ImageView
+                    android:id="@+id/iv_set"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:layout_toLeftOf="@id/fl_edit"
-                    android:onClick="@{pagerHomeMyModel.mySetting}">
+                    android:layout_toLeftOf="@id/iv_edit"
+                    android:background="@mipmap/icon_mine_set"
+                    android:onClick="@{pagerHomeMyModel.mySetting}" />
 
-                    <ImageView
-                        android:id="@+id/iv_set_up"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_mine_set_up" />
-
-                    <ImageView
-                        android:id="@+id/iv_set"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_mine_set" />
-                </FrameLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_head_up"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="#31C5E4">
+
+                <TextView
+                    android:id="@+id/tv_title_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="我的"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:id="@+id/iv_edit_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@mipmap/icon_mine_editor_up"
+                    android:onClick="@{pagerHomeMyModel.editor}" />
+
+                <ImageView
+                    android:id="@+id/iv_set_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@id/iv_edit_up"
+                    android:background="@mipmap/icon_mine_set_up"
+                    android:onClick="@{pagerHomeMyModel.mySetting}" />
+
+            </RelativeLayout>
+
+
         </FrameLayout>
         <!--  加载页面-->
         <FrameLayout
