@@ -28,6 +28,8 @@ public class ActivityHomeModel2 extends BaseObservable {
     Activity mActivity;
     ArrayList<BaseHomePager> listPagers = new ArrayList<BaseHomePager>();
 
+    HomeMyPager homeMyPager;
+
     public ActivityHomeModel2(ActivityHome2Binding activityHome2Binding, Activity activity) {
         this.mActivityHome2Binding = activityHome2Binding;
         this.mActivity = activity;
@@ -86,7 +88,12 @@ public class ActivityHomeModel2 extends BaseObservable {
         //首页目前是3个
         listPagers.add(new HomeFreeTimePager(mActivity));
         listPagers.add(new HomeWorkbenchPager(mActivity));
-        listPagers.add(new HomeMyPager(mActivity));
+        homeMyPager = new HomeMyPager(mActivity);
+        listPagers.add(homeMyPager);
+    }
+
+    public void updateMessage() {
+        homeMyPager.updateMessage();
     }
 
     public BaseHomePager getCurrentPager() {

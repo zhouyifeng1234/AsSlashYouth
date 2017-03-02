@@ -39,6 +39,8 @@ import com.slash.youth.ui.activity.MyBidDemandActivity;
 import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
 import com.slash.youth.ui.activity.MyPublishServiceActivity;
+import com.slash.youth.ui.activity.base.BaseActivity;
+import com.slash.youth.ui.event.OffLineEvent;
 import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
 import com.slash.youth.ui.viewmodel.MessageModel;
@@ -49,6 +51,8 @@ import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -116,7 +120,8 @@ public class MsgManager {
                     CommonUtils.getHandler().post(new Runnable() {
                         @Override
                         public void run() {
-
+                            if (ActivityUtils.currentActivity instanceof BaseActivity)
+                                ((BaseActivity) ActivityUtils.currentActivity).offline();
                         }
                     });
                 }
@@ -182,6 +187,10 @@ public class MsgManager {
                 LogKit.v("--onError" + errorCode);
             }
         });
+    }
+
+    public static void exit() {
+        RongIMClient.getInstance().disconnect();
     }
 
     private static class MyReceiveMessageListener implements RongIMClient.OnReceiveMessageListener {

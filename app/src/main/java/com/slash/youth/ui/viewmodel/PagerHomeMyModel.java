@@ -14,6 +14,8 @@ import com.slash.youth.BR;
 import com.slash.youth.databinding.PagerHomeMyBinding;
 import com.slash.youth.domain.MyFirstPageBean;
 import com.slash.youth.domain.OtherInfoBean;
+import com.slash.youth.domain.PersonRelationBean;
+import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyManager;
 import com.slash.youth.engine.UserInfoEngine;
@@ -23,11 +25,13 @@ import com.slash.youth.ui.activity.ApprovalActivity;
 import com.slash.youth.ui.activity.BindThridPartyActivity;
 import com.slash.youth.ui.activity.MyAccountActivity;
 import com.slash.youth.ui.activity.MyCollectionActivity;
+import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.MyHelpActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.MySkillManageActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.activity.UserinfoEditorActivity;
+import com.slash.youth.ui.activity.VisitorsActivity;
 import com.slash.youth.ui.activity.WebViewActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
@@ -35,10 +39,13 @@ import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
+
 
 /**
  * Created by zhouyifeng on 2016/10/11.
@@ -82,7 +89,11 @@ public class PagerHomeMyModel extends BaseObservable {
     private int taskProgress;
     private String[] grades = {"少侠", "大侠", "宗师", "至尊"};//4000  10000 请等待客服审核
     private String grade;
+    int addMeFriendCount;
+    int myAddFriendCount;
 
+    private int myAddFriendLocalCount;
+    private int addMeFriendLocalCount;
 
     public PagerHomeMyModel(PagerHomeMyBinding pagerHomeMyBinding, Activity activity) {
         this.mPagerHomeMyBinding = pagerHomeMyBinding;
@@ -141,6 +152,9 @@ public class PagerHomeMyModel extends BaseObservable {
 
     private void initView() {
         mPagerHomeMyBinding.svPagerHomeMy.setVerticalScrollBarEnabled(false);
+
+
+        ContactsManager.getPersonRelationFirstPage(new onPersonRelationFirstPage());
     }
 
     private void initScoreView() {
@@ -183,11 +197,42 @@ public class PagerHomeMyModel extends BaseObservable {
     }
 
     private void initData() {
+
+        myAddFriendLocalCount = SpUtils.getInt("myAddFriendCount", 0);
+        addMeFriendLocalCount = SpUtils.getInt("addMeFriendCount", 0);
+
         MyManager.getMyUserinfo(new OnGetMyUserinfo());
         MyManager.getOtherPersonInfo(new onGetOtherPersonInfo(), LoginManager.currentLoginUserId, 1);
     }
 
     private String careertypeString = "自雇者";
+
+    //首页展示的数据
+    public class onPersonRelationFirstPage implements BaseProtocol.IResultExecutor<PersonRelationBean> {
+        @Override
+        public void execute(PersonRelationBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if (rescode == 0) {
+                PersonRelationBean.DataBean data = dataBean.getData();
+                PersonRelationBean.DataBean.InfoBean info = data.getInfo();
+                addMeFriendCount = info.getAddMeFriendCount();
+                myAddFriendCount = info.getMyAddFriendCount();
+
+                if (addMeFriendLocalCount != addMeFriendCount) {
+                    mPagerHomeMyBinding.ivMineContacts.setVisibility(View.VISIBLE);
+                }
+                //访客接口还没有
+//                if (myAddFriendLocalCount != myAddFriendCount) {
+//                    mPagerHomeMyBinding.ivMineVisitors.setVisibility(View.VISIBLE);
+//                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
 
     //获取其他用户信息
     public class onGetOtherPersonInfo implements BaseProtocol.IResultExecutor<OtherInfoBean> {
@@ -301,7 +346,7 @@ public class PagerHomeMyModel extends BaseObservable {
         userservicepoint = myinfo.getUserservicepoint();
         int servicepoint = (int) ((averageservicepoint * 100) / 5);
 //        mPagerHomeMyBinding.pbProgressbarService.setProgress((int) servicepoint);
-        mPagerHomeMyBinding.tvServicePoint1.setText("" + userservicepoint + "");
+        mPagerHomeMyBinding.tvServicePoint1.setText("" + userservicepoint + "星");
 ////        mPagerHomeMyBinding.tvAverageServicePoint.setText(String.valueOf(averageservicepoint));
 //        mPagerHomeMyBinding.tvAverageServicePoint.setText(df.format(averageservicepoint));
 //        mPagerHomeMyBinding.tvUserServicePoint.setText("平台平均服务力为" + df.format(averageservicepoint) + "星");
@@ -402,6 +447,19 @@ public class PagerHomeMyModel extends BaseObservable {
         intentApprovalActivity.putExtra("careertype", careertype);
         intentApprovalActivity.putExtra("Uid", LoginManager.currentLoginUserId);
         mActivity.startActivityForResult(intentApprovalActivity, UserInfoEngine.MY_USER_EDITOR);
+    }
+
+    //我的好友
+    public void MyFriend(View view) {
+        Intent intentChooseFriendActivtiy = new Intent(CommonUtils.getContext(), MyFriendActivtiy.class);
+        mActivity.startActivity(intentChooseFriendActivtiy);
+    }
+
+    //最近访客
+    public void visitor(View view) {
+        Intent intentChooseFriendActivtiy = new Intent(CommonUtils.getContext(), VisitorsActivity.class);
+        mActivity.startActivity(intentChooseFriendActivtiy);
+
     }
 
     //去认证
@@ -559,6 +617,10 @@ public class PagerHomeMyModel extends BaseObservable {
         Intent intentCommonQuestionActivity = new Intent(CommonUtils.getContext(), WebViewActivity.class);
         intentCommonQuestionActivity.putExtra("influence", "influence");
         mActivity.startActivity(intentCommonQuestionActivity);
+    }
+
+    public void updateMessage() {
+        mPagerHomeMyBinding.ivMineContacts.setVisibility(View.GONE);
     }
 
 //    private int myloadLayerVisibility = View.GONE;

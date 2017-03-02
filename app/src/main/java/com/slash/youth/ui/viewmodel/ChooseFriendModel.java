@@ -12,18 +12,26 @@ import com.slash.youth.databinding.ActivityChooseFriendBinding;
 import com.slash.youth.domain.ChatCmdBusinesssCardBean;
 import com.slash.youth.domain.ChatCmdShareTaskBean;
 import com.slash.youth.domain.MyFriendListBean;
+import com.slash.youth.domain.PersonRelationBean;
 import com.slash.youth.engine.ContactsManager;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.ChatActivity;
+import com.slash.youth.ui.activity.ContactsCareActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.adapter.ChooseFriendAdapter;
 import com.slash.youth.ui.adapter.LocationCityFirstLetterAdapter;
+import com.slash.youth.ui.event.MessageEvent;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,6 +58,9 @@ public class ChooseFriendModel extends BaseObservable {
     private String sendName;
     private long targetId;
 
+    private int addMeFriendLocalCount;
+    int addMeFriendCount;
+
     public ChooseFriendModel(Activity activity, ActivityChooseFriendBinding activityChooseFriendBinding, MyFriendActivtiy chooseFriendActivtiy, boolean sendFriend) {
         this.activityChooseFriendBinding = activityChooseFriendBinding;
         this.chooseFriendActivtiy = chooseFriendActivtiy;
@@ -67,6 +78,32 @@ public class ChooseFriendModel extends BaseObservable {
         ptrl.setOnRefreshListener(new ChooseFriendListListener());
     }
 
+    //首页展示的数据
+    public class onPersonRelationFirstPage implements BaseProtocol.IResultExecutor<PersonRelationBean> {
+        @Override
+        public void execute(PersonRelationBean dataBean) {
+            int rescode = dataBean.getRescode();
+            if (rescode == 0) {
+                PersonRelationBean.DataBean data = dataBean.getData();
+                PersonRelationBean.DataBean.InfoBean info = data.getInfo();
+                addMeFriendCount = info.getAddMeFriendCount();
+
+                if (addMeFriendLocalCount != addMeFriendCount) {
+                    activityChooseFriendBinding.ivRequest.setVisibility(View.VISIBLE);
+                }
+                //访客接口还没有
+//                if (myAddFriendLocalCount != myAddFriendCount) {
+//                    mPagerHomeMyBinding.ivMineVisitors.setVisibility(View.VISIBLE);
+//                }
+            }
+        }
+
+        @Override
+        public void executeResultError(String result) {
+            LogKit.d("result:" + result);
+        }
+    }
+
     public class ChooseFriendListListener implements PullToRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
@@ -76,7 +113,7 @@ public class ChooseFriendModel extends BaseObservable {
                     offset = 0;
                     friendArrayList.clear();
                     ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
-                    if(chooseFriendAdapter!=null){
+                    if (chooseFriendAdapter != null) {
                         chooseFriendAdapter.notifyDataSetChanged();
                     }
                     pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
@@ -95,7 +132,7 @@ public class ChooseFriendModel extends BaseObservable {
                     } else {//不是最后一页
                         offset += limit;
                         ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
-                        if(chooseFriendAdapter!=null){
+                        if (chooseFriendAdapter != null) {
                             chooseFriendAdapter.notifyDataSetChanged();
                         }
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
@@ -109,6 +146,7 @@ public class ChooseFriendModel extends BaseObservable {
         chatCmdShareTaskBean = (ChatCmdShareTaskBean) mActivity.getIntent().getSerializableExtra("chatCmdShareTaskBean");
         ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
 
+        addMeFriendLocalCount = SpUtils.getInt("addMeFriendCount", 0);
         for (char cha = 'A'; cha <= 'Z'; cha++) {
             letterList.add(cha);
         }
@@ -117,6 +155,8 @@ public class ChooseFriendModel extends BaseObservable {
     private void initView() {
         locationCityFirstLetterAdapter = new LocationCityFirstLetterAdapter(letterList);
         activityChooseFriendBinding.lvLetter.setAdapter(locationCityFirstLetterAdapter);
+
+        ContactsManager.getPersonRelationFirstPage(new onPersonRelationFirstPage());
     }
 
     private void listener() {
@@ -150,8 +190,33 @@ public class ChooseFriendModel extends BaseObservable {
         setSendFriendDialogVisibility(View.VISIBLE);
         MyFriendListBean.DataBean.ListBean listBean = friendArrayList.get(position);
         String name = listBean.getName();
-        setSendName("发送给"+name);
+        setSendName("发送给" + name);
         targetId = listBean.getUid();
+    }
+
+    //加我的
+    public void addMe(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ADD_ME);
+        openContactsCareActivity(ContactsManager.ADD_ME, "3");
+        activityChooseFriendBinding.ivRequest.setVisibility(View.GONE);
+        SpUtils.setInt("addMeFriendCount", addMeFriendCount);
+        EventBus.getDefault().post(new MessageEvent());
+    }
+
+    //我加的
+    public void meAdd(View view) {
+        //埋点
+        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.RELATIONSHIP_CLICK_ADD_ME);
+        openContactsCareActivity(ContactsManager.MY_ADD, "4");
+    }
+
+
+    private void openContactsCareActivity(String title, String type) {
+        Intent intentContactsCareActivity = new Intent(CommonUtils.getContext(), ContactsCareActivity.class);
+        intentContactsCareActivity.putExtra("title", title);
+        intentContactsCareActivity.putExtra("type", type);
+        mActivity.startActivity(intentContactsCareActivity);
     }
 
     public class onMyFriendList implements BaseProtocol.IResultExecutor<MyFriendListBean> {
@@ -162,10 +227,10 @@ public class ChooseFriendModel extends BaseObservable {
                 MyFriendListBean.DataBean data = dataBean.getData();
                 List<MyFriendListBean.DataBean.ListBean> list = data.getList();
                 listSize = list.size();
-                if(listSize ==0){
+                if (listSize == 0) {
                     activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
                     activityChooseFriendBinding.tvContent.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     friendArrayList.addAll(list);
                     chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
                     activityChooseFriendBinding.lv.setAdapter(chooseFriendAdapter);
@@ -189,6 +254,7 @@ public class ChooseFriendModel extends BaseObservable {
         this.sendFriendDialogVisibility = sendFriendDialogVisibility;
         notifyPropertyChanged(BR.sendFriendDialogVisibility);
     }
+
     @Bindable
     public String getSendName() {
         return sendName;
@@ -199,15 +265,15 @@ public class ChooseFriendModel extends BaseObservable {
         notifyPropertyChanged(BR.sendName);
     }
 
-    public void sendCannel(View view){
+    public void sendCannel(View view) {
         setSendFriendDialogVisibility(View.GONE);
     }
 
-    public void sendSure(View view){
+    public void sendSure(View view) {
         Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
         intentChatActivity.putExtra("targetId", String.valueOf(targetId));
         intentChatActivity.putExtra("chatCmdName", "sendBusinessCard");
-        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean= (ChatCmdBusinesssCardBean) chooseFriendActivtiy.getIntent().getSerializableExtra("ChatCmdBusinesssCardBean");
+        ChatCmdBusinesssCardBean chatCmdBusinesssCardBean = (ChatCmdBusinesssCardBean) chooseFriendActivtiy.getIntent().getSerializableExtra("ChatCmdBusinesssCardBean");
         intentChatActivity.putExtra("chatCmdBusinesssCardBean", chatCmdBusinesssCardBean);
         mActivity.startActivity(intentChatActivity);
     }

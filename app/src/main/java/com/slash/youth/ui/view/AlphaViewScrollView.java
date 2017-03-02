@@ -21,6 +21,8 @@ public class AlphaViewScrollView extends ScrollView {
 
     private View[] afterView;
     private View hightView;
+    private View afterV;
+    private View beforV;
 
 
     private TextView beforTitle;
@@ -45,16 +47,18 @@ public class AlphaViewScrollView extends ScrollView {
         mSlop = 10;
     }
 
-    public void setHightView(View view,View hight) {
+    public void setHightView(View beforView, View afterView, View hight) {
         this.hightView = hight;
-
-        this.view = view;
+        this.afterV = afterView;
+        this.beforV = beforView;
+        afterV.setAlpha(0);
+        beforV.setAlpha(1f);
     }
-    public void setTitleTextView(TextView beforTitle,TextView afterTitle) {
+
+    public void setTitleTextView(TextView beforTitle, TextView afterTitle) {
         this.beforTitle = beforTitle;
         this.afterTitle = afterTitle;
     }
-
 
 
     /**
@@ -71,23 +75,27 @@ public class AlphaViewScrollView extends ScrollView {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         float headHeight = hightView.getMeasuredHeight()
-                - beforView[0].getMeasuredHeight();
+                - beforV.getMeasuredHeight();
         int alpha = (int) (((float) t / headHeight) * 255);
         if (alpha >= 255)
             alpha = 255;
         if (alpha <= mSlop)
             alpha = 0;
-        view.getBackground().setAlpha(alpha);
-        if (beforView!=null)
-        for (View v : beforView) {
-            v.getBackground().setAlpha(255-alpha);
-            beforTitle.setAlpha((255-alpha)/255f);
-        }
-        if (afterView!=null)
-        for (View v : afterView) {
-            v.getBackground().setAlpha(alpha);
-            afterTitle.setAlpha(alpha/255f);
-        }
+
+
+        beforV.setAlpha((255 - alpha) / 255f);
+        afterV.setAlpha(alpha / 255f);
+//        view.getBackground().setAlpha(alpha);
+//        if (beforView != null)
+//            for (View v : beforView) {
+//                v.getBackground().setAlpha(255 - alpha);
+//                beforTitle.setAlpha((255 - alpha) / 255f);
+//            }
+//        if (afterView != null)
+//            for (View v : afterView) {
+//                v.getBackground().setAlpha(alpha);
+//                afterTitle.setAlpha(alpha / 255f);
+//            }
         super.onScrollChanged(l, t, oldl, oldt);
     }
 }

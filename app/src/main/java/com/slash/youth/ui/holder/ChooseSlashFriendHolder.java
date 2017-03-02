@@ -42,12 +42,12 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
         friendName.setText(data.getName());
 
         String avatar = data.getAvatar();
-        if(avatar!=null){
+        if (avatar != null) {
             BitmapKit.bindImage(ivavatar, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
         }
 
         int isauth = data.getIsauth();
-        switch (isauth){
+        switch (isauth) {
             case 1:
                 friendV.setVisibility(View.VISIBLE);
                 break;
@@ -59,10 +59,10 @@ public class ChooseSlashFriendHolder extends BaseHolder<MyFriendListBean.DataBea
         String company = data.getCompany();
         String position = data.getPosition();
         int careertype = data.getCareertype();
-        switch (careertype){
+        switch (careertype) {
             case 1:
-                if(company!=null&&position!=null){
-                    tvdirection.setText("-"+position);
+                if (company != null && position != null) {
+                    tvdirection.setText(position);
                     tvCompany.setText(company);
                 }
                 break;

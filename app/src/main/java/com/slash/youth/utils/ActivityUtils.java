@@ -2,6 +2,8 @@ package com.slash.youth.utils;
 
 import android.app.Activity;
 
+import com.slash.youth.ui.activity.base.BaseActivity;
+
 /**
  * Created by zhouyifeng on 2016/11/22.
  */

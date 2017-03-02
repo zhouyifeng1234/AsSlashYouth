@@ -27,5 +27,16 @@
         <attr name="vertical_Space" format="dimension"></attr>
         <attr name="isFull" format="boolean"></attr>
     </declare-styleable>
-
+    <!-- wheelview -->
+    <declare-styleable name="wheelview">
+        <attr name="wv_gravity">
+            <enum name="wv_center" value="17" />
+            <enum name="wv_left" value="3" />
+            <enum name="wv_right" value="5" />
+        </attr>
+        <attr name="wv_textSize" format="dimension" />
+        <attr name="wv_textColorOut" format="color" />
+        <attr name="wv_textColorCenter" format="color" />
+        <attr name="wv_dividerColor" format="color" />
+    </declare-styleable>
 </resources>

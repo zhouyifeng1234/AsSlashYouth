@@ -1,6 +1,11 @@
 package com.slash.youth.ui.activity.base;
 
 import android.app.Activity;
+import android.view.KeyEvent;
+
+import com.slash.youth.ui.dialog.offline.OfflineDialog;
+import com.slash.youth.ui.dialog.offline.OfflineViewModel;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +30,11 @@ import io.rong.imlib.model.Conversation;
  * Created by zhouyifeng on 2017/2/25.
  */
 public class BaseActivity extends Activity {
+
+    private OfflineDialog offlineDialog;
+
+    private boolean isOffline = false;
+
     View msgIconLayer;
     ImageView ivMsgIcon;
     boolean isAddMsgIconLayer = false;
@@ -106,5 +116,24 @@ public class BaseActivity extends Activity {
             }
         });
     }
+
+
+    public void offline() {
+        if (offlineDialog == null) {
+            offlineDialog = new OfflineDialog(this, new OfflineViewModel(this));
+        }
+        if (!offlineDialog.isShowing()) {
+            offlineDialog.show();
+        }
+        isOffline = true;
+    }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && isOffline)
+//            return true;//不执行父类点击事件
+//        return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
+//    }
+
 
 }

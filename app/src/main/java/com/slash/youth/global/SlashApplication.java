@@ -392,5 +392,4 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
         return db;
     }
 
-
 }
