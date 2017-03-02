@@ -33,8 +33,6 @@ public class BasePickerView {
     private ViewGroup decorView;//activity的根View
     private ViewGroup rootView;//附加View 的 根View
 
-    private EditText etBack;
-
     private OnDismissListener onDismissListener;
     private boolean isDismissing;
 
@@ -60,7 +58,6 @@ public class BasePickerView {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         ));
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
-        etBack = (EditText) rootView.findViewById(R.id.et_back);
         contentContainer.setLayoutParams(builder.getContentParams());
     }
 
@@ -87,6 +84,25 @@ public class BasePickerView {
         decorView.addView(view);
         view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.picker_alpha_in));
         contentContainer.startAnimation(inAnim);
+        contentContainer.requestFocus();
+        contentContainer.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (event.getAction()) {
+                    case KeyEvent.ACTION_UP:
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            if (builder.isCancelable()) {
+                                dismiss();
+                            }
+                            return true;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -170,20 +186,8 @@ public class BasePickerView {
     public BasePickerView setCancelable(boolean isCancelable) {
         View view = rootView.findViewById(R.id.outmost_container);
 
-
         if (isCancelable) {
             view.setOnTouchListener(onCancelableTouchListener);
-            if (etBack != null) {
-                etBack.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            dismiss();
-                        }
-                        return true;
-                    }
-                });
-            }
         } else {
             view.setOnTouchListener(null);
         }

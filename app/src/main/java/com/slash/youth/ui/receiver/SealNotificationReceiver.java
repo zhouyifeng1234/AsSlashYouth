@@ -5,16 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.slash.youth.R;
 import com.slash.youth.ui.activity.SplashActivity;
 import com.slash.youth.utils.StringUtils;
 
-import io.rong.push.PushReceiver;
 import io.rong.push.notification.PushMessageReceiver;
 import io.rong.push.notification.PushNotificationMessage;
 
@@ -48,9 +44,9 @@ public class SealNotificationReceiver extends PushMessageReceiver {
         if (messages.length >= 2) {
             builder.setTicker("您的好友" + messages[0] + "给您发了一条消息");
             //第一行内容  通常作为通知栏标题
-            builder.setContentTitle(messages[0] != null ? messages[0] : "");
+            builder.setContentTitle(StringUtils.isEmpty(messages[0]) ? messages[0] : "");
             //第二行内容 通常是通知正文
-            builder.setContentText(messages[1] != null ? messages[1] : "");
+            builder.setContentText(StringUtils.isEmpty(messages[1]) ? messages[1] : "");
         } else {
             builder.setTicker("消息提示");
             //第一行内容  通常作为通知栏标题
