@@ -2,13 +2,11 @@ package com.slash.youth.ui.pager;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.PagerHomeMyBinding;
-import com.slash.youth.domain.AgreeRefundBean;
 import com.slash.youth.ui.viewmodel.PagerHomeMyModel;
 import com.slash.youth.utils.CommonUtils;
 
@@ -45,5 +43,10 @@ public class HomeMyPager extends BaseHomePager {
 
     public void updateMessage() {
         pagerHomeMyModel.updateMessage();
+
+    }
+
+    public void doMarksAnimation() {
+        pagerHomeMyModel.doMarksAnimation();
     }
 }

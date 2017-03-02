@@ -34,6 +34,7 @@ import com.slash.youth.http.protocol.RongTokenProtocol;
 import com.slash.youth.http.protocol.SetChangeContactProtocol;
 import com.slash.youth.http.protocol.SetConversationListProtocol;
 import com.slash.youth.ui.activity.HomeActivity;
+import com.slash.youth.ui.activity.MessageActivity;
 import com.slash.youth.ui.activity.MyBidDemandActivity;
 import com.slash.youth.ui.activity.MyBidServiceActivity;
 import com.slash.youth.ui.activity.MyPublishDemandActivity;
@@ -42,6 +43,7 @@ import com.slash.youth.ui.activity.base.BaseActivity;
 import com.slash.youth.ui.event.OffLineEvent;
 import com.slash.youth.ui.pager.HomeInfoPager;
 import com.slash.youth.ui.viewmodel.ItemPushInfoModel;
+import com.slash.youth.ui.viewmodel.MessageModel;
 import com.slash.youth.ui.viewmodel.PagerHomeInfoModel;
 import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.CommonUtils;
@@ -606,13 +608,23 @@ public class MsgManager {
             }, updateConversationUidList);
         }
         //页面展示上的更新
-        if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
-            HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
-            PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
+        //这里的代码是对应V1.0版的旧的首页中的消息页
+//        if (ActivityUtils.currentActivity instanceof HomeActivity && HomeActivity.currentCheckedPageNo == HomeActivity.PAGE_INFO) {
+//            HomeInfoPager homeInfoPager = (HomeInfoPager) HomeActivity.currentCheckedPager;
+//            PagerHomeInfoModel pagerHomeInfoModel = homeInfoPager.mPagerHomeInfoModel;
+//            if (index != 0) {//列表顺序发生了变化，需要重新调用接口获取列表
+//                pagerHomeInfoModel.getDataFromServer();
+//            } else {//重新设置列表数据，主要用来更新最近一条消息的展示
+//                pagerHomeInfoModel.setConversationList();
+//            }
+//        }
+        if (ActivityUtils.currentActivity instanceof MessageActivity) {
+            MessageActivity messageActivity = (MessageActivity) ActivityUtils.currentActivity;
+            MessageModel messageModel = messageActivity.getMessageModel();
             if (index != 0) {//列表顺序发生了变化，需要重新调用接口获取列表
-                pagerHomeInfoModel.getDataFromServer();
+                messageModel.getDataFromServer();
             } else {//重新设置列表数据，主要用来更新最近一条消息的展示
-                pagerHomeInfoModel.setConversationList();
+                messageModel.setConversationList();
             }
         }
     }

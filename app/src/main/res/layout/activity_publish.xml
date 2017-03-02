@@ -14,23 +14,14 @@
             android:layout_height="43dp"
             android:background="#31C5E4">
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="43dp"
-                android:layout_centerVertical="true"
-                android:onClick="@{publishModel.gotoSearch}"
-                android:paddingBottom="11dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="11dp"
-                android:src="@mipmap/nav_icon_search"
-            />
 
-            <com.slash.youth.ui.view.DemandServiceToggleView
-                android:id="@+id/view_toggle_service_demand"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:text="发布"
+                android:textColor="#ffffff"
+                android:textSize="17dp"
             />
 
             <TextView

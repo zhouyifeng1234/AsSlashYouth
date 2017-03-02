@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#edf1f2"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -37,6 +38,76 @@
             <!--android:text="运营|市场"-->
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tag2_tab"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="设计"-->
+            <!--android:textColor="#31C5E4"-->
+            <!--android:textSize="15sp"-->
+            <!--/>-->
+
+            <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="#E5E5E5"/>-->
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="产品"-->
+            <!--android:textColor="#333333"-->
+            <!--android:textSize="15sp"-->
+            <!--/>-->
+
+            <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="#E5E5E5"/>-->
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="其他"-->
+            <!--android:textColor="#333333"-->
+            <!--android:textSize="15sp"-->
+            <!--/>-->
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            >
+
+
+            </ListView>
+
+
+        </FrameLayout>
+
 
     </LinearLayout>
 </layout>

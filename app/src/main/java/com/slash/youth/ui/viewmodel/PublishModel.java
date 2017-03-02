@@ -8,10 +8,7 @@ import android.view.View;
 import com.slash.youth.databinding.ActivityPublishBinding;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
-import com.slash.youth.ui.activity.SearchActivity;
-import com.slash.youth.ui.view.DemandServiceToggleView;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.LogKit;
 
 /**
  * Created by zhouyifeng on 2017/2/26.
@@ -20,7 +17,6 @@ public class PublishModel extends BaseObservable {
 
     ActivityPublishBinding mActivityPublishBinding;
     Activity mActivity;
-    DemandServiceToggleView viewToggleServiceDemand;
 
     public PublishModel(ActivityPublishBinding activityPublishBinding, Activity activity) {
         this.mActivityPublishBinding = activityPublishBinding;
@@ -31,29 +27,15 @@ public class PublishModel extends BaseObservable {
     }
 
     private void initData() {
-        viewToggleServiceDemand = mActivityPublishBinding.viewToggleServiceDemand;
+
     }
 
     private void initView() {
-        viewToggleServiceDemand.initView(false);
+
     }
 
     private void initListener() {
-        viewToggleServiceDemand.setServiceDemandToggle(new DemandServiceToggleView.IServiceDemandToggle() {
-            @Override
-            public void toggleServiceDemand(boolean isCheckedService) {
-                if (isCheckedService) {
-                    LogKit.v("checked Service");
-                } else {
-                    LogKit.v("checked Demand");
-                }
-            }
-        });
-    }
 
-    public void gotoSearch(View v) {
-        Intent intentSearchActivity = new Intent(CommonUtils.getContext(), SearchActivity.class);
-        mActivity.startActivity(intentSearchActivity);
     }
 
     public void cancelPublish(View v) {

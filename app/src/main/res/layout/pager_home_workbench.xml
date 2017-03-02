@@ -19,31 +19,39 @@
                 android:layout_height="43dp"
                 android:background="#31C5E4"
                 android:onClick="@{pagerHomeWorkbenchModel.hideFilterTask}">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:onClick="@{pagerHomeWorkbenchModel.goBack}"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="5dp"
-                    android:src="@mipmap/nav_back"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="我的任务"
+                    android:text="任务"
                     android:textColor="#FFFFFF"
                     android:textSize="17dp"/>
-                <ImageView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="17dp"
                     android:onClick="@{pagerHomeWorkbenchModel.openFilterTask}"
-                    android:paddingRight="12dp"
-                    android:src="@mipmap/classification_icon"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_selected_task_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="进行中"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                    />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="7dp"
+                        android:src="@mipmap/open_icom"
+                    />
+
+                </LinearLayout>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -186,7 +194,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:onClick="@{pagerHomeWorkbenchModel.filterMyTotalTask}"
-                                android:text="进行中任务"
+                                android:text="进行中"
                                 android:textColor="#666666"
                                 android:textSize="13sp"/>
 
@@ -231,7 +239,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:onClick="@{pagerHomeWorkbenchModel.filterMyHistoryTask}"
-                                android:text="历史任务"
+                                android:text="历史"
                                 android:textColor="#666666"
                                 android:textSize="13sp"/>
 

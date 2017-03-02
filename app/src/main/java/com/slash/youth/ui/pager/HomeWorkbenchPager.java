@@ -22,11 +22,13 @@ public class HomeWorkbenchPager extends BaseHomePager {
         super(activity, runnable);
     }
 
+    public PagerHomeWorkbenchModel mPagerHomeWorkbenchModel;
+
     @Override
     public View initView() {
         PagerHomeWorkbenchBinding pagerHomeWorkbenchBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.pager_home_workbench, null, false);
-        PagerHomeWorkbenchModel pagerHomeWorkbenchModel = new PagerHomeWorkbenchModel(pagerHomeWorkbenchBinding, mActivity);
-        pagerHomeWorkbenchBinding.setPagerHomeWorkbenchModel(pagerHomeWorkbenchModel);
+        mPagerHomeWorkbenchModel = new PagerHomeWorkbenchModel(pagerHomeWorkbenchBinding, mActivity);
+        pagerHomeWorkbenchBinding.setPagerHomeWorkbenchModel(mPagerHomeWorkbenchModel);
         return pagerHomeWorkbenchBinding.getRoot();
     }
 

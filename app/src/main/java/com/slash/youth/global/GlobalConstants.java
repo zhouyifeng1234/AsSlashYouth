@@ -522,7 +522,8 @@ public class GlobalConstants {
 
         //二、[推广]-首页Tag配置信息接口  V1.1首页
         public static final String HOME_TAG_CONFIG = IP_OR_DOMAINNAME + "static/type/type_config";
-
+        //一、[标签]-标签查询 首页分级标签查询接口
+        public static final String GET_TAG_RECOMMEND_LIST = IP_OR_DOMAINNAME + "search/v1/api/index/tag";
     }
 
     /**

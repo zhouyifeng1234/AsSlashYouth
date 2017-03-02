@@ -159,6 +159,7 @@ public class PagerHomeMyModel extends BaseObservable {
 
     private void initScoreView() {
         mPagerHomeMyBinding.flHomeMyExpertMarksMaker.startAnimation(raExpertMarksMaker);
+        mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.setStartProgressAngle(0);
         mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.setTotalProgressAngle(expertMarksProgress);
         mPagerHomeMyBinding.rsvHomeMyExpertMarksProgress.post(new Runnable() {
             @Override
@@ -393,8 +394,37 @@ public class PagerHomeMyModel extends BaseObservable {
 
         setExpertMarks();
         initAnimation();
-        initScoreView();
-        initExpertMarksProgress();
+//        initScoreView();
+//        initExpertMarksProgress();
+        isLoadDataFinished = true;
+    }
+
+    boolean isLoadDataFinished = false;
+
+    public void doMarksAnimation() {
+        if (isLoadDataFinished) {
+            initScoreView();
+            initExpertMarksProgress();
+        } else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        LogKit.v("HomeMyPager waiting load data...");
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if (isLoadDataFinished) {
+                            initScoreView();
+                            initExpertMarksProgress();
+                            return;
+                        }
+                    }
+                }
+            }).start();
+        }
     }
 
     private void setExpertMarks() {

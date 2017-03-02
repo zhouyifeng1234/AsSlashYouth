@@ -466,22 +466,29 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
 //                LogKit.v("distanceTopPosition:" + distanceTopPosition);
 //            }
 //        });
-        pagerHomeFreetimeBinding.svPullData.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+        pagerHomeFreetimeBinding.svPullData.postDelayed(new Runnable() {
             @Override
-            public void onScrollChanged() {
-                int scrollY = pagerHomeFreetimeBinding.svPullData.getScrollY();
-                LogKit.v("scrollY:" + scrollY);
-                //以最大值为50dp来计算
-                float maxValue = 50;
-                float scrollYdp = CommonUtils.px2dip(scrollY);
-                if (scrollYdp > maxValue) {
-                    scrollYdp = maxValue;
-                }
-                float alpha = 255 * scrollYdp / maxValue;
-                int argb = Color.argb((int) alpha, 0x31, 0xc5, 0xe4);
-                pagerHomeFreetimeBinding.rlTitleBar.setBackgroundColor(argb);
+            public void run() {
+                pagerHomeFreetimeBinding.svPullData.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        int scrollY = pagerHomeFreetimeBinding.svPullData.getScrollY();
+                        LogKit.v("scrollY:" + scrollY);
+                        if (scrollY >= 0) {
+                            //以最大值为50dp来计算
+                            float maxValue = 50;
+                            float scrollYdp = CommonUtils.px2dip(scrollY);
+                            if (scrollYdp > maxValue) {
+                                scrollYdp = maxValue;
+                            }
+                            float alpha = 255 * scrollYdp / maxValue;
+                            int argb = Color.argb((int) alpha, 0x31, 0xc5, 0xe4);
+                            pagerHomeFreetimeBinding.rlTitleBar.setBackgroundColor(argb);
+                        }
+                    }
+                });
             }
-        });
+        }, 100);
         pagerHomeFreetimeBinding.refreshView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
