@@ -8,7 +8,9 @@ import com.slash.youth.http.protocol.FreeTimeMoreServiceListProtocol;
 import com.slash.youth.http.protocol.FreeTimeServiceListProtocol;
 import com.slash.youth.http.protocol.HomeTagConfigProtocol;
 import com.slash.youth.http.protocol.RecommendDemand2Protocol;
+import com.slash.youth.http.protocol.RecommendDemandMore2Protocol;
 import com.slash.youth.http.protocol.RecommendService2Protocol;
+import com.slash.youth.http.protocol.RecommendServiceMore2Protocol;
 
 
 /**
@@ -93,6 +95,34 @@ public class FirstPagerManager {
     public static void getRecommendService2(BaseProtocol.IResultExecutor onGetRecommendServiceFinished, String limit) {
         RecommendService2Protocol recommendDemand2Protocol = new RecommendService2Protocol(limit);
         recommendDemand2Protocol.getDataFromServer(onGetRecommendServiceFinished);
+    }
+
+    /**
+     * V1.1版新增  三、[推荐]-更多需求推荐列表
+     *
+     * @param onGetMoreDemandFinished
+     * @param rec_offset              //推荐分页offset
+     * @param rec_limit               //推荐分页limit
+     * @param rad_offset              //随机分页offset
+     * @param rad_limit               //随机分页limit
+     */
+    public static void getRecommendDemandMore2(BaseProtocol.IResultExecutor onGetMoreDemandFinished, String rec_offset, String rec_limit, String rad_offset, String rad_limit) {
+        RecommendDemandMore2Protocol recommendDemandMore2Protocol = new RecommendDemandMore2Protocol(rec_offset, rec_limit, rad_offset, rad_limit);
+        recommendDemandMore2Protocol.getDataFromServer(onGetMoreDemandFinished);
+    }
+
+    /**
+     * V1.1版新增  四、[推荐]-更多服务推荐列表
+     *
+     * @param onGetMoreServiceFinished
+     * @param rec_offset               //推荐分页offset
+     * @param rec_limit                //推荐分页limit
+     * @param rad_offset               //随机分页offset
+     * @param rad_limit                //随机分页limit
+     */
+    public static void getRecommendServiceMore2(BaseProtocol.IResultExecutor onGetMoreServiceFinished, String rec_offset, String rec_limit, String rad_offset, String rad_limit) {
+        RecommendServiceMore2Protocol recommendServiceMore2Protocol = new RecommendServiceMore2Protocol(rec_offset, rec_limit, rad_offset, rad_limit);
+        recommendServiceMore2Protocol.getDataFromServer(onGetMoreServiceFinished);
     }
 
 }

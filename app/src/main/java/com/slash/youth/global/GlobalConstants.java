@@ -528,6 +528,10 @@ public class GlobalConstants {
         public static final String GET_RECOMMEND_DEMAND2 = IP_OR_DOMAINNAME + "feed/v2/api/demand/recommend/list";
         //二、[推荐]-首页服务推荐列表 v1.1首页服务推荐列表
         public static final String GET_RECOMMEND_SERVICE2 = IP_OR_DOMAINNAME + "feed/v2/api/service/recommend/list";
+        //三、[推荐]-更多需求推荐列表  v1.1查看更多需求推荐列表
+        public static final String GET_RECOMMEND_DEMAND_MORE2 = IP_OR_DOMAINNAME + "feed/v2/api/demand/recommend/more";
+        //四、[推荐]-更多服务推荐列表  v1.1查看更多服务推荐列表
+        public static final String GET_RECOMMEND_SERVICE_MORE2 = IP_OR_DOMAINNAME + "feed/v2/api/service/recommend/more";
     }
 
     /**

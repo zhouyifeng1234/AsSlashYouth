@@ -19,8 +19,6 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zss on 2016/9/6.
@@ -48,11 +46,17 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
 
     @Override
     public void refreshView(FreeTimeMoreDemandBean.DataBean.ListBean data) {
+        if (data.isInsertRadHint) {//显示
+            itemDemandModel.setRadhintVisibility(View.VISIBLE);
+        } else {//隐藏
+            itemDemandModel.setRadhintVisibility(View.GONE);
+        }
+
         int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
-        switch (anonymity){
+        switch (anonymity) {
             case 1://实名
                 BitmapKit.bindImage(itemDemandLayoutBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 itemDemandModel.setName(name);
@@ -61,12 +65,12 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
                 String firstName = name.substring(0, 1);
                 String anonymityName = firstName + "xx";
-                itemDemandModel.setName(anonymityName );
+                itemDemandModel.setName(anonymityName);
                 break;
         }
 
         int isauth = data.getIsauth();
-        switch (isauth){
+        switch (isauth) {
             case 0:
                 itemDemandModel.setIsAuthVisivity(View.GONE);
                 break;
@@ -79,11 +83,11 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         itemDemandModel.setTitle(title);
 
         double quote = data.getQuote();
-        if(quote>0){
+        if (quote > 0) {
             String quotes = CountUtils.DecimalFormat(quote);
             String quoteString = FirstPagerManager.QUOTE + quotes + "元";
             itemDemandModel.setQuote(quoteString);
-        }else {
+        } else {
             itemDemandModel.setQuote(FirstPagerManager.DEMAND_QUOTE);
         }
 
@@ -91,7 +95,7 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
         String place = data.getPlace();
         double lat = data.getLat();
         double lng = data.getLng();
-        switch (pattern){
+        switch (pattern) {
             case 0:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_UP);
                 itemDemandModel.setPlace("不限城市");
@@ -100,19 +104,19 @@ public class PagerMoreDemandHolder extends BaseHolder<FreeTimeMoreDemandBean.Dat
             case 1:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_DOWN);
 
-                if(!TextUtils.isEmpty(place)){
+                if (!TextUtils.isEmpty(place)) {
                     itemDemandModel.setPlace(place);
                 }
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemDemandModel.setDistance("距您"+distance+"km");
+                itemDemandModel.setDistance("距您" + distance + "km");
                 break;
         }
 
         int instalment = data.getInstalment();
         itemDemandModel.setInstalment(FirstPagerManager.DEMAND_INSTALMENT);
-        switch (instalment){
+        switch (instalment) {
             case 0:
                 itemDemandModel.setInstalmentVisibility(View.VISIBLE);
                 break;

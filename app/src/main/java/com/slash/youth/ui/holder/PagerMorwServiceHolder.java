@@ -2,7 +2,6 @@ package com.slash.youth.ui.holder;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.icu.math.BigDecimal;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CountUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zss on 2016/9/6.
@@ -48,27 +45,33 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
 
     @Override
     public void refreshView(FreeTimeMoreServiceBean.DataBean.ListBean data) {
+        if (data.isInsertRadHint) {//显示
+            itemDemandModel.setRadhintVisibility(View.VISIBLE);
+        } else {//隐藏
+            itemDemandModel.setRadhintVisibility(View.GONE);
+        }
+
         int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
-        switch (anonymity){
+        switch (anonymity) {
             case 1://实名
                 BitmapKit.bindImage(itemDemandLayoutBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 itemDemandModel.setName(name);
                 break;
             case 0://匿名
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
-                if(!TextUtils.isEmpty(name)){
+                if (!TextUtils.isEmpty(name)) {
                     String firstName = name.substring(0, 1);
                     String anonymityName = firstName + "xx";
-                    itemDemandModel.setName(anonymityName );
+                    itemDemandModel.setName(anonymityName);
                 }
                 break;
         }
 
         int isauth = data.getIsauth();
-        switch (isauth){
+        switch (isauth) {
             case 0:
                 itemDemandModel.setIsAuthVisivity(View.GONE);
                 break;
@@ -81,12 +84,12 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         itemDemandModel.setTitle(title);
 
         double quote = data.getQuote();
-        if(quote>0){
+        if (quote > 0) {
             String quotes = CountUtils.DecimalFormat(quote);
             String quoteString = FirstPagerManager.QUOTE + quotes + "元";
             itemDemandModel.setQuote(quoteString);
-        }else if(quote==0){
-            itemDemandModel.setQuote( FirstPagerManager.QUOTE + "0" + "元");
+        } else if (quote == 0) {
+            itemDemandModel.setQuote(FirstPagerManager.QUOTE + "0" + "元");
         }
 
 
@@ -94,7 +97,7 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
         String place = data.getPlace();
         double lat = data.getLat();
         double lng = data.getLng();
-        switch (pattern){
+        switch (pattern) {
             case 0:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_UP);
                 itemDemandModel.setPlace("不限城市");
@@ -102,19 +105,19 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
                 break;
             case 1:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_DOWN);
-                if(!TextUtils.isEmpty(place)){
+                if (!TextUtils.isEmpty(place)) {
                     itemDemandModel.setPlace(place);
                 }
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemDemandModel.setDistance("距您"+distance+"km");
+                itemDemandModel.setDistance("距您" + distance + "km");
                 break;
         }
 
         int instalment = data.getInstalment();
         itemDemandModel.setInstalment(FirstPagerManager.DEMAND_INSTALMENT);
-        switch (instalment){
+        switch (instalment) {
             case 0:
                 itemDemandModel.setInstalmentVisibility(View.VISIBLE);
                 break;
@@ -125,8 +128,8 @@ public class PagerMorwServiceHolder extends BaseHolder<FreeTimeMoreServiceBean.D
 
         int timetype = data.getTimetype();
         itemDemandModel.setTimeVisibility(View.VISIBLE);
-        if(timetype!=0){
-            itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype-1]);
+        if (timetype != 0) {
+            itemDemandModel.setFreeTime(FirstPagerManager.TIMETYPES[timetype - 1]);
         }
 
     }

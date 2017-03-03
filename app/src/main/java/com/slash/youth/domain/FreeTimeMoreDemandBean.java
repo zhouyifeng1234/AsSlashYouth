@@ -39,6 +39,7 @@ public class FreeTimeMoreDemandBean {
         }
 
         public static class ListBean {
+            public boolean isInsertRadHint = false;
             private int anonymity;
             private int isonline;
             private String place;
@@ -46,7 +47,7 @@ public class FreeTimeMoreDemandBean {
             private String avatar;
             private String city;
             private long cts;
-            private int id;
+            private long id;
             private int instalment;
             private int isauth;
             private double lat;
@@ -57,7 +58,7 @@ public class FreeTimeMoreDemandBean {
             private double quote;
             private long starttime;
             private String title;
-            private int uid;
+            private long uid;
             private long uts;
 
             public String getTag() {
@@ -116,11 +117,11 @@ public class FreeTimeMoreDemandBean {
                 this.cts = cts;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -204,11 +205,11 @@ public class FreeTimeMoreDemandBean {
                 this.title = title;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 

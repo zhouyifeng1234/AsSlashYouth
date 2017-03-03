@@ -39,6 +39,7 @@ public class FreeTimeMoreServiceBean {
         }
 
         public static class ListBean {
+            public boolean isInsertRadHint = false;
             private int anonymity;
             private int isonline;
             private String place;
@@ -47,7 +48,7 @@ public class FreeTimeMoreServiceBean {
             private String city;
             private long cts;
             private long endtime;
-            private int id;
+            private long id;
             private int instalment;
             private int isauth;
             private double lat;
@@ -60,7 +61,7 @@ public class FreeTimeMoreServiceBean {
             private long starttime;
             private int timetype;
             private String title;
-            private int uid;
+            private long uid;
             private double userservicepoint;
             private long uts;
 
@@ -128,11 +129,11 @@ public class FreeTimeMoreServiceBean {
                 this.endtime = endtime;
             }
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 
@@ -232,11 +233,11 @@ public class FreeTimeMoreServiceBean {
                 this.title = title;
             }
 
-            public int getUid() {
+            public long getUid() {
                 return uid;
             }
 
-            public void setUid(int uid) {
+            public void setUid(long uid) {
                 this.uid = uid;
             }
 
