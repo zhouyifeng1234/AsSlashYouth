@@ -1,14 +1,19 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.slash.youth.BR;
 import com.slash.youth.databinding.ActivityMySettingBinding;
 import com.slash.youth.domain.CommonResultBean;
+import com.slash.youth.domain.GetBindBean;
+import com.slash.youth.domain.LoginBindBean;
 import com.slash.youth.domain.RecodeBean;
 import com.slash.youth.domain.SetBean;
 import com.slash.youth.domain.SetMsgBean;
@@ -19,6 +24,9 @@ import com.slash.youth.engine.MyManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.global.SlashApplication;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.http.protocol.GetBindProtocol;
+import com.slash.youth.http.protocol.LoginBindProtocol;
+import com.slash.youth.http.protocol.LoginUnBindProtocol;
 import com.slash.youth.http.protocol.MySettingProtocol;
 import com.slash.youth.http.protocol.SetMsgProtocol;
 import com.slash.youth.http.protocol.SetTimeProtocol;
@@ -26,6 +34,9 @@ import com.slash.youth.ui.activity.FindPassWordActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MySettingActivity;
 import com.slash.youth.ui.activity.RevisePasswordActivity;
+import com.slash.youth.ui.dialog.base.OnDialogLisetener;
+import com.slash.youth.ui.dialog.binding.BindingDialog;
+import com.slash.youth.ui.dialog.binding.BindingViewModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.Constants;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -33,10 +44,16 @@ import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by zss on 2016/11/3.
@@ -63,11 +80,64 @@ public class MySettingModel extends BaseObservable {
     private int type;
     private int hintDialogVisibility = View.GONE;
 
+    private int unBindVisibility = View.GONE;
+    private boolean isWinxinBing = false;
+    private boolean isQQBing = false;
+    private boolean isWinboBing = false;
+
     public MySettingModel(ActivityMySettingBinding activityMySettingBinding, MySettingActivity mySettingActivity) {
         this.activityMySettingBinding = activityMySettingBinding;
         this.mySettingActivity = mySettingActivity;
         initView();
         initData();
+    }
+
+    //绑定平台
+    public void bindPlatform(String token) {
+        GetBindProtocol getBindProtocol = new GetBindProtocol(token);
+        getBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<GetBindBean>() {
+            @Override
+            public void execute(GetBindBean dataBean) {
+                int rescode = dataBean.getRescode();
+                if (rescode == 0) {
+                    GetBindBean.DataBean data = dataBean.getData();
+                    List<String> platforms = data.getPlatforms();
+                    for (String platform : platforms) {
+                        if (platform.equals("1")) {
+                            isWinxinBing = true;
+                            //type = GlobalConstants.LoginPlatformType.WECHAT;
+                        } else if (platform.equals("2")) {
+                            isQQBing = true;
+                            //type = GlobalConstants.LoginPlatformType.QQ;
+                        } else if (platform.equals("3")) {
+                            isWinboBing = true;
+                            //type = GlobalConstants.LoginPlatformType.WEIBO;
+                        }
+                    }
+                    initView(isWinxinBing, isQQBing, isWinboBing);
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:" + result);
+            }
+        });
+    }
+
+
+    private void initView(boolean isWinxinBing, boolean isQQBing, boolean isWinboBing) {
+        if (isWinxinBing) {
+            activityMySettingBinding.tvWeixinBinding.setText("解绑");
+        } else {
+            activityMySettingBinding.tvWeixinBinding.setText("去绑定");
+        }
+
+        if (isQQBing) {
+            activityMySettingBinding.tvQQBinding.setText("解绑");
+        } else {
+            activityMySettingBinding.tvQQBinding.setText("去绑定");
+        }
     }
 
     //判断是否有交易密码
@@ -137,6 +207,8 @@ public class MySettingModel extends BaseObservable {
         getTimeState();
         //信息展示
         getMsgState();
+
+        bindPlatform(LoginManager.token);
     }
 
     private void getTimeState() {
@@ -436,5 +508,174 @@ public class MySettingModel extends BaseObservable {
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
         }
+    }
+
+
+    //微信
+    public void weixin(View view) {
+        type = GlobalConstants.LoginPlatformType.WECHAT;
+        if (isWinxinBing) {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING);
+            showBindingDialog();
+        } else {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_BINDING);
+            UMShareAPI mShareAPI = UMShareAPI.get(mySettingActivity);
+            mShareAPI.doOauthVerify(mySettingActivity, SHARE_MEDIA.WEIXIN, umAuthListener);
+            if (Build.VERSION.SDK_INT >= 23) {
+                String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+                ActivityCompat.requestPermissions(mySettingActivity, mPermissionList, 123);
+            }
+        }
+    }
+
+    //qq
+    public void qq(View view) {
+        type = GlobalConstants.LoginPlatformType.QQ;
+        if (isQQBing) {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_UNBINDING);
+            showBindingDialog();
+        } else {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_BINDING);
+            UMShareAPI mShareAPI = UMShareAPI.get(mySettingActivity);
+            if (mShareAPI.isInstall(mySettingActivity, SHARE_MEDIA.QQ)) {
+                mShareAPI.doOauthVerify(mySettingActivity, SHARE_MEDIA.QQ, umAuthListener);
+            } else {
+                ToastUtils.shortToast("请先安装QQ客户端");
+            }
+        }
+    }
+
+    BindingDialog bindingDialog;
+
+    private void showBindingDialog() {
+        if (bindingDialog == null) {
+            bindingDialog = new BindingDialog(mySettingActivity,
+                    new BindingViewModel(mySettingActivity, new OnDialogLisetener() {
+                        @Override
+                        public void onConfirm() {
+                            switch (type) {
+                                case GlobalConstants.LoginPlatformType.WECHAT:
+                                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_WECHAT_UNBINDING_CONFIRM_UNBUNDING);
+                                    loginUnBind(GlobalConstants.LoginPlatformType.WECHAT);
+                                    break;
+                                case GlobalConstants.LoginPlatformType.QQ:
+                                    MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MINE_CLICK_THIRD_PARTY_ACCOUNT_QQ_UNBINDING_CONFIRM_UNBUNDING);
+                                    loginUnBind(GlobalConstants.LoginPlatformType.QQ);
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            if (bindingDialog != null && bindingDialog.isShowing()) {
+                                bindingDialog.dismiss();
+                            }
+                        }
+                    }));
+        }
+        if (!bindingDialog.isShowing()) {
+            bindingDialog.show();
+        }
+    }
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            ToastUtils.shortToast("Authorize succeed");
+            UMShareAPI mShareAPI = UMShareAPI.get(mySettingActivity);
+            switch (platform) {
+                case QQ:
+                    String QQ_access_token = data.get("access_token");
+//                    String QQ_uid = data.get("uid");
+                    String QQ_uid = data.get("openid");
+                    loginBind(QQ_access_token, QQ_uid, GlobalConstants.LoginPlatformType.QQ);
+                    break;
+                case WEIXIN:
+                    String WEIXIN_access_token = data.get("access_token");
+                    String openid = data.get("unionid");
+                    loginBind(WEIXIN_access_token, openid, GlobalConstants.LoginPlatformType.WECHAT);
+                    break;
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            ToastUtils.shortToast("Authorize fail");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            ToastUtils.shortToast("Authorize cancel");
+        }
+    };
+
+    //绑定第三方账号
+    public void loginBind(String token, String uid, Byte loginPlatform) {
+        final LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token, uid, loginPlatform);
+        loginBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
+            @Override
+            public void execute(LoginBindBean dataBean) {
+                int rescode = dataBean.getRescode();
+                if (rescode == 0) {
+                    switch (type) {
+                        case GlobalConstants.LoginPlatformType.WECHAT://微信
+                            activityMySettingBinding.tvWeixinBinding.setText("解绑");
+                            isWinxinBing = true;
+                            break;
+                        case GlobalConstants.LoginPlatformType.QQ://qq
+                            activityMySettingBinding.tvQQBinding.setText("解绑");
+                            isQQBing = true;
+                            break;
+                    }
+                } else {
+                    ToastUtils.shortCenterToast("绑定失败");
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:" + result);
+            }
+        });
+    }
+
+    //解绑第三方账号
+    public void loginUnBind(Byte loginPlatform) {
+        LoginUnBindProtocol loginUnBindProtocol = new LoginUnBindProtocol(loginPlatform);
+        loginUnBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
+            @Override
+            public void execute(LoginBindBean dataBean) {
+                int rescode = dataBean.getRescode();
+                if (rescode == 0) {
+                    switch (type) {
+                        case GlobalConstants.LoginPlatformType.WECHAT://微信
+                            activityMySettingBinding.tvWeixinBinding.setText("去绑定");
+                            isWinxinBing = false;
+                            break;
+                        case GlobalConstants.LoginPlatformType.QQ://qq
+                            activityMySettingBinding.tvQQBinding.setText("去绑定");
+                            isQQBing = false;
+                            break;
+                    }
+                } else {
+                    ToastUtils.shortCenterToast("解绑失败");
+                }
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.d("result:" + result);
+            }
+        });
+    }
+
+    @Bindable
+    public int getUnBindVisibility() {
+        return unBindVisibility;
+    }
+
+    public void setUnBindVisibility(int unBindVisibility) {
+        this.unBindVisibility = unBindVisibility;
+        notifyPropertyChanged(BR.unBindVisibility);
     }
 }

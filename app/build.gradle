@@ -92,6 +92,7 @@ dependencies {
     compile files('libs/umeng-analytics-v6.0.3.jar')
     compile files('libs/Rong_IMLib.jar')
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile files('libs/MiPush_SDK_Client_3_1_2.jar')
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'org.xutils:xutils:3.3.36'
     compile 'com.lai.weavey:dialog:1.1'
