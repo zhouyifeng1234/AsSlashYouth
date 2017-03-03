@@ -112,6 +112,9 @@ import io.rong.message.VoiceMessage;
  */
 public class ChatModel extends BaseObservable {
 
+    public static final String haveChangePhoneText = "电话号码";//已经交换过手机号的文本
+    public static final String noChangePhoneText = "换电话";//没有交换过手机号的文本
+
     public ActivityChatBinding mActivityChatBinding;
     Activity mActivity;
     private TextView mTvChatFriendName;
@@ -365,11 +368,13 @@ public class ChatModel extends BaseObservable {
             @Override
             public void execute(IsChangeContactBean dataBean) {
                 IsChangeContactBean.Data2 data = dataBean.data.data;
-//                if (data.status == 1) {
-//                    //已经交换过手机号
-//                } else {
-//                    //没有交换过手机号,发送交换手机号的请求
-//                }
+                if (data.status == 1) {
+                    //已经交换过手机号
+                    mActivityChatBinding.tvChangePhoneText.setText(haveChangePhoneText);
+                } else {
+                    //没有交换过手机号,发送交换手机号的请求
+                    mActivityChatBinding.tvChangePhoneText.setText(noChangePhoneText);
+                }
                 changeContactStatus = data.status;
 
                 getBaseDataFinishedCount++;
@@ -1323,6 +1328,7 @@ public class ChatModel extends BaseObservable {
                 long sentTime = System.currentTimeMillis();
                 displayMsgTimeView(sentTime);
 
+                mActivityChatBinding.tvChangePhoneText.setText(haveChangePhoneText);
                 View changeContactWayInfoView = createChangeContactWayInfoView(targetName, otherPhone);
                 mLlChatContent.addView(changeContactWayInfoView);
                 MsgManager.updateConversationList(targetId);//更新会话列表
@@ -2213,6 +2219,7 @@ public class ChatModel extends BaseObservable {
                 JSONObject jo = new JSONObject(extra);
                 String phone = jo.getString("content");
                 receiveOtherCmdMsgView = createChangeContactWayInfoView(targetName, phone);
+                mActivityChatBinding.tvChangePhoneText.setText(haveChangePhoneText);
 //                View changeContactWayInfoView = createChangeContactWayInfoView(targetName, phone);
 //                mLlChatContent.addView(changeContactWayInfoView);
             } catch (JSONException e) {

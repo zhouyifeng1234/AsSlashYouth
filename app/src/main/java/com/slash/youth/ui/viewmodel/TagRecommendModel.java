@@ -1,10 +1,12 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,10 @@ import com.slash.youth.domain.TagRecommendList;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MyTaskEngine;
 import com.slash.youth.http.protocol.BaseProtocol;
+import com.slash.youth.ui.activity.DemandDetailActivity;
+import com.slash.youth.ui.activity.ServiceDetailActivity;
+import com.slash.youth.ui.adapter.TagRecommendAdapter;
+import com.slash.youth.ui.view.RefreshListView;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.IOUtils;
 import com.slash.youth.utils.LogKit;
@@ -38,16 +44,24 @@ import java.util.HashMap;
  */
 public class TagRecommendModel extends BaseObservable {
 
+    public static final int LOAD_DATA_TYPE_FIRST = 0;//第一次进入页面的加载
+    public static final int LOAD_DATA_TYPE_TAB = 1;//tab页切换的加载方式
+    public static final int LOAD_DATA_TYPE_REFRESH = 2;//下拉刷新的加载方式
+    public static final int LOAD_DATA_TYPE_MORE = 3;//上拉加载更多的加载方式
+
+    private int currentLoadDataType = LOAD_DATA_TYPE_FIRST;//当前加载数据的方式，默认为第一次页面进入的加载方式
     ActivityTagRecommendBinding mActivityTagRecommendBinding;
     Activity mActivity;
     long tagId;
     String tagName;
+    RefreshListView lvTagRecommend;
 
     public TagRecommendModel(ActivityTagRecommendBinding activityTagRecommendBinding, Activity activity) {
         this.mActivityTagRecommendBinding = activityTagRecommendBinding;
         this.mActivity = activity;
         initData();
         initView();
+        initListener();
     }
 
     private void initData() {
@@ -59,6 +73,31 @@ public class TagRecommendModel extends BaseObservable {
 
     private void initView() {
         setFirstTagName(tagName);
+        mActivityTagRecommendBinding.lvTagRecommend.setVerticalScrollBarEnabled(false);
+        lvTagRecommend = mActivityTagRecommendBinding.lvTagRecommend;
+    }
+
+    private void initListener() {
+        mActivityTagRecommendBinding.lvTagRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (listTagRecommend != null && position < listTagRecommend.size()) {
+                    TagRecommendList.TagRecommendInfo tagRecommendInfo = listTagRecommend.get(position);
+                    if (tagRecommendInfo.type == 2) {//服务
+                        Intent intentServiceDetailActivity = new Intent(CommonUtils.getContext(), ServiceDetailActivity.class);
+                        intentServiceDetailActivity.putExtra("serviceId", tagRecommendInfo.id);
+                        mActivity.startActivity(intentServiceDetailActivity);
+                    } else {//需求
+                        Intent intentDemandDetailActivity = new Intent(CommonUtils.getContext(), DemandDetailActivity.class);
+                        intentDemandDetailActivity.putExtra("demandId", tagRecommendInfo.id);
+                        mActivity.startActivity(intentDemandDetailActivity);
+                    }
+                }
+            }
+        });
+        //刷新和加载更多的操作
+        lvTagRecommend.setRefreshDataTask(new RefreshDataTask());
+        lvTagRecommend.setLoadMoreNewsTast(new LoadMoreNewsTask());
     }
 
     private ArrayList<Long> listTag2Id = new ArrayList<Long>();
@@ -156,6 +195,8 @@ public class TagRecommendModel extends BaseObservable {
                     }
                 }
                 Long tag2Id = listTag2Id.get(tabIndex);
+                offset = 0;
+                currentLoadDataType = LOAD_DATA_TYPE_TAB;
                 loadTag2RecommendList(tag2Id);
             }
         }
@@ -163,6 +204,9 @@ public class TagRecommendModel extends BaseObservable {
 
     private int offset = 0;
     private int limit = 20;
+
+    ArrayList<TagRecommendList.TagRecommendInfo> listTagRecommend;
+    TagRecommendAdapter tagRecommendAdapter;
 
     /**
      * 根据二级标签的ID,从接口获取推荐的需求服务列表
@@ -172,7 +216,35 @@ public class TagRecommendModel extends BaseObservable {
         MyTaskEngine.getTagRecommendList(new BaseProtocol.IResultExecutor<TagRecommendList>() {
             @Override
             public void execute(TagRecommendList dataBean) {
-
+                if ((currentLoadDataType == LOAD_DATA_TYPE_FIRST || currentLoadDataType == LOAD_DATA_TYPE_TAB || currentLoadDataType == LOAD_DATA_TYPE_REFRESH) && (dataBean.data.list == null || dataBean.data.list.size() <= 0)) {
+                    mActivityTagRecommendBinding.flNodataLayer.setVisibility(View.VISIBLE);
+                    mActivityTagRecommendBinding.lvTagRecommend.setVisibility(View.GONE);
+                } else {
+                    mActivityTagRecommendBinding.flNodataLayer.setVisibility(View.GONE);
+                    mActivityTagRecommendBinding.lvTagRecommend.setVisibility(View.VISIBLE);
+                    if (listTagRecommend == null) {
+                        listTagRecommend = new ArrayList<TagRecommendList.TagRecommendInfo>();
+                    }
+                    if (offset == 0) {// 首次进入页面，或者是刷新操作,或者是切换tab的时候，offset都会为0
+                        listTagRecommend.clear();
+                    }
+                    listTagRecommend.addAll(dataBean.data.list);
+                    if (tagRecommendAdapter == null) {
+                        tagRecommendAdapter = new TagRecommendAdapter(listTagRecommend);
+                        mActivityTagRecommendBinding.lvTagRecommend.setAdapter(tagRecommendAdapter);
+                    } else {
+                        tagRecommendAdapter.notifyDataSetChanged();
+                    }
+                    if (currentLoadDataType == LOAD_DATA_TYPE_REFRESH) {//下拉刷新完成
+                        mActivityTagRecommendBinding.lvTagRecommend.refreshDataFinish();
+                        mActivityTagRecommendBinding.lvTagRecommend.setNotLoadToLast();
+                    } else if (currentLoadDataType == LOAD_DATA_TYPE_MORE) {//上拉加载更多完成
+                        mActivityTagRecommendBinding.lvTagRecommend.loadMoreNewsFinished();
+                        if (dataBean.data.list.size() < limit) {
+                            mActivityTagRecommendBinding.lvTagRecommend.setLoadToLast();
+                        }
+                    }
+                }
             }
 
             @Override
@@ -265,6 +337,49 @@ public class TagRecommendModel extends BaseObservable {
 
     public void goBack(View v) {
         mActivity.finish();
+    }
+
+    /**
+     * 下拉刷新执行的回调，执行结束后需要调用refreshDataFinish()方法，用来更新状态
+     */
+    public class RefreshDataTask implements RefreshListView.IRefreshDataTask {
+
+        @Override
+        public void refresh() {
+            offset = 0;
+            currentLoadDataType = LOAD_DATA_TYPE_REFRESH;
+            Long tag2Id = listTag2Id.get(currentCheckedTabIndex);
+            loadTag2RecommendList(tag2Id);
+            //避免数据加载错误的情况
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mActivityTagRecommendBinding.lvTagRecommend.refreshDataFinish();
+                    mActivityTagRecommendBinding.lvTagRecommend.setNotLoadToLast();
+                }
+            }, 15000);
+        }
+    }
+
+    /**
+     * 上拉加载更多执行的回调，执行完毕后需要调用loadMoreNewsFinished()方法，用来更新状态,如果加载到最后一页，则需要调用setLoadToLast()方法
+     */
+    public class LoadMoreNewsTask implements RefreshListView.ILoadMoreNewsTask {
+
+        @Override
+        public void loadMore() {
+            offset += limit;
+            currentLoadDataType = LOAD_DATA_TYPE_MORE;
+            Long tag2Id = listTag2Id.get(currentCheckedTabIndex);
+            loadTag2RecommendList(tag2Id);
+            //避免数据加载错误的情况
+            CommonUtils.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mActivityTagRecommendBinding.lvTagRecommend.loadMoreNewsFinished();
+                }
+            }, 15000);
+        }
     }
 
     private String firstTagName;

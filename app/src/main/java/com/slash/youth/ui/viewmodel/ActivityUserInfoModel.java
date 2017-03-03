@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slash.youth.R;
@@ -334,6 +335,8 @@ public class ActivityUserInfoModel extends BaseObservable {
 
     public OtherInfoBean.DataBean.UinfoBean otherUinfo;
 
+    String avatarUrl;
+
     //更新用户信息
     private void updateOtherUserInfo() {
         otherUinfo = uinfo;
@@ -418,7 +421,8 @@ public class ActivityUserInfoModel extends BaseObservable {
         //用户头像
         avatar = uinfo.getAvatar();
         if (!TextUtils.isEmpty(avatar)) {
-            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
+            avatarUrl = GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar;
+            BitmapKit.bindImage(activityUserinfoBinding.ivUserinfoUsericon, avatarUrl);
         }
         //用户姓名
         name = uinfo.getName();
@@ -585,6 +589,22 @@ public class ActivityUserInfoModel extends BaseObservable {
         dialogRecommendBinding.setDialogRecommendModel(dialogRecommendModel);
         activityUserinfoBinding.flDialogContainer.addView(dialogRecommendBinding.getRoot());
 
+    }
+
+    /**
+     * 点击头像查看大图
+     *
+     * @param v
+     */
+    public void viewSourcePic(View v) {
+        if (!TextUtils.isEmpty(avatarUrl)) {
+            BitmapKit.bindImage(activityUserinfoBinding.ivAvatarSourcePic, avatarUrl, ImageView.ScaleType.FIT_CENTER, 0);
+            activityUserinfoBinding.flSourceAvatarLayer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideViewSourceAvatar(View v) {
+        activityUserinfoBinding.flSourceAvatarLayer.setVisibility(View.GONE);
     }
 
     //加好友关系
