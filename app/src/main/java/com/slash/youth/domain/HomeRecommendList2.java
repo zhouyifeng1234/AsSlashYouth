@@ -13,8 +13,8 @@ public class HomeRecommendList2 {
     public Data data;
 
     public class Data {
-        public ArrayList<RecommendInfo> radlist;
-        public ArrayList<RecommendInfo> reclist;
+        public ArrayList<RecommendInfo> radlist;//补全的
+        public ArrayList<RecommendInfo> reclist;//精准的
     }
 
     public class RecommendInfo {

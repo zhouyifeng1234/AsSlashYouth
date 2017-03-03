@@ -18,8 +18,6 @@ import com.slash.youth.ui.viewmodel.ItemHomeDemandServiceModel;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.DistanceUtils;
-import com.slash.youth.utils.LogKit;
-import com.slash.youth.utils.TimeUtils;
 
 /**
  * Created by zhouyifeng on 2016/10/12.
@@ -45,27 +43,34 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
 
     @Override
     public void refreshView(FreeTimeDemandBean.DataBean.ListBean data) {
+        boolean isInsertRadHint = data.isInsertRadHint;
+        if (isInsertRadHint) {
+            itemDemandModel.setRadhintVisibility(View.VISIBLE);
+        } else {
+            itemDemandModel.setRadhintVisibility(View.GONE);
+        }
+
         int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();
         //匿名，实名
-        switch (anonymity){
+        switch (anonymity) {
             case 1://实名
                 BitmapKit.bindImage(itemDemandLayoutBinding.ivAvater, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + avatar);
                 itemDemandModel.setName(name);
                 break;
             case 0://匿名
                 itemDemandLayoutBinding.ivAvater.setImageResource(R.mipmap.anonymity_avater);
-                if(!TextUtils.isEmpty(name)){
+                if (!TextUtils.isEmpty(name)) {
                     String firstName = name.substring(0, 1);
                     String anonymityName = firstName + "xx";
-                    itemDemandModel.setName(anonymityName );
+                    itemDemandModel.setName(anonymityName);
                 }
                 break;
         }
 
         int isauth = data.getIsauth();
-        switch (isauth){
+        switch (isauth) {
             case 0:
                 itemDemandModel.setIsAuthVisivity(View.GONE);
                 break;
@@ -77,11 +82,11 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         String title = data.getTitle();
         itemDemandModel.setTitle(title);
 
-        long quote = data.getQuote();
-        if(quote>0){
+        double quote = data.getQuote();
+        if (quote > 0) {
             String quoteString = FirstPagerManager.QUOTE + quote + "元";
             itemDemandModel.setQuote(quoteString);
-        }else {
+        } else {
             itemDemandModel.setQuote(FirstPagerManager.DEMAND_QUOTE);
         }
 
@@ -89,7 +94,7 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
         String place = data.getPlace();
         double lat = data.getLat();
         double lng = data.getLng();
-        switch (pattern){
+        switch (pattern) {
             case 0:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_UP);
                 itemDemandModel.setPlace("不限城市");
@@ -98,19 +103,19 @@ public class HomeDemandHolder extends BaseHolder<FreeTimeDemandBean.DataBean.Lis
             case 1:
                 itemDemandModel.setPattern(FirstPagerManager.PATTERN_DOWN);
 
-                if(!TextUtils.isEmpty(place)){
+                if (!TextUtils.isEmpty(place)) {
                     itemDemandModel.setPlace(place);
                 }
                 double currentLatitude = SlashApplication.getCurrentLatitude();
                 double currentLongitude = SlashApplication.getCurrentLongitude();
                 double distance = DistanceUtils.getDistance(lat, lng, currentLatitude, currentLongitude);
-                itemDemandModel.setDistance("距您"+distance+"km");
+                itemDemandModel.setDistance("距您" + distance + "km");
                 break;
         }
 
         int instalment = data.getInstalment();
         itemDemandModel.setInstalment(FirstPagerManager.DEMAND_INSTALMENT);
-        switch (instalment){
+        switch (instalment) {
             case 0:
                 itemDemandModel.setInstalmentVisibility(View.VISIBLE);
                 break;

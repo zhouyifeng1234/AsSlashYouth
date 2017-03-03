@@ -848,17 +848,18 @@
         </FrameLayout>
 
         <FrameLayout
-            android:onClick="@{activityUserInfoModel.hideViewSourceAvatar}"
             android:id="@+id/fl_source_avatar_layer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#000000"
+            android:onClick="@{activityUserInfoModel.hideViewSourceAvatar}"
             android:visibility="gone"
         >
-            <ImageView
+            <com.slash.youth.ui.view.TouchImageView
                 android:id="@+id/iv_avatar_source_pic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:onClick="@{activityUserInfoModel.hideViewSourceAvatar}"/>
 
         </FrameLayout>
 

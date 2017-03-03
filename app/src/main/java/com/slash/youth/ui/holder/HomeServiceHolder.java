@@ -46,6 +46,13 @@ public class HomeServiceHolder extends BaseHolder<FreeTimeServiceBean.DataBean.L
 
     @Override
     public void refreshView(FreeTimeServiceBean.DataBean.ListBean data) {
+        boolean isInsertRadHint = data.isInsertRadHint;
+        if (isInsertRadHint) {
+            itemDemandModel.setRadhintVisibility(View.VISIBLE);
+        } else {
+            itemDemandModel.setRadhintVisibility(View.GONE);
+        }
+
         int anonymity = data.getAnonymity();
         String name = data.getName();
         String avatar = data.getAvatar();

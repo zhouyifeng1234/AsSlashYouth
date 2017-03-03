@@ -39,6 +39,8 @@ public class FreeTimeDemandBean {
         }
 
         public static class ListBean {
+            public boolean isReclist;
+            public boolean isInsertRadHint;
             private int anonymity;
             private int quoteunit;
             private int timetype;
@@ -51,7 +53,7 @@ public class FreeTimeDemandBean {
             private String name;
             private int pattern;
             private String place;
-            private long quote;
+            private double quote;
             private long starttime;
             private long endtime;
             private String title;
@@ -161,11 +163,11 @@ public class FreeTimeDemandBean {
                 this.place = place;
             }
 
-            public long getQuote() {
+            public double getQuote() {
                 return quote;
             }
 
-            public void setQuote(long quote) {
+            public void setQuote(double quote) {
                 this.quote = quote;
             }
 

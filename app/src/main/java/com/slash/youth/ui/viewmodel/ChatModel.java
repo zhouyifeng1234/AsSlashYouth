@@ -72,6 +72,7 @@ import com.slash.youth.ui.activity.DemandDetailActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.RefreshScrollView;
+import com.slash.youth.ui.view.TouchImageView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -2365,7 +2366,8 @@ public class ChatModel extends BaseObservable {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             LogKit.v("vpViewPicAdapter position:" + position);
-            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+//            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+            TouchImageView ivViewPic = new TouchImageView(CommonUtils.getContext());
             String sourcePicUrl;
             if (position + 1 > listHisSourcePicLocalPath.size()) {//不是历史
                 sourcePicUrl = listSourcePicLocalPath.get(position - listHisSourcePicLocalPath.size());

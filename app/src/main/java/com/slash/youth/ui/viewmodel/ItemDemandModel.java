@@ -2,7 +2,6 @@ package com.slash.youth.ui.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v4.view.PagerTitleStrip;
 import android.view.View;
 
 import com.slash.youth.BR;
@@ -24,6 +23,17 @@ public class ItemDemandModel extends BaseObservable {
     private String instalment;
     private String place;
     private String distance;
+    private int radhintVisibility = View.GONE;
+
+    @Bindable
+    public int getRadhintVisibility() {
+        return radhintVisibility;
+    }
+
+    public void setRadhintVisibility(int radhintVisibility) {
+        this.radhintVisibility = radhintVisibility;
+        notifyPropertyChanged(BR.radhintVisibility);
+    }
 
     public ItemDemandModel(ItemDemandLayoutBinding itemDemandLayoutBinding) {
         this.itemDemandLayoutBinding = itemDemandLayoutBinding;
@@ -48,6 +58,7 @@ public class ItemDemandModel extends BaseObservable {
         this.timeVisibility = timeVisibility;
         notifyPropertyChanged(BR.timeVisibility);
     }
+
     @Bindable
     public String getTitle() {
         return title;
@@ -57,6 +68,7 @@ public class ItemDemandModel extends BaseObservable {
         this.title = title;
         notifyPropertyChanged(BR.title);
     }
+
     @Bindable
     public String getQuote() {
         return quote;
@@ -76,6 +88,7 @@ public class ItemDemandModel extends BaseObservable {
         this.freeTime = freeTime;
         notifyPropertyChanged(BR.freeTime);
     }
+
     @Bindable
     public String getName() {
         return name;
@@ -95,6 +108,7 @@ public class ItemDemandModel extends BaseObservable {
         this.pattern = pattern;
         notifyPropertyChanged(BR.pattern);
     }
+
     @Bindable
     public String getInstalment() {
         return instalment;
@@ -124,6 +138,7 @@ public class ItemDemandModel extends BaseObservable {
         this.distance = distance;
         notifyPropertyChanged(BR.distance);
     }
+
     @Bindable
     public int getInstalmentVisibility() {
         return instalmentVisibility;

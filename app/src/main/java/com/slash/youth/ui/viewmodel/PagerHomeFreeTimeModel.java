@@ -25,6 +25,7 @@ import com.slash.youth.databinding.PagerHomeFreetimeBinding;
 import com.slash.youth.domain.BannerConfigBean;
 import com.slash.youth.domain.FreeTimeDemandBean;
 import com.slash.youth.domain.FreeTimeServiceBean;
+import com.slash.youth.domain.HomeRecommendList2;
 import com.slash.youth.domain.HomeTagInfoBean;
 import com.slash.youth.engine.FirstPagerManager;
 import com.slash.youth.global.GlobalConstants;
@@ -680,11 +681,157 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public void getDemandOrServiceListData() {
         totalGetDataTimes++;
         if (mIsDisplayDemandList) {
-            FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(), limit);
+//            FirstPagerManager.onFreeTimeDemandList(new onFreeTimeDemandList(), limit);
+            FirstPagerManager.getRecommendDemand2(new BaseProtocol.IResultExecutor<HomeRecommendList2>() {
+                @Override
+                public void execute(HomeRecommendList2 dataBean) {
+                    //这里直接把HomeRecommendList2转换成FreeTimeDemandBean（对应字段赋值）
+                    FreeTimeDemandBean freeTimeDemandBean = new FreeTimeDemandBean();
+                    freeTimeDemandBean.setRescode(dataBean.rescode);
+                    freeTimeDemandBean.setData(new FreeTimeDemandBean.DataBean());
+                    freeTimeDemandBean.getData().setList(new ArrayList<FreeTimeDemandBean.DataBean.ListBean>());
+                    List<FreeTimeDemandBean.DataBean.ListBean> listRecommendDemand = freeTimeDemandBean.getData().getList();
+                    ArrayList<HomeRecommendList2.RecommendInfo> reclist = dataBean.data.reclist;//精准
+                    boolean isInsertRadHint = false;
+                    for (HomeRecommendList2.RecommendInfo recommendInfo : reclist) {
+                        FreeTimeDemandBean.DataBean.ListBean listBean = new FreeTimeDemandBean.DataBean.ListBean();
+                        listBean.isReclist = true;
+                        listBean.isInsertRadHint = isInsertRadHint;
 
+                        listBean.setAnonymity(recommendInfo.anonymity);
+                        listBean.setQuoteunit(recommendInfo.quoteunit);
+                        listBean.setTimetype(recommendInfo.timetype);
+                        listBean.setAvatar(recommendInfo.avatar);
+                        listBean.setId(recommendInfo.id);
+                        listBean.setInstalment(recommendInfo.instalment);
+                        listBean.setIsauth(recommendInfo.isauth);
+                        listBean.setLat(recommendInfo.lat);
+                        listBean.setLng(recommendInfo.lng);
+                        listBean.setName(recommendInfo.name);
+                        listBean.setPattern(recommendInfo.pattern);
+                        listBean.setPlace(recommendInfo.place);
+                        listBean.setQuote(recommendInfo.quote);
+                        listBean.setStarttime(recommendInfo.starttime);
+                        listBean.setEndtime(recommendInfo.endtime);
+                        listBean.setTitle(recommendInfo.title);
+                        listBean.setUid(recommendInfo.uid);
+
+                        listRecommendDemand.add(listBean);
+                    }
+                    isInsertRadHint = true;
+                    ArrayList<HomeRecommendList2.RecommendInfo> radlist = dataBean.data.radlist;//模糊
+                    for (HomeRecommendList2.RecommendInfo recommendInfo : radlist) {
+                        FreeTimeDemandBean.DataBean.ListBean listBean = new FreeTimeDemandBean.DataBean.ListBean();
+                        listBean.isReclist = false;
+                        //只有模糊推荐的第一行上面才需要提示
+                        listBean.isInsertRadHint = isInsertRadHint;
+                        isInsertRadHint = false;
+
+                        listBean.setAnonymity(recommendInfo.anonymity);
+                        listBean.setQuoteunit(recommendInfo.quoteunit);
+                        listBean.setTimetype(recommendInfo.timetype);
+                        listBean.setAvatar(recommendInfo.avatar);
+                        listBean.setId(recommendInfo.id);
+                        listBean.setInstalment(recommendInfo.instalment);
+                        listBean.setIsauth(recommendInfo.isauth);
+                        listBean.setLat(recommendInfo.lat);
+                        listBean.setLng(recommendInfo.lng);
+                        listBean.setName(recommendInfo.name);
+                        listBean.setPattern(recommendInfo.pattern);
+                        listBean.setPlace(recommendInfo.place);
+                        listBean.setQuote(recommendInfo.quote);
+                        listBean.setStarttime(recommendInfo.starttime);
+                        listBean.setEndtime(recommendInfo.endtime);
+                        listBean.setTitle(recommendInfo.title);
+                        listBean.setUid(recommendInfo.uid);
+
+                        listRecommendDemand.add(listBean);
+                    }
+
+                    setRecommendDemandList(freeTimeDemandBean);
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, limit + "");
         } else {
-            FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(), limit);
+//            FirstPagerManager.onFreeTimeServiceList(new onFreeTimeServiceList(), limit);
+            FirstPagerManager.getRecommendService2(new BaseProtocol.IResultExecutor<HomeRecommendList2>() {
+                @Override
+                public void execute(HomeRecommendList2 dataBean) {
+                    //这里直接把HomeRecommendList2转换成FreeTimeServiceBean（对应字段赋值）
+                    FreeTimeServiceBean freeTimeServiceBean = new FreeTimeServiceBean();
+                    freeTimeServiceBean.setRescode(dataBean.rescode);
+                    freeTimeServiceBean.setData(new FreeTimeServiceBean.DataBean());
+                    freeTimeServiceBean.getData().setList(new ArrayList<FreeTimeServiceBean.DataBean.ListBean>());
+                    List<FreeTimeServiceBean.DataBean.ListBean> listRecommendService = freeTimeServiceBean.getData().getList();
+                    ArrayList<HomeRecommendList2.RecommendInfo> reclist = dataBean.data.reclist;
+                    boolean isInsertRadHint = false;
+                    for (HomeRecommendList2.RecommendInfo recommendInfo : reclist) {
+                        FreeTimeServiceBean.DataBean.ListBean listBean = new FreeTimeServiceBean.DataBean.ListBean();
+                        listBean.isReclist = true;
+                        listBean.isInsertRadHint = isInsertRadHint;
 
+                        listBean.setAnonymity(recommendInfo.anonymity);
+                        listBean.setQuoteunit(recommendInfo.quoteunit);
+                        listBean.setTimetype(recommendInfo.timetype);
+                        listBean.setAvatar(recommendInfo.avatar);
+                        listBean.setId(recommendInfo.id);
+                        listBean.setInstalment(recommendInfo.instalment);
+                        listBean.setIsauth(recommendInfo.isauth);
+                        listBean.setLat(recommendInfo.lat);
+                        listBean.setLng(recommendInfo.lng);
+                        listBean.setName(recommendInfo.name);
+                        listBean.setPattern(recommendInfo.pattern);
+                        listBean.setPlace(recommendInfo.place);
+                        listBean.setQuote(recommendInfo.quote);
+                        listBean.setStarttime(recommendInfo.starttime);
+                        listBean.setEndtime(recommendInfo.endtime);
+                        listBean.setTitle(recommendInfo.title);
+                        listBean.setUid(recommendInfo.uid);
+
+                        listRecommendService.add(listBean);
+                    }
+                    isInsertRadHint = true;
+                    ArrayList<HomeRecommendList2.RecommendInfo> radlist = dataBean.data.radlist;
+                    for (HomeRecommendList2.RecommendInfo recommendInfo : radlist) {
+                        FreeTimeServiceBean.DataBean.ListBean listBean = new FreeTimeServiceBean.DataBean.ListBean();
+                        listBean.isReclist = false;
+                        //只有模糊推荐的第一行上面才需要提示
+                        listBean.isInsertRadHint = isInsertRadHint;
+                        isInsertRadHint = false;
+
+                        listBean.setAnonymity(recommendInfo.anonymity);
+                        listBean.setQuoteunit(recommendInfo.quoteunit);
+                        listBean.setTimetype(recommendInfo.timetype);
+                        listBean.setAvatar(recommendInfo.avatar);
+                        listBean.setId(recommendInfo.id);
+                        listBean.setInstalment(recommendInfo.instalment);
+                        listBean.setIsauth(recommendInfo.isauth);
+                        listBean.setLat(recommendInfo.lat);
+                        listBean.setLng(recommendInfo.lng);
+                        listBean.setName(recommendInfo.name);
+                        listBean.setPattern(recommendInfo.pattern);
+                        listBean.setPlace(recommendInfo.place);
+                        listBean.setQuote(recommendInfo.quote);
+                        listBean.setStarttime(recommendInfo.starttime);
+                        listBean.setEndtime(recommendInfo.endtime);
+                        listBean.setTitle(recommendInfo.title);
+                        listBean.setUid(recommendInfo.uid);
+
+                        listRecommendService.add(listBean);
+                    }
+
+                    setRecommendServiceList(freeTimeServiceBean);
+                }
+
+                @Override
+                public void executeResultError(String result) {
+
+                }
+            }, limit + "");
         }
     }
 
@@ -783,37 +930,41 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onFreeTimeDemandList implements BaseProtocol.IResultExecutor<FreeTimeDemandBean> {
         @Override
         public void execute(FreeTimeDemandBean data) {
-            finishedGetDataTimes++;
-            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
-                runnable.run();
-            }
-
-            int rescode = data.getRescode();
-            if (rescode == 0) {
-                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
-                FreeTimeDemandBean.DataBean dataBean = data.getData();
-                List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
-                listsize = list.size();
-                if (list.size() == 0) {
-                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
-                    pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                } else {
-                    listDemandBean.clear();
-                    listDemandBean.addAll(list);
-                    homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
-                    pagerHomeFreetimeBinding.lvHomeDemandAndService
-                            .setAdapter(homeDemandAndDemandAdapter);
-                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
-                }
-                smoothScrollto();
-                //隐藏加载页面
-                hideLoadLayer();
-            }
+            setRecommendDemandList(data);
         }
 
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
+        }
+    }
+
+    private void setRecommendDemandList(FreeTimeDemandBean data) {
+        finishedGetDataTimes++;
+        if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+            runnable.run();
+        }
+
+        int rescode = data.getRescode();
+        if (rescode == 0) {
+            pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+            FreeTimeDemandBean.DataBean dataBean = data.getData();
+            List<FreeTimeDemandBean.DataBean.ListBean> list = dataBean.getList();
+            listsize = list.size();
+            if (list.size() == 0) {
+                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
+            } else {
+                listDemandBean.clear();
+                listDemandBean.addAll(list);
+                homeDemandAndDemandAdapter = new HomeDemandAdapter(listDemandBean, mActivity);
+                pagerHomeFreetimeBinding.lvHomeDemandAndService
+                        .setAdapter(homeDemandAndDemandAdapter);
+                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+            }
+            smoothScrollto();
+            //隐藏加载页面
+            hideLoadLayer();
         }
     }
 
@@ -823,37 +974,41 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     public class onFreeTimeServiceList implements BaseProtocol.IResultExecutor<FreeTimeServiceBean> {
         @Override
         public void execute(FreeTimeServiceBean data) {
-            finishedGetDataTimes++;
-            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
-                runnable.run();
-            }
-
-            int rescode = data.getRescode();
-            if (rescode == 0) {
-                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
-                FreeTimeServiceBean.DataBean dataBean = data.getData();
-                List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
-                listsize = list.size();
-                if (list.size() == 0) {
-                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
-                    pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
-                } else {
-                    listServiceBean.clear();
-                    listServiceBean.addAll(list);
-                    homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
-                    pagerHomeFreetimeBinding.lvHomeDemandAndService
-                            .setAdapter(homeServiceAdapter);
-                    pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
-                }
-                smoothScrollto();
-                //隐藏加载页面
-                hideLoadLayer();
-            }
+            setRecommendServiceList(data);
         }
 
         @Override
         public void executeResultError(String result) {
             LogKit.d("result:" + result);
+        }
+    }
+
+    private void setRecommendServiceList(FreeTimeServiceBean data) {
+        finishedGetDataTimes++;
+        if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+            runnable.run();
+        }
+
+        int rescode = data.getRescode();
+        if (rescode == 0) {
+            pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+            FreeTimeServiceBean.DataBean dataBean = data.getData();
+            List<FreeTimeServiceBean.DataBean.ListBean> list = dataBean.getList();
+            listsize = list.size();
+            if (list.size() == 0) {
+                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                pagerHomeFreetimeBinding.tvContent.setVisibility(View.GONE);
+            } else {
+                listServiceBean.clear();
+                listServiceBean.addAll(list);
+                homeServiceAdapter = new HomeServiceAdapter(listServiceBean, mActivity);
+                pagerHomeFreetimeBinding.lvHomeDemandAndService
+                        .setAdapter(homeServiceAdapter);
+                pagerHomeFreetimeBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+            }
+            smoothScrollto();
+            //隐藏加载页面
+            hideLoadLayer();
         }
     }
 

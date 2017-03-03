@@ -47,6 +47,7 @@ import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.SlashDateTimePicker;
+import com.slash.youth.ui.view.TouchImageView;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
@@ -1460,7 +1461,8 @@ public class DemandDetailModel extends BaseObservable {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+//            ImageView ivViewPic = new ImageView(CommonUtils.getContext());
+            TouchImageView ivViewPic = new TouchImageView(CommonUtils.getContext());
             ivViewPic.setScaleType(ImageView.ScaleType.CENTER);
             String fileId = listViewPicFileIds.get(position);
 //            BitmapKit.bindImage(ivViewPic, GlobalConstants.HttpUrl.IMG_DOWNLOAD + "?fileId=" + fileId);

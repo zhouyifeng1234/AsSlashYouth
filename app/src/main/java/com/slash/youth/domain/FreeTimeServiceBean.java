@@ -39,6 +39,8 @@ public class FreeTimeServiceBean {
         }
 
         public static class ListBean {
+            public boolean isReclist;
+            public boolean isInsertRadHint;
             private int anonymity;
             private String avatar;
             private long endtime;
@@ -149,7 +151,7 @@ public class FreeTimeServiceBean {
                 return quote;
             }
 
-            public void setQuote(long quote) {
+            public void setQuote(double quote) {
                 this.quote = quote;
             }
 
