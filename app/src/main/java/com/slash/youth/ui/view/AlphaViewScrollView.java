@@ -74,7 +74,7 @@ public class AlphaViewScrollView extends ScrollView {
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        float headHeight = hightView.getMeasuredHeight()
+        float headHeight = hightView.getMeasuredHeight() * 3 / 4
                 - beforV.getMeasuredHeight();
         int alpha = (int) (((float) t / headHeight) * 255);
         if (alpha >= 255)

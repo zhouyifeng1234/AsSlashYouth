@@ -44,6 +44,7 @@ import cn.finalteam.galleryfinal.ImageLoader;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.widget.GFImageView;
 import io.rong.imlib.RongIMClient;
+import io.rong.push.RongPushClient;
 
 
 /**
@@ -176,6 +177,9 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
          */
         if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
+
+            RongPushClient.registerMiPush(this, "2882303761517553567", "5531755372567");
+
             RongIMClient.init(this);
         }
 
