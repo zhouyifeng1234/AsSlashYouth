@@ -9,11 +9,18 @@ import android.view.ViewGroup;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityHome2Binding;
+import com.slash.youth.domain.MyHomeInfoBean;
+import com.slash.youth.domain.UserInfoBean;
+import com.slash.youth.engine.LoginManager;
+import com.slash.youth.engine.UserInfoEngine;
+import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.pager.BaseHomePager;
 import com.slash.youth.ui.pager.HomeFreeTimePager;
 import com.slash.youth.ui.pager.HomeMyPager;
 import com.slash.youth.ui.pager.HomeWorkbenchPager;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.utils.SpUtils;
+import com.slash.youth.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -33,12 +40,19 @@ public class ActivityHomeModel2 extends BaseObservable {
     public ActivityHomeModel2(ActivityHome2Binding activityHome2Binding, Activity activity) {
         this.mActivityHome2Binding = activityHome2Binding;
         this.mActivity = activity;
+        getCurrentLoginUserInfo();//二、[用戶信息]-获取个人资料 接口中的数据，获取当前登录者的个人信息
+        getCurrentLoginUserInfo2();//十三、[用戶信息]-我的首页数据  接口中的数据，用来获取手机号
         initData();
         initView();
         initListener();
     }
 
     private void initData() {
+        //把用户的登录信息保存到SharePreferences中
+        SpUtils.setLong("uid", LoginManager.currentLoginUserId);
+        SpUtils.setString("token", LoginManager.token);
+        SpUtils.setString("rongToken", LoginManager.rongToken);
+
         initPagers();
         mActivityHome2Binding.vpHomePager.setAdapter(new HomePagerAdapter());
         //默认选中第一页
@@ -177,4 +191,32 @@ public class ActivityHomeModel2 extends BaseObservable {
         }
     }
 
+    private void getCurrentLoginUserInfo() {
+        UserInfoEngine.getMyUserInfo(new BaseProtocol.IResultExecutor<UserInfoBean>() {
+            @Override
+            public void execute(UserInfoBean dataBean) {
+                LoginManager.currentLoginUserAvatar = dataBean.data.uinfo.avatar;
+                LoginManager.currentLoginUserName = dataBean.data.uinfo.name;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取我的个人信息失败:" + result);
+            }
+        });
+    }
+
+    private void getCurrentLoginUserInfo2() {
+        UserInfoEngine.getMyHomeInfo(new BaseProtocol.IResultExecutor<MyHomeInfoBean>() {
+            @Override
+            public void execute(MyHomeInfoBean dataBean) {
+                LoginManager.currentLoginUserPhone = dataBean.data.myinfo.phone;
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                ToastUtils.shortToast("获取我的首页数据失败:" + result);
+            }
+        });
+    }
 }
