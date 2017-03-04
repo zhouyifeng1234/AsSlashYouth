@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="activityLoginModel" type="com.slash.youth.ui.viewmodel.ActivityLoginModel"/>
+
+        <variable
+            name="activityLoginModel"
+            type="com.slash.youth.ui.viewmodel.ActivityLoginModel" />
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/bg_login"
-    >
+        android:background="@mipmap/bg_login_bg">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,14 +22,14 @@
             android:onClick="@{activityLoginModel.chatToSlashHelper}"
             android:text="遇到问题?"
             android:textColor="#8affffff"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="145dp"
-            android:src="@mipmap/written_logo"/>
+            android:src="@mipmap/written_logo" />
 
         <LinearLayout
             android:layout_width="265dp"
@@ -44,12 +49,13 @@
                 android:inputType="phone"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:textSize="14.5sp"
-            />
+                android:textSize="14.5sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_marginTop="17dp">
+
                 <EditText
                     android:id="@+id/et_activity_login_verification_code"
                     android:layout_width="match_parent"
@@ -60,7 +66,8 @@
                     android:inputType="phone"
                     android:textColor="#ffffff"
                     android:textColorHint="#ffffff"
-                    android:textSize="14.5sp"/>
+                    android:textSize="14.5sp" />
+
                 <Button
                     android:id="@+id/btn_sendpin_text"
                     android:layout_width="58dp"
@@ -74,9 +81,10 @@
                     android:text="验证码"
                     android:textColor="#ffffff"
                     android:textColorHint="#ffffff"
-                    android:textSize="11.5sp"/>
+                    android:textSize="11.5sp" />
                 <!--android:background="@mipmap/default_icon_yanzheng"-->
             </RelativeLayout>
+
             <Button
                 android:id="@+id/btn_jingru"
                 android:layout_width="match_parent"
@@ -87,8 +95,7 @@
                 android:text="进入"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:textSize="14.5sp"
-            />
+                android:textSize="14.5sp" />
             <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
@@ -116,7 +123,7 @@
                     android:paddingBottom="10dp"
                     android:paddingRight="9dp"
                     android:paddingTop="10dp"
-                    android:src="@mipmap/xz_icon"/>
+                    android:src="@mipmap/xz_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,7 +132,7 @@
                     android:onClick="@{activityLoginModel.viewSlashProtocol}"
                     android:text="同意《用户协议》"
                     android:textColor="#8affffff"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -150,21 +157,22 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="12dp"
                     android:layout_weight="1"
-                    android:background="#33ffffff"/>
+                    android:background="#33ffffff" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="第三方登录"
                     android:textColor="#a1b2c1"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="12dp"
                     android:layout_weight="1"
-                    android:background="#33ffffff"/>
+                    android:background="#33ffffff" />
 
 
             </LinearLayout>
@@ -175,6 +183,7 @@
                 android:layout_marginBottom="19dp"
                 android:layout_marginTop="13dp"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,8 +197,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/login_weixin"
-                    />
+                        android:src="@mipmap/login_weixin" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -198,7 +206,7 @@
                         android:layout_marginLeft="9dp"
                         android:text="微信登录"
                         android:textColor="#a1b2c1"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -209,12 +217,12 @@
                     android:clickable="true"
                     android:onClick="@{activityLoginModel.qqLogin}"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/login_qq"
-                    />
+                        android:src="@mipmap/login_qq" />
 
 
                     <TextView
@@ -224,7 +232,7 @@
                         android:layout_marginLeft="9dp"
                         android:text="QQ登录"
                         android:textColor="#a1b2c1"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
 

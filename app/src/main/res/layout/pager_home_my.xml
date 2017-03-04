@@ -11,7 +11,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -779,80 +780,91 @@
                 </LinearLayout>
             </com.slash.youth.ui.view.AlphaViewScrollView>
 
-            <RelativeLayout
+            <FrameLayout
                 android:id="@+id/rl_head"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:background="#00000000">
+                android:layout_height="68dp"
+                android:background="#00000000"
+                android:paddingTop="25dp">
 
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="我的"
-                    android:textColor="#333333"
-                    android:textSize="17sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp">
 
-                <ImageView
-                    android:id="@+id/iv_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="15dp"
-                    android:background="@mipmap/icon_mine_editor"
-                    android:onClick="@{pagerHomeMyModel.editor}" />
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="我的"
+                        android:textColor="#333333"
+                        android:textSize="17sp" />
 
-                <ImageView
-                    android:id="@+id/iv_set"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:layout_toLeftOf="@id/iv_edit"
-                    android:background="@mipmap/icon_mine_set"
-                    android:onClick="@{pagerHomeMyModel.mySetting}" />
+                    <ImageView
+                        android:id="@+id/iv_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/icon_mine_editor"
+                        android:onClick="@{pagerHomeMyModel.editor}" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_toLeftOf="@id/iv_edit"
+                        android:background="@mipmap/icon_mine_set"
+                        android:onClick="@{pagerHomeMyModel.mySetting}" />
 
-            <RelativeLayout
+                </RelativeLayout>
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/rl_head_up"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:background="#31C5E4">
+                android:layout_height="68dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
 
-                <TextView
-                    android:id="@+id/tv_title_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="我的"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp">
 
-                <ImageView
-                    android:id="@+id/iv_edit_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="15dp"
-                    android:background="@mipmap/icon_mine_editor_up"
-                    android:onClick="@{pagerHomeMyModel.editor}" />
+                    <TextView
+                        android:id="@+id/tv_title_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="我的"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
 
-                <ImageView
-                    android:id="@+id/iv_set_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:layout_toLeftOf="@id/iv_edit_up"
-                    android:background="@mipmap/icon_mine_set_up"
-                    android:onClick="@{pagerHomeMyModel.mySetting}" />
+                    <ImageView
+                        android:id="@+id/iv_edit_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/icon_mine_editor_up"
+                        android:onClick="@{pagerHomeMyModel.editor}" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_set_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_toLeftOf="@id/iv_edit_up"
+                        android:background="@mipmap/icon_mine_set_up"
+                        android:onClick="@{pagerHomeMyModel.mySetting}" />
 
+                </RelativeLayout>
+            </FrameLayout>
 
         </FrameLayout>
         <!--  加载页面-->

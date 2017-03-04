@@ -292,7 +292,7 @@ public class GlobalConstants {
         //十七、[服务]-查询是否延期支付过
         public static final String SERVICE_IS_RECTIFY = SERVER_HOST_SERVICE + "isrectify";
         //请求客服
-        public static final String GET_CUSTOMER_SERVICE = CUSTOMER_SERVICE + "/frontend/speciallist/select";
+        public static final String  GET_CUSTOMER_SERVICE = CUSTOMER_SERVICE + "/frontend/speciallist/select";
 
         //一、[消息系统]-查看是否设置手机交换标识   聊天中判断是否已经交换过联系方式
         public static final String GET_IS_CHANGE_CONTACT = SERVER_HOST_MESSAGE_SYSTEM + "phoneswtich/get";

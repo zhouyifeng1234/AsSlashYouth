@@ -1,3 +1,3 @@
 include ':app', ':test', ':pingpplib:pingpp'
-include ':ViewPagerIndicatorLibrary'
-include ':ViewPagerIndicatorSample'
+//include ':ViewPagerIndicatorLibrary'
+//include ':ViewPagerIndicatorSample'
