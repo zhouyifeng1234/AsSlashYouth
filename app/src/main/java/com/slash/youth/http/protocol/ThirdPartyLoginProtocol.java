@@ -14,11 +14,13 @@ public class ThirdPartyLoginProtocol extends BaseProtocol<ThirdPartyLoginResultB
     private String _3pToken;
     private String _3pUid;
     private String loginPlatform;
+    private String wechatOpenid;
 
-    public ThirdPartyLoginProtocol(String _3pToken, String _3pUid, String loginPlatform) {
+    public ThirdPartyLoginProtocol(String _3pToken, String _3pUid, String loginPlatform, String wechatOpenid) {
         this._3pToken = _3pToken;
         this._3pUid = _3pUid;
         this.loginPlatform = loginPlatform;
+        this.wechatOpenid = wechatOpenid;
     }
 
     @Override
@@ -31,6 +33,9 @@ public class ThirdPartyLoginProtocol extends BaseProtocol<ThirdPartyLoginResultB
         params.addBodyParameter("3pToken", _3pToken);
         params.addBodyParameter("3pUid", _3pUid);
         params.addBodyParameter("loginPlatform", loginPlatform);
+        if (wechatOpenid != null) {
+            params.addBodyParameter("wechatOpenid", wechatOpenid);
+        }
     }
 
     @Override

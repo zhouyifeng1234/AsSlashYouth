@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
@@ -107,6 +108,16 @@ public class ChatActivity extends BaseActivity {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int viewPicVisibility = mChatModel.getViewPicVisibility();
+        if (viewPicVisibility == View.VISIBLE) {
+            mChatModel.setViewPicVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
         }
     }
 }

@@ -174,12 +174,13 @@ public class ThirdPartyModel extends BaseObservable {
                     String QQ_access_token = data.get("access_token");
 //                    String QQ_uid = data.get("uid");
                     String QQ_uid = data.get("openid");
-                    loginBind(QQ_access_token, QQ_uid, GlobalConstants.LoginPlatformType.QQ);
+                    loginBind(QQ_access_token, QQ_uid, GlobalConstants.LoginPlatformType.QQ, null);
                     break;
                 case WEIXIN:
                     String WEIXIN_access_token = data.get("access_token");
-                    String openid = data.get("unionid");
-                    loginBind(WEIXIN_access_token, openid, GlobalConstants.LoginPlatformType.WECHAT);
+                    String unionid = data.get("unionid");
+                    String openid = data.get("openid");
+                    loginBind(WEIXIN_access_token, unionid, GlobalConstants.LoginPlatformType.WECHAT, openid);
                     break;
             }
         }
@@ -196,8 +197,8 @@ public class ThirdPartyModel extends BaseObservable {
     };
 
     //绑定第三方账号
-    public void loginBind(String token, String uid, Byte loginPlatform) {
-        final LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token, uid, loginPlatform);
+    public void loginBind(String token, String uid, Byte loginPlatform, String wechatOpenid) {
+        final LoginBindProtocol loginBindProtocol = new LoginBindProtocol(token, uid, loginPlatform, wechatOpenid);
         loginBindProtocol.getDataFromServer(new BaseProtocol.IResultExecutor<LoginBindBean>() {
             @Override
             public void execute(LoginBindBean dataBean) {
