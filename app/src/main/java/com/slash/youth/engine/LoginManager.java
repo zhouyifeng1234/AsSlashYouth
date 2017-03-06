@@ -38,6 +38,7 @@ public class LoginManager {
     public static String currentLoginUserName;
     public static String currentLoginUserAvatar;
     public static String currentLoginUserPhone;
+    public static String currentLoginUserIndustry;
     public static String token = "";//我们自己服务器登录后的toekn
     public static String rongToken = "";//融云的token
     public static IWXAPI iwxApi;

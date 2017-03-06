@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.slash.youth.domain.FreeTimeServiceBean;
 import com.slash.youth.domain.HomeRecommendList2;
 import com.slash.youth.domain.HomeTagInfoBean;
 import com.slash.youth.engine.FirstPagerManager;
+import com.slash.youth.engine.LoginManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.http.protocol.BaseProtocol;
 import com.slash.youth.ui.activity.DemandDetailActivity;
@@ -614,59 +616,89 @@ public class PagerHomeFreeTimeModel extends BaseObservable {
     private class OnGetTagConfigFinished implements BaseProtocol.IResultExecutor<HomeTagInfoBean> {
         @Override
         public void execute(HomeTagInfoBean dataBean) {
-            ArrayList<HomeTagInfoBean.TagInfo> listTag = dataBean.tag;
-            pagerHomeFreetimeBinding.llHomeFirstTags.removeAllViews();
-            for (int i = 0; i < listTag.size(); i++) {
-                HomeTagInfoBean.TagInfo tagInfo = listTag.get(i);
-                final long tagId = tagInfo.id;//标签id
-                final String tagName = tagInfo.name;//标签名字
-                String tagIconUrl = tagInfo.icon;//标签图标的url
+            final ArrayList<HomeTagInfoBean.TagInfo> listTag = dataBean.tag;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        if (TextUtils.isEmpty(LoginManager.currentLoginUserIndustry)) {
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            if (!LoginManager.currentLoginUserIndustry.equals("null")) {//已经从接口获取industry信息，并且确实设置了industry,所以需要改变顺序
+                                for (HomeTagInfoBean.TagInfo tagInfo : listTag) {
+                                    if (tagInfo.name.equals(LoginManager.currentLoginUserIndustry)) {
+                                        listTag.remove(tagInfo);
+                                        listTag.add(0, tagInfo);
+                                        break;
+                                    }
+                                }
+                            }
+                            CommonUtils.getHandler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pagerHomeFreetimeBinding.llHomeFirstTags.removeAllViews();
+                                    for (int i = 0; i < listTag.size(); i++) {
+                                        HomeTagInfoBean.TagInfo tagInfo = listTag.get(i);
+                                        final long tagId = tagInfo.id;//标签id
+                                        final String tagName = tagInfo.name;//标签名字
+                                        String tagIconUrl = tagInfo.icon;//标签图标的url
 
-                LinearLayout.LayoutParams llParams1 = new LinearLayout.LayoutParams(-2, -2);
-                if (i > 0) {
-                    llParams1.leftMargin = CommonUtils.dip2px(33);
-                }
-                if (i == listTag.size() - 1) {
-                    llParams1.rightMargin = CommonUtils.dip2px(24);
-                }
-                LinearLayout llTag = new LinearLayout(CommonUtils.getContext());
-                llTag.setOrientation(LinearLayout.VERTICAL);
-                llTag.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intentTagRecommendActivity = new Intent(CommonUtils.getContext(), TagRecommendActivity.class);
-                        intentTagRecommendActivity.putExtra("tagId", tagId);
-                        intentTagRecommendActivity.putExtra("tagName", tagName);
-                        mActivity.startActivity(intentTagRecommendActivity);
+                                        LinearLayout.LayoutParams llParams1 = new LinearLayout.LayoutParams(-2, -2);
+                                        if (i > 0) {
+                                            llParams1.leftMargin = CommonUtils.dip2px(33);
+                                        }
+                                        if (i == listTag.size() - 1) {
+                                            llParams1.rightMargin = CommonUtils.dip2px(24);
+                                        }
+                                        LinearLayout llTag = new LinearLayout(CommonUtils.getContext());
+                                        llTag.setOrientation(LinearLayout.VERTICAL);
+                                        llTag.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent intentTagRecommendActivity = new Intent(CommonUtils.getContext(), TagRecommendActivity.class);
+                                                intentTagRecommendActivity.putExtra("tagId", tagId);
+                                                intentTagRecommendActivity.putExtra("tagName", tagName);
+                                                mActivity.startActivity(intentTagRecommendActivity);
+                                            }
+                                        });
+                                        llTag.setLayoutParams(llParams1);
+
+                                        LinearLayout.LayoutParams ivParams2 = new LinearLayout.LayoutParams(CommonUtils.dip2px(48), CommonUtils.dip2px(48));
+                                        ivParams2.gravity = Gravity.CENTER_HORIZONTAL;
+                                        ImageView ivTagIcon = new ImageView(CommonUtils.getContext());
+                                        ivTagIcon.setLayoutParams(ivParams2);
+                                        x.image().bind(ivTagIcon, tagIconUrl);
+
+                                        LinearLayout.LayoutParams tvParams3 = new LinearLayout.LayoutParams(-2, -2);
+                                        tvParams3.gravity = Gravity.CENTER_HORIZONTAL;
+                                        tvParams3.topMargin = CommonUtils.dip2px(8);
+                                        TextView tvTagName = new TextView(CommonUtils.getContext());
+                                        tvTagName.setLayoutParams(tvParams3);
+                                        tvTagName.setText(tagName);
+                                        tvTagName.setTextSize(12);
+                                        tvTagName.setTextColor(0xff333333);
+
+                                        llTag.addView(ivTagIcon);
+                                        llTag.addView(tvTagName);
+
+                                        pagerHomeFreetimeBinding.llHomeFirstTags.addView(llTag);
+                                    }
+
+                                    finishedGetDataTimes++;
+                                    if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
+                                        runnable.run();
+                                    }
+                                }
+                            });
+                            break;
+                        }
                     }
-                });
-                llTag.setLayoutParams(llParams1);
-
-                LinearLayout.LayoutParams ivParams2 = new LinearLayout.LayoutParams(CommonUtils.dip2px(48), CommonUtils.dip2px(48));
-                ivParams2.gravity = Gravity.CENTER_HORIZONTAL;
-                ImageView ivTagIcon = new ImageView(CommonUtils.getContext());
-                ivTagIcon.setLayoutParams(ivParams2);
-                x.image().bind(ivTagIcon, tagIconUrl);
-
-                LinearLayout.LayoutParams tvParams3 = new LinearLayout.LayoutParams(-2, -2);
-                tvParams3.gravity = Gravity.CENTER_HORIZONTAL;
-                tvParams3.topMargin = CommonUtils.dip2px(8);
-                TextView tvTagName = new TextView(CommonUtils.getContext());
-                tvTagName.setLayoutParams(tvParams3);
-                tvTagName.setText(tagName);
-                tvTagName.setTextSize(12);
-                tvTagName.setTextColor(0xff333333);
-
-                llTag.addView(ivTagIcon);
-                llTag.addView(tvTagName);
-
-                pagerHomeFreetimeBinding.llHomeFirstTags.addView(llTag);
-            }
-
-            finishedGetDataTimes++;
-            if (finishedGetDataTimes >= totalGetDataTimes && runnable != null) {
-                runnable.run();
-            }
+                }
+            }).start();
         }
 
         @Override

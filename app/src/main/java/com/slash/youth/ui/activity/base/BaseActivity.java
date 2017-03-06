@@ -1,8 +1,5 @@
 package com.slash.youth.ui.activity.base;
 
-import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 
 import com.slash.youth.ui.dialog.offline.OfflineDialog;
 import com.slash.youth.ui.dialog.offline.OfflineViewModel;
@@ -15,12 +12,15 @@ import android.widget.ImageView;
 
 import com.slash.youth.R;
 import com.slash.youth.engine.MsgManager;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.activity.ChooseSkillActivity;
 import com.slash.youth.ui.activity.GuidActivity;
 import com.slash.youth.ui.activity.LoginActivity;
 import com.slash.youth.ui.activity.MessageActivity;
 import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.ui.activity.SplashActivity;
+import com.slash.youth.ui.dialog.offline.OfflineDialog;
+import com.slash.youth.ui.dialog.offline.OfflineViewModel;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -63,7 +63,7 @@ public class BaseActivity extends RxAppCompatActivity {
 
         if (msgIconLayer != null) {
             if (!isAddMsgIconLayer) {
-                if (this instanceof SplashActivity || this instanceof LoginActivity || this instanceof PerfectInfoActivity || this instanceof ChooseSkillActivity || this instanceof MessageActivity || this instanceof GuidActivity) {
+                if (this instanceof SplashActivity || this instanceof LoginActivity || this instanceof PerfectInfoActivity || this instanceof ChooseSkillActivity || this instanceof MessageActivity || this instanceof GuidActivity || this instanceof ChatActivity) {
 
                 } else {
                     this.addContentView(msgIconLayer, new ViewGroup.LayoutParams(-1, -1));
