@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="activityContactsCareModel"
-            type="com.slash.youth.ui.viewmodel.ActivityContactsCareModel" />
+            type="com.slash.youth.ui.viewmodel.ActivityContactsCareModel"/>
     </data>
 
     <LinearLayout
@@ -32,7 +32,7 @@
                     android:layout_centerInParent="true"
                     android:text="加我的"
                     android:textColor="#FFFFFF"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"/>
 
                 <ImageView
                     android:id="@+id/iv_userinfo_back"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@mipmap/nav_back" />
+                    android:src="@mipmap/nav_back"/>
 
             </RelativeLayout>
         </FrameLayout>
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <include layout="@layout/refresh_head" />
+                    <include layout="@layout/refresh_head"/>
 
                     <com.slash.youth.ui.view.PullableListView.PullableListView
                         android:id="@+id/lv"
@@ -87,7 +87,7 @@
 
                     </com.slash.youth.ui.view.PullableListView.PullableListView>
 
-                    <include layout="@layout/load_more" />
+                    <include layout="@layout/load_more"/>
                 </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
                 <!--缺省页-->
                 <RelativeLayout
@@ -106,7 +106,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="181dp"
-                            android:src="@mipmap/contact_default_image" />
+                            android:src="@mipmap/contact_default_image"/>
 
                         <TextView
                             android:id="@+id/tv_title"
@@ -118,7 +118,7 @@
                             android:text="暂无粉丝"
                             android:textColor="#666666"
                             android:textSize="17dp"
-                            android:visibility="gone" />
+                        />
 
                         <TextView
                             android:id="@+id/tv_content"
@@ -129,7 +129,7 @@
                             android:gravity="center"
                             android:text="竟然一个粉丝都没有，快出去喊喊口号"
                             android:textColor="#CCCCCC"
-                            android:textSize="14dp" />
+                            android:textSize="14dp"/>
 
                     </LinearLayout>
 

@@ -25,15 +25,12 @@ import com.slash.youth.ui.event.MessageEvent;
 import com.slash.youth.ui.view.PullableListView.PullToRefreshLayout;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
-import com.slash.youth.utils.DialogUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
-import com.slash.youth.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +38,10 @@ import java.util.List;
  * Created by zss on 2016/11/2.
  */
 public class ChooseFriendModel extends BaseObservable {
+    private static final int LOAD_DATA_TYPE_INIT = 1;//表示首次进入页面时的加载数据
+    private static final int LOAD_DATA_TYPE_REFRESH = 2;//表示下拉刷新的加载数据
+    private static final int LOAD_DATA_TYPE_MORE = 3;//表示上拉加载更多的加载数据
+
     private ActivityChooseFriendBinding activityChooseFriendBinding;
     private ArrayList<MyFriendListBean.DataBean.ListBean> friendArrayList = new ArrayList<>();
     private ArrayList<Character> letterList = new ArrayList<>();
@@ -111,12 +112,7 @@ public class ChooseFriendModel extends BaseObservable {
                 @Override
                 public void run() {
                     offset = 0;
-                    friendArrayList.clear();
-                    ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
-                    if (chooseFriendAdapter != null) {
-                        chooseFriendAdapter.notifyDataSetChanged();
-                    }
-                    pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                    ContactsManager.getMyFriendList(new onMyFriendList(pullToRefreshLayout, LOAD_DATA_TYPE_REFRESH), offset, limit);
                 }
             }, 2000);
         }
@@ -131,11 +127,7 @@ public class ChooseFriendModel extends BaseObservable {
                         pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
                     } else {//不是最后一页
                         offset += limit;
-                        ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
-                        if (chooseFriendAdapter != null) {
-                            chooseFriendAdapter.notifyDataSetChanged();
-                        }
-                        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                        ContactsManager.getMyFriendList(new onMyFriendList(pullToRefreshLayout, LOAD_DATA_TYPE_MORE), offset, limit);
                     }
                 }
             }, 2000);
@@ -144,7 +136,7 @@ public class ChooseFriendModel extends BaseObservable {
 
     private void initData() {
         chatCmdShareTaskBean = (ChatCmdShareTaskBean) mActivity.getIntent().getSerializableExtra("chatCmdShareTaskBean");
-        ContactsManager.getMyFriendList(new onMyFriendList(), offset, limit);
+        ContactsManager.getMyFriendList(new onMyFriendList(null, LOAD_DATA_TYPE_INIT), offset, limit);
 
         addMeFriendLocalCount = SpUtils.getInt("addMeFriendCount", 0);
         for (char cha = 'A'; cha <= 'Z'; cha++) {
@@ -220,21 +212,47 @@ public class ChooseFriendModel extends BaseObservable {
     }
 
     public class onMyFriendList implements BaseProtocol.IResultExecutor<MyFriendListBean> {
+
+        private PullToRefreshLayout pullToRefreshLayout;
+        private int loadDataType;
+
+        public onMyFriendList(PullToRefreshLayout pullToRefreshLayout, int loadDataType) {
+            this.pullToRefreshLayout = pullToRefreshLayout;
+            this.loadDataType = loadDataType;
+        }
+
         @Override
         public void execute(MyFriendListBean dataBean) {
             int rescode = dataBean.getRescode();
             if (rescode == 0) {
                 MyFriendListBean.DataBean data = dataBean.getData();
                 List<MyFriendListBean.DataBean.ListBean> list = data.getList();
-                listSize = list.size();
-                if (listSize == 0) {
-                    activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
-                    activityChooseFriendBinding.tvContent.setVisibility(View.VISIBLE);
+                if (list == null || list.size() <= 0) {
+                    if (offset == 0) {
+                        activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    friendArrayList.addAll(list);
-                    chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
-                    activityChooseFriendBinding.lv.setAdapter(chooseFriendAdapter);
+                    listSize = list.size();
                     activityChooseFriendBinding.rlHomeDefaultImage.setVisibility(View.GONE);
+                    if (loadDataType == LOAD_DATA_TYPE_INIT || loadDataType == LOAD_DATA_TYPE_REFRESH) {
+                        friendArrayList.clear();
+                    }
+                    friendArrayList.addAll(list);
+                    if (chooseFriendAdapter != null) {
+                        chooseFriendAdapter.notifyDataSetChanged();
+                    } else {
+                        chooseFriendAdapter = new ChooseFriendAdapter(friendArrayList);
+                        activityChooseFriendBinding.lv.setAdapter(chooseFriendAdapter);
+                    }
+                    if (loadDataType == LOAD_DATA_TYPE_REFRESH) {
+                        if (pullToRefreshLayout != null) {
+                            pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                        }
+                    } else if (loadDataType == LOAD_DATA_TYPE_MORE) {
+                        if (pullToRefreshLayout != null) {
+                            pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+                        }
+                    }
                 }
             }
         }
