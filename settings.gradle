@@ -1,3 +1,5 @@
-include ':app', ':test', ':pingpplib:pingpp'
+include ':app', ':pingpplib:pingpp'
+include ':domain', ':data', 'lib'
+
 //include ':ViewPagerIndicatorLibrary'
 //include ':ViewPagerIndicatorSample'

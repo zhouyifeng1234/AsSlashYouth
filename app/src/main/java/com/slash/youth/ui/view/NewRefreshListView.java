@@ -3,7 +3,6 @@ package com.slash.youth.ui.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.icu.util.Measure;
 import android.support.v4.view.MotionEventCompat;
 import android.test.TouchUtils;
 import android.util.AttributeSet;

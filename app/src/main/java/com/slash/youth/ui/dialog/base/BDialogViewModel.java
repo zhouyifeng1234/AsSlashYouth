@@ -2,6 +2,9 @@ package com.slash.youth.ui.dialog.base;
 
 import android.app.Activity;
 
+import com.core.op.lib.base.BViewModel;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 
 /**
  * @author op
@@ -12,11 +15,11 @@ import android.app.Activity;
 public class BDialogViewModel<T> extends BViewModel<T> {
     protected OnDialogLisetener onDialogLisetener;
 
-    public BDialogViewModel(Activity activity) {
+    public BDialogViewModel(RxAppCompatActivity activity) {
         super(activity);
     }
 
-    public BDialogViewModel(Activity activity, OnDialogLisetener onDialogLisetener) {
+    public BDialogViewModel(RxAppCompatActivity activity, OnDialogLisetener onDialogLisetener) {
         super(activity);
         this.onDialogLisetener = onDialogLisetener;
     }
