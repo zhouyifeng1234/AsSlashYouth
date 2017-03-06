@@ -103,9 +103,10 @@ public class LoginManager {
      * @param _3pToken                  第三方平台返回的token
      * @param _3pUid                    第三方平台返回的uid
      * @param loginPlatform             第三方平台类型     WECHAT = 1    QQ = 2    WEIBO = 3
+     * @param wechatOpenid              后面新增的参数，微信登录时传openid，为了兼容web端
      */
-    public static void serverThirdPartyLogin(BaseProtocol.IResultExecutor onThirdPartyLoginFinished, String _3pToken, String _3pUid, String loginPlatform) {
-        ThirdPartyLoginProtocol thirdPartyLoginProtocol = new ThirdPartyLoginProtocol(_3pToken, _3pUid, loginPlatform);
+    public static void serverThirdPartyLogin(BaseProtocol.IResultExecutor onThirdPartyLoginFinished, String _3pToken, String _3pUid, String loginPlatform, String wechatOpenid) {
+        ThirdPartyLoginProtocol thirdPartyLoginProtocol = new ThirdPartyLoginProtocol(_3pToken, _3pUid, loginPlatform, wechatOpenid);
         thirdPartyLoginProtocol.getDataFromServer(onThirdPartyLoginFinished);
     }
 

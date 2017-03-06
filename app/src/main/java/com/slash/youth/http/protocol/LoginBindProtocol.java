@@ -2,7 +2,6 @@ package com.slash.youth.http.protocol;
 
 import com.google.gson.Gson;
 import com.slash.youth.domain.LoginBindBean;
-import com.slash.youth.domain.UserSkillLabelBean;
 import com.slash.youth.global.GlobalConstants;
 
 import org.xutils.http.RequestParams;
@@ -10,15 +9,17 @@ import org.xutils.http.RequestParams;
 /**
  * Created by zss on 2016/11/13.
  */
-public class LoginBindProtocol extends  BaseProtocol<LoginBindBean> {
+public class LoginBindProtocol extends BaseProtocol<LoginBindBean> {
     private String token;
     private String uid;
     private byte loginPlatform;
+    private String wechatOpenid;
 
-    public LoginBindProtocol(String token, String uid, byte loginPlatform) {
+    public LoginBindProtocol(String token, String uid, byte loginPlatform, String wechatOpenid) {
         this.token = token;
         this.uid = uid;
         this.loginPlatform = loginPlatform;
+        this.wechatOpenid = wechatOpenid;
     }
 
     @Override
@@ -28,9 +29,12 @@ public class LoginBindProtocol extends  BaseProtocol<LoginBindBean> {
 
     @Override
     public void addRequestParams(RequestParams params) {
-        params.addBodyParameter("3pToken",token);
-        params.addBodyParameter("3pUid",uid);
+        params.addBodyParameter("3pToken", token);
+        params.addBodyParameter("3pUid", uid);
         params.addBodyParameter("loginPlatform", String.valueOf(loginPlatform));
+        if (wechatOpenid != null) {
+            params.addBodyParameter("wechatOpenid", wechatOpenid);
+        }
     }
 
     @Override

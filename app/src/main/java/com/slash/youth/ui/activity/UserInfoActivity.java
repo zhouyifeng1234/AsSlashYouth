@@ -155,4 +155,14 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onBackPressed() {
+        int visibility = activityUserinfoBinding.flSourceAvatarLayer.getVisibility();
+        if (visibility == View.VISIBLE) {
+            activityUserinfoBinding.flSourceAvatarLayer.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

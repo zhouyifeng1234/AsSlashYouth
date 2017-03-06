@@ -451,6 +451,7 @@ public class ActivityLoginModel extends BaseObservable {
     String QQ_uid;//这个值应该取openid,而不是uid,为了避免大幅度改代码，不改变变量名
     String WEIXIN_access_token;
     String WEIXIN_unionid;//这个值应该取openid,而不是unionid,为了避免大幅度改代码，不改变变量名
+    String WEIXIN_openid;//微信为了和WEB兼容，增加openid参数
 
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
@@ -483,10 +484,11 @@ public class ActivityLoginModel extends BaseObservable {
                     }
                     WEIXIN_access_token = data.get("access_token");
                     WEIXIN_unionid = data.get("unionid");
-//                    WEIXIN_unionid = data.get("openid");
+                    WEIXIN_openid = data.get("openid");//微信为了和WEB兼容，增加openid参数
                     SpUtils.setString("WEIXIN_token", WEIXIN_access_token);
                     SpUtils.setString("WEIXIN_uid", WEIXIN_unionid);
-                    LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + " openid:" + WEIXIN_unionid);
+                    SpUtils.setString("WEIXIN_openid", WEIXIN_openid);
+                    LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + " WEIXIN_unionid:" + WEIXIN_unionid + " WEIXIN_openid:" + WEIXIN_openid);
                     if (TextUtils.isEmpty(WEIXIN_access_token) || TextUtils.isEmpty(WEIXIN_unionid)) {
                         ToastUtils.shortToast("微信登录失败");
                         return;
@@ -550,7 +552,7 @@ public class ActivityLoginModel extends BaseObservable {
 //                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
                     LogKit.v("QQ_access_token:" + QQ_access_token + "  QQ_uid:" + QQ_uid);
                     thirdLoginPlatformType = 2;
-                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, QQ_access_token, QQ_uid, thirdLoginPlatformType + "");
+                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, QQ_access_token, QQ_uid, thirdLoginPlatformType + "", null);
                     break;
                 case WEIXIN:
                     LogKit.v("weixin data size:" + data.size());
@@ -569,7 +571,7 @@ public class ActivityLoginModel extends BaseObservable {
 //                    LogKit.v("name:" + name + "  gender:" + gender + "  city:" + city);
                     LogKit.v("WEIXIN_access_token:" + WEIXIN_access_token + "  WEIXIN_unionid:" + WEIXIN_unionid);
                     thirdLoginPlatformType = 1;
-                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, WEIXIN_access_token, WEIXIN_unionid, thirdLoginPlatformType + "");
+                    LoginManager.serverThirdPartyLogin(onThirdPartyLoginFinished, WEIXIN_access_token, WEIXIN_unionid, thirdLoginPlatformType + "", WEIXIN_openid);
                     break;
             }
         }
@@ -595,6 +597,9 @@ public class ActivityLoginModel extends BaseObservable {
             if (dataBean.rescode == 9) {//新用户，需要绑定手机号
                 LogKit.v("新用户，需要绑定手机号");
                 String _3ptoken = dataBean.data.token;
+                if(_3ptoken.split("&").length<=3){
+                    _3ptoken=_3ptoken+"&"+ WEIXIN_openid;
+                }
 
                 Bundle thirdPlatformBundle = new Bundle();
                 thirdPlatformBundle.putString("_3ptoken", _3ptoken);
