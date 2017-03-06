@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app.error.customservice">获取客服UID失败</string>
+
+    <string name="app.login.help">遇到问题</string>
+    <string name="app.login.phone">输入您的手机号</string>
+    <string name="app.login.verify.edit">输入验证码</string>
+    <string name="app.login.verify">验证码</string>
+    <string name="app.login.login">进入</string>
+    <string name="app.login.agredd">同意《用户协议》</string>
+    <string name="app.login.third">同第三方登录</string>
+    <string name="app.login.weixin">微信登录</string>
+    <string name="app.login.qq">QQ登录</string>
+</resources>

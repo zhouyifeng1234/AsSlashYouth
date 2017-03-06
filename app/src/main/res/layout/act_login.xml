@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.slash.youth.v2.feature.login.LoginViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--android:background="@mipmap/icon_login_bg">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:text="@string/app.login.help"-->
+        <!--android:textColor="#8affffff"-->
+        <!--android:textSize="15sp"-->
+        <!--app:clickCommand="@{viewModel.help}" />-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="145dp"-->
+        <!--android:src="@mipmap/icon_login_logo" />-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="265dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="253dp"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/et_activity_login_phonenum"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="43dp"-->
+        <!--android:background="@mipmap/icon_edit_phone"-->
+        <!--android:gravity="center"-->
+        <!--android:hint="@string/app.login.phone"-->
+        <!--android:inputType="phone"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textColorHint="#ffffff"-->
+        <!--android:textSize="14.5sp" />-->
+
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="43dp"-->
+        <!--android:layout_marginTop="17dp">-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/et_activity_login_verification_code"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@mipmap/icon_login_edit_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:hint="@string/app.login.verify.edit"-->
+        <!--android:inputType="phone"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textColorHint="#ffffff"-->
+        <!--android:textSize="14.5sp" />-->
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_sendpin_text"-->
+        <!--android:layout_width="58dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginBottom="4dp"-->
+        <!--android:layout_marginRight="9dp"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:background="@drawable/shape_btn_blue_1111"-->
+        <!--android:text="@string/app.login.verify"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textColorHint="#ffffff"-->
+        <!--android:textSize="11.5sp"-->
+        <!--app:clickCommand="@{viewModel.sendVerify}" />-->
+        <!--&lt;!&ndash;android:background="@mipmap/default_icon_yanzheng"&ndash;&gt;-->
+        <!--</RelativeLayout>-->
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_jingru"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="43dp"-->
+        <!--android:layout_marginTop="17dp"-->
+        <!--android:background="@mipmap/icon_login_button"-->
+        <!--android:text="进入"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textColorHint="#ffffff"-->
+        <!--android:textSize="14.5sp"-->
+        <!--app:clickCommand="@{viewModel.login}" />-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="7dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/iv_check_protocol_icon"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@color/transparent"-->
+        <!--android:button="@mipmap/icon_login_xz"-->
+        <!--android:paddingBottom="10dp"-->
+        <!--android:paddingRight="9dp"-->
+        <!--android:paddingTop="10dp"-->
+        <!--app:clickCommand="@{viewModel.agreeProtocol}" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:text="@string/app.login.agredd"-->
+        <!--android:textColor="#8affffff"-->
+        <!--android:textSize="15sp"-->
+        <!--app:clickCommand="@{viewModel.protocol}" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginLeft="42dp"-->
+        <!--android:layout_marginRight="42dp"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<View-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginRight="12dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="#33ffffff" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/app.login.third"-->
+        <!--android:textColor="#a1b2c1"-->
+        <!--android:textSize="12sp" />-->
+
+        <!--<View-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginLeft="12dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="#33ffffff" />-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="19dp"-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="left"-->
+        <!--android:clickable="true"-->
+        <!--android:orientation="horizontal"-->
+        <!--app:clickCommand="@{viewModel.weixinLogin}">-->
+
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:src="@mipmap/icon_login_weixin" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginLeft="9dp"-->
+        <!--android:text="@string/app.login.weixin"-->
+        <!--android:textColor="#a1b2c1"-->
+        <!--android:textSize="14sp" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:clickable="true"-->
+        <!--android:orientation="horizontal"-->
+        <!--app:clickCommand="@{viewModel.qqLogin}">-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:src="@mipmap/icon_login_qq" />-->
+
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:layout_marginLeft="9dp"-->
+        <!--android:text="@string/app.login.qq"-->
+        <!--android:textColor="#a1b2c1"-->
+        <!--android:textSize="14sp" />-->
+        <!--</LinearLayout>-->
+        <!--</FrameLayout>-->
+        <!--</LinearLayout>-->
+    </RelativeLayout>
+</layout>

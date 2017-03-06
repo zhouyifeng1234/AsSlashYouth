@@ -1,6 +1,5 @@
 package com.slash.youth.ui.holder;
 
-import android.service.vr.VrListenerService;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

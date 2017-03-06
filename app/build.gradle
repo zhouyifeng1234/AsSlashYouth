@@ -1,17 +1,52 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+def ext = rootProject.ext
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '22.0.1'
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion ext.buildToolsVersion
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
-        applicationId "com.slash.youth"
-        minSdkVersion 19
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
-        //开启分包
+        applicationId ext.applicationId
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
+        versionCode ext.versionCode
+        versionName ext.versionName
         multiDexEnabled true
     }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    dexOptions {
+        incremental true
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,24 +70,6 @@ android {
             keyPassword "slash_youth_nick_123"
         }
     }
-
-    productFlavors {
-    }
-
-    dataBinding {
-        enabled = true
-    }
-
-    sourceSets {
-        main {
-//            jniLibs.srcDirs = ['libs']
-        }
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
 }
 
 apply plugin: 'org.greenrobot.greendao'
@@ -74,8 +91,11 @@ greendao {
 dependencies {
 
     //    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile files('libs/gson-2.3.1.jar')
+
+
+    compile project(':lib')
+    compile project(':data')
+//    compile files('libs/gson-2.3.1.jar')
     compile files('libs/AMap_Search_V3.4.0_20160811.jar')
     compile files('libs/Amap_2DMap_V2.9.1_20160825.jar')
     compile files('libs/AMap_Location_V2.9.0_20160906.jar')
@@ -93,22 +113,28 @@ dependencies {
     compile files('libs/Rong_IMLib.jar')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/MiPush_SDK_Client_3_1_2.jar')
-    compile 'com.android.support:appcompat-v7:24.2.0'
+//    compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'org.xutils:xutils:3.3.36'
     compile 'com.lai.weavey:dialog:1.1'
 //    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.blankj:utilcode:1.2.1'
-    compile 'com.android.support:cardview-v7:24.2.0'
+//    compile 'com.android.support:cardview-v7:24.2.0'
     compile 'com.jungly:gridPasswordView:0.3'
-    compile 'com.android.support:design:24.2.0'
+//    compile 'com.android.support:design:24.2.0'
     compile project(':pingpplib:pingpp')
     //GalleryFinal
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
-    compile 'com.android.support:support-v4:24.2.0'
+//    compile 'com.android.support:support-v4:24.2.0'
     //分包，分dex
     compile 'com.android.support:multidex:1.0.1'
     //greenDao
     compile 'org.greenrobot:greendao:3.0.1'
     compile 'org.greenrobot:greendao-generator:3.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
+
+
+    apt provides.daggerCompiler
+    provided provides.annotation
+
+    apt apts.logansquareCompiler
 }

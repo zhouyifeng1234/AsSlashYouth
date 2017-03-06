@@ -1,5 +1,5 @@
 ext {
-    applicationId = "com.core.op"
+    applicationId = "com.slash.youth"
     versionCode = 1
     versionName = "v1.0.0"
 
@@ -36,6 +36,9 @@ ext {
             retrofitConverterXml : 'com.squareup.retrofit2:converter-simplexml:2.0.0',
 
             guava                : 'com.google.guava:guava:19.0',
+
+            stetho               : 'com.facebook.stetho:stetho:1.4.1',
+            stethoOkhttp         : 'com.facebook.stetho:stetho-okhttp3:1.4.1',
 
             logger               : 'com.orhanobut:logger:1.15',
 

@@ -1,6 +1,7 @@
 package com.slash.youth.ui.activity.base;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import com.slash.youth.ui.dialog.offline.OfflineDialog;
@@ -22,6 +23,7 @@ import com.slash.youth.ui.activity.PerfectInfoActivity;
 import com.slash.youth.ui.activity.SplashActivity;
 import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.LogKit;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -29,7 +31,7 @@ import io.rong.imlib.model.Conversation;
 /**
  * Created by zhouyifeng on 2017/2/25.
  */
-public class BaseActivity extends Activity {
+public class BaseActivity extends RxAppCompatActivity {
 
     private OfflineDialog offlineDialog;
 

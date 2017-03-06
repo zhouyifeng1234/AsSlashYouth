@@ -2,7 +2,6 @@ package com.slash.youth.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.icu.text.DecimalFormat;
 
 /**
  * Created by zss on 2016/12/13.
