@@ -860,14 +860,14 @@
                                                     android:textSize="13sp"/>
 
                                                 <!--<TextView-->
-                                                    <!--android:layout_width="wrap_content"-->
-                                                    <!--android:layout_height="wrap_content"-->
-                                                    <!--android:background="@mipmap/task_demand_btn_bg"-->
-                                                    <!--android:gravity="center"-->
-                                                    <!--android:onClick="@{myBidDemandModel.updateBidDemandInfo}"-->
-                                                    <!--android:text="修改"-->
-                                                    <!--android:textColor="#999999"-->
-                                                    <!--android:textSize="13sp"/>-->
+                                                <!--android:layout_width="wrap_content"-->
+                                                <!--android:layout_height="wrap_content"-->
+                                                <!--android:background="@mipmap/task_demand_btn_bg"-->
+                                                <!--android:gravity="center"-->
+                                                <!--android:onClick="@{myBidDemandModel.updateBidDemandInfo}"-->
+                                                <!--android:text="修改"-->
+                                                <!--android:textColor="#999999"-->
+                                                <!--android:textSize="13sp"/>-->
 
                                             </LinearLayout>
 
@@ -1635,11 +1635,6 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="12dp"
                         android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"/>
 
                         <ImageView
                             android:layout_width="21dp"
