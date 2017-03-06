@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="publishDemandSuccessModel"
-                  type="com.slash.youth.ui.viewmodel.PublishDemandSuccessModel"/>
+
+        <variable
+            name="publishDemandSuccessModel"
+            type="com.slash.youth.ui.viewmodel.PublishDemandSuccessModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_rectangle_gradient_publish_demand2"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_height="68dp"
+            android:background="#31C5E4"
+            android:paddingTop="25dp">
 
-
-            <TextView
-                android:id="@+id/tv_publish_demand_text"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="发布需求"
-                android:textColor="#ffffff"
-                android:textSize="16sp"/>
+                android:layout_marginTop="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:onClick="@{publishDemandSuccessModel.closeSuccessActivity}"
-                android:text="关闭"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_publish_demand_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="发布需求"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:onClick="@{publishDemandSuccessModel.closeSuccessActivity}"
+                    android:text="关闭"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,44 +61,49 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/timeline_2"
-            />
+                android:src="@mipmap/timeline_2" />
+
             <View
                 android:layout_width="15dp"
-                android:layout_height="15dp" android:layout_gravity="center_vertical"
-                android:background="@mipmap/timeline_point"/>
+                android:layout_height="15dp"
+                android:layout_gravity="center_vertical"
+                android:background="@mipmap/timeline_point" />
+
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/timeline_2"
-            />
+                android:src="@mipmap/timeline_2" />
+
             <View
-                android:layout_width="15dp" android:layout_height="15dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
-                android:background="@mipmap/timeline_point"/>
+                android:background="@mipmap/timeline_point" />
+
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/timeline_2"
-            />
+                android:src="@mipmap/timeline_2" />
+
             <View
-                android:layout_width="15dp" android:layout_height="15dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
-                android:background="@mipmap/point_time"/>
+                android:background="@mipmap/point_time" />
+
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:scaleType="fitXY"
-                android:src="@mipmap/timeline_2"
-            />
+                android:src="@mipmap/timeline_2" />
 
         </LinearLayout>
 
@@ -96,31 +112,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:orientation="horizontal">
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="基本信息"
                 android:textColor="#FFFFFF"
-                android:textSize="11dp"/>
+                android:textSize="11dp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="补充信息"
                 android:textColor="#FFFFFF"
-                android:textSize="11dp"/>
+                android:textSize="11dp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/tv_publish_success_text"
                 android:layout_width="wrap_content"
@@ -128,11 +150,12 @@
                 android:layout_marginRight="10dp"
                 android:text="发布成功"
                 android:textColor="#FFFFFF"
-                android:textSize="11dp"/>
+                android:textSize="11dp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </LinearLayout>
 
         <FrameLayout
@@ -142,18 +165,17 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/shape_rounded_demand2_baseinfo_inner_bg"
-        >
+            android:background="@drawable/shape_rounded_demand2_baseinfo_inner_bg">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="@{publishDemandSuccessModel.publishSuccessVisibility}"
-            >
+                android:visibility="@{publishDemandSuccessModel.publishSuccessVisibility}">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -164,32 +186,33 @@
                         android:onClick="@{publishDemandSuccessModel.gotoDemandDetail}"
                         android:text="查看详情"
                         android:textColor="#CCCCCC"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <ImageView
                         android:layout_width="75dp"
                         android:layout_height="75dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="-6dp"
-                        android:src="@mipmap/success_icon"/>
+                        android:src="@mipmap/success_icon" />
 
                     <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                    >
+                        android:layout_marginTop="8dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:visibility="@{publishDemandSuccessModel.publishSuccessHintVisibility}">
 
-                            <TextView android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:text="发布成功"
-                                      android:textColor="#999999"
-                                      android:textSize="15sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="发布成功"
+                                android:textColor="#999999"
+                                android:textSize="15sp" />
 
                             <!--<TextView android:layout_width="wrap_content"-->
                             <!--android:layout_height="wrap_content"-->
@@ -216,33 +239,37 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:visibility="@{publishDemandSuccessModel.updateSuccessHintVisibility}">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="修改成功"
                                 android:textColor="#999999"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
                     </FrameLayout>
 
                     <LinearLayout
-                        android:visibility="@{publishDemandSuccessModel.recommendServiceInfoVisibility}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="@{publishDemandSuccessModel.recommendServiceInfoVisibility}">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="16dp"
                             android:orientation="horizontal">
+
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:src="@mipmap/bar_left"/>
+                                android:src="@mipmap/bar_left" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -251,13 +278,13 @@
                                 android:layout_marginRight="5dp"
                                 android:text="系统已自动推荐优质服务方"
                                 android:textColor="#666666"
-                                android:textSize="12sp"
-                            />
+                                android:textSize="12sp" />
+
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:src="@mipmap/bar_right"/>
+                                android:src="@mipmap/bar_right" />
                         </LinearLayout>
 
                         <com.slash.youth.ui.view.ScrollListView
@@ -268,13 +295,14 @@
                             android:layout_marginRight="20dp"
                             android:layout_marginTop="8dp"
                             android:divider="@android:color/transparent"
-                            android:dividerHeight="0dp"
-                        >
+                            android:dividerHeight="0dp">
 
                         </com.slash.youth.ui.view.ScrollListView>
 
-                        <View android:layout_width="0dp" android:layout_height="0dp"
-                              android:layout_weight="1"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -286,6 +314,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:orientation="vertical">
+
                                 <Button
                                     android:layout_width="252dp"
                                     android:layout_height="50dp"
@@ -293,7 +322,7 @@
                                     android:onClick="@{publishDemandSuccessModel.shareDemand}"
                                     android:text="马上邀请他们"
                                     android:textColor="#FFFFFF"
-                                    android:textSize="15sp"/>
+                                    android:textSize="15sp" />
 
                                 <TextView
                                     android:id="@+id/tv_display_validity_datetime"
@@ -303,7 +332,7 @@
                                     android:layout_marginTop="3dp"
                                     android:text="展示有效期至2016年6月28日24:00"
                                     android:textColor="#999999"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                         </FrameLayout>
@@ -325,7 +354,7 @@
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="-6dp"
-                    android:src="@mipmap/success_icon"/>
+                    android:src="@mipmap/success_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -334,7 +363,7 @@
                     android:layout_marginTop="8dp"
                     android:text="修改成功"
                     android:textColor="#999999"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -343,7 +372,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@{publishDemandSuccessModel.afterUpdateValidDate}"
                     android:textColor="#999999"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
                 <!--android:text="展示有效期至2016年6月28日24:00"-->
 
             </LinearLayout>

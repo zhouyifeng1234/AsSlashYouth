@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="myTaskModel" type="com.slash.youth.ui.viewmodel.MyTaskModel"/>
+
+        <variable
+            name="myTaskModel"
+            type="com.slash.youth.ui.viewmodel.MyTaskModel" />
     </data>
 
     <FrameLayout
@@ -13,74 +17,85 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="68dp"
                 android:background="#31C5E4"
-                android:onClick="@{myTaskModel.hideFilterTask}">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:onClick="@{myTaskModel.goBack}"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="5dp"
-                    android:src="@mipmap/nav_back"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="我的任务"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:onClick="@{myTaskModel.openFilterTask}"
-                    android:paddingRight="12dp"
-                    android:src="@mipmap/classification_icon"/>
-            </RelativeLayout>
+                android:paddingTop="25dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="#31C5E4"
+                    android:onClick="@{myTaskModel.hideFilterTask}">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{myTaskModel.goBack}"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="5dp"
+                        android:src="@mipmap/nav_back" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="我的任务"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{myTaskModel.openFilterTask}"
+                        android:paddingRight="12dp"
+                        android:src="@mipmap/classification_icon" />
+                </RelativeLayout>
+            </FrameLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp" android:background="@mipmap/shadow_nav"/>
+                android:layout_height="5dp"
+                android:background="@mipmap/shadow_nav" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-            >
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="@{myTaskModel.myTaskListVisibility}"
-                >
+                    android:visibility="@{myTaskModel.myTaskListVisibility}">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                    >
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/order_icon"/>
+                            android:src="@mipmap/order_icon" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:text="@{myTaskModel.myTaskTypeText}"
-                            android:textColor="#333333" android:textSize="12sp"
-                        />
+                            android:textColor="#333333"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -89,8 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:divider="@android:color/transparent"
-                        android:listSelector="@android:color/transparent"
-                    >
+                        android:listSelector="@android:color/transparent">
 
                     </com.slash.youth.ui.view.RefreshListView>
                 </LinearLayout>
@@ -99,14 +113,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="@{myTaskModel.noTaskVisibility}"
-                >
+                    android:visibility="@{myTaskModel.noTaskVisibility}">
+
                     <ImageView
                         android:layout_width="222dp"
                         android:layout_height="222dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="38dp"
-                        android:src="@mipmap/renwu_image"/>
+                        android:src="@mipmap/renwu_image" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -115,7 +129,7 @@
                         android:layout_marginTop="9dp"
                         android:text="亲暂时没有任务哦！"
                         android:textColor="#31C5E4"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -123,11 +137,13 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="14dp"
                         android:orientation="horizontal">
+
                         <FrameLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/publish_task_btn"
                             android:onClick="@{myTaskModel.gotoPublishTask}">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -135,13 +151,15 @@
                                 android:layout_marginTop="5dp"
                                 android:text="去发布任务"
                                 android:textColor="#31C6E4"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
                         </FrameLayout>
+
                         <FrameLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/browse_btn"
                             android:onClick="@{myTaskModel.gotoBrowseTask}">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -149,7 +167,7 @@
                                 android:layout_marginTop="5dp"
                                 android:text="去浏览任务"
                                 android:textColor="#2ACDA9"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -162,15 +180,14 @@
                     android:background="#00000000"
                     android:clickable="true"
                     android:onClick="@{myTaskModel.hideFilterTask}"
-                    android:visibility="@{myTaskModel.openTaskVisibility}"
-                >
+                    android:visibility="@{myTaskModel.openTaskVisibility}">
+
                     <FrameLayout
                         android:layout_width="173dp"
                         android:layout_height="112dp"
                         android:layout_gravity="right"
                         android:layout_marginRight="12dp"
-                        android:background="@drawable/dropdown_box"
-                    >
+                        android:background="@drawable/dropdown_box">
                         <!--android:layout_height="210dp"-->
                         <LinearLayout
                             android:layout_width="169dp"
@@ -187,42 +204,42 @@
                                 android:onClick="@{myTaskModel.filterMyTotalTask}"
                                 android:text="进行中任务"
                                 android:textColor="#666666"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
 
                             <!--<TextView-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:onClick="@{myTaskModel.filterMyPublishTask}"-->
-                                <!--android:text="发布的任务"-->
-                                <!--android:textColor="#666666"-->
-                                <!--android:textSize="13sp"/>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="0dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center"-->
+                            <!--android:onClick="@{myTaskModel.filterMyPublishTask}"-->
+                            <!--android:text="发布的任务"-->
+                            <!--android:textColor="#666666"-->
+                            <!--android:textSize="13sp"/>-->
 
                             <!--<View-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1dp"-->
-                                <!--android:background="#E5E5E5"/>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="1dp"-->
+                            <!--android:background="#E5E5E5"/>-->
 
                             <!--<TextView-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="0dp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:onClick="@{myTaskModel.filterMyBidTask}"-->
-                                <!--android:text="抢到的任务"-->
-                                <!--android:textColor="#666666"-->
-                                <!--android:textSize="13sp"/>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="0dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center"-->
+                            <!--android:onClick="@{myTaskModel.filterMyBidTask}"-->
+                            <!--android:text="抢到的任务"-->
+                            <!--android:textColor="#666666"-->
+                            <!--android:textSize="13sp"/>-->
 
                             <!--<View-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1dp"-->
-                                <!--android:background="#E5E5E5"/>-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="1dp"-->
+                            <!--android:background="#E5E5E5"/>-->
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -232,7 +249,7 @@
                                 android:onClick="@{myTaskModel.filterMyHistoryTask}"
                                 android:text="历史任务"
                                 android:textColor="#666666"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -250,8 +267,8 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{myTaskModel.publishTaskDialogVisibility}"
-        >
+            android:visibility="@{myTaskModel.publishTaskDialogVisibility}">
+
             <LinearLayout
                 android:layout_width="259dp"
                 android:layout_height="wrap_content"
@@ -269,7 +286,7 @@
                         android:layout_centerInParent="true"
                         android:text="请选择"
                         android:textColor="#333333"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:layout_width="26dp"
@@ -277,7 +294,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:onClick="@{myTaskModel.closePublishTaskDialog}"
-                        android:src="@mipmap/close_btn2_publish_task_dialog"/>
+                        android:src="@mipmap/close_btn2_publish_task_dialog" />
 
                 </RelativeLayout>
 
@@ -294,14 +311,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:onClick="@{myTaskModel.publishService}"
-                        android:orientation="vertical"
-                    >
+                        android:orientation="vertical">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
-                            android:src="@mipmap/service_publish_icon"
-                        />
+                            android:src="@mipmap/service_publish_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -309,7 +325,7 @@
                             android:layout_gravity="center_horizontal"
                             android:text="发服务"
                             android:textColor="#666666"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -317,14 +333,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="@{myTaskModel.publishDemand}"
-                        android:orientation="vertical"
-                    >
+                        android:orientation="vertical">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
-                            android:src="@mipmap/demand_publish_icon"
-                        />
+                            android:src="@mipmap/demand_publish_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -332,7 +347,7 @@
                             android:layout_gravity="center_horizontal"
                             android:text="发需求"
                             android:textColor="#666666"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 

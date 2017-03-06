@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="publishServiceAddInfoModel"
-                  type="com.slash.youth.ui.viewmodel.PublishServiceAddInfoModel"/>
+
+        <variable
+            name="publishServiceAddInfoModel"
+            type="com.slash.youth.ui.viewmodel.PublishServiceAddInfoModel" />
     </data>
 
     <FrameLayout
@@ -15,31 +18,37 @@
             android:background="@drawable/shape_rectangle_gradient_publish_demand2"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_height="68dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
 
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="21dp"
-                    android:layout_centerVertical="true"
-                    android:onClick="@{publishServiceAddInfoModel.gotoBack}"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@mipmap/nav_back"
-                />
-
-                <TextView
-                    android:id="@+id/tv_publish_service_text"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="发布服务"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"/>
+                    android:layout_marginTop="8dp">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="21dp"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{publishServiceAddInfoModel.gotoBack}"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:src="@mipmap/nav_back" />
+
+                    <TextView
+                        android:id="@+id/tv_publish_service_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="发布服务"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,44 +62,49 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/timeline_2"
-                />
+                    android:src="@mipmap/timeline_2" />
+
                 <View
                     android:layout_width="15dp"
-                    android:layout_height="15dp" android:layout_gravity="center_vertical"
-                    android:background="@mipmap/timeline_point"/>
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/timeline_point" />
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/timeline_2"
-                />
+                    android:src="@mipmap/timeline_2" />
+
                 <View
-                    android:layout_width="15dp" android:layout_height="15dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@mipmap/point_time"/>
+                    android:background="@mipmap/point_time" />
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/timeline_2"
-                />
+                    android:src="@mipmap/timeline_2" />
+
                 <View
-                    android:layout_width="15dp" android:layout_height="15dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@mipmap/timeline_point"/>
+                    android:background="@mipmap/timeline_point" />
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/timeline_2"
-                />
+                    android:src="@mipmap/timeline_2" />
 
             </LinearLayout>
 
@@ -99,31 +113,37 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal">
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="基本信息"
                     android:textColor="#FFFFFF"
-                    android:textSize="11dp"/>
+                    android:textSize="11dp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="补充信息"
                     android:textColor="#FFFFFF"
-                    android:textSize="11dp"/>
+                    android:textSize="11dp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tv_publish_success_text"
                     android:layout_width="wrap_content"
@@ -131,11 +151,12 @@
                     android:layout_marginRight="10dp"
                     android:text="发布成功"
                     android:textColor="#FFFFFF"
-                    android:textSize="11dp"/>
+                    android:textSize="11dp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <ScrollView
@@ -150,8 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/shape_rounded_demand2_baseinfo_inner_bg"
-                    android:orientation="vertical"
-                >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -167,13 +187,12 @@
                             android:layout_gravity="center_vertical"
                             android:text="服务标签"
                             android:textColor="#333333"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"
-                        />
+                            android:layout_weight="1" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -188,16 +207,14 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="把服务精确匹配给对方"
                                 android:textColor="#CCCCCC"
-                                android:textSize="13sp"
-                            />
+                                android:textSize="13sp" />
 
                             <ImageView
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="6dp"
-                                android:src="@mipmap/towards_right_icon"
-                            />
+                                android:src="@mipmap/towards_right_icon" />
 
                         </LinearLayout>
 
@@ -216,14 +233,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="5dp">
+
                             <com.slash.youth.ui.view.SlashAddLabelsLayout
                                 android:id="@+id/sall_publish_service_added_skilllabels"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:orientation="vertical"
-                            >
+                                android:orientation="vertical">
 
                             </com.slash.youth.ui.view.SlashAddLabelsLayout>
                         </ScrollView>
@@ -238,17 +255,20 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginTop="18dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="报价:"
                             android:textColor="#333333"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
+
                         <EditText
                             android:id="@+id/et_service_quote"
                             android:layout_width="wrap_content"
@@ -258,7 +278,8 @@
                             android:hint="请填写"
                             android:inputType="numberDecimal"
                             android:textColorHint="#CCCCCC"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -266,7 +287,7 @@
                             android:layout_marginLeft="6dp"
                             android:text="@{publishServiceAddInfoModel.priceUnit}"
                             android:textColor="#333333"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -276,8 +297,7 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="18dp"
-                        android:background="#E5E5E5"
-                    />
+                        android:background="#E5E5E5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -286,17 +306,20 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginTop="18dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="价格单位"
                             android:textColor="#333333"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
+
                         <TextView
                             android:id="@+id/tv_choose_quoteunit"
                             android:layout_width="wrap_content"
@@ -304,15 +327,15 @@
                             android:layout_gravity="center_vertical|right"
                             android:text="请选择"
                             android:textColor="#CCCCCC"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
+
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="6dp"
                             android:onClick="@{publishServiceAddInfoModel.openChoosePriceUnit}"
-                            android:src="@mipmap/towards_right_icon"
-                        />
+                            android:src="@mipmap/towards_right_icon" />
 
                     </LinearLayout>
 
@@ -322,8 +345,7 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="18dp"
-                        android:background="#E5E5E5"
-                    />
+                        android:background="#E5E5E5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -331,8 +353,8 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="15dp"
                         android:layout_marginTop="15dp"
-                        android:orientation="horizontal"
-                    >
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -340,7 +362,7 @@
                             android:onClick="@{publishServiceAddInfoModel.openInstalmentInfo}"
                             android:text="开启分期付"
                             android:textColor="#333333"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <ImageView
                             android:layout_width="15dp"
@@ -348,34 +370,35 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:onClick="@{publishServiceAddInfoModel.openInstalmentInfo}"
-                            android:src="@mipmap/question_icon"/>
+                            android:src="@mipmap/question_icon" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="大额资金建议开启"
                             android:textColor="#CCCCCC"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                         <RelativeLayout
                             android:layout_width="33dp"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
-                            android:onClick="@{publishServiceAddInfoModel.toggleInstalment}"
-                        >
+                            android:onClick="@{publishServiceAddInfoModel.toggleInstalment}">
+
                             <ImageView
                                 android:id="@+id/iv_publish_service_instalment_bg"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:src="@mipmap/background_safebox_toggle"/>
+                                android:src="@mipmap/background_safebox_toggle" />
 
                             <ImageView
                                 android:id="@+id/iv_publish_service_instalment_handle"
@@ -383,7 +406,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:src="@mipmap/handle"/>
+                                android:src="@mipmap/handle" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -394,8 +417,7 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="18dp"
-                        android:background="#E5E5E5"
-                    />
+                        android:background="#E5E5E5" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -411,13 +433,12 @@
                             android:layout_gravity="center_vertical"
                             android:text="服务方式"
                             android:textColor="#333333"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -431,7 +452,7 @@
                                 android:layout_width="17dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@mipmap/pitchon_btn"/>
+                                android:src="@mipmap/pitchon_btn" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -440,7 +461,7 @@
                                 android:layout_marginLeft="7dp"
                                 android:text="线上"
                                 android:textColor="#999999"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -457,7 +478,7 @@
                                 android:layout_width="17dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@mipmap/default_btn"/>
+                                android:src="@mipmap/default_btn" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -466,7 +487,7 @@
                                 android:layout_marginLeft="7dp"
                                 android:text="线下"
                                 android:textColor="#999999"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -478,8 +499,7 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="18dp"
-                        android:background="#E5E5E5"
-                    />
+                        android:background="#E5E5E5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -489,13 +509,14 @@
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
                         android:visibility="@{publishServiceAddInfoModel.offlineItemVisibility}">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="约定地点"
                             android:textColor="#333333"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <EditText
                             android:id="@+id/et_publish_service_address"
@@ -509,7 +530,7 @@
                             android:hint=""
                             android:singleLine="true"
                             android:textColorHint="#CCCCCC"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
                         <!--android:hint="输入见面地点或点击图标选择"-->
 
                         <ImageView
@@ -518,7 +539,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:onClick="@{publishServiceAddInfoModel.openMapActivity}"
-                            android:src="@mipmap/location_icon"/>
+                            android:src="@mipmap/location_icon" />
 
                     </LinearLayout>
 
@@ -529,8 +550,7 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="18dp"
                         android:background="#E5E5E5"
-                        android:visibility="@{publishServiceAddInfoModel.offlineItemVisibility}"
-                    />
+                        android:visibility="@{publishServiceAddInfoModel.offlineItemVisibility}" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -539,6 +559,7 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -546,8 +567,7 @@
                             android:onClick="@{publishServiceAddInfoModel.openBpInfo}"
                             android:text="纠纷处理"
                             android:textColor="#333333"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
 
                         <ImageView
                             android:layout_width="15dp"
@@ -555,12 +575,12 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:onClick="@{publishServiceAddInfoModel.openBpInfo}"
-                            android:src="@mipmap/question_icon"/>
+                            android:src="@mipmap/question_icon" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -574,7 +594,7 @@
                                 android:layout_width="17dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@mipmap/pitchon_btn"/>
+                                android:src="@mipmap/pitchon_btn" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -583,7 +603,7 @@
                                 android:layout_marginLeft="7dp"
                                 android:text="平台方式"
                                 android:textColor="#999999"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -600,7 +620,7 @@
                                 android:layout_width="17dp"
                                 android:layout_height="18dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@mipmap/default_btn"/>
+                                android:src="@mipmap/default_btn" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -609,13 +629,15 @@
                                 android:layout_marginLeft="7dp"
                                 android:text="协商方式"
                                 android:textColor="#999999"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -627,6 +649,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:orientation="vertical">
+
                             <Button
                                 android:id="@+id/btn_publish_text"
                                 android:layout_width="252dp"
@@ -635,7 +658,7 @@
                                 android:onClick="@{publishServiceAddInfoModel.publish}"
                                 android:text="发布"
                                 android:textColor="#FFFFFF"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -650,7 +673,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:onClick="@{publishServiceAddInfoModel.checkSlashProtocol}"
-                                    android:src="@mipmap/checked_icon"/>
+                                    android:src="@mipmap/checked_icon" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -660,7 +683,7 @@
                                     android:onClick="@{publishServiceAddInfoModel.openSecurityRules}"
                                     android:text="已同意《斜杠青年顺利成交保障规则》"
                                     android:textColor="#31C5E4"
-                                    android:textSize="11sp"/>
+                                    android:textSize="11sp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -679,7 +702,7 @@
             android:clickable="true"
             android:visibility="@{publishServiceAddInfoModel.choosePriceUnitLayerVisibility}"
 
-        >
+            >
             <!--android:visibility="gone"-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -687,24 +710,36 @@
                 android:layout_alignParentBottom="true"
                 android:background="#ffffff"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp" />
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="61dp"
-                            android:background="@drawable/shape_rectangle_gradient"/>
-                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
-                        <View android:layout_width="match_parent" android:layout_height="2dp"
-                              android:background="#E5E5E5"/>
+                            android:background="@drawable/shape_rectangle_gradient" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#E5E5E5" />
 
                     </LinearLayout>
+
                     <com.slash.youth.ui.view.SlashNumberPicker
                         android:id="@+id/np_choose_price_unit"
                         android:layout_width="match_parent"
@@ -725,8 +760,7 @@
                     android:onClick="@{publishServiceAddInfoModel.okChoosePriceUnit}"
                     android:text="确定"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                />
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </RelativeLayout>

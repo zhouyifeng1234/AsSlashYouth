@@ -1,60 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="paymentModel" type="com.slash.youth.ui.viewmodel.PaymentModel"/>
+
+        <variable
+            name="paymentModel"
+            type="com.slash.youth.ui.viewmodel.PaymentModel" />
     </data>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    >
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="87dp"
-                android:background="#31C5E4">
+                android:layout_height="112dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
 
-                <RelativeLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_height="87dp"
+                    android:background="#31C5E4">
 
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="21dp"
-                        android:layout_centerVertical="true"
-                        android:onClick="@{paymentModel.gotoBack}"
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
-                        android:src="@mipmap/nav_back"
-                        android:visibility="@{paymentModel.gobackVisibility}"
-                    />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="@{paymentModel.paymentTopText}"
-                        android:textColor="#ffffff"
-                        android:textSize="17sp"/>
+                        android:layout_marginTop="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"
-                        android:onClick="@{paymentModel.closePaymentActivity}"
-                        android:text="关闭"
-                        android:textColor="#ffffff"
-                        android:textSize="15sp"
-                        android:visibility="@{paymentModel.closeVisibility}"/>
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="21dp"
+                            android:layout_centerVertical="true"
+                            android:onClick="@{paymentModel.gotoBack}"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:src="@mipmap/nav_back"
+                            android:visibility="@{paymentModel.gobackVisibility}" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@{paymentModel.paymentTopText}"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dp"
+                            android:onClick="@{paymentModel.closePaymentActivity}"
+                            android:text="关闭"
+                            android:textColor="#ffffff"
+                            android:textSize="15sp"
+                            android:visibility="@{paymentModel.closeVisibility}" />
+
+                    </RelativeLayout>
+
+                </FrameLayout>
             </FrameLayout>
 
             <FrameLayout
@@ -66,8 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="@{paymentModel.payMainInfoVisibility}"
-                >
+                    android:visibility="@{paymentModel.payMainInfoVisibility}">
 
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
@@ -78,8 +89,7 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="3dp"
-                        app:cardUseCompatPadding="true"
-                    >
+                        app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -95,7 +105,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="任务名称："
                                 android:textColor="#333333"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -107,7 +117,7 @@
                                 android:maxLines="1"
                                 android:text="@{paymentModel.taskTitle}"
                                 android:textColor="#333333"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
                             <!--做一个互联网公司企业宣传策划案-->
 
                         </LinearLayout>
@@ -127,7 +137,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="支付金额："
                                 android:textColor="#333333"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -139,7 +149,7 @@
                                 android:maxLines="1"
                                 android:text="@{paymentModel.payMoney}"
                                 android:textColor="#FF7333"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
                             <!--￥800-->
 
                         </LinearLayout>
@@ -155,8 +165,7 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="3dp"
-                        app:cardUseCompatPadding="true"
-                    >
+                        app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -170,13 +179,13 @@
                                 android:layout_marginTop="15dp"
                                 android:text="请选择支付方式"
                                 android:textColor="#999999"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="15dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -185,51 +194,54 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="12dp"
                                 android:onClick="@{paymentModel.checkBalancePayment}"
-                                android:orientation="horizontal"
-                            >
+                                android:orientation="horizontal">
+
                                 <ImageView
                                     android:layout_width="44dp"
                                     android:layout_height="25dp"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@mipmap/balance_payment_icon"/>
+                                    android:src="@mipmap/balance_payment_icon" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="10dp"
-                                    android:orientation="vertical"
-                                >
+                                    android:orientation="vertical">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="余额支付"
                                         android:textColor="#333333"
-                                        android:textSize="14sp"/>
+                                        android:textSize="14sp" />
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="9dp"
                                         android:orientation="horizontal">
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="现有余额"
                                             android:textColor="#CCCCCC"
-                                            android:textSize="11sp"/>
+                                            android:textSize="11sp" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@{paymentModel.currentmoney}"
                                             android:textColor="#31C5E4"
-                                            android:textSize="14sp"/>
+                                            android:textSize="14sp" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="元"
                                             android:textColor="#CCCCCC"
-                                            android:textSize="11sp"/>
+                                            android:textSize="11sp" />
 
                                     </LinearLayout>
 
@@ -238,7 +250,7 @@
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1"/>
+                                    android:layout_weight="1" />
 
                                 <ImageView
                                     android:id="@+id/iv_payment_balance"
@@ -247,7 +259,7 @@
                                     android:layout_gravity="center_vertical"
 
                                     android:padding="5dp"
-                                    android:src="@mipmap/pitchon_btn"/>
+                                    android:src="@mipmap/pitchon_btn" />
 
                             </LinearLayout>
 
@@ -255,7 +267,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="12dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -264,27 +276,27 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="12dp"
                                 android:onClick="@{paymentModel.checkAlipay}"
-                                android:orientation="horizontal"
-                            >
+                                android:orientation="horizontal">
+
                                 <ImageView
                                     android:layout_width="44dp"
                                     android:layout_height="25dp"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@mipmap/zhifubao_icon"/>
+                                    android:src="@mipmap/zhifubao_icon" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="10dp"
-                                    android:orientation="vertical"
-                                >
+                                    android:orientation="vertical">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="支付宝支付"
                                         android:textColor="#333333"
-                                        android:textSize="14sp"/>
+                                        android:textSize="14sp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -292,14 +304,14 @@
                                         android:layout_marginTop="10dp"
                                         android:text="银行卡信用卡都可以使用"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="11sp"/>
+                                        android:textSize="11sp" />
 
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1"/>
+                                    android:layout_weight="1" />
 
                                 <ImageView
                                     android:id="@+id/iv_payment_alipay"
@@ -308,7 +320,7 @@
                                     android:layout_gravity="center_vertical"
 
                                     android:padding="5dp"
-                                    android:src="@mipmap/service_ptype_moren_icon"/>
+                                    android:src="@mipmap/service_ptype_moren_icon" />
 
                             </LinearLayout>
 
@@ -316,7 +328,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="12dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -326,27 +338,27 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="12dp"
                                 android:onClick="@{paymentModel.checkWeixinPayment}"
-                                android:orientation="horizontal"
-                            >
+                                android:orientation="horizontal">
+
                                 <ImageView
                                     android:layout_width="44dp"
                                     android:layout_height="25dp"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@mipmap/weixin_payment_icon"/>
+                                    android:src="@mipmap/weixin_payment_icon" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="10dp"
-                                    android:orientation="vertical"
-                                >
+                                    android:orientation="vertical">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="微信支付"
                                         android:textColor="#333333"
-                                        android:textSize="14sp"/>
+                                        android:textSize="14sp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -354,14 +366,14 @@
                                         android:layout_marginTop="10dp"
                                         android:text="推荐微信5.0及以上版本用户使用"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="11sp"/>
+                                        android:textSize="11sp" />
 
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1"/>
+                                    android:layout_weight="1" />
 
                                 <ImageView
                                     android:id="@+id/iv_payment_weixin"
@@ -370,7 +382,7 @@
                                     android:layout_gravity="center_vertical"
 
                                     android:padding="5dp"
-                                    android:src="@mipmap/service_ptype_moren_icon"/>
+                                    android:src="@mipmap/service_ptype_moren_icon" />
 
                             </LinearLayout>
 
@@ -387,12 +399,12 @@
                         android:gravity="center"
                         android:text="预支付款项将暂时托管在平台，顺利完成服务后才 打款给对方"
                         android:textColor="#CCCCCC"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -410,7 +422,7 @@
                             android:onClick="@{paymentModel.payment}"
                             android:text="去支付"
                             android:textColor="#FFFFFF"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                     </FrameLayout>
                 </LinearLayout>
@@ -430,8 +442,7 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="3dp"
-                        app:cardUseCompatPadding="true"
-                    >
+                        app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -445,7 +456,7 @@
                                 android:layout_width="67dp"
                                 android:layout_height="67dp"
                                 android:layout_gravity="center_horizontal"
-                                android:src="@mipmap/ok_payment_icon"/>
+                                android:src="@mipmap/ok_payment_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -454,7 +465,7 @@
                                 android:layout_marginTop="20dp"
                                 android:text="支付成功"
                                 android:textColor="#333333"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -463,7 +474,7 @@
                                 android:layout_marginTop="19dp"
                                 android:text="请以交易记录中最终数据为准"
                                 android:textColor="#999999"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
 
                         </LinearLayout>
@@ -475,6 +486,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="@{paymentModel.setTradePasswordVisibility}">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -487,19 +499,21 @@
                                 android:layout_height="wrap_content"
                                 android:text="为了您"
                                 android:textColor="#666666"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="账户安全"
                                 android:textColor="#FF7333"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="，请前往设置斜杠平台交易密码"
                                 android:textColor="#666666"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 
@@ -518,7 +532,7 @@
                                 android:onClick="@{paymentModel.gotoSettingTransactionPassword}"
                                 android:text="去设置"
                                 android:textColor="#FFFFFF"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
                         </FrameLayout>
                     </LinearLayout>
@@ -550,7 +564,7 @@
                     android:layout_height="39dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="19dp"
-                    android:src="@mipmap/fail_payment_icon"/>
+                    android:src="@mipmap/fail_payment_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -559,7 +573,7 @@
                     android:layout_marginTop="7dp"
                     android:text="支付失败"
                     android:textColor="#333333"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -569,7 +583,7 @@
                     android:layout_marginTop="9dp"
                     android:text="@{paymentModel.payFailReason}"
                     android:textColor="#666666"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
                 <!--网络连接失败，请重新支付-->
 
                 <FrameLayout
@@ -586,7 +600,7 @@
                         android:onClick="@{paymentModel.closeFailDialog}"
                         android:text="确定"
                         android:textColor="#FFFFFF"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                 </FrameLayout>
 
@@ -599,8 +613,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{paymentModel.inputPasswordVisibility}"
-        >
+            android:visibility="@{paymentModel.inputPasswordVisibility}">
 
             <FrameLayout
                 android:layout_width="269dp"
@@ -626,7 +639,7 @@
                             android:layout_marginTop="24dp"
                             android:text="@{paymentModel.inputPasswordHintText}"
                             android:textColor="#333333"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
                         <!--请输入交易密码-->
 
                         <LinearLayout
@@ -644,65 +657,75 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
                                 android:background="@drawable/shape_paymen_password_point"
-                                android:visibility="@{paymentModel.passChar1Visibility}"/>
+                                android:visibility="@{paymentModel.passChar1Visibility}" />
+
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
                                 android:background="@drawable/shape_paymen_password_point"
-                                android:visibility="@{paymentModel.passChar2Visibility}"/>
+                                android:visibility="@{paymentModel.passChar2Visibility}" />
+
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
                                 android:background="@drawable/shape_paymen_password_point"
-                                android:visibility="@{paymentModel.passChar3Visibility}"/>
+                                android:visibility="@{paymentModel.passChar3Visibility}" />
+
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
                                 android:background="@drawable/shape_paymen_password_point"
-                                android:visibility="@{paymentModel.passChar4Visibility}"/>
+                                android:visibility="@{paymentModel.passChar4Visibility}" />
+
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
                                 android:background="@drawable/shape_paymen_password_point"
-                                android:visibility="@{paymentModel.passChar5Visibility}"/>
+                                android:visibility="@{paymentModel.passChar5Visibility}" />
+
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="11dp"
-                                android:background="#E5E5E5"/>
+                                android:background="#E5E5E5" />
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
@@ -710,7 +733,7 @@
                                 android:layout_marginLeft="11dp"
                                 android:layout_marginRight="11dp"
                                 android:background="@drawable/shape_paymen_password_point"
-                                android:visibility="@{paymentModel.passChar6Visibility}"/>
+                                android:visibility="@{paymentModel.passChar6Visibility}" />
 
 
                         </LinearLayout>
@@ -724,7 +747,7 @@
                         android:layout_marginRight="9dp"
                         android:layout_marginTop="9dp"
                         android:onClick="@{paymentModel.closeInputPasswordBox}"
-                        android:src="@mipmap/withdraw_cash_close_icon"/>
+                        android:src="@mipmap/withdraw_cash_close_icon" />
                 </FrameLayout>
 
             </FrameLayout>
@@ -740,24 +763,25 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
+
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="10dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/xiangxia_icon"/>
+                        android:src="@mipmap/xiangxia_icon" />
                 </FrameLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#ededed"/>
+                    android:background="#ededed" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
-                >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_1"
                         android:layout_width="0dp"
@@ -767,173 +791,199 @@
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="1"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="2"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="3"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
+                    android:background="#d2d2d2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
-                >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_4"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="4"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="5"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_6"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="6"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
+                    android:background="#d2d2d2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
-                >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_7"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="7"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_8"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="8"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_9"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="9"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
+                    android:background="#d2d2d2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
-                >
+                    android:orientation="horizontal">
+
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="match_parent" android:layout_weight="1"
-                        android:background="#e0e0e0"/>
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#e0e0e0" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <TextView
                         android:id="@+id/tv_add_trade_password_0"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" android:gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:onClick="@{paymentModel.inputPassword}"
                         android:text="0"
                         android:textColor="#000000"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp" />
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="#d2d2d2"/>
+                        android:background="#d2d2d2" />
+
                     <FrameLayout
                         android:id="@+id/fl_delete_trade_password"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#e0e0e0" android:onClick="@{paymentModel.inputPassword}"
-                    >
+                        android:background="#e0e0e0"
+                        android:onClick="@{paymentModel.inputPassword}">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@mipmap/delete_trade_password_icon"
-                        />
+                            android:src="@mipmap/delete_trade_password_icon" />
                     </FrameLayout>
                 </LinearLayout>
 
@@ -945,8 +995,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
-            android:visibility="gone"
-        >
+            android:visibility="gone">
             <!--android:visibility="@{paymentModel.loadLayerVisibility}"-->
 
             <LinearLayout
@@ -955,11 +1004,13 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:orientation="horizontal">
+
                 <ProgressBar
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -967,7 +1018,7 @@
                     android:layout_marginLeft="9dp"
                     android:text="加载中..."
                     android:textColor="#999999"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp" />
             </LinearLayout>
 
         </FrameLayout>

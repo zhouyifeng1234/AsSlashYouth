@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="publishModel" type="com.slash.youth.ui.viewmodel.PublishModel"/>
+
+        <variable
+            name="publishModel"
+            type="com.slash.youth.ui.viewmodel.PublishModel" />
     </data>
 
     <LinearLayout
@@ -9,37 +13,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:background="#31C5E4">
+            android:layout_height="68dp"
+            android:background="#31C5E4"
+            android:paddingTop="25dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="#31C5E4">
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="发布"
-                android:textColor="#ffffff"
-                android:textSize="17dp"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="发布"
+                    android:textColor="#ffffff"
+                    android:textSize="17dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:onClick="@{publishModel.cancelPublish}"
-                android:paddingBottom="12dp"
-                android:paddingLeft="13dp"
-                android:paddingRight="13dp"
-                android:paddingTop="12dp"
-                android:text="取消"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{publishModel.cancelPublish}"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:paddingTop="12dp"
+                    android:text="取消"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" />
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -58,7 +68,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/fuwu_icon2"/>
+                    android:src="@mipmap/fuwu_icon2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,7 +77,7 @@
                     android:layout_marginTop="18dp"
                     android:text="发需求"
                     android:textColor="#666666"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -82,7 +92,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/xuqiu_icon2"/>
+                    android:src="@mipmap/xuqiu_icon2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -91,7 +101,7 @@
                     android:layout_marginTop="18dp"
                     android:text="发服务"
                     android:textColor="#666666"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

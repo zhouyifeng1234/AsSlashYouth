@@ -1,72 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="activityUserInfoEditorModel"
-            type="com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel"/>
+
+        <variable
+            name="activityUserInfoEditorModel"
+            type="com.slash.youth.ui.viewmodel.ActivityUserInfoEditorModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="68dp"
                 android:background="#31C5E4"
-                android:orientation="horizontal"
-                >
-                <RelativeLayout
-                    android:id="@+id/iv_userinfo_back"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true">
+                android:paddingTop="25dp">
 
-                    <ImageView
-                        android:layout_marginLeft="10dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="#31C5E4"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/iv_userinfo_back"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:src="@mipmap/nav_back" />
+                    </RelativeLayout>
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/nav_back"
-                        android:layout_centerVertical="true"
-                        />
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="编辑个人信息"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    />
+                        android:layout_centerInParent="true"
+                        android:text="编辑个人信息"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp" />
 
-                <TextView
-                    android:onClick="@{activityUserInfoEditorModel.save}"
-                    android:id="@+id/tv_save"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="保存"
-                    android:layout_centerVertical="true"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:layout_marginRight="10dp"
-                    />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:onClick="@{activityUserInfoEditorModel.save}"
+                        android:text="保存"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+            </FrameLayout>
 
             <ScrollView
                 android:id="@+id/sv_pager_home_my"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -75,8 +84,8 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="@dimen/cardElevation"
-                        app:cardUseCompatPadding="true"
-                        >
+                        app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -86,222 +95,220 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_marginTop="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="头像"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="15dp"
-                                    />
+                                    android:text="头像"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/right1_icon"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="11dp"
-                                    />
+                                    android:src="@mipmap/right1_icon" />
 
                                 <ImageButton
                                     android:id="@+id/ib_clickAvatar"
-                                    android:onClick="@{activityUserInfoEditorModel.clickAvatar}"
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
-                                    android:layout_centerVertical="true"
                                     android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginRight="30dp"
                                     android:background="@mipmap/default_avatar"
-                                    />
+                                    android:onClick="@{activityUserInfoEditorModel.clickAvatar}" />
 
                             </RelativeLayout>
+
                             <View
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="10dp"
-                                />
+                                android:background="#999999" />
                             <!--真实姓名-->
                             <RelativeLayout
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_marginTop="15dp"
+                                android:layout_weight="1"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="真实姓名"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    />
+                                    android:text="真实姓名"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
+
                                 <EditText
                                     android:id="@+id/et_username"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:hint="请输入姓名"
-                                    android:cursorVisible="true"
-                                    android:textSize="13dp"
-                                    android:textColor="#60A7B6"
-                                    android:textColorHint="#60A7B6"
-                                    android:maxLines="1"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_alignParentRight="true"
                                     android:layout_marginRight="15dp"
                                     android:background="@null"
-                                    />
+                                    android:cursorVisible="true"
+                                    android:hint="请输入姓名"
+                                    android:maxLines="1"
+                                    android:textColor="#60A7B6"
+                                    android:textColorHint="#60A7B6"
+                                    android:textSize="13dp" />
                             </RelativeLayout>
+
                             <View
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
                             <!--手机号码-->
                             <RelativeLayout
-                                android:onClick="@{activityUserInfoEditorModel.setPhone}"
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_marginTop="15dp">
+                                android:layout_marginTop="15dp"
+                                android:layout_weight="1"
+                                android:onClick="@{activityUserInfoEditorModel.setPhone}">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="手机号码"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    />
+                                    android:text="手机号码"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
                                 <!--手机号码-->
                                 <TextView
                                     android:id="@+id/tv_userphone"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
-                                    android:textSize="13dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="30dp"
                                     android:inputType="phone"
                                     android:textColor="#60A7B6"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginRight="30dp"
-                                    />
+                                    android:textSize="13dp" />
+
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/right1_icon"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="5dp"
-                                    />
+                                    android:src="@mipmap/right1_icon" />
 
                             </RelativeLayout>
+
                             <View
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
 
                             <!--所在地-->
                             <RelativeLayout
-                                android:onClick="@{activityUserInfoEditorModel.setLocation}"
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_marginTop="15dp">
+                                android:layout_marginTop="15dp"
+                                android:layout_weight="1"
+                                android:onClick="@{activityUserInfoEditorModel.setLocation}">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="所在地"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    />
+                                    android:text="所在地"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
+
                                 <TextView
                                     android:id="@+id/tv_location"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textSize="13dp"
-                                    android:textColor="#60A7B6"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_alignParentRight="true"
                                     android:layout_marginRight="30dp"
-                                    />
+                                    android:textColor="#60A7B6"
+                                    android:textSize="13dp" />
+
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/right1_icon"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="5dp"
-                                    />
+                                    android:src="@mipmap/right1_icon" />
 
                             </RelativeLayout>
+
                             <View
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
 
                             <!--斜杠身份-->
                             <RelativeLayout
-                                android:onClick="@{activityUserInfoEditorModel.editorIdentity}"
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
+                                android:layout_marginBottom="15dp"
                                 android:layout_marginTop="15dp"
-                                android:layout_marginBottom="15dp">
+                                android:layout_weight="1"
+                                android:onClick="@{activityUserInfoEditorModel.editorIdentity}">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="斜杠身份"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    />
+                                    android:text="斜杠身份"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
+
                                 <TextView
                                     android:id="@+id/tv_identity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:maxLength="15"
-                                    android:textSize="13dp"
-                                    android:textColor="#60A7B6"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_alignParentRight="true"
                                     android:layout_marginRight="30dp"
                                     android:ellipsize="end"
-                                    android:maxLines="1"
                                     android:lines="1"
+                                    android:maxLength="15"
+                                    android:maxLines="1"
+                                    android:textColor="#60A7B6"
+                                    android:textSize="13dp"
 
                                     />
+
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/right1_icon"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="5dp"
-                                    />
+                                    android:src="@mipmap/right1_icon" />
 
                             </RelativeLayout>
                         </LinearLayout>
@@ -316,31 +323,32 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="@dimen/cardElevation"
-                        app:cardUseCompatPadding="true"
-                        >
+                        app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:orientation="vertical">
+
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="职业类型"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    />
+                                    android:text="职业类型"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
 
                                 <RadioGroup
-                                    android:layout_alignParentRight="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
                                     android:checkedButton="@+id/rb_office_worker"
@@ -348,119 +356,120 @@
 
                                     <RadioButton
                                         android:id="@+id/rb_office_worker"
-                                        android:button="@null"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="职场人士"
+                                        android:button="@null"
                                         android:checked="true"
-                                        android:textColor="#333333"
-                                        android:drawablePadding="8dp"
                                         android:drawableLeft="@drawable/selector_radiobutton_bg"
-                                        android:textSize="15dp"/>
+                                        android:drawablePadding="8dp"
+                                        android:text="职场人士"
+                                        android:textColor="#333333"
+                                        android:textSize="15dp" />
+
                                     <RadioButton
                                         android:id="@+id/rb_self_employed"
-                                        android:button="@null"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="自雇者"
-                                        android:checked="false"
-                                        android:textColor="#333333"
-                                        android:drawablePadding="8dp"
                                         android:layout_marginLeft="10dp"
+                                        android:button="@null"
+                                        android:checked="false"
                                         android:drawableLeft="@drawable/selector_radiobutton_bg"
-                                        android:textSize="15dp"/>
+                                        android:drawablePadding="8dp"
+                                        android:text="自雇者"
+                                        android:textColor="#333333"
+                                        android:textSize="15dp" />
 
                                 </RadioGroup>
                             </RelativeLayout>
+
                             <View
                                 android:id="@+id/view_company"
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
                             <!--最近公司-->
                             <RelativeLayout
                                 android:id="@+id/rl_company"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="最近公司"
-                                    android:textSize="15dp"
-                                    android:textColor="#333333"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    />
+                                    android:text="最近公司"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
+
                                 <EditText
                                     android:id="@+id/tv_company"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:hint="请填写"
-                                    android:textSize="13dp"
-                                    android:cursorVisible="true"
-                                    android:maxLines="1"
-                                    android:maxEms="15"
-                                    android:minEms="2"
-                                    android:ellipsize="end"
-                                    android:background="@null"
-                                    android:textColor="#60A7B6"
-                                    android:textColorHint="#60A7B6"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_alignParentRight="true"
                                     android:layout_marginRight="10dp"
-                                    />
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:ellipsize="end"
+                                    android:hint="请填写"
+                                    android:maxEms="15"
+                                    android:maxLines="1"
+                                    android:minEms="2"
+                                    android:textColor="#60A7B6"
+                                    android:textColorHint="#60A7B6"
+                                    android:textSize="13dp" />
                             </RelativeLayout>
+
                             <View
                                 android:id="@+id/view_position"
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
 
                             <!--公司职位-->
                             <RelativeLayout
                                 android:id="@+id/rl_position"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="15dp">
+                                android:layout_marginBottom="15dp"
+                                android:layout_marginTop="10dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="公司职位"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
+                                    android:text="公司职位"
                                     android:textColor="#333333"
-                                    android:textSize="15dp"
-                                    />
+                                    android:textSize="15dp" />
+
                                 <EditText
                                     android:id="@+id/tv_profession"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:hint="请填写"
-                                    android:maxLines="1"
-                                    android:minEms="2"
-                                    android:maxEms="10"
-                                    android:ellipsize="end"
-                                    android:cursorVisible="true"
-                                    android:background="@null"
+                                    android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_alignParentRight="true"
                                     android:layout_marginRight="10dp"
-                                    android:textSize="13dp"
-                                    android:textColorHint="#60A7B6"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:ellipsize="end"
+                                    android:hint="请填写"
+                                    android:maxEms="10"
+                                    android:maxLines="1"
+                                    android:minEms="2"
                                     android:textColor="#60A7B6"
-                                    />
+                                    android:textColorHint="#60A7B6"
+                                    android:textSize="13dp" />
                             </RelativeLayout>
 
                         </LinearLayout>
@@ -476,8 +485,8 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="@dimen/cardElevation"
-                        app:cardUseCompatPadding="true"
-                        >
+                        app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -488,78 +497,79 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp">
+
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/skill_icon"
-                                    android:layout_marginLeft="10dp"
                                     android:layout_centerVertical="true"
-                                    />
+                                    android:layout_marginLeft="10dp"
+                                    android:src="@mipmap/skill_icon" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="36dp"
-                                    android:textSize="15dp"
-                                    android:textColor="#31C5E4"
                                     android:layout_centerVertical="true"
-                                    android:text="个人简介"/>
+                                    android:layout_marginLeft="36dp"
+                                    android:text="个人简介"
+                                    android:textColor="#31C5E4"
+                                    android:textSize="15dp" />
                             </RelativeLayout>
+
                             <View
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
                             <!--  技能描述内容-->
                             <ScrollView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:layout_marginLeft="10dp"
-                                android:layout_marginTop="15dp">
+                                android:layout_marginTop="15dp"
+                                android:orientation="vertical">
 
                                 <EditText
                                     android:id="@+id/et_skilldescribe"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:textSize="13dp"
-                                    android:textColor="#999999"
-                                    android:textColorHint="#999999"
-                                    android:ellipsize="end"
-                                    android:inputType="textMultiLine"
                                     android:background="@null"
                                     android:cursorVisible="true"
+                                    android:ellipsize="end"
                                     android:gravity="left|top"
+                                    android:hint="请输入技能描述，50字内\n 例：从事UI设计行业5年，具有丰富的设计经验..."
+                                    android:inputType="textMultiLine"
+                                    android:lineSpacingExtra="2dp"
+                                    android:maxEms="50"
                                     android:maxLines="4"
                                     android:scrollbars="vertical"
-                                    android:maxEms="50"
-                                    android:lineSpacingExtra="2dp"
-                                    android:hint="请输入技能描述，50字内\n 例：从事UI设计行业5年，具有丰富的设计经验..."/>
+                                    android:textColor="#999999"
+                                    android:textColorHint="#999999"
+                                    android:textSize="13dp" />
                             </ScrollView>
+
                             <View
                                 android:layout_width="match_parent"
+                                android:layout_height="1px"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
-                                android:layout_height="1px"
-                                android:background="#999999"
                                 android:layout_marginTop="15dp"
-                                />
+                                android:background="#999999" />
                             <!-- 行业方向-->
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                >
+                                android:layout_marginTop="15dp">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
+                                    android:text="职能方向"
                                     android:textColor="#333333"
-                                    android:textSize="15dp"
-                                    android:text="职能方向"/>
+                                    android:textSize="15dp" />
 
                                 <TextView
                                     android:id="@+id/tv_direction"
@@ -567,46 +577,44 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:layout_marginRight="15dp"
-                                    android:textSize="13dp"
                                     android:textColor="#60A7B6"
-                                    />
+                                    android:textSize="13dp" />
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:onClick="@{activityUserInfoEditorModel.skillLabel}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp"
-                                >
+                                android:layout_marginTop="15dp"
+                                android:onClick="@{activityUserInfoEditorModel.skillLabel}">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:textSize="15dp"
+                                    android:text="技能标签"
                                     android:textColor="#333333"
-                                    android:text="技能标签"/>
+                                    android:textSize="15dp" />
                                 <!--技能标签-->
                                 <com.slash.youth.ui.view.WarpLinearLayout
                                     android:id="@+id/ll_skilllabel_container"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    app:grivate="left"
                                     android:layout_marginLeft="100dp"
+                                    app:grivate="left"
                                     app:horizontal_Space="10dp"
                                     app:isFull="false"
-                                    app:vertical_Space="10dp" >
+                                    app:vertical_Space="10dp">
 
                                 </com.slash.youth.ui.view.WarpLinearLayout>
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/right1_icon"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
-                                    />
+                                    android:src="@mipmap/right1_icon" />
                             </RelativeLayout>
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
@@ -620,8 +628,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{activityUserInfoEditorModel.uploadPicLayerVisibility}"
-            >
+            android:visibility="@{activityUserInfoEditorModel.uploadPicLayerVisibility}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -629,62 +636,66 @@
                 android:layout_gravity="bottom"
                 android:background="#ffffff"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:gravity="center"
                     android:text="上传图片"
                     android:textColor="#333333"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="#E5E5E5"/>
+                    android:background="#E5E5E5" />
 
                 <LinearLayout
-                    android:onClick="@{activityUserInfoEditorModel.photoGraph}"
                     android:layout_width="221dp"
                     android:layout_height="49dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/shape_chat_phone_icon_bg"
                     android:gravity="center"
+                    android:onClick="@{activityUserInfoEditorModel.photoGraph}"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="22dp"
                         android:layout_height="18dp"
-                        android:src="@mipmap/chat_camera_icon"/>
+                        android:src="@mipmap/chat_camera_icon" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="6dp"
                         android:text="拍照"
                         android:textColor="#ffffff"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:onClick="@{activityUserInfoEditorModel.getAlbumPic}"
                     android:layout_width="221dp"
                     android:layout_height="49dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="19dp"
                     android:background="@drawable/shape_chat_phone_icon_bg"
                     android:gravity="center"
+                    android:onClick="@{activityUserInfoEditorModel.getAlbumPic}"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="22dp"
                         android:layout_height="18dp"
-                        android:src="@mipmap/album_icon"/>
+                        android:src="@mipmap/album_icon" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="6dp"
                         android:text="从相册选择"
                         android:textColor="#ffffff"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -695,8 +706,8 @@
                     android:layout_marginBottom="24dp"
                     android:layout_marginTop="19dp"
                     android:background="@drawable/shape_chat_cancel_upload_pic_bg"
-                    android:onClick="@{activityUserInfoEditorModel.closeUploadPic}"
                     android:gravity="center"
+                    android:onClick="@{activityUserInfoEditorModel.closeUploadPic}"
                     android:orientation="horizontal">
 
                     <TextView
@@ -704,7 +715,7 @@
                         android:layout_height="wrap_content"
                         android:text="取消"
                         android:textColor="#ffffff"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

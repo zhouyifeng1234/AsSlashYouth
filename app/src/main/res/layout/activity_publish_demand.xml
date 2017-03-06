@@ -1,91 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="publishDemandModel" type="com.slash.youth.ui.viewmodel.PublishDemandModel"/>
+
+        <variable
+            name="publishDemandModel"
+            type="com.slash.youth.ui.viewmodel.PublishDemandModel" />
     </data>
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff"
             android:orientation="vertical">
 
-
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="68dp"
                 android:background="#31C5E4"
-            >
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="11dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="11dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{publishDemandModel.goBack}"
-                    android:src="@mipmap/nav_back"/>
+                android:paddingTop="25dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="发需求"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="#31C5E4">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:onClick="@{publishDemandModel.nextStep}"
-                    android:text="下一步" android:textColor="#ffffff"
-                    android:textSize="15sp"/>
-            </RelativeLayout>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="11dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{publishDemandModel.goBack}"
+                        android:src="@mipmap/nav_back" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="发需求"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:onClick="@{publishDemandModel.nextStep}"
+                        android:text="下一步"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+            </FrameLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingBottom="15dp">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="26dp"
                         android:layout_marginRight="26dp"
-                        android:layout_marginTop="15dp"
-                    >
+                        android:layout_marginTop="15dp">
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:layout_centerVertical="true" android:background="#CCCCCC"/>
+                            android:layout_centerVertical="true"
+                            android:background="#CCCCCC" />
+
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/publish_damand_jihuo_icon"/>
+                            android:src="@mipmap/publish_damand_jihuo_icon" />
+
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/moren_icon"/>
+                            android:src="@mipmap/moren_icon" />
+
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/moren_icon"/>
+                            android:src="@mipmap/moren_icon" />
 
                     </RelativeLayout>
 
@@ -95,8 +115,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="26dp"
                         android:layout_marginRight="26dp"
-                        android:layout_marginTop="9dp"
-                    >
+                        android:layout_marginTop="9dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -104,16 +123,16 @@
                             android:layout_centerVertical="true"
                             android:text="类型"
                             android:textColor="#31C5E4"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="描述"
                             android:textColor="#31C5E4"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -121,8 +140,7 @@
                             android:layout_centerVertical="true"
                             android:text="方式"
                             android:textColor="#31C5E4"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
 
                     </RelativeLayout>
 
@@ -134,20 +152,23 @@
                         android:background="@drawable/moren_kuang"
                         android:orientation="vertical"
                         android:visibility="visible">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="18dp" android:layout_marginTop="15dp"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginTop="15dp"
                             android:text="选择发布方式"
                             android:textColor="#333333"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
                             android:layout_marginLeft="17dp"
-                            android:layout_marginRight="17dp" android:layout_marginTop="14dp"
-                            android:background="#E5E5E5"/>
+                            android:layout_marginRight="17dp"
+                            android:layout_marginTop="14dp"
+                            android:background="#E5E5E5" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -156,26 +177,29 @@
                             android:layout_marginRight="17dp"
                             android:layout_marginTop="14dp"
                             android:orientation="horizontal">
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                            >
+                                android:orientation="vertical">
+
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/shiming_icon"/>
+                                    android:src="@mipmap/shiming_icon" />
+
                                 <View
                                     android:layout_width="3dp"
                                     android:layout_height="38dp"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="4dp"
-                                    android:background="#E5E5E5"/>
+                                    android:background="#E5E5E5" />
+
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:src="@mipmap/niming_icon"/>
+                                    android:src="@mipmap/niming_icon" />
 
                             </LinearLayout>
 
@@ -184,14 +208,18 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="15dp"
                                 android:orientation="vertical">
-                                <RelativeLayout android:layout_width="match_parent"
-                                                android:layout_height="wrap_content">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="实名发布"
                                         android:textColor="#666666"
-                                        android:textSize="14dp"/>
+                                        android:textSize="14dp" />
+
                                     <ImageButton
                                         android:id="@+id/ivbtn_publish_demand_realname"
                                         android:layout_width="wrap_content"
@@ -199,7 +227,7 @@
                                         android:layout_alignParentRight="true"
                                         android:background="@android:color/transparent"
                                         android:onClick="@{publishDemandModel.choosePublishRealnameDemand}"
-                                        android:src="@mipmap/btn_employer_treat"/>
+                                        android:src="@mipmap/btn_employer_treat" />
                                 </RelativeLayout>
 
                                 <TextView
@@ -208,18 +236,20 @@
                                     android:layout_marginTop="9dp"
                                     android:text="斜杠青年是一个实名制服务平台，实名发布可以增加可 信度。"
                                     android:textColor="#999999"
-                                    android:textSize="11sp"/>
+                                    android:textSize="11sp" />
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="17dp">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="匿名发布"
                                         android:textColor="#666666"
-                                        android:textSize="14dp"/>
+                                        android:textSize="14dp" />
+
                                     <ImageButton
                                         android:id="@+id/ivbtn_publish_demand_anonymous"
                                         android:layout_width="wrap_content"
@@ -227,7 +257,7 @@
                                         android:layout_alignParentRight="true"
                                         android:background="@android:color/transparent"
                                         android:onClick="@{publishDemandModel.choosePublishAnonymousDemand}"
-                                        android:src="@mipmap/service_ptype_moren_icon"/>
+                                        android:src="@mipmap/service_ptype_moren_icon" />
                                 </RelativeLayout>
 
                                 <TextView
@@ -236,7 +266,7 @@
                                     android:layout_marginTop="9dp"
                                     android:text="为了更好的保护用户隐私，在双方达成合作前斜杠提供 匿名服务。达成合作后显示真实姓名。"
                                     android:textColor="#999999"
-                                    android:textSize="11sp"/>
+                                    android:textSize="11sp" />
 
                             </LinearLayout>
 
@@ -250,8 +280,8 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="14dp"
-                        android:background="@drawable/shape_publish_damand_rounded_rectangle"
-                    >
+                        android:background="@drawable/shape_publish_damand_rounded_rectangle">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -260,15 +290,16 @@
                             android:layout_marginLeft="29dp"
                             android:layout_marginTop="10dp"
                             android:onClick="@{publishDemandModel.chooseConsultationDemand}"
-                            android:orientation="horizontal"
-                        >
+                            android:orientation="horizontal">
+
                             <ImageButton
                                 android:id="@+id/ivbtn_demand_type_consultation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:background="@android:color/transparent"
-                                android:src="@mipmap/btn_employer_treat"/>
+                                android:src="@mipmap/btn_employer_treat" />
+
                             <TextView
                                 android:id="@+id/tv_demand_type_consultation_desc"
                                 android:layout_width="wrap_content"
@@ -277,7 +308,8 @@
                                 android:layout_marginLeft="13dp"
                                 android:text="咨询类"
                                 android:textColor="#31C5E4"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
+
                             <ImageButton
                                 android:id="@+id/ivbtn_demand_type_consultation_icon"
                                 android:layout_width="wrap_content"
@@ -285,7 +317,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="9dp"
                                 android:background="@android:color/transparent"
-                                android:src="@mipmap/zixun_seclted_icon"/>
+                                android:src="@mipmap/zixun_seclted_icon" />
 
                         </LinearLayout>
 
@@ -298,15 +330,16 @@
                             android:layout_marginRight="29dp"
                             android:layout_marginTop="10dp"
                             android:onClick="@{publishDemandModel.choosePayDemand}"
-                            android:orientation="horizontal"
-                        >
+                            android:orientation="horizontal">
+
                             <ImageButton
                                 android:id="@+id/ivbtn_demand_type_pay"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:background="@android:color/transparent"
-                                android:src="@mipmap/default_icon"/>
+                                android:src="@mipmap/default_icon" />
+
                             <TextView
                                 android:id="@+id/tv_demand_type_pay_desc"
                                 android:layout_width="wrap_content"
@@ -315,7 +348,7 @@
                                 android:layout_marginLeft="13dp"
                                 android:text="交付类"
                                 android:textColor="#999999"
-                                android:textSize="13sp"/>
+                                android:textSize="13sp" />
 
                             <ImageButton
                                 android:id="@+id/ivbtn_demand_type_pay_icon"
@@ -324,7 +357,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="9dp"
                                 android:background="@android:color/transparent"
-                                android:src="@mipmap/jiaofu_default_icon"/>
+                                android:src="@mipmap/jiaofu_default_icon" />
 
 
                         </LinearLayout>
@@ -339,6 +372,7 @@
                         android:layout_marginTop="14dp"
                         android:background="@drawable/moren_kuang"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -346,15 +380,19 @@
                             android:layout_marginRight="18dp"
                             android:layout_marginTop="13dp"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="选择任务时间"
                                 android:textColor="#333333"
-                                android:textSize="14sp"/>
-                            <View android:layout_width="0dp" android:layout_height="0dp"
-                                  android:layout_weight="1"/>
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -362,6 +400,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:onClick="@{publishDemandModel.checkAllDay}"
                                 android:orientation="horizontal">
+
                                 <ImageView
                                     android:id="@+id/iv_activity_publish_demand_checkallday"
                                     android:layout_width="21dp"
@@ -369,25 +408,26 @@
                                     android:layout_gravity="center_vertical"
                                     android:background="@drawable/moren_kuang"
                                     android:padding="3dp"
-                                    android:src="@mipmap/dui_icon"
-                                />
+                                    android:src="@mipmap/dui_icon" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="10dp"
                                     android:text="全天"
-                                    android:textColor="#999999" android:textSize="15sp"
-                                />
+                                    android:textColor="#999999"
+                                    android:textSize="15sp" />
                             </LinearLayout>
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_marginLeft="17dp" android:layout_marginRight="17dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginRight="17dp"
                             android:layout_marginTop="11dp"
-                            android:background="#E5E5E5"/>
+                            android:background="#E5E5E5" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -404,14 +444,14 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="开始时间"
                                 android:textColor="#666666"
-                                android:textSize="14sp"
-                            />
+                                android:textSize="14sp" />
 
                             <View
                                 android:layout_width="2dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="17dp" android:background="#dedede"/>
+                                android:layout_marginLeft="17dp"
+                                android:background="#dedede" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -420,17 +460,18 @@
                                 android:layout_marginLeft="25dp"
                                 android:text="@{publishDemandModel.chooseStartDateTimeText}"
                                 android:textColor="#666666"
-                                android:textSize="14sp"
-                            />
+                                android:textSize="14sp" />
+
                             <View
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <View
                                 android:layout_width="2dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_vertical"
-                                android:background="#dedede"/>
+                                android:background="#dedede" />
 
                             <ImageButton
                                 android:layout_width="wrap_content"
@@ -438,7 +479,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="16dp"
                                 android:background="@android:color/transparent"
-                                android:src="@mipmap/time_icon"/>
+                                android:src="@mipmap/time_icon" />
 
                         </LinearLayout>
 
@@ -457,14 +498,14 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="结束时间"
                                 android:textColor="#666666"
-                                android:textSize="14sp"
-                            />
+                                android:textSize="14sp" />
 
                             <View
                                 android:layout_width="2dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="17dp" android:background="#dedede"/>
+                                android:layout_marginLeft="17dp"
+                                android:background="#dedede" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -473,17 +514,18 @@
                                 android:layout_marginLeft="25dp"
                                 android:text="@{publishDemandModel.chooseEndDateTimeText}"
                                 android:textColor="#666666"
-                                android:textSize="14sp"
-                            />
+                                android:textSize="14sp" />
+
                             <View
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
+
                             <View
                                 android:layout_width="2dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_vertical"
-                                android:background="#dedede"/>
+                                android:background="#dedede" />
 
                             <ImageButton
                                 android:layout_width="wrap_content"
@@ -491,7 +533,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="16dp"
                                 android:background="@android:color/transparent"
-                                android:src="@mipmap/time_icon"/>
+                                android:src="@mipmap/time_icon" />
 
                         </LinearLayout>
 
@@ -507,17 +549,22 @@
 
                         <View
                             android:layout_width="49dp"
-                            android:layout_height="2dp" android:background="#999999"/>
+                            android:layout_height="2dp"
+                            android:background="#999999" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:text="想让谁看到你的需求"
-                            android:textColor="#666666" android:textSize="15dp"/>
+                            android:textColor="#666666"
+                            android:textSize="15dp" />
+
                         <View
                             android:layout_width="49dp"
                             android:layout_height="2dp"
-                            android:layout_marginLeft="8dp" android:background="#999999"/>
+                            android:layout_marginLeft="8dp"
+                            android:background="#999999" />
 
 
                     </LinearLayout>
@@ -529,8 +576,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
                         android:layout_marginTop="28dp"
-                        android:orientation="vertical"
-                    >
+                        android:orientation="vertical">
 
                     </com.slash.youth.ui.view.SlashAddLabelsLayout>
 
@@ -539,6 +585,7 @@
 
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -556,6 +603,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -563,8 +611,8 @@
                         android:padding="12dp"
                         android:text="取消"
                         android:textColor="#999999"
-                        android:textSize="18dp"
-                    />
+                        android:textSize="18dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -573,13 +621,14 @@
                         android:padding="12dp"
                         android:text="确定"
                         android:textColor="#999999"
-                        android:textSize="18dp"
-                    />
+                        android:textSize="18dp" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E5E5E5"/>
+                    android:background="#E5E5E5" />
+
                 <com.slash.youth.ui.view.SlashDateTimePicker
                     android:id="@+id/sdtp_publish_demand_choose_datetime"
                     android:layout_width="match_parent"
@@ -587,9 +636,7 @@
                     android:paddingBottom="36dp"
                     android:paddingLeft="27dp"
                     android:paddingRight="37dp"
-                    android:paddingTop="37dp"
-                >
-                </com.slash.youth.ui.view.SlashDateTimePicker>
+                    android:paddingTop="37dp"></com.slash.youth.ui.view.SlashDateTimePicker>
             </LinearLayout>
 
         </RelativeLayout>

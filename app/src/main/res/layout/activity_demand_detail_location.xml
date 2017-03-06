@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="demandDetailLocationModel"
-                  type="com.slash.youth.ui.viewmodel.DemandDetailLocationModel"/>
+
+        <variable
+            name="demandDetailLocationModel"
+            type="com.slash.youth.ui.viewmodel.DemandDetailLocationModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#31c5e4"
-            android:padding="11dp">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:onClick="@{demandDetailLocationModel.goBack}"
-                android:src="@mipmap/map_nav_back"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="定位"
-                android:textColor="#ffffff"
-                android:textSize="17sp"
-            />
+            android:layout_height="68dp"
+            android:background="#31C5E4"
+            android:paddingTop="25dp">
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#31c5e4"
+                android:padding="11dp">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{demandDetailLocationModel.goBack}"
+                    android:src="@mipmap/map_nav_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="定位"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+        </FrameLayout>
 
         <com.amap.api.maps2d.MapView
 

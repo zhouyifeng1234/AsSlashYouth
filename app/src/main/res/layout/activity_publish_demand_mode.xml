@@ -1,92 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="publishDemandModeModel"
-            type="com.slash.youth.ui.viewmodel.PublishDemandModeModel"/>
+            type="com.slash.youth.ui.viewmodel.PublishDemandModeModel" />
     </data>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    >
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff"
             android:orientation="vertical">
-            <RelativeLayout
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="68dp"
                 android:background="#31C5E4"
-            >
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="11dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="11dp"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{publishDemandModeModel.goBack}"
-                    android:src="@mipmap/nav_back"/>
+                android:paddingTop="25dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="发需求"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="#31C5E4">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:onClick="@{publishDemandModeModel.publishDemand}"
-                    android:text="发布" android:textColor="#ffffff"
-                    android:textSize="15sp"/>
-            </RelativeLayout>
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="11dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{publishDemandModeModel.goBack}"
+                        android:src="@mipmap/nav_back" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="发需求"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:onClick="@{publishDemandModeModel.publishDemand}"
+                        android:text="发布"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+            </FrameLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-            >
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:orientation="vertical">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="26dp"
                         android:layout_marginRight="26dp"
-                        android:layout_marginTop="15dp"
-                    >
+                        android:layout_marginTop="15dp">
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:layout_centerVertical="true" android:background="#CCCCCC"/>
+                            android:layout_centerVertical="true"
+                            android:background="#CCCCCC" />
+
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/moren_icon"/>
+                            android:src="@mipmap/moren_icon" />
+
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/moren_icon"/>
+                            android:src="@mipmap/moren_icon" />
+
                         <ImageButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/publish_damand_jihuo_icon"/>
+                            android:src="@mipmap/publish_damand_jihuo_icon" />
 
                     </RelativeLayout>
 
@@ -96,8 +115,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="26dp"
                         android:layout_marginRight="26dp"
-                        android:layout_marginTop="9dp"
-                    >
+                        android:layout_marginTop="9dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -105,16 +123,16 @@
                             android:layout_centerVertical="true"
                             android:text="类型"
                             android:textColor="#31C5E4"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="描述"
                             android:textColor="#31C5E4"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -122,8 +140,7 @@
                             android:layout_centerVertical="true"
                             android:text="方式"
                             android:textColor="#31C5E4"
-                            android:textSize="14sp"
-                        />
+                            android:textSize="14sp" />
 
                     </RelativeLayout>
 
@@ -148,6 +165,7 @@
                                 android:layout_height="48dp"
                                 android:layout_weight="1"
                                 android:onClick="@{publishDemandModeModel.tabOnlineDemand}">
+
                                 <TextView
                                     android:id="@+id/tv_demand_online_text"
                                     android:layout_width="wrap_content"
@@ -155,21 +173,23 @@
                                     android:layout_centerInParent="true"
                                     android:text="线上"
                                     android:textColor="#31C5E4"
-                                    android:textSize="15sp"/>
+                                    android:textSize="15sp" />
 
                                 <View
                                     android:id="@+id/v_demand_online_underline"
                                     android:layout_width="match_parent"
                                     android:layout_height="2dp"
                                     android:layout_alignParentBottom="true"
-                                    android:background="#31C5E4"/>
+                                    android:background="#31C5E4" />
 
                             </RelativeLayout>
+
                             <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
                                 android:layout_weight="1"
                                 android:onClick="@{publishDemandModeModel.tabOfflineDemand}">
+
                                 <TextView
                                     android:id="@+id/tv_demand_offline_text"
                                     android:layout_width="wrap_content"
@@ -177,14 +197,14 @@
                                     android:layout_centerInParent="true"
                                     android:text="线下"
                                     android:textColor="#666666"
-                                    android:textSize="15sp"/>
+                                    android:textSize="15sp" />
 
                                 <View
                                     android:id="@+id/v_demand_offline_underline"
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
                                     android:layout_alignParentBottom="true"
-                                    android:background="#E5E5E5"/>
+                                    android:background="#E5E5E5" />
 
                             </RelativeLayout>
 
@@ -202,27 +222,27 @@
                                 android:layout_marginLeft="17dp"
                                 android:layout_marginRight="17dp"
                                 android:layout_marginTop="10dp"
-                                android:visibility="visible"
-                            >
+                                android:visibility="visible">
+
                                 <com.amap.api.maps2d.MapView
                                     android:id="@+id/mapview_activity_publish_demand_mode"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-                                </com.amap.api.maps2d.MapView>
+                                    android:layout_height="match_parent"></com.amap.api.maps2d.MapView>
+
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="43dp"
                                     android:layout_alignParentBottom="true"
                                     android:background="#881FB9D9"
-                                    android:onClick="@{publishDemandModeModel.getDetailLocation}"
-                                >
+                                    android:onClick="@{publishDemandModeModel.getDetailLocation}">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerInParent="true"
                                         android:text="定位你的详细地址"
                                         android:textColor="#F2F2F2"
-                                        android:textSize="14dp"/>
+                                        android:textSize="14dp" />
 
                                     <ImageView
                                         android:layout_width="15dp"
@@ -230,8 +250,7 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="38dp"
-                                        android:src="@mipmap/vector_smart_object"
-                                    />
+                                        android:src="@mipmap/vector_smart_object" />
 
                                 </RelativeLayout>
 
@@ -253,7 +272,7 @@
                                     android:gravity="center"
                                     android:hint="地点补充描述"
                                     android:textColorHint="#999999"
-                                    android:textSize="15sp"/>
+                                    android:textSize="15sp" />
                             </RelativeLayout>
 
                             <View
@@ -262,8 +281,7 @@
                                 android:layout_marginLeft="17dp"
                                 android:layout_marginRight="17dp"
                                 android:layout_marginTop="11dp"
-                                android:background="#E5E5E5"
-                            />
+                                android:background="#E5E5E5" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -279,18 +297,21 @@
                                     android:layout_gravity="center_vertical"
                                     android:text="周边几公里"
                                     android:textColor="#000000"
-                                    android:textSize="15sp"
-                                />
-                                <View android:layout_width="0dp" android:layout_height="0dp"
-                                      android:layout_weight="1"/>
+                                    android:textSize="15sp" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:text="@{publishDemandModeModel.chooseAroundKilometersValue}"
                                     android:textColor="#999999"
-                                    android:textSize="15sp"
-                                />
+                                    android:textSize="15sp" />
+
                                 <ImageButton
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -298,7 +319,7 @@
                                     android:layout_marginLeft="10dp"
                                     android:background="@android:color/transparent"
                                     android:onClick="@{publishDemandModeModel.openAroundKilometersLayer}"
-                                    android:src="@mipmap/caidan_icon"/>
+                                    android:src="@mipmap/caidan_icon" />
 
                             </LinearLayout>
 
@@ -308,8 +329,7 @@
                                 android:layout_marginLeft="17dp"
                                 android:layout_marginRight="17dp"
                                 android:layout_marginTop="21dp"
-                                android:background="#E5E5E5"
-                            />
+                                android:background="#E5E5E5" />
 
                         </LinearLayout>
 
@@ -320,6 +340,7 @@
                             android:layout_marginRight="17dp"
                             android:layout_marginTop="14dp"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -331,7 +352,8 @@
                                 android:paddingTop="9dp"
                                 android:text="对方报价"
                                 android:textColor="#31C5E4"
-                                android:textSize="14dp"/>
+                                android:textSize="14dp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -343,16 +365,20 @@
                                 android:paddingTop="9dp"
                                 android:text="一口价"
                                 android:textColor="#FFFFFF"
-                                android:textSize="14dp"/>
-                            <View android:layout_width="0dp" android:layout_height="0dp"
-                                  android:layout_weight="1"/>
+                                android:textSize="14dp" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="0.00元"
                                 android:textColor="#999999"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
 
 
                         </LinearLayout>
@@ -363,14 +389,14 @@
                             android:layout_marginLeft="17dp"
                             android:layout_marginRight="17dp"
                             android:layout_marginTop="13dp"
-                            android:background="#E5E5E5"
-                        />
+                            android:background="#E5E5E5" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:visibility="@{publishDemandModeModel.demandOfflineItemVisibility}">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -385,11 +411,12 @@
                                     android:layout_gravity="center_vertical"
                                     android:text="线下消费:"
                                     android:textColor="#333333"
-                                    android:textSize="15sp"/>
+                                    android:textSize="15sp" />
+
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1"/>
+                                    android:layout_weight="1" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -397,13 +424,15 @@
                                     android:layout_gravity="center_vertical"
                                     android:onClick="@{publishDemandModeModel.checkOfflineCostTypeEmployer}"
                                     android:orientation="horizontal">
+
                                     <ImageButton
                                         android:id="@+id/ivbtn_offline_costtype_employer"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:background="@android:color/transparent"
-                                        android:src="@mipmap/btn_employer_treat"/>
+                                        android:src="@mipmap/btn_employer_treat" />
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -411,9 +440,9 @@
                                         android:layout_marginLeft="7dp"
                                         android:text="雇主请客"
                                         android:textColor="#999999"
-                                        android:textSize="13sp"
-                                    />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -421,13 +450,15 @@
                                     android:layout_marginLeft="19dp"
                                     android:onClick="@{publishDemandModeModel.checkOfflineCostTypeAA}"
                                     android:orientation="horizontal">
+
                                     <ImageButton
                                         android:id="@+id/ivbtn_offline_costtype_aa"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:background="@android:color/transparent"
-                                        android:src="@mipmap/ellipse_4"/>
+                                        android:src="@mipmap/ellipse_4" />
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -435,8 +466,7 @@
                                         android:layout_marginLeft="6dp"
                                         android:text="AA制"
                                         android:textColor="#999999"
-                                        android:textSize="13sp"
-                                    />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -447,8 +477,7 @@
                                 android:layout_marginLeft="17dp"
                                 android:layout_marginRight="17dp"
                                 android:layout_marginTop="20dp"
-                                android:background="#E5E5E5"
-                            />
+                                android:background="#E5E5E5" />
 
                         </LinearLayout>
 
@@ -459,8 +488,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_marginRight="18dp"
                             android:layout_marginTop="18dp"
-                            android:visibility="@{publishDemandModeModel.demandPayItemVisibility}"
-                        >
+                            android:visibility="@{publishDemandModeModel.demandPayItemVisibility}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -468,20 +496,22 @@
                                 android:layout_gravity="center_vertical"
                                 android:text="开启保险箱"
                                 android:textColor="#333333"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp" />
+
                             <RelativeLayout
                                 android:layout_width="32dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:onClick="@{publishDemandModeModel.toogleSafeBox}">
+
                                 <ImageView
                                     android:id="@+id/iv_demand_safebox_toggle_bg"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
-                                    android:src="@mipmap/background_safebox_toggle"/>
+                                    android:src="@mipmap/background_safebox_toggle" />
 
                                 <ImageView
                                     android:id="@+id/iv_demand_safebox_toggle_handle"
@@ -490,7 +520,7 @@
                                     android:layout_alignParentLeft="false"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
-                                    android:src="@mipmap/handle"/>
+                                    android:src="@mipmap/handle" />
                             </RelativeLayout>
 
                         </RelativeLayout>
@@ -513,24 +543,36 @@
                 android:layout_alignParentBottom="true"
                 android:background="#ffffff"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp" />
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="61dp"
-                            android:background="@drawable/shape_rectangle_gradient"/>
-                        <View android:layout_width="match_parent" android:layout_height="110dp"/>
-                        <View android:layout_width="match_parent" android:layout_height="2dp"
-                              android:background="#E5E5E5"/>
+                            android:background="@drawable/shape_rectangle_gradient" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#E5E5E5" />
 
                     </LinearLayout>
+
                     <com.slash.youth.ui.view.SlashNumberPicker
                         android:id="@+id/np_publish_demand_around_kilometers"
                         android:layout_width="match_parent"
@@ -551,8 +593,7 @@
                     android:onClick="@{publishDemandModeModel.okChooseAroundKilometers}"
                     android:text="确定"
                     android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                />
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </RelativeLayout>

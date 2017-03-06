@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="refundModel" type="com.slash.youth.ui.viewmodel.RefundModel"/>
+
+        <variable
+            name="refundModel"
+            type="com.slash.youth.ui.viewmodel.RefundModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_rectangle_gradient_publish_demand2"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_height="68dp"
+            android:background="#31C5E4"
+            android:paddingTop="25dp">
 
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="21dp"
-                android:layout_centerVertical="true"
-                android:onClick="@{refundModel.gotoBack}"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:src="@mipmap/nav_back"
-            />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="退款"
-                android:textColor="#ffffff"
-                android:textSize="17sp"/>
+                android:layout_marginTop="8dp">
 
-        </RelativeLayout>
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="21dp"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{refundModel.gotoBack}"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:src="@mipmap/nav_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="退款"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,6 +53,7 @@
             android:layout_weight="1"
             android:background="@drawable/comment_mark_bg"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/ll_refund_reason_late_to_address"
                 android:layout_width="wrap_content"
@@ -50,12 +62,13 @@
                 android:layout_marginTop="30dp"
                 android:onClick="@{refundModel.checkReason}"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/iv_refund_reason_late_to_address"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/moren"/>
+                    android:src="@mipmap/moren" />
 
                 <TextView
                     android:id="@+id/tv_refund_reason_late_to_address"
@@ -65,7 +78,7 @@
                     android:layout_marginLeft="28dp"
                     android:text="没有在规定时间到达约定地点"
                     android:textColor="#666666"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -77,12 +90,13 @@
                 android:layout_marginTop="22dp"
                 android:onClick="@{refundModel.checkReason}"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/iv_refund_reason_ability_low"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/moren"/>
+                    android:src="@mipmap/moren" />
 
                 <TextView
                     android:id="@+id/tv_refund_reason_ability_low"
@@ -92,7 +106,7 @@
                     android:layout_marginLeft="28dp"
                     android:text="能力水平与任务要求不符"
                     android:textColor="#666666"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -104,12 +118,13 @@
                 android:layout_marginTop="22dp"
                 android:onClick="@{refundModel.checkReason}"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/iv_refund_reason_attitude_bad"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/moren"/>
+                    android:src="@mipmap/moren" />
 
                 <TextView
                     android:id="@+id/tv_refund_reason_attitude_bad"
@@ -119,7 +134,7 @@
                     android:layout_marginLeft="28dp"
                     android:text="服务态度恶劣"
                     android:textColor="#666666"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -131,12 +146,13 @@
                 android:layout_marginTop="22dp"
                 android:onClick="@{refundModel.checkReason}"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/iv_refund_reason_canot_service"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/moren"/>
+                    android:src="@mipmap/moren" />
 
                 <TextView
                     android:id="@+id/tv_refund_reason_canot_service"
@@ -146,7 +162,7 @@
                     android:layout_marginLeft="28dp"
                     android:text="服务者临时有事不能提供服务"
                     android:textColor="#666666"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -158,12 +174,13 @@
                 android:layout_marginTop="22dp"
                 android:onClick="@{refundModel.checkReason}"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/iv_refund_reason_demand_change"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/moren"/>
+                    android:src="@mipmap/moren" />
 
                 <TextView
                     android:id="@+id/tv_refund_reason_demand_change"
@@ -173,7 +190,7 @@
                     android:layout_marginLeft="28dp"
                     android:text="需求变更"
                     android:textColor="#666666"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -190,8 +207,7 @@
                 android:hint="输入退款理由（申请退款后请及时与服务方 联系，提醒对方确认）)"
                 android:padding="10dp"
                 android:textColorHint="#CCCCCC"
-                android:textSize="15dp"
-            />
+                android:textSize="15dp" />
 
         </LinearLayout>
 
@@ -213,7 +229,7 @@
                 android:onClick="@{refundModel.refund}"
                 android:text="提交申请"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
         </FrameLayout>
 

@@ -1,61 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="71dp"
     android:background="#31C5E4"
-    android:orientation="horizontal"
-    android:paddingTop="25dp"
-    tools:showIn="@layout/activity_userinfo">
+    android:paddingTop="25dp">
 
     <RelativeLayout
-        android:id="@+id/iv_userinfo_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true">
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="#31C5E4"
+        android:orientation="horizontal">
 
-        <ImageView
+        <RelativeLayout
+            android:id="@+id/iv_userinfo_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/nav_back" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_userinfo_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@mipmap/nav_back" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_userinfo_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="个人信息"
-        android:textColor="#FFFFFF"
-        android:textSize="17sp" />
-
-
-    <FrameLayout
-        android:id="@+id/fl_title_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp">
-
-        <TextView
-            android:id="@+id/tv_userinfo_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="编辑"
+            android:text="个人信息"
             android:textColor="#FFFFFF"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
 
-        <ImageView
-            android:id="@+id/iv_userinfo_menu"
+
+        <FrameLayout
+            android:id="@+id/fl_title_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/menu_icon"
-            android:visibility="gone" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/tv_userinfo_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="编辑"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_userinfo_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/menu_icon"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+</FrameLayout>

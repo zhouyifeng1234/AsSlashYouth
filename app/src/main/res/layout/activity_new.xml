@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="newActivityModel"
-            type="com.slash.youth.ui.viewmodel.NewActivityModel"/>
+
+        <variable
+            name="newActivityModel"
+            type="com.slash.youth.ui.viewmodel.NewActivityModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
-    <com.slash.youth.ui.view.widge.SearchView
-           android:id="@+id/main_search_layout"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-          >
-       </com.slash.youth.ui.view.widge.SearchView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:background="#31C5E4"
+            android:paddingTop="25dp">
 
-    <ListView
-        android:visibility="gone"
-        android:id="@+id/main_lv_search_results"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.slash.youth.ui.view.widge.SearchView
+                android:id="@+id/main_search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.slash.youth.ui.view.widge.SearchView>
+        </FrameLayout>
 
-    </ListView>
+        <ListView
+            android:id="@+id/main_lv_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+        </ListView>
 
     </LinearLayout>
 

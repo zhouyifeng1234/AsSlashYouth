@@ -1,563 +1,610 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<data>
-    <variable name="userInfoHeardModel"
-        type="com.slash.youth.ui.viewmodel.UserInfoHeardModel"/>
-</data>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <!--信息和图片-->
-    <RelativeLayout
+    <data>
+
+        <variable
+            name="userInfoHeardModel"
+            type="com.slash.youth.ui.viewmodel.UserInfoHeardModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/shape_home_my_expert_marks_point">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!--信息和图片-->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_home_my_expert_marks_point"
             android:orientation="vertical">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#31C5E4">
-            </FrameLayout>
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                android:layout_marginTop="-43dp"
-                app:cardBackgroundColor="#ffffff"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="@dimen/cardElevation"
-                app:cardUseCompatPadding="true">
-                <LinearLayout
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="73dp"
+                    android:background="#31C5E4"
+                    android:paddingTop="25dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#31C5E4"></FrameLayout>
+                </FrameLayout>
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_rounded_my_news_center"
-                    android:orientation="vertical"
-                    android:paddingBottom="8dp">
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="-43dp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="@dimen/cardElevation"
+                    app:cardUseCompatPadding="true">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
-                        >
+                        android:background="@drawable/shape_rounded_my_news_center"
+                        android:orientation="vertical"
+                        android:paddingBottom="8dp">
 
-                        <ImageView
-                            android:id="@+id/iv_userinfo_usericon"
-                            android:layout_width="59dp"
-                            android:layout_height="59dp"
-                            android:layout_marginTop="2dp"
-                            android:src="@mipmap/assistant_icon" />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
-                            android:orientation="vertical">
-                            <LinearLayout android:layout_width="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_userinfo_usericon"
+                                android:layout_width="59dp"
+                                android:layout_height="59dp"
+                                android:layout_marginTop="2dp"
+                                android:src="@mipmap/assistant_icon" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                >
+                                android:layout_marginLeft="12dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_userinfo_username"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:text="李小四"
+                                        android:textColor="#333333"
+                                        android:textSize="15sp" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_userinfo_v"
+                                        android:layout_width="14dp"
+                                        android:layout_height="14dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="9dp"
+                                        android:src="@mipmap/v_icon_home_my"
+                                        android:visibility="gone" />
+
+                                    <TextView
+                                        android:id="@+id/tv_userinfo_identity"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="11dp"
+                                        android:background="@drawable/shape_search_item_bg"
+                                        android:paddingBottom="3dp"
+                                        android:paddingLeft="3dp"
+                                        android:paddingRight="3dp"
+                                        android:paddingTop="3dp"
+                                        android:text="专家4级"
+                                        android:textColor="#31C5E4"
+                                        android:textSize="12dp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_userinfo_Approval"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="9dp"
+                                        android:text="去认证"
+                                        android:textColor="#ef3e3e" />
+
+                                    <View
+                                        android:layout_width="0dp"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1" />
+
+                                    <ImageView
+                                        android:id="@+id/iv_userinfo_location"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginRight="5dp"
+                                        android:src="@mipmap/mark_icon1" />
+
+                                    <TextView
+                                        android:id="@+id/tv_place"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:gravity="center"
+                                        android:text="暂未填写"
+                                        android:textColor="#31C5E4"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
                                 <TextView
-                                    android:id="@+id/tv_userinfo_username"
+                                    android:id="@+id/tv_userInfo_company"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="李小四"
-                                    android:textColor="#333333"
-                                    android:textSize="15sp"/>
-
-                                <ImageView
-                                    android:id="@+id/iv_userinfo_v"
-                                    android:visibility="gone"
-                                    android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="9dp"
-                                    android:src="@mipmap/v_icon_home_my"/>
-                                <TextView
-                                    android:id="@+id/tv_userinfo_identity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:paddingLeft="3dp"
-                                    android:paddingRight="3dp"
-                                    android:paddingTop="3dp"
-                                    android:paddingBottom="3dp"
-                                    android:text="专家4级"
-                                    android:textColor="#31C5E4"
-                                    android:textSize="12dp"
-                                    android:layout_marginLeft="11dp"
-                                    android:background="@drawable/shape_search_item_bg"
-                                    />
+                                    android:layout_marginTop="5dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="暂未填写职务信息"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_userinfo_Approval"
+                                    android:id="@+id/tv_userInfo_tag"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="9dp"
-                                    android:textColor="#ef3e3e"
-                                    android:text="去认证"
-                                    />
-
-                                <View android:layout_width="0dp" android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    />
-
-                                <ImageView
-                                    android:id="@+id/iv_userinfo_location"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginRight="5dp"
-                                    android:src="@mipmap/mark_icon1"/>
-
-                                <TextView
-                                    android:id="@+id/tv_place"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center"
-                                    android:text="暂未填写"
-                                    android:textColor="#31C5E4"
-                                    android:textSize="12sp"/>
+                                    android:layout_marginTop="5dp"
+                                    android:text="IT互联网｜市场商务"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
                             </LinearLayout>
-                            <TextView
-                                android:layout_marginTop="5dp"
-                                android:id="@+id/tv_userInfo_company"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="暂未填写职务信息"
-                                android:textColor="#666666"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:id="@+id/tv_userInfo_tag"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:text="IT互联网｜市场商务"
-                                android:textColor="#666666"
-                                android:textSize="12sp"/>
+
                         </LinearLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp">
-                        <TextView
-                            android:id="@+id/tv_slash_identity"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
-                            android:textColor="#999999"
-                            android:text="斜杠身份: 互联网金融/UI设计师/系统架构师/摄影爱好者"/>
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_slash_identity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="斜杠身份: 互联网金融/UI设计师/系统架构师/摄影爱好者"
+                                android:textColor="#999999"
+                                android:textSize="12dp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-        <!--粉丝数-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="135dp"
-                android:orientation="horizontal"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/fans_icon"
-                    />
-                <TextView
-                    android:id="@+id/tv_user_info_fans_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="粉丝数125"
-                    android:textColor="#999999"
-                    android:textSize="12sp"/>
-                <View android:layout_width="0dp" android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/deal_icon"
-                    />
-                <TextView
-                    android:id="@+id/tv_user_info_achieve_task_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="顺利成交7单"
-                    android:textColor="#999999"
-                    android:textSize="12sp"/>
-                <View android:layout_width="0dp" android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/service_icon"
-                    />
-                <TextView
-                    android:id="@+id/tv_user_info_service_point"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="服务力4.2星"
-                    android:textColor="#999999"
-                    android:textSize="12sp"/>
+                </android.support.v7.widget.CardView>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal"
-                >
-                <FrameLayout
-                    android:layout_width="78dp"
-                    android:layout_height="match_parent">
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/shape_home_my_info_bg"/>
-                    <View
-                        android:layout_width="57dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/shape_home_my_info_fanscount_bg"/>
-                    <TextView
-                        android:id="@+id/tv_user_info_fansratio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="80%"
-                        android:textColor="#FFFFFF"
-                        android:textSize="8dp"/>
-                </FrameLayout>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <FrameLayout
-                    android:layout_width="78dp"
-                    android:layout_height="match_parent">
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/shape_home_my_info_bg"/>
-                    <View
-                        android:layout_width="57dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/shape_home_my_info_fanscount_bg"/>
-                    <TextView
-                        android:id="@+id/tv_Achieve_Task_Count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="7"
-                        android:textColor="#FFFFFF"
-                        android:textSize="8dp"/>
-                </FrameLayout>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <FrameLayout
-                    android:layout_width="78dp"
-                    android:layout_height="match_parent">
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/shape_home_my_info_bg"/>
-                    <View
-                        android:layout_width="68dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/shape_home_my_info_fanscount_bg"/>
-                    <TextView
-                        android:id="@+id/tv_Average_Service_Point"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="4.2"
-                        android:textColor="#FFFFFF"
-                        android:textSize="8dp"/>
-                </FrameLayout>
-            </LinearLayout>
-            <!--超过-->
+            <!--粉丝数-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="17dp"
-                android:layout_marginRight="7dp"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_fans_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="超过平台80%的用户"
-                    android:textColor="#CCCCCC"
-                    android:textSize="9sp"/>
-                <View android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/tv_totol_task_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="共10单任务"
-                    android:textColor="#CCCCCC"
-                    android:textSize="9sp"/>
-                <View android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/average_service_point"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="---平台平均服务力为4.5星"
-                    android:textColor="#CCCCCC"
-                    android:textSize="9sp"/>
-            </LinearLayout>
-            <!--空白-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="11dp"/>
-        </LinearLayout>
-    </RelativeLayout>
-    <!--技能描述-->
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        app:cardBackgroundColor="#ffffff"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="@dimen/cardElevation"
-        app:cardUseCompatPadding="true"
-        tools:showIn="@layout/activity_userinfo">
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!--技能描述-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/skill_icon"
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerVertical="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="36dp"
-                    android:textSize="15dp"
-                    android:textColor="#31C5E4"
-                    android:layout_centerVertical="true"
-                    android:text="技能描述" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_height="1px"
-                android:background="#999999"
-                android:layout_marginTop="15dp" />
-            <!--技能描述内容-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="请输入技能描述，50字内"
-                    android:textSize="13dp"
-                    android:textColor="#999999" />
-
-                <TextView
-                    android:id="@+id/tv_userinfo_skilldescribe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textSize="13dp"
-                    android:maxEms="50"
-                    android:lineSpacingExtra="4dp"
-                    android:textColor="#999999"
-                    android:ellipsize="end"
-                    android:text="例：从事UI设计行业5年，具有丰富的设计经验..." />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_height="1px"
-                android:background="#999999"
-                android:layout_marginTop="15dp" />
-            <!--行业方向-->
-            <RelativeLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-
-                <TextView
-                    android:id="@+id/tv_hangyefangxiang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="#333333"
-                    android:textSize="15dp"
-                    android:text="行业方向" />
-
-                <TextView
-                    android:id="@+id/tv_profession"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:textSize="13dp"
-                    android:textColor="#60A7B6"
-                    android:text="IT互联网|设计" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp">
-
-                <TextView
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15dp"
-                    android:textColor="#31c5e4"
-                    android:text="技能标签" />
-
-                <com.slash.youth.ui.view.WarpLinearLayout
-                    android:id="@+id/ll_skilllabel_container"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:grivate="left"
-                    android:layout_marginLeft="100dp"
-                    app:horizontal_Space="10dp"
-                    app:isFull="false"
-                    app:vertical_Space="10dp"
-                    >
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="135dp"
+                    android:orientation="horizontal">
 
-                </com.slash.youth.ui.view.WarpLinearLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/right1_icon"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp" />
-            </RelativeLayout>
-            <!--放多余的标签-->
-            <RelativeLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
-                    android:id="@+id/fl"
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true">
-
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="UI设计"
+                        android:src="@mipmap/fans_icon" />
+
+                    <TextView
+                        android:id="@+id/tv_user_info_fans_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="粉丝数125"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/deal_icon" />
+
+                    <TextView
+                        android:id="@+id/tv_user_info_achieve_task_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="顺利成交7单"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/service_icon" />
+
+                    <TextView
+                        android:id="@+id/tv_user_info_service_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="服务力4.2星"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="7dp"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="78dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_home_my_info_bg" />
+
+                        <View
+                            android:layout_width="57dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_home_my_info_fanscount_bg" />
+
+                        <TextView
+                            android:id="@+id/tv_user_info_fansratio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="80%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="8dp" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <FrameLayout
+                        android:layout_width="78dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_home_my_info_bg" />
+
+                        <View
+                            android:layout_width="57dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_home_my_info_fanscount_bg" />
+
+                        <TextView
+                            android:id="@+id/tv_Achieve_Task_Count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="7"
+                            android:textColor="#FFFFFF"
+                            android:textSize="8dp" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <FrameLayout
+                        android:layout_width="78dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_home_my_info_bg" />
+
+                        <View
+                            android:layout_width="68dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_home_my_info_fanscount_bg" />
+
+                        <TextView
+                            android:id="@+id/tv_Average_Service_Point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="4.2"
+                            android:textColor="#FFFFFF"
+                            android:textSize="8dp" />
+                    </FrameLayout>
+                </LinearLayout>
+                <!--超过-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="7dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_fans_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="超过平台80%的用户"
+                        android:textColor="#CCCCCC"
+                        android:textSize="9sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_totol_task_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="共10单任务"
+                        android:textColor="#CCCCCC"
+                        android:textSize="9sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/average_service_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="---平台平均服务力为4.5星"
+                        android:textColor="#CCCCCC"
+                        android:textSize="9sp" />
+                </LinearLayout>
+                <!--空白-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="11dp" />
+            </LinearLayout>
+        </RelativeLayout>
+        <!--技能描述-->
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--技能描述-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/skill_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="36dp"
+                        android:text="技能描述"
                         android:textColor="#31C5E4"
-                        android:textSize="13sp"
-                        android:background="@drawable/shape_search_item_bg" />
-                </FrameLayout>
-            </RelativeLayout>
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#999999" />
+                <!--技能描述内容-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="请输入技能描述，50字内"
+                        android:textColor="#999999"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/tv_userinfo_skilldescribe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="4dp"
+                        android:maxEms="50"
+                        android:text="例：从事UI设计行业5年，具有丰富的设计经验..."
+                        android:textColor="#999999"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#999999" />
+                <!--行业方向-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_hangyefangxiang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="行业方向"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_profession"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:text="IT互联网|设计"
+                        android:textColor="#60A7B6"
+                        android:textSize="13dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="技能标签"
+                        android:textColor="#31c5e4"
+                        android:textSize="15dp" />
+
+                    <com.slash.youth.ui.view.WarpLinearLayout
+                        android:id="@+id/ll_skilllabel_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="100dp"
+                        app:grivate="left"
+                        app:horizontal_Space="10dp"
+                        app:isFull="false"
+                        app:vertical_Space="10dp">
+
+                    </com.slash.youth.ui.view.WarpLinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/right1_icon" />
+                </RelativeLayout>
+                <!--放多余的标签-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone">
+
+                    <FrameLayout
+                        android:id="@+id/fl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/shape_search_item_bg"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="5dp"
+                            android:text="UI设计"
+                            android:textColor="#31C5E4"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <!--最新任务-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/recommend_demand" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
+                android:text="最新任务"
+                android:textColor="#999999"
+                android:textSize="12dp" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-    <!--最新任务-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/recommend_demand"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="最新任务"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="5dp"
-            android:textSize="12dp"
-            android:textColor="#999999"/>
     </LinearLayout>
-
-</LinearLayout>
 </layout>

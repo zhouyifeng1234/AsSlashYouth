@@ -1,95 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data>
-    <variable name="firstPagerDemandModel"
-        type="com.slash.youth.ui.viewmodel.FirstPagerDemandModel"/>
-</data>
-   <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:orientation="vertical">
+    <data>
 
-           <RelativeLayout
-               android:id="@+id/rl_bar"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:background="#31C5E4"
-               >
+        <variable
+            name="firstPagerDemandModel"
+            type="com.slash.youth.ui.viewmodel.FirstPagerDemandModel" />
+    </data>
 
-               <RelativeLayout
-                   android:onClick="@{firstPagerDemandModel.back}"
-                   android:id="@+id/iv_userinfo_back"
-                   android:layout_width="40dp"
-                   android:layout_height="46dp"
-                   android:layout_centerVertical="true">
-                   <ImageView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:src="@mipmap/nav_back"
-                       android:layout_centerInParent="true"
-                       />
-               </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-               <TextView
-                   android:id="@+id/tv_first_pager_title"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="更多需求"
-                   android:layout_gravity="center"
-                   android:textColor="#FFFFFF"
-                   android:layout_centerInParent="true"
-                   android:textSize="17sp" />
-           </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
 
-           <FrameLayout
-               android:layout_width="match_parent"
-               android:layout_height="match_parent">
+                <RelativeLayout
+                    android:id="@+id/rl_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#31C5E4">
 
-               <com.slash.youth.ui.view.DropDownMenu
-                   android:id="@+id/dropDownMenu"
-                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:background="#edf1f2"
-                   app:ddmenuTextSize="15sp"
-                   app:ddtextUnselectedColor="@color/drop_down_unselected"
-                   app:ddtextSelectedColor="@color/drop_down_selected"
-                   app:dddividerColor="@color/gray"
-                   app:ddunderlineColor="@color/gray"
-                   app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
-                   app:ddmaskColor="@color/mask_color"
-                   app:ddmenuBackgroundColor="@color/white"
-                   app:ddmenuUnselectedIcon="@mipmap/free_play">
+                    <RelativeLayout
+                        android:id="@+id/iv_userinfo_back"
+                        android:layout_width="40dp"
+                        android:layout_height="46dp"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{firstPagerDemandModel.back}">
 
-               </com.slash.youth.ui.view.DropDownMenu>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@mipmap/nav_back" />
+                    </RelativeLayout>
 
-           </FrameLayout>
+                    <TextView
+                        android:id="@+id/tv_first_pager_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:text="更多需求"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp" />
+                </RelativeLayout>
+            </FrameLayout>
 
 
-           <!--<ListView
-               android:id="@+id/lv_more"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:divider="#00000000"
-               android:scrollbars="none"
-               android:dividerHeight="0dip" >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-           </ListView>-->
-       </LinearLayout>
+                <com.slash.youth.ui.view.DropDownMenu xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/dropDownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#edf1f2"
+                    app:dddividerColor="@color/gray"
+                    app:ddmaskColor="@color/mask_color"
+                    app:ddmenuBackgroundColor="@color/white"
+                    app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
+                    app:ddmenuTextSize="15sp"
+                    app:ddmenuUnselectedIcon="@mipmap/free_play"
+                    app:ddtextSelectedColor="@color/drop_down_selected"
+                    app:ddtextUnselectedColor="@color/drop_down_unselected"
+                    app:ddunderlineColor="@color/gray">
 
-       <LinearLayout
-           android:onClick="@{firstPagerDemandModel.showMoreDemandDilog}"
-           android:visibility="@{firstPagerDemandModel.moreDemandDialogVisitibility}"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:background="@mipmap/more_demand_pager">
+                </com.slash.youth.ui.view.DropDownMenu>
 
-       </LinearLayout>
+            </FrameLayout>
 
-   </FrameLayout>
+
+            <!--<ListView
+                android:id="@+id/lv_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#00000000"
+                android:scrollbars="none"
+                android:dividerHeight="0dip" >
+
+            </ListView>-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/more_demand_pager"
+            android:onClick="@{firstPagerDemandModel.showMoreDemandDilog}"
+            android:visibility="@{firstPagerDemandModel.moreDemandDialogVisitibility}">
+
+        </LinearLayout>
+
+    </FrameLayout>
 </layout>

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="messageModel" type="com.slash.youth.ui.viewmodel.MessageModel"/>
+
+        <variable
+            name="messageModel"
+            type="com.slash.youth.ui.viewmodel.MessageModel" />
     </data>
 
     <LinearLayout
@@ -9,36 +13,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:background="#31C5E4">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="消息"
-                android:textColor="#FFFFFF"
-                android:textSize="17dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:onClick="@{messageModel.close}"
-                android:text="关闭"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"/>
-        </RelativeLayout>
+            android:layout_height="68dp"
+            android:background="#31C5E4"
+            android:paddingTop="25dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="#31C5E4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="消息"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:onClick="@{messageModel.close}"
+                    android:text="关闭"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+        </FrameLayout>
 
         <ListView
             android:id="@+id/lv_conversation_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="#e5e5e5"
-            android:dividerHeight="1dp"
-        >
+            android:dividerHeight="1dp">
 
         </ListView>
 

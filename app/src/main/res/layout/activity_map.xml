@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="activityMapModel" type="com.slash.youth.ui.viewmodel.ActivityMapModel"/>
+
+        <variable
+            name="activityMapModel"
+            type="com.slash.youth.ui.viewmodel.ActivityMapModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    >
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#31c5e4"
-                android:padding="11dp">
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:onClick="@{activityMapModel.goBack}"
-                    android:src="@mipmap/map_nav_back"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="定位"
-                    android:textColor="#ffffff"
-                    android:textSize="17sp"
-                />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:onClick="@{activityMapModel.okChooseLocation}"
-                    android:text="确定"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp"/>
+                android:layout_height="68dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#31c5e4"
+                    android:padding="11dp">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{activityMapModel.goBack}"
+                        android:src="@mipmap/map_nav_back" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="定位"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{activityMapModel.okChooseLocation}"
+                        android:text="确定"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,34 +74,37 @@
                     android:hint="查找公寓、住宅、小区、写字楼"
                     android:padding="5dp"
                     android:textColorHint="#999999"
-                    android:textSize="14.5sp"/>
+                    android:textSize="14.5sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="搜索"
-                    android:textSize="14.5sp"
-                />
+                    android:textSize="14.5sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
-                android:background="#e5e5e5"/>
+                android:background="#e5e5e5" />
 
-            <FrameLayout android:layout_width="match_parent"
-                         android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:visibility="@{activityMapModel.llMapInfoVisible}">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="308dp"
                         android:background="#999999">
+
                         <com.amap.api.maps2d.MapView
                             android:id="@+id/mapview_activity_map"
                             android:layout_width="match_parent"
@@ -106,7 +120,7 @@
                             android:layout_marginRight="11dp"
                             android:layout_marginTop="27dp"
                             android:background="@android:color/transparent"
-                            android:src="@mipmap/weizhi_icon"/>
+                            android:src="@mipmap/weizhi_icon" />
 
                     </RelativeLayout>
 
@@ -117,11 +131,13 @@
 
                     </ListView>
                 </LinearLayout>
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#e5e5e5"
                     android:visibility="@{activityMapModel.svSearchListVisible}">
+
                     <LinearLayout
                         android:id="@+id/ll_activity_map_searchlist"
                         android:layout_width="match_parent"
@@ -137,12 +153,12 @@
                             android:layout_marginTop="20dp"
                             android:text="苏州"
                             android:textColor="#333333"
-                            android:textSize="16.5sp"
-                        />
+                            android:textSize="16.5sp" />
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="0.2dp"
-                            android:background="#e5e5e5"/>
+                            android:background="#e5e5e5" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -152,12 +168,12 @@
                             android:layout_marginTop="20dp"
                             android:text="苏州"
                             android:textColor="#333333"
-                            android:textSize="16.5sp"
-                        />
+                            android:textSize="16.5sp" />
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="0.2dp"
-                            android:background="#e5e5e5"/>
+                            android:background="#e5e5e5" />
 
                     </LinearLayout>
                 </ScrollView>
@@ -171,8 +187,8 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{activityMapModel.delSearchHisLayerVisibility}"
-        >
+            android:visibility="@{activityMapModel.delSearchHisLayerVisibility}">
+
             <LinearLayout
                 android:layout_width="255dp"
                 android:layout_height="174dp"
@@ -188,8 +204,7 @@
                     android:text="提示"
                     android:textColor="#333333"
                     android:textSize="16.5sp"
-                    android:textStyle="bold"
-                />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -198,7 +213,7 @@
                     android:layout_marginTop="28dp"
                     android:text="确定要清除历史记录吗？"
                     android:textColor="#999999"
-                    android:textSize="15.5sp"/>
+                    android:textSize="15.5sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -213,16 +228,15 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:onClick="@{activityMapModel.cancelDelAll}"
-                        android:src="@mipmap/no_btn"
-                    />
+                        android:src="@mipmap/no_btn" />
+
                     <ImageButton
                         android:id="@+id/ib_ok"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:onClick="@{activityMapModel.okDelAll}"
-                        android:src="@mipmap/ok_btn"
-                    />
+                        android:src="@mipmap/ok_btn" />
                 </LinearLayout>
             </LinearLayout>
 

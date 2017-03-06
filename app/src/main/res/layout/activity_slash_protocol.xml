@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#31c5e4">
+        android:layout_height="68dp"
+        android:background="#31C5E4"
+        android:paddingTop="25dp">
 
-        <ImageView
-            android:id="@+id/iv_goback"
-            android:layout_width="19dp"
-            android:layout_height="34dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/nav_back"
-        />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="#31c5e4">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#31c5e4"
-            android:text="斜杠青年服务协议"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/iv_goback"
+                android:layout_width="19dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/nav_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#31c5e4"
+                android:text="斜杠青年服务协议"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
 
     </FrameLayout>
 
