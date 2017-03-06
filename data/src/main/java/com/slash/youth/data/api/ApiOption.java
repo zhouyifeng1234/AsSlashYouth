@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.google.common.base.Strings;
 import com.orhanobut.logger.Logger;
 import com.slash.youth.data.Global;
 import com.slash.youth.data.api.cookie.ClearableCookieJar;
@@ -114,7 +113,7 @@ public class ApiOption {
         }
 
         public ApiOption build() {
-            if (Strings.isNullOrEmpty(url)) {
+            if (url == null || url.length() == 0) {
                 throw new RuntimeException("url is null!");
             }
             retrofit = new Retrofit.Builder()
@@ -127,7 +126,7 @@ public class ApiOption {
         }
 
         public ApiOption buildForXml() {
-            if (Strings.isNullOrEmpty(url)) {
+            if (url == null || url.length() == 0) {
                 throw new RuntimeException("url is null!");
             }
             retrofit = new Retrofit.Builder()

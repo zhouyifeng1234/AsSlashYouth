@@ -1,5 +1,6 @@
 package com.slash.youth.ui.viewmodel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
@@ -31,6 +32,7 @@ import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.PhoneNumUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.image.ImageOptions;
@@ -59,6 +61,7 @@ public class PerfectInfoModel extends BaseObservable {
     public PerfectInfoModel(ActivityPerfectInfoBinding activityPerfectInfoBinding, Activity activity) {
         this.mActivityPerfectInfoBinding = activityPerfectInfoBinding;
         this.mActivity = activity;
+        permissions = new RxPermissions(activity);
         initData();
         initView();
     }
@@ -150,14 +153,18 @@ public class PerfectInfoModel extends BaseObservable {
 
     private static final float compressPicMaxWidth = CommonUtils.dip2px(100);
     private static final float compressPicMaxHeight = CommonUtils.dip2px(100);
+    RxPermissions permissions;
 
     public void openCamera(View v) {
-        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_PICTURE);
+        permissions.request(Manifest.permission.CAMERA)
+                .subscribe(agree -> {
+                    if (agree) {
+                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_CLICK_PICTURE);
 
 //        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        mActivity.startActivityForResult(intentCamera, 0);
 
-        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
+                        FunctionConfig functionConfig = new FunctionConfig.Builder().setMutiSelectMaxSize(1).setEnableCamera(true).build();
 
 //        GalleryFinal.openGalleryMuti(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
 //            @Override
@@ -171,97 +178,100 @@ public class PerfectInfoModel extends BaseObservable {
 //            }
 //        });
 
-        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
-            @Override
-            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                PhotoInfo photoInfo = resultList.get(0);
-                //LogKit.v("photoInfo.getPhotoPath()" + photoInfo.getPhotoPath());
-                //LogKit.v("photoInfo.getWidth()" + photoInfo.getWidth());
-                // LogKit.v("photoInfo.getHeight()" + photoInfo.getHeight());
-                FunctionConfig functionConfigCrop = new FunctionConfig.Builder().setCropSquare(true).build();
-                GalleryFinal.openCrop(21, functionConfigCrop, photoInfo.getPhotoPath(), new GalleryFinal.OnHanlderResultCallback() {
-                    @Override
-                    public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                        Bitmap bitmap = null;
-                        try {
-                            PhotoInfo photoInfo = resultList.get(0);
-                            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                            bitmapOptions.inJustDecodeBounds = true;
-                            BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
-                            int outWidth = bitmapOptions.outWidth;
-                            int outHeight = bitmapOptions.outHeight;
-                            LogKit.v("outWidth:" + outWidth);
-                            LogKit.v("outHeight:" + outHeight);
-                            if (outWidth <= 0 || outHeight <= 0) {
-                                ToastUtils.shortToast("请选择图片文件");
-                                return;
-                            }
-                            int scale = 1;
-                            int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
-                            int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
-                            if (widthScale > heightScale) {
-                                scale = widthScale;
-                            } else {
-                                scale = heightScale;
-                            }
-                            bitmapOptions.inJustDecodeBounds = false;
-                            bitmapOptions.inSampleSize = scale;
-                            bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                        GalleryFinal.openGallerySingle(20, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+                            @Override
+                            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                                PhotoInfo photoInfo = resultList.get(0);
+                                //LogKit.v("photoInfo.getPhotoPath()" + photoInfo.getPhotoPath());
+                                //LogKit.v("photoInfo.getWidth()" + photoInfo.getWidth());
+                                // LogKit.v("photoInfo.getHeight()" + photoInfo.getHeight());
+                                FunctionConfig functionConfigCrop = new FunctionConfig.Builder().setCropSquare(true).build();
+                                GalleryFinal.openCrop(21, functionConfigCrop, photoInfo.getPhotoPath(), new GalleryFinal.OnHanlderResultCallback() {
+                                    @Override
+                                    public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                                        Bitmap bitmap = null;
+                                        try {
+                                            PhotoInfo photoInfo = resultList.get(0);
+                                            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                                            bitmapOptions.inJustDecodeBounds = true;
+                                            BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
+                                            int outWidth = bitmapOptions.outWidth;
+                                            int outHeight = bitmapOptions.outHeight;
+                                            LogKit.v("outWidth:" + outWidth);
+                                            LogKit.v("outHeight:" + outHeight);
+                                            if (outWidth <= 0 || outHeight <= 0) {
+                                                ToastUtils.shortToast("请选择图片文件");
+                                                return;
+                                            }
+                                            int scale = 1;
+                                            int widthScale = (int) (outWidth / compressPicMaxWidth + 0.5f);
+                                            int heightScale = (int) (outHeight / compressPicMaxHeight + 0.5f);
+                                            if (widthScale > heightScale) {
+                                                scale = widthScale;
+                                            } else {
+                                                scale = heightScale;
+                                            }
+                                            bitmapOptions.inJustDecodeBounds = false;
+                                            bitmapOptions.inSampleSize = scale;
+                                            bitmap = BitmapFactory.decodeFile(photoInfo.getPhotoPath(), bitmapOptions);
 
-                            String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
-                            File cacheDir = new File(picCachePath);
-                            if (!cacheDir.exists()) {
-                                cacheDir.mkdir();
-                            }
-                            final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
-                            //调用上传图片接口获取fileId
-                            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
-                                @Override
-                                public void execute(UploadFileResultBean dataBean) {
-                                    setCameraIconVisibility(View.GONE);//隐藏头像中间的摄像机icon
-                                    String fileId = dataBean.data.fileId;
-                                    LogKit.v(fileId);
-                                    setUploadAvatarFileId(fileId);
-                                    setIsUploadAvatar(true);
-                                    //页面上显示头像，直接加载本地缓存的图片
-                                    ImageOptions.Builder builder = new ImageOptions.Builder();
-                                    ImageOptions imageOptions = builder.build();
-                                    builder.setCircular(true);
-                                    x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, tempFile.toURI().toString(), imageOptions);
-                                }
+                                            String picCachePath = mActivity.getCacheDir().getAbsoluteFile() + "/picache/";
+                                            File cacheDir = new File(picCachePath);
+                                            if (!cacheDir.exists()) {
+                                                cacheDir.mkdir();
+                                            }
+                                            final File tempFile = new File(picCachePath + System.currentTimeMillis() + ".jpeg");
+                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(tempFile));
+                                            //调用上传图片接口获取fileId
+                                            DemandEngine.uploadFile(new BaseProtocol.IResultExecutor<UploadFileResultBean>() {
+                                                @Override
+                                                public void execute(UploadFileResultBean dataBean) {
+                                                    setCameraIconVisibility(View.GONE);//隐藏头像中间的摄像机icon
+                                                    String fileId = dataBean.data.fileId;
+                                                    LogKit.v(fileId);
+                                                    setUploadAvatarFileId(fileId);
+                                                    setIsUploadAvatar(true);
+                                                    //页面上显示头像，直接加载本地缓存的图片
+                                                    ImageOptions.Builder builder = new ImageOptions.Builder();
+                                                    ImageOptions imageOptions = builder.build();
+                                                    builder.setCircular(true);
+                                                    x.image().bind(mActivityPerfectInfoBinding.ivUserAvatar, tempFile.toURI().toString(), imageOptions);
+                                                }
 
-                                @Override
-                                public void executeResultError(String result) {
-                                    LogKit.v("上传头像失败：" + result);
-                                    ToastUtils.shortToast("上传头像失败：" + result);
-                                }
-                            }, tempFile.getAbsolutePath());
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        } finally {
-                            if (bitmap != null) {
-                                bitmap.recycle();
-                                bitmap = null;
-                            }
-                        }
-                    }
+                                                @Override
+                                                public void executeResultError(String result) {
+                                                    LogKit.v("上传头像失败：" + result);
+                                                    ToastUtils.shortToast("上传头像失败：" + result);
+                                                }
+                                            }, tempFile.getAbsolutePath());
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                        } finally {
+                                            if (bitmap != null) {
+                                                bitmap.recycle();
+                                                bitmap = null;
+                                            }
+                                        }
+                                    }
 
-                    @Override
-                    public void onHanlderFailure(int requestCode, String errorMsg) {
-                        LogKit.v("---------------crop failure-----------------");
-                        LogKit.v("--------" + errorMsg + "----------------");
+                                    @Override
+                                    public void onHanlderFailure(int requestCode, String errorMsg) {
+                                        LogKit.v("---------------crop failure-----------------");
+                                        LogKit.v("--------" + errorMsg + "----------------");
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void onHanlderFailure(int requestCode, String errorMsg) {
+
+                            }
+                        });
                     }
                 });
 
-
-            }
-
-            @Override
-            public void onHanlderFailure(int requestCode, String errorMsg) {
-
-            }
-        });
     }
 
     String phonenum;

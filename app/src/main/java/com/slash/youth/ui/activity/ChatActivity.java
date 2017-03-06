@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
+import com.core.op.lib.utils.AndroidBug5497Workaround;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityChatBinding;
 import com.slash.youth.engine.MsgManager;
@@ -33,7 +34,17 @@ public class ChatActivity extends BaseActivity {
         ActivityChatBinding activityChatBinding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
         mChatModel = new ChatModel(activityChatBinding, this);
         activityChatBinding.setChatModel(mChatModel);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AndroidBug5497Workaround.assistActivity(this, getApplicationContext());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override

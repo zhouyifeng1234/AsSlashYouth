@@ -23,7 +23,7 @@ ext {
             zxing                : 'com.google.zxing:core:3.3.0',
 
 
-            eventbus             : 'de.greenrobot:eventbus:3.0.0-beta1',
+            eventbus             : 'org.greenrobot:eventbus:3.0.0',
             rxandroid            : 'io.reactivex:rxandroid:1.2.1',
             rxjava               : 'io.reactivex:rxjava:1.1.6',
             rxlifecycle          : 'com.trello:rxlifecycle-components:0.6.1',

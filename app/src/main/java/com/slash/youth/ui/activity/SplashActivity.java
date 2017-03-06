@@ -1,5 +1,6 @@
 package com.slash.youth.ui.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import com.slash.youth.utils.PackageUtil;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.TimeUtils;
 import com.slash.youth.utils.ToastUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
@@ -51,6 +53,7 @@ public class SplashActivity extends BaseActivity {
     private ProgressDialog mDialog;
     private DialogVersionUpdateBinding dialogVersionUpdateBinding;
     private AlertDialog dialogVersion;
+    RxPermissions permissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +66,17 @@ public class SplashActivity extends BaseActivity {
         ivSplash.setLayoutParams(ll);
         ivSplash.setImageResource(R.mipmap.splash);
         setContentView(ivSplash);
+        permissions = new RxPermissions(this);
+        permissions.request(Manifest.permission.ACCESS_FINE_LOCATION
+                , Manifest.permission.CAMERA,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    getCustomerServiceUid();
+                    login();
+                    checkVersion();
+                });
 
-        getCustomerServiceUid();
-        login();
-
-        checkVersion();
     }
 
     private void getCustomerServiceUid() {

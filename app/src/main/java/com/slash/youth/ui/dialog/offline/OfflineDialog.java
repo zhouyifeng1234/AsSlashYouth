@@ -14,7 +14,7 @@ public class OfflineDialog extends BaseDialog<OfflineViewModel, DialogOfflineBin
     public OfflineDialog(Activity activity, OfflineViewModel viewModel) {
         super(BDialog.newDialog(activity)
                 .setGravity(Gravity.CENTER)
-                .setMargin(30, 0, 30, 0)
+                .setMargin(100, 0, 100, 0)
                 .setCancelable(false), viewModel);
     }
 }

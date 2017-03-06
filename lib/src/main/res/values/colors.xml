@@ -28,13 +28,13 @@
     <color name="app.theme.background_20B955">#31C5E4</color>
     <color name="app.theme.background_1EB050">#31C5E4</color>
     <color name="app.theme.gradientColor">#507E9F</color>
-    <color name="app.theme.colorControlActivated">#7AFFFFFF</color>
-    <color name="app.theme.colorControlHighlight">#7AFFFFFF</color>
+    <color name="app.theme.colorControlActivated">#333333</color>
+    <color name="app.theme.colorControlHighlight">#333333</color>
 
     <color name="app.theme.colorPrimary">#31C5E4</color><!--toolbar背景顏色-->
     <color name="app.theme.colorPrimaryDark">#31C5E4</color><!--状态栏背景顏色-->
     <color name="app.theme.colorAccent">#31C5E4</color><!--字体顏色-->
-    <color name="app.theme.textColorPrimary">#ffffff</color><!--toolbar title字体顏色-->
+    <color name="app.theme.textColorPrimary">#333333</color><!--toolbar title字体顏色-->
     <color name="app.theme.textColorSecondary">#999999</color>
 
     <color name="app.theme.actionMode.statusBarColor">#31C5E4</color>

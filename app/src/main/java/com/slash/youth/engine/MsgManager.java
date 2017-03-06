@@ -52,8 +52,6 @@ import com.slash.youth.utils.LogKit;
 import com.slash.youth.utils.SpUtils;
 import com.slash.youth.utils.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;

@@ -35,7 +35,6 @@ dependencies {
     provided provides.annotation
     compile compiles.javaxInject
     compile compiles.rxandroid
-    compile compiles.guava
     compile compiles.retrofit
     compile compiles.okhttpLog
     compile compiles.logger
