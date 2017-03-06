@@ -7,8 +7,8 @@ android {
         applicationId "com.slash.youth"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+//        versionCode 1
+//        versionName "1.0"
         //开启分包
         multiDexEnabled true
     }

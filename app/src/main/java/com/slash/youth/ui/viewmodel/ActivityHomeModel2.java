@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -197,6 +198,11 @@ public class ActivityHomeModel2 extends BaseObservable {
             public void execute(UserInfoBean dataBean) {
                 LoginManager.currentLoginUserAvatar = dataBean.data.uinfo.avatar;
                 LoginManager.currentLoginUserName = dataBean.data.uinfo.name;
+                if (TextUtils.isEmpty(dataBean.data.uinfo.industry)) {
+                    LoginManager.currentLoginUserIndustry = "null";
+                } else {
+                    LoginManager.currentLoginUserIndustry = dataBean.data.uinfo.industry;
+                }
             }
 
             @Override
@@ -211,6 +217,11 @@ public class ActivityHomeModel2 extends BaseObservable {
             @Override
             public void execute(MyHomeInfoBean dataBean) {
                 LoginManager.currentLoginUserPhone = dataBean.data.myinfo.phone;
+                if (TextUtils.isEmpty(dataBean.data.myinfo.industry)) {
+                    LoginManager.currentLoginUserIndustry = "null";
+                } else {
+                    LoginManager.currentLoginUserIndustry = dataBean.data.myinfo.industry;
+                }
             }
 
             @Override
