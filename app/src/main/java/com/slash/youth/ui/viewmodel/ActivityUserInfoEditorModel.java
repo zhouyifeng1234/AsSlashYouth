@@ -132,9 +132,9 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             activityUserinfoEditorBinding.tvUserphone.setText(phone);
         }
         //所在地
-        if (province.equals(city) &&  !TextUtils.isEmpty(city)) {
+        if (province.equals(city) && !TextUtils.isEmpty(city)) {
             activityUserinfoEditorBinding.tvLocation.setText(city);
-        } else if(!province.equals(city)){
+        } else if (!province.equals(city)) {
             activityUserinfoEditorBinding.tvLocation.setText(province + "" + city);
         }
         //斜杠身份
@@ -186,7 +186,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
         textViewTag.setText(textTag);
         textViewTag.setTextColor(Color.parseColor("#31C5E4"));
         textViewTag.setTextSize(CommonUtils.dip2px(4));
-       // textViewTag.setTextSize(11);
+        // textViewTag.setTextSize(11);
         textViewTag.setPadding(CommonUtils.dip2px(8), CommonUtils.dip2px(6), CommonUtils.dip2px(8), CommonUtils.dip2px(6));
         textViewTag.setBackgroundColor(Color.parseColor("#d6f3fa"));
         return textViewTag;
@@ -416,6 +416,8 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
 
     private String uploadFail = "上传照片失败";
 
+    String avatarFileId;
+
     //上传图片
     public class onUploadFile implements BaseProtocol.IResultExecutor<UploadFileResultBean> {
         @Override
@@ -423,10 +425,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             int rescode = dataBean.rescode;
             if (rescode == 0) {
                 UploadFileResultBean.Data data = dataBean.data;
-                String fileId = data.fileId;
-                if (!TextUtils.isEmpty(fileId)) {
-                    uploadPhoto(fileId);
-                }
+                avatarFileId = data.fileId;
+//                if (!TextUtils.isEmpty(fileId)) {
+//                    uploadPhoto(fileId);
+//                }
             } else {
                 LogKit.d(uploadFail);
             }
@@ -568,6 +570,10 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
     }
 
     private void savePersonInfo() {
+        //保存头像
+        if (!TextUtils.isEmpty(avatarFileId)) {
+            uploadPhoto(avatarFileId);
+        }
         //保存姓名，技能描述，职业类型
         name = activityUserinfoEditorBinding.etUsername.getText().toString();
         skilldescrib = activityUserinfoEditorBinding.etSkilldescribe.getText().toString();
@@ -586,7 +592,7 @@ public class ActivityUserInfoEditorModel extends BaseObservable {
             paramsMap.put("province", province);
             paramsMap.put("city", city);
             SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION, paramsMap);
-        }else if(TextUtils.isEmpty(province)&&city!=null){
+        } else if (TextUtils.isEmpty(province) && city != null) {
             paramsMap.put("province", city);
             paramsMap.put("city", city);
             SetProtocol(GlobalConstants.HttpUrl.SET_LOCATION, paramsMap);
