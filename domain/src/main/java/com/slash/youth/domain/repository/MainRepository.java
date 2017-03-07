@@ -8,4 +8,6 @@ package com.slash.youth.domain.repository;
  */
 public interface MainRepository {
 
+
+
 }
