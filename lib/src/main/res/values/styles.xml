@@ -41,12 +41,11 @@
         </item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
-        <item name="android:textColor">@color/app.text.black333</item>
     </style>
 
     <!--<style name="activityAnim">-->
-        <!--<item name="android:activityOpenEnterAnimation">@anim/slide_in_top</item>-->
-        <!--<item name="android:activityOpenExitAnimation">@anim/slide_in_top</item>-->
+    <!--<item name="android:activityOpenEnterAnimation">@anim/slide_in_top</item>-->
+    <!--<item name="android:activityOpenExitAnimation">@anim/slide_in_top</item>-->
     <!--</style>-->
 
     <!--DrawerArrowStyle颜色为白色-->

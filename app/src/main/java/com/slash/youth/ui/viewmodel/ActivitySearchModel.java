@@ -214,18 +214,20 @@ public class ActivitySearchModel extends BaseObservable {
         public void execute(SearchAssociativeBean dataBean) {
             search_contentlist.clear();
             ArrayList<SearchAssociativeBean.TagBean> list = dataBean.data.list;
-            for (SearchAssociativeBean.TagBean tagBean : list) {
-                //遍历去重复
-                if (!search_contentlist.contains(tagBean.tag)) {
-                    search_contentlist.add(new ItemSearchBean(tagBean.tag, false));
+            if (list != null) {
+                for (SearchAssociativeBean.TagBean tagBean : list) {
+                    //遍历去重复
+                    if (!search_contentlist.contains(tagBean.tag)) {
+                        search_contentlist.add(new ItemSearchBean(tagBean.tag, false));
+                    }
                 }
+                if (list.size() == 0) {
+                    currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.GONE);
+                }
+                adapter = new SearchHistoryListAdapter(search_contentlist, searchHistoryEntityDao);
+                currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
+                onItemClick();
             }
-            if (list.size() == 0) {
-                currentActivity.searchListviewAssociationBinding.tvCleanAll.setVisibility(View.GONE);
-            }
-            adapter = new SearchHistoryListAdapter(search_contentlist, searchHistoryEntityDao);
-            currentActivity.searchListviewAssociationBinding.lvLvSearchcontent.setAdapter(adapter);
-            onItemClick();
         }
 
         @Override
