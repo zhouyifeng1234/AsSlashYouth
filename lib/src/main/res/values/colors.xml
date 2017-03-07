@@ -51,6 +51,7 @@
     <color name="app.text.black">@color/black</color>
     <color name="app.text.black6a6a6a">#6a6a6a</color>
     <color name="app.text.black9d9d9d">#9d9d9d</color>
+    <color name="app.text.black333">#ff333333</color>
     <color name="app.text.bg.yellow">#FEA501</color>
     <color name="app.text.bg.pink">#FD7071</color>
     <color name="app.text.bg.blue">#20C1FD</color>
@@ -114,4 +115,5 @@
         <item name="tab4">#6C4A42</item>
         <item name="tab5">#F63D2B</item>
     </array>
+
 </resources>

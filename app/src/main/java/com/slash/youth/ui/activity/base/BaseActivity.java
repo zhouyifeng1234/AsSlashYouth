@@ -1,9 +1,6 @@
 package com.slash.youth.ui.activity.base;
 
 
-import com.slash.youth.ui.dialog.offline.OfflineDialog;
-import com.slash.youth.ui.dialog.offline.OfflineViewModel;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
