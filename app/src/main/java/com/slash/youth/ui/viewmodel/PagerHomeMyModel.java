@@ -46,7 +46,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 
-
 /**
  * Created by zhouyifeng on 2016/10/11.
  */
@@ -417,8 +416,13 @@ public class PagerHomeMyModel extends BaseObservable {
                             e.printStackTrace();
                         }
                         if (isLoadDataFinished) {
-                            initScoreView();
-                            initExpertMarksProgress();
+                            CommonUtils.getHandler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initScoreView();
+                                    initExpertMarksProgress();
+                                }
+                            });
                             return;
                         }
                     }
