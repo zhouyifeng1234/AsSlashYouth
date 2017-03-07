@@ -23,7 +23,7 @@ import com.slash.youth.domain.executor.PostExecutionThread;
 import com.slash.youth.domain.executor.ThreadExecutor;
 import com.slash.youth.domain.repository.LoginRepository;
 import com.slash.youth.domain.repository.MainRepository;
-import com.slash.youth.v2.MainApplication;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.v2.di.modules.AppModule;
 
 import javax.inject.Singleton;
@@ -36,7 +36,7 @@ import dagger.Component;
 public interface AppComponent {
     void inject(Activity baseActivity);
 
-    MainApplication context();
+    SlashApplication context();
 
     ThreadExecutor threadExecutor();
 

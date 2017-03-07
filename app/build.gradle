@@ -16,8 +16,8 @@ android {
         applicationId ext.applicationId
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
-//        versionCode ext.versionCode
-//        versionName ext.versionName
+        versionCode ext.versionCode
+        versionName ext.versionName
         multiDexEnabled true
     }
     packagingOptions {

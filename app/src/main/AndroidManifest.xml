@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.slash.youth"
     android:versionCode="5"
-    android:versionName="v1.1">
-
-    <!-- 友盟统计权限 -->
+    android:versionName="v1.1"> <!-- 友盟统计权限 -->
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
@@ -127,153 +125,142 @@
     <permission
         android:name="com.slash.youth.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.slash.youth.permission.MIPUSH_RECEIVE" />
-    <!-- ⼩米 配置结束 < -->
 
+    <uses-permission android:name="com.slash.youth.permission.MIPUSH_RECEIVE" />
+
+    <!-- ⼩米 配置结束 < -->
     <application
         android:name=".global.SlashApplication"
         android:icon="@mipmap/slash_helper_square"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <!--android:allowBackup="true"-->
-        <!--android:supportsRtl="true"-->
 
-        <!--高德地图 APPID-->
+        <!-- android:allowBackup="true" -->
+        <!-- android:supportsRtl="true" -->
+
+
+        <!-- 高德地图 APPID -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="77a14ed1eb67c6b660c7cd7819d1dd1c" />
-        <!--<meta-data-->
-        <!--android:name="com.amap.api.v2.apikey"-->
-        <!--android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/>-->
-        <!--高德地图 APPID-->
+        <!-- <meta-data -->
+        <!-- android:name="com.amap.api.v2.apikey" -->
+        <!-- android:value="9d828f3bfb9e849a9d2e1ec39f80d6d0"/> -->
+        <!-- 高德地图 APPID -->
+
 
         <!-- 友盟appkey -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5815ad80f43e486e03002540"></meta-data>
+            android:value="5815ad80f43e486e03002540" />
         <!-- 友盟appkey -->
+
 
         <!-- 友盟渠道分析 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="debug" />
-        <!--<meta-data android:name="UMENG_CHANNEL" android:value="yingyongbao"/>-->
-        <!--<meta-data android:name="UMENG_CHANNEL" android:value="fuwuqi_pc"/>-->
-        <!--<meta-data android:name="UMENG_CHANNEL" android:value="fuwuqi_mobile"/>-->
+        <!-- <meta-data android:name="UMENG_CHANNEL" android:value="yingyongbao"/> -->
+        <!-- <meta-data android:name="UMENG_CHANNEL" android:value="fuwuqi_pc"/> -->
+        <!-- <meta-data android:name="UMENG_CHANNEL" android:value="fuwuqi_mobile"/> -->
         <!-- 友盟渠道分析 -->
 
         <activity
-            android:name="com.slash.youth.ui.activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:icon="@mipmap/slash_helper_square"
             android:label="斜杠青年"
             android:theme="@style/App.Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.slash.youth.ui.activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:label="登录页"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name="com.slash.youth.ui.activity.SlashProtocolActivity">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.activity.SlashProtocolActivity"></activity>
         <activity
-            android:name="com.slash.youth.ui.activity.HomeActivity"
+            android:name=".ui.activity.HomeActivity"
             android:label="首页"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.slash.youth.ui.activity.HomeActivity2"
+            android:name=".ui.activity.HomeActivity2"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".ui.activity.CityLocationActivity"></activity>
-        <activity android:name=".ui.activity.SubscribeActivity"></activity>
+        <activity android:name=".ui.activity.CityLocationActivity" />
+        <activity android:name=".ui.activity.SubscribeActivity" />
         <activity
             android:name=".ui.activity.PerfectInfoActivity"
             android:label="用户首次登录后完善信息页面"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.ChooseSkillActivity"
             android:label="登录后完善技能标签页面"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".ui.activity.MapActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name=".ui.activity.PublishDemandActivity"></activity>
-        <activity android:name=".ui.activity.SearchActivity"></activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.activity.PublishDemandActivity" />
+        <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.PublishServiceActivity" />
-        <activity android:name=".ui.activity.SecondTimePublishServiceActivity"></activity>
-        <activity android:name=".ui.activity.PublishServiceInfoActivity"></activity>
-        <activity android:name=".ui.activity.PublishServiceModeActivity"></activity>
+        <activity android:name=".ui.activity.SecondTimePublishServiceActivity" />
+        <activity android:name=".ui.activity.PublishServiceInfoActivity" />
+        <activity android:name=".ui.activity.PublishServiceModeActivity" />
         <activity
             android:name=".ui.activity.PublishDemandDescribeActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.PublishDemandModeActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.PublishDemandModeActivity" />
         <activity
             android:name=".ui.activity.PublishDemandBaseInfoActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.PublishDemandAddInfoActivity"
             android:label="Demand"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.PublishDemandSuccessActivity"
-            android:label="需求成功页"></activity>
+            android:label="需求成功页" />
         <activity
             android:name=".ui.activity.DemandDetailActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name=".ui.activity.DemandDetailLocationActivity"></activity>
-        <activity android:name=".ui.activity.MyTaskActivity"></activity>
-        <activity android:name=".ui.activity.DemandChooseServiceActivity"></activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.activity.DemandDetailLocationActivity" />
+        <activity android:name=".ui.activity.MyTaskActivity" />
+        <activity android:name=".ui.activity.DemandChooseServiceActivity" />
         <activity
             android:name=".ui.activity.MyBidDemandActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.MyPublishDemandActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.MyPublishDemandActivity" />
         <activity
             android:name=".ui.activity.PublishServiceBaseInfoActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.PublishServiceAddInfoActivity"
             android:label="Service"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.PublishServiceSucceddActivity"
-            android:label="服务成功页"></activity>
-        <activity android:name=".ui.activity.ServiceDetailActivity"></activity>
+            android:label="服务成功页" />
+        <activity android:name=".ui.activity.ServiceDetailActivity" />
         <activity
             android:name=".ui.activity.CommentActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.RefundActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.PaymentActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.PaymentActivity" />
         <activity
             android:name=".ui.activity.ChatActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".ui.activity.MyBidServiceActivity"></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.activity.MyBidServiceActivity" />
         <activity
             android:name=".ui.activity.MyPublishServiceActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name="com.slash.youth.ui.activity.GuidActivity">
-
-        </activity>
-        <activity android:name=".ui.activity.ServicePaymentActivity"></activity>
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.activity.GuidActivity"></activity>
+        <activity android:name=".ui.activity.ServicePaymentActivity" />
         <activity android:name=".ui.activity.UserInfoActivity" />
         <activity android:name=".ui.activity.UserinfoEditorActivity" />
         <activity android:name=".ui.activity.EditorIdentityActivity" />
@@ -300,11 +287,9 @@
         <activity android:name=".ui.activity.FirstPagerMoreActivity" />
         <activity android:name=".ui.activity.WebViewActivity" />
         <activity android:name=".ui.activity.VisitorsActivity" />
-
-        <activity android:name="com.slash.youth.ui.activity.PublishActivity"></activity>
-
-        <activity android:name="com.slash.youth.ui.activity.TagRecommendActivity" />
-        <activity android:name="com.slash.youth.ui.activity.MessageActivity" />
+        <activity android:name=".ui.activity.PublishActivity" />
+        <activity android:name=".ui.activity.TagRecommendActivity" />
+        <activity android:name=".ui.activity.MessageActivity" />
 
         <!-- 微信相关 -->
         <!-- <activity -->
@@ -348,11 +333,11 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false"></service>
+            android:exported="false" />
         <!-- 新浪微博相关 -->
 
 
@@ -393,37 +378,37 @@
         <!-- 服务端接口测试页面 -->
         <activity
             android:name=".ui.activity.test.TestActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 服务端接口测试页面 -->
 
 
         <!-- ScaleViewPager测试页面 -->
-        <activity android:name=".ui.activity.test.ScaleViewPagerTestActivity"></activity>
+        <activity android:name=".ui.activity.test.ScaleViewPagerTestActivity" />
         <!-- ScaleViewPager测试页面 -->
 
 
         <!-- RoundedImage 设置圆角图片 测试页面 -->
-        <activity android:name=".ui.activity.test.RoundedImageTestActivity"></activity>
+        <activity android:name=".ui.activity.test.RoundedImageTestActivity" />
         <!-- RoundedImage 设置圆角图片 测试页面 -->
 
 
         <!-- 矢量图测试页面 -->
-        <activity android:name=".ui.activity.test.VectorTestActivity"></activity>
+        <activity android:name=".ui.activity.test.VectorTestActivity" />
         <!-- 矢量图测试页面 -->
 
 
         <!-- 富文本测试 Activity -->
         <activity
             android:name=".ui.activity.test.RichTextTestActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 富文本测试 Activity -->
 
 
         <!-- 融云 -->
         <!-- imlib config begin -->
-        <!--<meta-data-->
-        <!--android:name="RONG_CLOUD_APP_KEY"-->
-        <!--android:value="4z3hlwrv33rqt"/>-->
+        <!-- <meta-data -->
+        <!-- android:name="RONG_CLOUD_APP_KEY" -->
+        <!-- android:value="4z3hlwrv33rqt"/> -->
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
@@ -433,7 +418,6 @@
             android:name="io.rong.imlib.ipc.RongService"
             android:exported="true"
             android:process=":ipc" />
-
         <service
             android:name="io.rong.imlib.ReConnectService"
             android:exported="true" />
@@ -445,28 +429,28 @@
             android:name="io.rong.imlib.HeartbeatReceiver"
             android:process=":ipc" />
 
-        <!--必选： SDK 核心功能-->
-        <!--第三方相关,向第三方推送服务请求 token 的服务 -->
+        <!-- 必选： SDK 核心功能 -->
+        <!-- 第三方相关,向第三方推送服务请求 token 的服务 -->
         <service
             android:name="io.rong.push.core.PushRegistrationService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- 处理 push 消息相关的服务 -->
         <service
             android:name="io.rong.push.core.MessageHandleService"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <!-- push服务 -->
         <service
             android:name="io.rong.push.PushService"
             android:exported="true"
-            android:process="io.rong.push">  <!-- push进程，可以改名 -->
+            android:process="io.rong.push"> <!-- push进程，可以改名 -->
         </service>
 
         <!-- push 相关事件接收器 -->
         <receiver
             android:name="io.rong.push.PushReceiver"
-            android:process="io.rong.push">   <!-- 此处进程可以改名，名称需要和PushService所在进程统一 -->
+            android:process="io.rong.push"> <!-- 此处进程可以改名，名称需要和PushService所在进程统一 -->
             <!-- 心跳事件 -->
             <intent-filter>
                 <action android:name="io.rong.push.intent.action.HEART_BEAT" />
@@ -485,9 +469,8 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-
         <receiver
-            android:name="com.slash.youth.ui.receiver.SealNotificationReceiver"
+            android:name=".ui.receiver.SealNotificationReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
@@ -508,19 +491,19 @@
         <service
             android:name="com.xiaomi.mipush.sdk.MessageHandleService"
             android:enabled="true" />
-
         <service
             android:name="com.xiaomi.push.service.XMJobService"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
+        <!-- 注：此service必须在3.0.1版本以后（包括3.0.1版本）加入 -->
 
         <receiver
             android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -545,11 +528,12 @@
             </intent-filter>
         </receiver>
         <!-- 小米 配置结束 < -->
-        <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
+        <!-- 注：此service必须在2.2.5版本以后（包括2.2.5版本）加入 -->
         <!-- imlib config end -->
         <!-- 融云 -->
 
-        <!--ping++支付 相关-->
+
+        <!-- ping++支付 相关 -->
         <!-- Ping++ SDK -->
         <activity
             android:name="com.pingplusplus.android.PaymentActivity"
@@ -568,14 +552,26 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
-        <!--ping++支付 相关-->
+            android:screenOrientation="behind" />
+        <!-- ping++支付 相关 -->
 
+        <activity
+            android:name="cn.finalteam.galleryfinal.PhotoSelectActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="cn.finalteam.galleryfinal.PhotoEditActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="cn.finalteam.galleryfinal.PhotoPreviewActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

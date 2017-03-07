@@ -1,79 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="myBidDemandModel" type="com.slash.youth.ui.viewmodel.MyBidDemandModel"/>
+
+        <variable
+            name="myBidDemandModel"
+            type="com.slash.youth.ui.viewmodel.MyBidDemandModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#31C5E4"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="68dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
 
-            >
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="21dp"
-                    android:layout_centerVertical="true"
-                    android:onClick="@{myBidDemandModel.goBack}"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:src="@mipmap/nav_back"
-                />
-
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="@{myBidDemandModel.demandTitle}"
-                    android:textColor="#ffffff"
-                    android:textSize="17sp"/>
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
 
-                <!--<LinearLayout-->
-                <!--android:layout_width="191dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:orientation="horizontal">-->
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:ellipsize="end"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="@{myBidDemandModel.demandTitle}"-->
-                <!--android:textColor="#ffffff"-->
-                <!--android:textSize="17sp"/>-->
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="订单"-->
-                <!--android:textColor="#ffffff"-->
-                <!--android:textSize="17sp"/>-->
-                <!--</LinearLayout>-->
+                    >
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="21dp"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{myBidDemandModel.goBack}"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:src="@mipmap/nav_back" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="@{myBidDemandModel.demandTitle}"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="191dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:orientation="horizontal">-->
+                    <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text="@{myBidDemandModel.demandTitle}"-->
+                    <!--android:textColor="#ffffff"-->
+                    <!--android:textSize="17sp"/>-->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="订单"-->
+                    <!--android:textColor="#ffffff"-->
+                    <!--android:textSize="17sp"/>-->
+                    <!--</LinearLayout>-->
+
+                </RelativeLayout>
+            </FrameLayout>
 
             <com.slash.youth.ui.view.RefreshScrollView
                 android:id="@+id/sc_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -88,8 +100,8 @@
                         app:cardBackgroundColor="#ffffff"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="5dp"
-                        app:cardUseCompatPadding="true"
-                    >
+                        app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -113,17 +125,19 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center_horizontal">
+
                                         <ImageView
                                             android:id="@+id/iv_demand_user_avatar"
                                             android:layout_width="39dp"
                                             android:layout_height="39dp"
-                                            android:src="@mipmap/assistant_icon"/>
+                                            android:src="@mipmap/assistant_icon" />
+
                                         <ImageView
                                             android:layout_width="9dp"
                                             android:layout_height="9dp"
                                             android:layout_gravity="right|bottom"
                                             android:src="@mipmap/small_v_icon"
-                                            android:visibility="@{myBidDemandModel.demandUserIsAuthVisibility}"/>
+                                            android:visibility="@{myBidDemandModel.demandUserIsAuthVisibility}" />
                                     </FrameLayout>
 
                                     <TextView
@@ -132,7 +146,7 @@
                                         android:layout_marginTop="6dp"
                                         android:text="@{myBidDemandModel.demandUsername}"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="11sp"/>
+                                        android:textSize="11sp" />
 
                                 </LinearLayout>
 
@@ -142,8 +156,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginRight="12dp"
                                     android:layout_marginTop="15dp"
-                                    android:src="@mipmap/relation_icon"
-                                />
+                                    android:src="@mipmap/relation_icon" />
 
                                 <LinearLayout
                                     android:id="@+id/ll_service_userinfo"
@@ -156,17 +169,19 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center_horizontal">
+
                                         <ImageView
                                             android:id="@+id/iv_service_user_avatar"
                                             android:layout_width="39dp"
                                             android:layout_height="39dp"
-                                            android:src="@mipmap/assistant_icon"/>
+                                            android:src="@mipmap/assistant_icon" />
+
                                         <ImageView
                                             android:layout_width="9dp"
                                             android:layout_height="9dp"
                                             android:layout_gravity="right|bottom"
                                             android:src="@mipmap/small_v_icon"
-                                            android:visibility="@{myBidDemandModel.serviceUserIsAuthVisibility}"/>
+                                            android:visibility="@{myBidDemandModel.serviceUserIsAuthVisibility}" />
                                     </FrameLayout>
 
                                     <TextView
@@ -175,7 +190,7 @@
                                         android:layout_marginTop="6dp"
                                         android:text="@{myBidDemandModel.serviceUsername}"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="11sp"/>
+                                        android:textSize="11sp" />
 
                                 </LinearLayout>
 
@@ -192,16 +207,14 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="8dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center_vertical"
                                     android:layout_marginLeft="10dp"
-                                    android:src="@mipmap/right1_icon"
-                                />
+                                    android:src="@mipmap/right1_icon" />
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -217,7 +230,7 @@
                                         android:text="@{myBidDemandModel.demandTitle}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"
-                                        android:textStyle="bold"/>
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -225,7 +238,7 @@
                                         android:layout_marginTop="14dp"
                                         android:text="@{myBidDemandModel.starttime}"
                                         android:textColor="#999999"
-                                        android:textSize="13sp"/>
+                                        android:textSize="13sp" />
                                     <!--开始时间:2016年9月18日 8:00-->
 
                                     <LinearLayout
@@ -234,13 +247,14 @@
                                         android:layout_marginBottom="15dp"
                                         android:layout_marginTop="14dp"
                                         android:orientation="horizontal">
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
                                             android:text="@{myBidDemandModel.quote}"
                                             android:textColor="#FF7333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                         <!--300元-->
                                         <TextView
                                             android:layout_width="26dp"
@@ -252,7 +266,8 @@
                                             android:text="分期"
                                             android:textColor="#31C5E4"
                                             android:textSize="11sp"
-                                            android:visibility="@{myBidDemandModel.instalmentVisibility}"/>
+                                            android:visibility="@{myBidDemandModel.instalmentVisibility}" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -261,7 +276,7 @@
                                             android:text="@{myBidDemandModel.instalmentRatio}"
                                             android:textColor="#999999"
                                             android:textSize="13sp"
-                                            android:visibility="@{myBidDemandModel.instalmentVisibility}"/>
+                                            android:visibility="@{myBidDemandModel.instalmentVisibility}" />
                                         <!--30%/40%/40%/50%-->
                                     </LinearLayout>
 
@@ -275,12 +290,14 @@
                                     android:layout_marginRight="10dp"
                                     android:orientation="vertical"
                                     android:visibility="@{myBidDemandModel.bpConsultVisibility}">
+
                                     <ImageView
                                         android:id="@+id/iv_bp_icon"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@mipmap/negotiation_icon"/>
+                                        android:src="@mipmap/negotiation_icon" />
+
                                     <TextView
                                         android:id="@+id/tv_bp_text"
                                         android:layout_width="wrap_content"
@@ -288,7 +305,7 @@
                                         android:layout_marginTop="5dp"
                                         android:text="协商处理纠纷"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="11sp"/>
+                                        android:textSize="11sp" />
 
                                 </LinearLayout>
 
@@ -310,12 +327,14 @@
                                     android:layout_marginLeft="24dp"
                                     android:onClick="@{myBidDemandModel.havaAChat}"
                                     android:orientation="horizontal">
+
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="18dp"
                                         android:layout_gravity="center_vertical"
 
-                                        android:src="@mipmap/information_icon_demand_chat"/>
+                                        android:src="@mipmap/information_icon_demand_chat" />
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -323,7 +342,7 @@
                                         android:layout_marginLeft="5dp"
                                         android:text="聊一聊"
                                         android:textColor="#31C5E4"
-                                        android:textSize="14sp"/>
+                                        android:textSize="14sp" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -346,7 +365,9 @@
                             android:background="@drawable/shape_rounded_bid_demand_flow_bg"
                             android:orientation="vertical">
 
-                            <View android:layout_width="0dp" android:layout_height="41dp"/>
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="41dp" />
 
                             <android.support.v7.widget.CardView
                                 android:layout_width="match_parent"
@@ -358,8 +379,7 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -372,11 +392,13 @@
                                         android:layout_marginLeft="15dp"
                                         android:layout_marginTop="11dp"
                                         android:orientation="horizontal">
+
                                         <ImageView
                                             android:layout_width="13dp"
                                             android:layout_height="13dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                            android:src="@mipmap/time_icon_bid_demand_flow" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -384,7 +406,7 @@
                                             android:layout_marginLeft="6dp"
                                             android:text="@{myBidDemandModel.taskUts}"
                                             android:textColor="#333333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                         <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
@@ -398,8 +420,7 @@
                                         <View
                                             android:layout_width="2dp"
                                             android:layout_height="79dp"
-                                            android:background="#E5E5E5"
-                                        />
+                                            android:background="#E5E5E5" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -413,13 +434,13 @@
                                                 android:layout_marginTop="11dp"
                                                 android:text="需求方已完成评价，在此查看"
                                                 android:textColor="#333333"
-                                                android:textSize="14sp"/>
+                                                android:textSize="14sp" />
 
                                             <View
                                                 android:layout_width="match_parent"
                                                 android:layout_height="1dp"
                                                 android:layout_marginTop="13dp"
-                                                android:background="#E5E5E5"/>
+                                                android:background="#E5E5E5" />
 
                                             <TextView
                                                 android:layout_width="wrap_content"
@@ -431,7 +452,7 @@
                                                 android:onClick="@{myBidDemandModel.viewComment}"
                                                 android:text="查看评价"
                                                 android:textColor="#31C6E4"
-                                                android:textSize="13sp"/>
+                                                android:textSize="13sp" />
 
                                         </LinearLayout>
 
@@ -451,8 +472,7 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -465,11 +485,13 @@
                                         android:layout_marginLeft="15dp"
                                         android:layout_marginTop="11dp"
                                         android:orientation="horizontal">
+
                                         <ImageView
                                             android:layout_width="13dp"
                                             android:layout_height="13dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                            android:src="@mipmap/time_icon_bid_demand_flow" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -477,7 +499,7 @@
                                             android:layout_marginLeft="6dp"
                                             android:text="@{myBidDemandModel.taskUts}"
                                             android:textColor="#333333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                         <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
@@ -491,8 +513,7 @@
                                         <View
                                             android:layout_width="2dp"
                                             android:layout_height="79dp"
-                                            android:background="#E5E5E5"
-                                        />
+                                            android:background="#E5E5E5" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -506,13 +527,13 @@
                                                 android:layout_marginTop="11dp"
                                                 android:text="请选择是否同意退款"
                                                 android:textColor="#333333"
-                                                android:textSize="14sp"/>
+                                                android:textSize="14sp" />
 
                                             <View
                                                 android:layout_width="match_parent"
                                                 android:layout_height="1dp"
                                                 android:layout_marginTop="13dp"
-                                                android:background="#E5E5E5"/>
+                                                android:background="#E5E5E5" />
 
                                             <LinearLayout
                                                 android:layout_width="wrap_content"
@@ -529,7 +550,7 @@
                                                     android:onClick="@{myBidDemandModel.complain}"
                                                     android:text="申诉"
                                                     android:textColor="#999999"
-                                                    android:textSize="13sp"/>
+                                                    android:textSize="13sp" />
 
                                                 <TextView
                                                     android:layout_width="wrap_content"
@@ -540,7 +561,7 @@
                                                     android:onClick="@{myBidDemandModel.agreeRefund}"
                                                     android:text="同意退款"
                                                     android:textColor="#31C6E4"
-                                                    android:textSize="13sp"/>
+                                                    android:textSize="13sp" />
 
                                             </LinearLayout>
 
@@ -562,8 +583,7 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -576,11 +596,13 @@
                                         android:layout_marginLeft="15dp"
                                         android:layout_marginTop="11dp"
                                         android:orientation="horizontal">
+
                                         <ImageView
                                             android:layout_width="13dp"
                                             android:layout_height="13dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                            android:src="@mipmap/time_icon_bid_demand_flow" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -588,7 +610,7 @@
                                             android:layout_marginLeft="6dp"
                                             android:text="@{myBidDemandModel.taskUts}"
                                             android:textColor="#333333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                         <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
@@ -602,8 +624,7 @@
                                         <View
                                             android:layout_width="2dp"
                                             android:layout_height="79dp"
-                                            android:background="#E5E5E5"
-                                        />
+                                            android:background="#E5E5E5" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -617,14 +638,14 @@
                                                 android:layout_marginTop="11dp"
                                                 android:text="请您尽快完成任务"
                                                 android:textColor="#333333"
-                                                android:textSize="14sp"/>
+                                                android:textSize="14sp" />
                                             <!--android:text="对方完成预支付，请开始任务"-->
 
                                             <View
                                                 android:layout_width="match_parent"
                                                 android:layout_height="1dp"
                                                 android:layout_marginTop="13dp"
-                                                android:background="#E5E5E5"/>
+                                                android:background="#E5E5E5" />
 
                                             <TextView
                                                 android:id="@+id/tv_complete_text"
@@ -637,7 +658,7 @@
                                                 android:onClick="@{myBidDemandModel.complete}"
                                                 android:text="完成"
                                                 android:textColor="#31C6E4"
-                                                android:textSize="13sp"/>
+                                                android:textSize="13sp" />
 
                                         </LinearLayout>
 
@@ -657,8 +678,7 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -671,11 +691,13 @@
                                         android:layout_marginLeft="15dp"
                                         android:layout_marginTop="11dp"
                                         android:orientation="horizontal">
+
                                         <ImageView
                                             android:layout_width="13dp"
                                             android:layout_height="13dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                            android:src="@mipmap/time_icon_bid_demand_flow" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -683,7 +705,7 @@
                                             android:layout_marginLeft="6dp"
                                             android:text="@{myBidDemandModel.taskUts}"
                                             android:textColor="#333333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                         <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
@@ -697,8 +719,7 @@
                                         <View
                                             android:layout_width="2dp"
                                             android:layout_height="79dp"
-                                            android:background="#E5E5E5"
-                                        />
+                                            android:background="#E5E5E5" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -712,13 +733,13 @@
                                                 android:layout_marginTop="11dp"
                                                 android:text="您可以修改抢单信息"
                                                 android:textColor="#333333"
-                                                android:textSize="14sp"/>
+                                                android:textSize="14sp" />
 
                                             <View
                                                 android:layout_width="match_parent"
                                                 android:layout_height="1dp"
                                                 android:layout_marginTop="13dp"
-                                                android:background="#E5E5E5"/>
+                                                android:background="#E5E5E5" />
 
                                             <LinearLayout
                                                 android:layout_width="wrap_content"
@@ -735,7 +756,7 @@
                                                     android:onClick="@{myBidDemandModel.updateBidDemandInfo}"
                                                     android:text="修改"
                                                     android:textColor="#999999"
-                                                    android:textSize="13sp"/>
+                                                    android:textSize="13sp" />
 
                                                 <!--<TextView-->
                                                 <!--android:layout_width="wrap_content"-->
@@ -768,8 +789,7 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -782,11 +802,13 @@
                                         android:layout_marginLeft="15dp"
                                         android:layout_marginTop="11dp"
                                         android:orientation="horizontal">
+
                                         <ImageView
                                             android:layout_width="13dp"
                                             android:layout_height="13dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                            android:src="@mipmap/time_icon_bid_demand_flow" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -794,7 +816,7 @@
                                             android:layout_marginLeft="6dp"
                                             android:text="@{myBidDemandModel.taskUts}"
                                             android:textColor="#333333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                         <!--android:text="2015年6月23 15:28"-->
                                     </LinearLayout>
 
@@ -808,8 +830,7 @@
                                         <View
                                             android:layout_width="2dp"
                                             android:layout_height="79dp"
-                                            android:background="#E5E5E5"
-                                        />
+                                            android:background="#E5E5E5" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -823,13 +844,13 @@
                                                 android:layout_marginTop="11dp"
                                                 android:text="对方选择与您合作，请进行确认，快者得"
                                                 android:textColor="#333333"
-                                                android:textSize="14sp"/>
+                                                android:textSize="14sp" />
 
                                             <View
                                                 android:layout_width="match_parent"
                                                 android:layout_height="1dp"
                                                 android:layout_marginTop="13dp"
-                                                android:background="#E5E5E5"/>
+                                                android:background="#E5E5E5" />
 
                                             <LinearLayout
                                                 android:layout_width="wrap_content"
@@ -846,7 +867,7 @@
                                                     android:onClick="@{myBidDemandModel.noAccept}"
                                                     android:text="不接受"
                                                     android:textColor="#999999"
-                                                    android:textSize="13sp"/>
+                                                    android:textSize="13sp" />
 
                                                 <TextView
                                                     android:layout_width="wrap_content"
@@ -857,7 +878,7 @@
                                                     android:onClick="@{myBidDemandModel.accept}"
                                                     android:text="接受"
                                                     android:textColor="#31C6E4"
-                                                    android:textSize="13sp"/>
+                                                    android:textSize="13sp" />
 
                                                 <!--<TextView-->
                                                 <!--android:layout_width="wrap_content"-->
@@ -901,8 +922,7 @@
                                 app:cardBackgroundColor="#ffffff"
                                 app:cardCornerRadius="4dp"
                                 app:cardElevation="5dp"
-                                app:cardUseCompatPadding="true"
-                            >
+                                app:cardUseCompatPadding="true">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -915,11 +935,13 @@
                                         android:layout_marginLeft="15dp"
                                         android:layout_marginTop="11dp"
                                         android:orientation="horizontal">
+
                                         <ImageView
                                             android:layout_width="13dp"
                                             android:layout_height="13dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_bid_demand_flow"/>
+                                            android:src="@mipmap/time_icon_bid_demand_flow" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -927,7 +949,7 @@
                                             android:layout_marginLeft="6dp"
                                             android:text="2015年6月23 15:28"
                                             android:textColor="#333333"
-                                            android:textSize="13sp"/>
+                                            android:textSize="13sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -940,8 +962,7 @@
                                         <View
                                             android:layout_width="2dp"
                                             android:layout_height="39dp"
-                                            android:background="#E5E5E5"
-                                        />
+                                            android:background="#E5E5E5" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -950,7 +971,7 @@
                                             android:layout_marginTop="11dp"
                                             android:text="您已抢单成功"
                                             android:textColor="#333333"
-                                            android:textSize="14sp"/>
+                                            android:textSize="14sp" />
 
                                     </LinearLayout>
 
@@ -970,8 +991,8 @@
                             app:cardBackgroundColor="#ffffff"
                             app:cardCornerRadius="5dp"
                             app:cardElevation="5dp"
-                            app:cardUseCompatPadding="true"
-                        >
+                            app:cardUseCompatPadding="true">
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -987,13 +1008,14 @@
                                     android:gravity="center"
                                     android:text="1"
                                     android:textColor="#31C5E4"
-                                    android:textSize="11sp"
-                                />
+                                    android:textSize="11sp" />
 
-                                <View android:layout_width="52dp" android:layout_height="2dp"
-                                      android:layout_gravity="center_vertical"
-                                      android:background="#E5E5E5"
-                                />
+                                <View
+                                    android:layout_width="52dp"
+                                    android:layout_height="2dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="#E5E5E5" />
+
                                 <TextView
                                     android:id="@+id/tv_demand_payment"
                                     android:layout_width="17dp"
@@ -1002,13 +1024,14 @@
                                     android:gravity="center"
                                     android:text="2"
                                     android:textColor="#CCCCCC"
-                                    android:textSize="11sp"
-                                />
+                                    android:textSize="11sp" />
 
-                                <View android:layout_width="52dp" android:layout_height="2dp"
-                                      android:layout_gravity="center_vertical"
-                                      android:background="#E5E5E5"
-                                />
+                                <View
+                                    android:layout_width="52dp"
+                                    android:layout_height="2dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="#E5E5E5" />
+
                                 <TextView
                                     android:id="@+id/tv_demand_serviceing"
                                     android:layout_width="17dp"
@@ -1017,13 +1040,14 @@
                                     android:gravity="center"
                                     android:text="3"
                                     android:textColor="#CCCCCC"
-                                    android:textSize="11sp"
-                                />
+                                    android:textSize="11sp" />
 
-                                <View android:layout_width="52dp" android:layout_height="2dp"
-                                      android:layout_gravity="center_vertical"
-                                      android:background="#E5E5E5"
-                                />
+                                <View
+                                    android:layout_width="52dp"
+                                    android:layout_height="2dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="#E5E5E5" />
+
                                 <TextView
                                     android:id="@+id/tv_demand_comment"
                                     android:layout_width="17dp"
@@ -1032,8 +1056,7 @@
                                     android:gravity="center"
                                     android:text="4"
                                     android:textColor="#CCCCCC"
-                                    android:textSize="11sp"
-                                />
+                                    android:textSize="11sp" />
 
 
                             </LinearLayout>
@@ -1045,13 +1068,13 @@
                                 android:layout_marginBottom="12dp"
                                 android:layout_marginTop="36dp"
                                 android:orientation="horizontal">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="协商"
                                     android:textColor="#666666"
-                                    android:textSize="12sp"
-                                />
+                                    android:textSize="12sp" />
                                 <!--android:text="预约"-->
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1059,24 +1082,23 @@
                                     android:layout_marginLeft="40dp"
                                     android:text="预支付"
                                     android:textColor="#666666"
-                                    android:textSize="12sp"
-                                />
+                                    android:textSize="12sp" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="34dp"
                                     android:text="服务中"
                                     android:textColor="#666666"
-                                    android:textSize="12sp"
-                                />
+                                    android:textSize="12sp" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="40dp"
                                     android:text="评价"
                                     android:textColor="#666666"
-                                    android:textSize="12sp"
-                                />
+                                    android:textSize="12sp" />
 
                             </LinearLayout>
 
@@ -1093,8 +1115,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#edf1f2"
-            android:visibility="@{myBidDemandModel.loadLayerVisibility}"
-        >
+            android:visibility="@{myBidDemandModel.loadLayerVisibility}">
 
 
             <LinearLayout
@@ -1103,11 +1124,13 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:orientation="horizontal">
+
                 <ProgressBar
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1115,7 +1138,7 @@
                     android:layout_marginLeft="9dp"
                     android:text="加载中..."
                     android:textColor="#999999"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp" />
             </LinearLayout>
 
         </FrameLayout>
@@ -1125,8 +1148,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{myBidDemandModel.updateBidInfoVisibility}"
-        >
+            android:visibility="@{myBidDemandModel.updateBidInfoVisibility}">
 
 
             <LinearLayout
@@ -1144,13 +1166,14 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="9dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="请确认或修改信息后选定需求方"
                         android:textColor="#999999"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
                     <!--android:text="请确认或修改信息后抢单"-->
 
                     <ImageView
@@ -1158,8 +1181,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical|right"
                         android:onClick="@{myBidDemandModel.closeBidDemandLayer}"
-                        android:src="@mipmap/close3_icon"
-                    />
+                        android:src="@mipmap/close3_icon" />
                 </FrameLayout>
 
                 <View
@@ -1168,8 +1190,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="9dp"
-                    android:background="#E5E5E5"
-                />
+                    android:background="#E5E5E5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1185,7 +1206,7 @@
                         android:layout_gravity="center_vertical"
                         android:text="报价"
                         android:textColor="#333333"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
                     <!--<View android:layout_width="0dp" android:layout_height="0dp"-->
                     <!--android:layout_weight="1"/>-->
@@ -1203,7 +1224,7 @@
                         android:paddingRight="11dp"
                         android:text=""
                         android:textColor="#CCCCCC"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
                     <!--android:layout_marginRight="11dp"-->
 
                     <TextView
@@ -1212,7 +1233,7 @@
                         android:layout_gravity="center_vertical"
                         android:text="元"
                         android:textColor="#333333"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
@@ -1222,8 +1243,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="20dp"
-                    android:background="#E5E5E5"
-                />
+                    android:background="#E5E5E5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1239,10 +1259,12 @@
                         android:layout_gravity="center_vertical"
                         android:text="任务时间"
                         android:textColor="#333333"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
 
                     <TextView
@@ -1253,13 +1275,13 @@
                         android:layout_marginRight="5dp"
                         android:text=""
                         android:textColor="#CCCCCC"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:onClick="@{myBidDemandModel.openTimeLayer}"
-                        android:src="@mipmap/towards_right_icon"/>
+                        android:src="@mipmap/towards_right_icon" />
 
                 </LinearLayout>
 
@@ -1269,8 +1291,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="17dp"
-                    android:background="#E5E5E5"
-                />
+                    android:background="#E5E5E5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1286,10 +1307,12 @@
                         android:layout_gravity="center_vertical"
                         android:text="纠纷处理"
                         android:textColor="#333333"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
 
                     <LinearLayout
@@ -1304,7 +1327,7 @@
                             android:layout_width="17dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/pitchon_btn"/>
+                            android:src="@mipmap/pitchon_btn" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1313,7 +1336,7 @@
                             android:layout_marginLeft="7dp"
                             android:text="平台方式"
                             android:textColor="#999999"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -1330,7 +1353,7 @@
                             android:layout_width="17dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/default_btn"/>
+                            android:src="@mipmap/default_btn" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1339,7 +1362,7 @@
                             android:layout_marginLeft="7dp"
                             android:text="协商方式"
                             android:textColor="#999999"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -1351,8 +1374,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="17dp"
-                    android:background="#E5E5E5"
-                />
+                    android:background="#E5E5E5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1368,10 +1390,12 @@
                         android:layout_gravity="center_vertical"
                         android:text="开启分期付"
                         android:textColor="#333333"
-                        android:textSize="13sp"/>
+                        android:textSize="13sp" />
 
-                    <View android:layout_width="0dp" android:layout_height="0dp"
-                          android:layout_weight="1"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
 
                     <RelativeLayout
@@ -1379,15 +1403,15 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
-                        android:onClick="@{myBidDemandModel.toggleInstalment}"
-                    >
+                        android:onClick="@{myBidDemandModel.toggleInstalment}">
+
                         <ImageView
                             android:id="@+id/iv_bid_demand_instalment_bg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/background_safebox_toggle"/>
+                            android:src="@mipmap/background_safebox_toggle" />
 
                         <ImageView
                             android:id="@+id/iv_bid_demand_instalment_handle"
@@ -1395,7 +1419,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/handle"/>
+                            android:src="@mipmap/handle" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -1405,6 +1429,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="@{myBidDemandModel.instalmentRatioVisibility}">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1412,8 +1437,7 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="14dp"
                         android:orientation="horizontal"
-                        android:visibility="@{myBidDemandModel.updateInstalmentLine1Visibility}"
-                    >
+                        android:visibility="@{myBidDemandModel.updateInstalmentLine1Visibility}">
 
 
                         <TextView
@@ -1422,7 +1446,7 @@
                             android:layout_gravity="center_vertical"
                             android:text="第一期"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/et_bid_demand_instalment_ratio_1"
@@ -1434,7 +1458,7 @@
                             android:gravity="center"
                             android:inputType="number"
                             android:textColor="#333333"
-                            android:textSize="10sp"/>
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1443,12 +1467,12 @@
                             android:layout_marginLeft="5dp"
                             android:text="%"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <TextView
                             android:id="@+id/tv_instalment_1_amount"
@@ -1457,7 +1481,7 @@
                             android:layout_gravity="center_vertical"
                             android:text=""
                             android:textColor="#999999"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
 
                     </LinearLayout>
@@ -1477,7 +1501,7 @@
                             android:layout_gravity="center_vertical"
                             android:text="第二期"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/et_bid_demand_instalment_ratio_2"
@@ -1489,7 +1513,7 @@
                             android:gravity="center"
                             android:inputType="number"
                             android:textColor="#333333"
-                            android:textSize="10sp"/>
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1498,12 +1522,12 @@
                             android:layout_marginLeft="5dp"
                             android:text="%"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <TextView
                             android:id="@+id/tv_instalment_2_amount"
@@ -1512,7 +1536,7 @@
                             android:layout_gravity="center_vertical"
                             android:text=""
                             android:textColor="#999999"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
 
                     </LinearLayout>
@@ -1532,7 +1556,7 @@
                             android:layout_gravity="center_vertical"
                             android:text="第三期"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/et_bid_demand_instalment_ratio_3"
@@ -1544,7 +1568,7 @@
                             android:gravity="center"
                             android:inputType="number"
                             android:textColor="#333333"
-                            android:textSize="10sp"/>
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1553,12 +1577,12 @@
                             android:layout_marginLeft="5dp"
                             android:text="%"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <TextView
                             android:id="@+id/tv_instalment_3_amount"
@@ -1567,7 +1591,7 @@
                             android:layout_gravity="center_vertical"
                             android:text=""
                             android:textColor="#999999"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
 
                     </LinearLayout>
@@ -1587,7 +1611,7 @@
                             android:layout_gravity="center_vertical"
                             android:text="第四期"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/et_bid_demand_instalment_ratio_4"
@@ -1599,7 +1623,7 @@
                             android:gravity="center"
                             android:inputType="number"
                             android:textColor="#333333"
-                            android:textSize="10sp"/>
+                            android:textSize="10sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1608,12 +1632,12 @@
                             android:layout_marginLeft="5dp"
                             android:text="%"
                             android:textColor="#333333"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <TextView
                             android:id="@+id/tv_instalment_4_amount"
@@ -1622,7 +1646,7 @@
                             android:layout_gravity="center_vertical"
                             android:text=""
                             android:textColor="#999999"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
 
                     </LinearLayout>
@@ -1641,14 +1665,14 @@
                             android:layout_height="21dp"
                             android:layout_marginRight="10dp"
                             android:onClick="@{myBidDemandModel.deleteInstalment}"
-                            android:src="@mipmap/jian_icon"/>
+                            android:src="@mipmap/jian_icon" />
 
                         <ImageView
                             android:layout_width="21dp"
                             android:layout_height="21dp"
                             android:onClick="@{myBidDemandModel.addInstalment}"
                             android:src="@mipmap/jia_icon"
-                            android:visibility="@{myBidDemandModel.addInstalmentIconVisibility}"/>
+                            android:visibility="@{myBidDemandModel.addInstalmentIconVisibility}" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -1660,8 +1684,8 @@
                 android:layout_height="48dp"
 
                 android:layout_gravity="bottom"
-                android:background="#ffffff"
-            >
+                android:background="#ffffff">
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1673,7 +1697,7 @@
                     android:onClick="@{myBidDemandModel.updateBidInfo}"
                     android:text="修改"
                     android:textColor="#ffffff"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
                 <!--android:text="抢单"-->
 
             </FrameLayout>
@@ -1685,8 +1709,7 @@
             android:layout_height="match_parent"
             android:background="#66000000"
             android:clickable="true"
-            android:visibility="@{myBidDemandModel.chooseDateTimeLayerVisibility}"
-        >
+            android:visibility="@{myBidDemandModel.chooseDateTimeLayerVisibility}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1698,6 +1721,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1705,8 +1729,8 @@
                         android:padding="12dp"
                         android:text="取消"
                         android:textColor="#999999"
-                        android:textSize="18dp"
-                    />
+                        android:textSize="18dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1715,13 +1739,14 @@
                         android:padding="12dp"
                         android:text="确定"
                         android:textColor="#999999"
-                        android:textSize="18dp"
-                    />
+                        android:textSize="18dp" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E5E5E5"/>
+                    android:background="#E5E5E5" />
+
                 <com.slash.youth.ui.view.SlashDateTimePicker
                     android:id="@+id/sdtp_bid_demand_choose_datetime"
                     android:layout_width="match_parent"
@@ -1729,8 +1754,7 @@
                     android:paddingBottom="36dp"
                     android:paddingLeft="27dp"
                     android:paddingRight="37dp"
-                    android:paddingTop="37dp"
-                >
+                    android:paddingTop="37dp">
 
                 </com.slash.youth.ui.view.SlashDateTimePicker>
             </LinearLayout>
