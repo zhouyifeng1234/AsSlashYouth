@@ -5,7 +5,7 @@ import android.databinding.ViewDataBinding;
 import com.core.op.lib.base.BAViewModel;
 import com.core.op.lib.base.BActivity;
 import com.slash.youth.BR;
-import com.slash.youth.v2.MainApplication;
+import com.slash.youth.global.SlashApplication;
 import com.slash.youth.v2.di.components.AppComponent;
 import com.slash.youth.v2.di.modules.ActivityModule;
 
@@ -30,7 +30,7 @@ public class BaseActivity<V extends BAViewModel, T extends ViewDataBinding> exte
     }
 
     protected AppComponent getApplicationComponent() {
-        return ((MainApplication) getApplication()).getAppComponent();
+        return ((SlashApplication) getApplication()).getAppComponent();
     }
 
     /**

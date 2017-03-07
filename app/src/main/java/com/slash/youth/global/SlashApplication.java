@@ -15,6 +15,8 @@ import android.support.multidex.MultiDex;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 import com.pingplusplus.android.PingppLog;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.gen.DaoMaster;
@@ -28,6 +30,9 @@ import com.slash.youth.utils.CommonUtils;
 import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.DistanceUtils;
 import com.slash.youth.utils.LogKit;
+import com.slash.youth.v2.di.components.AppComponent;
+import com.slash.youth.v2.di.components.DaggerAppComponent;
+import com.slash.youth.v2.di.modules.AppModule;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -77,9 +82,20 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
     public ArrayList<Activity> listActivities = new ArrayList<Activity>();
 
 
+    private AppComponent appComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Logger.init("YTP")                 // default PRETTYLOGGER or use just init()
+                .methodCount(3)                 // default 2
+                .hideThreadInfo()               // default shown
+                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
+                .methodOffset(2);
+
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+
 
         LogKit.v("Application onCreate:" + System.currentTimeMillis());
 
@@ -331,6 +347,11 @@ public class SlashApplication extends android.support.multidex.MultiDexApplicati
             }
         }
         return null;
+    }
+
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
     @Override
