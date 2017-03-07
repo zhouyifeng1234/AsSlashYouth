@@ -2,7 +2,9 @@ package com.slash.youth.v2.feature.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 
+import com.core.op.lib.di.HasComponent;
 import com.slash.youth.R;
 import com.slash.youth.v2.base.BaseActivity;
 import com.slash.youth.databinding.ActMainBinding;
@@ -17,7 +19,7 @@ import com.core.op.lib.utils.inject.RootView;
 import javax.inject.Inject;
 
 @RootView(R.layout.act_main)
-public final class MainActivity extends BaseActivity<MainViewModel, ActMainBinding> {
+public final class MainActivity extends BaseActivity<MainViewModel, ActMainBinding> implements HasComponent<MainComponent> {
 
     MainComponent component;
 
@@ -37,5 +39,10 @@ public final class MainActivity extends BaseActivity<MainViewModel, ActMainBindi
 
     @AfterViews
     void afterViews() {
+    }
+
+    @Override
+    public MainComponent getComponent() {
+        return component;
     }
 }

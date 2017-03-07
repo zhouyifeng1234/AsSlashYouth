@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/tab_icon_find"
+        android:title="@string/app.bottom.menu.find" />
+
+    <item
+        android:icon="@drawable/tab_icon_task"
+        android:title="@string/app.bottom.menu.task" />
+
+    <item
+        android:icon="@drawable/tab_icon_mine"
+        android:title="@string/app.bottom.menu.mine" />
+
+</menu>

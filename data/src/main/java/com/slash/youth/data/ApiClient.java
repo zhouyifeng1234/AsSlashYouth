@@ -1,9 +1,13 @@
 package com.slash.youth.data;
 
 import com.slash.youth.data.api.BaseResponse;
+import com.slash.youth.domain.bean.BannerConfigBean;
 import com.slash.youth.domain.bean.CustomerService;
+import com.slash.youth.domain.bean.HomeTagInfoBean;
 import com.slash.youth.domain.bean.LoginResult;
 
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -20,13 +24,17 @@ import rx.Observable;
 
 public interface ApiClient {
 
-    @FormUrlEncoded
     @POST(UriMethod.GET_CUSTOMER_SERVICE)
-    Observable<BaseResponse<CustomerService>> getCustomService(@Field("a") String field);
+    Observable<BaseResponse<CustomerService>> getCustomService(@Body RequestBody requestBody);
 
 
-    @FormUrlEncoded
     @POST(UriMethod.TOKEN_LOGIN)
-    Observable<BaseResponse<LoginResult>> login(@Field("a") String field);
+    Observable<BaseResponse<LoginResult>> login(@Body RequestBody requestBody);
+
+    @POST(UriMethod.GET_BANNER_CONFIG)
+    Observable<BannerConfigBean> getBanners(@Body RequestBody requestBody);
+
+    @POST(UriMethod.HOME_TAG_CONFIG)
+    Observable<HomeTagInfoBean> getTags(@Body RequestBody requestBody);
 }
 

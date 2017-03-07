@@ -3,6 +3,9 @@ package com.slash.youth.data.repository;
 
 import com.slash.youth.data.ApiClient;
 import com.slash.youth.data.api.transformer.ErrorTransformer;
+import com.slash.youth.data.util.RetrofitUtil;
+import com.slash.youth.domain.bean.BannerConfigBean;
+import com.slash.youth.domain.bean.HomeTagInfoBean;
 import com.slash.youth.domain.repository.MainRepository;
 
 import javax.inject.Inject;
@@ -27,4 +30,13 @@ public class MainRepositoryImp implements MainRepository {
         this.apiClient = apiClient;
     }
 
+    @Override
+    public Observable<BannerConfigBean> getBanners(String def) {
+        return apiClient.getBanners(RetrofitUtil.toRequestBody(def)).compose(new ErrorTransformer());
+    }
+
+    @Override
+    public Observable<HomeTagInfoBean> getTags(String def) {
+        return apiClient.getTags(RetrofitUtil.toRequestBody(def)).compose(new ErrorTransformer());
+    }
 }
