@@ -482,7 +482,10 @@ public class ActivityUserInfoModel extends BaseObservable {
 
         //等级
         expert = uinfo.getExpert();
-        activityUserinfoBinding.tvUserinfoIdentity.setText(grades[expert]);
+        if (expert < 1) {
+            expert = 1;
+        }
+        activityUserinfoBinding.tvUserinfoIdentity.setText(grades[expert - 1]);
 
         //城市  //省份
         city = uinfo.getCity();
