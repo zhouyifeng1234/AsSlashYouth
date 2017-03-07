@@ -180,8 +180,8 @@
             android:name=".ui.activity.LoginActivity"
             android:label="登录页"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.SlashProtocolActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.SlashProtocolActivity" />
         <activity
             android:name=".ui.activity.HomeActivity"
             android:label="首页"
@@ -196,14 +196,14 @@
         <activity
             android:name=".ui.activity.PerfectInfoActivity"
             android:label="用户首次登录后完善信息页面"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.ChooseSkillActivity"
             android:label="登录后完善技能标签页面"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.MapActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.activity.PublishDemandActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.PublishServiceActivity" />
@@ -226,7 +226,7 @@
             android:label="需求成功页" />
         <activity
             android:name=".ui.activity.DemandDetailActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.activity.DemandDetailLocationActivity" />
         <activity android:name=".ui.activity.MyTaskActivity" />
         <activity android:name=".ui.activity.DemandChooseServiceActivity" />
@@ -258,8 +258,8 @@
         <activity android:name=".ui.activity.MyBidServiceActivity" />
         <activity
             android:name=".ui.activity.MyPublishServiceActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".ui.activity.GuidActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.GuidActivity" />
         <activity android:name=".ui.activity.ServicePaymentActivity" />
         <activity android:name=".ui.activity.UserInfoActivity" />
         <activity android:name=".ui.activity.UserinfoEditorActivity" />
@@ -572,6 +572,7 @@
             android:name="cn.finalteam.galleryfinal.PhotoPreviewActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".Main"></activity>
     </application>
 
 </manifest>
