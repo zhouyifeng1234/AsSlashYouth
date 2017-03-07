@@ -44,13 +44,10 @@
         <item name="android:textColor">@color/app.text.black333</item>
     </style>
 
-    <style name="AppTheme.Activity" parent="NoActionBar">
-        <item name="android:statusBarColor" tools:targetApi="lollipop">
-            @color/app.theme.actionMode.statusBarColor
-        </item>
-
+    <style name="activityAnim">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_top</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_in_top</item>
     </style>
-
 
     <!--DrawerArrowStyle颜色为白色-->
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
