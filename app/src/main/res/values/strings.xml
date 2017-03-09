@@ -25,4 +25,12 @@
     <string name="pickerview_hours">时</string>
     <string name="pickerview_minutes">分</string>
     <string name="pickerview_seconds">秒</string>
+
+    <string name="dispute_handling"><Data><![CDATA[<p><strong>1、平台处理规则</strong></p><p><span style="color:#666666;">需求方满意后，资金付给需求方；否则，不付给</span></p>
+<p><span style="color:#666666;">需求方</span></p>
+<p><strong>2、协商处理规则</strong></p>
+<p><span style="color:#666666;">由交易双方协商处理的规则，详见“</span><span style="color:#666666;">帮助 -</span><span style="color:#666666;">常见</span><span style="color:#666666;">”</span></p>
+<p><span style="color:#666666;">问题。”</span>
+</p>]]></Data></string>
+
 </resources>

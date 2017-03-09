@@ -2,6 +2,7 @@ package com.slash.youth.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
@@ -44,6 +45,7 @@ public class DialogUtils {
         text3.setText(time);*/
         dialogBuilder.setView(view);
         dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         understand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +56,45 @@ public class DialogUtils {
         setDialog();
         dialog.show();
     }
+
+    public static void showDialogOne(Context context, final DialogCallUnderStandBack dialogCallUnderStandBack, Spanned text, String title) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        View view = View.inflate(context, R.layout.toast_layout, null);
+        LinearLayout llTextContent = (LinearLayout) view.findViewById(R.id.ll_text_content);
+        TextView tvTextContent = (TextView) view.findViewById(R.id.tv_text_content);
+        if (!TextUtils.isEmpty(text)) {
+            tvTextContent.setText(text);
+            llTextContent.setVisibility(View.GONE);
+            tvTextContent.setVisibility(View.VISIBLE);
+        } else {
+            llTextContent.setVisibility(View.VISIBLE);
+            tvTextContent.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(title)) {
+            TextView tvToastTitle = (TextView) view.findViewById(R.id.tv_toast_title);
+            tvToastTitle.setText(title);
+        }
+        ImageButton understand = (ImageButton) view.findViewById(R.id.ib_close);
+      /*  TextView text1 = (TextView) view.findViewById(R.id.tv_content);
+        TextView text2 = (TextView) view.findViewById(R.id.tv_time_title);
+        TextView text3 = (TextView) view.findViewById(R.id.tv_data);*/
+       /* text2.setText(title);
+        text1.setText(content);
+        text3.setText(time);*/
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        understand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCallUnderStandBack.OkDown();
+                dialog.dismiss();
+            }
+        });
+        setDialog();
+        dialog.show();
+    }
+
 
     public static void showDialogSecond(Context context, String title, String content, final DialogCallUnderStandBack dialogCallUnderStandBack) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
