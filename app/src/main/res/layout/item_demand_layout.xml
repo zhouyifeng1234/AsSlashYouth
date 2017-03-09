@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="ItemDemandModel"
-                  type="com.slash.youth.ui.viewmodel.ItemDemandModel"/>
+
+        <variable
+            name="ItemDemandModel"
+            type="com.slash.youth.ui.viewmodel.ItemDemandModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +25,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/radrec_icon"/>
+                android:src="@mipmap/radrec_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -30,7 +34,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="以下信息为模糊推荐"
                 android:textColor="#999999"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -60,18 +64,20 @@
                     <FrameLayout
                         android:layout_width="60dp"
                         android:layout_height="60dp">
+
                         <ImageView
                             android:id="@+id/iv_avater"
                             android:layout_width="58dp"
                             android:layout_height="58dp"
-                            android:src="@mipmap/default_avatar"/>
+                            android:src="@mipmap/default_avatar" />
+
                         <ImageView
                             android:id="@+id/iv_isAuth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|right"
                             android:src="@mipmap/tab_authentication"
-                            android:visibility="@{ItemDemandModel.isAuthVisivity}"/>
+                            android:visibility="@{ItemDemandModel.isAuthVisivity}" />
 
                     </FrameLayout>
 
@@ -82,7 +88,7 @@
                         android:gravity="center"
                         android:text="@{ItemDemandModel.name}"
                         android:textColor="#CCCCCC"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <!--主要信息-->
@@ -91,8 +97,7 @@
                     android:layout_height="82dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="14dp"
-                >
+                    android:layout_marginTop="14dp">
                     <!--标题-->
                     <TextView
                         android:id="@+id/tv_demand_title"
@@ -105,13 +110,14 @@
                         android:text="@{ItemDemandModel.title}"
                         android:textColor="#333333"
                         android:textSize="15sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                     <!--报价-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tv_quote"
                             android:layout_width="wrap_content"
@@ -119,27 +125,27 @@
                             android:layout_gravity="center_vertical"
                             android:text="@{ItemDemandModel.quote}"
                             android:textColor="#FF7333"
-                            android:textSize="13sp"/>
+                            android:textSize="13sp" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
 
                         <LinearLayout
                             android:id="@+id/ll_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
-                            android:orientation="horizontal"
-                        >
+                            android:orientation="horizontal">
+
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="center"
                                 android:src="@mipmap/time_icon"
-                                android:visibility="@{ItemDemandModel.timeVisibility}"
-                            />
+                                android:visibility="@{ItemDemandModel.timeVisibility}" />
+
                             <TextView
                                 android:id="@+id/tv_time"
                                 android:layout_width="wrap_content"
@@ -149,7 +155,7 @@
                                 android:gravity="center"
                                 android:text="@{ItemDemandModel.freeTime}"
                                 android:textColor="#666666"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 
@@ -172,7 +178,7 @@
                             android:paddingRight="2dp"
                             android:text="@{ItemDemandModel.pattern}"
                             android:textColor="#31C5E4"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_instalment"
@@ -187,7 +193,7 @@
                             android:text="@{ItemDemandModel.instalment}"
                             android:textColor="#31C5E4"
                             android:textSize="12sp"
-                            android:visibility="@{ItemDemandModel.instalmentVisibility}"/>
+                            android:visibility="@{ItemDemandModel.instalmentVisibility}" />
 
                     </LinearLayout>
 
@@ -199,7 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
-                android:background="#E6E6E6"/>
+                android:background="#E6E6E6" />
 
             <!--地址-->
             <LinearLayout
@@ -214,7 +220,7 @@
                     android:layout_height="13dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="11dp"
-                    android:src="@mipmap/mark_icon"/>
+                    android:src="@mipmap/mark_icon" />
 
                 <!--地点-->
                 <TextView
@@ -228,7 +234,7 @@
                     android:maxLines="1"
                     android:text="@{ItemDemandModel.place}"
                     android:textColor="#CCCCCC"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
                 <!--距离-->
                 <TextView
@@ -239,23 +245,25 @@
                     android:layout_marginLeft="8dp"
                     android:text="@{ItemDemandModel.distance}"
                     android:textColor="#CCCCCC"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
-                <View android:layout_width="0dp" android:layout_height="0dp"
-                      android:layout_weight="1"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                >
+                    android:visibility="gone">
+
                     <ImageView
                         android:layout_width="11dp"
                         android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/icon_sandglass"/>
+                        android:src="@mipmap/icon_sandglass" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -265,7 +273,7 @@
                         android:layout_marginRight="10dp"
                         android:text="47时30分内回复"
                         android:textColor="#CCCCCC"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

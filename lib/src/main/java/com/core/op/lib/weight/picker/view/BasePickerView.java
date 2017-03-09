@@ -56,6 +56,10 @@ public class BasePickerView {
         rootView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         ));
+
+        if (!builder.isBackgroud()) {
+            rootView.findViewById(R.id.outmost_container).setBackgroundColor(context.getResources().getColor(R.color.transparent));
+        }
         contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
         contentContainer.setLayoutParams(builder.getContentParams());
     }

@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
@@ -69,6 +70,8 @@ public class ApiOption {
      */
     public static final class Builder {
 
+        private static int DEFAULT_TIMEOUT = 10;
+
         protected Retrofit retrofit;
 
         protected OkHttpClient client;
@@ -91,8 +94,11 @@ public class ApiOption {
             ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(application));
             client = new OkHttpClient()
                     .newBuilder()
-                    .cookieJar(cookieJar)
-                    .sslSocketFactory(getSSLContext(application).getSocketFactory())
+                    .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+//                    .cookieJar(cookieJar)
+//                    .sslSocketFactory(getSSLContext(application).getSocketFactory())
                     .addInterceptor(new HeadInterceptor(application))
                     .addInterceptor(new CacheInterceptor(application))
                     .addInterceptor(logging)
@@ -207,14 +213,14 @@ public class ApiOption {
         public Response intercept(Chain chain) throws IOException {
             final Request.Builder builder = chain.request().newBuilder();
             long timeMillis = System.currentTimeMillis();
-            SharedPreferences preferences = application.getSharedPreferences("APP_PREFERENCE", Context.MODE_PRIVATE);
+            SharedPreferences preferences = application.getSharedPreferences("slash_sp.config", Context.MODE_PRIVATE);
             SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
             String date = sdf.format(new Date(timeMillis));
             builder.addHeader("Date", date);
             builder.addHeader("Authorization", AuthHeaderUtil.getBasicAuthHeader(chain.request().method(), chain.request().url().url().toString(), date).trim());
-            builder.addHeader("uid", preferences.getLong(Global.SERVER_TOKEN, 0l) + "");
+            builder.addHeader("uid", preferences.getLong(Global.UID, 0l) + "");
             builder.addHeader("pass", "1");
-            builder.addHeader("token", preferences.getLong(Global.USER_ID, 0l) + "");
+            builder.addHeader("token", preferences.getString(Global.TOKEN, ""));
             builder.addHeader("Content-Type", "application/json");
             Request request = builder.build();
             return chain.proceed(request);

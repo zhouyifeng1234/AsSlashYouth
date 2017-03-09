@@ -18,16 +18,19 @@ public class DemandServiceToggleView extends FrameLayout {
     public DemandServiceToggleView(Context context) {
         super(context);
         this.context = context;
+        initView(false);
     }
 
     public DemandServiceToggleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        initView(false);
     }
 
     public DemandServiceToggleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        initView(false);
     }
 
     public void initView(boolean isCheckedService) {

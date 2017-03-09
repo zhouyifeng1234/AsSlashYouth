@@ -10,17 +10,28 @@
             type="com.slash.youth.v2.feature.main.find.FindItemViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="184dp"
-        android:minHeight="184dp"
-        android:orientation="vertical">
+        android:layout_height="177dp">
 
-        <com.core.op.lib.weight.BannerView
-            android:id="@+id/banner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:itemView="@{viewModel.itemView}"
-            app:items="@{viewModel.viewModels}" />
-    </LinearLayout>
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@mipmap/gradual_change_bg" />-->
+
+        <!--<com.core.op.lib.weight.BannerView-->
+            <!--android:id="@+id/banner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="177dp"-->
+            <!--app:itemView="@{viewModel.bItemView}"-->
+            <!--app:items="@{viewModel.bViewModels}" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@mipmap/tool_topbg_home" />-->
+    </RelativeLayout>
 </layout>

@@ -10,9 +10,12 @@ import com.core.op.bindingadapter.bottomnavigation.ViewBindingAdapter;
 import com.core.op.lib.base.BAViewModel;
 import com.core.op.lib.command.ReplyCommand;
 import com.core.op.lib.di.PerActivity;
+import com.core.op.lib.messenger.Messenger;
 import com.slash.youth.R;
 import com.slash.youth.databinding.ActMainBinding;
 import com.slash.youth.v2.feature.main.find.FindFragment;
+import com.slash.youth.v2.feature.main.mine.MineFragment;
+import com.slash.youth.v2.feature.main.task.TaskFragment;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import static com.umeng.socialize.Config.dialog;
 
 @PerActivity
 public class MainViewModel extends BAViewModel<ActMainBinding> {
+    public static final String CHANG_POSITION = "CHANG_POSITION";
 
     public FragmentManager fragmentManager;
 
@@ -42,13 +46,16 @@ public class MainViewModel extends BAViewModel<ActMainBinding> {
     @Inject
     public MainViewModel(RxAppCompatActivity activity) {
         super(activity);
+        fragmentManager = activity.getSupportFragmentManager();
+        fragments.add(new FindFragment());
+        fragments.add(new TaskFragment());
+        fragments.add(new MineFragment());
     }
 
     @Override
     public void afterViews() {
-        fragmentManager = activity.getSupportFragmentManager();
-        fragments.add(new FindFragment());
-        fragments.add(new FindFragment());
-        fragments.add(new FindFragment());
+        Messenger.getDefault().register(this, CHANG_POSITION, () -> {
+            selectPosition.set(0);
+        });
     }
 }

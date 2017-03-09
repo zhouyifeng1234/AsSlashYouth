@@ -119,6 +119,10 @@ public class BannerView extends RelativeLayout {
         compositeSubscription.add(subscription);
     }
 
+    public void notifyViewPager() {
+        binding.viewpager.getAdapter().notifyDataSetChanged();
+    }
+
     /**
      * 图片停止轮播
      */

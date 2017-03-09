@@ -14,6 +14,8 @@ package com.core.op.bindingadapter.image;
 
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -51,6 +53,12 @@ public final class ViewBindingAdapter {
                             }
                         });
         }
+    }
+
+    @BindingAdapter(value = {"defaultSrc"}, requireAll = false)
+    public static void setImageSrc(ImageView imageView,
+                                   @DrawableRes int defaultSrc) {
+        imageView.setImageResource(defaultSrc);
     }
 //
 //

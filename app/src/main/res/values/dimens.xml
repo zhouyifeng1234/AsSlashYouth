@@ -25,6 +25,7 @@
     <dimen name="app.margin.small">4dp</dimen>
     <dimen name="app.margin.small5">5dp</dimen>
     <dimen name="app.margin.normal">8dp</dimen>
+    <dimen name="app.margin.large12">12dp</dimen>
     <dimen name="app.margin.large">16dp</dimen>
     <dimen name="app.margin.xlarge">24dp</dimen>
     <dimen name="app.margin.xxlarge">48dp</dimen>

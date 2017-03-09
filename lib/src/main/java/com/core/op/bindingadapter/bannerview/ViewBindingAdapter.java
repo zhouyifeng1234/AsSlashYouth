@@ -25,12 +25,12 @@ public final class ViewBindingAdapter {
             factory = BindingViewPagerAdapterFactory.BANNER;
         }
         BindingViewPagerAdapter<T> adapter = (BindingViewPagerAdapter<T>) bannerView.getViewPager().getAdapter();
-        if (adapter == null) {
+        if (adapter == null && items != null && items.size() != 0) {
             adapter = factory.create(bannerView.getViewPager(), arg);
             adapter.setItems(items);
             adapter.setPageTitles(pageTitles);
             bannerView.getViewPager().setAdapter(adapter);
-        } else {
+        } else if (items != null && items.size() != 0) {
             adapter.setItems(items);
             adapter.setPageTitles(pageTitles);
         }

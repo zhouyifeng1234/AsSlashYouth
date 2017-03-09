@@ -21,7 +21,7 @@ public abstract class BaseListViewModel<T extends BViewModel> extends BFViewMode
 
     public int currentPage = 0;
 
-    public final List<T> itemViewModel = new ArrayList<>();
+    public final List<T> itemViewModels = new ArrayList<>();
 
     public final ItemViewSelector<T> itemView = itemView();
 

@@ -9,7 +9,7 @@ package com.slash.youth.data;
 public class Global {
 
 
-    public static final String SERVER_TOKEN = "SERVER_TOKEN";
-    public static final String IM_TOKEN = "IM_TOKEN";
-    public static final String USER_ID = "USER_ID";
+    public static final String TOKEN = "token";
+    public static final String RONG_TOKEN = "rongToken";
+    public static final String UID = "uid";
 }

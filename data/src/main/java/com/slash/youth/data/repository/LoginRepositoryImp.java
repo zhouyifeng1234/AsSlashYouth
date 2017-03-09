@@ -4,6 +4,7 @@ package com.slash.youth.data.repository;
 import com.slash.youth.data.ApiClient;
 import com.slash.youth.data.api.subscriber.BaseSubscriber;
 import com.slash.youth.data.api.transformer.ErrorTransformer;
+import com.slash.youth.data.util.RetrofitUtil;
 import com.slash.youth.domain.bean.CustomerService;
 import com.slash.youth.domain.bean.LoginResult;
 import com.slash.youth.domain.repository.LoginRepository;
@@ -33,11 +34,11 @@ public class LoginRepositoryImp implements LoginRepository {
 
     @Override
     public Observable<CustomerService> getCustomService(String def) {
-        return apiClient.getCustomService(def).compose(new ErrorTransformer<>());
+        return apiClient.getCustomService(RetrofitUtil.toRequestBody(def)).compose(new ErrorTransformer<>());
     }
 
     @Override
     public Observable<LoginResult> login(String def) {
-        return apiClient.login(def).compose(new ErrorTransformer<>());
+        return apiClient.login(RetrofitUtil.toRequestBody(def)).compose(new ErrorTransformer<>());
     }
 }

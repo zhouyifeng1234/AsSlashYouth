@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.slash.youth.v2.feature.main.find.FindTagItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_bg_white_1111"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/app.margin.large12"
+        android:paddingTop="@dimen/app.margin.large12"
+        app:clickCommand="@{viewModel.click}">
+
+        <ImageView
+            android:layout_width="@dimen/app.image.height.normal"
+            android:layout_height="@dimen/app.image.height.normal"
+            app:uri="@{viewModel.tagInfo.icon}" />
+
+        <TextView
+            style="@style/App.Theme.TextAppearance.ww.small"
+            android:layout_marginTop="@dimen/app.margin.normal"
+            android:text="@{viewModel.tagInfo.name}"
+            android:textColor="@color/app.text.black"
+            android:textSize="@dimen/app.text.tiny" />
+
+    </LinearLayout>
+</layout>

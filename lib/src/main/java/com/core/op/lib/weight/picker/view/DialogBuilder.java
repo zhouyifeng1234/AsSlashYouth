@@ -29,6 +29,8 @@ public class DialogBuilder {
     private int gravity = Gravity.BOTTOM;
     private boolean isCancelable = true;
 
+    private boolean isBackgroud = true;
+
     private Context context;
 
     private int inAnimation = INVALID;
@@ -60,6 +62,15 @@ public class DialogBuilder {
 
     public boolean isCancelable() {
         return isCancelable;
+    }
+
+    public boolean isBackgroud() {
+        return isBackgroud;
+    }
+
+    public DialogBuilder setBackgroud(boolean backgroud) {
+        isBackgroud = backgroud;
+        return this;
     }
 
     /**

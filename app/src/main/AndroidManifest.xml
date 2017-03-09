@@ -191,6 +191,10 @@
             android:name=".ui.activity.HomeActivity2"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".v2.feature.main.MainActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.activity.CityLocationActivity" />
         <activity android:name=".ui.activity.SubscribeActivity" />
         <activity
@@ -572,8 +576,10 @@
             android:name="cn.finalteam.galleryfinal.PhotoPreviewActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".Main" />
-        <activity android:name=".view.impl.Find"></activity>
+        <activity android:name=".view.impl.Task" />
+        <activity android:name=".view.impl.Mine" />
+        <activity android:name=".PubTask" />
+        <activity android:name=".SelectTask"></activity>
     </application>
 
 </manifest>

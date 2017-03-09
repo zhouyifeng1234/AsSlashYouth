@@ -11,7 +11,8 @@ import com.core.op.lib.utils.inject.RootView;
 
 import javax.inject.Inject;
 
-public final class FindFragment extends BaseListFragment<FindViewModel> {
+@RootView(R.layout.frg_find)
+public final class FindFragment extends BaseFragment<FindViewModel, FrgFindBinding> {
 
     public static FindFragment instance() {
         return new FindFragment();
