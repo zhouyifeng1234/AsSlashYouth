@@ -373,7 +373,7 @@ public class ActivityUserInfoModel extends BaseObservable {
 //            fansratio = 1;
 //        }
 
-        activityUserinfoBinding.tvUserInfoFansCount.setText("粉丝数" + relationshipscount);
+        activityUserinfoBinding.tvUserInfoFansCount.setText("人脉数" + relationshipscount);
         activityUserinfoBinding.pbFans.setProgress((int) (fansratio * 100));
         //粉丝比率
         activityUserinfoBinding.tvUserInfoFansratio.setText((int) (fansratio * 100) + "%");

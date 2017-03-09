@@ -45,6 +45,7 @@ import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.PublishDemandBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishDemandSuccessActivity;
+import com.slash.youth.ui.activity.ReportTaskActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.SlashDateTimePicker;
 import com.slash.youth.ui.view.TouchImageView;
@@ -1564,6 +1565,29 @@ public class DemandDetailModel extends BaseObservable {
             }
         }, securityRulesContent, securityRulesTitle);
     }
+
+
+    /**
+     * 点击右上角3个点的，弹出举报按钮
+     *
+     * @param v
+     */
+    public void report(View v) {
+//        setReportBtnLayerVisibility(View.VISIBLE);
+    }
+
+    public void hideReportBtnLayer(View v) {
+//        setReportBtnLayerVisibility(View.GONE);
+    }
+
+    public void openReportActivity(View v) {
+//        setReportBtnLayerVisibility(View.GONE);
+        Intent intentReportTaskActivity = new Intent(CommonUtils.getContext(), ReportTaskActivity.class);
+        intentReportTaskActivity.putExtra("tid", demandId);
+        intentReportTaskActivity.putExtra("type", 1);
+        mActivity.startActivity(intentReportTaskActivity);
+    }
+
 
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
     private int bottomBtnDemandVisibility;//需求者视角的底部按钮是否显示隐藏
