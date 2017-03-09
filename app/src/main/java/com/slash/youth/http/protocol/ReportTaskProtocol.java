@@ -3,6 +3,7 @@ package com.slash.youth.http.protocol;
 import com.google.gson.Gson;
 import com.slash.youth.domain.CommonResultBean;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.utils.LogKit;
 
 import org.xutils.http.RequestParams;
 
@@ -36,6 +37,7 @@ public class ReportTaskProtocol extends BaseProtocol<CommonResultBean> {
         params.addBodyParameter("type", type);
         params.addBodyParameter("reason", reason);
         params.addBodyParameter("detail", detail);
+        LogKit.v("tid:" + tid + " type:" + type + " reason:" + reason + " detail:" + detail);
     }
 
     @Override

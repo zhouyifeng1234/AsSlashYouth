@@ -110,6 +110,7 @@ public class ReportTaskModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
+                ToastUtils.shortToast("举报失败");
                 LogKit.v("举报失败:" + result);
             }
         }, tid + "", type + "", currentCheckedReasonType + "", reportContent);

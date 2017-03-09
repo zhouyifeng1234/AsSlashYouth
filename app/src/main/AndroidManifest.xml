@@ -288,7 +288,11 @@
         <activity android:name=".ui.activity.PublishActivity"/>
         <activity android:name=".ui.activity.TagRecommendActivity"/>
         <activity android:name=".ui.activity.MessageActivity"/>
-        <activity android:name="com.slash.youth.ui.activity.ReportTaskActivity"/>
+        <activity
+            android:windowSoftInputMode="adjustPan"
+            android:name="com.slash.youth.ui.activity.ReportTaskActivity">
+
+        </activity>
 
         <!-- 微信相关 -->
         <!-- <activity -->

@@ -320,7 +320,6 @@ public class DemandDetailModel extends BaseObservable {
                 if (LoginManager.currentLoginUserId == demand.uid) {//需求者视角
                     setDemandRecommendLabelVisibility(View.GONE);
 
-                    setTopShareBtnVisibility(View.GONE);
                     setTopDemandBtnVisibility(View.VISIBLE);
 
                     int status = demand.status;
@@ -351,7 +350,6 @@ public class DemandDetailModel extends BaseObservable {
                 } else {//服务者视角
                     setDemandRecommendLabelVisibility(View.VISIBLE);
 
-                    setTopShareBtnVisibility(View.VISIBLE);
                     setTopDemandBtnVisibility(View.GONE);
                     setBottomBtnServiceVisibility(View.VISIBLE);
                     setBottomBtnDemandVisibility(View.GONE);
@@ -1573,15 +1571,15 @@ public class DemandDetailModel extends BaseObservable {
      * @param v
      */
     public void report(View v) {
-//        setReportBtnLayerVisibility(View.VISIBLE);
+        setReportBtnLayerVisibility(View.VISIBLE);
     }
 
     public void hideReportBtnLayer(View v) {
-//        setReportBtnLayerVisibility(View.GONE);
+        setReportBtnLayerVisibility(View.GONE);
     }
 
     public void openReportActivity(View v) {
-//        setReportBtnLayerVisibility(View.GONE);
+        setReportBtnLayerVisibility(View.GONE);
         Intent intentReportTaskActivity = new Intent(CommonUtils.getContext(), ReportTaskActivity.class);
         intentReportTaskActivity.putExtra("tid", demandId);
         intentReportTaskActivity.putExtra("type", 1);
@@ -1591,7 +1589,6 @@ public class DemandDetailModel extends BaseObservable {
 
     private int bottomBtnServiceVisibility;//服务者视角的底部按钮是否显示隐藏
     private int bottomBtnDemandVisibility;//需求者视角的底部按钮是否显示隐藏
-    private int topShareBtnVisibility;//服务者视角的顶部分享按钮是否可见
     private int topDemandBtnVisibility;//需求者视角的顶部修改和下架按钮是否可见
     private int offShelfLogoVisibility = View.GONE;//已经下架的需求需要显示下架Logo
 
@@ -1643,6 +1640,18 @@ public class DemandDetailModel extends BaseObservable {
 
     private int loadLayerVisibility = View.GONE;
     private int offShelfBtnVisibility;
+
+    private int reportBtnLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getReportBtnLayerVisibility() {
+        return reportBtnLayerVisibility;
+    }
+
+    public void setReportBtnLayerVisibility(int reportBtnLayerVisibility) {
+        this.reportBtnLayerVisibility = reportBtnLayerVisibility;
+        notifyPropertyChanged(BR.reportBtnLayerVisibility);
+    }
 
     @Bindable
     public int getOffShelfBtnVisibility() {
@@ -1983,16 +1992,6 @@ public class DemandDetailModel extends BaseObservable {
     public void setBottomBtnDemandVisibility(int bottomBtnDemandVisibility) {
         this.bottomBtnDemandVisibility = bottomBtnDemandVisibility;
         notifyPropertyChanged(BR.bottomBtnDemandVisibility);
-    }
-
-    @Bindable
-    public int getTopShareBtnVisibility() {
-        return topShareBtnVisibility;
-    }
-
-    public void setTopShareBtnVisibility(int topShareBtnVisibility) {
-        this.topShareBtnVisibility = topShareBtnVisibility;
-        notifyPropertyChanged(BR.topShareBtnVisibility);
     }
 
     @Bindable
