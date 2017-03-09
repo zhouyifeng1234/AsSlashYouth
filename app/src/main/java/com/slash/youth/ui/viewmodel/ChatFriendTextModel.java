@@ -4,15 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.SpannableString;
 import android.view.View;
 
 import com.slash.youth.BR;
+import com.slash.youth.R;
 import com.slash.youth.databinding.ItemChatFriendTextBinding;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
 import com.slash.youth.ui.activity.MyTaskActivity;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.TextUtil;
+
+import java.util.Arrays;
 
 /**
  * Created by zhouyifeng on 2016/11/16.
@@ -53,7 +58,7 @@ public class ChatFriendTextModel extends BaseObservable {
         }
     }
 
-    private String textContent;
+    private SpannableString textContent;
     private String extraInfo;
 
     @Bindable
@@ -67,12 +72,12 @@ public class ChatFriendTextModel extends BaseObservable {
     }
 
     @Bindable
-    public String getTextContent() {
+    public SpannableString getTextContent() {
         return textContent;
     }
 
     public void setTextContent(String textContent) {
-        this.textContent = textContent;
+        this.textContent = TextUtil.matcherSearchTitle(CommonUtils.getContext().getResources().getColor(R.color.app_text_bg_blue),textContent, Arrays.asList(CommonUtils.getContext().getResources().getStringArray(R.array.keyword)));
         notifyPropertyChanged(BR.textContent);
     }
 
