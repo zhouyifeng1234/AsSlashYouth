@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="keyword">
+        <item>请点击查看</item>
+        <item>到设置里更新</item>
+        <item>点击了解</item>
+        <item>去看看</item>
+        <item>点击此处查看</item>
+        <item>点击此处去加好友</item>
+    </string-array>
+</resources>

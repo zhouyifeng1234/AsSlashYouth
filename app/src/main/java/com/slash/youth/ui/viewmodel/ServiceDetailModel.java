@@ -7,6 +7,7 @@ import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -967,7 +968,7 @@ public class ServiceDetailModel extends BaseObservable {
             public void OkDown() {
                 LogKit.d("close viewBpExplain");
             }
-        }, bpContent, bpTitle);
+        }, Html.fromHtml(CommonUtils.getContext().getString(R.string.dispute_handling)), bpTitle);
     }
 
     private static final String securityRulesTitle = "斜杠青年顺利成交保障规则";

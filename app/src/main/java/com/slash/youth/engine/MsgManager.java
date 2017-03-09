@@ -631,6 +631,11 @@ public class MsgManager {
         }
     }
 
+    /**
+     * 弹出消息的逻辑
+     *
+     * @param pushInfoBean
+     */
     public static void displayPushInfo(PushInfoBean pushInfoBean) {
         Activity topActivity = ActivityUtils.currentActivity;
         ItemPushInfoBinding itemPushInfoBinding =
