@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="itemRecommendServicePartModel"
+                  type="com.slash.youth.ui.viewmodel.ItemRecommendServicePartModel"/>
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#ffffff"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:orientation="horizontal"
+        >
+
+            <ImageView
+                android:id="@+id/iv_service_user_avatar"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/assistant_icon"
+            />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical"
+            >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="@{itemRecommendServicePartModel.serviceUsername}"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="3dp"
+                        android:src="@mipmap/add_v"
+                        android:visibility="@{itemRecommendServicePartModel.authVisibility}"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="4dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{itemRecommendServicePartModel.companyAndPosition}"
+                        android:textColor="#999999"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                >
+                    <TextView
+                        android:layout_width="43dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_rounded_visitor_marker"
+                        android:gravity="center"
+                        android:text="专家4级"
+                        android:textColor="#30C1E2"
+                        android:textSize="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="13dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{itemRecommendServicePartModel.industryAndDirection}"
+                        android:textColor="#aaaaaa"
+                        android:textSize="12sp"
+                    />
+                    <!--IOS/安卓/系统架构师-->
+
+                    <ImageView
+                        android:id="@+id/iv_recommend_service_part_checked"
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="13dp"
+                        android:onClick="@{itemRecommendServicePartModel.checkRecommendServicePart}"
+                        android:src="@mipmap/default_btn"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="myAccountModel"
+                  type="com.slash.youth.ui.viewmodel.MyAccountModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:orientation="vertical">
+            <include layout="@layout/usertitlebar" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/bg_blue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/total_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:textSize="24dp"
+                        android:text="0.00元"
+                        android:layout_marginTop="35dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="账户总额（元）"/>
+
+                    <View
+                        android:background="#ffffff"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="17dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="horizontal">
+
+                        <!--可提现-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:textSize="14dp"
+                                android:textColor="#ffffff"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="可提现"/>
+                            <TextView
+                                android:id="@+id/current_money"
+                                android:textColor="#FFE083"
+                                android:text="0.00元"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                />
+
+                        </LinearLayout>
+
+                        <!--冻结-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:textSize="14dp"
+                                android:textColor="#ffffff"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="冻结"/>
+
+                            <TextView
+                                android:id="@+id/freeze_money"
+                                android:textColor="#FFE083"
+                                android:text="0.00元"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="match_parent"
+                                />
+
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:onClick="@{myAccountModel.hint}"
+                    android:layout_marginTop="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="60dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/question_icon_one"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="77dp"
+                android:orientation="horizontal"
+                android:background="@mipmap/rectangle1_line"
+                >
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:textSize="17dp"
+                        android:drawableLeft="@mipmap/income_icon"
+                        android:text="累计收入"/>
+
+                    <TextView
+                        android:id="@+id/totalincome"
+                        android:layout_marginTop="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00元"
+                        android:textSize="17dp"
+                        />
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:drawableLeft="@mipmap/expenditure_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:textSize="17dp"
+                        android:text="累计支出"/>
+
+                    <TextView
+                        android:id="@+id/totaloutlay"
+                        android:layout_marginTop="14dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:text="0.00元"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--提现-->
+            <LinearLayout
+                android:onClick="@{myAccountModel.withdrawals}"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:background="@mipmap/rectangle2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/withdraw_cash_icon"/>
+
+                    <TextView
+                        android:layout_marginLeft="9dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="提现"/>
+
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_withdrawals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:textSize="13dp"
+                        android:text="0.00元"
+                        android:textColor="#31C5E4"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/right1_icon"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <!--弹框-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:visibility="@{myAccountModel.hintVisibility}"
+            >
+
+            <LinearLayout
+                android:layout_width="322dp"
+                android:layout_height="400dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_show_toast_bg"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="61dp"
+                    android:background="@mipmap/bg_3">
+                    <TextView
+                        android:id="@+id/tv_toast_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="冻结资金说明"
+                        android:textColor="#ffffff"
+                        android:textSize="21dp"
+                        />
+                    <ImageButton
+                        android:id="@+id/ib_close"
+                        android:onClick="@{myAccountModel.closeHintVisibility}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:background="@mipmap/close_icon_01"/>
+
+                </RelativeLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="26dp"
+                        android:layout_marginTop="19dp"
+                        >
+                        <LinearLayout
+                            android:id="@+id/ll_text_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="有两种原因可能导致您的资金暂时处于冻结状态："
+                                android:textColor="#333333"
+                                android:textSize="15dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="第一种是分期到账：为了保障需求方权益，需求方预支付的全部资金将被托管在平台。在需求方满意服务方提交的某阶段的服务时，该阶段的资金将被划转给服务方。此时，该资金处于冻结状态，所有阶段的服务均被需求方认可后，划转给服务方的资金才取消冻结，可用于提现或支付。"
+                                android:textColor="#333333"
+                                android:textSize="15dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:layout_marginTop="10dp"
+                                android:text="第二种是提现后的转账状态：当您提现后，财务人员根据您的提现申请进行转账操作，期间由于支付宝、微信等支付规定导致的提现和到账间的时间差，在该时间差内，资金处于冻结状态。"
+                                android:textColor="#333333"
+                                android:textSize="15dp"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_text_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333333"
+                            android:textSize="15dp"/>
+
+                    </FrameLayout>
+                </ScrollView>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+</layout>

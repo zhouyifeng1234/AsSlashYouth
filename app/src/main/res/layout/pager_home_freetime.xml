@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="pagerHomeFreeTimeModel"
+            type="com.slash.youth.ui.viewmodel.PagerHomeFreeTimeModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#edf1f2">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2">
+
+            <!--标题头-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="#31C5E4"
+                android:visibility="gone">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_home_freetime_demand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{pagerHomeFreeTimeModel.displayServiceList}"
+                        android:src="@mipmap/switch_service_button"
+                        android:visibility="@{pagerHomeFreeTimeModel.demandButtonVisibility}" />
+
+                    <ImageView
+                        android:id="@+id/iv_home_freetime_service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="@{pagerHomeFreeTimeModel.displayDemanList}"
+                        android:src="@mipmap/switch_button"
+                        android:visibility="@{pagerHomeFreeTimeModel.serviceButtonVisibility}" />
+                </FrameLayout>
+
+                <EditText
+                    android:layout_width="256dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/shape_home_freetime_searchbox_bg"
+                    android:drawableLeft="@mipmap/nav_icon_search"
+                    android:drawablePadding="10dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="找需求、找服务、找人"
+                    android:onClick="@{pagerHomeFreeTimeModel.gotoSearchActivity}"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="#ffffff"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                android:id="@+id/refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#edf1f2">
+
+                <include layout="@layout/refresh_head" />
+
+                <com.slash.youth.ui.view.PullableSrcollView.PullableScrollView
+                    android:id="@+id/sv_pull_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#edf1f2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <!--banner-->
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <!--android:clipChildren="false"-->
+
+                            <com.slash.youth.ui.view.SlashViewPager
+                                android:id="@+id/vp_home_freetime_adv"
+                                android:layout_width="match_parent"
+                                android:layout_height="177dp">
+                                <!--android:layout_height="159dp"-->
+                                <!--android:layout_marginBottom="10dp"-->
+                                <!--android:layout_marginLeft="21dp"-->
+                                <!--android:layout_marginRight="21dp"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:clipChildren="false"-->
+
+                            </com.slash.youth.ui.view.SlashViewPager>
+
+                            <!--banner的背景阴影遮罩-->
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/gradual_change_bg" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/tool_topbg_home" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_vp_indicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center_horizontal"
+                                android:orientation="horizontal">
+                                <!--<View-->
+                                <!--android:layout_width="6dp"-->
+                                <!--android:layout_height="6dp"-->
+                                <!--android:background="@drawable/shape_vpindicator_unselected"/>-->
+
+                                <!--<View-->
+                                <!--android:layout_width="6dp"-->
+                                <!--android:layout_height="6dp"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:background="@drawable/shape_vpindicator_unselected"/>-->
+
+                                <!--<View-->
+                                <!--android:layout_width="6dp"-->
+                                <!--android:layout_height="6dp"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:background="@drawable/shape_vpindicator_unselected"/>-->
+
+                                <!--<View-->
+                                <!--android:layout_width="6dp"-->
+                                <!--android:layout_height="6dp"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:background="@drawable/shape_vpindicator_selected"/>-->
+
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <!--V1.1版新增，七个一类技能图标-->
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="9dp"
+                            android:background="#ffffff"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:id="@+id/ll_home_first_tags"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="14dp"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="14dp"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="invisible">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/plan_1button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="发展|规划"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="33dp"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/product_2button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="产品|设计"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="33dp"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/development_3button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="开发|测试"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="33dp"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/operate_4button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="运营|市场"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="33dp"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/law_5button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="法律|财务"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="33dp"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/personnel_matters_6button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="管理|人事"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="33dp"
+                                    android:layout_marginRight="24dp"
+                                    android:onClick="@{pagerHomeFreeTimeModel.gotoTagRecommendActivity}"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@mipmap/other_7button_home" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="8dp"
+                                        android:text="其他"
+                                        android:textColor="#333333"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                        <!--标题-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="39dp"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:background="@drawable/shape_rounded_green_2dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="9dp"
+                                android:text="猜 你 喜 欢"
+                                android:textColor="#666666"
+                                android:textSize="14sp" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="11dp"
+                                android:onClick="@{pagerHomeFreeTimeModel.more}"
+                                android:text="查 看 更 多"
+                                android:textColor="#31C5E4"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+                        <!--缺省页-->
+                        <RelativeLayout
+                            android:id="@+id/rl_home_default_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="330dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@mipmap/home_default_image" />
+
+                                <TextView
+                                    android:id="@+id/tv_content"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="16dp"
+                                    android:gravity="center"
+                                    android:text="暂无内容"
+                                    android:textColor="#666666"
+                                    android:textSize="17dp"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="11dp"
+                                    android:gravity="center"
+                                    android:text="去别处转转，稍后再来吧"
+                                    android:textColor="#CCCCCC"
+                                    android:textSize="14dp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                        <!--列表-->
+                        <com.slash.youth.ui.view.ListviewForScrollView
+                            android:id="@+id/lv_home_demand_and_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="11dp"
+                            android:layout_marginRight="11dp"
+                            android:layout_marginTop="7dp"
+                            android:background="#edf1f2"
+                            android:scrollbars="none">
+
+                        </com.slash.youth.ui.view.ListviewForScrollView>
+
+                    </LinearLayout>
+
+                </com.slash.youth.ui.view.PullableSrcollView.PullableScrollView>
+
+                <include layout="@layout/load_more" />
+            </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+
+            <FrameLayout
+                android:id="@+id/rl_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:paddingTop="25dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="#0031c5e4">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="43dp"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{pagerHomeFreeTimeModel.gotoSearchActivity}"
+                        android:paddingBottom="11dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="11dp"
+                        android:src="@mipmap/nav_icon_search" />
+
+                    <com.slash.youth.ui.view.DemandServiceToggleView
+                        android:id="@+id/view_toggle_service_demand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{pagerHomeFreeTimeModel.gotoPublishActivity}"
+                        android:paddingLeft="13dp"
+                        android:paddingRight="13dp"
+                        android:text="发布"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <!--加载页面-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="gone">
+
+            <!--  android:visibility="@{pagerHomeFreeTimeModel.freeTimeLoadingPager}"-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</layout>

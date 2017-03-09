@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="thirdPartyModel"
+                  type="com.slash.youth.ui.viewmodel.ThirdPartyModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
+
+        <include layout="@layout/usertitlebar" />
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:onClick="@{thirdPartyModel.weixin}"
+                android:id="@+id/ll_weixin"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/weixin_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
+                    android:text="微信"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+                
+                <TextView
+                    android:id="@+id/tv_weixin_binding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#60A7B6"
+                    android:textSize="13dp"
+                    android:text="去绑定"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E5E5"
+                />
+
+            <LinearLayout
+                android:onClick="@{thirdPartyModel.qq}"
+                android:id="@+id/ll_QQ"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/qq_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
+                    android:text="QQ"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/tv_QQ_binding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#60A7B6"
+                    android:textSize="13dp"
+                    android:text="去绑定"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+            </LinearLayout>
+
+            <View
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E5E5"
+                />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:onClick="@{thirdPartyModel.weibo}"
+                android:id="@+id/ll_weibo"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/weibo_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"
+                    android:text="微博"/>
+
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:id="@+id/tv_weibo_binding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#60A7B6"
+                    android:textSize="13dp"
+                    android:text="去绑定"/>
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right1_icon"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+     <!--dialog-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:clickable="true"
+        android:visibility="@{thirdPartyModel.unBindVisibility}"
+        >
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="269dp"
+            android:layout_height="138dp"
+            android:background="@drawable/shape_tishi_bg"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="解绑"
+                android:textColor="#333333"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/tv_hint"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="36dp"
+                android:layout_marginLeft="36dp"
+                android:textSize="14dp"
+                android:lineSpacingExtra="5dp"
+                android:text="是否解除绑定?"
+                android:textColor="#666666"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <FrameLayout
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:background="@drawable/shape_tishi_button_bg"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_tishi_button_bg"
+                    android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:onClick="@{thirdPartyModel.cannelDialog}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_cancel_n">
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="取消"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                <RelativeLayout
+                    android:onClick="@{thirdPartyModel.sureDialog}"
+                    android:layout_centerInParent="true"
+                    android:layout_width="96dp"
+                    android:layout_height="29dp"
+                    android:background="@drawable/btn_determine_n">
+
+                    <TextView
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:textColor="#FFFFFF"
+                        android:text="确定"/>
+                </RelativeLayout>
+                </RelativeLayout>
+                 </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+      </FrameLayout>
+    </FrameLayout>
+</layout>

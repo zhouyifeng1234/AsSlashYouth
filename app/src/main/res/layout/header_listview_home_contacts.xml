@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="headerHomeContactsModel"
+                  type="com.slash.youth.ui.viewmodel.HeaderHomeContactsModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/friends_recommended_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="6dp"
+                android:text="推荐"
+                android:textColor="#333333"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/hsv_home_contacts_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+        >
+
+            <LinearLayout
+                android:id="@+id/ll_home_contacts_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:onClick="@{headerHomeContactsModel.careMe}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_care_me"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10sp"
+                        android:text="0"
+                        android:textColor="#666666"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
+                        android:text="关注"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_red_spot1"
+                    android:visibility="gone"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_circle_news_count"/>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:onClick="@{headerHomeContactsModel.myCare}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_my_care"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10sp"
+                        android:text="0"
+                        android:textColor="#666666"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
+                        android:text="粉丝"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_red_spot2"
+                    android:visibility="gone"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_circle_news_count"/>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:onClick="@{headerHomeContactsModel.addMe}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_add_me"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10sp"
+                        android:text="0"
+                        android:textColor="#666666"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
+                        android:text="+我"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_red_spot3"
+                    android:visibility="gone"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_circle_news_count"/>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:onClick="@{headerHomeContactsModel.myAdd}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="@dimen/cardElevation"
+                app:cardUseCompatPadding="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_my_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10sp"
+                        android:text="0"
+                        android:textColor="#666666"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="11dp" android:layout_marginTop="9dp"
+                        android:text="我+"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_red_spot4"
+                    android:visibility="gone"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_circle_news_count"/>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:onClick="@{headerHomeContactsModel.MyFriend}"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+        >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background="@drawable/shape_rounded_my_news_center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:src="@mipmap/buddy_icon"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的好友"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="无论闲聊还是办事儿都可以找我的好友"
+                        android:textColor="#CCCCCC"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/right_icon_contacts"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+        >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background="@drawable/shape_rounded_my_news_center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:src="@mipmap/contacts_icon"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="手机联系人"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="别老和我打电话了好不好，直接斜杠call我"
+                        android:textColor="#CCCCCC"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/right_icon_contacts"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:visibility="gone"
+            android:onClick="@{headerHomeContactsModel.contactsPotential}"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+        >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background="@drawable/shape_rounded_my_news_center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:src="@mipmap/connection_icon"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人脉潜能"
+                        android:textColor="#333333"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="厉害了我的哥，你的人脉里面竟然有马云"
+                        android:textColor="#CCCCCC"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/right_icon_contacts"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/visitor_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="6dp"
+                android:text="访客"
+                android:textColor="#333333"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_none"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="您还没有访客哦！"
+            android:gravity="center_horizontal"
+            android:textColor="#333333"
+            />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="approvalModel"
+                  type="com.slash.youth.ui.viewmodel.ApprovalModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/usertitlebar" />
+
+            <TextView
+                android:id="@+id/tv_approval_title"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#999999"
+                android:textSize="14dp"
+                android:text="请上传身份证正面"/>
+
+            <!--认证的证件-->
+            <HorizontalScrollView
+                android:visibility="gone"
+                android:id="@+id/hsv_approval_container"
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/ll_approval_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="290dp"
+                    android:layout_gravity="center"
+                    android:layout_height="250dp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="@dimen/cardElevation"
+                    android:id="@+id/cd_id_imag"
+                    android:background="@mipmap/dialog_search_clean_bg"
+                    app:cardUseCompatPadding="true"
+                    tools:showIn="@layout/activity_userinfo">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
+                            <RelativeLayout
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="17dp"
+                                android:layout_width="210dp"
+                                android:layout_height="160dp"
+                                android:background="@mipmap/bg3">
+
+                                <FrameLayout
+                                    android:id="@+id/fl_certificates"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:id="@+id/iv_certificates"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@mipmap/id_image"/>
+
+                                </FrameLayout>
+
+
+                                <TextView
+                                    android:id="@+id/tv_certificates_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="5dp"
+                                    android:textColor="#666666"
+                                    android:textSize="15dp"
+                                    android:text="身份证"/>
+
+                            </RelativeLayout>
+                        </RelativeLayout>
+                        <View
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"/>
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:layout_marginBottom="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginRight="22dp"
+                            android:layout_height="35dp"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content">
+                                <LinearLayout
+                                    android:onClick="@{approvalModel.takePhoto}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="-2.9dp"
+                                        android:src="@mipmap/btn2_lift"/>
+                                    <TextView
+                                        android:layout_width="60dp"
+                                        android:layout_height="match_parent"
+                                        android:text="拍摄照片"
+                                        android:gravity="center"
+                                        android:textColor="#ffffff"
+                                        android:textSize="12dp"
+                                        android:background="@mipmap/btn2_middle"/>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="-2.9dp"
+                                        android:src="@mipmap/btn2_right"
+                                        />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:onClick="@{approvalModel.photoAlbum}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="-2.5dp"
+                                        android:src="@mipmap/btn1_lift"/>
+                                    <TextView
+                                        android:layout_width="60dp"
+                                        android:layout_height="match_parent"
+                                        android:text="相册照片"
+                                        android:gravity="center"
+                                        android:textColor="#ffffff"
+                                        android:textSize="12dp"
+                                        android:background="@mipmap/btn1_middle"/>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="-2.5dp"
+                                        android:src="@mipmap/btn1_right"
+                                        />
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:layout_gravity="bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="49dp"
+                            android:background="@drawable/shape_tishi_button_bg"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/shape_tishi_button_bg"
+                                android:orientation="horizontal">
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                    <RelativeLayout
+                                        android:onClick="@{approvalModel.takePhoto}"
+                                        android:layout_centerInParent="true"
+                                        android:layout_width="96dp"
+                                        android:layout_height="29dp"
+                                        android:background="@drawable/btn_photo_n"
+                                        >
+                                        <TextView
+                                            android:layout_centerInParent="true"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="13dp"
+                                            android:textColor="#FFFFFF"
+                                            android:text="拍摄照片"/>
+
+                                    </RelativeLayout>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent">
+                                    <RelativeLayout
+                                        android:onClick="@{approvalModel.photoAlbum}"
+                                        android:layout_centerInParent="true"
+                                        android:layout_width="96dp"
+                                        android:layout_height="29dp"
+                                        android:background="@drawable/btn_determine_n">
+
+                                        <TextView
+                                            android:layout_centerInParent="true"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="13dp"
+                                            android:textColor="#FFFFFF"
+                                            android:text="相册照片"/>
+                                    </RelativeLayout>
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layerType="software"
+                    android:clipChildren="false">
+
+                    <android.support.v4.view.ViewPager
+                        android:visibility="gone"
+                        android:id="@+id/vp_approval_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="256dp"
+                        android:layout_marginRight="45dp"
+                        android:layout_marginLeft="45dp"
+                        android:layout_gravity="center"
+                        android:clipChildren="false"
+                        >
+
+                    </android.support.v4.view.ViewPager>
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:textColor="#999999"
+                    android:text="若个人信息中填写的与将上传资料的内容不一致，"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:onClick="@{approvalModel.modify}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:textColor="#31C5E4"
+                        android:text="去修改。"
+                        />
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:textColor="#999999"
+                        android:text="认证后:"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_marginTop="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#cccccc"
+                        android:textSize="15dp"
+                        android:drawablePadding="15dp"
+                        android:drawableLeft="@drawable/shape_approval_tv_left"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#cccccc"
+                        android:textSize="13dp"
+                        android:drawablePadding="15dp"
+                        android:text="可信度更高，更容易促成交易；"/>
+                </LinearLayout>
+
+               <LinearLayout
+                   android:layout_marginTop="25dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent">
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="#cccccc"
+                       android:textSize="15dp"
+                       android:drawablePadding="15dp"
+                       />
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="#cccccc"
+                       android:textSize="13dp"
+                       android:drawablePadding="15dp"
+                       android:drawableLeft="@drawable/shape_approval_tv_left"
+                       android:text="拥有被推荐的资格。"/>
+
+               </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#cccccc"
+                        android:textSize="15dp"
+                        android:drawablePadding="15dp"
+                        android:drawableLeft="@drawable/shape_approval_tv_left"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#cccccc"
+                        android:textSize="13dp"
+                        android:drawablePadding="15dp"
+                        android:text="服务的权利免费无限期保存您在“聊一聊”中的聊天记录。"/>
+                </LinearLayout>
+            </LinearLayout>
+
+    </LinearLayout>
+
+    </FrameLayout>
+</layout>

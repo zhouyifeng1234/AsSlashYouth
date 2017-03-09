@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="activitySubscribeModel"
+            type="com.slash.youth.ui.viewmodel.ActivitySubscribeModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:background="#31C5E4"
+                android:paddingTop="25dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#31c5e4">
+
+                    <TextView
+                        android:id="@+id/tv_subscribe_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="关联标签"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+
+                    <ImageButton
+                        android:id="@+id/ib_subscribe_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginTop="11dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{activitySubscribeModel.goBack}"
+                        android:src="@mipmap/nav_back" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="11dp"
+                        android:onClick="@{activitySubscribeModel.submitChooseSkillLabel}"
+                        android:text="提交"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_title_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="19dp"
+                android:text="已选标签"
+                android:textColor="#333333"
+                android:textSize="16.5sp" />
+            <!--android:text="已选服务"-->
+
+            <ScrollView
+                android:id="@+id/sv_activity_subscribe_checked_labels"
+                android:layout_width="match_parent"
+                android:layout_height="140dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_activity_subscribe_checked_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="3D设计" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="UI" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="3D设计" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/shape_rounded_rectangle_skilllabel_gray"
+                                android:paddingBottom="12dp"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="12dp"
+                                android:text="UI" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="-7dp"
+                                android:background="@android:color/transparent"
+                                android:src="@mipmap/delete_icon" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginTop="14dp"
+                android:background="#edf1f2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="11dp"
+                    android:text="可选标签"
+                    android:textColor="#333333"
+                    android:textSize="14.5sp" />
+
+                <ImageButton
+                    android:id="@+id/ivbtn_activity_subscribe_main_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="11dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{activitySubscribeModel.openRlChooseMainLabel}"
+                    android:src="@mipmap/xiangxia_icon" />
+
+                <TextView
+                    android:id="@+id/tv_first_skill_label_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/ivbtn_activity_subscribe_main_categories"
+                    android:onClick="@{activitySubscribeModel.openRlChooseMainLabel}"
+                    android:text="发展|规划"
+                    android:textColor="#333333"
+                    android:textSize="14.5sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="#edf1f2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/lv_activity_subscribe_second_skilllable_list"
+                    android:layout_width="96dp"
+                    android:layout_height="match_parent"></ListView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#edf1f2">
+
+                    <TextView
+                        android:id="@+id/tv_activity_subscribe_choose_all_skilllabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="6dp"
+                        android:drawableRight="@mipmap/quanxuan_icon"
+                        android:text="全选"
+                        android:textColor="#999999"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <ScrollView
+                        android:id="@+id/sv_activity_subscribe_third_skilllabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/tv_activity_subscribe_choose_all_skilllabel"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_activity_subscribe_third_skilllabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        </LinearLayout>
+
+
+                    </ScrollView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#55000000"
+            android:clickable="true"
+            android:visibility="@{activitySubscribeModel.rlChooseMainLabelVisible}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="61dp"
+                            android:background="@drawable/shape_rectangle_gradient" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#E5E5E5" />
+
+                    </LinearLayout>
+
+                    <com.slash.youth.ui.view.SlashNumberPicker
+                        android:id="@+id/np_publish_service_main_labels"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_centerInParent="true">
+
+                    </com.slash.youth.ui.view.SlashNumberPicker>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_cannelChooseMainLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn1"
+                        android:onClick="@{activitySubscribeModel.cannelChooseMainLabel}"
+                        android:text="取消"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btn_okChooseMainLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_next_step"
+                        android:onClick="@{activitySubscribeModel.okChooseMainLabel}"
+                        android:text="确定"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</layout>

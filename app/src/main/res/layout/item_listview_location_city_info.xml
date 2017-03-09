@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="itemLocationCityInfo"
+                  type="com.slash.youth.ui.viewmodel.ItemLocationCityInfoModel"/>
+    </data>
+    <LinearLayout
+        android:id="@+id/ll_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@{itemLocationCityInfo.cityName}"
+            android:textColor="#333333"
+            android:textSize="13.5sp"/>
+
+        <View
+            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="14dp"
+            android:background="#e5e5e5"
+            android:visibility="@{itemLocationCityInfo.visible}"/>
+
+    </LinearLayout>
+</layout>

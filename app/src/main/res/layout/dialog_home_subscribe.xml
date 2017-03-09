@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="dialogHomeSubscribeModel"
+                  type="com.slash.youth.ui.viewmodel.DialogHomeSubscribeModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/subscribe_dialog_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="127dp"
+            android:text="订阅需求"
+            android:textColor="#333333"
+            android:textSize="14.5sp"
+        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:onClick="@{dialogHomeSubscribeModel.openSubscribeActivity}"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_rectangle_subscribe_dialog_label"
+                android:paddingBottom="7dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingTop="7dp"
+                android:text="视觉"
+                android:textColor="#31c5e4"
+                android:textSize="12sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/shape_rounded_rectangle_subscribe_dialog_label"
+                android:paddingBottom="7dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingTop="7dp"
+                android:text="运营推广"
+                android:textColor="#31c5e4"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/shape_rounded_rectangle_subscribe_dialog_label"
+                android:paddingBottom="7dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingTop="7dp"
+                android:text="运营推广"
+                android:textColor="#31c5e4"
+                android:textSize="12sp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/transparent"
+
+                android:src="@mipmap/right_icon"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="订阅服务"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:onClick="@{dialogHomeSubscribeModel.openSubscribeActivity}"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_rectangle_subscribe_dialog_label"
+                android:paddingBottom="7dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingTop="7dp"
+                android:text="视觉"
+                android:textColor="#31c5e4"
+                android:textSize="12sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/shape_rounded_rectangle_subscribe_dialog_label"
+                android:paddingBottom="7dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingTop="7dp"
+                android:text="运营推广"
+                android:textColor="#31c5e4"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/shape_rounded_rectangle_subscribe_dialog_label"
+                android:paddingBottom="7dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingTop="7dp"
+                android:text="运营推广"
+                android:textColor="#31c5e4"
+                android:textSize="12sp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/transparent"
+
+                android:src="@mipmap/right_icon"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1"
+        />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:onClick="@{dialogHomeSubscribeModel.cancelSubscribeDialog}"
+                android:src="@mipmap/no_btn"
+            />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:onClick="@{dialogHomeSubscribeModel.okSubscribeDialog}"
+                android:src="@mipmap/ok_btn"
+            />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

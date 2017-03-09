@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:background="#ffffff"
+        >
+        <TextView
+            android:id="@+id/tv_searchcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UI设计"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:textSize="17dp"
+            android:textColor="#333333"/>
+
+
+        <RelativeLayout
+            android:id="@+id/iv_remove"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/guanbi_icon"
+                android:layout_centerInParent="true"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="chatMySendBusinessCardModel"
+                  type="com.slash.youth.ui.viewmodel.ChatMySendBusinessCardModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="11dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_chat_msg_read_status"
+                    android:layout_width="26dp"
+                    android:layout_height="17dp"
+                    android:background="@drawable/shape_chat_text_unreaded_marker_bg"
+                    android:gravity="center"
+                    android:text="送达"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"/>
+                <!--shape_chat_text_readed_marker_bg-->
+
+                <TextView
+                    android:id="@+id/iv_chat_send_msg_again"
+                    android:layout_width="26dp"
+                    android:layout_height="17dp"
+                    android:background="@drawable/shape_chat_text_fail_marker_bg"
+                    android:gravity="center"
+                    android:onClick="@{chatMySendBusinessCardModel.sendMsgAgain}"
+                    android:text="失败"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="202dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+                android:background="@drawable/right_chat_bg"
+                android:onClick="@{chatMySendBusinessCardModel.gotoUserInfoPage}"
+                android:orientation="vertical"
+                android:paddingRight="4dp"
+            >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
+                    >
+                        <ImageView
+                            android:id="@+id/iv_business_card_avatar"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/chat_test_header"/>
+                        <View
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"
+                            android:background="@mipmap/fillet_pic_rounded"/>
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="11dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_business_card_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text="张三疯"
+                            android:textColor="#333333"
+                            android:textSize="11sp"
+                        />
+
+                        <TextView
+                            android:id="@+id/tv_business_industry_profession"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="6dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text="IT互联网｜市场商务"
+                            android:textColor="#999999"
+                            android:textSize="11sp"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="11dp"
+                    android:background="#E5E5E5"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/shape_chat_share_task_bottom_bg"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="12sp"
+                    android:text="个人名片"
+                    android:textColor="#999999"
+                    android:textSize="9sp"
+                />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="12dp"
+            >
+
+                <ImageView
+                    android:id="@+id/iv_chat_my_avatar"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/chat_test_header"/>
+                <View
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:background="@mipmap/fillet_pic_rounded"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="itemTagRecommendModel" type="com.slash.youth.domain.ItemTagRecommendModel"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:cardBackgroundColor="#ffffff"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="15dp">
+                    <ImageView
+                        android:id="@+id/iv_service_user_avatar"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:src="@mipmap/assistant_icon"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:src="@mipmap/tab_authentication"
+                        android:visibility="@{itemTagRecommendModel.authVisibility}"/>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{itemTagRecommendModel.serviceTitle}"
+                        android:textColor="#333333"
+                        android:textSize="15sp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@{itemTagRecommendModel.quote}"
+                            android:textColor="#FF7333"
+                            android:textSize="13sp"/>
+                        <!--报价:¥300-->
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/iv_time_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/time_icon"/>
+                        <TextView
+                            android:id="@+id/tv_idle_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="10dp"
+                            android:text="@{itemTagRecommendModel.idleTime}"
+                            android:textColor="#666666"
+                            android:textSize="14sp"/>
+                        <!--闲置时间:2016年9月18日 8:00-->
+                        <!--android:text="@{itemTagRecommendModel.idleTime}"-->
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:gravity="center"
+                    android:text="@{itemTagRecommendModel.serviceUsername}"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp"/>
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="21dp"-->
+                <!--android:text="@{itemTagRecommendModel.quote}"-->
+                <!--android:textColor="#FF7333"-->
+                <!--android:textSize="13sp"/>-->
+                <!--报价:¥300-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="7dp"
+                    android:background="@drawable/shape_rounded_demand_service_maker_bg"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{itemTagRecommendModel.patternText}"
+                    android:textColor="#31C5E4"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/tv_instalment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_rounded_demand_service_maker_bg"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="分期到账"
+                    android:textColor="#31C5E4"
+                    android:textSize="12sp"
+                    android:visibility="@{itemTagRecommendModel.instalmentVisibility}"/>
+
+                <View android:layout_width="0dp" android:layout_height="0dp"
+                      android:layout_weight="1"/>
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:background="@drawable/shape_rounded_demand_service_maker_bg"-->
+                <!--android:paddingLeft="2dp" android:paddingRight="2dp"-->
+                <!--android:text="@{itemTagRecommendModel.patternText}"-->
+                <!--android:textColor="#31C5E4"-->
+                <!--android:textSize="12sp"/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@drawable/shape_rounded_demand_service_maker_bg"-->
+                <!--android:paddingLeft="2dp"-->
+                <!--android:paddingRight="2dp"-->
+                <!--android:text="分期到账"-->
+                <!--android:textColor="#31C5E4"-->
+                <!--android:textSize="12sp"-->
+                <!--android:visibility="@{itemTagRecommendModel.instalmentVisibility}"/>-->
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp" android:layout_marginTop="11dp"
+                android:background="#E6E6E6"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="11dp"
+                    android:src="@mipmap/mark_icon"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{itemTagRecommendModel.servicePlace}"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp"/>
+                <!--苏州市圆融星座苏州市圆融星座苏州市圆融星座.-->
+                <!--android:layout_width="91dp"-->
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@{itemTagRecommendModel.distanceStr}"
+                    android:textColor="#CCCCCC"
+                    android:textSize="12sp"/>
+                <!--&lt; 4.5KM-->
+
+                <!--<View android:layout_width="0dp" android:layout_height="0dp"-->
+                <!--android:layout_weight="1"/>-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>
+
+

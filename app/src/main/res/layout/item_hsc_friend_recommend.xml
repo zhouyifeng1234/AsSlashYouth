@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="itemFriendRecommendModel"
+                  type="com.slash.youth.ui.viewmodel.ItemFriendRecommendModel"/>
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="137dp"
+        android:layout_height="193dp"
+        app:cardBackgroundColor="#ffffff"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="@dimen/cardElevation"
+        app:cardUseCompatPadding="true">
+        <LinearLayout
+            android:layout_width="127dp"
+            android:layout_height="183dp"
+            android:background="@drawable/shape_rounded_my_news_center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@mipmap/recommend_bg"
+                        android:gravity="center"
+                        android:text="精英推荐"
+                        android:textColor="#31C5E4"
+                        android:textSize="11dp"
+                        android:visibility="@{itemFriendRecommendModel.eliteRecommendMarkerVisibility}"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dp"
+                        android:text="共同好友3个"
+                        android:textColor="#31C5E4"
+                        android:textSize="11dp"
+                        android:visibility="@{itemFriendRecommendModel.commonRecommendMarkerVisibility}"/>
+
+                </FrameLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="11dp"
+                    android:onClick="@{itemFriendRecommendModel.deleteRecommend}"
+                    android:src="@mipmap/close_icon"/>
+            </RelativeLayout>
+
+            <FrameLayout
+                android:onClick="@{itemFriendRecommendModel.avater}"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/default_avatar"
+                    />
+
+            </FrameLayout>
+
+            <!--姓名和V-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@{itemFriendRecommendModel.username}"
+                    android:textColor="#333333"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_recommend_V"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:visibility="gone"
+                    android:src="@mipmap/add_v"/>
+            </LinearLayout>
+
+            <!--公司-->
+            <TextView
+                android:id="@+id/tv_recommend_commpany"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:maxEms="5"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:text="@{itemFriendRecommendModel.company}"
+                android:textColor="#999999"
+                android:textSize="11dp"/>
+            <!--职位-->
+            <TextView
+                android:id="@+id/tv_recommend_position"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:text="@{itemFriendRecommendModel.position}"
+                android:textColor="#999999"
+                android:textSize="11dp"/>
+            <!--按钮-->
+            <TextView
+                android:id="@+id/btn_addFriend"
+                android:layout_width="88dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/button_add_friend_bg"
+                android:gravity="center"
+                android:onClick="@{itemFriendRecommendModel.addFriend}"
+                android:text="加好友"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

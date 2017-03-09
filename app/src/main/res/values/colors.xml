@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="searchTitleColor">#999999</color>
+    <color name="colorTextChecked">#31c5e4</color>
+    <color name="colorTextUnchecked">#333333</color>
+    <color name="gray">#cccccc</color>
+    <color name="drop_down_selected">#31c5e4</color>
+    <color name="drop_down_unselected">#111111</color>
+    <color name="mask_color">#88888888</color>
+    <color name="check_bg">#f2f2f2</color>
+    <color name="un_press_color">#9C27B0</color>
+    <color name="light_blue">#6593cb</color>
+
+    <!-- Common -->
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white.aphla.40">#40FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="app.line">#DADADA</color>
+    <!-- Theme - Dark Blue -->
+    <color name="app.theme.background">#FFFFFF</color>
+    <color name="app.theme.background_f6f6f6">#f6f6f6</color>
+    <color name="app.theme.background_dadada">#DADADA</color>
+    <color name="app.theme.background_20B955">#31C5E4</color>
+    <color name="app.theme.background_1EB050">#31C5E4</color>
+    <color name="app.theme.gradientColor">#507E9F</color>
+    <color name="app.theme.colorControlActivated">#7AFFFFFF</color>
+    <color name="app.theme.colorControlHighlight">#7AFFFFFF</color>
+
+    <color name="app.theme.colorPrimary">#31C5E4</color><!--toolbar背景顏色-->
+    <color name="app.theme.colorPrimaryDark">#31C5E4</color><!--状态栏背景顏色-->
+    <color name="app.theme.colorAccent">#31C5E4</color><!--字体顏色-->
+    <color name="app.theme.textColorPrimary">#ffffff</color><!--toolbar title字体顏色-->
+    <color name="app.theme.textColorSecondary">#999999</color>
+
+    <color name="app.theme.actionMode.statusBarColor">#31C5E4</color>
+    <color name="app.theme.actionMode.background">#9CBDCC</color>
+
+    <!-- ImageView Control -->
+    <color name="app.image.tint">#b85671</color>
+
+    <!-- Buuton Control -->
+    <color name="app.button.background">#f6f6f6</color>
+
+    <!-- TextView Control -->
+    <color name="app.text">#ffffff</color>
+    <color name="app.text.black">@color/black</color>
+    <color name="app.text.black6a6a6a">#6a6a6a</color>
+    <color name="app.text.black9d9d9d">#9d9d9d</color>
+    <color name="app.text.bg.yellow">#FEA501</color>
+    <color name="app.text.bg.pink">#FD7071</color>
+    <color name="app.text.bg.blue">#20C1FD</color>
+    <color name="app.text.pink">#fb7299</color>
+    <color name="app.text.black.normal">#555555</color>
+    <color name="app.text.black.alpha.45">#71000000</color>
+    <color name="app.text.black.alpha.66">#66000000</color>
+    <color name="app.text.gray.normal">#656565</color>
+    <color name="app.text.tint">#9CBDCC</color>
+
+    <!-- pickerview Control -->
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+
+    <!-- CardView Control -->
+    <color name="app.cardview.background">@color/white</color>
+
+    <!-- listview Control -->
+    <color name="app.list.background">#1ADDF9FF</color>
+    <color name="app.list.background.selected">#6CDDF9FF</color>
+    <color name="app.list.scrollThumb">#99DDF9FF</color>
+    <color name="app.list.text.title">#DDF9FF</color>
+    <color name="app.list.text.title.selected">#3C5F78</color>
+    <color name="app.list.text.hint">#9CBDCC</color>
+    <color name="app.list.text.hint.selected">#7C3C5F78</color>
+
+    <color name="app.popupMenu.background">#B4D2E0</color>
+
+    <color name="app.text.hint">#9CBDCC</color>
+
+    <!-- Segmented Control -->
+    <color name="app.widget.segmented.default">?attr/colorAccent</color>
+    <color name="app.widget.segmented.checked">#3C5F78</color>
+
+    <!-- navigation Control -->
+    <color name="app.widget.navigation.bg">?attr/background</color>
+    <color name="app.widget.navigation.checked">#3C5F78</color>
+
+    <!-- CharacterView -->
+    <color name="app.characterView.background">#9CBDCC</color>
+    <color name="app.characterView.textColor">@color/app.list.text.title</color>
+
+    <color name="app.button.backgroun">@color/app.theme.colorPrimary</color>
+    <color name="app.button.backgroun.pressed">#18be40</color>
+
+    <!-- link -->
+    <color name="app.link">#ffbedfff</color>
+
+    <!-- notice -->
+    <color name="app.notice">#E35B5A</color>
+</resources>

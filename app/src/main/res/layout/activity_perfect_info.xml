@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <variable name="perfectInfoModel" type="com.slash.youth.ui.viewmodel.PerfectInfoModel"/>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+    >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" android:layout_marginTop="60dp"
+            android:src="@mipmap/top_bg"/>
+
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="91dp"
+            android:layout_height="91dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="105dp"
+            android:onClick="@{perfectInfoModel.openCamera}"
+            android:src="@mipmap/head_portrait_bg"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="130dp"
+            android:onClick="@{perfectInfoModel.openCamera}"
+            android:src="@mipmap/camera_icon"
+            android:visibility="@{perfectInfoModel.cameraIconVisibility}"/>
+
+        <LinearLayout
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="260dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{perfectInfoModel.phonenumLoginInfoVisibility}">
+                <EditText
+                    android:id="@+id/et_activity_perfect_info_phonenum"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="@drawable/yjjx_bg"
+                    android:gravity="center"
+                    android:hint="请输入手机号"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:textSize="16.5sp"
+                />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="20dp">
+                    <EditText
+                        android:id="@+id/et_activity_perfect_info_verification_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/yjjx_bg"
+                        android:gravity="center"
+                        android:hint="请输入验证码"
+                        android:textColor="#000000"
+                        android:textColorHint="#999999"
+                        android:textSize="16.5sp"/>
+                    <Button
+                        android:id="@+id/btn_sendpin_text"
+                        android:layout_width="58dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginRight="9dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/btn_send_pin_blue"
+                        android:onClick="@{perfectInfoModel.sendPin}"
+                        android:text="验证码"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff"
+                        android:textSize="11.5sp"/>
+                    <!--android:background="@mipmap/default_icon_yanzheng"-->
+                </RelativeLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_activity_perfect_info_realname"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/yjjx_bg"
+                android:gravity="center"
+                android:hint="请输入真实姓名"
+                android:maxLength="5"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:textSize="16.5sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="斜杠是实名用户APP," android:textColor="#999999"
+                    android:textSize="12dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="建议填写真实姓名" android:textColor="#31c5e4"
+                    android:textSize="12dp"/>
+                <!--android:onClick="@{perfectInfoModel.openTestActivity}"-->
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:background="@mipmap/experience_btn_bg"
+                android:onClick="@{perfectInfoModel.okPerfectInfo}"
+                android:text="下一步"
+                android:textColor="#ffffff"
+                android:textSize="14.5sp"/>
+            <!--android:background="@drawable/dalei_ok_icon"-->
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>
+

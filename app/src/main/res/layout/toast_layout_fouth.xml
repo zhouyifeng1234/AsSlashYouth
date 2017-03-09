@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:layout_width="269dp"
+        android:layout_height="172dp"
+        android:orientation="vertical"
+        android:background="@mipmap/dialog_search_clean_bg"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="温馨提示"
+                android:textColor="#333333"
+                android:textSize="15dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:textColor="#666666"
+                android:gravity="center"
+                android:layout_marginTop="12dp"
+                android:text="认证审核中，请耐心等待"
+                android:layout_marginRight="35dp"
+                android:layout_marginLeft="35dp"
+                android:textSize="14dp"
+                />
+        </LinearLayout>
+
+       <RelativeLayout
+           android:layout_alignParentBottom="true"
+           android:layout_width="match_parent"
+           android:layout_height="55dp"
+           >
+           <RelativeLayout
+               android:id="@+id/understand"
+               android:layout_centerInParent="true"
+               android:layout_gravity="center_horizontal"
+               android:layout_width="120dp"
+               android:layout_height="40dp"
+               android:background="@mipmap/ok_icon"
+               >
+               <TextView
+                   android:id="@+id/tv_btnName"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="18dp"
+                   android:text="确定"
+                   android:textColor="@color/white"
+                   android:layout_centerInParent="true"
+                   />
+
+           </RelativeLayout>
+
+       </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<data>
+    <variable name="dialogVersionUpdateModel"
+        type="com.slash.youth.ui.viewmodel.DialogVersionUpdateModel"/>
+</data>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="250dp"
+        android:layout_height="129dp"
+        android:background="@drawable/shape_tishi_bg"
+        android:orientation="vertical">
+
+        <!--标题-->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="版本更新"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+
+        <!--内容-->
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_marginTop="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="14dp"
+            android:text="检测到新版本，是否更新？"
+            android:lineSpacingExtra="5dp"
+            android:textColor="#666666"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <!--按钮-->
+        <FrameLayout
+            android:layout_marginTop="19dp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/shape_tishi_button_bg"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_tishi_button_bg"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:id="@+id/cannel"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_cancel_n">
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="取消"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:id="@+id/tv_update"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_determine_n">
+
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="更新"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+</layout>

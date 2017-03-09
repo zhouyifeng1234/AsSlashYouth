@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="searchActivityCityLocationModel"
+                  type="com.slash.youth.ui.viewmodel.SearchActivityCityLocationModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55000000"
+        android:orientation="vertical"
+        android:clickable="true"
+       >
+
+        <FrameLayout
+            android:id="@+id/fl_container"
+            android:layout_weight="8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#ffffff">
+            <!--字母-->
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="80dp"
+                android:layout_centerInParent="true"
+                android:text="A"
+                android:gravity="center"
+                android:background="@drawable/shape_toast_bg"
+                android:textSize="60sp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_height="80dp" />
+            <!--listView-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="@{searchActivityCityLocationModel.cityInfoListVisible}">
+                <ListView
+                    android:id="@+id/lv_activity_city_location_cityinfo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_weight="12"
+                    android:scrollbars="none"
+                    android:divider="@android:color/transparent">
+                </ListView>
+
+                <LinearLayout
+                    android:id="@+id/ll_container"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:id="@+id/lv_activity_city_location_city_firstletter"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scrollbars="none"
+                        android:divider="@android:color/transparent">
+                    </ListView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lv_activity_city_location_search_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{searchActivityCityLocationModel.searchCityListVisible}"
+                >
+            </ListView>
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<data>
+    <variable name="deleteItemDialogModel"
+        type="com.slash.youth.ui.viewmodel.DeleteItemDialogModel"/>
+</data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        >
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="269dp"
+            android:layout_height="101dp"
+            android:background="@drawable/shape_tishi_bg"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_hint"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="36dp"
+                android:layout_marginLeft="36dp"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="@{deleteItemDialogModel.itemTitle}"
+                android:textColor="#666666"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <FrameLayout
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:background="@drawable/shape_tishi_button_bg"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_tishi_button_bg"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:onClick="@{deleteItemDialogModel.itemDeleteCannel}"
+                            android:layout_centerInParent="true"
+                            android:layout_width="96dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/btn_cancel_n">
+                            <TextView
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:textColor="#FFFFFF"
+                                android:text="取消"/>
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:onClick="@{deleteItemDialogModel.itemDeleteSure}"
+                            android:layout_centerInParent="true"
+                            android:layout_width="96dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/btn_determine_n">
+
+                            <TextView
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:textColor="#FFFFFF"
+                                android:text="确定"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
+</layout>

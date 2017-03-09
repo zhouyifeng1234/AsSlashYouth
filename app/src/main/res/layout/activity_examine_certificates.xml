@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="examineCertificatesModel"
+                  type="com.slash.youth.ui.viewmodel.ExamineCertificatesModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        >
+        <include layout="@layout/usertitlebar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+       >
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="310dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            android:background="@mipmap/dialog_search_clean_bg"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <RelativeLayout
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="17dp"
+                 android:layout_width="300dp"
+                 android:layout_height="220dp"
+                 android:background="@mipmap/bg3">
+
+
+            <FrameLayout
+                android:id="@+id/fl_certificates"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/iv_certificates"
+                    android:layout_width="160dp"
+                    android:padding="10dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/id_image"/>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+                   <TextView
+                       android:onClick="@{examineCertificatesModel.upload}"
+                       android:layout_width="80dp"
+                       android:layout_height="20dp"
+                       android:background="@drawable/shape_home_freetime_searchbox_bg"
+                       android:textSize="12dp"
+                     android:layout_alignParentRight="true"
+                       android:textColor="#ffffff"
+                       android:layout_marginRight="10dp"
+                       android:layout_marginTop="10dp"
+                       android:gravity="center"
+                       android:text="重新上传"/>
+               </RelativeLayout>
+
+            </FrameLayout>
+             </RelativeLayout>
+            </RelativeLayout>
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_height="35dp"
+            android:orientation="horizontal">
+
+        <RelativeLayout
+            android:onClick="@{examineCertificatesModel.examine}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_home_freetime_searchbox_bg">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:textColor="#ffffff"
+                android:text="提交审核"/>
+        </RelativeLayout>
+
+        </LinearLayout>
+            </LinearLayout>
+         </android.support.v7.widget.CardView>
+    </RelativeLayout>
+    </LinearLayout>
+</layout>

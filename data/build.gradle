@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
+
+def ext = rootProject.ext
+
+android {
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion ext.buildToolsVersion
+
+    defaultConfig {
+        versionCode ext.versionCode
+        versionName ext.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':domain')
+
+    def compiles = rootProject.ext.compiles
+    def provides = rootProject.ext.provides
+
+    provided provides.annotation
+    compile compiles.javaxInject
+    compile compiles.rxandroid
+    compile compiles.retrofit
+    compile compiles.okhttpLog
+    compile compiles.logger
+    compile compiles.retrofitAdapter
+    compile compiles.retrofitConverterGson
+
+    compile compiles.stetho
+    compile compiles.stethoOkhttp
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

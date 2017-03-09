@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#55000000"
+    android:clickable="true"
+    android:id="@+id/ll_father"
+    >
+  <!--  <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFBAB6B6"/>-->
+
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/selector_search_result_first_item_bg"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_gravity="center_vertical"
+            android:text="不限"
+            android:textColor="#333333"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFBAB6B6"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:clickable="true"
+        android:background="@drawable/selector_search_result_line_item_bg">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_gravity="center_vertical"
+            android:text="线上"
+            android:textColor="#333333"
+            android:textSize="15dp"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFBAB6B6"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:clickable="true"
+        android:background="@drawable/selector_search_result_line_item_bg">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_gravity="center_vertical"
+            android:text="线下"
+            android:textColor="#333333"
+            android:textSize="15dp"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFBAB6B6"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="292dp"
+        android:background="#ffffff">
+    </LinearLayout>-->
+
+    <!--新的布局-->
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="430dp"
+        android:background="#ffffff">
+
+        <ListView
+            android:id="@+id/lv_search_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

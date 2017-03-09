@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="dialogSearchCleanModel"
+                  type="com.slash.youth.ui.viewmodel.DialogSearchCleanModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="255dp"
+        android:layout_height="179dp"
+        android:background="@mipmap/dialog_search_clean_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="提示"
+            android:textColor="#333333"
+            android:textSize="15sp"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="28dp"
+            android:text="确定清除历史记录？"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+      <!--  <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />-->
+
+        <FrameLayout
+            android:layout_marginTop="32dp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@drawable/shape_tishi_button_bg"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_tishi_button_bg"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:onClick="@{dialogSearchCleanModel.cancelSearchDialog}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_cancel_n">
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="取消"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:onClick="@{dialogSearchCleanModel.okSearchDialog}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="96dp"
+                        android:layout_height="29dp"
+                        android:background="@drawable/btn_determine_n">
+
+                        <TextView
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13dp"
+                            android:textColor="#FFFFFF"
+                            android:text="确定"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+    </LinearLayout>
+</layout>

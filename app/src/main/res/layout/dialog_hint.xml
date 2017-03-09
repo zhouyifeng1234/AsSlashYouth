@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<data>
+    <variable name="dialogHintModel"
+        type="com.slash.youth.ui.viewmodel.DialogHintModel"/>
+</data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        >
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="269dp"
+            android:layout_height="149dp"
+            android:background="@drawable/shape_tishi_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="36dp"
+                android:layout_marginLeft="36dp"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                 android:text="提示"
+                android:textColor="#333333"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <!--android:text="@{deleteItemDialogModel.itemHintTitle}"-->
+            <TextView
+                android:id="@+id/tv_hint"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="36dp"
+                android:layout_marginLeft="36dp"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="修改后，您将成为非认证用户，请再次认证"
+                android:textColor="#666666"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <!--android:text="@{deleteItemDialogModel.itemTitle}"-->
+            <FrameLayout
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:background="@drawable/shape_tishi_button_bg"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_tishi_button_bg"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:onClick="@{dialogHintModel.hintCannel}"
+                            android:layout_centerInParent="true"
+                            android:layout_width="96dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/btn_cancel_n">
+                            <TextView
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:textColor="#FFFFFF"
+                                android:text="取消"/>
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:onClick="@{dialogHintModel.hintSure}"
+                            android:layout_centerInParent="true"
+                            android:layout_width="96dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/btn_determine_n">
+
+                            <TextView
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:textColor="#FFFFFF"
+                                android:text="确定"/>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
+</layout>

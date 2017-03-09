@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+
+    <data>
+        <variable name="pagerHomeInfoModel" type="com.slash.youth.ui.viewmodel.PagerHomeInfoModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="#31C5E4">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="消息"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+            />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:onClick="@{pagerHomeInfoModel.gotoSearchActivity}"
+                android:padding="10dp"
+                android:src="@mipmap/icon_search_home_contacts"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="#31C5E4">
+
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp" android:background="@mipmap/shadow_nav"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="97dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="-48dp"
+            android:onClick="@{pagerHomeInfoModel.gotoMyTask}"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+
+            app:cardUseCompatPadding="true">
+            <!--app:cardElevation="@dimen/cardElevation"-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/task_icon_shadow"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="17dp"
+                    android:orientation="vertical">
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="任务中心"
+                              android:textColor="#31C5E4"
+                              android:textSize="15sp"/>
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="13dp"
+                              android:text="与你有关的任务都在这里"
+                              android:textColor="#999999"
+                              android:textSize="12dp"/>
+
+                </LinearLayout>
+
+                <View android:layout_width="0dp" android:layout_height="0dp"
+                      android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="6dp"
+                    android:background="@drawable/shape_circle_news_count"
+                    android:gravity="center"
+                    android:text="@{pagerHomeInfoModel.taskMessageCount}"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:visibility="@{pagerHomeInfoModel.taskMessageCountPointVisibility}"
+                />
+                <!--android:visibility="gone"-->
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+
+                    android:paddingBottom="10dp"
+                    android:paddingRight="24dp"
+                    android:paddingTop="10dp"
+                    android:src="@mipmap/nav_goto_my_newscenter"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="9dp"
+            android:background="#E5E5E5"/>
+        <ListView
+            android:id="@+id/lv_pager_home_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#e5e5e5"
+            android:dividerHeight="1dp"
+        >
+
+        </ListView>
+
+
+    </LinearLayout>
+
+</layout>

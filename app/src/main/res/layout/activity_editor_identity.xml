@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="editorIdentityModel" type="com.slash.youth.ui.viewmodel.EditorIdentityModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <include layout="@layout/usertitlebar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="#999999"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:text="斜杠职业(最多4个)"/>
+
+        <View
+            android:id="@+id/v_with"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginTop="14dp"
+            android:background="#e5e5e5"/>
+
+        <LinearLayout
+            android:id="@+id/ll_addSkillLabel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+        </LinearLayout>
+    </LinearLayout>
+</layout>

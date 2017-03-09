@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="pagerHomeBaseModel"
+            type="com.slash.youth.ui.viewmodel.PagerHomeBaseModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#edf1f2"
+        android:fitsSystemWindows="false"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#31c5e4">
+
+            <EditText
+                android:layout_width="230dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@mipmap/nav_search_bg"
+                android:drawableLeft="@mipmap/nav_icon_search"
+                android:drawablePadding="10dp"
+                android:hint="找需求、找服务、找人"
+                android:onClick="@{pagerHomeBaseModel.gotoSearchActivity}"
+                android:paddingLeft="10dp"
+                android:textColorHint="#ffffff"
+                android:textSize="15sp" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_pager_home_base_location"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="11dp"-->
+            <!--android:clickable="true"-->
+            <!--android:enabled="true"-->
+            <!--android:focusable="true"-->
+            <!--android:onClick="@{pagerHomeBaseModel.openCityLocation}"-->
+            <!--android:text="苏州"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="15sp"/>-->
+            <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="11dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:src="@mipmap/nav_screen_icon"/>-->
+            <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_toRightOf="@id/tv_pager_home_base_location"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:clickable="true"-->
+            <!--android:focusable="true"-->
+            <!--android:onClick="@{pagerHomeBaseModel.openCityLocation}"-->
+            <!--android:src="@mipmap/nav_pull_down_icon"/>-->
+
+            <TextView
+                android:id="@+id/tv_pager_home_base_subscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="11dp"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="true"
+                android:onClick="@{pagerHomeBaseModel.openSubscribe}"
+                android:text="订阅"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_pager_home_base_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="true"
+                android:onClick="@{pagerHomeBaseModel.openFilter}"
+                android:text="筛选"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.slash.youth.ui.view.ScrollLinearLayout
+                android:id="@+id/ll_pager_home_base_homecontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_pager_home_base_adheader"
+                    android:layout_width="match_parent"
+                    android:layout_height="154.5dp">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/vp_pager_home_base_advertisement"
+                        android:layout_width="match_parent"
+                        android:layout_height="154.5dp" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_pager_home_base_advindicators"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/indicator_circle_choose" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:src="@mipmap/indicator_circle_unchoose" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="42.5dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:enabled="true"
+                        android:focusable="true"
+                        android:onClick="@{pagerHomeBaseModel.browseDemandClick}"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_pager_home_base_browser_demand"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="浏览需求"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_tab_demand_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@mipmap/tab_list_bg" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:enabled="true"
+                        android:focusable="true"
+                        android:onClick="@{pagerHomeBaseModel.browseServiceClick}"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_pager_home_base_browser_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="浏览服务"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_tab_service_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@mipmap/tab_list_bg" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="#e5e5e5" />
+
+                <com.slash.youth.ui.view.RefreshListView
+                    android:id="@+id/lv_pager_home_base_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></com.slash.youth.ui.view.RefreshListView>
+
+            </com.slash.youth.ui.view.ScrollLinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_pager_home_base_filterview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#55000000"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:visibility="@{pagerHomeBaseModel.filterViewVisible}">
+
+                <LinearLayout
+                    android:id="@+id/ll_pager_home_base_filter_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@mipmap/shaixuan_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:orientation="horizontal">
+
+                        <HorizontalScrollView
+                            android:id="@+id/hsv_pager_home_base_filter_skilllabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/ll_pager_home_base_filter_skilllabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:background="@drawable/selector_home_filter_skilllabell_bg"-->
+                                <!--android:clickable="true"-->
+                                <!--android:enabled="true"-->
+                                <!--android:focusable="true"-->
+                                <!--android:focusableInTouchMode="true"-->
+                                <!--android:paddingBottom="5dp"-->
+                                <!--android:paddingLeft="8dp"-->
+                                <!--android:paddingRight="8dp"-->
+                                <!--android:paddingTop="5dp"-->
+                                <!--android:text="UI设计"-->
+                                <!--android:textColor="@color/selector_home_filter_skilllabell_textcolor"-->
+                                <!--android:textSize="11.5sp"/>-->
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="32dp"-->
+                                <!--android:background="@drawable/selector_home_filter_skilllabell_bg"-->
+                                <!--android:clickable="true"-->
+                                <!--android:enabled="true"-->
+                                <!--android:focusable="true"-->
+                                <!--android:focusableInTouchMode="true"-->
+                                <!--android:paddingBottom="5dp"-->
+                                <!--android:paddingLeft="8dp"-->
+                                <!--android:paddingRight="8dp"-->
+                                <!--android:paddingTop="5dp"-->
+                                <!--android:text="程序设计"-->
+                                <!--android:textColor="@color/selector_home_filter_skilllabell_textcolor"-->
+                                <!--android:textSize="11.5sp"/>-->
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="32dp"-->
+                                <!--android:background="@drawable/selector_home_filter_skilllabell_bg"-->
+                                <!--android:clickable="true"-->
+                                <!--android:enabled="true"-->
+                                <!--android:focusable="true"-->
+                                <!--android:focusableInTouchMode="true"-->
+                                <!--android:paddingBottom="5dp"-->
+                                <!--android:paddingLeft="8dp"-->
+                                <!--android:paddingRight="8dp"-->
+                                <!--android:paddingTop="5dp"-->
+                                <!--android:text="前端开发"-->
+                                <!--android:textColor="@color/selector_home_filter_skilllabell_textcolor"-->
+                                <!--android:textSize="11.5sp"/>-->
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="32dp"-->
+                                <!--android:background="@drawable/selector_home_filter_skilllabell_bg"-->
+                                <!--android:clickable="true"-->
+                                <!--android:enabled="true"-->
+                                <!--android:focusable="true"-->
+                                <!--android:focusableInTouchMode="true"-->
+                                <!--android:paddingBottom="5dp"-->
+                                <!--android:paddingLeft="8dp"-->
+                                <!--android:paddingRight="8dp"-->
+                                <!--android:paddingTop="5dp"-->
+                                <!--android:text="前端开发"-->
+                                <!--android:textColor="@color/selector_home_filter_skilllabell_textcolor"-->
+                                <!--android:textSize="11.5sp"/>-->
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="32dp"-->
+                                <!--android:background="@drawable/selector_home_filter_skilllabell_bg"-->
+                                <!--android:clickable="true"-->
+                                <!--android:enabled="true"-->
+                                <!--android:focusable="true"-->
+                                <!--android:focusableInTouchMode="true"-->
+                                <!--android:paddingBottom="5dp"-->
+                                <!--android:paddingLeft="8dp"-->
+                                <!--android:paddingRight="8dp"-->
+                                <!--android:paddingTop="5dp"-->
+                                <!--android:text="程序设计"-->
+                                <!--android:textColor="@color/selector_home_filter_skilllabell_textcolor"-->
+                                <!--android:textSize="11.5sp"/>-->
+                                <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="32dp"-->
+                                <!--android:background="@drawable/selector_home_filter_skilllabell_bg"-->
+                                <!--android:clickable="true"-->
+                                <!--android:enabled="true"-->
+                                <!--android:focusable="true"-->
+                                <!--android:focusableInTouchMode="true"-->
+                                <!--android:paddingBottom="5dp"-->
+                                <!--android:paddingLeft="8dp"-->
+                                <!--android:paddingRight="8dp"-->
+                                <!--android:paddingTop="5dp"-->
+                                <!--android:text="前端开发"-->
+                                <!--android:textColor="@color/selector_home_filter_skilllabell_textcolor"-->
+                                <!--android:textSize="11.5sp"/>-->
+                            </LinearLayout>
+
+                        </HorizontalScrollView>
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:onClick="@{pagerHomeBaseModel.nextFilterSkilllabel}"
+                            android:src="@mipmap/xiangyou_icon" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="24dp">
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_clock_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/clock" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="32dp"
+                            android:text="回复时间由多到少"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_check_orderbytime_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:onClick="@{pagerHomeBaseModel.checkFilterFeature}"
+                            android:src="@mipmap/dianxuan_" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="17dp">
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_iphone_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="3dp"
+                            android:src="@mipmap/iphone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="32dp"
+                            android:text="线上"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_check_online"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:onClick="@{pagerHomeBaseModel.checkFilterFeature}"
+                            android:src="@mipmap/xuanzhong_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="17dp">
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_xianxia_icon_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/xianxia_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="32dp"
+                            android:text="线下"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_check_offline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:onClick="@{pagerHomeBaseModel.checkFilterFeature}"
+                            android:src="@mipmap/dianxuan_" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="17dp">
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_authentication_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/authentication" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="32dp"
+                            android:text="只看认证用户"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_check_only_authuser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:onClick="@{pagerHomeBaseModel.checkFilterFeature}"
+                            android:src="@mipmap/dianxuan_" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_marginTop="17dp"
+                        android:onClick="@{pagerHomeBaseModel.openCityLocation}">
+
+                        <ImageView
+                            android:id="@+id/iv_pager_home_base_location_mark_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="3dp"
+                            android:src="@mipmap/location_mark" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="32dp"
+                            android:text="苏州"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/ivbtn_pager_home_base_ok_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="-40dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{pagerHomeBaseModel.okFilter}"
+                    android:src="@mipmap/shaixuan_ok_icon" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </LinearLayout>
+</layout>

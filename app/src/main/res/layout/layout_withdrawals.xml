@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="withdrawalsModel"
+                  type="com.slash.youth.ui.viewmodel.WithdrawalsModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/usertitlebar" />
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#ffffff"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="@dimen/cardElevation"
+            app:cardUseCompatPadding="true"
+            tools:showIn="@layout/activity_userinfo">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_commonQuestion"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="15dp"
+                        android:text="提现金额(元)"/>
+
+                    <EditText
+                        android:id="@+id/et_dollar"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:textColor="#CCCCCC"
+                        android:background="@null"
+                        android:hint="请输入提现金额，最多可提0元"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E5E5E5"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/ll_contactUs"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="15dp"
+                        android:text="提现至"/>
+
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
+
+                    <RadioGroup
+                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:checkedButton="@+id/rb_office_worker"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_office_worker"
+                            android:button="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="支付宝"
+                            android:checked="true"
+                            android:textColor="#333333"
+                            android:drawablePadding="8dp"
+                            android:drawableLeft="@drawable/selector_radiobutton_bg"
+                            android:textSize="15dp"/>
+                        <RadioButton
+                            android:visibility="gone"
+                            android:id="@+id/rb_self_employed"
+                            android:button="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="微信"
+                            android:textColor="#333333"
+                            android:drawablePadding="8dp"
+                            android:layout_marginLeft="10dp"
+                            android:drawableLeft="@drawable/selector_radiobutton_bg"
+                            android:textSize="15dp"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E5E5E5"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/ll_updataVersion"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="15dp"
+                        android:text="对应账号"/>
+
+                    <EditText
+                        android:id="@+id/et_number"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:maxLines="1"
+                        android:gravity="end"
+                        android:textColor="#CCCCCC"
+                        android:background="@null"
+                        android:hint="请输入想要转入的账号"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+          </android.support.v7.widget.CardView>
+
+            <TextView
+               android:visibility="gone"
+                android:layout_marginTop="15dp"
+                 android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="193dp"
+                android:layout_height="30dp"
+                android:textSize="15dp"
+                android:textColor="#ffffff"
+                android:background="@mipmap/login_button"
+                android:text="下一步"/>
+        <LinearLayout
+            android:onClick="@{withdrawalsModel.next}"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="0dp"
+                android:src="@mipmap/btn2_lift"/>
+            <TextView
+                android:layout_width="190dp"
+                android:layout_height="match_parent"
+                android:text="下一步"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:background="@mipmap/btn2_middle"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:src="@mipmap/btn2_right"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/fl_hint"
+            android:background="#66000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true">
+
+        <FrameLayout
+            android:layout_width="269dp"
+            android:layout_height="158dp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_tishi_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:text="温馨提示"
+                    android:textColor="#333333"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/tv_hint"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="36dp"
+                    android:layout_marginLeft="36dp"
+                    android:textSize="14dp"
+                    android:lineSpacingExtra="5dp"
+                    android:text="支付宝将收取您手续费率 0.5%最 低 1 元，最高 25 元"
+                    android:textColor="#666666"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_tishi_button_bg">
+
+                    <RelativeLayout
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+
+                        <RelativeLayout
+                            android:onClick="@{withdrawalsModel.hintSure}"
+                            android:layout_centerInParent="true"
+                            android:layout_width="171dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/btn_determine_n">
+
+                            <TextView
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:textColor="#FFFFFF"
+                                android:text="确定"/>
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:onClick="@{withdrawalsModel.hintCannel}"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="9dp"
+                android:src="@mipmap/withdraw_cash_close_icon"/>
+        </FrameLayout>
+
+        </FrameLayout>
+    </FrameLayout>
+</layout>

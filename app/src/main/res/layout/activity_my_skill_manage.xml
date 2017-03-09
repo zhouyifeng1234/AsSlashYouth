@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  >
+    <data>
+        <variable name="mySkillManageModel"
+                  type="com.slash.youth.ui.viewmodel.MySkillManageModel"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            >
+            <include layout="@layout/usertitlebar" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <!--列表-->
+                <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                    android:id="@+id/refresh_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <include layout="@layout/refresh_head" />
+
+                    <com.slash.youth.ui.view.PullableListView.PullableListView
+                        android:id="@+id/lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="3dp"
+                        android:layout_marginTop="7dp">
+
+                    </com.slash.youth.ui.view.PullableListView.PullableListView>
+
+                    <include layout="@layout/load_more" />
+                </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+                <!--缺省页-->
+                <RelativeLayout
+                    android:id="@+id/rl_home_default_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <LinearLayout
+                        android:layout_centerInParent="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_marginTop="181dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/skill_default_image"/>
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:visibility="gone"
+                            android:layout_marginTop="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#666666"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textSize="17dp"
+                            android:text="暂无技能"/>
+                        <TextView
+                            android:layout_marginTop="11dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="要先发布服务，才能过来管理哦"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="14dp"
+                            android:textColor="#CCCCCC"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</layout>

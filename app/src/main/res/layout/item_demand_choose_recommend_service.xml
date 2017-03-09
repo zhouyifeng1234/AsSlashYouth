@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="itemDemandChooseRecommendServiceModel"
+                  type="com.slash.youth.ui.viewmodel.ItemDemandChooseRecommendServiceModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
+        >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal"
+                >
+
+                    <FrameLayout
+                        android:layout_width="62dp"
+                        android:layout_height="62dp">
+                        <ImageView
+                            android:onClick="@{itemDemandChooseRecommendServiceModel.gotoUserInfoPager}"
+                            android:id="@+id/iv_service_user_avatar"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@mipmap/assistant_icon"
+                        />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="right|bottom"
+                            android:src="@mipmap/small_v_icon"
+                            android:visibility="@{itemDemandChooseRecommendServiceModel.authVisibility}"/>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="9dp"
+                        android:orientation="vertical"
+                    >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{itemDemandChooseRecommendServiceModel.name}"
+                            android:textColor="#333333"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="@{itemDemandChooseRecommendServiceModel.companyAndPosition}"
+                            android:textColor="#666666"
+                            android:textSize="12sp"/>
+                        <!--北京中意之路信息技术有限公司人事行政总监-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="@{itemDemandChooseRecommendServiceModel.industryAndDirection}"
+                            android:textColor="#666666"
+                            android:textSize="12sp"/>
+                        <!--IT互联网｜市场商务-->
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:onClick="@{itemDemandChooseRecommendServiceModel.invitation}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="-15dp"
+                    android:background="@mipmap/task_demand_btn_bg" android:gravity="center"
+                    android:text="邀请"
+                    android:textColor="#31C6E4"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</layout>

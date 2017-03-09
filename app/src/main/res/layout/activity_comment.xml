@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="commentModel" type="com.slash.youth.ui.viewmodel.CommentModel"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_rectangle_gradient_publish_demand2"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="21dp"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{commentModel.gotoBack}"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:src="@mipmap/nav_back"
+                    android:visibility="@{commentModel.goBackIconVisibility}"
+                />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="评价"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp"/>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="12dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.completeComment}"
+                        android:text="完成"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp"
+                        android:visibility="@{commentModel.completeCommentBtnVisibility}"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.closeCommentActivity}"
+                        android:text="关闭"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp"
+                        android:visibility="@{commentModel.closeCommentBtnVisibility}"/>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:background="@mipmap/comment_mark_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="31dp"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="49dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#E5E5E5"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="29dp"
+                        android:text="给他打分"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+
+                    <View
+                        android:layout_width="49dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="29dp"
+                        android:background="#E5E5E5"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="13dp"
+                    android:orientation="horizontal"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="服务质量"
+                        android:textColor="#999999"
+                        android:textSize="15sp"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_service_quality_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="27dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="13dp"
+                    android:orientation="horizontal"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="完成速度"
+                        android:textColor="#999999"
+                        android:textSize="15sp"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_complete_speed_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="27dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="52dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="13dp"
+                    android:orientation="horizontal"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="服务态度"
+                        android:textColor="#999999"
+                        android:textSize="15sp"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_service_attitude_stars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="27dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:onClick="@{commentModel.giveMarks}"
+                            android:src="@mipmap/default_star"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="-10dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_comment_content_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="49dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#E5E5E5"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="29dp"
+                        android:text="补充描述"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+
+                    <View
+                        android:layout_width="49dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="29dp"
+                        android:background="#E5E5E5"/>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="16dp"
+                >
+                    <EditText
+                        android:id="@+id/et_comment_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_comment_content_bg"
+                        android:gravity="top|left"
+                        android:hint="请输入评价，上限150个字"
+                        android:padding="10dp"
+                        android:textColorHint="#CCCCCC"
+                        android:textSize="14dp"
+                    />
+
+                    <ImageView
+                        android:layout_width="79dp"
+                        android:layout_height="79dp"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginRight="3dp"
+                        android:src="@mipmap/complete_seal"
+                        android:visibility="@{commentModel.completeCommentIconVisibility}"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="15dp"
+                android:background="#ffffff"
+                android:visibility="@{commentModel.bottomShareBtnVisibility}">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/btn_next_step"
+                    android:onClick="@{commentModel.shareTask}"
+                    android:text="分享"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:clickable="true"
+            android:visibility="@{commentModel.commentSuccessDialogVisibility}"
+        >
+
+            <FrameLayout
+                android:layout_width="269dp"
+                android:layout_height="172dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_payment_centerbox_bg"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="19dp"
+                        android:src="@mipmap/check"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="7dp"
+                        android:text="评价成功"
+                        android:textColor="#333333"
+                        android:textSize="15sp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="13dp"
+                        android:layout_marginTop="9dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="去分享拿"
+                            android:textColor="#666666"
+                            android:textSize="14sp"/>
+                        <TextView
+                            android:id="@+id/tv_share_reward_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text=""
+                            android:textColor="#FF7333"
+                            android:textSize="19sp"/>
+                        <!--android:text="50元"-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="奖励！"
+                            android:textColor="#666666"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="3dp"
+                        android:background="#ffffff">
+
+                        <Button
+                            android:layout_width="170dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/btn_next_step"
+                            android:onClick="@{commentModel.gotoShareTask}"
+                            android:text="去分享"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="9dp"
+                    android:layout_marginTop="9dp"
+                    android:onClick="@{commentModel.closeCommentSuccessDialog}"
+                    android:src="@mipmap/withdraw_cash_close_icon"/>
+
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+            android:visibility="@{commentModel.loadLayerVisibility}"
+        >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:clickable="true"
+            android:visibility="@{commentModel.shareLayerVisibility}"
+        >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_service_order_update_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                >
+
+                    <View
+                        android:layout_width="49dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#CCCCCC"
+                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="9dp"
+                        android:text="分享"
+                        android:textColor="#CCCCCC"
+                        android:textSize="14sp"/>
+                    <View
+                        android:layout_width="49dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#CCCCCC"
+                    />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="21dp"
+                    android:orientation="horizontal">
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.shareToWeChat}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/weixin_new_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:text="微信"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.shareToWeChatCircle}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/pengyuouquan_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:text="朋友圈"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.shareToQQ}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/qq_new_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:text="QQ好友"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{commentModel.shareToQZone}"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/kongjian_new_icon"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="14dp"
+                            android:text="QQ空间"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+
+                android:layout_gravity="bottom"
+                android:background="#ffffff"
+            >
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/btn2"
+                    android:onClick="@{commentModel.cancelShare}"
+                    android:text="取消分享"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"/>
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
+</layout>

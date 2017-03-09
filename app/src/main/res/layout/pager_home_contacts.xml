@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="pagerHomeContactsModel"
+                  type="com.slash.youth.ui.viewmodel.PagerHomeContactsModel"/>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="#31C5E4">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="圈子"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    />
+
+                <!--搜索按钮-->
+                <RelativeLayout
+                    android:onClick="@{pagerHomeContactsModel.search}"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp">
+                    <ImageView
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_search_home_contacts"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <!--   <ListView
+                   android:id="@+id/lv_home_contacts_visitor"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:divider="#E5E5E5"
+                   android:dividerHeight="1dp"
+                   >
+               </ListView>-->
+
+            <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                android:id="@+id/refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <include layout="@layout/refresh_head" />
+
+                <com.slash.youth.ui.view.widge.PullableDownListView
+                    android:id="@+id/lv_home_contacts_visitor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:layout_marginTop="7dp">
+
+                </com.slash.youth.ui.view.widge.PullableDownListView>
+
+                <include
+                    android:id="@+id/more"
+                    layout="@layout/load_more" />
+            </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+
+        </LinearLayout>
+        <!--加载页面-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#edf1f2"
+          android:visibility="gone"
+            >
+            <!--android:visibility="@{pagerHomeContactsModel.updatePager}"-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</layout>

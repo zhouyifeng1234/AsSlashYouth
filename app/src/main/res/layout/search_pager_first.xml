@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="searchPagerFirstModel"
+            type="com.slash.youth.ui.viewmodel.SearchPagerFirstModel"/>
+    </data>
+
+        <!--搜索首页-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_search_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="49dp"
+            android:layout_marginRight="49dp"
+            android:layout_marginTop="29dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <ImageButton
+                    android:id="@+id/ib_need"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{searchPagerFirstModel.searchDemand}"
+                    android:src="@mipmap/xuqiu_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="23dp"
+                    android:text="需求"
+                    android:textColor="#333333"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                >
+                <ImageButton
+                    android:id="@+id/ib_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{searchPagerFirstModel.searchService}"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/fuwu_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="23dp"
+                    android:text="服务"
+                    android:textColor="#333333"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical"
+                >
+                <ImageButton
+                    android:id="@+id/ib_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{searchPagerFirstModel.searchUser}"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/ren_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="23dp"
+                    android:text="找人"
+                    android:textColor="#333333"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+         <!--  <Button
+            android:id="@+id/btn_zhanghaoLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="账号统计登录"/>
+        <Button
+            android:id="@+id/btn_zhanghaoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="账号统计退出"/>
+        <Button
+            android:id="@+id/btn_shejiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="社交统计"/>
+        <Button
+            android:id="@+id/btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClick"
+            android:text="社交统计测试"/>-->
+
+    </LinearLayout>
+</layout>

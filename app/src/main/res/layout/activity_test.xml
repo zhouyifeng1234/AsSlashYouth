@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv_activity_test"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="publishDemand"
+            android:text="发布需求"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="cancelDemand"
+                android:text="需求方取消需求"/>
+            <EditText
+                android:id="@+id/tv_cancel_demand_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text=""/>
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getMyPublishDemandList"
+            android:text="我发布的需求列表"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="servicePartyBidDemand"
+            android:text="服务方竞标需求"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="demandPartySelectServiceParty"
+            android:text="需求方选择服务方"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="servicePartyConfirmServant"
+            android:text="六、[需求]-服务方确认一个服务者"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getDemandFlowLog"
+            android:text="七、[需求]-查看需求流程日志"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="servicePartyReject"
+            android:text="八、[需求]-服务方拒绝"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="demandPartyPrePayment"
+            android:text="九、[需求]-需求方预支付"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getMyPublishHistoryDemandList"
+            android:text="十、[需求]-我发布的历史需求列表"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="servicePartyComplete"
+            android:text="十一、[需求]-服务方完成任务"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="demandPartyConfirmComplete"
+            android:text="十二、[需求]-服务方完成任务(应该是 需求方确认完成 ？？？)"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="demandPartyGetBidList"
+            android:text="十三、[需求]-需求方查看竞标（抢需求服务者）列表"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getDemandDesc"
+            android:text="十四、[需求]-加载需求描述信息"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="setDemandDesc"
+            android:text="十五、[需求]-设置需求描述信息"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="uploadFile"
+            android:text="一、[文件]-图片上传"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="downloadFile"
+            android:text="二、[文件]-图片下载"/>
+
+        <ImageView android:id="@+id/iv_download_img" android:layout_width="200dp"
+                   android:layout_height="200dp"/>
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:onClick="testBA"
+                android:text="BA认证测试(以服务详情页接口测试)"/>
+
+    </LinearLayout>
+</ScrollView>

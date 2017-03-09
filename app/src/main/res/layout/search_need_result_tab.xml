@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="SearchNeedResultTabModel"
+            type="com.slash.youth.ui.viewmodel.SearchNeedResultTabModel"/>
+    </data>
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.slash.youth.ui.view.DropDownMenu
+            android:id="@+id/dropDownMenu"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:ddmenuTextSize="15sp"
+            app:ddtextUnselectedColor="@color/drop_down_unselected"
+            app:ddtextSelectedColor="@color/drop_down_selected"
+            app:dddividerColor="@color/gray"
+            app:ddunderlineColor="@color/gray"
+            app:ddmenuSelectedIcon="@mipmap/free_pay_jihuo"
+            app:ddmaskColor="@color/mask_color"
+            app:ddmenuBackgroundColor="@color/white"
+            app:ddmenuUnselectedIcon="@mipmap/free_play">
+        </com.slash.youth.ui.view.DropDownMenu>
+
+    </LinearLayout>
+</layout>

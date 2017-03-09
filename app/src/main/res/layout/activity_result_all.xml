@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="searchResultAllModel"
+            type="com.slash.youth.ui.viewmodel.SearchResultAllModel"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_search_result_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ListView
+            android:id="@+id/lv_search_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:background="#e5e5e5"/>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="myCollectionModel"
+                  type="com.slash.youth.ui.viewmodel.MyCollectionModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <include layout="@layout/usertitlebar" />
+
+      <!--  <com.slash.youth.ui.view.NewRefreshListView
+            android:id="@+id/lv_collection"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="3dp"
+            android:layout_height="match_parent">
+        </com.slash.youth.ui.view.NewRefreshListView>-->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+            <!--列表-->
+            <com.slash.youth.ui.view.PullableListView.PullToRefreshLayout
+                android:id="@+id/refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <include layout="@layout/refresh_head" />
+
+                <com.slash.youth.ui.view.PullableListView.PullableListView
+                    android:id="@+id/lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="3dp"
+                    android:layout_marginTop="7dp">
+
+                </com.slash.youth.ui.view.PullableListView.PullableListView>
+
+                <include layout="@layout/load_more" />
+            </com.slash.youth.ui.view.PullableListView.PullToRefreshLayout>
+            <!--缺省页-->
+            <RelativeLayout
+                android:id="@+id/rl_collection_default_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_marginTop="143dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@mipmap/collection_default_image"/>
+                    <TextView
+                        android:id="@+id/tv_content"
+                        android:visibility="gone"
+                        android:layout_marginTop="21dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#666666"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textSize="17dp"
+                        android:text="暂无内容"/>
+                    <TextView
+                        android:layout_marginTop="11dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="没有收藏癖的你，怎么可能有回忆"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="14dp"
+                        android:textColor="#CCCCCC"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

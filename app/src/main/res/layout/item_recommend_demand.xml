@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="itemRecommendDemandModel"
+                  type="com.slash.youth.ui.viewmodel.ItemRecommendDemandModel"/>
+    </data>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#ffffff"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:orientation="horizontal"
+        >
+
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_demand_user_avatar"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:src="@mipmap/assistant_icon"
+                />
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@mipmap/small_v_icon"
+                    android:visibility="@{itemRecommendDemandModel.authVisibility}"/>
+
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{itemRecommendDemandModel.demandQuote}"
+                    android:textColor="#FF7333"
+                    android:textSize="13sp"/>
+                <!--300元-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@{itemRecommendDemandModel.demandTitle}"
+                    android:textColor="#666666"
+                    android:textSize="13sp"/>
+                <!--设计全套官方网站和微信端的首页-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_vertical"
+                        android:text="@{itemRecommendDemandModel.demandUsername}"
+                        android:textColor="#666666"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="顺利成交单数9/10"
+                        android:textColor="#999999"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_recommend_demand_checked"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="right|bottom"
+            android:onClick="@{itemRecommendDemandModel.checkRecommendDemand}"
+            android:padding="10dp"
+            android:src="@mipmap/default_btn"/>
+
+    </android.support.v7.widget.CardView>
+</layout>
+

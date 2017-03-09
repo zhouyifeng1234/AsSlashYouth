@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:orientation="vertical"
+>
+
+    <LinearLayout
+        android:layout_width="322dp"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_show_toast_bg"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:background="@mipmap/bg_3">
+            <TextView
+                android:id="@+id/tv_toast_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="冻结资金说明"
+                android:textColor="#ffffff"
+                android:textSize="21dp"
+            />
+            <ImageButton
+                android:id="@+id/ib_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:background="@mipmap/close_icon_01"/>
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        >
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="26dp"
+                android:layout_marginTop="19dp"
+            >
+                <LinearLayout
+                    android:id="@+id/ll_text_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="有两种原因可能导致您的资金暂时处于冻结状态："
+                        android:textColor="#333333"
+                        android:textSize="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="第一种是分期到账：为了保障需求方权益，需求方预支付的全部资金将被托管在平台。在需求方满意服务方提交的某阶段的服务时，该阶段的资金将被划转给服务方。此时，该资金处于冻结状态，所有阶段的服务均被需求方认可后，划转给服务方的资金才取消冻结，可用于提现或支付。"
+                        android:textColor="#333333"
+                        android:textSize="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="10dp"
+                        android:text="第二种是提现后的转账状态：当您提现后，财务人员根据您的提现申请进行转账操作，期间由于支付宝、微信等支付规定导致的提现和到账间的时间差，在该时间差内，资金处于冻结状态。"
+                        android:textColor="#333333"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_text_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="15dp"/>
+
+            </FrameLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

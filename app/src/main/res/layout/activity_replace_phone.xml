@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="replacePhoneModel"
+                  type="com.slash.youth.ui.viewmodel.ReplacePhoneModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include layout="@layout/usertitlebar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:textColor="#999999"
+        android:text="请输入新手机号码并验证"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="14dp"
+        />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp">
+            <EditText
+                android:id="@+id/et_activity_login_verification_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_demand_detail_btn_bg"
+                android:hint="新手机号码"
+                android:maxLength="11"
+                android:gravity="center_vertical"
+                android:textColor="#999999"
+                android:textColorHint="#999999"
+                android:inputType="phone"
+                android:paddingLeft="8dp"
+                android:textSize="14.5sp"/>
+            <Button
+                android:id="@+id/btnSendpinText"
+                android:onClick="@{replacePhoneModel.validate}"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="4dp"
+                android:background="@mipmap/default_icon_yanzheng"
+                android:text="验证码"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="11.5sp"/>
+        </RelativeLayout>
+
+        <EditText
+            android:layout_marginTop="14dp"
+            android:id="@+id/et_activity_login_verification_code"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shape_demand_detail_btn_bg"
+            android:hint="验证码"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:textColorHint="#999999"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:textColor="#999999"
+            android:textSize="14.5sp"
+            />
+    </LinearLayout>
+</layout>

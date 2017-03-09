@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="itemNearLocationModel"
+                  type="com.slash.youth.ui.viewmodel.ItemNearLocationModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{itemNearLocationModel.nearName}"
+                    android:textColor="#333333"
+                    android:textSize="14.5sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@{itemNearLocationModel.nearDistance}"
+                    android:textColor="#cccccc"
+                    android:textSize="14.5sp"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="11dp"
+            >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{itemNearLocationModel.nearAddress}"
+                    android:textColor="#cccccc"
+                    android:textSize="13.5sp"/>
+
+                <ImageView
+                    android:id="@+id/iv_poi_checked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/no_jihuo_poi_icon"
+                />
+                <!--android:src="@mipmap/jihuo_icon"-->
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
+

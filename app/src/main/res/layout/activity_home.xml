@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="activityHomeBinding" type="com.slash.youth.ui.viewmodel.ActivityHomeModel"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_activity_home_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="#e5e5e5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+            >
+
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_freetime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical"
+                    android:paddingTop="6dp">
+                    <ImageView
+                        android:id="@+id/iv_freetime_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/icon_idle_hours_press"/>
+                    <TextView
+                        android:id="@+id/tv_free_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="首页"
+                        android:textSize="10sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical"
+                    android:paddingTop="6dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:id="@+id/iv_info_icon"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@mipmap/home_message_btn"/>
+                            <TextView
+                                android:id="@+id/tv_info"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="信息"
+                                android:textSize="10sp"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_chat_info_count"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/shape_rounded_info_count"
+                            android:gravity="center"
+                            android:text="99+"
+                            android:textColor="#ffffff"
+                            android:textSize="8dp"
+                        />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{activityHomeBinding.chooseServiceAndDemandLayerDisplay}"
+                    android:paddingTop="6dp"
+                    android:src="@mipmap/tab_icon_add"/>
+
+                <RelativeLayout
+                    android:id="@+id/ll_activity_home_contacts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+                        <LinearLayout
+                            android:id="@+id/ll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="6dp">
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+                                <ImageView
+                                    android:id="@+id/iv_contacts_icon"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@mipmap/icon_contacts_moren"/>
+                            </RelativeLayout>
+                            <TextView
+                                android:id="@+id/tv_contact"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="圈子"
+                                android:textSize="10sp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/view_red_hint"
+                            android:layout_width="9dp"
+                            android:layout_height="9dp"
+                            android:layout_marginLeft="-5dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_toRightOf="@+id/ll"
+                            android:background="@drawable/shape_circle_news_count"
+                            android:visibility="@{activityHomeBinding.redPointHintVisibility}"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_activity_home_my"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{activityHomeBinding.changePager}"
+                    android:orientation="vertical"
+                    android:paddingTop="6dp">
+
+                    <ImageView
+                        android:id="@+id/iv_my_icon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/home_wode_btn"/>
+                    <TextView
+                        android:id="@+id/tv_my"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#b3000000"
+            android:clickable="true"
+            android:onClick="@{activityHomeBinding.chooseServiceAndDemandLayerHide}"
+            android:visibility="@{activityHomeBinding.chooseServiceAndDemandLayerVisibility}"
+        >
+            <!--android:visibility="gone"-->
+            <!--android:visibility="@{activityHomeBinding.chooseServiceAndDemandLayerVisibility}"-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="75dp"
+                android:layout_marginRight="70dp"
+
+                android:onClick="@{activityHomeBinding.publishDemand}"
+                android:orientation="vertical">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@mipmap/demand_publish_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="9dp"
+                    android:text="发需求"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="75dp"
+                android:layout_marginLeft="70dp"
+
+                android:onClick="@{activityHomeBinding.publishService}"
+                android:orientation="vertical">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@mipmap/service_publish_icon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="9dp"
+                    android:text="发服务"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{activityHomeBinding.chooseServiceAndDemandLayerHide}"
+                android:src="@mipmap/tab_icon_add"/>
+        </RelativeLayout>
+    </FrameLayout>
+
+</layout>
+

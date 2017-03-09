@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="gone"
+           >
+
+            <FrameLayout
+                android:id="@+id/fl_header_listview_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_header_listview_refresh_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/common_listview_headview_red_arrow"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_header_listview_refresh_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateDrawable="@drawable/anim_refreshnews_progress"
+                    android:visibility="invisible"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_header_listview_refresh_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/tv_header_listview_refresh_last_refreshtime"
+                android:layout_alignTop="@id/fl_header_listview_refresh"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/fl_header_listview_refresh"
+                android:gravity="center"
+                android:text="下拉刷新"/>
+
+            <TextView
+                android:id="@+id/tv_header_listview_refresh_last_refreshtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/fl_header_listview_refresh"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/fl_header_listview_refresh"
+                android:text="最后刷新时间:2016-01-01 12:00:00"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#edf1f2"
+           >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:text="加载中..."
+                    android:textColor="#999999"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>
+
+
