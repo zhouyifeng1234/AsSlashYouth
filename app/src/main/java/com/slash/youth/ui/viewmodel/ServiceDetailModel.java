@@ -1010,6 +1010,14 @@ public class ServiceDetailModel extends BaseObservable {
         }, securityRulesContent, securityRulesTitle);
     }
 
+    /**
+     * 点击右上角3个点的，弹出举报按钮
+     *
+     * @param v
+     */
+    public void report(View v) {
+UserInfoActivity
+    }
 
     private int topShareBtnVisibility;
     private int topServiceBtnVisibility;
