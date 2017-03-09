@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.slash.youth.v2.feature.dialog.PubTaskViewModel" />
+            type="com.slash.youth.v2.feature.dialog.task.pub.PubTaskViewModel" />
     </data>
 
     <LinearLayout

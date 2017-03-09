@@ -7,6 +7,7 @@ import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
+import com.slash.youth.ui.activity.ReportTaskActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.TouchImageView;
@@ -492,7 +494,6 @@ public class ServiceDetailModel extends BaseObservable {
                         setServiceRecommendLabelVisibililty(View.GONE);
 
                         setTopServiceBtnVisibility(View.VISIBLE);
-                        setTopShareBtnVisibility(View.GONE);
 
                         setBottomBtnServiceVisibility(View.VISIBLE);
                         setBottomBtnDemandVisibility(View.INVISIBLE);
@@ -511,7 +512,6 @@ public class ServiceDetailModel extends BaseObservable {
                         setServiceRecommendLabelVisibililty(View.VISIBLE);
 
                         setTopServiceBtnVisibility(View.GONE);
-                        setTopShareBtnVisibility(View.VISIBLE);
 
                         setBottomBtnServiceVisibility(View.INVISIBLE);
                         setBottomBtnDemandVisibility(View.VISIBLE);
@@ -968,7 +968,7 @@ public class ServiceDetailModel extends BaseObservable {
             public void OkDown() {
                 LogKit.d("close viewBpExplain");
             }
-        }, bpContent, bpTitle);
+        }, Html.fromHtml(CommonUtils.getContext().getString(R.string.dispute_handling)), bpTitle);
     }
 
     private static final String securityRulesTitle = "斜杠青年顺利成交保障规则";
@@ -1010,8 +1010,28 @@ public class ServiceDetailModel extends BaseObservable {
         }, securityRulesContent, securityRulesTitle);
     }
 
+    /**
+     * 点击右上角3个点的，弹出举报按钮
+     *
+     * @param v
+     */
+    public void report(View v) {
+        setReportBtnLayerVisibility(View.VISIBLE);
+    }
 
-    private int topShareBtnVisibility;
+    public void hideReportBtnLayer(View v) {
+        setReportBtnLayerVisibility(View.GONE);
+    }
+
+    public void openReportActivity(View v) {
+        setReportBtnLayerVisibility(View.GONE);
+        Intent intentReportTaskActivity = new Intent(CommonUtils.getContext(), ReportTaskActivity.class);
+        intentReportTaskActivity.putExtra("tid", serviceId);
+        intentReportTaskActivity.putExtra("type", 2);
+        mActivity.startActivity(intentReportTaskActivity);
+    }
+
+
     private int topServiceBtnVisibility;
     private int bottomBtnDemandVisibility;//底部需求者视角可以看到的按钮
     private int bottomBtnServiceVisibility;//底部服务者视角可以看到的按钮
@@ -1047,6 +1067,18 @@ public class ServiceDetailModel extends BaseObservable {
     private int serviceRecommendItemVisibililty;
 
     private int loadLayerVisibility = View.GONE;
+
+    private int reportBtnLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getReportBtnLayerVisibility() {
+        return reportBtnLayerVisibility;
+    }
+
+    public void setReportBtnLayerVisibility(int reportBtnLayerVisibility) {
+        this.reportBtnLayerVisibility = reportBtnLayerVisibility;
+        notifyPropertyChanged(BR.reportBtnLayerVisibility);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {
@@ -1116,16 +1148,6 @@ public class ServiceDetailModel extends BaseObservable {
     public void setShareLayerVisibility(int shareLayerVisibility) {
         this.shareLayerVisibility = shareLayerVisibility;
         notifyPropertyChanged(BR.shareLayerVisibility);
-    }
-
-    @Bindable
-    public int getTopShareBtnVisibility() {
-        return topShareBtnVisibility;
-    }
-
-    public void setTopShareBtnVisibility(int topShareBtnVisibility) {
-        this.topShareBtnVisibility = topShareBtnVisibility;
-        notifyPropertyChanged(BR.topShareBtnVisibility);
     }
 
     @Bindable

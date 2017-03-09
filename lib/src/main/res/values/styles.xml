@@ -40,11 +40,12 @@
         <item name="textAppearanceSmallPopupMenu">@style/App.Theme.TextAppearance.SmallPopupMenu
         </item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
     </style>
 
     <!--<style name="activityAnim">-->
-        <!--<item name="android:activityOpenEnterAnimation">@anim/slide_in_top</item>-->
-        <!--<item name="android:activityOpenExitAnimation">@anim/slide_in_top</item>-->
+    <!--<item name="android:activityOpenEnterAnimation">@anim/slide_in_top</item>-->
+    <!--<item name="android:activityOpenExitAnimation">@anim/slide_in_top</item>-->
     <!--</style>-->
 
     <!--DrawerArrowStyle颜色为白色-->
@@ -54,12 +55,12 @@
     </style>
 
 
-    <style name="App.Theme" parent="AppTheme" />
+    <style name="App.Theme" parent="AppTheme"/>
 
 
     <!-- Widget -->
 
-    <style name="App.Theme.Widget" />
+    <style name="App.Theme.Widget"/>
 
     <!-- Widget - Divider -->
 
@@ -112,7 +113,8 @@
         <item name="android:tint">@color/black</item>
     </style>
 
-    <style name="App.Theme.Widget.ActionMode.CloseButton" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+    <style name="App.Theme.Widget.ActionMode.CloseButton"
+           parent="@style/Widget.AppCompat.ActionButton.CloseMode">
         <item name="android:tint">@color/app.theme.colorPrimary</item>
     </style>
 
@@ -158,10 +160,11 @@
         <item name="android:textColor">@color/app.theme.colorAccent</item>
     </style>
 
-    <!-- TextAppearance mm--><style name="App.Theme.TextAppearance.mm">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">match_parent</item>
-</style>
+    <!-- TextAppearance mm-->
+    <style name="App.Theme.TextAppearance.mm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
 
     <style name="App.Theme.TextAppearance.mm.tiny">
         <item name="android:layout_width">match_parent</item>
@@ -187,10 +190,11 @@
         <item name="android:textSize">@dimen/app.text.large</item>
     </style>
 
-    <!-- TextAppearance mw--><style name="App.Theme.TextAppearance.mw">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-</style>
+    <!-- TextAppearance mw-->
+    <style name="App.Theme.TextAppearance.mw">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
     <style name="App.Theme.TextAppearance.mw.tiny">
         <item name="android:layout_width">match_parent</item>
@@ -244,10 +248,11 @@
         <item name="android:textSize">@dimen/app.text.large</item>
     </style>
 
-    <!-- TextAppearance ww--><style name="App.Theme.TextAppearance.ww">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-</style>
+    <!-- TextAppearance ww-->
+    <style name="App.Theme.TextAppearance.ww">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
     <style name="App.Theme.TextAppearance.ww.tiny">
         <item name="android:layout_width">wrap_content</item>
@@ -278,11 +283,13 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="App.Theme.TextAppearance.Light.Toolbar.Title" parent="App.Theme.TextAppearance.Toolbar">
+    <style name="App.Theme.TextAppearance.Light.Toolbar.Title"
+           parent="App.Theme.TextAppearance.Toolbar">
         <item name="android:textColor">@color/app.theme.colorAccent</item>
     </style>
 
-    <style name="App.Theme.TextAppearance.ActionMode.Title" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
+    <style name="App.Theme.TextAppearance.ActionMode.Title"
+           parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
@@ -334,11 +341,13 @@
         <item name="android:textColor">@color/app.text.black</item>
     </style>
 
-    <style name="App.Theme.TextAppearance.LargePopupMenu" parent="TextAppearance.AppCompat.Widget.PopupMenu.Large">
+    <style name="App.Theme.TextAppearance.LargePopupMenu"
+           parent="TextAppearance.AppCompat.Widget.PopupMenu.Large">
         <item name="android:textColor">@color/app.theme.colorPrimary</item>
     </style>
 
-    <style name="App.Theme.TextAppearance.SmallPopupMenu" parent="TextAppearance.AppCompat.Widget.PopupMenu.Small">
+    <style name="App.Theme.TextAppearance.SmallPopupMenu"
+           parent="TextAppearance.AppCompat.Widget.PopupMenu.Small">
         <item name="android:textColor">@color/app.theme.colorPrimary</item>
     </style>
 
@@ -349,7 +358,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <!--viewgroup style--><style name="App.Theme.Linear"></style>
+    <!--viewgroup style-->
+    <style name="App.Theme.Linear"></style>
 
     <style name="App.Theme.Relative"></style>
 
@@ -360,14 +370,15 @@
         <item name="android:background">@drawable/selector_bg_item</item>
     </style>
 
-    <!--Loading style--><style name="App.Theme.ripple.item">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:clickable">true</item>
-    <item name="android:padding">@dimen/app.padding.large13</item>
-    <item name="android:gravity">center_vertical</item>
-    <item name="android:orientation">horizontal</item>
-</style>
+    <!--Loading style-->
+    <style name="App.Theme.ripple.item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clickable">true</item>
+        <item name="android:padding">@dimen/app.padding.large13</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 
 
     <style name="App.Theme.Loading">

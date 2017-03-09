@@ -562,6 +562,7 @@ public class MySettingModel extends BaseObservable {
                                     loginUnBind(GlobalConstants.LoginPlatformType.QQ);
                                     break;
                             }
+                            bindingDialog.dismiss();
                         }
 
                         @Override

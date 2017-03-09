@@ -283,78 +283,66 @@ public class PerfectInfoModel extends BaseObservable {
             ToastUtils.shortToast("必须先上传头像");
             return;
         } else {
-            //调用设置头像接口
-            LoginManager.loginSetAvatar(new BaseProtocol.IResultExecutor<CommonResultBean>() {
-                @Override
-                public void execute(CommonResultBean dataBean) {
-                    //头像设置成功后才能继续下面的操作
-                    phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
-                    pin = mActivityPerfectInfoBinding.etActivityPerfectInfoVerificationCode.getText().toString();
-                    realname = mActivityPerfectInfoBinding.etActivityPerfectInfoRealname.getText().toString();
+            //必须在设置头像和真实姓名前调用手机号登录接口，这样才能获取用户token
+            phonenum = mActivityPerfectInfoBinding.etActivityPerfectInfoPhonenum.getText().toString();
+            pin = mActivityPerfectInfoBinding.etActivityPerfectInfoVerificationCode.getText().toString();
+            realname = mActivityPerfectInfoBinding.etActivityPerfectInfoRealname.getText().toString();
 
-                    if (isThirdLogin) {//三方登录
-                        //再次调用手机号登录接口
-                        if (TextUtils.isEmpty(phonenum)) {
-                            ToastUtils.shortToast("手机号不能为空");
+            if (isThirdLogin) {//三方登录
+                //再次调用手机号登录接口
+                if (TextUtils.isEmpty(phonenum)) {
+                    ToastUtils.shortToast("手机号不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(pin)) {
+                    ToastUtils.shortToast("验证码不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(realname)) {
+                    ToastUtils.shortToast("真实姓名不能为空");
+                    return;
+                }
+
+                MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_WRITE_NAME_CLICK_COMPLETE);
+
+                LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
+                    @Override
+                    public void execute(PhoneLoginResultBean dataBean) {
+                        //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
+                        if (dataBean.data == null) {
+                            ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                             return;
                         }
-                        if (TextUtils.isEmpty(pin)) {
-                            ToastUtils.shortToast("验证码不能为空");
-                            return;
+                        String rongToken = dataBean.data.rongToken;//融云token
+                        String token = dataBean.data.token;
+                        long uid = dataBean.data.uid;
+                        if (dataBean.rescode == 11) {
+                            MsgManager.connectRongCloud(rongToken);
+                            savaLoginState(uid, token, rongToken);
+                            setRealname();
+                        } else if (dataBean.rescode == 0) {
+                            ToastUtils.shortToast("该手机号已经被注册过");
+                        } else if (dataBean.rescode == 7) {
+                            ToastUtils.shortToast("验证码错误");
+                        } else {
+                            ToastUtils.shortToast("登录失败:" + dataBean.rescode);
                         }
-                        if (TextUtils.isEmpty(realname)) {
-                            ToastUtils.shortToast("真实姓名不能为空");
-                            return;
-                        }
-
-                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.REGISTER_WRITE_NAME_CLICK_COMPLETE);
-
-                        LoginManager.phoneLogin(new BaseProtocol.IResultExecutor<PhoneLoginResultBean>() {
-                            @Override
-                            public void execute(PhoneLoginResultBean dataBean) {
-                                //如果登录失败，dataBean.data可能是null  {  "rescode": 7  }
-                                if (dataBean.data == null) {
-                                    ToastUtils.shortToast("登录失败:" + dataBean.rescode);
-                                    return;
-                                }
-                                String rongToken = dataBean.data.rongToken;//融云token
-                                String token = dataBean.data.token;
-                                long uid = dataBean.data.uid;
-                                if (dataBean.rescode == 11) {
-                                    MsgManager.connectRongCloud(rongToken);
-                                    savaLoginState(uid, token, rongToken);
-                                    setRealname();
-                                } else if (dataBean.rescode == 0) {
-                                    ToastUtils.shortToast("该手机号已经被注册过");
-                                } else if (dataBean.rescode == 7) {
-                                    ToastUtils.shortToast("验证码错误");
-                                } else {
-                                    ToastUtils.shortToast("登录失败:" + dataBean.rescode);
-                                }
-                            }
-
-                            @Override
-                            public void executeResultError(String result) {
-                                //这里不会执行
-                            }
-                        }, phonenum, pin, _3ptoken, userInfo);
-
-                    } else {//手机号登录
-                        //设置真实姓名
-                        if (TextUtils.isEmpty(realname)) {
-                            ToastUtils.shortToast("真实姓名不能为空");
-                            return;
-                        }
-                        setRealname();
                     }
-                }
 
-                @Override
-                public void executeResultError(String result) {
-                    LogKit.v("设置头像失败：" + result);
-                    ToastUtils.shortToast("设置头像失败：" + result);
+                    @Override
+                    public void executeResultError(String result) {
+                        //这里不会执行
+                    }
+                }, phonenum, pin, _3ptoken, userInfo);
+
+            } else {//手机号登录
+                //设置真实姓名
+                if (TextUtils.isEmpty(realname)) {
+                    ToastUtils.shortToast("真实姓名不能为空");
+                    return;
                 }
-            }, getUploadAvatarFileId());
+                setRealname();
+            }
         }
     }
 
@@ -362,6 +350,22 @@ public class PerfectInfoModel extends BaseObservable {
         LogKit.v("LoginManager.currentLoginUserId:" + LoginManager.currentLoginUserId);
 
         LoginManager.loginSetRealname(new BaseProtocol.IResultExecutor<CommonResultBean>() {
+            @Override
+            public void execute(CommonResultBean dataBean) {
+                setAvatar();
+            }
+
+            @Override
+            public void executeResultError(String result) {
+                LogKit.v("设置真实姓名失败:" + result);
+                ToastUtils.shortToast("设置真实姓名失败:" + result);
+            }
+        }, realname);
+    }
+
+    private void setAvatar() {
+        //调用设置头像接口
+        LoginManager.loginSetAvatar(new BaseProtocol.IResultExecutor<CommonResultBean>() {
             @Override
             public void execute(CommonResultBean dataBean) {
                 Intent intentChooseSkillActivity = new Intent(CommonUtils.getContext(), ChooseSkillActivity.class);
@@ -372,10 +376,10 @@ public class PerfectInfoModel extends BaseObservable {
 
             @Override
             public void executeResultError(String result) {
-                LogKit.v("设置真实姓名失败:" + result);
-                ToastUtils.shortToast("设置真实姓名失败:" + result);
+                LogKit.v("设置头像失败：" + result);
+                ToastUtils.shortToast("设置头像失败：" + result);
             }
-        }, realname);
+        }, getUploadAvatarFileId());
     }
 
     /**

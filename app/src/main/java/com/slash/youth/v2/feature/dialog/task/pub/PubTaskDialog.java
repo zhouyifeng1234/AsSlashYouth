@@ -9,6 +9,7 @@ import com.core.op.lib.utils.inject.RootView;
 import com.slash.youth.R;
 import com.slash.youth.databinding.DlgPubtaskBinding;
 import com.slash.youth.v2.base.BaseDialog;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import javax.inject.Inject;
 
@@ -16,7 +17,7 @@ import javax.inject.Inject;
 public final class PubTaskDialog extends BaseDialog<PubTaskViewModel, DlgPubtaskBinding> {
 
     @Inject
-    public PubTaskDialog(Context context, PubTaskViewModel viewModel) {
+    public PubTaskDialog(RxAppCompatActivity context, PubTaskViewModel viewModel) {
         super(BDialog.newDialog(context)
                         .setGravity(Gravity.CENTER)
                         .setMargin(100, 0, 100, 0)

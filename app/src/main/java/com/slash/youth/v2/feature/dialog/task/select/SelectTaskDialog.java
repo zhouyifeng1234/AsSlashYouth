@@ -9,6 +9,7 @@ import com.core.op.lib.utils.inject.AfterViews;
 import com.core.op.lib.utils.inject.RootView;
 import com.slash.youth.databinding.DlgSelecttaskBinding;
 import com.slash.youth.v2.base.BaseDialog;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import javax.inject.Inject;
 
@@ -16,8 +17,8 @@ import javax.inject.Inject;
 public final class SelectTaskDialog extends BaseDialog<SelectTaskViewModel, DlgSelecttaskBinding> {
 
     @Inject
-    public SelectTaskDialog(Context context, SelectTaskViewModel viewModel) {
-        super(BDialog.newDialog(context)
+    public SelectTaskDialog(RxAppCompatActivity activity, SelectTaskViewModel viewModel) {
+        super(BDialog.newDialog(activity)
                 .setGravity(Gravity.TOP | Gravity.BOTTOM)
                 .setMargin(0, 200, 50, 0)
                 .setBackgroud(false)

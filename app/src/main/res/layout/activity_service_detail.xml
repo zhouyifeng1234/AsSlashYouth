@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="serviceDetailModel"
-            type="com.slash.youth.ui.viewmodel.ServiceDetailModel" />
+            type="com.slash.youth.ui.viewmodel.ServiceDetailModel"/>
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -39,7 +38,7 @@
                         android:onClick="@{serviceDetailModel.goBack}"
                         android:paddingLeft="12dp"
                         android:paddingRight="12dp"
-                        android:src="@mipmap/nav_back" />
+                        android:src="@mipmap/nav_back"/>
 
                     <TextView
                         android:layout_width="200dp"
@@ -51,7 +50,7 @@
                         android:maxLines="1"
                         android:text="@{serviceDetailModel.topTitle}"
                         android:textColor="#ffffff"
-                        android:textSize="17sp" />
+                        android:textSize="17sp"/>
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -59,13 +58,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="12dp">
-
-                        <ImageView
-                            android:layout_width="21dp"
-                            android:layout_height="22dp"
-                            android:onClick="@{serviceDetailModel.shareService}"
-                            android:src="@mipmap/sharexuqiu__icon"
-                            android:visibility="@{serviceDetailModel.topShareBtnVisibility}" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -81,7 +73,7 @@
                                 android:onClick="@{serviceDetailModel.updateService}"
                                 android:text="修改"
                                 android:textColor="#31C5E4"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"/>
 
                             <TextView
                                 android:id="@+id/tv_onshelf_offshelf"
@@ -94,7 +86,39 @@
                                 android:text="下架"
                                 android:textColor="#31C5E4"
                                 android:textSize="12sp"
-                                android:visibility="gone" />
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="15dp"
+                            android:layout_height="21dp"
+                            android:onClick="@{serviceDetailModel.report}"
+                            android:orientation="vertical"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp">
+
+                            <View
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:background="@drawable/shpae_point_white"/>
+
+                            <View android:layout_width="0dp" android:layout_height="0dp"
+                                  android:layout_weight="1"/>
+
+                            <View
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:background="@drawable/shpae_point_white"/>
+
+                            <View android:layout_width="0dp" android:layout_height="0dp"
+                                  android:layout_weight="1"/>
+
+                            <View
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:background="@drawable/shpae_point_white"/>
+
 
                         </LinearLayout>
                     </FrameLayout>
@@ -156,7 +180,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@{serviceDetailModel.title}"
                                         android:textColor="#666666"
-                                        android:textSize="15sp" />
+                                        android:textSize="15sp"/>
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -168,7 +192,7 @@
                                             android:layout_width="15dp"
                                             android:layout_height="15dp"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/time_icon_detail" />
+                                            android:src="@mipmap/time_icon_detail"/>
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -177,7 +201,7 @@
                                             android:layout_marginLeft="4dp"
                                             android:text="@{serviceDetailModel.serviceTime}"
                                             android:textColor="#31C5E4"
-                                            android:textSize="14sp" />
+                                            android:textSize="14sp"/>
                                         <!--时间:9月18日 8:30-9月19日 8:30-->
                                     </LinearLayout>
 
@@ -199,7 +223,7 @@
                                             android:text=""
                                             android:textColor="#31C5E4"
                                             android:textSize="11dp"
-                                            android:visibility="invisible" />
+                                            android:visibility="invisible"/>
 
                                         <TextView
                                             android:id="@+id/tv_service_detail_tag2"
@@ -214,7 +238,7 @@
                                             android:text=""
                                             android:textColor="#31C5E4"
                                             android:textSize="11dp"
-                                            android:visibility="invisible" />
+                                            android:visibility="invisible"/>
 
                                         <TextView
                                             android:id="@+id/tv_service_detail_tag3"
@@ -229,7 +253,7 @@
                                             android:text=""
                                             android:textColor="#31C5E4"
                                             android:textSize="11dp"
-                                            android:visibility="invisible" />
+                                            android:visibility="invisible"/>
 
 
                                     </LinearLayout>
@@ -249,7 +273,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@{serviceDetailModel.quote}"
                                         android:textColor="#FF9666"
-                                        android:textSize="21sp" />
+                                        android:textSize="21sp"/>
                                     <!--¥300元-->
 
                                     <TextView
@@ -258,7 +282,7 @@
                                         android:layout_gravity="right"
                                         android:text="@{serviceDetailModel.viewCount}"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="11sp" />
+                                        android:textSize="11sp"/>
                                     <!--300人浏览-->
 
                                 </LinearLayout>
@@ -282,7 +306,7 @@
                                     android:gravity="center"
                                     android:text="线下"
                                     android:textColor="#31C5E4"
-                                    android:textSize="11dp" />
+                                    android:textSize="11dp"/>
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -299,7 +323,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:text="@{serviceDetailModel.offlinePlace}"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="12sp" />
+                                        android:textSize="12sp"/>
                                     <!--约定地点:星湖街328号星湖广场-->
 
                                     <ImageView
@@ -308,7 +332,7 @@
                                         android:layout_height="15dp"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginLeft="5dp"
-                                        android:src="@mipmap/map_icon_detail" />
+                                        android:src="@mipmap/map_icon_detail"/>
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -330,7 +354,7 @@
                                     android:gravity="center"
                                     android:text="分期到账"
                                     android:textColor="#31C5E4"
-                                    android:textSize="11dp" />
+                                    android:textSize="11dp"/>
 
                                 <TextView
                                     android:id="@+id/tv_instalment_content"
@@ -340,7 +364,7 @@
                                     android:layout_marginLeft="8dp"
                                     android:text="需求方确认服务后，当期资金打入服务方账户"
                                     android:textColor="#CCCCCC"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"/>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -352,7 +376,7 @@
                             android:layout_marginBottom="10dp"
                             android:layout_marginRight="10dp"
                             android:src="@mipmap/pull_off_icon"
-                            android:visibility="@{serviceDetailModel.offShelfLogoVisibility}" />
+                            android:visibility="@{serviceDetailModel.offShelfLogoVisibility}"/>
                         <!--android:visibility="@{serviceDetailModel.offShelfLogoVisibility}"-->
                     </android.support.v7.widget.CardView>
 
@@ -384,14 +408,14 @@
                                     android:layout_width="58dp"
                                     android:layout_height="58dp"
 
-                                    android:src="@mipmap/assistant_icon" />
+                                    android:src="@mipmap/assistant_icon"/>
 
                                 <ImageView
                                     android:layout_width="15dp"
                                     android:layout_height="15dp"
                                     android:layout_gravity="right|bottom"
                                     android:src="@mipmap/tab_authentication"
-                                    android:visibility="@{serviceDetailModel.isAuthVisibility}" />
+                                    android:visibility="@{serviceDetailModel.isAuthVisibility}"/>
                             </FrameLayout>
 
                             <LinearLayout
@@ -411,21 +435,21 @@
                                         android:layout_height="wrap_content"
                                         android:text="@{serviceDetailModel.username}"
                                         android:textColor="#333333"
-                                        android:textSize="15sp" />
+                                        android:textSize="15sp"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="|"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="12sp" />
+                                        android:textSize="12sp"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@{serviceDetailModel.fanscount}"
                                         android:textColor="#CCCCCC"
-                                        android:textSize="13sp" />
+                                        android:textSize="13sp"/>
                                     <!--粉丝数125-->
 
                                 </LinearLayout>
@@ -441,7 +465,7 @@
                                         android:layout_height="15sp"
                                         android:layout_gravity="center_vertical"
                                         android:src="@mipmap/xz_icon"
-                                        android:visibility="gone" />
+                                        android:visibility="gone"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -451,13 +475,13 @@
                                         android:text="@{serviceDetailModel.taskcount}"
                                         android:textColor="#666666"
                                         android:textSize="13sp"
-                                        android:visibility="gone" />
+                                        android:visibility="gone"/>
                                     <!--顺利成交单数9/12-->
                                     <ImageView
                                         android:layout_width="15dp"
                                         android:layout_height="15dp"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@mipmap/location_icon_detail" />
+                                        android:src="@mipmap/location_icon_detail"/>
                                     <!--android:layout_marginLeft="19dp"-->
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -466,7 +490,7 @@
                                         android:layout_marginLeft="5dp"
                                         android:text="@{serviceDetailModel.serviceUserPlace}"
                                         android:textColor="#666666"
-                                        android:textSize="13sp" />
+                                        android:textSize="13sp"/>
 
                                 </LinearLayout>
 
@@ -504,13 +528,13 @@
                                     android:layout_gravity="center_vertical"
                                     android:text="服务描述"
                                     android:textColor="#31C5E4"
-                                    android:textSize="15sp" />
+                                    android:textSize="15sp"/>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -518,7 +542,7 @@
                                     android:layout_gravity="center_vertical"
                                     android:text="@{serviceDetailModel.publishDatetime}"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
                                 <!--发布时间:9月18日 8:30-->
                             </LinearLayout>
 
@@ -526,7 +550,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="17dp"
-                                android:background="#E5E5E5" />
+                                android:background="#E5E5E5"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -536,7 +560,7 @@
                                 android:layout_marginTop="18dp"
                                 android:text="@{serviceDetailModel.serviceDesc}"
                                 android:textColor="#999999"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"/>
                             <!--1.良好的美术功底和和设计表现力；重视用户体验了解用户使用习惯；具有设计创意、良好的色彩运用能力-->
                             <View
                                 android:layout_width="match_parent"
@@ -544,7 +568,7 @@
                                 android:layout_marginLeft="14dp"
                                 android:layout_marginRight="14dp"
                                 android:layout_marginTop="15dp"
-                                android:background="#E5E5E5" />
+                                android:background="#E5E5E5"/>
 
                             <LinearLayout
                                 android:id="@+id/ll_service_detail_picline1"
@@ -566,7 +590,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@mipmap/assistant_icon" />
+                                        android:src="@mipmap/assistant_icon"/>
 
                                     <TextView
                                         android:layout_width="29dp"
@@ -576,14 +600,14 @@
                                         android:gravity="center"
                                         android:text="图片1"
                                         android:textColor="#FFFFFF"
-                                        android:textSize="9sp" />
+                                        android:textSize="9sp"/>
 
                                 </FrameLayout>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_2"
@@ -596,7 +620,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@mipmap/assistant_icon" />
+                                        android:src="@mipmap/assistant_icon"/>
 
                                     <TextView
                                         android:layout_width="29dp"
@@ -606,14 +630,14 @@
                                         android:gravity="center"
                                         android:text="图片2"
                                         android:textColor="#FFFFFF"
-                                        android:textSize="9sp" />
+                                        android:textSize="9sp"/>
 
                                 </FrameLayout>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_3"
@@ -626,7 +650,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@mipmap/assistant_icon" />
+                                        android:src="@mipmap/assistant_icon"/>
 
                                     <TextView
                                         android:layout_width="29dp"
@@ -636,7 +660,7 @@
                                         android:gravity="center"
                                         android:text="图片3"
                                         android:textColor="#FFFFFF"
-                                        android:textSize="9sp" />
+                                        android:textSize="9sp"/>
 
                                 </FrameLayout>
 
@@ -662,7 +686,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@mipmap/assistant_icon" />
+                                        android:src="@mipmap/assistant_icon"/>
 
                                     <TextView
                                         android:layout_width="29dp"
@@ -672,14 +696,14 @@
                                         android:gravity="center"
                                         android:text="图片4"
                                         android:textColor="#FFFFFF"
-                                        android:textSize="9sp" />
+                                        android:textSize="9sp"/>
 
                                 </FrameLayout>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_5"
@@ -692,7 +716,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@mipmap/assistant_icon" />
+                                        android:src="@mipmap/assistant_icon"/>
 
                                     <TextView
                                         android:layout_width="29dp"
@@ -702,14 +726,14 @@
                                         android:gravity="center"
                                         android:text="图片5"
                                         android:textColor="#FFFFFF"
-                                        android:textSize="9sp" />
+                                        android:textSize="9sp"/>
 
                                 </FrameLayout>
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:layout_weight="1" />
+                                    android:layout_weight="1"/>
 
                                 <FrameLayout
                                     android:id="@+id/fl_service_detail_picbox_6"
@@ -722,7 +746,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@mipmap/assistant_icon" />
+                                        android:src="@mipmap/assistant_icon"/>
 
                                     <TextView
                                         android:layout_width="29dp"
@@ -732,7 +756,7 @@
                                         android:gravity="center"
                                         android:text="图片6"
                                         android:textColor="#FFFFFF"
-                                        android:textSize="9sp" />
+                                        android:textSize="9sp"/>
 
                                 </FrameLayout>
 
@@ -743,7 +767,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginTop="11dp"
-                                android:background="#E5E5E5" />
+                                android:background="#E5E5E5"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -757,7 +781,7 @@
                                     android:layout_width="17dp"
                                     android:layout_height="15dp"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@mipmap/fair_icon" />
+                                    android:src="@mipmap/fair_icon"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -766,7 +790,7 @@
                                     android:layout_marginLeft="12dp"
                                     android:text="出现问题后以"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -774,7 +798,7 @@
                                     android:layout_gravity="center_vertical"
                                     android:text="@{serviceDetailModel.disputeHandingType}"
                                     android:textColor="#31C5E4"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
                                 <!--平台方式-->
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -782,7 +806,7 @@
                                     android:layout_gravity="center_vertical"
                                     android:text="处理"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
 
                                 <ImageView
                                     android:layout_width="15dp"
@@ -790,7 +814,7 @@
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginLeft="5dp"
                                     android:onClick="@{serviceDetailModel.viewBpExplain}"
-                                    android:src="@mipmap/question_mark_icon" />
+                                    android:src="@mipmap/question_mark_icon"/>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -819,7 +843,7 @@
                                 android:layout_marginTop="19dp"
                                 android:text="服务保障计划"
                                 android:textColor="#333333"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -836,7 +860,7 @@
                                     android:gravity="center"
                                     android:text="1"
                                     android:textColor="#31C5E4"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -845,7 +869,7 @@
                                     android:layout_marginLeft="9dp"
                                     android:text="该需求已同意"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -854,7 +878,7 @@
                                     android:onClick="@{serviceDetailModel.openSecurityRules}"
                                     android:text="《斜杠青年顺利成交保障规则》"
                                     android:textColor="#31C5E4"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -872,7 +896,7 @@
                                     android:gravity="center"
                                     android:text="2"
                                     android:textColor="#31C5E4"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -881,7 +905,7 @@
                                     android:layout_marginLeft="9dp"
                                     android:text="如有任何问题或需要发票，请联系"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -890,7 +914,7 @@
                                     android:onClick="@{serviceDetailModel.chatToSlashHelper}"
                                     android:text="斜杠客服小助手"
                                     android:textColor="#31C5E4"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -908,7 +932,7 @@
                                     android:gravity="center"
                                     android:text="3"
                                     android:textColor="#31C5E4"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -917,7 +941,7 @@
                                     android:layout_marginLeft="9dp"
                                     android:text="以上信息为发布者意向，最终合作结论可根据双方协商情况修改"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -936,7 +960,7 @@
                                     android:gravity="center"
                                     android:text="4"
                                     android:textColor="#31C5E4"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -945,7 +969,7 @@
                                     android:layout_marginLeft="9dp"
                                     android:text="客服介入双方纠纷，斜杠青年聊天记录可作为处理纠纷依据，第三方聊天内容截图无效。"
                                     android:textColor="#999999"
-                                    android:textSize="13sp" />
+                                    android:textSize="13sp"/>
                             </LinearLayout>
 
 
@@ -966,7 +990,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/order_icon" />
+                            android:src="@mipmap/order_icon"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -975,7 +999,7 @@
                             android:layout_marginLeft="5dp"
                             android:text="相似服务推荐"
                             android:textColor="#bd333333"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
@@ -1014,7 +1038,7 @@
                         android:paddingTop="5dp"
                         android:text="聊一聊"
                         android:textColor="#666666"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_collection"
@@ -1028,18 +1052,32 @@
                         android:paddingTop="5dp"
                         android:text="收藏"
                         android:textColor="#666666"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_share"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_demand_detail_bottom_btn_bg"
+                        android:drawableTop="@mipmap/recommend_icon"
+                        android:gravity="center"
+                        android:onClick="@{serviceDetailModel.shareService}"
+                        android:paddingTop="5dp"
+                        android:text="分享"
+                        android:textColor="#666666"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_weight="2.5"
                         android:background="#31C5E4"
                         android:gravity="center"
                         android:onClick="@{serviceDetailModel.grabService}"
                         android:text="立即预约"
                         android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"/>
 
                 </LinearLayout>
 
@@ -1064,14 +1102,14 @@
                             android:layout_gravity="center_vertical"
                             android:text="立即分享"
                             android:textColor="#FFFFFF"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"/>
 
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="7dp"
-                            android:src="@mipmap/sharexuqiu__icon" />
+                            android:src="@mipmap/sharexuqiu__icon"/>
                     </LinearLayout>
 
                     <TextView
@@ -1081,7 +1119,7 @@
                         android:layout_marginTop="3dp"
                         android:text="分享至其他平台获得更多服务机会"
                         android:textColor="#bdFFFFFF"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
 
                 </LinearLayout>
             </FrameLayout>
@@ -1116,7 +1154,7 @@
                         android:layout_width="49dp"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="#CCCCCC" />
+                        android:background="#CCCCCC"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -1125,13 +1163,13 @@
                         android:layout_marginRight="9dp"
                         android:text="分享"
                         android:textColor="#CCCCCC"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                     <View
                         android:layout_width="49dp"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="#CCCCCC" />
+                        android:background="#CCCCCC"/>
 
                 </LinearLayout>
 
@@ -1144,7 +1182,7 @@
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1155,7 +1193,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/slash_share_logo" />
+                            android:src="@mipmap/slash_share_logo"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1164,14 +1202,14 @@
                             android:layout_marginTop="14dp"
                             android:text="斜杠好友"
                             android:textColor="#999999"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1182,7 +1220,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/weixin_new_icon" />
+                            android:src="@mipmap/weixin_new_icon"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1191,14 +1229,14 @@
                             android:layout_marginTop="14dp"
                             android:text="微信"
                             android:textColor="#999999"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1209,7 +1247,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/pengyuouquan_icon" />
+                            android:src="@mipmap/pengyuouquan_icon"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1218,14 +1256,14 @@
                             android:layout_marginTop="14dp"
                             android:text="朋友圈"
                             android:textColor="#999999"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1236,7 +1274,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/qq_new_icon" />
+                            android:src="@mipmap/qq_new_icon"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1245,14 +1283,14 @@
                             android:layout_marginTop="14dp"
                             android:text="QQ好友"
                             android:textColor="#999999"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -1264,7 +1302,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/kongjian_new_icon" />
+                            android:src="@mipmap/kongjian_new_icon"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1273,7 +1311,7 @@
                             android:layout_marginTop="14dp"
                             android:text="QQ空间"
                             android:textColor="#999999"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
@@ -1281,7 +1319,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -1304,7 +1342,7 @@
                     android:onClick="@{serviceDetailModel.cancelShare}"
                     android:text="取消分享"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
             </FrameLayout>
 
@@ -1337,7 +1375,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:indeterminateDrawable="@anim/rotate_pic_loaddata" />
+                    android:indeterminateDrawable="@anim/rotate_pic_loaddata"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -1346,8 +1384,36 @@
                     android:layout_marginLeft="9dp"
                     android:text="加载中..."
                     android:textColor="#999999"
-                    android:textSize="14dp" />
+                    android:textSize="14dp"/>
             </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{serviceDetailModel.hideReportBtnLayer}"
+            android:visibility="@{serviceDetailModel.reportBtnLayerVisibility}">
+
+            <FrameLayout
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="68dp"
+                android:background="@drawable/report_box"
+                android:onClick="@{serviceDetailModel.openReportActivity}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:text="举报该服务"
+                    android:textColor="#333333"
+                    android:textSize="12.5sp"/>
+
+
+            </FrameLayout>
 
         </FrameLayout>
 

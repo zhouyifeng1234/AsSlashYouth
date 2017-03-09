@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="37dp"
             >
                 <!--android:layout_marginTop="8dp"-->
 
@@ -52,13 +51,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
                 >
-                    <ImageView
-                        android:layout_width="21dp"
-                        android:layout_height="22dp"
-                        android:onClick="@{demandDetailModel.shareDemand}"
-                        android:src="@mipmap/sharexuqiu__icon"
-                        android:visibility="@{demandDetailModel.topShareBtnVisibility}"/>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,6 +95,39 @@
                         <!--android:visibility="gone"-->
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="15dp"
+                        android:layout_height="21dp"
+                        android:onClick="@{demandDetailModel.report}"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:background="@drawable/shpae_point_white"/>
+
+                        <View android:layout_width="0dp" android:layout_height="0dp"
+                              android:layout_weight="1"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:background="@drawable/shpae_point_white"/>
+
+                        <View android:layout_width="0dp" android:layout_height="0dp"
+                              android:layout_weight="1"/>
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:background="@drawable/shpae_point_white"/>
+
+
+                    </LinearLayout>
+
                 </FrameLayout>
 
 
@@ -1019,11 +1044,26 @@
                         android:text="收藏"
                         android:textColor="#666666"
                         android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_share"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_demand_detail_bottom_btn_bg"
+                        android:drawableTop="@mipmap/recommend_icon"
+                        android:gravity="center"
+                        android:onClick="@{demandDetailModel.shareDemand}"
+                        android:paddingTop="5dp"
+                        android:text="分享"
+                        android:textColor="#666666"
+                        android:textSize="12sp"/>
+
                     <TextView
                         android:id="@+id/tv_bid_demand"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
+                        android:layout_weight="2.5"
                         android:background="#31C5E4"
                         android:gravity="center"
                         android:onClick="@{demandDetailModel.openBidDemandLayer}"
@@ -2005,6 +2045,34 @@
                     android:textColor="#999999"
                     android:textSize="14dp"/>
             </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{demandDetailModel.hideReportBtnLayer}"
+            android:visibility="@{demandDetailModel.reportBtnLayerVisibility}">
+
+            <FrameLayout
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="68dp"
+                android:background="@drawable/report_box"
+                android:onClick="@{demandDetailModel.openReportActivity}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:text="举报该需求"
+                    android:textColor="#333333"
+                    android:textSize="12.5sp"/>
+
+
+            </FrameLayout>
 
         </FrameLayout>
 
