@@ -38,6 +38,7 @@ import com.slash.youth.ui.activity.DemandDetailLocationActivity;
 import com.slash.youth.ui.activity.MyFriendActivtiy;
 import com.slash.youth.ui.activity.PublishServiceBaseInfoActivity;
 import com.slash.youth.ui.activity.PublishServiceSucceddActivity;
+import com.slash.youth.ui.activity.ReportTaskActivity;
 import com.slash.youth.ui.activity.ServiceDetailActivity;
 import com.slash.youth.ui.activity.UserInfoActivity;
 import com.slash.youth.ui.view.TouchImageView;
@@ -492,7 +493,6 @@ public class ServiceDetailModel extends BaseObservable {
                         setServiceRecommendLabelVisibililty(View.GONE);
 
                         setTopServiceBtnVisibility(View.VISIBLE);
-                        setTopShareBtnVisibility(View.GONE);
 
                         setBottomBtnServiceVisibility(View.VISIBLE);
                         setBottomBtnDemandVisibility(View.INVISIBLE);
@@ -511,7 +511,6 @@ public class ServiceDetailModel extends BaseObservable {
                         setServiceRecommendLabelVisibililty(View.VISIBLE);
 
                         setTopServiceBtnVisibility(View.GONE);
-                        setTopShareBtnVisibility(View.VISIBLE);
 
                         setBottomBtnServiceVisibility(View.INVISIBLE);
                         setBottomBtnDemandVisibility(View.VISIBLE);
@@ -1016,10 +1015,22 @@ public class ServiceDetailModel extends BaseObservable {
      * @param v
      */
     public void report(View v) {
-UserInfoActivity
+        setReportBtnLayerVisibility(View.VISIBLE);
     }
 
-    private int topShareBtnVisibility;
+    public void hideReportBtnLayer(View v) {
+        setReportBtnLayerVisibility(View.GONE);
+    }
+
+    public void openReportActivity(View v) {
+        setReportBtnLayerVisibility(View.GONE);
+        Intent intentReportTaskActivity = new Intent(CommonUtils.getContext(), ReportTaskActivity.class);
+        intentReportTaskActivity.putExtra("tid", serviceId);
+        intentReportTaskActivity.putExtra("type", 2);
+        mActivity.startActivity(intentReportTaskActivity);
+    }
+
+
     private int topServiceBtnVisibility;
     private int bottomBtnDemandVisibility;//底部需求者视角可以看到的按钮
     private int bottomBtnServiceVisibility;//底部服务者视角可以看到的按钮
@@ -1055,6 +1066,18 @@ UserInfoActivity
     private int serviceRecommendItemVisibililty;
 
     private int loadLayerVisibility = View.GONE;
+
+    private int reportBtnLayerVisibility = View.GONE;
+
+    @Bindable
+    public int getReportBtnLayerVisibility() {
+        return reportBtnLayerVisibility;
+    }
+
+    public void setReportBtnLayerVisibility(int reportBtnLayerVisibility) {
+        this.reportBtnLayerVisibility = reportBtnLayerVisibility;
+        notifyPropertyChanged(BR.reportBtnLayerVisibility);
+    }
 
     @Bindable
     public int getLoadLayerVisibility() {
@@ -1124,16 +1147,6 @@ UserInfoActivity
     public void setShareLayerVisibility(int shareLayerVisibility) {
         this.shareLayerVisibility = shareLayerVisibility;
         notifyPropertyChanged(BR.shareLayerVisibility);
-    }
-
-    @Bindable
-    public int getTopShareBtnVisibility() {
-        return topShareBtnVisibility;
-    }
-
-    public void setTopShareBtnVisibility(int topShareBtnVisibility) {
-        this.topShareBtnVisibility = topShareBtnVisibility;
-        notifyPropertyChanged(BR.topShareBtnVisibility);
     }
 
     @Bindable

@@ -9,6 +9,7 @@ import com.slash.youth.http.protocol.GetCommonLogProtocol;
 import com.slash.youth.http.protocol.GetMyTaskListProtocol;
 import com.slash.youth.http.protocol.GetTaskItemProtocol;
 import com.slash.youth.http.protocol.MyTaskServiceDetailProtocol;
+import com.slash.youth.http.protocol.ReportTaskProtocol;
 import com.slash.youth.http.protocol.ShareForwardProtocol;
 import com.slash.youth.http.protocol.ShareReportProtocol;
 import com.slash.youth.http.protocol.TagRecommendProtocol;
@@ -181,5 +182,19 @@ public class MyTaskEngine {
     public static void getTagRecommendList(BaseProtocol.IResultExecutor onGetRecommendListFinished, String tag, String level, String offset, String limit) {
         TagRecommendProtocol tagRecommendProcotol = new TagRecommendProtocol(tag, level, offset, limit);
         tagRecommendProcotol.getDataFromServer(onGetRecommendListFinished);
+    }
+
+    /**
+     * 一、[举报]-举报一个需求或服务
+     *
+     * @param onReportFinished
+     * @param tid              需求或服务ID
+     * @param type             需求1 服务2
+     * @param reason           举报原因
+     * @param detail           举报原因详情
+     */
+    public static void reportTask(BaseProtocol.IResultExecutor onReportFinished, String tid, String type, String reason, String detail) {
+        ReportTaskProtocol reportTaskProtocol = new ReportTaskProtocol(tid, type, reason, detail);
+        reportTaskProtocol.getDataFromServer(onReportFinished);
     }
 }
