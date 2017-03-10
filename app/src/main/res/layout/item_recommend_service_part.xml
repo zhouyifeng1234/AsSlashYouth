@@ -80,7 +80,8 @@
                         android:gravity="center"
                         android:text="专家4级"
                         android:textColor="#30C1E2"
-                        android:textSize="10dp"/>
+                        android:textSize="10dp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -95,12 +96,16 @@
                     />
                     <!--IOS/安卓/系统架构师-->
 
+                    <View android:layout_width="0dp" android:layout_height="0dp"
+                          android:layout_weight="1"/>
+
                     <ImageView
                         android:id="@+id/iv_recommend_service_part_checked"
                         android:layout_width="17dp"
                         android:layout_height="17dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="13dp"
+                        android:layout_marginRight="10dp"
                         android:onClick="@{itemRecommendServicePartModel.checkRecommendServicePart}"
                         android:src="@mipmap/default_btn"/>
 
