@@ -116,6 +116,21 @@ public class TagRecommendModel extends BaseObservable {
                 listTag2Id.add(tag_2_id);
                 listTag2Name.add(tag_2_name);
             }
+            //把二级标签根据id来排序
+            for (int a = 0; a < listTag2Id.size(); a++) {
+                for (int b = a + 1; b < listTag2Id.size(); b++) {
+                    if (listTag2Id.get(a) > listTag2Id.get(b)) {
+                        long tmpId;
+                        String tmpName;
+                        tmpId = listTag2Id.get(a);
+                        tmpName = listTag2Name.get(a);
+                        listTag2Id.set(a, listTag2Id.get(b));
+                        listTag2Name.set(a, listTag2Name.get(b));
+                        listTag2Id.set(b, tmpId);
+                        listTag2Name.set(b, tmpName);
+                    }
+                }
+            }
             if (listTag2Id.size() > 0) {
                 setTag2Tab();
                 //默认显示集合中的第一个二级标签的推荐列表
