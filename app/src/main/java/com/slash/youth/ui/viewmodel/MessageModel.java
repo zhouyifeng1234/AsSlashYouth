@@ -1,22 +1,16 @@
 package com.slash.youth.ui.viewmodel;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
-import android.widget.AdapterView;
 
-import com.slash.youth.R;
 import com.slash.youth.databinding.ActivityMessageBinding;
 import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.http.protocol.BaseProtocol;
-import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.adapter.HomeInfoListAdapter;
 import com.slash.youth.utils.CommonUtils;
-import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.LogKit;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,36 +51,7 @@ public class MessageModel extends BaseObservable {
     }
 
     private void initListener() {
-        mActivityMessageBinding.lvConversationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position <= listConversation.size() - 1) {
-                    ConversationListBean.ConversationInfo conversationInfo = listConversation.get(position);
-                    long uid = conversationInfo.uid;
-                    if (uid == 1000) {
-                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_SLASH_SIGNPICS);
-                    } else {
-                        MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_OTHER_CHAT);
-                    }
-                    Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
-                    intentChatActivity.putExtra("targetId", uid + "");
-                    mActivity.startActivity(intentChatActivity);
 
-                    //清楚小圆点
-                    View viewUnReadPoint = view.findViewById(R.id.tv_info_unread_msg_count);
-                    viewUnReadPoint.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        mActivityMessageBinding.lvConversationList.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-
-                return false;
-            }
-        });
     }
 
     public void getDataFromServer() {

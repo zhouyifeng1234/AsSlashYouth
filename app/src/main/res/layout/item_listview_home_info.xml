@@ -3,138 +3,164 @@
     <data>
         <variable name="itemHomeInfoModel" type="com.slash.youth.ui.viewmodel.ItemHomeInfoModel"/>
     </data>
-    <LinearLayout
+
+    <HorizontalScrollView
+        android:id="@+id/hsv_conversation_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:orientation="horizontal">
-
-
-        <RelativeLayout
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="11dp">
-
-            <ImageView
-                android:id="@+id/iv_info_conversation_avatar"
-                android:layout_width="58dp"
-                android:layout_height="58dp"
-                android:layout_alignParentBottom="true"
-                android:src="@mipmap/assistant_icon"/>
-
-            <TextView
-                android:id="@+id/tv_info_unread_msg_count"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/shape_circle_news_count"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:visibility="invisible"/>
-
-        </RelativeLayout>
-
+        android:focusable="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="9dp"
-            android:layout_marginRight="12dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_item_home_info_username"
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_conversation_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="11dp">
+
+                    <ImageView
+                        android:id="@+id/iv_info_conversation_avatar"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:layout_alignParentBottom="true"
+                        android:src="@mipmap/assistant_icon"/>
+
+                    <TextView
+                        android:id="@+id/tv_info_unread_msg_count"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/shape_circle_news_count"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="invisible"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@{itemHomeInfoModel.username}"
-                    android:textColor="#333333"
-                    android:textSize="14sp"/>
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="12dp"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="7dp"
-                    android:src="@mipmap/add_v"
-                    android:visibility="@{itemHomeInfoModel.addVVisibility}"
-                />
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_item_home_info_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@{itemHomeInfoModel.username}"
+                            android:textColor="#333333"
+                            android:textSize="14sp"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="@{itemHomeInfoModel.companyAndPosition}"
-                    android:textColor="#999999"
-                    android:textSize="10dp"
-                    android:visibility="@{itemHomeInfoModel.userLabelsInfoVisibility}"/>
-                <!--（阿里资深UI设计师、IOS开发）-->
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="7dp"
+                            android:src="@mipmap/add_v"
+                            android:visibility="@{itemHomeInfoModel.addVVisibility}"
+                        />
 
-                <!--<View-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="1"/>-->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text="@{itemHomeInfoModel.companyAndPosition}"
+                            android:textColor="#999999"
+                            android:textSize="10dp"
+                            android:visibility="@{itemHomeInfoModel.userLabelsInfoVisibility}"/>
+                        <!--（阿里资深UI设计师、IOS开发）-->
 
-                <TextView
-                    android:id="@+id/tv_conversation_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{itemHomeInfoModel.conversationTimeInfo}"
-                    android:textColor="#CCCCCC"
-                    android:textSize="12sp"/>
-                <!--6分钟前-->
+                        <!--<View-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:layout_weight="1"/>-->
+
+                        <TextView
+                            android:id="@+id/tv_conversation_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{itemHomeInfoModel.conversationTimeInfo}"
+                            android:textColor="#CCCCCC"
+                            android:textSize="12sp"/>
+                        <!--6分钟前-->
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="11dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="@{itemHomeInfoModel.lastMsg}"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                    />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal"
+                        android:visibility="@{itemHomeInfoModel.relatedTasksInfoVisibility}">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="相关任务-"
+                            android:textColor="#31C5E4"
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@{itemHomeInfoModel.relatedTaskTitle}"
+                            android:textColor="#999999"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:maxLines="1"
-                android:text="@{itemHomeInfoModel.lastMsg}"
-                android:textColor="#999999"
-                android:textSize="12sp"
-            />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal"
-                android:visibility="@{itemHomeInfoModel.relatedTasksInfoVisibility}">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="相关任务-"
-                    android:textColor="#31C5E4"
-                    android:textSize="12sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@{itemHomeInfoModel.relatedTaskTitle}"
-                    android:textColor="#999999"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
-
+                android:id="@+id/tv_delete"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#eeff0000"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="#ffffff"
+                android:textSize="18sp"/>
 
         </LinearLayout>
+    </HorizontalScrollView>
 
-
-    </LinearLayout>
 </layout>

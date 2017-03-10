@@ -1,9 +1,16 @@
 package com.slash.youth.ui.holder;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.slash.youth.R;
@@ -13,10 +20,15 @@ import com.slash.youth.domain.ConversationListBean;
 import com.slash.youth.engine.LoginManager;
 import com.slash.youth.engine.MsgManager;
 import com.slash.youth.global.GlobalConstants;
+import com.slash.youth.ui.activity.ChatActivity;
 import com.slash.youth.ui.viewmodel.ItemHomeInfoModel;
+import com.slash.youth.utils.ActivityUtils;
 import com.slash.youth.utils.BitmapKit;
 import com.slash.youth.utils.CommonUtils;
+import com.slash.youth.utils.CustomEventAnalyticsUtils;
 import com.slash.youth.utils.IOUtils;
+import com.slash.youth.utils.LogKit;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,6 +36,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imlib.RongIMClient;
@@ -38,17 +51,36 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
 
     private ItemHomeInfoModel mItemHomeInfoModel;
     private ItemListviewHomeInfoBinding mItemListviewHomeInfoBinding;
+    private int deleteWidth;//删除按钮的宽度（像素），需要和布局文件中的一致
+    private static ArrayList<HorizontalScrollView> listHsvItem = new ArrayList<HorizontalScrollView>();//保存已经显示出删除按钮的item，用来在侧滑出另一个item的删除按钮的时候，把其它item的删除按钮隐藏掉
 
     @Override
     public View initView() {
         mItemListviewHomeInfoBinding = DataBindingUtil.inflate(LayoutInflater.from(CommonUtils.getContext()), R.layout.item_listview_home_info, null, false);
         mItemHomeInfoModel = new ItemHomeInfoModel(mItemListviewHomeInfoBinding);
         mItemListviewHomeInfoBinding.setItemHomeInfoModel(mItemHomeInfoModel);
+
+        deleteWidth = CommonUtils.dip2px(100);//删除按钮的宽度（像素），需要和布局文件中的一致
+        HorizontalScrollView hsvConversationItem = mItemListviewHomeInfoBinding.hsvConversationItem;
+        hsvConversationItem.setHorizontalScrollBarEnabled(false);
+        setScrollListener(hsvConversationItem);
+
+        //设置会话内容的宽度，和屏幕的宽度一致
+        DisplayMetrics displayInfo = CommonUtils.getDisplayInfo();
+        int widthPixels = displayInfo.widthPixels;
+        LinearLayout llConversationContent = mItemListviewHomeInfoBinding.llConversationContent;
+        ViewGroup.LayoutParams layoutParams = llConversationContent.getLayoutParams();
+        layoutParams.width = widthPixels;
+        llConversationContent.setLayoutParams(layoutParams);
+
         return mItemListviewHomeInfoBinding.getRoot();
     }
 
+    ConversationListBean.ConversationInfo data;
+
     @Override
     public void refreshView(ConversationListBean.ConversationInfo data) {
+        this.data = data;
         if (data.uid == 1000) {
             mItemHomeInfoModel.setUsername("消息小助手");
             mItemListviewHomeInfoBinding.ivInfoConversationAvatar.setImageResource(R.mipmap.message_icon);
@@ -292,6 +324,56 @@ public class HomeInfoListHolder extends BaseHolder<ConversationListBean.Conversa
         } else {
             mItemHomeInfoModel.setRelatedTasksInfoVisibility(View.INVISIBLE);
         }
+    }
+
+    private void setScrollListener(HorizontalScrollView hsvConversationItem) {
+        hsvConversationItem.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                LogKit.v("scrollX:" + hsvConversationItem.getScrollX());
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        LogKit.v("Conversation ACTION_UP");
+                        int scrollX = hsvConversationItem.getScrollX();
+                        if (scrollX <= 0) {
+                            onItemClick(data);
+                            return false;
+                        } else if (scrollX < deleteWidth / 2) {
+                            hsvConversationItem.smoothScrollTo(0, 0);
+                        } else {
+                            hsvConversationItem.smoothScrollTo(deleteWidth, 0);
+                        }
+                        return true;
+                }
+                return false;
+            }
+        });
+        hsvConversationItem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                LogKit.v("hasFocus:" + hasFocus);
+                if (!hasFocus) {
+                    hsvConversationItem.smoothScrollTo(0, 0);
+                }
+            }
+        });
+    }
+
+    private void onItemClick(ConversationListBean.ConversationInfo conversationInfo) {
+        long uid = conversationInfo.uid;
+        if (uid == 1000) {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_SLASH_SIGNPICS);
+        } else {
+            MobclickAgent.onEvent(CommonUtils.getContext(), CustomEventAnalyticsUtils.EventID.MESSAGE_CLICK_OTHER_CHAT);
+        }
+        Intent intentChatActivity = new Intent(CommonUtils.getContext(), ChatActivity.class);
+        intentChatActivity.putExtra("targetId", uid + "");
+        Activity currentActivity = ActivityUtils.currentActivity;
+        currentActivity.startActivity(intentChatActivity);
+
+        //清楚小圆点
+        View viewUnReadPoint = mItemListviewHomeInfoBinding.hsvConversationItem.findViewById(R.id.tv_info_unread_msg_count);
+        viewUnReadPoint.setVisibility(View.INVISIBLE);
     }
 
 }
